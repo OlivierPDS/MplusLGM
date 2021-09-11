@@ -106,7 +106,7 @@ wide_mostlikely <- pivot_wider(xl, names_from = 'class', values_from = c('count'
 #final_dataset <- getDataset(final_model, SOFAS345_df, 'pin')
 
 data <- data.frame(final_model[["results"]][["savedata"]]) %>% rename(pin = PIN)
-final_dataset <- merge(SOFAS345_df, data, by.y = 'pin') %>% select('pin','C', starts_with('CPROB'))
+final_dataset <- merge(SOFAS345_df, data, by = 'pin') %>% select('pin','C', starts_with('CPROB'))
 write_sav(final_dataset, paste(getwd(), 'SOFAS', 'SOFAS345.sav', sep = '/'))
 
 ### Step 5: Follow-Up Analyses
