@@ -22,6 +22,7 @@ library(MplusLGM)
 library(tidyverse)
 library(haven)
 library(MplusAutomation)
+library(magrittr)
 
 # Load dataset
 
@@ -134,13 +135,18 @@ point2 <- geom_point(
 plotModel(
   model = final_model, 
   x_axis_label = 'Month', 
-  y_axis_label = 'Symptoms', 
-  geom_line2 = line2,
-  geom_point2 = point2) + 
+  y_axis_label = 'Symptoms') +
+  #geom_line2 = line2,
+  #geom_point2 = point2) 
   scale_x_continuous(breaks = seq(0, 24, by = 3)) # Specify scale for asthetics
 
+source('/Users/olivierpercie/Desktop/MplusLGM/R/mplus.R')
+library(rhdf5)
+
+plot_est <- 
+  final_model[["results"]][["input"]][["data"]][["file"]] %>%
+    strsplit('.dat') %>% 
+      paste0('.gh5') %>% 
+        mplus.plot.estimated_means()
+
 #[Alt Text](https://github.com/joshunrau/MplusLGM/blob/main/example/adv_plot.png?raw=true)
-
-
-
-
