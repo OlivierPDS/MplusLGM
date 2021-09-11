@@ -4,7 +4,7 @@
 # Load dataset
 #spss.sav = paste(getwd(), 'data', 'Dataset533_03Sept2021.sav', sep = '/')
 library(haven)
-spss.sav = paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/2-year Follow-up/533K_03Sept2021.sav')
+spss.sav = paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/2-year Follow-up/533K_10Sept2021.sav')
 data533K_df <- read_spss(spss.sav, user_na = FALSE, skip = 0, n_max = Inf)
 sub405K_df <- subset(data533K_df, miss_SAPS <= 4)
 sub345K_df <- subset(data533K_df, miss_SOFAS <= 1)
@@ -22,15 +22,16 @@ NSR <- c('NSR_B', 'NSR_M1', 'NSR_M2', 'NSR_M3', 'NSR_M6', 'NSR_M9', 'NSR_M12', '
 num <- c('PSR_24C', 'NSR_24C')
 cat <- c('gender', 'minority_status', 'marital2', 'newliving', 'newwork', 'dx_b2', 'SUD', 'PSR_BY3', 'NSR_BY3')
 K <- c('K_SAPS', 'K_SANS', 'K_SOFAS')
+CP <-  c('CPROB1_SOFAS', 'CPROB2_SOFAS', 'CPROB1_SAPS', 'CPROB2_SAPS', 'CPROB1_SANS', 'CPROB2_SANS', 'CPROB3_SANS')
 
 #Subset dataset
-sub_df <- sub345K_df[, c('pin', SD, cat, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, K)]
-sub_df <- sub405K_df[, c('pin', SD, cat, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, K)]
+sub_df <- sub345K_df[, c('pin', SD, cat, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, K, CP)]
+sub_df <- sub405K_df[, c('pin', SD, cat, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, K, CP)]
 #dataset2imput <- SAPS405_K %>% select(c('pin', sap1_b:ymrs11_24)) #impute raw scores is thought to be better than transformed scores
 
 #recode categorical variables as factors
 sub_df[, c(cat, K)] <- lapply(sub_df[, c(cat, K)], as.factor)
-sub_df[, c('pin', SD, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS)] <- lapply(sub_df[, c('pin', SD, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS)], as.numeric)
+sub_df[, c('pin', SD, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, CP)] <- lapply(sub_df[, c('pin', SD, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, CP)], as.numeric)
 str(sub_df)
 
 #long_df[, c('pin', SD, 'SAPS', 'SANS', 'PSR', 'NSR', num, 'HAS', 'CDS', 'YMRS', 'time', K)] <- lapply(long_df[, c('pin', SD, 'SAPS', 'SANS', 'PSR', 'NSR', num, 'HAS', 'CDS', 'YMRS', 'time', K)], as.numeric)
@@ -108,12 +109,12 @@ library(magrittr)
 
 #remove variable from imputation
 imput_df$method[names(subset(miss, miss > 25 | miss < 5))] <- ""
-meth <-  imput_df$method
+meth <- imput_df$method
 
 
 
 #Compute imputation
-imput_df <- mice(df2imput, m = 5, maxit=5,
+imput_df <- mice(df2imput, m = 20, maxit=20,
              predictorMatrix = predM, 
              method = meth, print =  FALSE)
 
@@ -127,7 +128,11 @@ print(miss_imput)
 sort(miss_imput[miss_imput > 0], decreasing = TRUE)
 as.data.frame(miss_imput)
 
+library(sjmisc)
 
+merged_df <- merge_imputations(df2imput, imput_df, summary = "dens")
+
+library(jtools)
 #Group comparisons
 #t-test
 DUP_t <- with(imput_df, t.test(duponset ~ K_SAPS))
@@ -142,12 +147,16 @@ mi.t.test(imput_df$data, x="duponset", y="K_SAPS", var.equal = FALSE)
 detach(imput_df$imp)
 
 #ANOVA
-DUP_ANOVA <- with(imput_df, lm(duponset ~ K_SAPS))
-summary(pool(DUP_ANOVA))
+
+DUP_lm <- with(imput_df, lm(CPROB1_SOFAS ~ duponset))
+summ(pool(DUP_lm))
+
+lm(CPROB1_SOFAS ~ duponset, sub_df) %>% summ()
+
 
 DUP_posthoc <- with(imput_df, pairwise.t.test(duponset, K_SANS, paired = FALSE, p.adjust.method = "bonferroni"))
 posthoc_p <- as.list(DUP_posthoc$analyses)
-summary(pool(posthoc_p))
+summ(pool(posthoc_p))
 
 
 
