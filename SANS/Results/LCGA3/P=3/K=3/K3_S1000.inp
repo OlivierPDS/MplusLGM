@@ -1,0 +1,75 @@
+TITLE:
+LCGA3_P3_K3_S1000
+
+DATA:
+FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/LCGA3/P=3/K=3/K3_S1000.dat";
+ 
+VARIABLE:
+NAMES = pin SANS_b SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24; 
+ MISSING=.;
+ USEVAR = SANS_b SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 
+SANS_18 SANS_24;
+IDVAR = pin;
+CLASSES = c(3);
+
+ANALYSIS:
+TYPE = MIXTURE;
+STARTS = 1000 250;
+K-1STARTS = 500 125;
+PROCESSORS = 8;
+
+MODEL:
+%OVERALL%
+i s q cub |
+SANS_b@0 SANS_1@1 SANS_2@2 SANS_3@3 SANS_6@6 
+SANS_9@9 SANS_12@12 SANS_18@18 SANS_24@24;
+i-cub@0;
+%c#1%
+[i s q cub];
+SANS_b (1)
+SANS_1 (2)
+SANS_2 (3)
+SANS_3 (4)
+SANS_6 (5)
+SANS_9 (6)
+SANS_12 (7)
+SANS_18 (8)
+SANS_24 (9)
+%c#2%
+[i s q cub];
+SANS_b (10)
+SANS_1 (11)
+SANS_2 (12)
+SANS_3 (13)
+SANS_6 (14)
+SANS_9 (15)
+SANS_12 (16)
+SANS_18 (17)
+SANS_24 (18)
+%c#3%
+[i s q cub];
+SANS_b (19)
+SANS_1 (20)
+SANS_2 (21)
+SANS_3 (22)
+SANS_6 (23)
+SANS_9 (24)
+SANS_12 (25)
+SANS_18 (26)
+SANS_24 (27)
+
+OUTPUT:
+sampstat standardized
+TECH1;
+TECH11;
+
+SAVEDATA:
+file = K3_S1000_res.dat;
+save = CPROBABILITIES;
+
+PLOT:
+TYPE = plot3;
+SERIES = SANS_b (s) SANS_1 (s) SANS_2 (s) SANS_3 (s) 
+SANS_6 (s) SANS_9 (s) SANS_12 (s) SANS_18 (s) 
+SANS_24 (s);
+
