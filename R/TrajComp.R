@@ -1,167 +1,243 @@
 
+library(magrittr)
+library(haven)
+library(dplyr)
 
+#---------------#
+#PREPARE DATASET
+#---------------#
 
 # Load dataset
-#spss.sav = paste(getwd(), 'data', 'Dataset533_03Sept2021.sav', sep = '/')
-library(haven)
-spss.sav = paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/2-year Follow-up/533K_10Sept2021.sav')
-data533K_df <- read_spss(spss.sav, user_na = FALSE, skip = 0, n_max = Inf)
-sub405K_df <- subset(data533K_df, miss_SAPS <= 4)
-sub345K_df <- subset(data533K_df, miss_SOFAS <= 1)
+PEPP2_df <- 
+  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/764K_05Nov2021.sav') %>%
+    read_spss(user_na = FALSE, skip = 0, n_max = Inf)
 
 # Define variables of interest
-SD <- c('ageentry', 'educ_num', 'FIQ', 'holltotp', 'ageonset', 'duponset', 'PAS_tot2')
-SAPS <- c('SAPS_b', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24')
-SANS <- c('SANS_b', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24')
-SOFAS <- c('sofas_b', 'sofas_12', 'sofas_24')
+SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp', 'ageonset', 'duponset', 'PAS_tot2')
+SD_cat <- c('gender', 'minority_status', 'marital2', 'housing_status', 'working_status', 'dx_b2', 'SUD')
+SAPS <- c('SAPS_B', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24')
+SANS <- c('SANS_B', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24')
+SOFAS <- c('SOFAS_B', 'SOFAS_12', 'SOFAS_24')
 HAS <- c('HAS_B', 'HAS_1', 'HAS_2', 'HAS_3', 'HAS_6',  'HAS_9',  'HAS_12',  'HAS_18',  'HAS_24')
 CDS <- c('CDS_B', 'CDS_1', 'CDS_2', 'CDS_3', 'CDS_6',  'CDS_9',  'CDS_12',  'CDS_18',  'CDS_24')
 YMRS <-c('YMRS_B', 'YMRS_1', 'YMRS_2', 'YMRS_3', 'YMRS_6', 'YMRS_9', 'YMRS_12', 'YMRS_18', 'YMRS_24') 
 PSR <- c('PSR_B', 'PSR_M1', 'PSR_M2', 'PSR_M3', 'PSR_M6', 'PSR_M9', 'PSR_M12', 'PSR_M18', 'PSR_M24')
 NSR <- c('NSR_B', 'NSR_M1', 'NSR_M2', 'NSR_M3', 'NSR_M6', 'NSR_M9', 'NSR_M12', 'NSR_M18', 'NSR_M24')
-num <- c('PSR_24C', 'NSR_24C')
-cat <- c('gender', 'minority_status', 'marital2', 'newliving', 'newwork', 'dx_b2', 'SUD', 'PSR_BY3', 'NSR_BY3')
+MISC_num <- c('PSR_24C', 'NSR_24C')
+MISC_cat <- c('n', 'PSR_BY3', 'NSR_BY3')
 K <- c('K_SAPS', 'K_SANS', 'K_SOFAS')
 CP <-  c('CPROB1_SOFAS', 'CPROB2_SOFAS', 'CPROB1_SAPS', 'CPROB2_SAPS', 'CPROB1_SANS', 'CPROB2_SANS', 'CPROB3_SANS')
+SXB <-  c('SAPS_B', 'SANS_B', 'SOFAS_B', 'HAS_B', 'CDS_B', 'YMRS_B')
+sxb <- names(select(df2imput, ends_with('_b')))
+items <- names(select(PEPP2_df, sap1_b:ymrs11_24))
 
-#Subset dataset
-sub_df <- sub345K_df[, c('pin', SD, cat, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, K, CP)]
-sub_df <- sub405K_df[, c('pin', SD, cat, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, K, CP)]
-#dataset2imput <- SAPS405_K %>% select(c('pin', sap1_b:ymrs11_24)) #impute raw scores is thought to be better than transformed scores
+#recode variables as factors or num
+PEPP2_df[, c(SD_cat, K, PSR, NSR, MISC_cat)] <-lapply(PEPP2_df[, c(SD_cat, K, PSR, NSR, MISC_cat)], as.factor)
+PEPP2_df[, c('pin', SD_num, SAPS, SANS, SOFAS, HAS, CDS, YMRS, CP, MISC_num, items)] <-lapply(PEPP2_df[, c('pin', SD_num, SAPS, SANS, SOFAS, HAS, CDS, YMRS, CP, MISC_num, items)], as.numeric)
 
-#recode categorical variables as factors
-sub_df[, c(cat, K)] <- lapply(sub_df[, c(cat, K)], as.factor)
-sub_df[, c('pin', SD, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, CP)] <- lapply(sub_df[, c('pin', SD, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, CP)], as.numeric)
-str(sub_df)
+##Subset dataset
+  #SD
+SD_df <- PEPP2_df %>%
+  subset(n == 1 & pin <= 857) %>%
+  select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, K, CP, MISC_cat)
 
-#long_df[, c('pin', SD, 'SAPS', 'SANS', 'PSR', 'NSR', num, 'HAS', 'CDS', 'YMRS', 'time', K)] <- lapply(long_df[, c('pin', SD, 'SAPS', 'SANS', 'PSR', 'NSR', num, 'HAS', 'CDS', 'YMRS', 'time', K)], as.numeric)
-#str(long_df)
+  #Traj
+SAPNS_df <- PEPP2_df %>%
+  subset(miss_SAPS <= 4 & n_SAPNS == 1) %>%
+  select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, K, CP, MISC_num, MISC_cat)
 
-df2imput <- sub_df
+SOFAS_df <- PEPP2_df %>%
+  subset(miss_SOFAS <= 1 & n_SOFAS == 1) %>%
+  select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, K, CP, MISC_num, MISC_cat)
 
-#reshape wid to long form
+df2imput <- PEPP2_df %>% 
+  subset(n == 1 & pin <= 857) %>%
+  select(c('pin', SD_num, SD_cat, items)) #impute raw scores is thought to be better than transformed scores
+
+str(df2imput)
+
+#Reshape wid to long form
 library(reshape2)
-long_df <- reshape(sub_df, 
-                direction="long", 
-                idvar=c('pin'),
-                new.row.names = 1:3645,
-                varying=c(SAPS, SANS, PSR, NSR, HAS, CDS, YMRS), 
-                v.names=c('SAPS', 'SANS', 'PSR', 'NSR', 'HAS', 'CDS', 'YMRS'), 
-                timevar='time', 
-                times=c('0', '1', '2', '3', '6', '9', '12', '18', '24'), 
-                drop=SOFAS,
-                sep = '_')
+long_df <- reshape(
+  df,
+  direction = "long",
+  idvar = c('pin'),
+  new.row.names = 1:3645,
+  varying = c(SAPS, SANS, PSR, NSR, HAS, CDS, YMRS),
+  v.names = c('SAPS', 'SANS', 'PSR', 'NSR', 'HAS', 'CDS', 'YMRS'),
+  timevar = 'time',
+  times = c('0', '1', '2', '3', '6', '9', '12', '18', '24'),
+  drop = SOFAS,
+  sep = '_'
+)
 
-#Descriptives stats
-summary(df2imput)
+#-----------------#
+#DESCRIPTIVES STATS
+#-----------------#
+
+# Sociodemographics
+summary(SD_df)
 
 library(psych)
-describeBy(df2imput~K_SAPS, skew=FALSE, ranges=FALSE)
+describeBy(SAPNS_df ~ K_SAPS, skew = FALSE, ranges = FALSE)
 
 library(kableExtra)
 library(vtable)
+SD_tb <- sumtable(
+  data = SD_df,
+  vars = c(SD, cat, 'SAPS_B', 'SANS_B', 'SOFAS_B'),
+  summ = c('notNA(x)', 'mean(x)', 'sd(x)'),
+  summ.names = c('N', 'Mean / percentage', 'SD'),
+  group.test = FALSE,
+  out = "return",
+)
 
-SANSK_tb <- sumtable(
-  data = sub_df,
-  summ = c('notNA(x)','mean(x)','sd(x)'),
-  summ.names = c('N','Mean / percentage','SD'),
+SOFAS_tb <- sumtable(
+  data = SOFAS_df,
+  summ = c('notNA(x)', 'mean(x)', 'sd(x)'),
+  summ.names = c('N', 'Mean / percentage', 'SD'),
+  group = 'K_SOFAS',
+  group.test = TRUE,
+  out = "return",
+)
+
+SAPS_tb <- sumtable(
+  data = SAPNS_df,
+  summ = c('notNA(x)', 'mean(x)', 'sd(x)'),
+  summ.names = c('N', 'Mean / percentage', 'SD'),
+  group = 'K_SAPS',
+  group.test = TRUE,
+  out = "return",
+)
+
+SANS_tb <- sumtable(
+  data = subSAPNS_df,
+  summ = c('notNA(x)', 'mean(x)', 'sd(x)'),
+  summ.names = c('N', 'Mean / percentage', 'SD'),
   group = 'K_SANS',
   group.test = TRUE,
   out = "return",
-  )
+)
+
+
+#Average percentage of missing data
+library(misty)
+na.descript(df2imput)
 
 #Percent of missing data per columns
-miss <- unlist(lapply(df2imput, function(x) sum(is.na(x))))/nrow(df2imput)*100
-sort(miss[miss > 0], decreasing = TRUE)
-print(miss) 
+miss <- unlist(lapply(df2imput, function(x) sum(is.na(x)))) / nrow(df2imput) * 100
+miss <- sort(miss[miss > 0], decreasing = TRUE)
+as.data.frame(miss) 
 
-#Multiple Imputation
-  #PMM (Predictive Mean Matching)  – For numeric variables
-  #logreg(Logistic Regression) – For Binary Variables( with 2 levels)
-  #polyreg(Bayesian polytomous regression) – For Factor Variables (>= 2 levels)
-  #Proportional odds model (ordered, >= 2 levels)
+#-------------------#
+#MULTIPLE IMPUTATION
+#-------------------#
 
 library(mice)
+df2imput <- mice(SD_df, maxit = 0)
+pred <- df2imput$predictorMatrix #variables included in the prediction moded
+meth <- df2imput$method #method choose for imputation per variables
+df2imput$loggedEvents
 
-imput_df <- mice(df2imput, maxit=0)
-predM <- imput_df$predictorMatrix #variables included in the prediction model
-meth <- imput_df$method #method choose for imputation per variables
-print(meth)
+##Imputation method
+#     - PMM (Predictive Mean Matching)  – For numeric variables
+#     - logreg(Logistic Regression) – For Binary Variables( with 2 levels)
+#     - polyreg(Bayesian polytomous regression) – For Factor Variables (>= 2 levels)
+#     - Proportional odds model (ordered, >= 2 levels)
 
+meth <- make.method(df2imput)
 
-predM[,] <- 0 #exclude all variables from the prediction model 
-predM[, c(SD, cat, "SAPS_b", "SANS_b", "sofas_b", "HAS_B", "CDS_B", "YMRS_B", K )] <- 1 #include variables to the prediction model
-predM[,'ageonset'] <- 0 #exclude all variables from the prediction model 
-
-# change imputation method
-poly <- c()
-log <- c()
-poly2 <- c()
- 
-
-
+poly <- c() #add vars, logical expression
 meth[poly] <- "polr"
+log <- c()
 meth[log] <- "logreg"
+poly2 <- c()
 meth[poly2] <- "polyreg"
 
-library(dbplyr)
-library(magrittr)
-
-#remove variable from imputation
-imput_df$method[names(subset(miss, miss > 25 | miss < 5))] <- ""
-meth <- imput_df$method
+removed <- c(CP, K) #exclude variables from imputation #names(subset(miss, miss > 25 | miss < 5))
+meth[removed] <- ""
+as.data.frame(meth)
 
 
+###Imputation predictors - select 15-25 variables
+#     - include all variables that appear in the complete-data model
+#     - include the variables that are related to the nonresponse
+#     - include variables that explain a considerable amount of variance
+#     - Remove pred variables that have too many missing values within the subgroup of incomplete cases
 
-#Compute imputation
-imput_df <- mice(df2imput, m = 20, maxit=20,
-             predictorMatrix = predM, 
-             method = meth, print =  FALSE)
+pred <- make.predictorMatrix(df2imput)
+pred <- quickpred(df2imput)
+
+pred[, 'pin'] <-1
+
+pred[, ] <- 0 #exclude variables to impute from prediction matrix
+pred[, c(CP, K, 'pin', 'n', 'ageonset', 'NSR_24C', 'PSR_24C')] <-0 #exclude predictors 
+pred[, c(sxb, SD_num, SD_cat)] <- 1 #include predictors
+
+print(pred) 
+
+##Compute imputation
+imput_df <- mice(
+  df2imput,
+  m = 1, #m: number of multiple imputations = average percentage of missing data to impute
+  maxit = 1, #m: number of iterations = 5-20
+  predictorMatrix = pred,
+  method = meth,
+  seed = 22,
+  print =  FALSE
+)
+
+##Check Imputation
+imput_df$loggedEvents
 
 densityplot(imput_df)
+stripplot(imput_df)
 
-comp1_df <- complete(imput_df, 1) #return one of the imputed dataset
-comp_df <- complete(imput_df) #return the original dataset
+comp1_df <- complete(imput_df, 1) #return the 1st of the imputed dataset
+na.descript(comp1_df)
 
-miss_imput <- unlist(lapply(comp1_df, function(x) sum(is.na(x))))/nrow(comp1_df)*100
-print(miss_imput)
-sort(miss_imput[miss_imput > 0], decreasing = TRUE)
-as.data.frame(miss_imput)
+miss_comp1 <- unlist(lapply(comp1_df, function(x) sum(is.na(x)))) / nrow(comp1_df) * 100
+miss_comp1 <- sort(miss_comp1, decreasing = TRUE)
+as.data.frame(miss_comp1) 
 
 library(sjmisc)
 
 merged_df <- merge_imputations(df2imput, imput_df, summary = "dens")
 
-library(jtools)
+
 #Group comparisons
-#t-test
-DUP_t <- with(imput_df, t.test(duponset ~ K_SAPS))
-summary(pool(DUP_t$analyses))
-
-
+library(jtools)
 library(MKmisc)
 library(limma)
+library(miceadds)
 
-attach(imput_df$imp)
-mi.t.test(imput_df$data, x="duponset", y="K_SAPS", var.equal = FALSE)
-detach(imput_df$imp)
+#X2
+X2 <- with(imput_df, chisq.test(K_SOFAS, gender, correct = FALSE)) %>%
+        summary() %>%
+  as.numeric(X2$statistic) %>% 
+            micombine.chisquare(1)
+
+#t-test
+DUP_t <- with(imput_df, lm(duponset ~ K_SOFAS))
+summary(pool(DUP_t))
+
+summary(with(subSOFAS_df, lm(duponset ~ K_SOFAS)))
+
 
 #ANOVA
-
 DUP_lm <- with(imput_df, lm(CPROB1_SOFAS ~ duponset))
 summ(pool(DUP_lm))
 
 lm(CPROB1_SOFAS ~ duponset, sub_df) %>% summ()
 
+lm(CPROB1_SOFAS ~ gender, sub_df) %>% summ()
+lm(CPROB1_SOFAS ~ marital2, sub_df) %>% summary()
 
 DUP_posthoc <- with(imput_df, pairwise.t.test(duponset, K_SANS, paired = FALSE, p.adjust.method = "bonferroni"))
 posthoc_p <- as.list(DUP_posthoc$analyses)
 summ(pool(posthoc_p))
 
-
-
 #SAPS
-library(miceadds)
 age_anova <- mi.anova(imput_df,"ageentry ~ K_SANS")
 FIQ_anova <- mi.anova(imput_df, "FIQ ~ K_SANS")
 educ_anova <- mi.anova(imput_df, "educ_num ~ K_SANS")
@@ -169,7 +245,7 @@ holl_anova <- mi.anova(imput_df, "holltotp ~ K_SANS")
 PAS_anova <- mi.anova(imput_df, "PAS_tot2 ~ K_SANS")
 DUP_anova <- mi.anova(imput_df,"duponset ~ K_SANS")
 onset_anova <- mi.anova(imput_df, "ageonset ~ K_SANS")
-SAPS_anova <- mi.anova(imput_df, "SAPS_b ~ K_SANS")
+SAPS_anova <- mi.anova(imput_df, "SAPS_B ~ K_SANS")
 
 #Mixed models
 library(brms)
@@ -190,9 +266,14 @@ SANS_lm <- lm(SANS ~ K_SAPS + time + K_SAPS:time,
               na.action = na.omit)
 summary(SANS_lm)
 
-#X2
-attach(imput_df)
-X2 <- with(imput_df, chisq.test(K_SAPS, gender, correct = FALSE))
-summary(X2)
-summary(pool(X2))
-detach(imput_df)
+# Regressions
+library(lm.beta)
+library(confint)
+
+
+lm(SOFAS_24 ~ CPROB2_SAPS, subSOFAS_df) %>% summ()  
+lm(SOFAS_24 ~ CPROB1_SANS, subSOFAS_df) %>% lm.beta()  
+
+lm(scale(SOFAS_24) ~ scale(CPROB2_SAPS), subSOFAS_df) %>% confint()
+lm(scale(SOFAS_24) ~ scale(CPROB1_SANS), subSOFAS_df) %>% confint()
+
