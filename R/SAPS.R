@@ -25,7 +25,7 @@ library(MplusAutomation)
 # Load dataset
 spss.sav = paste(getwd(), 'data', 'Dataset533_03Sept2021.sav', sep = '/')
 dataset_df <- read_spss(spss.sav, user_na = FALSE, skip = 0, n_max = Inf)
-SAPS_df <- dataset_df[, c('pin', 'SAPS_b', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24','miss_SAPS')]
+SAPS_df <- dataset_df[, c('pin', 'SAPS_B', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24','miss_SAPS')]
 SAPS405_df <- subset(SAPS_df, miss_SAPS <= 4)
 
 
@@ -41,7 +41,7 @@ df %>% group_by(dx) %>%
 # Run GBTM models
 gbtm_models <- fitGBTM(
   df = SAPS405_df,
-  usevar = c('SAPS_b', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24'),
+  usevar = c('SAPS_B', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24'),
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   idvar = "pin",
   working_dir = paste(getwd(), 'SAPS', sep = '/'),
@@ -58,7 +58,7 @@ best_gbtm_model <- gbtm_models[[2]]
 # Run LCGA models
 lcga_models <- fitLCGA(
   df = SAPS405_df,
-  usevar = c('SAPS_b', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24'),
+  usevar = c('SAPS_B', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24'),
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   idvar = "pin",
   classes = 2,
@@ -76,7 +76,7 @@ best_bic_model <- selectBestModel(lcga_models, selection_method = "BIC")
 final_model <- refinePolynomial(
   model = best_bic_model, 
   df = SAPS405_df,
-  usevar = c('SAPS_b', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24'),
+  usevar = c('SAPS_B', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24'),
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   working_dir = paste(getwd(), 'SAPS', sep = '/'),
   idvar = "pin")
@@ -88,13 +88,13 @@ library(plyr)
 library(readxl)
 
 alloutput <- readModels(
-  paste(getwd(), 'SOFAS', sep = '/'),
+  paste(getwd(), 'SAPS', sep = '/'),
   what="all",
   recursive=TRUE)
 class_counts <- get_class_counts(alloutput, simplify = FALSE)
 mostlikely <- do.call("rbind.fill", sapply(class_counts,"[", "mostLikely"))
-write_excel_csv(mostlikely, paste(getwd(), 'SOFAS', 'SOFASclass_counts', sep = '/'))
-SOFASclass_counts <- read_excel(paste(getwd(), 'SOFAS', 'SOFASclass_counts', sep = '/'))
+write_excel_csv(mostlikely, paste(getwd(), 'SAPS', 'SAPSclass_counts', sep = '/'))
+SAPSclass_counts <- read_excel(paste(getwd(), 'SAPS', 'SAPSclass_counts', sep = '/'))
 wide_mostlikely <- pivot_wider(xl, names_from = 'class', values_from = c('count', 'proportion'))
 
 ### Step 5: Plot trajectories
@@ -109,7 +109,7 @@ write_sav(final_dataset, paste(getwd(), 'SAPS', 'SAPS405.sav', sep = '/'))
 # Get means as long form
 class_means <- getLongMeans(
   df = final_dataset,
-  usevar = c('SAPS_b', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24'),
+  usevar = c('SAPS_B', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24'),
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   group_var = 'Class')
 
@@ -135,11 +135,18 @@ plotModel(
 
 source('/Users/olivierpercie/Desktop/MplusLGM/R/mplus.R')
 library(rhdf5)
+library(magrittr)
 
-plot_est <- 
+plotSAPS_est <- 
   final_model[["results"]][["input"]][["data"]][["file"]] %>%
     strsplit('.dat') %>% 
       paste0('.gh5') %>% 
         mplus.plot.estimated_means()
+
+#OR#
+
+est.means <- 
+  final_model[["results"]][["gh5"]][["means_and_variances_data"]][["y_estimated_medians"]][["values"]] %>%
+  as.data.frame()
 
 #[Alt Text](https://github.com/joshunrau/MplusLGM/blob/main/example/adv_plot.png?raw=true)

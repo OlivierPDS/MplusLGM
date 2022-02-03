@@ -5,6 +5,7 @@
 # Install devtools from CRAN if not already installed 
 install.packages("devtools")
 library(devtools)
+library(magrittr)
 
 # Install the Bioconductor package manager if required, then the rhdf5 package
 if (!requireNamespace("BiocManager", quietly = TRUE))
@@ -25,7 +26,7 @@ library(haven)
 
 spss.sav = paste(getwd(), 'data', 'Dataset533_03Sept2021.sav', sep = '/')
 dataset_df <- read_spss(spss.sav, user_na = FALSE, skip = 0, n_max = Inf)
-SANS_df <- dataset_df[, c('pin', 'SANS_b', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24','miss_SANS')]
+SANS_df <- dataset_df[, c('pin', 'SANS_B', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24','miss_SANS')]
 SANS405_df <- subset(SANS_df, miss_SANS <= 4)
 
 # Examine the structure of the dataset
@@ -36,7 +37,7 @@ str(SANS405_df)
 # Run GBTM models
 gbtm_models <- fitGBTM(
   df = SANS405_df,
-  usevar = c('SANS_b', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24'),
+  usevar = c('SANS_B', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24'),
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   idvar = "pin",
   working_dir = paste(getwd(), 'SANS', sep = '/'),
@@ -53,7 +54,7 @@ best_gbtm_model <- gbtm_models[[3]]
 # Run LCGA models
 lcga_models <- fitLCGA(
   df = SANS405_df,
-  usevar = c('SANS_b', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24'),
+  usevar = c('SANS_B', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24'),
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   idvar = "pin",
   classes = 3,
@@ -71,7 +72,7 @@ best_bic_model <- selectBestModel(lcga_models, selection_method = "BIC")
 final_model <- refinePolynomial(
   model = best_bic_model, 
   df = SANS405_df,
-  usevar = c('SANS_b', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24'),
+  usevar = c('SANS_B', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24'),
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   working_dir = paste(getwd(), 'SANS', sep = '/'),
   idvar = "pin")
@@ -104,9 +105,9 @@ write_sav(final_dataset, paste(getwd(), 'SANS', 'SANS405.sav', sep = '/'))
 # Get means as long form
 class_means <- getLongMeans(
   df = final_dataset,
-  usevar = c('SANS_b', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24'),
+  usevar = c('SANS_B', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24'),
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
-  working_dir = paste(getwd(), 'SANS', sep = '/'),
+  #working_dir = paste(getwd(), 'SANS', sep = '/'),
   group_var = 'Class')
 
 # Create line for observed symptoms
@@ -132,10 +133,15 @@ plotModel(
 source('/Users/olivierpercie/Desktop/MplusLGM/R/mplus.R')
 library(rhdf5)
 
-plot_est <- 
+plotSANS_est <- 
   final_model[["results"]][["input"]][["data"]][["file"]] %>%
     strsplit('.dat') %>% 
       paste0('.gh5') %>% 
         mplus.plot.estimated_means()
+
+SANS_est <- 
+  final_model[["results"]][["gh5"]][["means_and_variances_data"]][["y_estimated_medians"]] %>% 
+  as.data.frame()
+
 
 #[Alt Text](https://github.com/joshunrau/MplusLGM/blob/main/example/adv_plot.png?raw=true)
