@@ -136,16 +136,16 @@ PEPP2_df <- PEPP2_df %>% # could use rowwise() and sum()
   #SD
 SD_df <- PEPP2_df %>%
   subset(n == 1 & pin <= 857) %>%
-  select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, K, CP, MISC_cat)
+  select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, K, CP, MISC_cat, t)
 
   #Traj
 SAPNS_df <- PEPP2_df %>%
-  subset(miss_SAPS <= 4 & n_SAPNS == 1) %>%
-  select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, num, SOFAS, HAS, CDS, YMRS, K, CP, MISC_num, MISC_cat)
+  subset(miss_SAPS <= 4 & n == 1) %>%
+  select('pin', all_of(c(SD_num, SD_cat, SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, K, CP, MISC_num, MISC_cat, t, dsfs, datedue, appmiss)))
 
 SOFAS_df <- PEPP2_df %>%
-  subset(miss_SOFAS <= 1 & n_SOFAS == 1) %>%
-  select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, K, CP, MISC_num, MISC_cat)
+  subset(miss_SOFAS <= 1 & n == 1) %>%
+  select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, K, CP, MISC_num, MISC_cat, t, dsfs, datedue, appmiss)
 
 df2imput <- PEPP2_df %>% 
   subset(n == 1 & pin <= 857) %>%
