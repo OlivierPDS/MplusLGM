@@ -32,6 +32,16 @@ PEPP2_df[, c(SD_cat, K, PSR, NSR, MISC_cat)] <-lapply(PEPP2_df[, c(SD_cat, K, PS
 PEPP2_df[, c('pin', SD_num, SAPS, SANS, SOFAS, HAS, CDS, YMRS, CP, MISC_num, items)] <-lapply(PEPP2_df[, c('pin', SD_num, SAPS, SANS, SOFAS, HAS, CDS, YMRS, CP, MISC_num, items)], as.numeric)
 CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
 SXB <-  c('SAPS_0', 'SANS_0', 'SOFAS_0', 'HAS_0', 'CDS_0', 'YMRS_0')
+# Add variable
+vars <- "starts_with('dsfs')"
+vars <- "starts_with('datedu'), starts_with('app'), 'dsofas_b', 'CRsofas12'"
+
+addvar_df <-
+  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Databases/#1-992 (N=762) Jan2003-Jan2020/Merged_25Feb2022.sav') %>%
+  read_spss(user_na = FALSE, col_select = c('pin', starts_with('datedu'), starts_with('app'), 'dsofas_b', 'CRsofas12'))
+
+PEPP2_df <- merge(PEPP2_df, addvar_df, by = 'pin')
+
 # Clean dataset
 library(data.table)
 PEPP2_df <- PEPP2_df %>%
