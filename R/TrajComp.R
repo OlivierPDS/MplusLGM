@@ -341,7 +341,6 @@ miss_comp1 <- sort(miss_comp1, decreasing = TRUE)
 as.data.frame(miss_comp1) 
 
 library(sjmisc)
-
 merged_df <- merge_imputations(df2imput, imput_df, summary = "dens")
 
 
@@ -405,6 +404,7 @@ summ(pool(DUP_lm))
 lm(CP1_SOFAS ~ duponset, sub_df) %>% summ()
 
 lm(CP1_SOFAS ~ gender, sub_df) %>% summ()
+lm(CP1_SOFAS ~ marital2, sub_df) %>% summary()
 
 DUP_posthoc <- with(imput_df, pairwise.t.test(duponset, K_SANS, paired = FALSE, p.adjust.method = "bonferroni"))
 posthoc_p <- as.list(DUP_posthoc$analyses)
@@ -424,13 +424,13 @@ SAPS_anova <- mi.anova(imput_df, "SAPS_0 ~ K_SANS")
 library(brms)
 library(nlme)
 
-SANS_lmm <- lme(
-    fixed = SANS ~ K_SAPS + time + K_SAPS:time, 
+lmm <- lme(
+    fixed = SANS ~ CP1_SAPS + time + CP1_SAPS:time, 
     random = ~1|pin,
     #correlation = corAR1(), #0, form = ~time|pin
-    data = long_df, 
+    data = SAPNS_Ldf, 
     method = "ML", 
-    na.action = na.pass
+    na.action = na.pass(SAPNS_Ldf)
     )
 summary(SANS_lmm)
 
