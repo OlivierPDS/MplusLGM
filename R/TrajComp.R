@@ -285,8 +285,50 @@ imput_df <- mice(
   print =  FALSE
 )
 
+##Compute passive imputation 
+library(glue)
+for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
+#meth[str_c('SAPS_', i)] <- str_c('"~I(rowSums(across(all_of(', str_c(c('sap7_', 'sap20_', 'sap25_', 'sap34_'), i), ')))))"')
+# Work in progress
+  }
+
+
+imput_df <- mice.impute.passive(
+  df2imput,
+  m = 1, #m: number of multiple imputations = average percentage of missing data to impute (up to 50%)
+  maxit = 0, #m: number of iterations = 5-20
+  predictorMatrix = pred, #should remove ageonset and dx_spect (colinerarity)
+  method = meth,
+  seed = 22,
+  print =  FALSE
+)
+
+for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
+  imput_df <- imput_df %>%
+    mutate(!!str_c("SAPS_", i) :=
+             rowSums(across(all_of(str_c(
+               c("sap7_", "sap20_", "sap25_", "sap34_"), i
+             ))))) %>%
+    mutate(!!str_c("SANS_", i) :=
+             rowSums(across(all_of(str_c(
+               c("sap8_", "sap13_", "sap17_", "sap22_"), i
+             ))))) %>%
+    mutate(!!str_c("HAS_", i) :=
+             rowSums(across(all_of(str_c(
+               "ha", c(1:13), "_", i)
+             )))) %>%
+    mutate(!!str_c("CDS_", i) :=
+             rowSums(across(all_of(str_c(
+               "cd", c(1:9), "_", i)
+             )))) %>%
+    mutate(!!str_c("YMRS_", i) :=
+             rowSums(across(all_of(str_c(
+               "ymrs", c(1:11), "_", i)
+             ))))
+}
+
 ##Check Imputation
-imput_df$loggedEvents
+warnings <- imput_df$loggedEvents
 
 densityplot(imput_df)
 stripplot(imput_df)
