@@ -23,11 +23,23 @@ library(haven)
 library(MplusAutomation)
 
 # Load dataset
-spss.sav = paste(getwd(), 'data', 'Dataset533_03Sept2021.sav', sep = '/')
-dataset_df <- read_spss(spss.sav, user_na = FALSE, skip = 0, n_max = Inf)
-SAPS_df <- dataset_df[, c('pin', 'SAPS_B', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24','miss_SAPS')]
-SAPS405_df <- subset(SAPS_df, miss_SAPS <= 4)
+SAPS_df <- 
+  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-02-28.sav') %>% 
+  read_spss(user_na = FALSE, skip = 0, n_max = Inf) %>%
+  subset(miss_SAPS <= 4 & n == 1) %>% 
+  select ('pin', all_of(c(SAPS, t)))
 
+SAPS_df <- SAPS_df %>%
+  filter(xor(!is.na(SAPS_1), is.na(t1))) %>% 
+  filter(xor(!is.na(SAPS_2), is.na(t2))) %>% 
+  filter(xor(!is.na(SAPS_3), is.na(t3))) %>% 
+  filter(xor(!is.na(SAPS_6), is.na(t6))) %>% 
+  filter(xor(!is.na(SAPS_9), is.na(t9))) %>% 
+  filter(xor(!is.na(SAPS_12), is.na(t12))) %>% 
+  filter(xor(!is.na(SAPS_18), is.na(t18))) %>% 
+  filter(xor(!is.na(SAPS_24), is.na(t24)))
+
+#map <- map2(x, y, ~filter(xor(!is.na(x), is.na(y)))) # Do not work
 
 # Examine the structure of the dataset
 str(df)
