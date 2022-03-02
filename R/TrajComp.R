@@ -345,6 +345,40 @@ library(sjmisc)
 merged_df <- merge_imputations(df2imput, imput_df, summary = "dens")
 
 
+#------------------------------
+library(lavaan) #SEM
+
+library(lme4)
+library(car)
+SAPNS_Ldf$time <-  as.numeric(SAPNS_Ldf$time) 
+
+lmer(SAPS ~ CP1_SAPS*time +  (1|pin), SAPNS_Ldf, REML=FALSE) %>% summary  
+lmer(SAPS ~ CP2_SAPS*time +  (1|pin), SAPNS_Ldf, REML=FALSE) %>% summary  
+lmer(SAPS ~ K_SAPS + (1|pin), SAPNS_Ldf, REML=FALSE) %>% summary #%>% Anova
+
+gls(FIQ ~ CP1_SAPS, SAPNS_df, method='ML', na.action=na.omit) %>% summary #GLS method?
+
+lm(FIQ ~ CP1_SAPS, SAPNS_df) %>% summary
+lm(FIQ ~ CP2_SAPS, SAPNS_df) %>% summary
+lm(FIQ ~ K_SAPS, SAPNS_df) %>% summary
+
+library(nlme)
+lme(SAPS_0 ~ CP1_SAPS + CP2_SAPS, data=SAPNS_df, method = 'ML', na.action= 'na.pass' )
+
+setnames(SAPNS_df, old = c('dx_spect', 'SAPS_0', 'SANS_0'), new = c('y', 'x1', 'x2'))
+
+mplus <- MplusAutomation:::.mplusMultinomial(
+  dv="SUD",
+  iv='FIQ',
+  data=SAPNS_df,
+  pairwise = TRUE
+)
+
+
+
+#------------------------------
+
+
 #Group comparisons
 library(jtools)
 library(MKmisc)
