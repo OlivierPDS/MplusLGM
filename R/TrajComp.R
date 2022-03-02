@@ -96,18 +96,10 @@ df2imput <- PEPP2_df %>%
 str(df2imput)
 
 #Reshape wid to long form
-library(reshape2)
-long_df <- reshape(
-  df,
-  direction = "long",
-  idvar = c('pin'),
-  new.row.names = 1:3645,
-  varying = c(SAPS, SANS, PSR, NSR, HAS, CDS, YMRS),
-  v.names = c('SAPS', 'SANS', 'PSR', 'NSR', 'HAS', 'CDS', 'YMRS'),
-  timevar = 'time',
-  times = c('0', '1', '2', '3', '6', '9', '12', '18', '24'),
-  drop = SOFAS,
-  sep = '_'
+SAPNS_Ldf <- pivot_longer(SAPNS_df,
+            cols =c(SAPS, SANS, PSR, NSR, HAS, CDS, YMRS), 
+            names_to = c('.value', 'time'),
+            names_pattern = '(.+)_(\\d+)'
 )
 
 #-----------------#
