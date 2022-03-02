@@ -229,9 +229,7 @@ library(misty)
 na.descript(df2imput)
 
 #Percent of missing data per columns
-miss <- unlist(lapply(df2imput, function(x) sum(is.na(x)))) / nrow(df2imput) * 100
-miss <- sort(miss[miss > 0], decreasing = TRUE)
-as.data.frame(miss) 
+miss <- {unlist(lapply(SAPNS_df, function(x) sum(is.na(x)))) / nrow(SAPNS_df) * 100} %>% view()
 
 #-------------------#
 #MULTIPLE IMPUTATION
