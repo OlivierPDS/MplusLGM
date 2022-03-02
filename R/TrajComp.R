@@ -63,6 +63,22 @@ PEPP2_df <- PEPP2_df %>%
   setNames(., gsub("_b","_0",names(.))) %>%
   setNames(.,gsub("_M","_",names(.))) %>%
   setNames(.,gsub("ROB","",names(.))) %>%
+# Replace missing in date of assessment with due date
+PEPP2_df <- PEPP2_df %>%
+  mutate(dsfs_1 = case_when(!is.na(SAPS_1) ~ coalesce(dsfs_1, datedue1))) %>%
+  mutate(dsfs_2 = case_when(!is.na(SAPS_2) ~ coalesce(dsfs_2, datedue2))) %>%
+  mutate(dsfs_3 = case_when(!is.na(SAPS_3) ~ coalesce(dsfs_3, datedue3))) %>%
+  mutate(dsfs_6 = case_when(!is.na(SAPS_6) ~ coalesce(dsfs_6, datedue6))) %>%
+  mutate(dsfs_9 = case_when(!is.na(SAPS_9) ~ coalesce(dsfs_9, datedue9))) %>%
+  mutate(dsfs_12 = case_when(!is.na(SAPS_12) ~ coalesce(dsfs_12, datedue12))) %>%
+  mutate(dsfs_18 = case_when(!is.na(SAPS_18) ~ coalesce(dsfs_18, datedue18))) %>%
+  mutate(dsfs_24 = case_when(!is.na(SAPS_24) ~ coalesce(dsfs_24, datedue24)))
+
+#  #Not working
+# for (i in c(1, 2, 3, 6, 9, 12, 18, 24)) {
+# PEPP_df <- PEPP2_df %>% 
+# mutate(str_c('dsfs_', i) = case_when(!is.na(str_c('SAPS_', i)) ~ coalesce(str_c('dsfs_', i), str_c('datedue', i))))
+# }
 # Compute total scores
 library(stringr)
 for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
