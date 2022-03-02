@@ -28,7 +28,7 @@ library(magrittr)
 
 spss.sav = paste(getwd(), 'data', 'dataset533_03Sept2021.sav', sep = '/')
 dataset_df <- read_spss(spss.sav, user_na = FALSE, skip = 0, n_max = Inf)
-SOFAS_df <- dataset_df[, c('pin', 'SOFAS_B', 'SOFAS_12', 'SOFAS_24','miss_SOFAS')]
+SOFAS_df <- dataset_df[, c('pin', 'SOFAS_0', 'SOFAS_12', 'SOFAS_24','miss_SOFAS')]
 SOFAS345_df <- subset(SOFAS_df, miss_SOFAS <= 1)
 
 # Examine the structure of the dataset
@@ -44,7 +44,7 @@ dataset_df %>% group_by('K_SOFAS') %>%
 # Run GBTM models
 gbtm_models <- fitGBTM(
   df = SOFAS345_df,
-  usevar = c('SOFAS_B', 'SOFAS_12', 'SOFAS_24'),
+  usevar = c('SOFAS_0', 'SOFAS_12', 'SOFAS_24'),
   timepoints = c(0, 12, 24),
   idvar = "pin",
   working_dir = paste(getwd(), 'SOFAS', sep = '/'),
@@ -62,7 +62,7 @@ best_gbtm_model <- selectBestModel(gbtm_models, selection_method = "BIC_LRT")
 # Run LCGA models
 lcga_models <- fitLCGA(
   df = SOFAS345_df,
-  usevar = c('SOFAS_B', 'SOFAS_12', 'SOFAS_24'),
+  usevar = c('SOFAS_0', 'SOFAS_12', 'SOFAS_24'),
   timepoints = c(0, 12, 24),
   idvar = "pin",
   classes = 2,
@@ -81,7 +81,7 @@ best_bic_model <- selectBestModel(lcga_models, selection_method = "BIC")
 final_model <- refinePolynomial(
   model = best_bic_model, 
   df = SOFAS345_df,
-  usevar = c('SOFAS_B', 'SOFAS_12', 'SOFAS_24'),
+  usevar = c('SOFAS_0', 'SOFAS_12', 'SOFAS_24'),
   timepoints = c(0, 12, 24),
   classes = 2,
   working_dir = paste(getwd(), 'SOFAS', sep = '/'),
@@ -115,7 +115,7 @@ write_sav(final_dataset, paste(getwd(), 'SOFAS', 'SOFAS345.sav', sep = '/'))
 # Get means as long form
 class_means <- getLongMeans(
   df = final_dataset,
-  usevar = c('SOFAS_B', 'SOFAS_12', 'SOFAS_24'),
+  usevar = c('SOFAS_0', 'SOFAS_12', 'SOFAS_24'),
   timepoints = c(0, 12, 24),
   working_dir = paste(getwd(), 'SOFAS', sep = '/'),
   group_var = 'Class')
