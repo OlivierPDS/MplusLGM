@@ -89,6 +89,11 @@ for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
              ))))
 }
 
+# Compute missings count per outcome
+PEPP2_df <- PEPP2_df %>% # could use rowwise() and sum()
+  mutate(miss_SOFAS = rowSums(is.na(across(SOFAS)))) %>%
+  mutate(miss_SAPS =rowSums(is.na(across(SAPS)))) %>%
+  mutate(miss_SANS =rowSums(is.na(across(SANS))))
 ##Subset dataset
   #SD
 SD_df <- PEPP2_df %>%
