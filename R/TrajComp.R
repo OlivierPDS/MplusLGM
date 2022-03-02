@@ -1,6 +1,6 @@
-library(magrittr)
+library(tidyverse)
 library(haven)
-library(dplyr)
+library(glue)
 
 #---------------#
 #PREPARE DATASET
@@ -8,8 +8,8 @@ library(dplyr)
 
 # Load dataset
 PEPP2_df <- 
-  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/764K_05Nov2021.sav') %>%
-    read_spss(user_na = FALSE, skip = 0, n_max = Inf)
+  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-02-28.sav') %>%
+  read_spss(user_na = FALSE, skip = 0, n_max = Inf)
 
 # Define variables of interest
 SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp', 'ageonset', 'duponset', 'PAS_tot2')
@@ -25,10 +25,6 @@ NSR <- c('NSR_0', 'NSR_1', 'NSR_2', 'NSR_3', 'NSR_6', 'NSR_9', 'NSR_12', 'NSR_18
 MISC_num <- c('PSR_24C', 'NSR_24C')
 MISC_cat <- c('n', 'PSR_BY3', 'NSR_BY3')
 K <- c('K_SAPS', 'K_SANS', 'K_SOFAS')
-
-#recode variables as factors or num
-PEPP2_df[, c(SD_cat, K, PSR, NSR, MISC_cat)] <-lapply(PEPP2_df[, c(SD_cat, K, PSR, NSR, MISC_cat)], as.factor)
-PEPP2_df[, c('pin', SD_num, SAPS, SANS, SOFAS, HAS, CDS, YMRS, CP, MISC_num, items)] <-lapply(PEPP2_df[, c('pin', SD_num, SAPS, SANS, SOFAS, HAS, CDS, YMRS, CP, MISC_num, items)], as.numeric)
 CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
 SXB <-  c('SAPS_0', 'SANS_0', 'SOFAS_0', 'HAS_0', 'CDS_0', 'YMRS_0')
 t <- c('t0', 't1', 't2', 't3', 't6', 't9', 't12', 't18', 't24')
@@ -64,6 +60,7 @@ PEPP2_df <- PEPP2_df %>%
   setNames(.,gsub("ROB","",names(.))) %>%
   mutate(across(c(dsofas_0, dsfs_0, dsfs_12), function(x) replace(x, x < 2000-01-01, NA)))  %>% #some rows in dsfs_0 and dsfs_12 = 1582-10-14 (issue with spss import?)
   mutate(SOFAS_12 = coalesce(SOFAS_12,CRsofas12)) #replace missing SOFAS_12 from case review
+
 # Replace missing in date of assessment with due date
 PEPP2_df <- PEPP2_df %>%
   mutate(dsfs_1 = case_when(!is.na(SAPS_1) ~ coalesce(dsfs_1, datedue1))) %>%
@@ -169,7 +166,7 @@ SAPNS_Ldf <- pivot_longer(SAPNS_df,
 #-----------------#
 
 # Sociodemographics
-summary(SD_df)
+summary(SAPS_df)
 
 library(psych)
 describeBy(SAPNS_df ~ K_SAPS, skew = FALSE, ranges = FALSE)
@@ -226,7 +223,7 @@ df2imput %>%
 
 #Average percentage of missing data
 library(misty)
-na.descript(df2imput)
+na.descript(PEPP2_df)
 
 #Percent of missing data per columns
 miss <- {unlist(lapply(SAPNS_df, function(x) sum(is.na(x)))) / nrow(SAPNS_df) * 100} %>% view()
@@ -236,7 +233,7 @@ miss <- {unlist(lapply(SAPNS_df, function(x) sum(is.na(x)))) / nrow(SAPNS_df) * 
 #-------------------#
 
 library(mice)
-df2imput <- mice(SD_df, maxit = 0)
+df2imput <- mice(df2imput, maxit = 0)
 pred <- df2imput$predictorMatrix #variables included in the prediction moded
 meth <- df2imput$method #method choose for imputation per variables
 df2imput$loggedEvents
@@ -247,7 +244,7 @@ df2imput$loggedEvents
 #     - polyreg(Bayesian polytomous regression) – For Factor Variables (>= 2 levels)
 #     - Proportional odds model (ordered, >= 2 levels)
 
-meth <- make.method(df2imput)
+meth <- make.method(df2imput)# make default method
 
 poly <- c() #add vars, logical expression
 meth[poly] <- "polr"
@@ -256,10 +253,9 @@ meth[log] <- "logreg"
 poly2 <- c()
 meth[poly2] <- "polyreg"
 
-removed <- c(CP, K) #exclude variables from imputation #names(subset(miss, miss > 25 | miss < 5))
+removed <- c(names(subset(miss, miss > 50))) #exclude variables from imputation
 meth[removed] <- ""
 as.data.frame(meth)
-
 
 ###Imputation predictors - select 15-25 variables
 #     - include all variables that appear in the complete-data model
@@ -267,21 +263,21 @@ as.data.frame(meth)
 #     - include variables that explain a considerable amount of variance
 #     - Remove pred variables that have too many missing values within the subgroup of incomplete cases
 
-pred <- make.predictorMatrix(df2imput)
-pred <- quickpred(df2imput)
+# A value of 1 indicates that the column variable is a predictor to impute the target (row) variable, and a 0 means that it is not used
 
-pred[, 'pin'] <-1
+pred <- make.predictorMatrix(df2imput)#make default prediction matrix
+pred <- quickpred(df2imput, mincor=0.2, minpuc=0.5, include=c(SD_num, SD_cat), exclude=c('pin')) 
 
-pred[, ] <- 0 #exclude variables to impute from prediction matrix
-pred[, c(CP, K, 'pin', 'n', 'ageonset', 'NSR_24C', 'PSR_24C')] <-0 #exclude predictors 
-pred[, c(sxb, SD_num, SD_cat)] <- 1 #include predictors
+pred[, c(SD_num, SD_cat)] <- 1 #include predictors
+pred[removed, c("dx_spect", "ageonset")] <- 0 #exclude variables not imputed from prediction matrix
 
-print(pred) 
+
+pred %>% rowSums %>% mean
 
 ##Compute imputation
 imput_df <- mice(
   df2imput,
-  m = 1, #m: number of multiple imputations = average percentage of missing data to impute
+  m = 2, #m: number of multiple imputations = average percentage of missing data to impute (up to 50%)
   maxit = 1, #m: number of iterations = 5-20
   predictorMatrix = pred,
   method = meth,
