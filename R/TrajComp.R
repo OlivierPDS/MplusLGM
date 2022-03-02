@@ -63,6 +63,7 @@ PEPP2_df <- PEPP2_df %>%
   setNames(., gsub("_b","_0",names(.))) %>%
   setNames(.,gsub("_M","_",names(.))) %>%
   setNames(.,gsub("ROB","",names(.))) %>%
+  mutate(SOFAS_12 = coalesce(SOFAS_12,CRsofas12)) #replace missing SOFAS_12 from case review
 # Replace missing in date of assessment with due date
 PEPP2_df <- PEPP2_df %>%
   mutate(dsfs_1 = case_when(!is.na(SAPS_1) ~ coalesce(dsfs_1, datedue1))) %>%
