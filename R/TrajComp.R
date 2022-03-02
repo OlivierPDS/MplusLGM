@@ -14,26 +14,30 @@ PEPP2_df <-
 
 # Define variables of interest
 SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp', 'ageonset', 'duponset', 'PAS_tot2')
-SD_cat <- c('gender', 'minority_status', 'marital2', 'housing_status', 'working_status', 'dx_b2', 'SUD')
-SAPS <- c('SAPS_B', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24')
-SANS <- c('SANS_B', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24')
-SOFAS <- c('SOFAS_B', 'SOFAS_12', 'SOFAS_24')
-HAS <- c('HAS_B', 'HAS_1', 'HAS_2', 'HAS_3', 'HAS_6',  'HAS_9',  'HAS_12',  'HAS_18',  'HAS_24')
-CDS <- c('CDS_B', 'CDS_1', 'CDS_2', 'CDS_3', 'CDS_6',  'CDS_9',  'CDS_12',  'CDS_18',  'CDS_24')
-YMRS <-c('YMRS_B', 'YMRS_1', 'YMRS_2', 'YMRS_3', 'YMRS_6', 'YMRS_9', 'YMRS_12', 'YMRS_18', 'YMRS_24') 
-PSR <- c('PSR_B', 'PSR_M1', 'PSR_M2', 'PSR_M3', 'PSR_M6', 'PSR_M9', 'PSR_M12', 'PSR_M18', 'PSR_M24')
-NSR <- c('NSR_B', 'NSR_M1', 'NSR_M2', 'NSR_M3', 'NSR_M6', 'NSR_M9', 'NSR_M12', 'NSR_M18', 'NSR_M24')
+SD_cat <- c('gender', 'minority_status', 'marital2', 'housing_status', 'working_status', 'dx_spect', 'SUD')
+SAPS <- c('SAPS_0', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24')
+SANS <- c('SANS_0', 'SANS_1', 'SANS_2', 'SANS_3', 'SANS_6', 'SANS_9', 'SANS_12', 'SANS_18', 'SANS_24')
+SOFAS <- c('SOFAS_0', 'SOFAS_12', 'SOFAS_24')
+HAS <- c('HAS_0', 'HAS_1', 'HAS_2', 'HAS_3', 'HAS_6',  'HAS_9',  'HAS_12',  'HAS_18',  'HAS_24')
+CDS <- c('CDS_0', 'CDS_1', 'CDS_2', 'CDS_3', 'CDS_6',  'CDS_9',  'CDS_12',  'CDS_18',  'CDS_24')
+YMRS <-c('YMRS_0', 'YMRS_1', 'YMRS_2', 'YMRS_3', 'YMRS_6', 'YMRS_9', 'YMRS_12', 'YMRS_18', 'YMRS_24') 
+PSR <- c('PSR_0', 'PSR_1', 'PSR_2', 'PSR_3', 'PSR_6', 'PSR_9', 'PSR_12', 'PSR_18', 'PSR_24')
+NSR <- c('NSR_0', 'NSR_1', 'NSR_2', 'NSR_3', 'NSR_6', 'NSR_9', 'NSR_12', 'NSR_18', 'NSR_24')
 MISC_num <- c('PSR_24C', 'NSR_24C')
 MISC_cat <- c('n', 'PSR_BY3', 'NSR_BY3')
 K <- c('K_SAPS', 'K_SANS', 'K_SOFAS')
-CP <-  c('CPROB1_SOFAS', 'CPROB2_SOFAS', 'CPROB1_SAPS', 'CPROB2_SAPS', 'CPROB1_SANS', 'CPROB2_SANS', 'CPROB3_SANS')
-SXB <-  c('SAPS_B', 'SANS_B', 'SOFAS_B', 'HAS_B', 'CDS_B', 'YMRS_B')
-sxb <- names(select(df2imput, ends_with('_b')))
-items <- names(select(PEPP2_df, sap1_b:ymrs11_24))
 
 #recode variables as factors or num
 PEPP2_df[, c(SD_cat, K, PSR, NSR, MISC_cat)] <-lapply(PEPP2_df[, c(SD_cat, K, PSR, NSR, MISC_cat)], as.factor)
 PEPP2_df[, c('pin', SD_num, SAPS, SANS, SOFAS, HAS, CDS, YMRS, CP, MISC_num, items)] <-lapply(PEPP2_df[, c('pin', SD_num, SAPS, SANS, SOFAS, HAS, CDS, YMRS, CP, MISC_num, items)], as.numeric)
+CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
+SXB <-  c('SAPS_0', 'SANS_0', 'SOFAS_0', 'HAS_0', 'CDS_0', 'YMRS_0')
+# Clean dataset
+library(data.table)
+PEPP2_df <- PEPP2_df %>%
+  setNames(., gsub("_b","_0",names(.))) %>%
+  setNames(.,gsub("_M","_",names(.))) %>%
+  setNames(.,gsub("ROB","",names(.))) %>%
 
 ##Subset dataset
   #SD
@@ -85,7 +89,7 @@ library(kableExtra)
 library(vtable)
 SD_tb <- sumtable(
   data = SD_df,
-  vars = c(SD, cat, 'SAPS_B', 'SANS_B', 'SOFAS_B'),
+  vars = c(SD, cat, 'SAPS_0', 'SANS_0', 'SOFAS_0'),
   summ = c('notNA(x)', 'mean(x)', 'sd(x)'),
   summ.names = c('N', 'Mean / percentage', 'SD'),
   group.test = FALSE,
@@ -225,13 +229,12 @@ summary(with(subSOFAS_df, lm(duponset ~ K_SOFAS)))
 
 
 #ANOVA
-DUP_lm <- with(imput_df, lm(CPROB1_SOFAS ~ duponset))
+DUP_lm <- with(imput_df, lm(CP1_SOFAS ~ duponset))
 summ(pool(DUP_lm))
 
-lm(CPROB1_SOFAS ~ duponset, sub_df) %>% summ()
+lm(CP1_SOFAS ~ duponset, sub_df) %>% summ()
 
-lm(CPROB1_SOFAS ~ gender, sub_df) %>% summ()
-lm(CPROB1_SOFAS ~ marital2, sub_df) %>% summary()
+lm(CP1_SOFAS ~ gender, sub_df) %>% summ()
 
 DUP_posthoc <- with(imput_df, pairwise.t.test(duponset, K_SANS, paired = FALSE, p.adjust.method = "bonferroni"))
 posthoc_p <- as.list(DUP_posthoc$analyses)
@@ -245,7 +248,7 @@ holl_anova <- mi.anova(imput_df, "holltotp ~ K_SANS")
 PAS_anova <- mi.anova(imput_df, "PAS_tot2 ~ K_SANS")
 DUP_anova <- mi.anova(imput_df,"duponset ~ K_SANS")
 onset_anova <- mi.anova(imput_df, "ageonset ~ K_SANS")
-SAPS_anova <- mi.anova(imput_df, "SAPS_B ~ K_SANS")
+SAPS_anova <- mi.anova(imput_df, "SAPS_0 ~ K_SANS")
 
 #Mixed models
 library(brms)
@@ -271,9 +274,9 @@ library(lm.beta)
 library(confint)
 
 
-lm(SOFAS_24 ~ CPROB2_SAPS, subSOFAS_df) %>% summ()  
-lm(SOFAS_24 ~ CPROB1_SANS, subSOFAS_df) %>% lm.beta()  
+lm(SOFAS_24 ~ CP2_SAPS, subSOFAS_df) %>% summ()  
+lm(SOFAS_24 ~ CP1_SANS, subSOFAS_df) %>% lm.beta()  
 
-lm(scale(SOFAS_24) ~ scale(CPROB2_SAPS), subSOFAS_df) %>% confint()
-lm(scale(SOFAS_24) ~ scale(CPROB1_SANS), subSOFAS_df) %>% confint()
+lm(scale(SOFAS_24) ~ scale(CP2_SAPS), subSOFAS_df) %>% confint()
+lm(scale(SOFAS_24) ~ scale(CP1_SANS), subSOFAS_df) %>% confint()
 
