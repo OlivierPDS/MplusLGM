@@ -81,6 +81,26 @@ PEPP2_df <- PEPP2_df %>%
 # PEPP_df <- PEPP2_df %>% 
 # mutate(str_c('dsfs_', i) = case_when(!is.na(str_c('SAPS_', i)) ~ coalesce(str_c('dsfs_', i), str_c('datedue', i))))
 # }
+
+# Compute individually varying time of observation t0:t24
+PEPP2_df <-  PEPP2_df %>%
+  mutate (t0 = 0) %>%
+  mutate(t1 = as.numeric(difftime(dsfs_1, dsfs_0, 'days')) / (365.25 / 12)) %>%
+  mutate(t2 = as.numeric(difftime(dsfs_2, dsfs_0, 'days')) / (365.25 / 12)) %>%
+  mutate(t3 = as.numeric(difftime(dsfs_3, dsfs_0, 'days')) / (365.25 / 12)) %>%
+  mutate(t6 = as.numeric(difftime(dsfs_6, dsfs_0, 'days')) / (365.25 / 12)) %>%
+  mutate(t9 = as.numeric(difftime(dsfs_9, dsfs_0, 'days')) / (365.25 / 12)) %>%
+  mutate(t12 = as.numeric(difftime(dsfs_12, dsfs_0, 'days')) / (365.25 / 12)) %>%
+  mutate(t18 = as.numeric(difftime(dsfs_18, dsfs_0, 'days')) / (365.25 / 12)) %>%
+  mutate(t24 = as.numeric(difftime(dsfs_24, dsfs_0, 'days')) / (365.25 / 12))
+
+#Not working
+# library(lubridate)
+# for (i in c(1, 2, 3, 6, 9, 12, 18, 24)) {
+# realtime_df <-  realtime_df %>%
+# mutate(str_c('t', i) = as.numeric(difftime((str_c('dsfs_', i)), dsfs_0, 'days')) /(365.25/12))
+# }
+
 # Compute total scores
 library(stringr)
 for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
