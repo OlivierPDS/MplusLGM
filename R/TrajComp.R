@@ -32,6 +32,21 @@ PEPP2_df[, c(SD_cat, K, PSR, NSR, MISC_cat)] <-lapply(PEPP2_df[, c(SD_cat, K, PS
 PEPP2_df[, c('pin', SD_num, SAPS, SANS, SOFAS, HAS, CDS, YMRS, CP, MISC_num, items)] <-lapply(PEPP2_df[, c('pin', SD_num, SAPS, SANS, SOFAS, HAS, CDS, YMRS, CP, MISC_num, items)], as.numeric)
 CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
 SXB <-  c('SAPS_0', 'SANS_0', 'SOFAS_0', 'HAS_0', 'CDS_0', 'YMRS_0')
+t <- c('t0', 't1', 't2', 't3', 't6', 't9', 't12', 't18', 't24')
+
+appmiss <- names(select(PEPP2_df, starts_with('appmiss')))
+datedue <- names(select(PEPP2_df, starts_with('datedue')))
+dsfs <- names(select(PEPP2_df, starts_with('dsfs'), -'dsfs_0'))
+sxb <- names(select(PEPP2_df, ends_with('_0')))
+items <- names(select(PEPP2_df, sap1_0:ymrs11_24))
+
+# Recode variables as factors or num
+PEPP2_df[, c(SD_cat, K, PSR, NSR, MISC_cat, appmiss)] <-
+  lapply(PEPP2_df[, c(SD_cat, K, PSR, NSR, MISC_cat, appmiss)], as.factor)
+
+PEPP2_df[, c('pin', SD_num, SAPS, SANS, SOFAS, HAS, CDS, YMRS, CP, MISC_num, items, t)] <-
+  lapply(PEPP2_df[, c('pin', SD_num, SAPS, SANS, SOFAS, HAS, CDS, YMRS, CP, MISC_num, items, t)], as.numeric)
+
 # Add variable
 vars <- "starts_with('dsfs')"
 vars <- "starts_with('datedu'), starts_with('app'), 'dsofas_b', 'CRsofas12'"
