@@ -212,6 +212,17 @@ SANS_tb <- sumtable(
   out = "return",
 )
 
+#---------------------#
+#MISSING DATA ANALYSES#
+#---------------------#
+
+#Little's MCAR
+install.packages("https://cran.r-project.org/src/contrib/Archive/MissMech/MissMech_1.0.2.tar.gz", repos=NULL, type="source")
+library(MissMech)
+
+df2imput %>% 
+  select("vars") %>% 
+  TestMCARNormality
 
 #Average percentage of missing data
 library(misty)
