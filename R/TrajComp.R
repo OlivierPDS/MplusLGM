@@ -1,4 +1,3 @@
-
 library(magrittr)
 library(haven)
 library(dplyr)
@@ -132,6 +131,11 @@ PEPP2_df <- PEPP2_df %>% # could use rowwise() and sum()
   mutate(miss_SOFAS = rowSums(is.na(across(SOFAS)))) %>%
   mutate(miss_SAPS =rowSums(is.na(across(SAPS)))) %>%
   mutate(miss_SANS =rowSums(is.na(across(SANS))))
+
+# Save new dataset
+library(lubridate)
+write_sav(PEPP2_df, paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_', today(), '.sav',  sep=""))
+
 ##Subset dataset
   #SD
 SD_df <- PEPP2_df %>%
