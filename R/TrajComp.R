@@ -48,6 +48,31 @@ PEPP2_df <- PEPP2_df %>%
   setNames(., gsub("_b","_0",names(.))) %>%
   setNames(.,gsub("_M","_",names(.))) %>%
   setNames(.,gsub("ROB","",names(.))) %>%
+# Compute total scores
+library(stringr)
+for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
+  PEPP2_df <- PEPP2_df %>%
+    mutate(!!str_c("SAPS_", i) :=
+             rowSums(across(all_of(str_c(
+               c("sap7_", "sap20_", "sap25_", "sap34_"), i
+             ))))) %>%
+    mutate(!!str_c("SANS_", i) :=
+             rowSums(across(all_of(str_c(
+               c("sap8_", "sap13_", "sap17_", "sap22_"), i
+             ))))) %>%
+    mutate(!!str_c("HAS_", i) :=
+             rowSums(across(all_of(str_c(
+               "ha", c(1:13), '_', i)
+             )))) %>%
+    mutate(!!str_c("CDS_", i) :=
+             rowSums(across(all_of(str_c(
+               "cd", c(1:9), '_', i)
+             )))) %>%
+    mutate(!!str_c("YMRS_", i) :=
+             rowSums(across(all_of(str_c(
+               "ymrs", c(1:11), '_', i)
+             ))))
+}
 
 ##Subset dataset
   #SD
