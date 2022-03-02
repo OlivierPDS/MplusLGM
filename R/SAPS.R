@@ -48,6 +48,59 @@ str(df)
 df %>% group_by(dx) %>% 
   summarise_at(vars(colnames(df)[3:9]), mean, na.rm = TRUE)
 
+
+ # -------------
+prepareMplusData(
+  SAPS_df,
+  filename = str_c(getwd(),'/MplusfromR/GBTM.dat'),
+  inpfile = TRUE,
+  writeData = "always"
+  )
+
+m <- mplusObject(
+  TITLE = 'RealTime;',
+  VARIABLE = c(
+    'NAMES = pin SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24
+             t0 t1 t2 t3 t6 t9 t12 t18 t24;',
+    'USEVAR = SAPS_0-SAPS_24 t0-t24;',
+    'TSCORES = t0-t24;', 
+    'CLASSES = c(2);'),
+  MODEL = 'i s q | SAPS_0-SAPS_24 AT t0-t24;',
+  ANALYSIS = c(
+    'TYPE = MIXTURE RANDOM;',
+    'STARTS = 500 125;',
+    'K-1STARTS = 250 62.5;',
+    'PROCESSORS = 16;'),
+  OUTPUT = 'SAMPSTAT;',
+  autov = FALSE,
+  rdata = SAPS_df 
+)
+
+inp <- createSyntax(
+  object = m, 
+  filename = str_c(getwd(),'/MplusfromR/GBTM.inp'),
+  check = FALSE,
+  add = FALSE) %>% writeLines(str_c(getwd(),'/MplusfromR/GBTM.inp'))
+  
+
+m_fit <- mplusModeler(
+  object = m,
+  dataout = str_c(getwd(),'/MplusfromR/GBTM.dat'),
+  modelout = str_c(getwd(),'/MplusfromR/GBTM.inp'),
+  hashfilename = FALSE,
+  run = 1,
+  check=TRUE,
+  varwarnings = TRUE,
+  writeData ="always"
+)
+
+runModels('/Users/olivierpercie/Desktop/MplusLGM/MplusfromR/GBTM.inp')
+
+
+  # ----------------
+
+
+
 ### Step 2: Group-Based Trajectory Modeling
 
 # Run GBTM models
