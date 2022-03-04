@@ -27,7 +27,7 @@ SAPS_df <-
   paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-02-28.sav') %>% 
   read_spss(user_na = FALSE, skip = 0, n_max = Inf) %>%
   subset(miss_SAPS <= 4 & n == 1) %>% 
-  select ('pin', all_of(c(SAPS, t)))
+  select ('pin', all_of(c(SAPS)))
 
 
 # Examine the structure of the dataset
@@ -42,7 +42,7 @@ df %>% group_by(dx) %>%
 
 # Run GBTM models
 gbtm_models <- fitGBTM(
-  df = SAPS405_df,
+  df = SAPS_df,
   usevar = c('SAPS_0', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24'),
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   idvar = "pin",
@@ -52,14 +52,16 @@ gbtm_models <- fitGBTM(
 # Examine fit indices
 FitIndices_gbtm <- getFitIndices(gbtm_models)
 
-#best_gbtm_model <- selectBestModel(gbtm_models, selection_method = "BIC_LRT")
+# class count should not be < 25% sample size
+
+#best_gbtm_model <- selectBestModel(gbtm_models, selection_method = "BIC_LRT") # to improve
 best_gbtm_model <- gbtm_models[[2]]
 
 ### Step 3: Examine Alternative Variance Structures
 
 # Run LCGA models
 lcga_models <- fitLCGA(
-  df = SAPS405_df,
+  df = SAPS_df,
   usevar = c('SAPS_0', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24'),
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   idvar = "pin",
@@ -77,7 +79,7 @@ best_bic_model <- selectBestModel(lcga_models, selection_method = "BIC")
 
 final_model <- refinePolynomial(
   model = best_bic_model, 
-  df = SAPS405_df,
+  df = SAPS_df,
   usevar = c('SAPS_0', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24'),
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   working_dir = paste(getwd(), 'SAPS', sep = '/'),
@@ -229,5 +231,19 @@ writeLines(str_c(getwd(),'/MplusfromR/GBTM.inp'))
 
 # Run Mplus Models
 runModels('/Users/olivierpercie/Desktop/MplusLGM/MplusfromR/K2_S500.inp')
+
+
+### Add covariates
+
+SAPScov_df <- PEPP2_df %>% select ('pin', all_of(SAPS), 'FIQ')
+
+
+model_cov <- update(final_model,
+                    VARIABLE = ~ . + 'AUXILARY = (R3STEP) FIQ;',
+                    ANALYSIS = ~ . + 'PROCESSORS = 16;',
+                    rdata = SAPScov_df,
+                    )
+
+
 
 
