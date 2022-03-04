@@ -29,17 +29,6 @@ SAPS_df <-
   subset(miss_SAPS <= 4 & n == 1) %>% 
   select ('pin', all_of(c(SAPS, t)))
 
-SAPS_df <- SAPS_df %>%
-  filter(xor(!is.na(SAPS_1), is.na(t1))) %>% 
-  filter(xor(!is.na(SAPS_2), is.na(t2))) %>% 
-  filter(xor(!is.na(SAPS_3), is.na(t3))) %>% 
-  filter(xor(!is.na(SAPS_6), is.na(t6))) %>% 
-  filter(xor(!is.na(SAPS_9), is.na(t9))) %>% 
-  filter(xor(!is.na(SAPS_12), is.na(t12))) %>% 
-  filter(xor(!is.na(SAPS_18), is.na(t18))) %>% 
-  filter(xor(!is.na(SAPS_24), is.na(t24)))
-
-#map <- map2(x, y, ~filter(xor(!is.na(x), is.na(y)))) # Do not work
 
 # Examine the structure of the dataset
 str(df)
@@ -47,58 +36,6 @@ str(df)
 # Get means for each diagnostic group at variables of interest
 df %>% group_by(dx) %>% 
   summarise_at(vars(colnames(df)[3:9]), mean, na.rm = TRUE)
-
-
- # -------------
-prepareMplusData(
-  SAPS_df,
-  filename = str_c(getwd(),'/MplusfromR/GBTM.dat'),
-  inpfile = TRUE,
-  writeData = "always"
-  )
-
-m <- mplusObject(
-  TITLE = 'RealTime;',
-  VARIABLE = c(
-    'NAMES = pin SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24
-             t0 t1 t2 t3 t6 t9 t12 t18 t24;',
-    'USEVAR = SAPS_0-SAPS_24 t0-t24;',
-    'TSCORES = t0-t24;', 
-    'CLASSES = c(2);'),
-  MODEL = 'i s q | SAPS_0-SAPS_24 AT t0-t24;',
-  ANALYSIS = c(
-    'TYPE = MIXTURE RANDOM;',
-    'STARTS = 500 125;',
-    'K-1STARTS = 250 62.5;',
-    'PROCESSORS = 16;'),
-  OUTPUT = 'SAMPSTAT;',
-  autov = FALSE,
-  rdata = SAPS_df 
-)
-
-inp <- createSyntax(
-  object = m, 
-  filename = str_c(getwd(),'/MplusfromR/GBTM.inp'),
-  check = FALSE,
-  add = FALSE) %>% writeLines(str_c(getwd(),'/MplusfromR/GBTM.inp'))
-  
-
-m_fit <- mplusModeler(
-  object = m,
-  dataout = str_c(getwd(),'/MplusfromR/GBTM.dat'),
-  modelout = str_c(getwd(),'/MplusfromR/GBTM.inp'),
-  hashfilename = FALSE,
-  run = 1,
-  check=TRUE,
-  varwarnings = TRUE,
-  writeData ="always"
-)
-
-runModels('/Users/olivierpercie/Desktop/MplusLGM/MplusfromR/GBTM.inp')
-
-
-  # ----------------
-
 
 
 ### Step 2: Group-Based Trajectory Modeling
@@ -215,3 +152,82 @@ est.means <-
   as.data.frame()
 
 #[Alt Text](https://github.com/joshunrau/MplusLGM/blob/main/example/adv_plot.png?raw=true)
+
+
+### Using individually varying timescores  
+
+SAPS_df <- SAPS_df %>% select ('pin', all_of(c(SAPS, t)))
+
+# Exclude cases with complete SAPS and missing date of observation
+SAPS_df <- SAPS_df %>%
+  filter(xor(!is.na(SAPS_1), is.na(t1))) %>% 
+  filter(xor(!is.na(SAPS_2), is.na(t2))) %>% 
+  filter(xor(!is.na(SAPS_3), is.na(t3))) %>% 
+  filter(xor(!is.na(SAPS_6), is.na(t6))) %>% 
+  filter(xor(!is.na(SAPS_9), is.na(t9))) %>% 
+  filter(xor(!is.na(SAPS_12), is.na(t12))) %>% 
+  filter(xor(!is.na(SAPS_18), is.na(t18))) %>% 
+  filter(xor(!is.na(SAPS_24), is.na(t24)))
+
+#map <- map2(x, y, ~filter(xor(!is.na(x), is.na(y)))) # Does not work
+
+# Should try to update input file from best model with update() 
+
+# Create an Mplus model object
+m <- mplusObject(
+  TITLE = 'RealTime;',
+  VARIABLE = c(
+    'NAMES = pin SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24
+             t0 t1 t2 t3 t6 t9 t12 t18 t24;',
+    'MISSING=.;',
+    'USEVAR = SAPS_0-SAPS_24 t0-t24;',
+    'TSCORES = t0-t24;', 
+    'CLASSES = c(2);'),
+  MODEL = c(
+    '%OVERALL%',
+    'i s q cub | SAPS_0-SAPS_24 AT t0-t24;',
+    'i-cub@0;',
+    'SAPS_0-SAPS_24 (1);'),
+  ANALYSIS = c(
+    'TYPE = MIXTURE RANDOM;',
+    'STARTS = 500 125;',
+    'PROCESSORS = 16;'),
+  OUTPUT = 'SAMPSTAT;',
+  autov = FALSE,
+  rdata = SAPS_df 
+)
+
+#Separate steps
+# Create, run, and read Mplus models
+m_fit <- mplusModeler(
+  object = m,
+  dataout = str_c(getwd(),'/MplusfromR/GBTM.dat'),
+  modelout = str_c(getwd(),'/MplusfromR/GBTM.inp'),
+  hashfilename = FALSE,
+  run = 1,
+  check=TRUE,
+  varwarnings = TRUE,
+  writeData ="always"
+)
+
+# Create tab-delimited file and Mplus input syntax from R data.frame
+prepareMplusData(
+  SAPS_df,
+  filename = str_c(getwd(),'/MplusfromR/K2_S500.dat'),
+  dropCols = t,
+  inpfile = FALSE,
+  writeData = "always"
+)
+
+# Create the Mplus input text for an mplusObject
+inp <- createSyntax(
+  object = m, 
+  filename = str_c(getwd(),'/MplusfromR/GBTM.inp'),
+  check = FALSE,
+  add = FALSE) %>% 
+writeLines(str_c(getwd(),'/MplusfromR/GBTM.inp'))
+
+# Run Mplus Models
+runModels('/Users/olivierpercie/Desktop/MplusLGM/MplusfromR/K2_S500.inp')
+
+
