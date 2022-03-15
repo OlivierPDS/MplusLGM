@@ -1,0 +1,32 @@
+TITLE:
+GMM3_i s q cub@0;
+DATA:
+FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMM/GMM3/GMM3_i s q cub@0.dat";
+ 
+VARIABLE:
+NAMES = pin SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24;
+MISSING=.;
+USEVAR = SAPS_0-SAPS_24;
+CLASSES = c(2);
+ANALYSIS:
+TYPE = MIXTURE;
+STARTS = 1000 250;
+PROCESSORS = 16;
+MODEL:
+%OVERALL%
+i s q cub | SAPS_0@0 SAPS_1@1 SAPS_2@2 SAPS_3@3 SAPS_6@6 
+                   SAPS_9@9 SAPS_12@12 SAPS_18@18 SAPS_24@24;
+i s q cub@0;
+SAPS_0 (1)
+      SAPS_1 (2)
+      SAPS_2 (3)
+      SAPS_3 (4)
+      SAPS_6 (5)
+      SAPS_9 (6)
+      SAPS_12 (7)
+      SAPS_18 (8)
+      SAPS_24 (9);
+OUTPUT:
+SAMPSTAT;
+SAVEDATA:
+file = GMM3_i s q cub@0_res.dat;
