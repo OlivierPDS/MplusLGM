@@ -34,14 +34,13 @@ getFitIndices <- function(list_models) {
   # Create table of these models and return
   models_sum <- MplusAutomation::SummaryTable(
     model_res_list, 
-    keepCols = c("Title", 'LL', 'Parameters', "AIC", "BIC", "Entropy", 
+    keepCols = c("Title", "Parameters", "LL", "AIC", "AICC", "BIC", "Entropy", 
                  "T11_LMR_Value", "T11_LMR_PValue"))
   
-  models_sum$CAIC <- -2 * models_sum$LL + models_sum$Parameters * (log(n_sample) + 1)
-  
-  models_sum <- subset(models_sum, select = c("Title", 'LL', "AIC", "BIC", 
-                                              "CAIC", "Entropy", "T11_LMR_Value", 
-                                              "T11_LMR_PValue"))
+  models_sum <- models_sum %>% 
+    mutate(CAIC = -2 * LL + Parameters * (log(n_sample) + 1)) %>% 
+    select("Title", "Parameters", "LL", "BIC", "AIC", "AICC", "CAIC", "Entropy", 
+           "T11_LMR_Value", "T11_LMR_PValue")
   
   return(models_sum)
   
