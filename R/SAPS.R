@@ -17,6 +17,8 @@ library(tidyverse)
 library(haven)
 library(magrittr)
 library(glue)
+library(lubridate) 
+
 library(MplusAutomation)
 library(MplusLGM)
 R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs')
@@ -137,7 +139,7 @@ for (rv in 1:4) {
   for (gf in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
     .mpobj_2[[gf]] <- update(
       LCGA_models[[rv]],
-      TITLE = as.formula(glue("~ 'GMM{rv}_{gf};'")),
+      TITLE = as.formula(glue("~ 'GMM{rv}i_{gf};'")),
       SAVEDATA = as.formula(glue("~ '
       file = GMM{rv}_{gf}_res.dat;
       save = CPROBABILITIES;'")),
@@ -179,13 +181,9 @@ GMMi_fit <- SummaryTable(
     "BIC",
     "Entropy",
     "T11_LMR_Value",
-    "T11_LMR_PValue"
-  )
-)
-
-GMMi_fit <- GMM_CI_fit %>%
+    "T11_LMR_PValue")) %>%
   mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>% 
-  mutate(BF10 = exp((LCGA_fit['# chose model to test', 'BIC']-LCGA_fit['# chose model to test', 'BIC'])/2)) 
+  mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2)) 
 
 
   # Add class-variant random effect variances stepwise 
@@ -196,7 +194,7 @@ for (rv in 1:4) {
   for (gf in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
     .mpobj_2[[gf]] <- update(
       GMMi_models[[rv]][[gf]],
-      TITLE = as.formula(glue("~ 'GMM{rv}c_{gf};'")),
+      TITLE = as.formula(glue("~ 'GMM{rv}v_{gf};'")),
       autov = FALSE,
       rdata = SAPS_df)
     .mpobj_2[[gf]][["MODEL"]] <- str_replace_all(GMMi_models[[rv]][[gf]][["MODEL"]], "\\[i s q cub\\]", gf)
@@ -235,9 +233,8 @@ GMMv_fit <- SummaryTable(
     "BIC",
     "Entropy",
     "T11_LMR_Value",
-    "T11_LMR_PValue"
-  )
-) %>% mutate(CAIC = -2 * LL + Parameters * (log(405) + 1))
+    "T11_LMR_PValue")) %>% 
+  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1))
 
       # Extract warnings 
 warn <- map(unlist(c(GMMi_models, GMMv_models), FALSE), extract2, c('results', 'warnings')) 
@@ -449,17 +446,20 @@ for (g in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
 
 
 
+  # Select best model
+GMMi_best <- selectBestModel(list(GMMi_models), selection_method = "BIC")
+
 ### Step 5: Refine Polynomial Order 
-final_model <- refinePolynomial(
+FINAL_model <- refinePolynomial(
   model = best_bic_model, 
   df = SAPS_df,
-  usevar = c('SAPS_0', 'SAPS_1', 'SAPS_2', 'SAPS_3', 'SAPS_6', 'SAPS_9', 'SAPS_12', 'SAPS_18', 'SAPS_24'),
+  usevar = SAPS,
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   working_dir = paste(getwd(), 'SAPS', sep = '/'),
   idvar = "pin")
 
-  # Examine fit indices
-FitIndices_final_model <- final_model %>% list() %>% getFitIndices()
+  # Examine fit indices 
+FINAL_fit <- Final_model %>% list() %>% getFitIndices()
 
 ### Step 6: Extract model parameters and save results 
   # Get class counts & proportions of all models 
@@ -491,7 +491,7 @@ GMMv_cc <-
   # Get and save final dataset based on most probable class membership 
 library(metan)
 PEPP2_df <- 
-  final_model[["results"]][["savedata"]] %>% 
+  Final_model[["results"]][["savedata"]] %>% 
   select(., -starts_with('SAPS')) %>% 
   add_suffix(., everything(), suffix = 'SAPS') %>% 
   merge( PEPP2_df, ., all = TRUE, by.x ='pin', by.y ='PIN_SAPS')
@@ -630,7 +630,6 @@ FitIndices_GBTM_tscores <- mplusModeler(
 
 
 # --- in progress --- #
-
 ### Add covariates 
 SAPScov_df <- PEPP2_df %>% 
   subset(miss_SAPS <= 4 & n == 1) %>% 
@@ -672,8 +671,19 @@ cov_fit <- mplusModeler(
   writeData = 'never'
 )
 
-# --------------- #
+save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
 
+### To do 
+# fix runGCM() script 
+# improve SelectBestModel() by adding some conditions (class count < 5%, lower k)
+# wrap in a function GetFitIndices() & mutate (BF10, CAIC)
+# create function to run GMMi & GMMv
+# runModels(): do not always overwright models
+# adapt RefinePolynomial() to GMMs
+# Creat function to select best GMM model 
+
+
+# ------ JUNK ------- #
 ### Prepare dataset 
   # remove characters from variables names > 8 characters 
 names(PEPP2_df) <- str_sub(names(PEPP2_df), 1, 8) 
@@ -709,10 +719,3 @@ writeLines(str_c(getwd(),'/MplusfromR/GBTM.inp'))
 runModels('/Users/olivierpercie/Desktop/MplusLGM/MplusfromR/GMM1_i s-cub@0.inp')
 
 
-save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
-
-### To do: 
-  # fix runGCM() script 
-  # improve SelectBestModel() by adding some conditions (class count < 5%, lower k)
-  # wrap in a function GetFitIndices() & mutate (BF10)
-  # 
