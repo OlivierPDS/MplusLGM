@@ -21,7 +21,7 @@ library(lubridate)
 
 library(MplusAutomation)
 library(MplusLGM)
-R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs')
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE)
 
 ### Some Mplus Language 
   # vars: refers to variances and residual variances; ex: var1 var1-var9;
@@ -185,7 +185,7 @@ GMMi_fit <- SummaryTable(
   mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>% 
   mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2)) 
 
-      # JUNK - Run individual models  
+      # JUNK - Run individual models 
           # GMM1 - equality across t and k 
 GMM1_models <- list()
 for (g in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
@@ -448,12 +448,14 @@ GMMv_fit <- SummaryTable(
 warnings <- map(unlist(c(GMMi_models, GMMv_models), FALSE), pluck, 'results', 'warnings')
 errors <- map(unlist(c(GMMi_models, GMMv_models), FALSE), pluck, 'results', 'errors') %>% compact()
 
-
-# Select best GMM model 
+  # Select best GMM model 
 GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
 GMMv_best <- selectBestModel(unlist(GMMv_models, FALSE), selection_method = "BIC_LRT")
 
-# Get fit indices of all selected models and select best model 
+GMMi_best <- GMMi_models[[4]][["i s q-cub@0"]] # because warnings
+GMMv_best <- GMMv_models[[4]][["i s q-cub@0"]] # because warnings
+
+  # Get fit indices of all selected models and select best model 
 BEST_fit <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% getFitIndices()
 BEST_model <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% selectBestModel()
 
@@ -467,8 +469,10 @@ FINAL_model <- refinePolynomial(
   working_dir = paste(getwd(), 'SAPS', sep = '/'),
   idvar = "pin")
 
+FINAL_model <- BEST_model
+
   # Examine fit indices 
-FINAL_fit <- FINAL_model %>% list() %>% getFitIndices()
+FINAL_fit <- list(FINAL_model) %>% getFitIndices()
 
 ### Step 6: Extract model parameters and save results 
   # Get class counts & proportions of all models 
@@ -500,10 +504,10 @@ GMMv_cc <-
   # Get and save final dataset based on most probable class membership 
 library(metan)
 PEPP2_df <- 
-  Final_model[["results"]][["savedata"]] %>% 
+  FINAL_model[["results"]][["savedata"]] %>% 
   select(., -starts_with('SAPS')) %>% 
   add_suffix(., everything(), suffix = 'SAPS') %>% 
-  merge( PEPP2_df, ., all = TRUE, by.x ='pin', by.y ='PIN_SAPS')
+  merge(PEPP2_df, ., all = TRUE, by.x ='pin', by.y ='PIN_SAPS')
 
 #final_dataset <- getDataset(final_model, SAPS_df, 'pin') 
 
@@ -568,16 +572,16 @@ TSCORES_df <- TSCORES_df %>%
 
   # Create an Mplus object 
 .mpobj <- update(
-      final_model,
+      FINAL_model,
       VARIABLE = ~ . +"TSCORES = t0-t24;",
       ANALYSIS = ~ "TYPE = MIXTURE RANDOM;,
         STARTS = 1000 250;,
-        PROCESSORS = 16;",
+        PROCESSORS = 8;",
       OUTPOUT = ~ "SAMPSTAT;",
       autov = FALSE,
       rdata = SAPS_df)
 
-   .mpobj[["TITLE"]] <- str_replace(.mpobj[["TITLE"]], "\\n", "_TSCORES;\\\n")
+   .mpobj[["TITLE"]] <- str_replace(.mpobj[["TITLE"]], ";", "_TSCORES;")
    .mpobj[["MODEL"]] <- str_replace(.mpobj[["MODEL"]], "((\\n)?[:alpha:]+_(\\d)+@(\\d)+(\\s)?)+", "SAPS_0-SAPS_24 AT t0-t24") #use with str_view(0 or 1 new line(\n)); (one or more letters[:alpha:])_; (one or more digits(\d)); (0 or 1 new line(\s)); 1 or more times 
    .mpobj[["SAVEDATA"]] <- str_replace(.mpobj[["SAVEDATA"]], "_", "_TSCORES_") 
     
@@ -642,43 +646,20 @@ FitIndices_GBTM_tscores <- mplusModeler(
 ### Add covariates 
 SAPScov_df <- PEPP2_df %>% 
   subset(miss_SAPS <= 4 & n == 1) %>% 
-  select ('pin', all_of(SAPS), 'K_SAPS', 'FIQ') 
+  select ('pin', all_of(SAPS), 'gender') 
 
 # simple/univariate regression then multiple/multivariate 
 # missing on pred/Xs:
 #   - MI: has to be 2 separate steps/inp. files (AUXILIARY = vars excluded from IMPUTE = data)
 #   - add variance to model in manual 3 steps method 
 
-# cont 
+# 3 steps method 
+  # no need to list var as categorical
 
-cov_model <- list()
-cov_model[[1]] <- update(final_model,
-TITLE= as.formula(glue("~ 't{x}tre;'")),
-VARIABLE = ~ '
-USEVAR = SAPS_0-SAPS_24 ageentry;
-CLASSES = c(2);
-AUXILIARY = (R3STEP) ageentry;',
-ANALYSIS = ~'
-TYPE = MIXTURE;
-PROCESSORS = 16;',
-OUTPUT = ~'
-SAMPSTAT
-STANDARDIZED
-TECH1;',
-usevariables = names(SAPS_df),
-rdata = SAPS_df
-)
+R3SETP_cov <- R3STEP(SAPScov_df, FINAL_model, 'gender')
 
-cov_fit <- mplusModeler(
-  object = cov_model,
-  dataout = str_c(getwd(),'/MplusfromR/cov.dat'),
-  modelout = str_c(getwd(),'/MplusfromR/cov.inp'),
-  hashfilename = FALSE,
-  run = 1,
-  check=TRUE,
-  varwarnings = TRUE,
-  writeData = 'never'
-)
+
+
 
 save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
 
