@@ -23,21 +23,19 @@ selectBestModel <- function(
   # Attempt to replace the best model
   for (test_model in list_models) {
     
-    # Get BIC from this model
+    # Get BIC & LRT pvalue from this model
     test_bic <- test_model[["results"]][["summaries"]][["BIC"]]
+    test_LRT <- test_model[["results"]][["summaries"]][["T11_LMR_PValue"]]
     
     # If it is less than the best model
-    if (best_bic > test_bic) {
-      
-      # If the user selected to also need a significant LRT
-      test_LRT <- test_model[["results"]][["summaries"]][["T11_LMR_PValue"]]
+    if (!is.null(c(test_bic, test_LRT)) && test_bic < best_bic && test_LRT < .05) {
       
       # If not using LRT, LRT is null (k=1), or LRT is significant, replace
-      if (selection_method != 'BIC_LRT' || is.null(test_LRT) || test_LRT < .05) {
+      #if (selection_method != 'BIC_LRT' || is.null(test_LRT) || test_LRT < .05) {
         best_model <- test_model
         best_bic <- test_bic
         
-      }
+      #}
     }
   }
   
