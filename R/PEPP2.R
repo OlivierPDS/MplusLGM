@@ -125,6 +125,7 @@ PEPP2_df <- merge(PEPP2_df, TSCORES_df, by = 'pin', all.x = TRUE)
 #   PEPP2_df <- PEPP2_df %>%
 #   mutate(!!i := replace_na(strc_c(i, mean(i))))
 # }
+
 ### Total scores 
 library(stringr)
 for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
@@ -151,7 +152,8 @@ for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
              ))))
 }
 
-### Compute missings count per outcome PEPP2_df <- PEPP2_df %>% # could use rowwise() and sum()
+### Compute missings count per outcome 
+  PEPP2_df <- PEPP2_df %>% # could use rowwise() and sum()
   mutate(miss_SOFAS = rowSums(is.na(across(SOFAS)))) %>%
   mutate(miss_SAPS =rowSums(is.na(across(SAPS)))) %>%
   mutate(miss_SANS =rowSums(is.na(across(SANS))))
