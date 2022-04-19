@@ -85,7 +85,7 @@ GCM_model <- mplusModeler(
   writeData ="always"
 )
 
-  # GCM fit indices 
+  # Get GCM model fit indices 
 GCM_fit <- GCM_model[["results"]][["parameters"]][["std.standardized"]] %>% 
   unite(param, c('paramHeader', 'param')) %>% 
   pivot_wider(names_from = 'param', values_from = 'est') %>% 
@@ -102,7 +102,7 @@ GBTM_models <- fitGBTM(
   working_dir = paste(getwd(), 'SAPS', sep = '/'),
   max_k = 6)
 
-  # Get fit indices 
+  # Get GBTM models fit indices 
 GBTM_fit <- getFitIndices(GBTM_models) %>%
   mutate(BF10 = exp((GBTM_fit['#choose model to test','BIC']-GBTM_fit['#choose model to test','BIC'])/2))
  
@@ -122,11 +122,11 @@ LCGA_models <- fitLCGA(
   working_dir = paste(getwd(), 'SAPS', sep = '/'),
   ref_model = GBTM_best)
 
-  # Get fit indices 
+  # Get LCGA models fit indices 
 LCGA_fit <- getFitIndices(LCGA_models) %>% 
   mutate(BF10 = exp((LCGA_fit['# choose model to test', 'BIC']-LCGA_fit['# choose model to test', 'BIC'])/2)) 
 
-  # Select best model 
+  # Select best LCGA model 
 LCGA_best <- selectBestModel(LCGA_models, selection_method = "BIC")
 
 
@@ -184,60 +184,6 @@ GMMi_fit <- SummaryTable(
     "T11_LMR_PValue")) %>%
   mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>% 
   mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2)) 
-
-
-  # Add class-variant random effect variances stepwise 
-      # Create Mplus Object 
-.mpobj_2 <- list()
-.mpobj_1 <- list()
-for (rv in 1:4) {
-  for (gf in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
-    .mpobj_2[[gf]] <- update(
-      GMMi_models[[rv]][[gf]],
-      TITLE = as.formula(glue("~ 'GMM{rv}v_{gf};'")),
-      autov = FALSE,
-      rdata = SAPS_df)
-    .mpobj_2[[gf]][["MODEL"]] <- str_replace_all(GMMi_models[[rv]][[gf]][["MODEL"]], "\\[i s q cub\\]", gf)
-  }
-  .mpobj_1[[rv]] <- .mpobj_2
-}
-
-      # Create, run, and read Mplus models 
-GMMv_models <- list()
-.GMM <- list()
-for (rv in 1:4) {
-  for (gf in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
-    .GMM[[gf]] <- mplusModeler(
-      object = .mpobj_1[[rv]][[gf]],
-      dataout = glue(getwd(), '/SAPS/Results/GMMv/GMM{rv}/GMM{rv}_{gf}.dat'),
-      modelout = glue(getwd(), '/SAPS/Results/GMMv/GMM{rv}/GMM{rv}_{gf}.inp'),
-      hashfilename = FALSE,
-      run = 1,
-      check = TRUE,
-      varwarnings = TRUE,
-      writeData = "always"
-    )
-  }
-  GMMv_models[[rv]] <- .GMM
-}
-
-      # Get Fit Indices 
-GMMv_fit <- SummaryTable(
-  unlist(GMMv_models, FALSE),
-  keepCols = c(
-    "Title",
-    'LL',
-    'Parameters',
-    "AIC",
-    "AICC",
-    "BIC",
-    "Entropy",
-    "T11_LMR_Value",
-    "T11_LMR_PValue")) %>% 
-  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1))
-
-      # Extract warnings 
-warn <- map(unlist(c(GMMi_models, GMMv_models), FALSE), extract2, c('results', 'warnings')) 
 
       # JUNK - Run individual models  
           # GMM1 - equality across t and k 
@@ -446,12 +392,75 @@ for (g in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
 
 
 
-  # Select best model
-GMMi_best <- selectBestModel(list(GMMi_models), selection_method = "BIC")
+  # Add class-variant random effect variances stepwise 
+      # Create Mplus Object 
+.mpobj_2 <- list()
+.mpobj_1 <- list()
+for (rv in 1:4) {
+  for (gf in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
+    .mpobj_2[[gf]] <- update(
+      GMMi_models[[rv]][[gf]],
+      TITLE = as.formula(glue("~ 'GMM{rv}v_{gf};'")),
+      autov = FALSE,
+      rdata = SAPS_df)
+    .mpobj_2[[gf]][["MODEL"]] <- str_replace_all(GMMi_models[[rv]][[gf]][["MODEL"]], "\\[i s q cub\\]", gf)
+  }
+  .mpobj_1[[rv]] <- .mpobj_2
+}
+
+      # Create, run, and read Mplus models 
+GMMv_models <- list()
+.GMM <- list()
+for (rv in 1:4) {
+  for (gf in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
+    .GMM[[gf]] <- mplusModeler(
+      object = .mpobj_1[[rv]][[gf]],
+      dataout = glue(getwd(), '/SAPS/Results/GMMv/GMM{rv}/GMM{rv}_{gf}.dat'),
+      modelout = glue(getwd(), '/SAPS/Results/GMMv/GMM{rv}/GMM{rv}_{gf}.inp'),
+      hashfilename = FALSE,
+      run = 1,
+      check = TRUE,
+      varwarnings = TRUE,
+      writeData = "always"
+    )
+  }
+  GMMv_models[[rv]] <- .GMM
+}
+
+      # Get Fit Indices 
+GMMv_fit <- SummaryTable(
+  unlist(GMMv_models, FALSE),
+  keepCols = c(
+    "Title",
+    'LL',
+    'Parameters',
+    "AIC",
+    "AICC",
+    "BIC",
+    "Entropy",
+    "T11_LMR_Value",
+    "T11_LMR_PValue")) %>% 
+  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>% 
+  mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
+
+
+  # Extract errors & warnings 
+warnings <- map(unlist(c(GMMi_models, GMMv_models), FALSE), pluck, 'results', 'warnings')
+errors <- map(unlist(c(GMMi_models, GMMv_models), FALSE), pluck, 'results', 'errors') %>% compact()
+
+
+# Select best GMM model 
+GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
+GMMv_best <- selectBestModel(unlist(GMMv_models, FALSE), selection_method = "BIC_LRT")
+
+# Get fit indices of all selected models and select best model 
+BEST_fit <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% getFitIndices()
+BEST_model <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% selectBestModel()
+
 
 ### Step 5: Refine Polynomial Order 
 FINAL_model <- refinePolynomial(
-  model = best_bic_model, 
+  model = BEST_model, 
   df = SAPS_df,
   usevar = SAPS,
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
@@ -459,7 +468,7 @@ FINAL_model <- refinePolynomial(
   idvar = "pin")
 
   # Examine fit indices 
-FINAL_fit <- Final_model %>% list() %>% getFitIndices()
+FINAL_fit <- FINAL_model %>% list() %>% getFitIndices()
 
 ### Step 6: Extract model parameters and save results 
   # Get class counts & proportions of all models 
@@ -467,26 +476,26 @@ GBTM_cc <-
   map(GBTM_models, pluck, 'results', 'class_counts', 'mostLikely') %>%  #extract2
   map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
   mutate(model= map(GBTM_models, pluck, 'TITLE')) %>% 
-  select('model', num_range('count_', 1:6), num_range('proportion_', 1:6))
+  select('model', starts_with(c('count', 'proportion')))
   
 LCGA_cc <-
   map(LCGA_models, pluck, 'results', 'class_counts', 'mostLikely') %>%  #extract2
   map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
   mutate(model= map(LCGA_models, pluck, 'TITLE')) %>% 
-  select('model', num_range('count_', 1:4), num_range('proportion_', 1:4))
+  select('model', starts_with(c('count', 'proportion')))
 
 GMMi_cc <-
   map(unlist(GMMi_models, FALSE), extract2, c('results', 'class_counts', 'mostLikely')) %>%
   map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
   mutate(model= map(unlist(GMMi_models, FALSE), pluck, 'TITLE')) %>% 
-  select('model', num_range('count_', 1:16), num_range('proportion_', 1:16))
+  select('model', starts_with(c('count', 'proportion')))
 
 GMMv_cc <-
   map(unlist(GMMv_models, FALSE), extract2, c('results', 'class_counts', 'mostLikely')) %>%
   compact() %>% 
   map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion')))
   # mutate(model= map(unlist(GMMv_models, FALSE), pluck, 'TITLE')) %>% 
-  # select('model', num_range('count_', 1:16), num_range('proportion_', 1:16))
+  # select('model', starts_with(c('count', 'proportion')))
 
   # Get and save final dataset based on most probable class membership 
 library(metan)
@@ -497,7 +506,7 @@ PEPP2_df <-
   merge( PEPP2_df, ., all = TRUE, by.x ='pin', by.y ='PIN_SAPS')
 
 #final_dataset <- getDataset(final_model, SAPS_df, 'pin') 
-  
+
 
 ### Step 7: Plot trajectories 
 # Get means as long form
@@ -674,13 +683,14 @@ cov_fit <- mplusModeler(
 save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
 
 ### To do 
-# fix runGCM() script 
-# improve SelectBestModel() by adding some conditions (class count < 5%, lower k)
-# wrap in a function GetFitIndices() & mutate (BF10, CAIC)
-# create function to run GMMi & GMMv
-# runModels(): do not always overwright models
-# adapt RefinePolynomial() to GMMs
-# Creat function to select best GMM model 
+  # fix runGCM() script 
+  # improve SelectBestModel() by adding some conditions (class count < 5%, lower k)
+  # wrap in a function GetFitIndices() & mutate (BF10, CAIC)
+  # create function to run GMMi & GMMv
+  # runModels(): do not always overwright models
+  # adapt RefinePolynomial() to GMMs
+  # Create function to select best GMM model 
+    # discard all element with specific warning before selecting best model
 
 
 # ------ JUNK ------- #
