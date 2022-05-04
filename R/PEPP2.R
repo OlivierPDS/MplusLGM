@@ -3,38 +3,48 @@ library (magrittr)
 library (lubridate)
 library (haven)
 
-#-----------------#
-# PREPARE DATASET #
-#-----------------#
 
-### Load dataset
-  # SAV file PEPP2_df <- 
+# PREPARE DATASET ####
+### Load dataset 
+  # SAV file 
+  merged <- paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Death reccords/Informations_personnelles_10Nov2021.xlsx') %>% 
+   readxl::read_xlsx()
+    
+  PEPP2_df <- 
   paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-03-07.sav') %>%
   read_spss() 
 
-  # CSV file
+  # CSV file 
 PEPP2_df <- 
-  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-03-11.csv') %>%
+  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-05-02.csv') %>%
   read_csv() 
 
-### Define variables of interest
+
+### Define variables of interest 
+  # SD  
 SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp', 'ageonset', 'duponset', 'PAS_tot2')
 SD_cat <- c('gender', 'minority_status', 'marital2', 'housing_status', 'working_status', 'dx_spect', 'SUD')
+SD_cat <- c('gender', 'minority', 'marital2', 'housing', 'work', 'dx_spect', 'SUD')
 
+  # Sx 
 SAPS <- names(select(PEPP2_df, num_range('SAPS_', 0:24)))
 SANS <- names(select(PEPP2_df, num_range('SANS_', 0:24)))
 SOFAS <- names(select(PEPP2_df, num_range('SOFAS_', 0:24)))
 HAS <- names(select(PEPP2_df, num_range('HAS_', 0:24)))
 CDS <- names(select(PEPP2_df, num_range('CDS_', 0:24)))
 YMRS <- names(select(PEPP2_df, num_range('YMRS_', 0:24)))
+SX_0 <-  c('SAPS_0', 'SANS_0', 'SOFAS_0', 'HAS_0', 'CDS_0', 'YMRS_0')
+SX <- c(SAPS, SANS, SOFAS, HAS, CDS, YMRS)
+
+  # Remission 
 PSR <- names(select(PEPP2_df, num_range('PSR_', 0:24)))
 NSR <- names(select(PEPP2_df, num_range('NSR_', 0:24)))
-
 SR_C <- c('PSR_24C', 'NSR_24C')
 SR_BY <- c('PSR_BY3', 'NSR_BY3')
+
+  # Trajectory 
 K <- c('K_SAPS', 'K_SANS', 'K_SOFAS')
 CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
-SX_0 <-  c('SAPS_0', 'SANS_0', 'SOFAS_0', 'HAS_0', 'CDS_0', 'YMRS_0')
 t <- names(select(PEPP2_df, num_range('t', 0:24)))
 
   # Miscellaneous 
@@ -60,11 +70,10 @@ addvar_df <-
 PEPP2_df <- merge(PEPP2_df, addvar_df, by = 'pin')
 
 ### Clean dataset 
-library(data.table)
 PEPP2_df <- PEPP2_df %>%
-  setNames(., gsub("_b","_0",names(.))) %>%
-  setNames(.,gsub("_M","_",names(.))) %>%
-  setNames(.,gsub("ROB","",names(.))) %>%
+  setNames(., gsub("_b", "_0", names(.))) %>%
+  setNames(., gsub("_M", "_", names(.))) %>%
+  setNames(., gsub("ROB", "", names(.))) %>%
   mutate(across(c(dsofas_0, dsfs_0, dsfs_12), function(x) replace(x, x < 2000-01-01, NA)))  %>% #some rows in dsfs_0 and dsfs_12 = 1582-10-14 (issue with spss import?)
   mutate(SOFAS_12 = coalesce(SOFAS_12,CRsofas12)) #replace missing SOFAS_12 from case review
 
@@ -126,6 +135,7 @@ PEPP2_df <- merge(PEPP2_df, TSCORES_df, by = 'pin', all.x = TRUE)
 #   mutate(!!i := replace_na(strc_c(i, mean(i))))
 # }
 
+
 ### Total scores 
 library(stringr)
 for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
@@ -158,19 +168,22 @@ for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
   mutate(miss_SAPS =rowSums(is.na(across(SAPS)))) %>%
   mutate(miss_SANS =rowSums(is.na(across(SANS))))
 
+### Save new dataset 
+  # SAV file 
+  write_sav(PEPP2_df, paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_', today(), '.sav',  sep=""))
   
-### Save new dataset
-  # SAV file write_sav(PEPP2_df, paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_', today(), '.sav',  sep=""))
-  # CSV file
+  # CSV file 
 write_csv(PEPP2_df, paste0('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_', today(), '.csv'))
 
-### Subset dataset
-  # SD
+
+
+### Subset dataset 
+  # SD 
 SD_df <- PEPP2_df %>%
-  subset(n == 1 & pin <= 857) %>%
+  subset(pin <= 857) %>%
   select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, K, CP, SR_C, SR_BY, t)
 
-  # Traj
+  # Traj 
 SAPNS_df <- PEPP2_df %>%
   subset(miss_SAPS <= 4 & n == 1) %>%
   select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, K, CP, SR_C, SR_BY, t)
@@ -179,35 +192,44 @@ SOFAS_df <- PEPP2_df %>%
   subset(miss_SOFAS <= 1 & n == 1) %>%
   select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, K, CP, SR_C, SR_BY, t)
 
-  # MI
+  # MI 
 df2imput <- PEPP2_df %>% 
   subset(n == 1 & pin <= 857) %>%
   select(c('pin', SD_num, SD_cat, items)) #impute raw scores is thought to be better than transformed scores
 
-str(df2imput)
 
-### Reshape wide to long form
+str()
+
+### Reshape wide to long form 
 SAPNS_Ldf <- pivot_longer(SAPNS_df,
             cols =c(SAPS, SANS, PSR, NSR, HAS, CDS, YMRS), 
             names_to = c('.value', 'time'),
             names_pattern = '(.+)_(\\d+)'
 )
 
-#-----------------#
-#DESCRIPTIVES STATS
-#-----------------#
 
-# Sociodemographics
-summary(SAPS_df)
+# DESCRIPTIVES STATS ####
+### Df description 
+summary <- summary(SD_df)
+dfSummary()
 
+### Sociodemographics 
 library(psych)
-describeBy(SAPNS_df ~ K_SAPS, skew = FALSE, ranges = FALSE)
-
 library(kableExtra)
 library(vtable)
+
+dscr()
+tby() # by group
+
+describeBy(SAPNS_df ~ K_SAPS, skew = FALSE, ranges = FALSE)
+
+df %>% group_by(cat) %>% 
+  summarise_at(vars(colnames(df)[3:9]), mean, na.rm = TRUE)
+  summary(SD_df$var)
+
 SD_tb <- sumtable(
   data = SD_df,
-  vars = c(SD, cat, 'SAPS_0', 'SANS_0', 'SOFAS_0'),
+  vars = c(SD_num, SD_cat, 'SAPS_0', 'SANS_0', 'SOFAS_0'),
   summ = c('notNA(x)', 'mean(x)', 'sd(x)'),
   summ.names = c('N', 'Mean / percentage', 'SD'),
   group.test = FALSE,
@@ -233,7 +255,7 @@ SAPS_tb <- sumtable(
 )
 
 SANS_tb <- sumtable(
-  data = subSAPNS_df,
+  data = SAPNS_df,
   summ = c('notNA(x)', 'mean(x)', 'sd(x)'),
   summ.names = c('N', 'Mean / percentage', 'SD'),
   group = 'K_SANS',
@@ -241,11 +263,9 @@ SANS_tb <- sumtable(
   out = "return",
 )
 
-#---------------------#
-#MISSING DATA ANALYSES#
-#---------------------#
 
-### Little's MCAR
+# MISSING DATA ANALYSES ####
+### Little's MCAR 
 install.packages("https://cran.r-project.org/src/contrib/Archive/MissMech/MissMech_1.0.2.tar.gz", repos=NULL, type="source")
 library(MissMech)
 
@@ -253,27 +273,28 @@ df2imput %>%
   select("vars") %>% 
   TestMCARNormality
 
-### Average percentage of missing data
+### Average percentage of missing data 
 library(misty)
 na.descript(PEPP2_df)
 
-### Percent of missing data per columns
+### Percent of missing data per columns 
 miss <- {unlist(lapply(SAPNS_df, function(x) sum(is.na(x)))) / nrow(SAPNS_df) * 100} %>% view()
 
-#---------------------#
-# MULTIPLE IMPUTATION #
-#---------------------#
+
+# MULTIPLE IMPUTATION ####
 library(mice)
 df2imput <- mice(df2imput, maxit = 0)
 pred <- df2imput$predictorMatrix #variables included in the prediction moded
 meth <- df2imput$method #method choose for imputation per variables
 df2imput$loggedEvents
 
-##Imputation method
-#     - PMM (Predictive Mean Matching)  – For numeric variables
-#     - logreg(Logistic Regression) – For Binary Variables( with 2 levels)
-#     - polyreg(Bayesian polytomous regression) – For Factor Variables (>= 2 levels)
-#     - Proportional odds model (ordered, >= 2 levels)
+### Imputation method 
+  # Instructions 
+  # PMM (Predictive Mean Matching)  – For numeric variables
+  # logreg(Logistic Regression) – For Binary Variables( with 2 levels)
+  # polyreg(Bayesian polytomous regression) – For Factor Variables (>= 2 levels)
+  # Proportional odds model (ordered, >= 2 levels)
+
 
 meth <- make.method(df2imput)# make default method
 
@@ -288,13 +309,14 @@ removed <- c(names(subset(miss, miss > 50))) #exclude variables from imputation
 meth[removed] <- ""
 as.data.frame(meth)
 
-###Imputation predictors - select 15-25 variables
-#     - include all variables that appear in the complete-data model
-#     - include the variables that are related to the nonresponse
-#     - include variables that explain a considerable amount of variance
-#     - Remove pred variables that have too many missing values within the subgroup of incomplete cases
-
-# A value of 1 indicates that the column variable is a predictor to impute the target (row) variable, and a 0 means that it is not used
+### Imputation predictors 
+  # Instructions 
+  # select 15-25 variables
+  # include all variables that appear in the complete-data model
+  # include the variables that are related to the nonresponse
+  # include variables that explain a considerable amount of variance
+  # Remove pred variables that have too many missing values within the subgroup of incomplete cases
+  # A value of 1 indicates that the column variable is a predictor to impute the target (row) variable, and a 0 means that it is not used
 
 pred <- make.predictorMatrix(df2imput)#make default prediction matrix
 pred <- quickpred(df2imput, mincor=0.2, minpuc=0.5, include=c(SD_num, SD_cat), exclude=c('pin')) 
@@ -305,7 +327,7 @@ pred[removed, c("dx_spect", "ageonset")] <- 0 #exclude variables not imputed fro
 
 pred %>% rowSums %>% mean
 
-##Compute imputation
+### Compute imputation 
 imput_df <- mice(
   df2imput,
   m = 2, #m: number of multiple imputations = average percentage of missing data to impute (up to 50%)
@@ -316,7 +338,7 @@ imput_df <- mice(
   print =  FALSE
 )
 
-##Compute passive imputation 
+### Compute passive imputation 
 library(glue)
 for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
 #meth[str_c('SAPS_', i)] <- str_c('"~I(rowSums(across(all_of(', str_c(c('sap7_', 'sap20_', 'sap25_', 'sap34_'), i), ')))))"')
@@ -358,7 +380,7 @@ for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
              ))))
 }
 
-##Check Imputation
+### Check Imputation 
 warnings <- imput_df$loggedEvents
 
 densityplot(imput_df)
@@ -374,26 +396,25 @@ as.data.frame(miss_comp1)
 library(sjmisc)
 merged_df <- merge_imputations(df2imput, imput_df, summary = "dens")
 
-## Analyses with imputed datasets
+### Analyses with imputed datasets 
 library(jtools)
 library(MKmisc)
 library(limma)
 library(miceadds)
 
-#X2
+#X2 
 X2 <- with(imput_df, chisq.test(K_SOFAS, gender, correct = FALSE)) %>%
   summary() %>%
   as.numeric(X2$statistic) %>% 
   micombine.chisquare(1)
 
-#t-test
+#t-test 
 DUP_t <- with(imput_df, lm(duponset ~ K_SOFAS))
 summary(pool(DUP_t))
 
 summary(with(subSOFAS_df, lm(duponset ~ K_SOFAS)))
 
-
-#ANOVA
+#ANOVA 
 DUP_lm <- with(imput_df, lm(CP1_SOFAS ~ duponset))
 summ(pool(DUP_lm))
 
@@ -406,8 +427,9 @@ age_anova <- mi.anova(imput_df,"ageentry ~ K_SANS")
 FIQ_anova <- mi.anova(imput_df, "FIQ ~ K_SANS")
 
 
-#---------- WORK IN PROGRESS -------------
 
+# JUNK #### 
+### Linear models 
 library(lavaan) #SEM
 library(brms)
 library(lme4)
@@ -428,7 +450,7 @@ glm(K_SAPS ~ FIQ, binomial, SAPScov_df) %>% summary
 library(nlme)
 lme(SAPS_0 ~ CP1_SAPS + CP2_SAPS, data=SAPNS_df, method = 'ML', na.action= 'na.pass' )
 
-#Mixed models
+### Mixed models 
 lme(
   fixed = SANS ~ CP1_SAPS + time + CP1_SAPS:time, 
   random = ~1|pin,
@@ -438,7 +460,42 @@ lme(
   na.action = na.pass(SAPNS_Ldf)
 ) %>% summary
 
+### Prepare dataset for Mplus 
+# remove characters from variables names > 8 characters 
+names(PEPP2_df) <- str_sub(names(PEPP2_df), 1, 8) 
+namesx2(PEPP2_df) # Function to check if column names are unique 
+namesx2 <- function(df) { 
+  
+  length1 <- length(colnames(df))
+  length2 <- length(unique(colnames(df)))        
+  if (length1 - length2 > 0 ) {
+    print(paste("There are", length1 - length2, " duplicates", sep=" "))
+  }     
+}
+anyDuplicated(colnames(PEPP2_df)) # locate column of the first duplicate)
+data.frame(colnames(PEPP2_df))
 
-#------------------------------
+# Create tab-delimited file and Mplus input syntax from R data.frame 
+prepareMplusData(
+  SAPScov_df,
+  filename = str_c(getwd(),'/MplusfromR/cov.dat'),
+  inpfile = FALSE,
+  writeData = "always"
+)
 
+# Create the Mplus input text for an mplusObject 
+inp <- createSyntax(
+  object = m, 
+  filename = str_c(getwd(),'/MplusfromR/GBTM.inp'),
+  check = FALSE,
+  add = FALSE) %>% 
+  writeLines(str_c(getwd(),'/MplusfromR/GBTM.inp'))
+
+# Run Mplus Models 
+runModels('/Users/olivierpercie/Desktop/MplusLGM/MplusfromR/GMM1_i s-cub@0.inp')
+
+
+
+
+# SAVE #### 
 save.image(glue(getwd(), 'PEPP2_{today()}.RData', .sep = "/"))
