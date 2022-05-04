@@ -1,6 +1,8 @@
 fitR3STEP <- function(list_mpobj,
                       cov,
                       manual_R3STEP = FALSE) {
+  
+  # Create empty lists to store for loop outputs
   coef <- list()
   intercepts <- list()
   ORs <- list()
@@ -10,6 +12,7 @@ fitR3STEP <- function(list_mpobj,
     output <- pluck(list_mpobj, i, 'results', 'output')
     line <- grep("C#\\d\\s+ON", output) #get lines of regression coefs and ORs
     
+    # Get Mplus warnings and errors 
     warning <- pluck(list_mpobj, i, 'results', 'warnings')
     error <- pluck(list_mpobj, i, 'results', 'errors')
     
@@ -20,6 +23,7 @@ fitR3STEP <- function(list_mpobj,
       ) %>%
       mutate('cov' = str_to_upper(i))
     
+    # return NULL if Mplus warning or errors
     if (is.null(error) == FALSE | is.null(warning) == FALSE) {
       
       coef[[i]] <- NULL
@@ -28,12 +32,12 @@ fitR3STEP <- function(list_mpobj,
     
       } else {
       
-      # Get values
+      # Get coef, ORs and intercepts values 
       coef[[i]] <-
         if (manual_R3STEP == FALSE) {
-          output[line[1:(length(line) / 2)] + 1]
+          output[line[1:(length(line) / 2)] + 1] #Auxiliary R3STEP
         } else {
-          output[line[c(TRUE, FALSE)] + 1]
+          output[line[c(TRUE, FALSE)] + 1] #Manual R3STEP
         } %>%
         str_split('[:space:]+', simplify = TRUE) %>%
         as.data.frame() %>%
@@ -42,9 +46,9 @@ fitR3STEP <- function(list_mpobj,
       
       intercepts[[i]] <-
         if (manual_R3STEP == FALSE) {
-          output[line[1:(length(line) / 2)] + 4]
+          output[line[1:(length(line) / 2)] + 4] #Auxiliary R3STEP
         } else {
-          output[line[c(TRUE, FALSE)] + 4]
+          output[line[c(TRUE, FALSE)] + 4] #Manual R3STEP
         } %>%
         str_split('[:space:]+', simplify = TRUE) %>%
         as.data.frame() %>%
@@ -55,9 +59,9 @@ fitR3STEP <- function(list_mpobj,
       
       ORs[[i]] <-
         if (manual_R3STEP == FALSE) {
-          output[line[(length(line) / 2 + 1):length(line)] + 1]
+          output[line[(length(line) / 2 + 1):length(line)] + 1] #Auxiliary R3STEP
         } else {
-          output[line[c(FALSE, TRUE)] + 1]
+          output[line[c(FALSE, TRUE)] + 1] #Manual R3STEP
         } %>%
         str_split('[:space:]+', simplify = TRUE) %>%
         as.data.frame() %>%
@@ -66,6 +70,7 @@ fitR3STEP <- function(list_mpobj,
     }
   }
   
+  # Merge each data frame into one table
   table <- list(coef, intercepts, ORs, warn_err) %>%
     map(reduce, merge, all = TRUE) %>%
     reduce(merge, all = TRUE) %>%
