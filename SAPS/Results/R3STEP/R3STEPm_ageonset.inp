@@ -1,0 +1,28 @@
+TITLE:
+R3STEPm_ageonset;
+DATA:
+FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/R3STEPm_ageonset.dat";
+ 
+VARIABLE:
+NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+     CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N ageonset; 
+ MISSING=.;
+ USEVAR = ageonset N;
+NOMINAL= N;
+CLASSES = c(2);
+ANALYSIS:
+
+  TYPE = MIXTURE;
+  ALGORITHM=INTEGRATION;
+  INTEGRATION=MONTECARLO;
+  STARTS = 0;
+  PROCESSORS = 8;
+MODEL:
+%OVERALL%
+C on ageonset; ageonset;
+
+%C#1%
+[N#1@3.558];
+
+%C#2%
+[N#1@-3.697];
