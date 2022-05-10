@@ -7,8 +7,8 @@ library (haven)
 # PREPARE DATASET ####
 ### Load dataset 
   # SAV file 
-  merged <- paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Death reccords/Informations_personnelles_10Nov2021.xlsx') %>% 
-   readxl::read_xlsx()
+  merged <- paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Databases/1-992 (N=762) Jan2003-Jan2020/Merged_25Feb2022.sav') %>% 
+    read_spss() 
     
   PEPP2_df <- 
   paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-03-07.sav') %>%
@@ -23,7 +23,6 @@ PEPP2_df <-
 ### Define variables of interest 
   # SD  
 SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp', 'ageonset', 'duponset', 'PAS_tot2')
-SD_cat <- c('gender', 'minority_status', 'marital2', 'housing_status', 'working_status', 'dx_spect', 'SUD')
 SD_cat <- c('gender', 'minority', 'marital2', 'housing', 'work', 'dx_spect', 'SUD')
 
   # Sx 
@@ -43,7 +42,7 @@ SR_C <- c('PSR_24C', 'NSR_24C')
 SR_BY <- c('PSR_BY3', 'NSR_BY3')
 
   # Trajectory 
-K <- c('K_SAPS', 'K_SANS', 'K_SOFAS')
+C <- c('C_SAPS', 'C_SANS', 'C_SOFAS')
 CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
 t <- names(select(PEPP2_df, num_range('t', 0:24)))
 
@@ -71,11 +70,14 @@ PEPP2_df <- merge(PEPP2_df, addvar_df, by = 'pin')
 
 ### Clean dataset 
 PEPP2_df <- PEPP2_df %>%
-  setNames(., gsub("_b", "_0", names(.))) %>%
-  setNames(., gsub("_M", "_", names(.))) %>%
-  setNames(., gsub("ROB", "", names(.))) %>%
-  mutate(across(c(dsofas_0, dsfs_0, dsfs_12), function(x) replace(x, x < 2000-01-01, NA)))  %>% #some rows in dsfs_0 and dsfs_12 = 1582-10-14 (issue with spss import?)
-  mutate(SOFAS_12 = coalesce(SOFAS_12,CRsofas12)) #replace missing SOFAS_12 from case review
+  # setNames(., gsub("_b", "_0", names(.))) %>%
+  # setNames(., gsub("_M", "_", names(.))) %>%
+  # setNames(., gsub("ROB", "", names(.))) %>%
+  # mutate(across(c(dsofas_0, dsfs_0, dsfs_12), function(x) replace(x, x < 2000-01-01, NA)))  %>% #some rows in dsfs_0 and dsfs_12 = 1582-10-14 (issue with spss import?)
+  # mutate(SOFAS_12 = coalesce(SOFAS_12, CRsofas12)) #replace missing SOFAS_12 from case review
+  setnames(old = c('minority_status', 'housing_status', 'working_status'), new = c('minority', 'housing', 'work'))
+
+vars8 <- names(PEPP2_df) %>% grep('.{9,}', ., value = TRUE) 
 
 ### Individually varying time of observation 
   # Replace missing in date of assessment with due date 
@@ -174,8 +176,6 @@ for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
   
   # CSV file 
 write_csv(PEPP2_df, paste0('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_', today(), '.csv'))
-
-
 
 ### Subset dataset 
   # SD 
