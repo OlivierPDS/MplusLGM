@@ -1,0 +1,47 @@
+TITLE:
+ GMM4v_i s q;
+DATA:
+FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/GMMv/GMM4/GMM4v_i s q.dat";
+ 
+VARIABLE:
+NAMES = pin SOFAS_0 SOFAS_12 SOFAS_24; 
+ MISSING=.;
+ USEVAR = SOFAS_0 SOFAS_12 SOFAS_24;
+IDVAR = pin;
+CLASSES = c(2);
+
+ANALYSIS:
+TYPE = MIXTURE;
+STARTS = 1000 250;
+K-1STARTS = 500 125;
+PROCESSORS = 8;
+
+MODEL:
+%OVERALL%
+i s q |
+SOFAS_0@0 SOFAS_12@12 SOFAS_24@24;
+i s q;
+%c#1%
+i s q;
+SOFAS_0 (1)
+SOFAS_12 (2)
+SOFAS_24 (3)
+%c#2%
+i s q;
+SOFAS_0 (4)
+SOFAS_12 (5)
+SOFAS_24 (6)
+
+OUTPUT:
+sampstat standardized
+TECH1;
+TECH11;
+
+SAVEDATA:
+ 
+FILE = GMM4v_i s q_res.dat;
+SAVE = CPROBABILITIES;
+PLOT:
+TYPE = plot3;
+SERIES = SOFAS_0 (s) SOFAS_12 (s) SOFAS_24 (s);
+

@@ -1,0 +1,1262 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+05/10/2022   3:11 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   GMM4v_i s q@0;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/GMMv/GMM4/GMM4v_i s q@0.dat";
+
+  VARIABLE:
+  NAMES = pin SOFAS_0 SOFAS_12 SOFAS_24;
+   MISSING=.;
+   USEVAR = SOFAS_0 SOFAS_12 SOFAS_24;
+  IDVAR = pin;
+  CLASSES = c(2);
+
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 1000 250;
+  K-1STARTS = 500 125;
+  PROCESSORS = 8;
+
+  MODEL:
+  %OVERALL%
+  i s q |
+  SOFAS_0@0 SOFAS_12@12 SOFAS_24@24;
+  i s q@0;
+  %c#1%
+  i s q@0;
+  SOFAS_0 (1)
+  SOFAS_12 (2)
+  SOFAS_24 (3)
+  %c#2%
+  i s q@0;
+  SOFAS_0 (4)
+  SOFAS_12 (5)
+  SOFAS_24 (6)
+
+  OUTPUT:
+  sampstat standardized
+  TECH1;
+  TECH11;
+
+  SAVEDATA:
+
+  FILE = GMM4v_i s q@0_res.dat;
+  SAVE = CPROBABILITIES;
+  PLOT:
+  TYPE = plot3;
+  SERIES = SOFAS_0 (s) SOFAS_12 (s) SOFAS_24 (s);
+
+
+
+
+*** WARNING in MODEL command
+  All continuous latent variable covariances involving Q have been fixed to 0
+  because the variance of Q is fixed at 0.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+GMM4v_i s q@0;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         369
+
+Number of dependent variables                                    3
+Number of independent variables                                  0
+Number of continuous latent variables                            3
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   SOFAS_0     SOFAS_12    SOFAS_24
+
+Continuous latent variables
+   I           S           Q
+
+Categorical latent variables
+   C
+
+Variables with special functions
+
+  ID variable           PIN
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                       1000
+  Number of final stage optimizations                          250
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/GMMv/GMM4/GMM4v_i s q@0.da
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             4
+     Number of y missing data patterns           4
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0        0.978
+ SOFAS_12       0.889         0.911
+ SOFAS_24       0.615         0.547         0.637
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+               40.510        61.692        64.149
+
+
+           Covariances
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0      164.315
+ SOFAS_12      62.737       287.366
+ SOFAS_24      49.436       180.581       322.936
+
+
+           Correlations
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0        1.000
+ SOFAS_12       0.289         1.000
+ SOFAS_24       0.215         0.593         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -3814.089
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SOFAS_0              40.526       0.659      15.000    0.28%      30.000     35.000     40.000
+             361.000     164.388       0.129      85.000    0.28%      41.000     51.000
+     SOFAS_12             61.652      -0.130      22.000    0.30%      45.000     55.000     61.000
+             336.000     284.876      -0.861      95.000    0.30%      68.000     80.000
+     SOFAS_24             63.472      -0.261       5.000    0.43%      49.000     60.000     65.000
+             235.000     328.649      -0.615     100.000    0.85%      70.000     80.000
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+
+70 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+           -3779.645  547702           767
+           -3781.784  738393           619
+           -3785.481  23012            352
+           -3785.481  670281           721
+           -3785.481  850840           232
+           -3785.481  589483           950
+           -3785.481  965639           463
+           -3785.481  266340           683
+           -3785.481  42523            730
+           -3785.481  65952            933
+           -3785.481  422103           62
+           -3785.481  903420           5
+           -3785.481  68985            17
+           -3785.481  960438           116
+           -3785.481  902278           21
+           -3785.481  616917           261
+           -3785.481  715255           523
+           -3785.481  995249           525
+           -3785.481  313407           132
+           -3785.481  105435           265
+           -3785.481  741888           138
+           -3785.481  118421           139
+           -3785.481  358074           560
+           -3785.481  312754           562
+           -3785.481  948615           140
+           -3785.481  597614           284
+           -3785.481  566739           575
+           -3785.481  84013            598
+           -3785.481  679832           302
+           -3785.481  606576           151
+           -3785.481  92689            304
+           -3785.481  46437            153
+           -3785.481  805935           615
+           -3785.481  373815           618
+           -3785.481  150531           154
+           -3785.481  996231           310
+           -3785.481  345974           622
+           -3785.481  377584           630
+           -3785.481  322790           636
+           -3785.481  732596           320
+           -3785.481  62835            642
+           -3785.481  456213           160
+           -3785.481  599729           658
+           -3785.481  617658           660
+           -3785.481  59963            670
+           -3785.481  404042           675
+           -3785.481  644297           340
+           -3785.481  722748           346
+           -3785.481  917702           693
+           -3785.481  849670           347
+           -3785.481  625191           350
+           -3785.481  502495           724
+           -3785.481  878749           728
+           -3785.481  407108           366
+           -3785.481  231400           738
+           -3785.481  329127           185
+           -3785.481  872743           374
+           -3785.481  308582           752
+           -3785.481  507154           387
+           -3785.481  595619           779
+           -3785.481  995913           787
+           -3785.481  79945            395
+           -3785.481  710445           792
+           -3785.481  965994           396
+           -3785.481  907810           795
+           -3785.481  355254           796
+           -3785.481  328661           813
+           -3785.481  494149           815
+           -3785.481  736574           414
+           -3785.481  760599           832
+           -3785.481  57226            208
+           -3785.481  914505           838
+           -3785.481  544009           842
+           -3785.481  505879           424
+           -3785.481  499150           216
+           -3785.481  805768           879
+           -3785.481  857122           889
+           -3785.481  354624           448
+           -3785.481  408713           450
+           -3785.481  195353           225
+           -3785.481  188640           451
+           -3785.481  582296           452
+           -3785.481  327927           908
+           -3785.481  997222           229
+           -3785.481  539751           459
+           -3785.481  420910           928
+           -3785.481  349360           464
+           -3785.481  862607           468
+           -3785.481  790059           469
+           -3785.481  228459           947
+           -3785.481  301180           236
+           -3785.481  155749           960
+           -3785.481  978061           488
+           -3785.481  435506           988
+           -3785.481  319575           499
+           -3785.481  497522           502
+           -3785.481  340112           126
+           -3785.481  318230           46
+           -3785.481  259507           53
+           -3785.481  751153           110
+           -3785.481  966014           37
+           -3785.481  466971           109
+           -3785.481  140849           515
+           -3785.481  355674           540
+           -3785.481  944186           541
+           -3785.481  939870           655
+           -3785.481  441191           361
+           -3785.481  127362           757
+           -3785.481  638611           524
+           -3785.481  483369           270
+           -3785.481  172913           557
+           -3785.481  830529           279
+           -3785.481  763285           620
+           -3785.481  109357           765
+           -3785.481  134830           780
+           -3785.481  590834           785
+           -3785.481  354208           196
+           -3785.481  496344           808
+           -3785.481  275475           413
+           -3785.481  82200            830
+           -3785.481  76451            211
+           -3785.481  465160           862
+           -3785.481  484116           915
+           -3785.481  816765           959
+           -3785.481  730868           977
+           -3785.481  190339           102
+           -3785.481  963053           43
+           -3785.481  165853           105
+           -3785.481  789985           67
+           -3785.481  754100           56
+           -3785.481  830392           35
+           -3785.481  268896           124
+           -3785.481  260601           36
+           -3785.481  154575           539
+           -3785.481  574942           558
+           -3785.481  804104           566
+           -3785.481  117731           570
+           -3785.481  383979           603
+           -3785.481  588923           606
+           -3785.481  521575           313
+           -3785.481  294811           637
+           -3785.481  829540           324
+           -3785.481  913639           162
+           -3785.481  574412           679
+           -3785.481  303634           169
+           -3785.481  411615           171
+           -3785.481  669639           699
+           -3785.481  607072           717
+           -3785.481  22362            365
+           -3785.481  443442           380
+           -3785.481  85114            385
+           -3785.481  928287           197
+           -3785.481  432513           803
+           -3785.481  596257           405
+           -3785.481  238317           812
+           -3785.481  131063           843
+           -3785.481  473343           844
+           -3785.481  690596           858
+           -3785.481  546943           865
+           -3785.481  576783           866
+           -3785.481  640833           434
+           -3785.481  869564           869
+           -3785.481  485635           876
+           -3785.481  802928           892
+           -3785.481  72344            897
+           -3785.481  879211           453
+           -3785.481  74518            927
+           -3785.481  178475           231
+           -3785.481  797594           234
+           -3785.481  11397            944
+           -3785.481  376411           473
+           -3785.481  889774           954
+           -3785.481  884242           957
+           -3785.481  787985           482
+           -3785.481  208620           965
+           -3785.481  609089           241
+           -3785.481  53621            483
+           -3785.481  366533           484
+           -3785.481  224151           973
+           -3785.481  207917           976
+           -3785.481  791396           243
+           -3785.481  618760           489
+           -3785.481  94573            983
+           -3785.481  887580           493
+           -3785.481  118958           994
+           -3785.481  642909           251
+           -3785.481  49221            254
+           -3785.481  170954           86
+           -3785.481  360419           356
+           -3785.481  638977           643
+           -3785.481  580539           786
+           -3785.481  476295           969
+           -3785.481  752476           614
+           -3785.481  414284           158
+           -3785.481  822698           621
+           -3785.481  73576            213
+           -3785.481  100874           108
+           -3785.481  254551           996
+           -3785.481  568859           49
+           -3785.481  512403           719
+           -3785.481  284109           82
+           -3788.833  405371           569
+           -3788.833  266008           656
+           -3788.833  714997           399
+           -3788.833  848890           95
+           -3788.833  802779           122
+           -3788.833  972873           157
+           -3788.833  865906           641
+           -3788.833  876943           650
+           -3788.833  273992           349
+           -3788.833  568534           961
+           -3788.833  635245           121
+           -3788.833  971853           402
+           -3788.833  572637           989
+           -3789.784  519357           559
+           -3789.784  402699           604
+           -3789.784  982520           737
+           -3798.928  987560           985
+           -3798.928  622173           992
+           -3798.928  766903           505
+           -3799.844  7959             256
+           -3801.358  91231            727
+           -3805.551  514326           325
+           -3806.093  475420           71
+
+26 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+
+     WARNING:  THE BEST LOGLIKELIHOOD VALUE WAS NOT REPLICATED.  THE
+     SOLUTION MAY NOT BE TRUSTWORTHY DUE TO LOCAL MAXIMA.  INCREASE THE
+     NUMBER OF RANDOM STARTS.
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     WARNING:  THE RESIDUAL COVARIANCE MATRIX (THETA) IN CLASS 1 IS NOT
+     POSITIVE DEFINITE.  THIS COULD INDICATE A NEGATIVE VARIANCE/RESIDUAL
+     VARIANCE FOR AN OBSERVED VARIABLE, A CORRELATION GREATER OR EQUAL TO ONE
+     BETWEEN TWO OBSERVED VARIABLES, OR A LINEAR DEPENDENCY AMONG MORE THAN TWO
+     OBSERVED VARIABLES.  CHECK THE RESULTS SECTION FOR MORE INFORMATION.
+     PROBLEM INVOLVING VARIABLE SOFAS_24.
+
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       18
+
+Loglikelihood
+
+          H0 Value                       -3779.645
+          H0 Scaling Correction Factor      0.9652
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    7595.290
+          Bayesian (BIC)                  7665.684
+          Sample-Size Adjusted BIC        7608.576
+            (n* = (n + 2) / 24)
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1         31.64246          0.08575
+       2        337.35754          0.91425
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1         31.64246          0.08575
+       2        337.35754          0.91425
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1               39          0.10569
+       2              330          0.89431
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.915
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.772    0.228
+    2   0.005    0.995
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.951    0.049
+    2   0.026    0.974
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      2.964    0.000
+    2     -3.607    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I        |
+    SOFAS_0            1.000      0.000    999.000    999.000
+    SOFAS_12           1.000      0.000    999.000    999.000
+    SOFAS_24           1.000      0.000    999.000    999.000
+
+ S        |
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12          12.000      0.000    999.000    999.000
+    SOFAS_24          24.000      0.000    999.000    999.000
+
+ Q        |
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12         144.000      0.000    999.000    999.000
+    SOFAS_24         576.000      0.000    999.000    999.000
+
+ S        WITH
+    I                  0.076      0.139      0.549      0.583
+
+ Means
+    I                 30.480      0.113    270.691      0.000
+    S                  3.096      0.662      4.678      0.000
+    Q                 -0.046      0.026     -1.774      0.076
+
+ Intercepts
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           0.000      0.000    999.000    999.000
+    SOFAS_24           0.000      0.000    999.000    999.000
+
+ Variances
+    I                  0.193      3.734      0.052      0.959
+    S                  0.430      0.124      3.473      0.001
+    Q                  0.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.057      3.735      0.015      0.988
+    SOFAS_12         321.211     59.106      5.435      0.000
+    SOFAS_24        -183.512     55.569     -3.302      0.001
+
+Latent Class 2
+
+ I        |
+    SOFAS_0            1.000      0.000    999.000    999.000
+    SOFAS_12           1.000      0.000    999.000    999.000
+    SOFAS_24           1.000      0.000    999.000    999.000
+
+ S        |
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12          12.000      0.000    999.000    999.000
+    SOFAS_24          24.000      0.000    999.000    999.000
+
+ Q        |
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12         144.000      0.000    999.000    999.000
+    SOFAS_24         576.000      0.000    999.000    999.000
+
+ S        WITH
+    I                  0.076      0.139      0.549      0.583
+
+ Means
+    I                 41.436      0.726     57.056      0.000
+    S                  2.480      0.148     16.791      0.000
+    Q                 -0.065      0.006    -11.080      0.000
+
+ Intercepts
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           0.000      0.000    999.000    999.000
+    SOFAS_24           0.000      0.000    999.000    999.000
+
+ Variances
+    I                 65.868     11.477      5.739      0.000
+    S                  0.391      0.066      5.943      0.000
+    Q                  0.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0          103.496     13.727      7.540      0.000
+    SOFAS_12         152.508     13.937     10.943      0.000
+    SOFAS_24          28.781     30.102      0.956      0.339
+
+Categorical Latent Variables
+
+ Means
+    C#1               -2.367      0.229    -10.338      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.136E-06
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I        |
+    SOFAS_0            0.879      8.506      0.103      0.918
+    SOFAS_12           0.022      0.216      0.104      0.917
+    SOFAS_24           0.053      0.514      0.104      0.917
+
+ S        |
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           0.401      0.043      9.256      0.000
+    SOFAS_24           1.911      0.185     10.328      0.000
+
+ Q        |
+    SOFAS_0          999.000    999.000    999.000    999.000
+    SOFAS_12         999.000    999.000    999.000    999.000
+    SOFAS_24         999.000    999.000    999.000    999.000
+
+ S        WITH
+    I                  0.265      3.054      0.087      0.931
+
+ Means
+    I                 69.392    671.480      0.103      0.918
+    S                  4.723      1.311      3.602      0.000
+    Q                999.000    999.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           0.000      0.000    999.000    999.000
+    SOFAS_24           0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.228     14.950      0.015      0.988
+    SOFAS_12           0.834      0.035     23.704      0.000
+    SOFAS_24          -2.707    999.000    999.000    999.000
+
+Latent Class 2
+
+ I        |
+    SOFAS_0            0.624      0.050     12.447      0.000
+    SOFAS_12           0.488      0.040     12.119      0.000
+    SOFAS_24           0.451      0.043     10.392      0.000
+
+ S        |
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           0.451      0.036     12.680      0.000
+    SOFAS_24           0.834      0.060     13.846      0.000
+
+ Q        |
+    SOFAS_0          999.000    999.000    999.000    999.000
+    SOFAS_12         999.000    999.000    999.000    999.000
+    SOFAS_24         999.000    999.000    999.000    999.000
+
+ S        WITH
+    I                  0.015      0.028      0.541      0.589
+
+ Means
+    I                  5.106      0.442     11.553      0.000
+    S                  3.965      0.389     10.192      0.000
+    Q                999.000    999.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           0.000      0.000    999.000    999.000
+    SOFAS_24           0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.611      0.062      9.779      0.000
+    SOFAS_12           0.551      0.035     15.555      0.000
+    SOFAS_24           0.089      0.092      0.972      0.331
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I        |
+    SOFAS_0            0.879      8.506      0.103      0.918
+    SOFAS_12           0.022      0.216      0.104      0.917
+    SOFAS_24           0.053      0.514      0.104      0.917
+
+ S        |
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           0.401      0.043      9.256      0.000
+    SOFAS_24           1.911      0.185     10.328      0.000
+
+ Q        |
+    SOFAS_0          999.000    999.000    999.000    999.000
+    SOFAS_12         999.000    999.000    999.000    999.000
+    SOFAS_24         999.000    999.000    999.000    999.000
+
+ S        WITH
+    I                  0.265      3.054      0.087      0.931
+
+ Means
+    I                 69.392    671.480      0.103      0.918
+    S                  4.723      1.311      3.602      0.000
+    Q                999.000    999.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           0.000      0.000    999.000    999.000
+    SOFAS_24           0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.228     14.950      0.015      0.988
+    SOFAS_12           0.834      0.035     23.704      0.000
+    SOFAS_24         999.000    999.000    999.000    999.000
+
+Latent Class 2
+
+ I        |
+    SOFAS_0            0.624      0.050     12.447      0.000
+    SOFAS_12           0.488      0.040     12.119      0.000
+    SOFAS_24           0.451      0.043     10.392      0.000
+
+ S        |
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           0.451      0.036     12.680      0.000
+    SOFAS_24           0.834      0.060     13.846      0.000
+
+ Q        |
+    SOFAS_0          999.000    999.000    999.000    999.000
+    SOFAS_12         999.000    999.000    999.000    999.000
+    SOFAS_24         999.000    999.000    999.000    999.000
+
+ S        WITH
+    I                  0.015      0.028      0.541      0.589
+
+ Means
+    I                  5.106      0.442     11.553      0.000
+    S                  3.965      0.389     10.192      0.000
+    Q                999.000    999.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           0.000      0.000    999.000    999.000
+    SOFAS_24           0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.611      0.062      9.779      0.000
+    SOFAS_12           0.551      0.035     15.555      0.000
+    SOFAS_24           0.089      0.092      0.972      0.331
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I        |
+    SOFAS_0            0.439      4.250      0.103      0.918
+    SOFAS_12           0.439      4.250      0.103      0.918
+    SOFAS_24           0.439      4.250      0.103      0.918
+
+ S        |
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           7.865      1.132      6.946      0.000
+    SOFAS_24          15.730      2.265      6.946      0.000
+
+ Q        |
+    SOFAS_0          999.000    999.000    999.000    999.000
+    SOFAS_12         999.000    999.000    999.000    999.000
+    SOFAS_24         999.000    999.000    999.000    999.000
+
+ S        WITH
+    I                  0.265      3.054      0.087      0.931
+
+ Means
+    I                 69.392    671.480      0.103      0.918
+    S                  4.723      1.311      3.602      0.000
+    Q                999.000    999.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           0.000      0.000    999.000    999.000
+    SOFAS_24           0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.057      3.735      0.015      0.988
+    SOFAS_12         321.211     59.106      5.435      0.000
+    SOFAS_24        -183.512    999.000    999.000    999.000
+
+Latent Class 2
+
+ I        |
+    SOFAS_0            8.116      0.707     11.479      0.000
+    SOFAS_12           8.116      0.707     11.479      0.000
+    SOFAS_24           8.116      0.707     11.479      0.000
+
+ S        |
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           7.506      0.632     11.886      0.000
+    SOFAS_24          15.012      1.263     11.886      0.000
+
+ Q        |
+    SOFAS_0          999.000    999.000    999.000    999.000
+    SOFAS_12         999.000    999.000    999.000    999.000
+    SOFAS_24         999.000    999.000    999.000    999.000
+
+ S        WITH
+    I                  0.015      0.028      0.541      0.589
+
+ Means
+    I                  5.106      0.442     11.553      0.000
+    S                  3.965      0.389     10.192      0.000
+    Q                999.000    999.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0            0.000      0.000    999.000    999.000
+    SOFAS_12           0.000      0.000    999.000    999.000
+    SOFAS_24           0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0          103.496     13.727      7.540      0.000
+    SOFAS_12         152.508     13.937     10.943      0.000
+    SOFAS_24          28.781     30.102      0.956      0.339
+
+
+R-SQUARE
+
+Class 1
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SOFAS_0            0.772     14.950      0.052      0.959
+    SOFAS_12           0.166      0.035      4.714      0.000
+    SOFAS_24        Undefined   0.37074E+01
+
+Class 2
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SOFAS_0            0.389      0.062      6.223      0.000
+    SOFAS_12           0.449      0.035     12.651      0.000
+    SOFAS_24           0.911      0.092      9.956      0.000
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 1
+
+
+           NU
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+                    0             0             0
+
+
+           LAMBDA
+              I             S             Q
+              ________      ________      ________
+ SOFAS_0            0             0             0
+ SOFAS_12           0             0             0
+ SOFAS_24           0             0             0
+
+
+           THETA
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0            1
+ SOFAS_12           0             2
+ SOFAS_24           0             0             3
+
+
+           ALPHA
+              I             S             Q
+              ________      ________      ________
+                    4             5             6
+
+
+           BETA
+              I             S             Q
+              ________      ________      ________
+ I                  0             0             0
+ S                  0             0             0
+ Q                  0             0             0
+
+
+           PSI
+              I             S             Q
+              ________      ________      ________
+ I                  7
+ S                  8             9
+ Q                  0             0             0
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 2
+
+
+           NU
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+                    0             0             0
+
+
+           LAMBDA
+              I             S             Q
+              ________      ________      ________
+ SOFAS_0            0             0             0
+ SOFAS_12           0             0             0
+ SOFAS_24           0             0             0
+
+
+           THETA
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0           10
+ SOFAS_12           0            11
+ SOFAS_24           0             0            12
+
+
+           ALPHA
+              I             S             Q
+              ________      ________      ________
+                   13            14            15
+
+
+           BETA
+              I             S             Q
+              ________      ________      ________
+ I                  0             0             0
+ S                  0             0             0
+ Q                  0             0             0
+
+
+           PSI
+              I             S             Q
+              ________      ________      ________
+ I                 16
+ S                  8            17
+ Q                  0             0             0
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS REGRESSION MODEL PART
+
+
+           ALPHA(C)
+              C#1           C#2
+              ________      ________
+                   18             0
+
+
+     STARTING VALUES FOR LATENT CLASS 1
+
+
+           NU
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           LAMBDA
+              I             S             Q
+              ________      ________      ________
+ SOFAS_0        1.000         0.000         0.000
+ SOFAS_12       1.000        12.000       144.000
+ SOFAS_24       1.000        24.000       576.000
+
+
+           THETA
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0       82.194
+ SOFAS_12       0.000       142.438
+ SOFAS_24       0.000         0.000       164.325
+
+
+           ALPHA
+              I             S             Q
+              ________      ________      ________
+               39.887         2.474        -0.063
+
+
+           BETA
+              I             S             Q
+              ________      ________      ________
+ I              0.000         0.000         0.000
+ S              0.000         0.000         0.000
+ Q              0.000         0.000         0.000
+
+
+           PSI
+              I             S             Q
+              ________      ________      ________
+ I            142.338
+ S              0.000         7.122
+ Q              0.000         0.000         0.000
+
+
+     STARTING VALUES FOR LATENT CLASS 2
+
+
+           NU
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           LAMBDA
+              I             S             Q
+              ________      ________      ________
+ SOFAS_0        1.000         0.000         0.000
+ SOFAS_12       1.000        12.000       144.000
+ SOFAS_24       1.000        24.000       576.000
+
+
+           THETA
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0       82.194
+ SOFAS_12       0.000       142.438
+ SOFAS_24       0.000         0.000       164.325
+
+
+           ALPHA
+              I             S             Q
+              ________      ________      ________
+               39.887         2.474        -0.063
+
+
+           BETA
+              I             S             Q
+              ________      ________      ________
+ I              0.000         0.000         0.000
+ S              0.000         0.000         0.000
+ Q              0.000         0.000         0.000
+
+
+           PSI
+              I             S             Q
+              ________      ________      ________
+ I            142.338
+ S              0.000         7.122
+ Q              0.000         0.000         0.000
+
+
+     STARTING VALUES FOR LATENT CLASS REGRESSION MODEL PART
+
+
+           ALPHA(C)
+              C#1           C#2
+              ________      ________
+                0.000         0.000
+
+
+TECHNICAL 11 OUTPUT
+
+     Random Starts Specifications for the k-1 Class Analysis Model
+        Number of initial stage random starts                 500
+        Number of final stage optimizations                   125
+
+
+
+     VUONG-LO-MENDELL-RUBIN LIKELIHOOD RATIO TEST FOR 1 (H0) VERSUS 2 CLASSES
+
+          H0 Loglikelihood Value                        -3814.089
+          2 Times the Loglikelihood Difference             68.888
+          Difference in the Number of Parameters                9
+          Mean                                             13.374
+          Standard Deviation                               12.987
+          P-Value                                          0.0059
+
+     LO-MENDELL-RUBIN ADJUSTED LRT TEST
+
+          Value                                            67.617
+          P-Value                                          0.0064
+
+
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              I             S             Q             C_I           C_S
+              ________      ________      ________      ________      ________
+               40.497         2.533        -0.064        40.373         2.540
+
+
+           Means
+              C_Q
+              ________
+               -0.063
+
+
+           Covariances
+              I             S             Q             C_I           C_S
+              ________      ________      ________      ________      ________
+ I             37.849
+ S              0.539         0.373
+ Q             -0.014         0.001         0.000
+ C_I           39.112         0.512        -0.016        40.877
+ C_S            0.459         0.383         0.001         0.445         0.421
+ C_Q           -0.017         0.001         0.000        -0.020         0.001
+
+
+           Covariances
+              C_Q
+              ________
+ C_Q            0.000
+
+
+           Correlations
+              I             S             Q             C_I           C_S
+              ________      ________      ________      ________      ________
+ I              1.000
+ S              0.143         1.000
+ Q             -0.474         0.316         1.000
+ C_I            0.994         0.131        -0.518         1.000
+ C_S            0.115         0.966         0.326         0.107         1.000
+ C_Q           -0.471         0.271         0.971        -0.533         0.271
+
+
+           Correlations
+              C_Q
+              ________
+ C_Q            1.000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values, estimated factor scores, estimated values, residuals)
+  Scatterplots (sample values, estimated factor scores, estimated values, residuals)
+  Sample means
+  Estimated means, medians, modes, and percentiles
+  Sample and estimated means
+  Latent variable distribution plots
+  Observed individual values
+  Estimated individual values
+  Estimated means and observed individual values
+  Estimated means and estimated individual values
+  Estimated overall and class-specific distributions
+
+SAVEDATA INFORMATION
+
+
+  Save file
+    GMM4v_i s q@0_res.dat
+
+  Order and format of variables
+
+    SOFAS_0        F10.3
+    SOFAS_12       F10.3
+    SOFAS_24       F10.3
+    I              F10.3
+    S              F10.3
+    Q              F10.3
+    C_I            F10.3
+    C_S            F10.3
+    C_Q            F10.3
+    CPROB1         F10.3
+    CPROB2         F10.3
+    C              F10.3
+    PIN            I4
+
+  Save file format
+    12F10.3 I4
+
+  Save file record length    10000
+
+  Save missing symbol        *
+
+
+     Beginning Time:  15:11:00
+        Ending Time:  15:11:06
+       Elapsed Time:  00:00:06
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen
