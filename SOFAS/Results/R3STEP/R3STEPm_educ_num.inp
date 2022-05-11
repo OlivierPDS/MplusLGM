@@ -1,0 +1,27 @@
+TITLE:
+R3STEPm_educ_num;
+DATA:
+FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/R3STEPm_educ_num.dat";
+ 
+VARIABLE:
+NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N educ_num; 
+ MISSING=.;
+ USEVAR = educ_num N;
+NOMINAL= N;
+CLASSES = c(2);
+ANALYSIS:
+
+  TYPE = MIXTURE;
+  ALGORITHM=INTEGRATION;
+  INTEGRATION=MONTECARLO;
+  STARTS = 0;
+  PROCESSORS = 8;
+MODEL:
+%OVERALL%
+C on educ_num; educ_num;
+
+%C#1%
+[N#1@2.378];
+
+%C#2%
+[N#1@-1.949];
