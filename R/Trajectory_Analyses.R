@@ -12,13 +12,11 @@ library(rhdf5)
 R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE)
 
 # To do -------------------------------------------------------------------
-## improve SelectBestModel() by adding some conditions (class count < 5%, lower k)
+## improve SelectBestModel() by adding some conditions (class count < 5%, lowest k, warnings/errors)
 ## wrap in a function GetFitIndices() & mutate (BF10)
-## create function to run GMMi & GMMv
+## improve GMMi & GMMv functions to replicate best LL
 ## runModels(): do not always overwright models
 ## adapt RefinePolynomial() to GMMs
-## Create function to select best GMM model 
-## discard all element with specific warning before selecting best model
 
 # Instructions ------------------------------------------------------------
 ## Some Mplus Language 
@@ -85,7 +83,8 @@ SOFAS_df <-
   paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-05-04.csv') %>% 
   read_csv() %>%
   subset(miss_SOFAS <= 1 & n == 1) %>% 
-  select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY)))
+  select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY))) %>% 
+  modify_at(c(SD_cat, SR_BY), as.factor)
 
 ## rename vars > 8 characters
 SOFAS_df <- names(SOFAS_df) %>% 
@@ -94,18 +93,7 @@ SOFAS_df <- names(SOFAS_df) %>%
 
 # names(SOFAS_df) <- str_sub(names(SOFAS_df), 1, 8) # remove characters from variables names > 8 characters 
 
-# Function to check if column names are unique 
-# namesx2(PEPP2_df) 
-# namesx2 <- function(df) { 
-#   
-#   length1 <- length(colnames(df))
-#   length2 <- length(unique(colnames(df)))        
-#   if (length1 - length2 > 0 ) {
-#     print(paste("There are", length1 - length2, " duplicates", sep=" "))
-#   }     
-# }
-# anyDuplicated(colnames(PEPP2_df)) # locate column of the first duplicate)
-# data.frame(colnames(PEPP2_df))
+
 
 # Step 1: Growth Curve Modeling  ------------------------------------------
 ## Run GCM model
@@ -230,8 +218,8 @@ GMMv_fit <- GMMv_fit %>%
 # GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
 # GMMv_best <- selectBestModel(unlist(GMMv_models, FALSE), selection_method = "BIC_LRT")
 
-GMMi_best <- GMMi_models[[4]][["i s q-cub@0"]] # because warnings
-GMMv_best <- GMMv_models[[4]][["i s q-cub@0"]] # because warnings
+GMMi_best <- GMMi_models[[1]][["i s-q@0"]] # because warnings
+GMMv_best <- GMMv_models[[1]][["i s-q@0"]] # because warnings
 
 ## Get fit indices of all selected models and select best model 
 BEST_fit <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% getFitIndices()
@@ -242,7 +230,7 @@ FINAL_model <- refinePolynomial(
   model = BEST_model, 
   df = SOFAS_df,
   usevar = SOFAS,
-  timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
+  timepoints = c(0, 12, 24),
   working_dir = paste(getwd(), 'SOFAS', sep = '/'),
   idvar = "pin")
 
@@ -274,15 +262,10 @@ GMMi_cc <- unlist(GMMi_models, FALSE) %>%
 GMMv_cc <- unlist(GMMv_models, FALSE) %>% 
   map(pluck, 'results', 'class_counts', 'mostLikely') %>% 
   map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  # mutate(model= map(unlist(GMMv_models, FALSE), pluck, 'TITLE')) %>% 
-  # select('model', starts_with(c('count', 'proportion')))
+  mutate(model= map(unlist(GMMv_models, FALSE), pluck, 'TITLE')) %>% 
+  select('model', starts_with(c('count', 'proportion')))
   
-  # map_depth(2, pluck, 'results', 'class_counts', 'mostLikely') %>% 
-  # map_if(is_null, ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  # map_if(is_null, mutate(model = map(unlist(GMMv_models, FALSE), pluck, 'TITLE')))
-  # is_null <- function(x) {!is.null(x)}
-  
-  ## Get and save final dataset based on most probable class membership 
+## Get and save final dataset based on most probable class membership 
   PEPP2_df <- 
   FINAL_model[["results"]][["savedata"]] %>% 
   modify_at('C', as.factor) %>% 
@@ -335,13 +318,7 @@ est.means <-
 # Step 8: Using individually varying timescores ---------------------------
 ## Exclude cases with complete SOFAS and missing date of observation 
 TSCORES_df <- TSCORES_df %>%
-  filter(xor(!is.na(SOFAS_1), is.na(t1))) %>%
-  filter(xor(!is.na(SOFAS_2), is.na(t2))) %>%
-  filter(xor(!is.na(SOFAS_3), is.na(t3))) %>%
-  filter(xor(!is.na(SOFAS_6), is.na(t6))) %>%
-  filter(xor(!is.na(SOFAS_9), is.na(t9))) %>%
   filter(xor(!is.na(SOFAS_12), is.na(t12))) %>%
-  filter(xor(!is.na(SOFAS_18), is.na(t18))) %>%
   filter(xor(!is.na(SOFAS_24), is.na(t24)))
 
 #map <- map2(x, y, ~filter(xor(!is.na(x), is.na(y)))) # Does not work
@@ -382,27 +359,34 @@ FitIndices_GBTM_tscores <- mplusModeler(
 ### can use the manual R3step, including a model for the covariates (instead of C on X; use C on X; X; )
 ### (see section 3;  http://statmodel.com/download/webnotes/webnote15.pdf)
 
-
 ## The 3-Step Procedure  
 miss <- {unlist(lapply(SOFAS_df, function(x) sum(is.na(x)))) / nrow(SOFAS_df) * 100} %>% view()
 
 ### Auxilliary
-### Manual
 R3STEP_models <- R3STEP(
   df = SOFAS_df,
   idvar = 'pin',
   usevar = 'SOFAS',
-  cov = SX,
+  cov = c('ageentry', 'gender', 'NSR_0'),
+  model = FINAL_model,
+  manual_R3STEP = FALSE
+)
+
+### Manual
+R3STEPm_models <- R3STEP(
+  df = SOFAS_df,
+  idvar = 'pin',
+  usevar = 'SOFAS',
+  cov = c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY),
   model = FINAL_model,
   manual_R3STEP = TRUE
 )
 
-
-R3STEP_fit <- fitR3STEP(R3STEP_models, SX, manual_R3STEP = TRUE)
+R3STEP_fit <- fitR3STEP(R3STEP_models, c('ageentry', 'gender', 'NSR_0'), manual_R3STEP = FALSE)
+R3STEPm_fit <- fitR3STEP(R3STEPm_models, c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY), manual_R3STEP = TRUE)
 
 # R3STEP_warn <- map(R3STEPm, pluck, 'results', 'warnings')
 # R3STEP_err <- map(R3STEPm, pluck, 'results', 'errors')
-
 
 # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SOFAS', 'SOFAS_{today()}.RData', .sep = "/"))
@@ -410,29 +394,16 @@ save.image(glue(getwd(), 'SOFAS', 'SOFAS_{today()}.RData', .sep = "/"))
 # SAPS --------------------------------------------------------------------
 # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
-SAPS_df <- PEPP2_df %>% 
+SAPS_df <- paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-05-11.csv') %>% 
+  read_csv() %>%
   subset(miss_SAPS <= 4 & n == 1) %>% 
-  select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY)))
+  select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY))) %>% 
+  modify_at(c(SD_cat, SR_BY), as.factor)
   
-
 ## rename vars > 8 characters
 SAPS_df <- names(SAPS_df) %>% 
   grep('.{9,}', ., value = TRUE) %>% 
   setnames(SAPS_df, old = ., new = c('minority', 'housing', 'work'))
-
-# names(SAPS_df) <- str_sub(names(SAPS_df), 1, 8) # remove characters from variables names > 8 characters 
-# namesx2(PEPP2_df) # Function to check if column names are unique 
-# namesx2 <- function(df) { 
-#   
-#   length1 <- length(colnames(df))
-#   length2 <- length(unique(colnames(df)))        
-#   if (length1 - length2 > 0 ) {
-#     print(paste("There are", length1 - length2, " duplicates", sep=" "))
-#   }     
-# }
-# anyDuplicated(colnames(PEPP2_df)) # locate column of the first duplicate)
-# data.frame(colnames(PEPP2_df))
-
 
 # Step 1: Growth Curve Modeling  ------------------------------------------
 ## Run GCM model
@@ -482,7 +453,7 @@ LCGA_best <- selectBestModel(LCGA_models, selection_method = "BIC")
 
 # Step 4: Growth Mixture Models  ------------------------------------------
 ## Add class-invariant random effect variances stepwise 
-GMMi_models <- fitGMMi(SAPS_df, 'SAPS', LCGA_models, overall_polynomial = 2)
+GMMi_models <- fitGMMi(SAPS_df, 'SAPS', LCGA_models, overall_polynomial = 3)
 
 ### Extract errors & warnings 
 .GMMi_err <- GMMi_models %>% map_depth(2, pluck, 'results', 'errors') %>%
@@ -518,7 +489,10 @@ GMMi_fit <- GMMi_fit %>%
 #mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
 
 ## Add class-variant random effect variances stepwise 
-GMMv_models <- fitGMMv(SAPS_df, 'SAPS', GMMi_models, overall_polynomial = 2)
+GMMv_models <- fitGMMv(SAPS_df, 'SAPS', GMMi_models, overall_polynomial = 3)
+
+runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMMv/GMM4/GMM4_i s q cub@0.inp'))
+GMMv_models[[4]][["i s q cub@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMMv/GMM4/GMM4_i s q cub@0.out'))  #best LL not replicated
 
 ### Extract errors & warnings
 .GMMv_err <- GMMv_models %>% map_depth(2, pluck, 'results', 'errors') %>%
@@ -555,8 +529,8 @@ GMMv_fit <- GMMv_fit %>%
 # GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
 # GMMv_best <- selectBestModel(unlist(GMMv_models, FALSE), selection_method = "BIC_LRT")
 
-GMMi_best <- GMMi_models[[4]][["i s q-cub@0"]] # because warnings
-GMMv_best <- GMMv_models[[4]][["i s q-cub@0"]] # because warnings
+GMMi_best <- GMMi_models[[4]][["i s q cub@0"]]
+GMMv_best <- GMMv_models[[4]][["i s q cub@0"]]
 
 ## Get fit indices of all selected models and select best model 
 BEST_fit <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% getFitIndices()
@@ -570,6 +544,10 @@ FINAL_model <- refinePolynomial(
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   working_dir = paste(getwd(), 'SAPS', sep = '/'),
   idvar = "pin")
+
+FINAL_param <-
+  FINAL_model[["results"]][["parameters"]][["std.standardized"]] %>%
+  filter(str_detect(paramHeader, 'Means|^Variances'))
 
 #FINAL_model <- BEST_model
 
@@ -597,16 +575,11 @@ GMMi_cc <- unlist(GMMi_models, FALSE) %>%
   select('model', starts_with(c('count', 'proportion')))
 
 GMMv_cc <- unlist(GMMv_models, FALSE) %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>% 
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  # mutate(model= map(unlist(GMMv_models, FALSE), pluck, 'TITLE')) %>% 
+  map(pluck, 'results', 'class_counts', 'mostLikely') %>% compact() %>% 
+  map_dfr(~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion')))
+  # mutate(model= map_if(unlist(GMMv_models, FALSE), ~ is.null(.x), pluck, 'TITLE'))
   # select('model', starts_with(c('count', 'proportion')))
 
-  # map_depth(2, pluck, 'results', 'class_counts', 'mostLikely') %>% 
-  # map_if(is_null, ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  # map_if(is_null, mutate(model = map(unlist(GMMv_models, FALSE), pluck, 'TITLE')))
-  # is_null <- function(x) {!is.null(x)}
-  
 ## Get and save final dataset based on most probable class membership 
 PEPP2_df <- 
   FINAL_model[["results"]][["savedata"]] %>% 
@@ -713,22 +686,17 @@ miss <- {unlist(lapply(SAPS_df, function(x) sum(is.na(x)))) / nrow(SAPS_df) * 10
 
 ### Auxilliary
 ### Manual
-R3STEP_models <- R3STEP(
-  df = SAPS_df,
-  idvar = 'pin',
-  usevar = 'SAPS',
-  cov = SX_0,
-  model = FINAL_model,
-  manual_R3STEP = TRUE
-)
-
-
-R3STEP_fit <- fitR3STEP(R3STEP_models, SX_0, manual_R3STEP = TRUE)
-
-# R3STEP_warn <- map(R3STEPm, pluck, 'results', 'warnings')
-# R3STEP_err <- map(R3STEPm, pluck, 'results', 'errors')
-
-
+   R3STEPm_models <- R3STEP(
+     df = SAPS_df,
+     idvar = 'pin',
+     usevar = 'SAPS',
+     cov = c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY),
+     model = FINAL_model,
+     manual_R3STEP = TRUE
+   )
+   
+    R3STEPm_fit <- fitR3STEP(R3STEPm_models, c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY), manual_R3STEP = TRUE)
+   
 # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
 
@@ -736,10 +704,11 @@ save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
 # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
 SANS_df <- 
-  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-05-02.csv') %>% 
+  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-05-11.csv') %>% 
   read_csv() %>%
   subset(miss_SANS <= 4 & n == 1) %>% 
-  select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY)))
+  select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY))) %>% 
+  modify_at(c(SD_cat, SR_BY), as.factor)
 
 
 ## rename vars > 8 characters
@@ -748,22 +717,10 @@ SANS_df <- names(SANS_df) %>%
   setnames(SANS_df, old = ., new = c('minority', 'housing', 'work'))
 
 # names(SANS_df) <- str_sub(names(SANS_df), 1, 8) # remove characters from variables names > 8 characters 
-# namesx2(PEPP2_df) # Function to check if column names are unique 
-# namesx2 <- function(df) { 
-#   
-#   length1 <- length(colnames(df))
-#   length2 <- length(unique(colnames(df)))        
-#   if (length1 - length2 > 0 ) {
-#     print(paste("There are", length1 - length2, " duplicates", sep=" "))
-#   }     
-# }
-# anyDuplicated(colnames(PEPP2_df)) # locate column of the first duplicate)
-# data.frame(colnames(PEPP2_df))
-
 
 # Step 1: Growth Curve Modeling  ------------------------------------------
 ## Run GCM model
-GCM_model <- runGCM(SANS_df, SANS, c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+GCM_model <- fitGCM(SANS_df, SANS, c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 
 ## Get GCM model fit indices
 GCM_fit <-
@@ -1101,6 +1058,17 @@ save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
 
 
 # JUNK --------------------------------------------------------------------
+## Function to check if column names are unique namesx2(PEPP2_df)
+namesx2 <- function(df) {
+
+  length1 <- length(colnames(df))
+  length2 <- length(unique(colnames(df)))
+  if (length1 - length2 > 0 ) {
+    print(paste("There are", length1 - length2, " duplicates", sep=" "))
+  }
+}
+anyDuplicated(colnames(PEPP2_df)) # locate column of the first duplicate)
+data.frame(colnames(PEPP2_df))
 ## Run GCM (SAPS) 
 ### Create Mplus Object 
 .GCM_model <- mplusObject(
@@ -1452,5 +1420,6 @@ for (k in 1:3) {
     writeData ="always"
   )
 }
+
 
 
