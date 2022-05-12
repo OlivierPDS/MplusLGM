@@ -80,7 +80,13 @@ t <- str_c('t', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
 SOFAS_df <- 
-  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-05-04.csv') %>% 
+  list.files(
+    "/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2",
+    full.names = T
+  ) %>%
+  file.info() %>%
+  slice_max(mtime) %>% # get the most updated file
+  rownames() %>%
   read_csv() %>%
   subset(miss_SOFAS <= 1 & n == 1) %>% 
   select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY))) %>% 
@@ -394,7 +400,14 @@ save.image(glue(getwd(), 'SOFAS', 'SOFAS_{today()}.RData', .sep = "/"))
 # SAPS --------------------------------------------------------------------
 # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
-SAPS_df <- paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-05-11.csv') %>% 
+SAPS_df <- 
+  list.files(
+    "/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2",
+    full.names = T
+  ) %>%
+  file.info() %>%
+  slice_max(mtime) %>% # get the most updated file
+  rownames() %>%
   read_csv() %>%
   subset(miss_SAPS <= 4 & n == 1) %>% 
   select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY))) %>% 
@@ -703,12 +716,18 @@ save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
 # SANS --------------------------------------------------------------------
 # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
-SANS_df <- 
-  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-05-11.csv') %>% 
-  read_csv() %>%
-  subset(miss_SANS <= 4 & n == 1) %>% 
-  select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY))) %>% 
-  modify_at(c(SD_cat, SR_BY), as.factor)
+  SANS_df <-
+    list.files(
+      "/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2",
+      full.names = T
+    ) %>%
+    file.info() %>%
+    slice_max(mtime) %>% # get the most updated file
+    rownames() %>%
+    read_csv() %>%
+    subset(miss_SANS <= 4 & n == 1) %>%
+    select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY))) %>%
+    modify_at(c(SD_cat, SR_BY), as.factor)
 
 
 ## rename vars > 8 characters
@@ -742,7 +761,7 @@ GBTM_fit <- getFitIndices(GBTM_models) %>%
   mutate(BF10 = exp((GBTM_fit['#choose model to test','BIC']-GBTM_fit['#choose model to test','BIC'])/2))
 
 ## Select best GBTM model 
-GBTM_best <- GBTM_models[[2]]
+GBTM_best <- GBTM_models[[3]]
 #GBTM_best <- selectBestModel(GBTM_models, selection_method = "BIC")
 
 # Step 3: Latent Class Growth Analyses ------------------------------------
@@ -752,7 +771,7 @@ LCGA_models <- fitLCGA(
   usevar = SANS,
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   idvar = "pin",
-  classes = 2,
+  classes = 3,
   working_dir = paste(getwd(), 'SANS', sep = '/'),
   ref_model = GBTM_best)
 
