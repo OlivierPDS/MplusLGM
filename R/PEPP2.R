@@ -11,9 +11,15 @@ library (haven)
     read_spss() 
 
   # CSV file 
-PEPP2_df <- 
-  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-05-11.csv') %>%
-  read_csv() 
+  PEPP2_df <-
+    list.files(
+      "/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2",
+      full.names = T
+    ) %>%
+    file.info() %>%
+    slice_max(mtime) %>% # get the most updated file
+    rownames() %>%
+    read_csv()
 
 
 ### Define variables of interest 
