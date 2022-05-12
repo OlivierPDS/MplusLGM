@@ -9,14 +9,10 @@ library (haven)
   # SAV file 
   merged <- paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Databases/1-992 (N=762) Jan2003-Jan2020/Merged_25Feb2022.sav') %>% 
     read_spss() 
-    
-  PEPP2_df <- 
-  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-03-07.sav') %>%
-  read_spss() 
 
   # CSV file 
 PEPP2_df <- 
-  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-05-02.csv') %>%
+  paste('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_2022-05-11.csv') %>%
   read_csv() 
 
 
@@ -56,7 +52,7 @@ items <- names(select(PEPP2_df, sap1_0:ymrs11_24))
 
 ### Recode variables as factor 
 PEPP2_df <- PEPP2_df %>%
-  modify_at(c(SD_cat, SR_BY, K), as.factor) # attr(), attributes() to check label and levels
+  modify_at(c(SD_cat, SR_BY, C), as.factor) # attr(), attributes() to check label and levels
 
 ### Add variables 
 vars <- "starts_with('dsfs')"
