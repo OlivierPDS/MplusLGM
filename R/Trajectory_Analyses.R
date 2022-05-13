@@ -785,42 +785,18 @@ LCGA_best <- selectBestModel(LCGA_models, selection_method = "BIC")
 
 # Step 4: Growth Mixture Models  ------------------------------------------
 ## Add class-invariant random effect variances stepwise 
-### Create Mplus Object 
-.mpobj_2 <- list()
-.mpobj_1 <- list()
-for (rv in 1:4) {
-  for (gf in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
-    .mpobj_2[[gf]] <- update(
-      LCGA_models[[rv]],
-      TITLE = as.formula(glue("~ 'GMM{rv}i_{gf};'")),
-      SAVEDATA = as.formula(glue("~ '
-      file = GMM{rv}_{gf}_res.dat;
-      save = CPROBABILITIES;'")),
-      autov = FALSE,
-      rdata = SANS_df)
-    .mpobj_2[[gf]][["MODEL"]] <- str_replace(LCGA_models[[rv]][["MODEL"]], "i-cub@0", gf)
-  }
-  .mpobj_1[[rv]] <- .mpobj_2
-}
+GMMi_models <- fitGMMi(SANS_df, 'SANS', LCGA_models, overall_polynomial = 3)
 
-### Create, run, and read Mplus models 
-GMMi_models <- list()
-.GMM <- list()
-for (rv in 1:4) {
-  for (gf in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
-    .GMM[[gf]] <- mplusModeler(
-      object = .mpobj_1[[rv]][[gf]],
-      dataout = glue(getwd(), '/SANS/Results/GMMi/GMM{rv}/GMM{rv}_{gf}.dat'),
-      modelout = glue(getwd(), '/SANS/Results/GMMi/GMM{rv}/GMM{rv}_{gf}.inp'),
-      hashfilename = FALSE,
-      run = 1,
-      check = TRUE,
-      varwarnings = TRUE,
-      writeData = "always"
-    )
-  }
-  GMMi_models[[rv]] <- .GMM
-}
+### Extract errors & warnings 
+.GMMi_err <- GMMi_models %>% map_depth(2, pluck, 'results', 'errors') %>%
+  map_depth(3, keep, str_detect, "THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY") %>% 
+  map_depth(2,flatten_chr) %>% 
+  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
+
+.GMMi_warn <- GMMi_models %>% map_depth(2, pluck, 'results', 'warnings') %>%
+  map_depth(3, keep, str_detect, "WARNING:") %>% 
+  map_depth(2,flatten_chr) %>% 
+  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
 
 ### Get Fit indices 
 GMMi_fit <- SummaryTable(
@@ -834,72 +810,59 @@ GMMi_fit <- SummaryTable(
     "BIC",
     "Entropy",
     "T11_LMR_Value",
-    "T11_LMR_PValue")) %>%
-  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>% 
-  mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2)) 
+    "T11_LMR_PValue"
+  )
+) 
+
+GMMi_fit <- GMMi_fit %>%  
+  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>%
+  mutate(warnings = unlist(.GMMi_warn, FALSE),
+         errors = unlist(.GMMi_err, FALSE))
+#mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
 
 ## Add class-variant random effect variances stepwise 
-### Create Mplus Object 
-.mpobj_2 <- list()
-.mpobj_1 <- list()
-for (rv in 1:4) {
-  for (gf in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
-    .mpobj_2[[gf]] <- update(
-      GMMi_models[[rv]][[gf]],
-      TITLE = as.formula(glue("~ 'GMM{rv}v_{gf};'")),
-      autov = FALSE,
-      rdata = SANS_df)
-    .mpobj_2[[gf]][["MODEL"]] <- str_replace_all(GMMi_models[[rv]][[gf]][["MODEL"]], "\\[i s q cub\\]", gf)
-  }
-  .mpobj_1[[rv]] <- .mpobj_2
-}
+GMMv_models <- fitGMMv(SANS_df, 'SANS', GMMi_models, overall_polynomial = 3)
 
-### Create, run, and read Mplus models 
-GMMv_models <- list()
-.GMM <- list()
-for (rv in 1:4) {
-  for (gf in c('i s-cub@0', 'i s q-cub@0', 'i s q cub@0', 'i s q cub')) {
-    .GMM[[gf]] <- mplusModeler(
-      object = .mpobj_1[[rv]][[gf]],
-      dataout = glue(getwd(), '/SANS/Results/GMMv/GMM{rv}/GMM{rv}_{gf}.dat'),
-      modelout = glue(getwd(), '/SANS/Results/GMMv/GMM{rv}/GMM{rv}_{gf}.inp'),
-      hashfilename = FALSE,
-      run = 1,
-      check = TRUE,
-      varwarnings = TRUE,
-      writeData = "always"
-    )
-  }
-  GMMv_models[[rv]] <- .GMM
-}
+runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMv/GMM4/GMM4_i s q cub@0.inp'))
+GMMv_models[[4]][["i s q cub@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMv/GMM4/GMM4_i s q cub@0.out'))  #best LL not replicated
+
+### Extract errors & warnings
+.GMMv_err <- GMMv_models %>% map_depth(2, pluck, 'results', 'errors') %>%
+  map_depth(3, keep, str_detect, "THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY") %>% 
+  map_depth(2,flatten_chr) %>% 
+  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
+
+.GMMv_warn <- GMMv_models %>% map_depth(2, pluck, 'results', 'warnings') %>%
+  map_depth(3, keep, str_detect, "WARNING:") %>% 
+  map_depth(2,flatten_chr) %>% 
+  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
 
 ### Get Fit Indices 
 GMMv_fit <- SummaryTable(
   unlist(GMMv_models, FALSE),
   keepCols = c(
     "Title",
-    'LL',
     'Parameters',
+    'LL',
     "AIC",
     "AICC",
     "BIC",
     "Entropy",
     "T11_LMR_Value",
-    "T11_LMR_PValue")) %>% 
-  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>% 
-  mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
+    "T11_LMR_PValue"))
 
-
-## Extract errors & warnings 
-warnings <- map(unlist(c(GMMi_models, GMMv_models), FALSE), pluck, 'results', 'warnings')
-errors <- map(unlist(c(GMMi_models, GMMv_models), FALSE), pluck, 'results', 'errors') %>% compact()
+GMMv_fit <- GMMv_fit %>% 
+  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>%
+  mutate(warnings = unlist(.GMMv_warn, FALSE),
+         errors = unlist(.GMMv_err, FALSE))
+# mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
 
 ## Select best GMM model 
-GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
-GMMv_best <- selectBestModel(unlist(GMMv_models, FALSE), selection_method = "BIC_LRT")
+# GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
+# GMMv_best <- selectBestModel(unlist(GMMv_models, FALSE), selection_method = "BIC_LRT")
 
-GMMi_best <- GMMi_models[[4]][["i s q-cub@0"]] # because warnings
-GMMv_best <- GMMv_models[[4]][["i s q-cub@0"]] # because warnings
+GMMi_best <- GMMi_models[[4]][["i s q cub@0"]]
+GMMv_best <- GMMv_models[[4]][["i s q cub@0"]]
 
 ## Get fit indices of all selected models and select best model 
 BEST_fit <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% getFitIndices()
