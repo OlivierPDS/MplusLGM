@@ -150,7 +150,7 @@ for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
              ))))) %>%
     mutate(!!str_c("SANS_", i) :=
              rowSums(across(all_of(str_c(
-               c("sap8_", "sap13_", "sap17_", "sap22_"), i
+               c("san8_", "san13_", "san17_", "san22_"), i
              ))))) %>%
     mutate(!!str_c("HAS_", i) :=
              rowSums(across(all_of(str_c(
