@@ -8,6 +8,7 @@ library(metan)
 library(MplusAutomation)
 library(MplusLGM)
 library(rhdf5)
+library(plyr)
 
 R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE)
 
@@ -76,7 +77,28 @@ C <- c('C_SAPS', 'C_SANS', 'C_SOFAS')
 CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
 t <- str_c('t', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 
+PEPP2_df <-
+  list.files(
+    "/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2",
+    full.names = T
+  ) %>%
+  file.info() %>%
+  slice_max(mtime) %>% # get the most updated file
+  rownames() %>%
+  read_csv() %>% 
+  modify_at(c(SD_cat, SR_BY), as.factor)
+
 # SOFAS -------------------------------------------------------------------
+## Load workingspace 
+.ws <- list.files(
+  str_c(getwd(), "/SOFAS"), full.names = T) %>%
+  file.info() %>%
+  slice_max(mtime) %>% # get the most updated workspace
+  rownames()
+  
+load(.ws)
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE)
+
 # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
 SOFAS_df <- 
@@ -99,8 +121,6 @@ SOFAS_df <- names(SOFAS_df) %>%
 
 # names(SOFAS_df) <- str_sub(names(SOFAS_df), 1, 8) # remove characters from variables names > 8 characters 
 
-
-
 # Step 1: Growth Curve Modeling  ------------------------------------------
 ## Run GCM model
 GCM_model <- runGCM(SOFAS_df, SOFAS, c(0, 12, 24))
@@ -122,8 +142,8 @@ GBTM_models <- fitGBTM(
   max_k = 6)
 
 ## Get GBTM models fit indices 
-GBTM_fit <- getFitIndices(GBTM_models) %>%
-  mutate(BF10 = exp((GBTM_fit['#choose model to test','BIC']-GBTM_fit['#choose model to test','BIC'])/2))
+GBTM_fit <- getFitIndices(GBTM_models) 
+  # mutate(BF10 = exp((GBTM_fit['#choose model to test','BIC']-GBTM_fit['#choose model to test','BIC'])/2))
 
 ## Select best GBTM model 
 #GBTM_best <- GBTM_models[[2]]
@@ -142,82 +162,28 @@ LCGA_models <- fitLCGA(
   ref_model = GBTM_best)
 
 ## Get LCGA models fit indices 
-LCGA_fit <- getFitIndices(LCGA_models) %>% 
-  mutate(BF10 = exp((LCGA_fit['# choose model to test', 'BIC']-LCGA_fit['# choose model to test', 'BIC'])/2)) 
+LCGA_fit <- getFitIndices(LCGA_models)
+  #mutate(BF10 = exp((LCGA_fit['# choose model to test', 'BIC']-LCGA_fit['# choose model to test', 'BIC'])/2)) 
 
 ## Select best LCGA model 
 LCGA_best <- selectBestModel(LCGA_models, selection_method = "BIC")
-
 
 # Step 4: Growth Mixture Models  ------------------------------------------
 ## Add class-invariant random effect variances stepwise 
 GMMi_models <- fitGMMi(SOFAS_df, 'SOFAS', LCGA_models, overall_polynomial = 2)
 
-### Extract errors & warnings 
-.GMMi_err <- GMMi_models %>% map_depth(2, pluck, 'results', 'errors') %>%
-  map_depth(3, keep, str_detect, "THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY") %>% 
-  map_depth(2,flatten_chr) %>% 
-  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
-
-.GMMi_warn <- GMMi_models %>% map_depth(2, pluck, 'results', 'warnings') %>%
-  map_depth(3, keep, str_detect, "WARNING:") %>% 
-  map_depth(2,flatten_chr) %>% 
-  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
-
 ### Get Fit indices 
-GMMi_fit <- SummaryTable(
-  unlist(GMMi_models, FALSE),
-  keepCols = c(
-    "Title",
-    "Parameters",
-    "LL",
-    "AIC",
-    "AICC",
-    "BIC",
-    "Entropy",
-    "T11_LMR_Value",
-    "T11_LMR_PValue"
-  )
-) 
-
-GMMi_fit <- GMMi_fit %>%  
-  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>%
-  mutate(warnings = unlist(.GMMi_warn, FALSE),
-         errors = unlist(.GMMi_err, FALSE))
+GMMi_fit <- getFitIndices(GMMi_models)
 #mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
 
 ## Add class-variant random effect variances stepwise 
 GMMv_models <- fitGMMv(SOFAS_df, 'SOFAS', GMMi_models, overall_polynomial = 2)
 
-### Extract errors & warnings
-.GMMv_err <- GMMv_models %>% map_depth(2, pluck, 'results', 'errors') %>%
-  map_depth(3, keep, str_detect, "THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY") %>% 
-  map_depth(2,flatten_chr) %>% 
-  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
-
-.GMMv_warn <- GMMv_models %>% map_depth(2, pluck, 'results', 'warnings') %>%
-    map_depth(3, keep, str_detect, "WARNING:") %>% 
-    map_depth(2,flatten_chr) %>% 
-    map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
+runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/GMMv/GMM4/GMM4v_i s q@0.inp')) #best LL not replicated (32000)
+GMMv_models[[4]][["i s q@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/GMMv/GMM4/GMM4v_i s q@0.out'))  
     
 ### Get Fit Indices 
-GMMv_fit <- SummaryTable(
-  unlist(GMMv_models, FALSE),
-  keepCols = c(
-    "Title",
-    'Parameters',
-    'LL',
-    "AIC",
-    "AICC",
-    "BIC",
-    "Entropy",
-    "T11_LMR_Value",
-    "T11_LMR_PValue"))
-
-GMMv_fit <- GMMv_fit %>% 
-  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>%
-  mutate(warnings = unlist(.GMMv_warn, FALSE),
-         errors = unlist(.GMMv_err, FALSE))
+GMMv_fit <- getFitIndices(GMMv_models)
 # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
 
 ## Select best GMM model 
@@ -232,6 +198,10 @@ BEST_fit <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% getFitIndices()
 BEST_model <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% selectBestModel()
 
 # Step 5: Refine Polynomial Order -----------------------------------------
+BEST_param <-
+  BEST_model[["results"]][["parameters"]][["std.standardized"]] %>%
+  filter(str_detect(paramHeader, 'Means|^Variances'))
+
 FINAL_model <- refinePolynomial(
   model = BEST_model, 
   df = SOFAS_df,
@@ -391,13 +361,24 @@ R3STEPm_models <- R3STEP(
 R3STEP_fit <- fitR3STEP(R3STEP_models, c('ageentry', 'gender', 'NSR_0'), manual_R3STEP = FALSE)
 R3STEPm_fit <- fitR3STEP(R3STEPm_models, c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY), manual_R3STEP = TRUE)
 
-# R3STEP_warn <- map(R3STEPm, pluck, 'results', 'warnings')
-# R3STEP_err <- map(R3STEPm, pluck, 'results', 'errors')
+# R3STEP_warn <- map(R3STEP_models, pluck, 'results', 'warnings')
+# R3STEP_err <- map(R3STEP_models, pluck, 'results', 'errors')
 
 # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SOFAS', 'SOFAS_{today()}.RData', .sep = "/"))
 
+
 # SAPS --------------------------------------------------------------------
+## Load workingspace 
+.ws <- list.files(
+  str_c(getwd(), "/SAPS"), full.names = T) %>%
+  file.info() %>%
+  slice_max(mtime) %>% # get the most updated workspace
+  rownames()
+
+load(.ws)
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE)
+
 # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
 SAPS_df <- 
@@ -424,7 +405,7 @@ GCM_model <- runGCM(SAPS_df, SAPS, c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 
 ## Get GCM model fit indices
 GCM_fit <-
-  GCM_model[["results"]][["parameters"]][["std.standardized"]] %>%
+  GCM_model[["results"]][["parameters"]][["unstandardized"]] %>%
   filter(str_detect(paramHeader, 'Means|^Variances'))
 
 # Step 2: Group-Based Trajectory Modeling ---------------------------------
@@ -468,74 +449,18 @@ LCGA_best <- selectBestModel(LCGA_models, selection_method = "BIC")
 ## Add class-invariant random effect variances stepwise 
 GMMi_models <- fitGMMi(SAPS_df, 'SAPS', LCGA_models, overall_polynomial = 3)
 
-### Extract errors & warnings 
-.GMMi_err <- GMMi_models %>% map_depth(2, pluck, 'results', 'errors') %>%
-  map_depth(3, keep, str_detect, "THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY") %>% 
-  map_depth(2,flatten_chr) %>% 
-  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
-
-.GMMi_warn <- GMMi_models %>% map_depth(2, pluck, 'results', 'warnings') %>%
-  map_depth(3, keep, str_detect, "WARNING:") %>% 
-  map_depth(2,flatten_chr) %>% 
-  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
-
 ### Get Fit indices 
-GMMi_fit <- SummaryTable(
-  unlist(GMMi_models, FALSE),
-  keepCols = c(
-    "Title",
-    "Parameters",
-    "LL",
-    "AIC",
-    "AICC",
-    "BIC",
-    "Entropy",
-    "T11_LMR_Value",
-    "T11_LMR_PValue"
-  )
-) 
-
-GMMi_fit <- GMMi_fit %>%  
-  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>%
-  mutate(warnings = unlist(.GMMi_warn, FALSE),
-         errors = unlist(.GMMi_err, FALSE))
+GMMi_fit <- getFitIndices(GMMi_models)
 #mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
 
 ## Add class-variant random effect variances stepwise 
 GMMv_models <- fitGMMv(SAPS_df, 'SAPS', GMMi_models, overall_polynomial = 3)
 
 runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMMv/GMM4/GMM4_i s q cub@0.inp'))
-GMMv_models[[4]][["i s q cub@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMMv/GMM4/GMM4_i s q cub@0.out'))  #best LL not replicated
-
-### Extract errors & warnings
-.GMMv_err <- GMMv_models %>% map_depth(2, pluck, 'results', 'errors') %>%
-  map_depth(3, keep, str_detect, "THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY") %>% 
-  map_depth(2,flatten_chr) %>% 
-  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
-
-.GMMv_warn <- GMMv_models %>% map_depth(2, pluck, 'results', 'warnings') %>%
-  map_depth(3, keep, str_detect, "WARNING:") %>% 
-  map_depth(2,flatten_chr) %>% 
-  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
+GMMv_models[[4]][["i s q cub@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMMv/GMM4/GMM4_i s q cub@0.out'))  #best LL not replicated at 4000 SV
 
 ### Get Fit Indices 
-GMMv_fit <- SummaryTable(
-  unlist(GMMv_models, FALSE),
-  keepCols = c(
-    "Title",
-    'Parameters',
-    'LL',
-    "AIC",
-    "AICC",
-    "BIC",
-    "Entropy",
-    "T11_LMR_Value",
-    "T11_LMR_PValue"))
-
-GMMv_fit <- GMMv_fit %>% 
-  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>%
-  mutate(warnings = unlist(.GMMv_warn, FALSE),
-         errors = unlist(.GMMv_err, FALSE))
+GMMv_fit <- GMMi_fit <- getFitIndices(GMMv_models)
 # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
 
 ## Select best GMM model 
@@ -550,6 +475,12 @@ BEST_fit <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% getFitIndices()
 BEST_model <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% selectBestModel()
 
 # Step 5: Refine Polynomial Order -----------------------------------------
+BEST_param <-
+  BEST_model[["results"]][["parameters"]][["unstandardized"]] %>%
+  filter(str_detect(paramHeader, 'Means|^Variances'))
+
+#FINAL_model <- BEST_model
+
 FINAL_model <- refinePolynomial(
   model = BEST_model, 
   df = SAPS_df,
@@ -557,12 +488,6 @@ FINAL_model <- refinePolynomial(
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   working_dir = paste(getwd(), 'SAPS', sep = '/'),
   idvar = "pin")
-
-FINAL_param <-
-  FINAL_model[["results"]][["parameters"]][["std.standardized"]] %>%
-  filter(str_detect(paramHeader, 'Means|^Variances'))
-
-#FINAL_model <- BEST_model
 
 ## Examine fit indices 
 FINAL_fit <- list(FINAL_model) %>% getFitIndices()
@@ -601,7 +526,10 @@ PEPP2_df <-
   add_suffix(., everything(), suffix = 'SAPS') %>% 
   merge(PEPP2_df, ., all = TRUE, by.x ='pin', by.y ='PIN_SAPS')
 
+write_csv(PEPP2_df, paste0('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_', today(), '.csv'))
+
 #final_dataset <- getDataset(final_model, SAPS_df, 'pin') 
+
 
 # Step 7: Plot trajectories -----------------------------------------------
 ## Get means as long form
@@ -713,7 +641,18 @@ miss <- {unlist(lapply(SAPS_df, function(x) sum(is.na(x)))) / nrow(SAPS_df) * 10
 # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
 
+    
 # SANS --------------------------------------------------------------------
+## Load workingspace 
+.ws <- list.files(
+  str_c(getwd(), "/SANS"), full.names = T) %>%
+  file.info() %>%
+  slice_max(mtime) %>% # get the most updated workspace
+  rownames()
+    
+load(.ws)
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE)
+
 # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
   SANS_df <-
@@ -787,88 +726,44 @@ LCGA_best <- selectBestModel(LCGA_models, selection_method = "BIC")
 ## Add class-invariant random effect variances stepwise 
 GMMi_models <- fitGMMi(SANS_df, 'SANS', LCGA_models, overall_polynomial = 3)
 
-### Extract errors & warnings 
-.GMMi_err <- GMMi_models %>% map_depth(2, pluck, 'results', 'errors') %>%
-  map_depth(3, keep, str_detect, "THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY") %>% 
-  map_depth(2,flatten_chr) %>% 
-  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
+runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMi/GMM1/GMM1i_i s q cub.inp')) #best LL not replicated
+GMMi_models[[1]][["i s q cub"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMi/GMM1/GMM1i_i s q cub.out'))  
 
-.GMMi_warn <- GMMi_models %>% map_depth(2, pluck, 'results', 'warnings') %>%
-  map_depth(3, keep, str_detect, "WARNING:") %>% 
-  map_depth(2,flatten_chr) %>% 
-  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
+runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMi/GMM2/GMM2i_i s q cub.inp')) #best LL not replicated
+GMMi_models[[2]][["i s q cub"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMi/GMM2/GMM2i_i s q cub.out'))  
 
 ### Get Fit indices 
-GMMi_fit <- SummaryTable(
-  unlist(GMMi_models, FALSE),
-  keepCols = c(
-    "Title",
-    "Parameters",
-    "LL",
-    "AIC",
-    "AICC",
-    "BIC",
-    "Entropy",
-    "T11_LMR_Value",
-    "T11_LMR_PValue"
-  )
-) 
-
-GMMi_fit <- GMMi_fit %>%  
-  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>%
-  mutate(warnings = unlist(.GMMi_warn, FALSE),
-         errors = unlist(.GMMi_err, FALSE))
+GMMi_fit <- GMMi_fit <- getFitIndices(GMMi_models)
 #mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
 
 ## Add class-variant random effect variances stepwise 
 GMMv_models <- fitGMMv(SANS_df, 'SANS', GMMi_models, overall_polynomial = 3)
 
-runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMv/GMM4/GMM4_i s q cub@0.inp'))
-GMMv_models[[4]][["i s q cub@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMv/GMM4/GMM4_i s q cub@0.out'))  #best LL not replicated
-
-### Extract errors & warnings
-.GMMv_err <- GMMv_models %>% map_depth(2, pluck, 'results', 'errors') %>%
-  map_depth(3, keep, str_detect, "THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY") %>% 
-  map_depth(2,flatten_chr) %>% 
-  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
-
-.GMMv_warn <- GMMv_models %>% map_depth(2, pluck, 'results', 'warnings') %>%
-  map_depth(3, keep, str_detect, "WARNING:") %>% 
-  map_depth(2,flatten_chr) %>% 
-  map_depth(1, modify_if, ~ length(.) ==0, ~ NA_character_)
+runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMv/GMM2/GMM2v_i s q cub@0.inp')) # SV = 4000
+GMMv_models[[2]][["i s q cub@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMv/GMM2/GMM2v_i s q cub@0.out'))  #best LL not replicated
 
 ### Get Fit Indices 
-GMMv_fit <- SummaryTable(
-  unlist(GMMv_models, FALSE),
-  keepCols = c(
-    "Title",
-    'Parameters',
-    'LL',
-    "AIC",
-    "AICC",
-    "BIC",
-    "Entropy",
-    "T11_LMR_Value",
-    "T11_LMR_PValue"))
-
-GMMv_fit <- GMMv_fit %>% 
-  mutate(CAIC = -2 * LL + Parameters * (log(405) + 1)) %>%
-  mutate(warnings = unlist(.GMMv_warn, FALSE),
-         errors = unlist(.GMMv_err, FALSE))
+GMMv_fit <- GMMi_fit <- getFitIndices(GMMi_models)
 # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
 
 ## Select best GMM model 
 # GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
 # GMMv_best <- selectBestModel(unlist(GMMv_models, FALSE), selection_method = "BIC_LRT")
 
-GMMi_best <- GMMi_models[[4]][["i s q cub@0"]]
-GMMv_best <- GMMv_models[[4]][["i s q cub@0"]]
+GMMi_best <- GMMi_models[[2]][["i s q-cub@0"]]
+GMMv_best <- GMMv_models[[2]][["i s q-cub@0"]]
 
 ## Get fit indices of all selected models and select best model 
 BEST_fit <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% getFitIndices()
 BEST_model <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% selectBestModel()
 
 # Step 5: Refine Polynomial Order -----------------------------------------
+BEST_param <-
+  BEST_model[["results"]][["parameters"]][["unstandardized"]] %>%
+  filter(str_detect(paramHeader, 'Means|^Variances'))
+
+#FINAL_model <- BEST_model
+
 FINAL_model <- refinePolynomial(
   model = BEST_model, 
   df = SANS_df,
@@ -876,8 +771,6 @@ FINAL_model <- refinePolynomial(
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   working_dir = paste(getwd(), 'SANS', sep = '/'),
   idvar = "pin")
-
-#FINAL_model <- BEST_model
 
 ## Examine fit indices 
 FINAL_fit <- list(FINAL_model) %>% getFitIndices()
@@ -902,17 +795,10 @@ GMMi_cc <- unlist(GMMi_models, FALSE) %>%
   mutate(model= map(unlist(GMMi_models, FALSE), pluck, 'TITLE')) %>% 
   select('model', starts_with(c('count', 'proportion')))
 
-GMMv_cc <- unlist(GMMv_models, FALSE) %>% 
+GMMv_cc <- unlist(GMMv_models, FALSE) %>% compact() %>% 
   map(pluck, 'results', 'class_counts', 'mostLikely') %>% 
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  # mutate(model= map(unlist(GMMv_models, FALSE), pluck, 'TITLE')) %>% 
-  # select('model', starts_with(c('count', 'proportion')))
-  
-  # map_depth(2, pluck, 'results', 'class_counts', 'mostLikely') %>% 
-  # map_if(is_null, ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  # map_if(is_null, mutate(model = map(unlist(GMMv_models, FALSE), pluck, 'TITLE')))
-  # is_null <- function(x) {!is.null(x)}
-  
+  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion')))
+
   ## Get and save final dataset based on most probable class membership 
   PEPP2_df <- 
   FINAL_model[["results"]][["savedata"]] %>% 
@@ -1036,7 +922,7 @@ R3STEP_fit <- fitR3STEP(R3STEP_models, SX, manual_R3STEP = TRUE)
 
 
 # Save --------------------------------------------------------------------
-save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
+save.image(glue(getwd(), 'SANS', 'SANS_{today()}.RData', .sep = "/"))
 
 
 # JUNK --------------------------------------------------------------------
