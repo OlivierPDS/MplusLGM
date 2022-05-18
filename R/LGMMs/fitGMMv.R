@@ -4,9 +4,6 @@ fitGMMv <- function(df,
                     overall_polynomial,
                     working_dir = getwd()) {
   
-  list_mpobj <- GMMi_models
-  rv <- 1
-  gf <- "i s-q@0"
    
   # Input validation
   stopifnot(overall_polynomial <= 3)
