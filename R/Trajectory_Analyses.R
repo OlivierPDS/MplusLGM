@@ -34,6 +34,7 @@ R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifi
 ### class count should not be < 5% sample size
 ### BF10 > 10 = strong evidence in favour of the alternative model
 ### H0:K=K1-1 H1:K=K1 If likelihood ratio p<0.05 then choose K1, else choose K1-1
+### APPA: Values closer to 1 indicate a good fit (> 0.7 for all classes)
 
 # Installation ------------------------------------------------------------
 ## Install devtools 
@@ -216,31 +217,6 @@ FINAL_model <- refinePolynomial(
 FINAL_fit <- list(FINAL_model) %>% getFitIndices()
 
 # Step 6: Extract model parameters and save results  ----------------------
-## Get class counts & proportions of all models 
-GBTM_cc <- GBTM_models %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>%  #extract2
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  mutate(model= map(GBTM_models, pluck, 'TITLE')) %>% 
-  select('model', starts_with(c('count', 'proportion')))
-
-LCGA_cc <- LCGA_models %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>%  #extract2
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  mutate(model= map(LCGA_models, pluck, 'TITLE')) %>% 
-  select('model', starts_with(c('count', 'proportion')))
-
-GMMi_cc <- unlist(GMMi_models, FALSE) %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>% 
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  mutate(model= map(unlist(GMMi_models, FALSE), pluck, 'TITLE')) %>% 
-  select('model', starts_with(c('count', 'proportion')))
-
-GMMv_cc <- unlist(GMMv_models, FALSE) %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>% 
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  mutate(model= map(unlist(GMMv_models, FALSE), pluck, 'TITLE')) %>% 
-  select('model', starts_with(c('count', 'proportion')))
-  
 ## Get and save final dataset based on most probable class membership 
   PEPP2_df <- 
   FINAL_model[["results"]][["savedata"]] %>% 
@@ -494,23 +470,6 @@ FINAL_fit <- list(FINAL_model) %>% getFitIndices()
 
 # Step 6: Extract model parameters and save results  ----------------------
 ## Get class counts & proportions of all models 
-GBTM_cc <- GBTM_models %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>%  #extract2
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  mutate(model= map(GBTM_models, pluck, 'TITLE')) %>% 
-  select('model', starts_with(c('count', 'proportion')))
-  
-LCGA_cc <- LCGA_models %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>%  #extract2
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  mutate(model= map(LCGA_models, pluck, 'TITLE')) %>% 
-  select('model', starts_with(c('count', 'proportion')))
-
-GMMi_cc <- unlist(GMMi_models, FALSE) %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>% 
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  mutate(model= map(unlist(GMMi_models, FALSE), pluck, 'TITLE')) %>% 
-  select('model', starts_with(c('count', 'proportion')))
 
 GMMv_cc <- unlist(GMMv_models, FALSE) %>% 
   map(pluck, 'results', 'class_counts', 'mostLikely') %>% compact() %>% 
@@ -777,24 +736,6 @@ FINAL_fit <- list(FINAL_model) %>% getFitIndices()
 
 # Step 6: Extract model parameters and save results  ----------------------
 ## Get class counts & proportions of all models 
-GBTM_cc <- GBTM_models %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>%  #extract2
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  mutate(model= map(GBTM_models, pluck, 'TITLE')) %>% 
-  select('model', starts_with(c('count', 'proportion')))
-
-LCGA_cc <- LCGA_models %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>%  #extract2
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  mutate(model= map(LCGA_models, pluck, 'TITLE')) %>% 
-  select('model', starts_with(c('count', 'proportion')))
-
-GMMi_cc <- unlist(GMMi_models, FALSE) %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>% 
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-  mutate(model= map(unlist(GMMi_models, FALSE), pluck, 'TITLE')) %>% 
-  select('model', starts_with(c('count', 'proportion')))
-
 GMMv_cc <- unlist(GMMv_models, FALSE) %>% compact() %>% 
   map(pluck, 'results', 'class_counts', 'mostLikely') %>% 
   map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion')))
