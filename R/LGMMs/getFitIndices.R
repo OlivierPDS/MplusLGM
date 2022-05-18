@@ -6,6 +6,8 @@
 #' @import MplusAutomation
 getFitIndices <- function(list_models) {
   
+  list_models <- GMMv_models
+  
   list_depth <- list_models %>% purrr::vec_depth()
 
   # While loop until 1-level depth list of Mplus Object  
@@ -49,6 +51,12 @@ getFitIndices <- function(list_models) {
     plyr::ldply(rbind) %>% 
     dplyr::select(stringr::str_c(seq(k))) %>% 
     data.table::setnames(stringr::str_c('APPA', seq(k)))
+  
+models_cc <- list_models %>% 
+  map(pluck, 'results', 'class_counts', 'mostLikely') %>% 
+    map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
+    mutate(model= map(list_models, pluck, 'TITLE')) %>% 
+    select('model', starts_with(c('count', 'proportion')))
     
   # Create table of model summaries and bind tables together
   models_sum <- MplusAutomation::SummaryTable(
@@ -66,7 +74,7 @@ getFitIndices <- function(list_models) {
     )
   ) %>%
     dplyr::mutate(CAIC = -2 * LL + Parameters * (log(n) + 1)) %>%
-    cbind(APPA, models_warn, models_err, n) %>% 
+    cbind(APPA, models_warn, models_err, n, models_cc) %>% 
     dplyr::select("Title", "n", "Parameters", "LL", "AIC", "AICC", "CAIC", "BIC", starts_with("APPA"), everything())
   
   return(models_sum)
