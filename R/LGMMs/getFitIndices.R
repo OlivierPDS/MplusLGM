@@ -6,41 +6,68 @@
 #' @import MplusAutomation
 getFitIndices <- function(list_models) {
   
-  # Iterate through all models in list to extract results from path
-  model_res_list <- list()
-  count <- 1
-  
-  n_sample <- NULL  # the sample size for all models must be the same for CAIC
-  for (model in list_models) {
-    
-    # Get the filepath of this model's output
-    path_datafile <- model[["results"]][["input"]][["data"]][["file"]]
-    path_dir <- strsplit(path_datafile, '.dat')[[1]]
-    path_out <- paste0(path_dir, '.out')
-    
-    # Read this model and append it to list
-    model_res <- MplusAutomation::readModels(path_out, what = 'summaries')
-    model_res_list[[count]] <- model_res
-    count <- count + 1
-    
-    # check sample size for all models must be the same for CAIC
-    if (is.null(n_sample)) {
-      n_sample <- model_res[["summaries"]][["Observations"]]
-    } else {
-      stopifnot(n_sample == model_res[["summaries"]][["Observations"]])
-    }
+  list_depth <- list_models %>% purrr::vec_depth()
+
+  # While loop until 1-level depth list of Mplus Object  
+  while (list_depth != 7) {
+    list_models <- list_models %>% purrr::flatten()
+    list_depth <- list_models %>% purrr::vec_depth()
   }
+
+  # Get model parameters
+  n <- purrr::map(list_models, purrr::pluck, "results", "summaries", "Observations") %>%
+       plyr::ldply(rbind) %>%
+       dplyr::select("1") %>% 
+       data.table::setnames("n")
   
-  # Create table of these models and return
+  k <- purrr::map(list_models, purrr::pluck, "results", "summaries", "NLatentClasses") %>%
+       plyr::ldply(rbind) %>%
+       dplyr::select("1") %>% 
+       max()
+  
+  # Get model errors & warnings
+  models_err <- list_models %>% purrr::map(purrr::pluck, 'results', 'errors') %>%
+    purrr::map_depth(2, purrr::keep, stringr::str_detect, "THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY") %>% 
+    purrr::map_depth(1, purrr::flatten_chr) %>% 
+    purrr::modify_if(~ length(.) == 0, ~ NA_character_) %>% 
+    plyr::ldply(rbind) %>% 
+    dplyr::select("1") %>% 
+    data.table::setnames("errors")
+  
+  models_warn <- list_models %>% purrr::map(purrr::pluck, 'results', 'warnings') %>%
+    purrr::map_depth(2, purrr::keep, stringr::str_detect, "WARNING:") %>% 
+    purrr::map_depth(1, purrr::flatten_chr) %>% 
+    purrr::modify_if(~ length(.) == 0, ~ NA_character_) %>% 
+    plyr::ldply(rbind) %>%
+    dplyr::select("1") %>% 
+    data.table::setnames("warnings")
+  
+  # Get Average posterior probabilities
+  APPA <- list_models %>% 
+    purrr::map(purrr::pluck, 'results', 'class_counts', 'avgProbs.mostLikely') %>% 
+    purrr::map(diag) %>% 
+    plyr::ldply(rbind) %>% 
+    dplyr::select(stringr::str_c(seq(k))) %>% 
+    data.table::setnames(stringr::str_c('APPA', seq(k)))
+    
+  # Create table of model summaries and bind tables together
   models_sum <- MplusAutomation::SummaryTable(
-    model_res_list, 
-    keepCols = c("Title", "Parameters", "LL", "AIC", "AICC", "BIC", "Entropy", 
-                 "T11_LMR_Value", "T11_LMR_PValue"))
-  
-  models_sum <- models_sum %>% 
-    mutate(CAIC = -2 * LL + Parameters * (log(n_sample) + 1)) %>% 
-    select("Title", "Parameters", "LL", "BIC", "AIC", "AICC", "CAIC", "Entropy", 
-           "T11_LMR_Value", "T11_LMR_PValue")
+    list_models,
+    keepCols = c(
+      "Title",
+      "Parameters",
+      "LL",
+      "AIC",
+      "AICC",
+      "BIC",
+      "Entropy",
+      "T11_LMR_Value",
+      "T11_LMR_PValue"
+    )
+  ) %>%
+    dplyr::mutate(CAIC = -2 * LL + Parameters * (log(n) + 1)) %>%
+    cbind(APPA, models_warn, models_err, n) %>% 
+    dplyr::select("Title", "n", "Parameters", "LL", "AIC", "AICC", "CAIC", "BIC", starts_with("APPA"), everything())
   
   return(models_sum)
   
