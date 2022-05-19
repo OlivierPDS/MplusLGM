@@ -143,12 +143,10 @@ GBTM_models <- fitGBTM(
   max_k = 6)
 
 ## Get GBTM models fit indices 
-GBTM_fit <- getFitIndices(GBTM_models) 
-  # mutate(BF10 = exp((GBTM_fit['#choose model to test','BIC']-GBTM_fit['#choose model to test','BIC'])/2))
+GBTM_fit <- getFitIndices(GBTM_models) # mutate(BF10 = exp((GBTM_fit['#choose model to test','BIC']-GBTM_fit['#choose model to test','BIC'])/2))
 
 ## Select best GBTM model 
-#GBTM_best <- GBTM_models[[2]]
-GBTM_best <- selectBestModel(GBTM_models, selection_method = "BIC")
+GBTM_best <- selectBestModel(GBTM_models, selection_method = "BIC") #GBTM_best <- GBTM_models[[2]]
 
 # Step 3: Latent Class Growth Analyses ------------------------------------
 ## Run LCGA models 
@@ -174,8 +172,7 @@ LCGA_best <- selectBestModel(LCGA_models, selection_method = "BIC")
 GMMi_models <- fitGMMi(SOFAS_df, 'SOFAS', LCGA_models, overall_polynomial = 2)
 
 ### Get Fit indices 
-GMMi_fit <- getFitIndices(GMMi_models)
-#mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
+GMMi_fit <- getFitIndices(GMMi_models) #mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
 
 ## Add class-variant random effect variances stepwise 
 GMMv_models <- fitGMMv(SOFAS_df, 'SOFAS', GMMi_models, overall_polynomial = 2)
@@ -184,15 +181,14 @@ runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/GMMv/GMM4/G
 GMMv_models[[4]][["i s q@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/GMMv/GMM4/GMM4v_i s q@0.out'))  
     
 ### Get Fit Indices 
-GMMv_fit <- getFitIndices(GMMv_models)
-# mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
+GMMv_fit <- getFitIndices(GMMv_models) # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
 
 ## Select best GMM model 
-# GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
-# GMMv_best <- selectBestModel(unlist(GMMv_models, FALSE), selection_method = "BIC_LRT")
-
 GMMi_best <- GMMi_models[[1]][["i s-q@0"]] # because warnings
 GMMv_best <- GMMv_models[[1]][["i s-q@0"]] # because warnings
+
+# GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
+# GMMv_best <- selectBestModel(unlist(GMMv_models, FALSE), selection_method = "BIC_LRT")
 
 ## Get fit indices of all selected models and select best model 
 BEST_fit <- list(GBTM_best, LCGA_best, GMMi_best, GMMv_best) %>% getFitIndices()
@@ -214,7 +210,7 @@ FINAL_model <- refinePolynomial(
 #FINAL_model <- BEST_model
 
 ## Examine fit indices 
-FINAL_fit <- list(FINAL_model) %>% getFitIndices()
+FINAL_fit <- FINAL_model %>% getFitIndices()
 
 # Step 6: Extract model parameters and save results  ----------------------
 ## Get and save final dataset based on most probable class membership 
@@ -395,12 +391,10 @@ GBTM_models <- fitGBTM(
   max_k = 6)
 
 ## Get GBTM models fit indices 
-GBTM_fit <- getFitIndices(GBTM_models) %>%
-  mutate(BF10 = exp((GBTM_fit['#choose model to test','BIC']-GBTM_fit['#choose model to test','BIC'])/2))
+GBTM_fit <- getFitIndices(GBTM_models) #mutate(BF10 = exp((GBTM_fit['#choose model to test','BIC']-GBTM_fit['#choose model to test','BIC'])/2))
  
 ## Select best GBTM model 
-GBTM_best <- GBTM_models[[2]]
-#GBTM_best <- selectBestModel(GBTM_models, selection_method = "BIC")
+GBTM_best <- GBTM_models[[2]] #GBTM_best <- selectBestModel(GBTM_models, selection_method = "BIC")
 
 # Step 3: Latent Class Growth Analyses ------------------------------------
 ## Run LCGA models 
@@ -414,20 +408,17 @@ LCGA_models <- fitLCGA(
   ref_model = GBTM_best)
 
 ## Get LCGA models fit indices 
-LCGA_fit <- getFitIndices(LCGA_models) %>% 
-  mutate(BF10 = exp((LCGA_fit['# choose model to test', 'BIC']-LCGA_fit['# choose model to test', 'BIC'])/2)) 
+LCGA_fit <- getFitIndices(LCGA_models) #mutate(BF10 = exp((LCGA_fit['# choose model to test', 'BIC']-LCGA_fit['# choose model to test', 'BIC'])/2)) 
 
 ## Select best LCGA model 
 LCGA_best <- selectBestModel(LCGA_models, selection_method = "BIC")
-
 
 # Step 4: Growth Mixture Models  ------------------------------------------
 ## Add class-invariant random effect variances stepwise 
 GMMi_models <- fitGMMi(SAPS_df, 'SAPS', LCGA_models, overall_polynomial = 3)
 
 ### Get Fit indices 
-GMMi_fit <- getFitIndices(GMMi_models)
-#mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
+GMMi_fit <- getFitIndices(GMMi_models) #mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
 
 ## Add class-variant random effect variances stepwise 
 GMMv_models <- fitGMMv(SAPS_df, 'SAPS', GMMi_models, overall_polynomial = 3)
@@ -436,8 +427,7 @@ runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMMv/GMM4/GM
 GMMv_models[[4]][["i s q cub@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMMv/GMM4/GMM4_i s q cub@0.out'))  #best LL not replicated at 4000 SV
 
 ### Get Fit Indices 
-GMMv_fit <- GMMi_fit <- getFitIndices(GMMv_models)
-# mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
+GMMv_fit <- GMMi_fit <- getFitIndices(GMMv_models) # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
 
 ## Select best GMM model 
 # GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
@@ -466,17 +456,9 @@ FINAL_model <- refinePolynomial(
   idvar = "pin")
 
 ## Examine fit indices 
-FINAL_fit <- list(FINAL_model) %>% getFitIndices()
+FINAL_fit <- FINAL_model %>% getFitIndices()
 
 # Step 6: Extract model parameters and save results  ----------------------
-## Get class counts & proportions of all models 
-
-GMMv_cc <- unlist(GMMv_models, FALSE) %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>% compact() %>% 
-  map_dfr(~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion')))
-  # mutate(model= map_if(unlist(GMMv_models, FALSE), ~ is.null(.x), pluck, 'TITLE'))
-  # select('model', starts_with(c('count', 'proportion')))
-
 ## Get and save final dataset based on most probable class membership 
 PEPP2_df <- 
   FINAL_model[["results"]][["savedata"]] %>% 
@@ -488,7 +470,6 @@ PEPP2_df <-
 write_csv(PEPP2_df, paste0('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_', today(), '.csv'))
 
 #final_dataset <- getDataset(final_model, SAPS_df, 'pin') 
-
 
 # Step 7: Plot trajectories -----------------------------------------------
 ## Get means as long form
@@ -655,8 +636,7 @@ GBTM_models <- fitGBTM(
   max_k = 6)
 
 ## Get GBTM models fit indices 
-GBTM_fit <- getFitIndices(GBTM_models) %>%
-  mutate(BF10 = exp((GBTM_fit['#choose model to test','BIC']-GBTM_fit['#choose model to test','BIC'])/2))
+GBTM_fit <- getFitIndices(GBTM_models) #mutate(BF10 = exp((GBTM_fit['#choose model to test','BIC']-GBTM_fit['#choose model to test','BIC'])/2))
 
 ## Select best GBTM model 
 GBTM_best <- GBTM_models[[3]]
@@ -674,12 +654,10 @@ LCGA_models <- fitLCGA(
   ref_model = GBTM_best)
 
 ## Get LCGA models fit indices 
-LCGA_fit <- getFitIndices(LCGA_models) %>% 
-  mutate(BF10 = exp((LCGA_fit['# choose model to test', 'BIC']-LCGA_fit['# choose model to test', 'BIC'])/2)) 
+LCGA_fit <- getFitIndices(LCGA_models) #mutate(BF10 = exp((LCGA_fit['# choose model to test', 'BIC']-LCGA_fit['# choose model to test', 'BIC'])/2)) 
 
 ## Select best LCGA model 
 LCGA_best <- selectBestModel(LCGA_models, selection_method = "BIC")
-
 
 # Step 4: Growth Mixture Models  ------------------------------------------
 ## Add class-invariant random effect variances stepwise 
@@ -692,8 +670,7 @@ runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMi/GMM2/GM
 GMMi_models[[2]][["i s q cub"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMi/GMM2/GMM2i_i s q cub.out'))  
 
 ### Get Fit indices 
-GMMi_fit <- GMMi_fit <- getFitIndices(GMMi_models)
-#mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
+GMMi_fit <- GMMi_fit <- getFitIndices(GMMi_models) #mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
 
 ## Add class-variant random effect variances stepwise 
 GMMv_models <- fitGMMv(SANS_df, 'SANS', GMMi_models, overall_polynomial = 3)
@@ -702,8 +679,7 @@ runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMv/GMM2/GM
 GMMv_models[[2]][["i s q cub@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMv/GMM2/GMM2v_i s q cub@0.out'))  #best LL not replicated
 
 ### Get Fit Indices 
-GMMv_fit <- GMMi_fit <- getFitIndices(GMMi_models)
-# mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
+GMMv_fit <- GMMi_fit <- getFitIndices(GMMi_models) # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
 
 ## Select best GMM model 
 # GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
@@ -735,12 +711,7 @@ FINAL_model <- refinePolynomial(
 FINAL_fit <- list(FINAL_model) %>% getFitIndices()
 
 # Step 6: Extract model parameters and save results  ----------------------
-## Get class counts & proportions of all models 
-GMMv_cc <- unlist(GMMv_models, FALSE) %>% compact() %>% 
-  map(pluck, 'results', 'class_counts', 'mostLikely') %>% 
-  map_dfr( ~ pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion')))
-
-  ## Get and save final dataset based on most probable class membership 
+## Get and save final dataset based on most probable class membership 
   PEPP2_df <- 
   FINAL_model[["results"]][["savedata"]] %>% 
   modify_at('C', as.factor) %>% 
