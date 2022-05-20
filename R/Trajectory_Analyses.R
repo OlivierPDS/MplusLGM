@@ -94,6 +94,7 @@ PEPP2_df <-
 .ws <- list.files(
   str_c(getwd(), "/SOFAS"), full.names = T) %>%
   file.info() %>%
+  filter(isdir==FALSE) %>% 
   slice_max(mtime) %>% # get the most updated workspace
   rownames()
   
@@ -344,6 +345,7 @@ save.image(glue(getwd(), 'SOFAS', 'SOFAS_{today()}.RData', .sep = "/"))
 .ws <- list.files(
   str_c(getwd(), "/SAPS"), full.names = T) %>%
   file.info() %>%
+  filter(isdir==FALSE) %>% 
   slice_max(mtime) %>% # get the most updated workspace
   rownames()
 
@@ -586,6 +588,7 @@ save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
 .ws <- list.files(
   str_c(getwd(), "/SANS"), full.names = T) %>%
   file.info() %>%
+  filter(isdir==FALSE) %>% 
   slice_max(mtime) %>% # get the most updated workspace
   rownames()
     
