@@ -161,8 +161,7 @@ LCGA_models <- fitLCGA(
   ref_model = GBTM_best)
 
 ## Get LCGA models fit indices 
-LCGA_fit <- getFitIndices(LCGA_models)
-  #mutate(BF10 = exp((LCGA_fit['# choose model to test', 'BIC']-LCGA_fit['# choose model to test', 'BIC'])/2)) 
+LCGA_fit <- getFitIndices(LCGA_models) #mutate(BF10 = exp((LCGA_fit['# choose model to test', 'BIC']-LCGA_fit['# choose model to test', 'BIC'])/2)) 
 
 ## Select best LCGA model 
 LCGA_best <- selectBestModel(LCGA_models, selection_method = "BIC")
@@ -210,7 +209,7 @@ FINAL_model <- refinePolynomial(
 #FINAL_model <- BEST_model
 
 ## Examine fit indices 
-FINAL_fit <- FINAL_model %>% getFitIndices()
+FINAL_fit <- getFitIndices(FINAL_model)
 
 # Step 6: Extract model parameters and save results  ----------------------
 ## Get and save final dataset based on most probable class membership 
@@ -427,7 +426,7 @@ runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMMv/GMM4/GM
 GMMv_models[[4]][["i s q cub@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMMv/GMM4/GMM4_i s q cub@0.out'))  #best LL not replicated at 4000 SV
 
 ### Get Fit Indices 
-GMMv_fit <- GMMi_fit <- getFitIndices(GMMv_models) # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
+GMMv_fit <- getFitIndices(GMMv_models) # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
 
 ## Select best GMM model 
 # GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
@@ -456,7 +455,7 @@ FINAL_model <- refinePolynomial(
   idvar = "pin")
 
 ## Examine fit indices 
-FINAL_fit <- FINAL_model %>% getFitIndices()
+FINAL_fit <- getFitIndices(FINAL_model)
 
 # Step 6: Extract model parameters and save results  ----------------------
 ## Get and save final dataset based on most probable class membership 
@@ -670,7 +669,7 @@ runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMi/GMM2/GM
 GMMi_models[[2]][["i s q cub"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMi/GMM2/GMM2i_i s q cub.out'))  
 
 ### Get Fit indices 
-GMMi_fit <- GMMi_fit <- getFitIndices(GMMi_models) #mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
+GMMi_fit <- getFitIndices(GMMi_models) #mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
 
 ## Add class-variant random effect variances stepwise 
 GMMv_models <- fitGMMv(SANS_df, 'SANS', GMMi_models, overall_polynomial = 3)
@@ -679,7 +678,7 @@ runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMv/GMM2/GM
 GMMv_models[[2]][["i s q cub@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMv/GMM2/GMM2v_i s q cub@0.out'))  #best LL not replicated
 
 ### Get Fit Indices 
-GMMv_fit <- GMMi_fit <- getFitIndices(GMMi_models) # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
+GMMv_fit <- getFitIndices(GMMv_models) # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
 
 ## Select best GMM model 
 # GMMi_best <- unlist(GMMi_models, FALSE) %>% selectBestModel(selection_method = "BIC_LRT")
@@ -708,7 +707,7 @@ FINAL_model <- refinePolynomial(
   idvar = "pin")
 
 ## Examine fit indices 
-FINAL_fit <- list(FINAL_model) %>% getFitIndices()
+FINAL_fit <- getFitIndices(FINAL_model)
 
 # Step 6: Extract model parameters and save results  ----------------------
 ## Get and save final dataset based on most probable class membership 
@@ -835,6 +834,7 @@ R3STEP_fit <- fitR3STEP(R3STEP_models, SX, manual_R3STEP = TRUE)
 
 # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SANS', 'SANS_{today()}.RData', .sep = "/"))
+
 
 
 # JUNK --------------------------------------------------------------------
