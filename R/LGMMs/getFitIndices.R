@@ -57,10 +57,10 @@ getFitIndices <- function(list_models) {
   
   # Get class counts & proportions
   models_cc <- list_models %>% 
-    purrr::map(purrr::pluck, 'results', 'class_counts', 'mostLikely', .default = NA_character_) %>% 
-    #purrr::modify_if(~is.null(.x), ~NA) %>% 
+    purrr::map(purrr::pluck, 'results', 'class_counts', 'mostLikely', .default = NA) %>% 
     purrr::modify_if(~!anyNA(.x), ~ tidyr::pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-    tryCatch(expr = reduce(., rbind), error=function(e) reduce(., rbind.fill)) # because rbind returns error when df have different ncol 
+    tryCatch(expr = reduce(., rbind), error=function(e) reduce(., rbind.fill)) %>%  # because rbind returns error when df have different ncol 
+    dplyr::mutate(dplyr::across(where(is.numeric) & dplyr::starts_with("proportion_"), ~ round(.x * 100, digits = 2)))
   
     
   # Create table of model summaries and bind tables together
