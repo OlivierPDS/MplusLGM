@@ -5,125 +5,164 @@
 #' @param df A data frame containing all user variables and the ID variable
 #' @param usevar A character vector containing variables to be used in Mplus
 #'     for analysis
-#' @param timepoints A vector containing the timepoints corresponding 
+#' @param timepoints A vector containing the timepoints corresponding
 #'     to the elements in the usevar vector
 #' @param idvar A character vector containing the ID variable in the data frame
 #' @param working_dir The directory where the results folder will be created
 #' @return An MplusObject
 #' @export
-refinePolynomial <- function(
-  model, 
-  df, 
-  usevar, 
-  timepoints,
-  idvar, 
-  working_dir = getwd()
-  ) {
+refinePolynomial <- function(model,
+                             df,
+                             usevar,
+                             overall_poly) {
+  model = BEST_model
+  df = SANS_df
+  usevar = "SANS"
+  overall_poly = 3
+  
+  p <- overall_poly
   
   # Get necessary model information
-  k <- readr::parse_number(model[["results"]][["input"]][["variable"]][["classes"]])
-  p <- readr::parse_number(stringr::str_split(model[["TITLE"]], '_')[[1]][[2]])
-  m <- stringr::str_split(model[['TITLE']], '_')[[1]][[1]]
+  k <-  model %>%  purrr::pluck("results", "summaries", "NLatentClasses")
   
   # Initialize list of all current growth factors for classes
-  factorsClass <- list()
-  
-  for (i in 1:k) {
+  gf <-
     if (p == 3) {
-      factorsClass[[i]] <- c("I","S","Q","CUB")
+      map(1:k, ~ c("I", "S", "Q", "CUB"))
     } else if (p == 2) {
-      factorsClass[[i]] <- c("I","S","Q")
+      map(1:k, ~ c("I", "S", "Q"))
     } else if (p == 1) {
       return(model) # Cannot further refine if already linear
     } else {
       stop('invalid polynomial order of model')
     }
-  }
   
   # Create a list of all current factors to be checked for all classes
-  currentFactorClass <- .create.list.currentFactor(factorsClass, k)
+  gf_current <- gf %>%  map(tail, 1)
   
-  # Create a list that contains the indexes of the mean p values of the current factors for all classes
-  indexPvalueClass <- .create.list.indexPvalue(currentFactorClass, model, k)
+  param_df <-
+    model[["results"]][["parameters"]][["unstandardized"]] %>%
+    filter(str_detect(paramHeader, 'Means')) %>%
+    filter(str_detect(param, "C#[:digit:]+", negate = TRUE)) %>%
+    select(LatentClass, param, pval)
   
-  # Get the p values using the indexes
-  pValClass <- .create.list.pValues(model, indexPvalueClass, k)
+  # Get the p values
+  pval_lst <- list()
+  for (n in 1:k) {
+    pval_lst[[n]] <- param_df %>%
+      filter(str_detect(param, gf_current[[n]]) &
+               LatentClass == n) %>%
+      pluck("pval")
+  }
+  
+  gf0 <- list()
+  for (n in 1:k) {
+    gf0[[n]] <- param_df %>%
+      filter(str_detect(param, gf_current[[n]]) &
+               LatentClass == n) %>%
+      mutate(gf0 = if_else(pval > 0.05,
+                           str_c(gf_current[[n]], "@0"),
+                           str_c(gf_current[[n]]))) %>%
+      pluck("gf0")
+  }
   
   # While any P value for a class growth factor is non-significant
-  while (any(pValClass > .05)) {
-    
-    # Check each class
-    for (i in 1:k) {
-      # If the growth factor is not significant, and not the slope, remove it
-      if (pValClass[[i]] > 0.05 && head(factorsClass[[i]]) != "S") {
-        factorsClass[[i]] = head(factorsClass[[i]], -1) # Remove from counter
-      }
+  while (any(pval_lst > .05)) {
+    # Get current growth factor index and replace it with appropriate growth factor
+    for (n in 1:k) {
+      j <- grep(gf_current[[n]], gf[[n]])
+      gf[[n]] <- gf[[n]] %>% assign_in(j, gf0[[n]])
     }
     
     # Get the growth factors for each class as a number
-    gf <- c()
-    for (i in 1:k) {
-      gf <- c(gf, length(factorsClass[[i]]) - 1)  # Subtract for I
-    }
+    gf_n <- gf %>% map(~ str_ends(.x, "@0", TRUE)) %>%
+      map(~ sum(.x) - 1) %>%
+      str_c(collapse = "")
+    
     
     # If any growth factor is zero, break as cannot have an intercept only model
-    if (0 %in% gf) {
+    if (0 %in% gf_n) {
       break
     }
     
-    # Run model with updated growth factors
-    model <- runModel(df, usevar, timepoints, idvar, k, p, m, working_dir, 4000, gf)
+    # Update Mplus Object with appropriate growth factors
+    mpobj <- update(
+      model,
+      TITLE = as.formula(glue(
+        "~ 'FINAL_{str_c(gf_n, collapse = '')};'"
+      )),
+      OUTPUT = as.formula(glue(
+        "~ 'TECH1 SAMPSTAT STANDARDIZED;'",
+      )),
+      SAVEDATA = as.formula(
+        glue(
+          "~ '
+        FILE = FINAL_{str_c(gf_n, collapse = '')}.dat;
+        SAVE = CPROBABILITIES;'"
+        )
+      ),
+      autov = FALSE,
+      rdata = df
+    )
     
-    # Update current highest growth factor
-    currentFactorClass <- .create.list.currentFactor(factorsClass, k)
+    for (n in 1:k) {
+      mpobj[["MODEL"]] <- mpobj[["MODEL"]] %>%
+        str_replace(
+          glue("%c#{n}%([:space:]\\[.*\\];)?"),
+          glue("%c#{n}%
+                   [", "{str_c(gf[[n]], collapse=' ')}", "];")
+        )
+      
+    }
     
-    # Update indices of class p-values
-    indexPvalueClass <- .create.list.indexPvalue(currentFactorClass, model, k)
+    # Create directory for results if does not already exist
+    model_dir <-
+      glue::glue(getwd(), '{usevar}', 'Results', 'FINAL', .sep = "/")
+    if (!dir.exists(model_dir)) {
+      dir.create(model_dir, recursive = TRUE)
+    }
     
-    # Get the new class p values
-    pValClass <- .create.list.pValues(model, indexPvalueClass, k)
+    # Run model
+    model <- mplusModeler(
+      object = mpobj,
+      dataout = glue(getwd(), "/{usevar}/Results/FINAL/{str_c(gf_n, collapse = '')}.dat"),
+      modelout = glue(getwd(), "/{usevar}/Results/FINAL/{str_c(gf_n, collapse = '')}.inp"),
+      hashfilename = FALSE,
+      run = 1,
+      check = TRUE,
+      varwarnings = TRUE,
+      writeData = "always"
+    )
+    
+    # Update model's parameters
+    param_df <-
+      model[["results"]][["parameters"]][["unstandardized"]] %>%
+      filter(str_detect(paramHeader, 'Means')) %>%
+      filter(str_detect(param, "C#[:digit:]+", negate = TRUE)) %>%
+      select(LatentClass, param, pval)
+    
+    # Update current growth factor
+    j <- j - 1
+    gf_current <- map(gf, pluck, j)
+    
+    # Update the p values
+    for (n in 1:k) {
+      gf0[[n]] <- param_df %>%
+        filter(str_detect(param, gf_current[[n]]) &
+                 LatentClass == n) %>%
+        mutate(gf0 = if_else(pval > 0.05,
+                             str_c(gf_current[[n]], "@0"),
+                             str_c(gf_current[[n]]))) %>%
+        pluck("gf0")
+    }
+    
+    for (n in 1:k) {
+      pval_lst[[n]] <- param_df %>%
+        filter(str_detect(param, gf_current[[n]]) &
+                 LatentClass == n) %>%
+        pluck("pval")
+    }
     
   }
-  
   return(model)
-  
-}
-  
-  
-#' Create a list of all current factors (= the last ones) to be checked for all classes
-.create.list.currentFactor <- function(factorsClass, k) {
-  currentFactorClass <- list()
-  for (i in 1:k){
-    currentFactorClass[[i]] <- tail(factorsClass[[i]], n=1)
-  }
-  return (currentFactorClass)
-}
-
-
-#' index of the mean p value of the current factor that we check for each class
-.create.list.indexPvalue <- function(currentFactorClass, model, k){
-  
-  # Read the list of parameters to find the position of the means and find the p values associated with the means
-  listeParam <- model$results$parameters$unstandardized$param
-  
-  indexPvalueClass <- list()
-  j <- 1 # the index of the p value of the 1st class would be the first occurrence of the current factor
-  for (i in 1:k){
-    indexPvalueClass[[i]] <- grep(glue::glue("^{currentFactorClass[[i]]}$"), listeParam)[j]
-    # We skip the factors related to the variances 
-    # j = 1: first occurrence of the factor (mean of class 1), j = 2: second occurrence of the factor (variance of class 1)
-    # j = 3: third occurrence of the factor (mean of class 2)...
-    j <- j + 2
-  }
-  return(indexPvalueClass)
-}
-
-
-#' Get the p values using the indexes
-.create.list.pValues <- function(mplusObject,indexPvalueClass, k){
-  pValClass <- list()
-  for (i in 1:k){
-    pValClass[[i]] <- mplusObject$results$parameters$unstandardized$pval[indexPvalueClass[[i]]]
-  }
-  return (pValClass)
 }
