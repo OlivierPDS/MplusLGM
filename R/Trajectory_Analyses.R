@@ -177,8 +177,8 @@ GMMi_fit <- getFitIndices(GMMi_models) #mutate(BF10 = exp((GMMi_fit['# chose mod
 ## Add class-variant random effect variances stepwise 
 GMMv_models <- fitGMMv(SOFAS_df, 'SOFAS', GMMi_models, overall_polynomial = 2)
 
-runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/GMMv/GMM4/GMM4v_i s q@0.inp')) #best LL not replicated (32000)
-GMMv_models[[4]][["i s q@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/GMMv/GMM4/GMM4v_i s q@0.out'))  
+runModels(str_c(getwd(), '/SOFAS/Results/GMMv/GMM4/GMM4v_i s q@0.inp')) #best LL not replicated (32000)
+GMMv_models[[4]][["i s q@0"]][['results']] <-  readModels(str_c(getwd(), '/SOFAS/Results/GMMv/GMM4/GMM4v_i s q@0.out'))  
     
 ### Get Fit Indices 
 GMMv_fit <- getFitIndices(GMMv_models) # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
@@ -424,8 +424,8 @@ GMMi_fit <- getFitIndices(GMMi_models) #mutate(BF10 = exp((GMMi_fit['# chose mod
 ## Add class-variant random effect variances stepwise 
 GMMv_models <- fitGMMv(SAPS_df, 'SAPS', GMMi_models, overall_polynomial = 3)
 
-runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMMv/GMM4/GMM4_i s q cub@0.inp'))
-GMMv_models[[4]][["i s q cub@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMMv/GMM4/GMM4_i s q cub@0.out'))  #best LL not replicated at 4000 SV
+runModels(str_c(getwd(), '/SAPS/Results/GMMv/GMM4/GMM4_i s q cub@0.inp'))
+GMMv_models[[4]][["i s q cub@0"]][['results']] <-  readModels(str_c(getwd(), '/SAPS/Results/GMMv/GMM4/GMM4_i s q cub@0.out'))  #best LL not replicated at 4000 SV
 
 ### Get Fit Indices 
 GMMv_fit <- getFitIndices(GMMv_models) # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
@@ -666,10 +666,10 @@ LCGA_best <- selectBestModel(LCGA_models, selection_method = "BIC")
 GMMi_models <- fitGMMi(SANS_df, 'SANS', LCGA_models, overall_polynomial = 3)
 
 runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMi/GMM1/GMM1i_i s q cub.inp')) #best LL not replicated
-GMMi_models[[1]][["i s q cub"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMi/GMM1/GMM1i_i s q cub.out'))  
+GMMi_models[[1]][["i s q cub"]][['results']] <-  readModels(str_c(getwd(), '/SANS/Results/GMMi/GMM1/GMM1i_i s q cub.out'))  
 
-runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMi/GMM2/GMM2i_i s q cub.inp')) #best LL not replicated
-GMMi_models[[2]][["i s q cub"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMi/GMM2/GMM2i_i s q cub.out'))  
+runModels(str_c(getwd(), '/SANS/Results/GMMi/GMM2/GMM2i_i s q cub.inp')) #best LL not replicated
+GMMi_models[[2]][["i s q cub"]][['results']] <-  readModels(str_c(getwd(), '/SANS/Results/GMMi/GMM2/GMM2i_i s q cub.out'))  
 
 ### Get Fit indices 
 GMMi_fit <- getFitIndices(GMMi_models) #mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC'] - GMMi_fit['# chose model to test', 'BIC']) /2))
@@ -677,8 +677,8 @@ GMMi_fit <- getFitIndices(GMMi_models) #mutate(BF10 = exp((GMMi_fit['# chose mod
 ## Add class-variant random effect variances stepwise 
 GMMv_models <- fitGMMv(SANS_df, 'SANS', GMMi_models, overall_polynomial = 3)
 
-runModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMv/GMM2/GMM2v_i s q cub@0.inp')) # SV = 4000
-GMMv_models[[2]][["i s q cub@0"]][['results']] <-  readModels(str_c('/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/GMMv/GMM2/GMM2v_i s q cub@0.out'))  #best LL not replicated
+runModels(str_c(getwd(), '/SANS/Results/GMMv/GMM2/GMM2v_i s q cub@0.inp')) # SV = 4000
+GMMv_models[[2]][["i s q cub@0"]][['results']] <-  readModels(str_c(getwd(), '/SANS/Results/GMMv/GMM2/GMM2v_i s q cub@0.out'))  #best LL not replicated
 
 ### Get Fit Indices 
 GMMv_fit <- getFitIndices(GMMv_models) # mutate(BF10 = exp((GMMi_fit['# chose model to test', 'BIC']-GMMi_fit['# chose model to test', 'BIC'])/2))
@@ -704,10 +704,11 @@ BEST_param <-
 FINAL_model <- refinePolynomial(
   model = BEST_model, 
   df = SANS_df,
-  usevar = SANS,
-  timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
-  working_dir = paste(getwd(), 'SANS', sep = '/'),
-  idvar = "pin")
+  usevar = 'SANS',
+  overall_poly = 3)
+
+runModels(str_c(getwd(), '/SANS/Results/FINAL/311.inp')) # SV = 8000
+FINAL_model[['results']] <-  readModels(str_c(getwd(), '/SANS/Results/FINAL/311.out'))  #best LL not replicated
 
 ## Examine fit indices 
 FINAL_fit <- getFitIndices(FINAL_model)
@@ -819,17 +820,17 @@ miss <- {unlist(lapply(SANS_df, function(x) sum(is.na(x)))) / nrow(SANS_df) * 10
 
 ### Auxilliary
 ### Manual
-R3STEP_models <- R3STEP(
+R3STEPm_models <- R3STEP(
   df = SANS_df,
   idvar = 'pin',
   usevar = 'SANS',
-  cov = SX_0,
+  cov = c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY),
   model = FINAL_model,
   manual_R3STEP = TRUE
 )
 
+R3STEPm_fit <- fitR3STEP(R3STEPm_models, c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY), manual_R3STEP = TRUE)
 
-R3STEP_fit <- fitR3STEP(R3STEP_models, SX, manual_R3STEP = TRUE)
 
 # R3STEP_warn <- map(R3STEPm, pluck, 'results', 'warnings')
 # R3STEP_err <- map(R3STEPm, pluck, 'results', 'errors')
