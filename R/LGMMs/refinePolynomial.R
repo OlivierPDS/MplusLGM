@@ -15,10 +15,6 @@ refinePolynomial <- function(model,
                              df,
                              usevar,
                              overall_poly) {
-  model = BEST_model
-  df = SANS_df
-  usevar = "SANS"
-  overall_poly = 3
   
   p <- overall_poly
   
