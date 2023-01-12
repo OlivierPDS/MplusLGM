@@ -13,19 +13,19 @@ library (haven)
   # CSV file 
   PEPP2_df <-
     list.files(
-      "/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2",
+      "/Users/olivierpercie/Library/Group Containers/UBF8T346G9.OneDriveStandaloneSuite/OneDrive - McGill University.noindex/OneDrive - McGill University/CRISP/PhD/1. PEPP2/Data/Datasets",
       full.names = T
     ) %>%
     file.info() %>%
-    slice_max(mtime) %>% # get the most updated file
+    filter(isdir==FALSE) %>% 
+    slice_max(ctime) %>% # get the last updated file
     rownames() %>%
     read_csv()
-
 
 ### Define variables of interest 
   # SD  
 SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp', 'ageonset', 'duponset', 'PAS_tot2')
-SD_cat <- c('gender', 'minority', 'marital2', 'housing', 'work', 'dx_spect', 'SUD')
+SD_cat <- c('gender', 'minority', 'marital2', 'housing', 'work', 'dx_spect', 'SUD', 'Txsitn')
 
   # Sx 
 SAPS <- names(select(PEPP2_df, num_range('SAPS_', 0:24)))
@@ -183,7 +183,7 @@ write_csv(PEPP2_df, paste0('/Users/olivierpercie/OneDrive - McGill University/CR
   # SD 
 SD_df <- PEPP2_df %>%
   subset(pin <= 857) %>%
-  select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, K, CP, SR_C, SR_BY, t)
+  select('pin', SD_num, SD_cat, 'doe', SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, SR_C, SR_BY, t)
 
   # Traj 
 SAPNS_df <- PEPP2_df %>%
@@ -212,7 +212,7 @@ SAPNS_Ldf <- pivot_longer(SAPNS_df,
 
 # DESCRIPTIVES STATS ####
 ### Df description 
-summary <- summary(SD_df)
+summary <- summary(SD_df$FU)########
 dfSummary()
 
 ### Sociodemographics 
@@ -281,7 +281,9 @@ df2imput %>%
 
 ### Average percentage of missing data 
 library(misty)
-na.descript(PEPP2_df)
+na.descript(SD_df)
+
+SD_df <- PEPP2_df %>% subset(pin <= 857) %>% select(across(starts_with(c("sap7_", "sap20_", "sap25_", "sap34_","san8_", "san13_", "san17_", "san22_"))))
 
 ### Percent of missing data per columns 
 miss <- {unlist(lapply(SAPNS_df, function(x) sum(is.na(x)))) / nrow(SAPNS_df) * 100} %>% view()

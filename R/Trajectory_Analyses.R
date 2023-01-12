@@ -8,9 +8,10 @@ library(metan)
 library(MplusAutomation)
 library(MplusLGM)
 library(rhdf5)
-library(plyr)
 
-R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE)
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
+
+# file.choose() open explorer window to chose file
 
 # To do -------------------------------------------------------------------
 ## improve SelectBestModel() by adding some conditions (class count < 5%, lowest k, warnings/errors)
@@ -48,9 +49,18 @@ BiocManager::install("rhdf5")
 ## Install MplusLGM 
 devtools::install_github("joshunrau/MplusLGM")
 
-
-
-
+# Load dataset ------------------------------------------------------------
+PEPP2_df <-
+  list.files(
+    "/Users/olivierpercie/Library/Group Containers/UBF8T346G9.OneDriveStandaloneSuite/OneDrive - McGill University.noindex/OneDrive - McGill University/CRISP/PhD/1. PEPP2/Data/Datasets",
+    full.names = T
+  ) %>%
+  file.info() %>%
+  filter(isdir==FALSE) %>% 
+  slice_max(mtime) %>% # get the most updated file
+  rownames() %>%
+  read_csv() %>% 
+  modify_at(c(SD_cat, SR_BY), as.factor)
 
 # Vars of interest --------------------------------------------------------
 ## SD  
@@ -78,16 +88,7 @@ C <- c('C_SAPS', 'C_SANS', 'C_SOFAS')
 CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
 t <- str_c('t', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 
-PEPP2_df <-
-  list.files(
-    "/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2",
-    full.names = T
-  ) %>%
-  file.info() %>%
-  slice_max(mtime) %>% # get the most updated file
-  rownames() %>%
-  read_csv() %>% 
-  modify_at(c(SD_cat, SR_BY), as.factor)
+# PEPP2_df <-PEPP2_df %>% mutate(PAS_tot2 = round(PAS_tot2, digits = 2))
 
 # SOFAS -------------------------------------------------------------------
 ## Load workingspace 
@@ -99,22 +100,22 @@ PEPP2_df <-
   rownames()
   
 load(.ws)
-R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE)
 
 # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
 SOFAS_df <- 
   list.files(
-    "/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2",
+    "/Users/olivierpercie/Library/Group Containers/UBF8T346G9.OneDriveStandaloneSuite/OneDrive - McGill University.noindex/OneDrive - McGill University/CRISP/PhD/1. PEPP2/Data/Datasets",
     full.names = T
   ) %>%
   file.info() %>%
-  slice_max(mtime) %>% # get the most updated file
+  filter(isdir==FALSE) %>% 
+  slice_max(ctime) %>% # get the most updated file
   rownames() %>%
   read_csv() %>%
   subset(miss_SOFAS <= 1 & n == 1) %>% 
   select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY))) %>% 
-  modify_at(c(SD_cat, SR_BY), as.factor)
+  modify_at(c(SD_cat, SR_BY, PSR, NSR), as.factor)
 
 ## rename vars > 8 characters
 SOFAS_df <- names(SOFAS_df) %>% 
@@ -301,8 +302,8 @@ FitIndices_GBTM_tscores <- mplusModeler(
 # Step 9: Add covariates  -------------------------------------------------
 ## Instructions 
 ### simple/univariate regression then multiple/multivariate regressions
-### R3STEP: no need to list var as categorical
-### missing on pred/Xs:
+### R3STEP: no need to list pred var as categorical
+### missing on pred/Xs: manual R3STEP
 ### MI: has to be 2 separate steps/inp. files (AUXILIARY = vars excluded from IMPUTE = data)
 ### can use the manual R3step, including a model for the covariates (instead of C on X; use C on X; X; )
 ### (see section 3;  http://statmodel.com/download/webnotes/webnote15.pdf)
@@ -350,7 +351,6 @@ save.image(glue(getwd(), 'SOFAS', 'SOFAS_{today()}.RData', .sep = "/"))
   rownames()
 
 load(.ws)
-R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE)
 
 # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
@@ -572,7 +572,7 @@ miss <- {unlist(lapply(SAPS_df, function(x) sum(is.na(x)))) / nrow(SAPS_df) * 10
      df = SAPS_df,
      idvar = 'pin',
      usevar = 'SAPS',
-     cov = c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY),
+     cov = c(SX_0, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY),
      model = FINAL_model,
      manual_R3STEP = TRUE
    )
@@ -593,7 +593,6 @@ save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
   rownames()
     
 load(.ws)
-R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE)
 
 # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
@@ -829,12 +828,7 @@ R3STEPm_models <- R3STEP(
   manual_R3STEP = TRUE
 )
 
-R3STEPm_fit <- fitR3STEP(R3STEPm_models, c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY), manual_R3STEP = TRUE)
-
-
-# R3STEP_warn <- map(R3STEPm, pluck, 'results', 'warnings')
-# R3STEP_err <- map(R3STEPm, pluck, 'results', 'errors')
-
+R3STEPm_fit <- fitR3STEP(R3STEPm_models, c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY))
 
 # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SANS', 'SANS_{today()}.RData', .sep = "/"))
