@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-05/13/2022   3:46 PM
+11/25/2022   9:34 AM
 
 INPUT INSTRUCTIONS
 
@@ -10,7 +10,7 @@ INPUT INSTRUCTIONS
   FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/R3STEPm_ageonset.dat";
 
   VARIABLE:
-  NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N ageonset;
+  NAMES = PIN I S Q C_I C_S C_Q CPROB1 CPROB2 N ageonset;
    MISSING=.;
    USEVAR = ageonset N;
   NOMINAL= N;
@@ -18,13 +18,11 @@ INPUT INSTRUCTIONS
   ANALYSIS:
 
     TYPE = MIXTURE;
-    ALGORITHM=INTEGRATION;
-    INTEGRATION=MONTECARLO;
     STARTS = 0;
     PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  C on ageonset; ageonset;
+  C on ageonset;
 
   %C#1%
   [N#1@2.378];
@@ -34,7 +32,11 @@ INPUT INSTRUCTIONS
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on x-variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on x-variables:  27
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -44,7 +46,7 @@ R3STEPm_ageonset;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         369
+Number of observations                                         342
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -72,19 +74,19 @@ Continuous Outcomes
 Optimization Specifications for the EM Algorithm
   Maximum number of iterations                                 500
   Convergence criteria
-    Loglikelihood change                                 0.100D-02
-    Relative loglikelihood change                        0.100D-05
-    Derivative                                           0.100D-02
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
 Optimization Specifications for the M step of the EM Algorithm for
 Categorical Latent variables
   Number of M step iterations                                    1
-  M step convergence criterion                           0.100D-02
+  M step convergence criterion                           0.100D-05
   Basis for M step termination                           ITERATION
 Optimization Specifications for the M step of the EM Algorithm for
 Censored, Binary or Ordered Categorical (Ordinal), Unordered
 Categorical (Nominal) and Count Outcomes
   Number of M step iterations                                    1
-  M step convergence criterion                           0.100D-02
+  M step convergence criterion                           0.100D-05
   Basis for M step termination                           ITERATION
   Maximum value for logit thresholds                            15
   Minimum value for logit thresholds                           -15
@@ -92,13 +94,6 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
-Integration Specifications
-  Type                                                  MONTECARLO
-  Number of integration points                                 250
-  Dimensions of numerical integration                            1
-  Adaptive quadrature                                           ON
-  Monte Carlo integration seed                                   0
-Cholesky                                                       OFF
 
 Input data file(s)
   /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/R3STEPm_ageonset.da
@@ -107,9 +102,6 @@ Input data format  FREE
 
 SUMMARY OF DATA
 
-     Number of missing data patterns             2
-     Number of y missing data patterns           2
-     Number of u missing data patterns           0
 
 
 COVARIANCE COVERAGE OF DATA
@@ -117,20 +109,11 @@ COVARIANCE COVERAGE OF DATA
 Minimum covariance coverage value   0.100
 
 
-     PROPORTION OF DATA PRESENT FOR Y
-
-
-           Covariance Coverage
-              AGEONSET
-              ________
- AGEONSET       0.927
-
-
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.564          208.000
-      Category 2    0.436          161.000
+      Category 1    0.564          193.000
+      Category 2    0.436          149.000
 
 
 
@@ -152,19 +135,19 @@ THE MODEL ESTIMATION TERMINATED NORMALLY
 
 MODEL FIT INFORMATION
 
-Number of Free Parameters                        4
+Number of Free Parameters                        2
 
 Loglikelihood
 
-          H0 Value                       -1277.819
-          H0 Scaling Correction Factor      1.0055
+          H0 Value                        -232.701
+          H0 Scaling Correction Factor      1.0147
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    2563.637
-          Bayesian (BIC)                  2579.281
-          Sample-Size Adjusted BIC        2566.590
+          Akaike (AIC)                     469.403
+          Bayesian (BIC)                   477.072
+          Sample-Size Adjusted BIC         470.728
             (n* = (n + 2) / 24)
 
 
@@ -175,8 +158,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        204.79221          0.55499
-       2        164.20779          0.44501
+       1        190.08780          0.55581
+       2        151.91220          0.44419
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -185,8 +168,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        204.78854          0.55498
-       2        164.21146          0.44502
+       1        190.08780          0.55581
+       2        151.91220          0.44419
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -197,8 +180,8 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              208          0.56369
-       2              161          0.43631
+       1              193          0.56433
+       2              149          0.43567
 
 
 CLASSIFICATION QUALITY
@@ -211,7 +194,7 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.901    0.099
+    1   0.902    0.098
     2   0.108    0.892
 
 
@@ -229,7 +212,7 @@ by Latent Class (Row)
 
               1        2
 
-    1      2.382    0.000
+    1      2.381    0.000
     2     -1.946    0.000
 
 
@@ -241,33 +224,25 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    AGEONSET          22.782      0.264     86.418      0.000
     N#1                2.378      0.000    999.000    999.000
-
- Variances
-    AGEONSET          23.754      1.813     13.100      0.000
 
 Latent Class 2
 
  Means
-    AGEONSET          22.782      0.264     86.418      0.000
     N#1               -1.949      0.000    999.000    999.000
-
- Variances
-    AGEONSET          23.754      1.813     13.100      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    AGEONSET           0.050      0.030      1.671      0.095
+    AGEONSET           0.050      0.030      1.677      0.094
 
  Intercepts
-    C#1               -0.915      0.696     -1.315      0.189
+    C#1               -0.916      0.698     -1.313      0.189
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.714E-04
+     Condition Number for the Information Matrix              0.765E-04
        (ratio of smallest to largest eigenvalue)
 
 
@@ -279,7 +254,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    AGEONSET           1.051      0.031      0.991      1.115
+    AGEONSET           1.052      0.031      0.992      1.115
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -290,10 +265,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    AGEONSET          -0.050      0.030     -1.671      0.095
+    AGEONSET          -0.050      0.030     -1.677      0.094
 
  Intercepts
-    C#2                0.915      0.696      1.315      0.189
+    C#2                0.916      0.698      1.313      0.189
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -307,8 +282,8 @@ Parameterization using Reference Class 1
     AGEONSET           0.951      0.028      0.897      1.009
 
 
-     Beginning Time:  15:46:04
-        Ending Time:  15:46:04
+     Beginning Time:  09:34:25
+        Ending Time:  09:34:25
        Elapsed Time:  00:00:00
 
 

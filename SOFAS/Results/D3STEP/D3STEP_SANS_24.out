@@ -1,0 +1,303 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+11/30/2022  11:07 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_SANS_24;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/D3STEP/D3STEP_SANS_24.dat";
+
+  VARIABLE:
+  NAMES = PIN I S Q C_I C_S C_Q CPROB1 CPROB2 N SANS_24;
+   MISSING=.;
+   USEVAR = SANS_24 N;
+  NOMINAL = N;
+  CLASSES = c(2);
+  ANALYSIS:
+
+    TYPE = MIXTURE;
+    STARTS = 0;
+    PROCESSORS = 8;
+
+  MODEL:
+  %OVERALL%
+  SANS_24
+
+  %C#1%
+  [N#1@2.378];
+  [SANS_24](M1); SANS_24;
+
+  %C#2%
+  [N#1@-1.949];
+  [SANS_24](M2); SANS_24;
+  MODEL CONSTRAINT:
+
+    New (diff12);
+    diff12 = M1 - M2;
+
+  MODEL TEST:
+  M1 = M2;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_SANS_24;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         369
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   SANS_24
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/D3STEP/D3STEP_SANS_24.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              SANS_24
+              ________
+ SANS_24        0.751
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.564          208.000
+      Category 2    0.436          161.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SANS_24               5.812       0.653       0.000   11.55%       2.000      4.000      5.000
+             277.000      18.672      -0.114      20.000    0.36%       6.000     10.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        5
+
+Loglikelihood
+
+          H0 Value                        -996.630
+          H0 Scaling Correction Factor      0.9361
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    2003.260
+          Bayesian (BIC)                  2022.814
+          Sample-Size Adjusted BIC        2006.950
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                            128.740
+          Degrees of Freedom                     1
+          P-Value                           0.0000
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        204.05225          0.55299
+       2        164.94775          0.44701
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        204.05225          0.55299
+       2        164.94775          0.44701
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              202          0.54743
+       2              167          0.45257
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.635
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.920    0.080
+    2   0.109    0.891
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.911    0.089
+    2   0.098    0.902
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      2.322    0.000
+    2     -2.219    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    SANS_24            3.257      0.310     10.491      0.000
+
+ Means
+    N#1                2.378      0.000    999.000    999.000
+
+ Variances
+    SANS_24            7.111      1.026      6.931      0.000
+
+Latent Class 2
+
+ Means
+    SANS_24            8.785      0.381     23.056      0.000
+
+ Means
+    N#1               -1.949      0.000    999.000    999.000
+
+ Variances
+    SANS_24           15.689      1.856      8.455      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.213      0.133      1.594      0.111
+
+New/Additional Parameters
+    DIFF12            -5.528      0.487    -11.346      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.731E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  11:07:24
+        Ending Time:  11:07:24
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-05/13/2022   3:46 PM
+11/25/2022   9:34 AM
 
 INPUT INSTRUCTIONS
 
@@ -10,7 +10,7 @@ INPUT INSTRUCTIONS
   FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/R3STEPm_work.dat";
 
   VARIABLE:
-  NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N work;
+  NAMES = PIN I S Q C_I C_S C_Q CPROB1 CPROB2 N work;
    MISSING=.;
    USEVAR = work N;
   NOMINAL= N;
@@ -18,13 +18,11 @@ INPUT INSTRUCTIONS
   ANALYSIS:
 
     TYPE = MIXTURE;
-    ALGORITHM=INTEGRATION;
-    INTEGRATION=MONTECARLO;
     STARTS = 0;
     PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  C on work; work;
+  C on work;
 
   %C#1%
   [N#1@2.378];
@@ -34,7 +32,11 @@ INPUT INSTRUCTIONS
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on x-variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on x-variables:  24
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -44,7 +46,7 @@ R3STEPm_work;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         369
+Number of observations                                         345
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -72,19 +74,19 @@ Continuous Outcomes
 Optimization Specifications for the EM Algorithm
   Maximum number of iterations                                 500
   Convergence criteria
-    Loglikelihood change                                 0.100D-02
-    Relative loglikelihood change                        0.100D-05
-    Derivative                                           0.100D-02
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
 Optimization Specifications for the M step of the EM Algorithm for
 Categorical Latent variables
   Number of M step iterations                                    1
-  M step convergence criterion                           0.100D-02
+  M step convergence criterion                           0.100D-05
   Basis for M step termination                           ITERATION
 Optimization Specifications for the M step of the EM Algorithm for
 Censored, Binary or Ordered Categorical (Ordinal), Unordered
 Categorical (Nominal) and Count Outcomes
   Number of M step iterations                                    1
-  M step convergence criterion                           0.100D-02
+  M step convergence criterion                           0.100D-05
   Basis for M step termination                           ITERATION
   Maximum value for logit thresholds                            15
   Minimum value for logit thresholds                           -15
@@ -92,13 +94,6 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
-Integration Specifications
-  Type                                                  MONTECARLO
-  Number of integration points                                 250
-  Dimensions of numerical integration                            1
-  Adaptive quadrature                                           ON
-  Monte Carlo integration seed                                   0
-Cholesky                                                       OFF
 
 Input data file(s)
   /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/R3STEPm_work.dat
@@ -107,9 +102,6 @@ Input data format  FREE
 
 SUMMARY OF DATA
 
-     Number of missing data patterns             2
-     Number of y missing data patterns           2
-     Number of u missing data patterns           0
 
 
 COVARIANCE COVERAGE OF DATA
@@ -117,20 +109,11 @@ COVARIANCE COVERAGE OF DATA
 Minimum covariance coverage value   0.100
 
 
-     PROPORTION OF DATA PRESENT FOR Y
-
-
-           Covariance Coverage
-              WORK
-              ________
- WORK           0.935
-
-
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.564          208.000
-      Category 2    0.436          161.000
+      Category 1    0.554          191.000
+      Category 2    0.446          154.000
 
 
 
@@ -152,19 +135,19 @@ THE MODEL ESTIMATION TERMINATED NORMALLY
 
 MODEL FIT INFORMATION
 
-Number of Free Parameters                        4
+Number of Free Parameters                        2
 
 Loglikelihood
 
-          H0 Value                        -675.353
-          H0 Scaling Correction Factor      0.8903
+          H0 Value                        -229.519
+          H0 Scaling Correction Factor      1.0347
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    1358.706
-          Bayesian (BIC)                  1374.349
-          Sample-Size Adjusted BIC        1361.658
+          Akaike (AIC)                     463.038
+          Bayesian (BIC)                   470.725
+          Sample-Size Adjusted BIC         464.381
             (n* = (n + 2) / 24)
 
 
@@ -175,8 +158,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        205.01830          0.55561
-       2        163.98170          0.44439
+       1        187.50044          0.54348
+       2        157.49956          0.45652
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -185,8 +168,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        205.21372          0.55613
-       2        163.78628          0.44387
+       1        187.50054          0.54348
+       2        157.49946          0.45652
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -197,13 +180,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              208          0.56369
-       2              161          0.43631
+       1              191          0.55362
+       2              154          0.44638
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.542
+     Entropy                         0.541
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -211,8 +194,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.902    0.098
-    2   0.109    0.891
+    1   0.898    0.102
+    2   0.104    0.896
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -229,8 +212,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      2.369    0.000
-    2     -1.953    0.000
+    1      2.368    0.000
+    2     -1.954    0.000
 
 
 MODEL RESULTS
@@ -241,33 +224,25 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    WORK               1.606      0.045     35.338      0.000
     N#1                2.378      0.000    999.000    999.000
-
- Variances
-    WORK               0.710      0.037     19.059      0.000
 
 Latent Class 2
 
  Means
-    WORK               1.606      0.045     35.338      0.000
     N#1               -1.949      0.000    999.000    999.000
-
- Variances
-    WORK               0.710      0.037     19.059      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    WORK               0.680      0.199      3.423      0.001
+    WORK               0.675      0.194      3.479      0.001
 
  Intercepts
-    C#1               -0.838      0.321     -2.613      0.009
+    C#1               -0.882      0.317     -2.784      0.005
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.133E-01
+     Condition Number for the Information Matrix              0.449E-01
        (ratio of smallest to largest eigenvalue)
 
 
@@ -279,7 +254,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    WORK               1.975      0.393      1.338      2.916
+    WORK               1.965      0.382      1.343      2.875
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -290,10 +265,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    WORK              -0.680      0.199     -3.423      0.001
+    WORK              -0.675      0.194     -3.479      0.001
 
  Intercepts
-    C#2                0.838      0.321      2.613      0.009
+    C#2                0.882      0.317      2.784      0.005
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -304,11 +279,11 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    WORK               0.506      0.101      0.343      0.748
+    WORK               0.509      0.099      0.348      0.745
 
 
-     Beginning Time:  15:46:07
-        Ending Time:  15:46:07
+     Beginning Time:  09:34:26
+        Ending Time:  09:34:26
        Elapsed Time:  00:00:00
 
 

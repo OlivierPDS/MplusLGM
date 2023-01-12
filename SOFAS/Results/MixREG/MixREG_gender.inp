@@ -1,0 +1,27 @@
+TITLE:
+MixREG_gender;
+DATA:
+FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/MixREG/MixREG_gender.dat";
+ 
+VARIABLE:
+NAMES = PIN I S Q C_I C_S C_Q CPROB1 CPROB2 N gender; 
+ MISSING=.;
+ USEVAR = gender N S;
+NOMINAL = N;
+CLASSES = c(2);
+ANALYSIS:
+
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+MODEL:
+%OVERALL%
+S on gender;
+
+%C#1%
+[N#1@2.378];
+S on gender;
+
+%C#2%
+[N#1@-1.949];
+S on gender;

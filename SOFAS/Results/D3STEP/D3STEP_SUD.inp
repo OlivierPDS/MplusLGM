@@ -1,0 +1,35 @@
+TITLE:
+D3STEP_SUD;
+DATA:
+FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/D3STEP/D3STEP_SUD.dat";
+ 
+VARIABLE:
+NAMES = PIN I S Q C_I C_S C_Q CPROB1 CPROB2 N SUD; 
+ MISSING=.;
+ USEVAR = SUD N;
+NOMINAL = N;
+CATEGORICAL = SUD;
+CLASSES = c(2);
+ANALYSIS:
+
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  
+MODEL:
+%OVERALL%
+
+%C#1%
+[N#1@2.378];
+[SUD$1](M1);
+
+%C#2%
+[N#1@-1.949];
+[SUD$1](M2);
+MODEL CONSTRAINT:
+
+  New (diff12);
+  diff12 = M1 - M2;
+  
+MODEL TEST:
+M1 = M2;
