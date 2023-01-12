@@ -265,6 +265,10 @@ SANS_tb <- sumtable(
   out = "return",
 )
 
+# mean folow-up
+
+SD_df <- SD_df %>% 
+  mutate(FU = as.numeric(difftime(ymd('2023-01-01'), doe, 'days') / 365.25)) 
 
 # MISSING DATA ANALYSES ####
 ### Little's MCAR 
