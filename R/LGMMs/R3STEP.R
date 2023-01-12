@@ -3,63 +3,63 @@ R3STEP <- function(df,
                    usevar,
                    cov,
                    model,
-                   manual_R3STEP = FALSE){
+                   method = c('auxiliary', 'manual'))
+                   {
   
   savedata <- list()
   R3STEP_mpobj <-  list()
   R3STEP_fit <- list()
   
-  if (manual_R3STEP == FALSE) {
+  if (method == 'auxiliary') {
     
-  # Read the output file and find separator sentence
-  output <- model[["results"]][["output"]]
-  line <- grep("Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:", output)
-  
-  # Get seed value for best LL value
-  vector <- stringr::str_split(output[line+2], " ")[[1]] 
-  seed <- vector[14] 
-  
-  # Get VARIABLE
-  var1 <- word(model[["results"]][["input"]][["variable"]][["usevar"]], 1)
-  var2 <- word(model[["results"]][["input"]][["variable"]][["usevar"]], -1)
-  class <- model[["results"]][["input"]][["variable"]][["classes"]]
-  
-  # Create MplusObject for all var in cov
-  for (i in cov) {
+    # Read the output file and find separator sentence
+    output <- model[["results"]][["output"]]
+    line <- grep("Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:", output)
     
-    R3STEP_mpobj[[i]] <- update(
-      model,
+    # Get seed value for best LL value
+    vector <- stringr::str_split(output[line+2], " ")[[1]] 
+    seed <- vector[14] 
+    
+    # Get VARIABLE
+    var1 <- word(model[["results"]][["input"]][["variable"]][["usevar"]], 1)
+    var2 <- word(model[["results"]][["input"]][["variable"]][["usevar"]], -1)
+    class <- model[["results"]][["input"]][["variable"]][["classes"]]
+    
+    # Create MplusObject for all var in cov
+    for (i in cov) {
       
-      TITLE = as.formula(glue("~ '
-R3STEP_{i};'")),
-      
-      VARIABLE = as.formula(glue("~ '
+      R3STEP_mpobj[[i]] <- update(
+        model,
+        
+        TITLE = as.formula(glue("~ '
+R3STEPa_{i};'")),
+
+VARIABLE = as.formula(glue("~ '
 USEVAR = {var1}-{var2} {i};
 AUXILIARY = (R3STEP) {i};
 CLASSES = {class};'")),
-      
-      ANALYSIS = 
-        as.formula(glue("~ '
+
+ANALYSIS = 
+  as.formula(glue("~ '
 TYPE = MIXTURE;
 STARTS = 0;
 OPTSEED = {seed};
 PROCESSORS = 8;'")),
-      
-      OUTPUT = ~ '
+
+OUTPUT = ~ '
 SAMPSTAT
 STANDARDIZED
 TECH1;',
+
+usevariables = names(df),
+rdata = df
+      )
       
-      usevariables = names(df),
-      rdata = df
-    )
+      R3STEP_mpobj[[i]][["PLOT"]] <- NULL
+      R3STEP_mpobj[[i]][["SAVEDATA"]] <- NULL
+    }
+  } else if (method == 'manual') {
     
-    R3STEP_mpobj[[i]][["PLOT"]] <- NULL
-    R3STEP_mpobj[[i]][["SAVEDATA"]] <- NULL
-  }
-  
- } else {
-   
     # Extract logits and model parameters
     logits <- model[["results"]][["class_counts"]][["logitProbs.mostLikely"]] %>% as.data.frame()
     k <- model[["results"]][["input"]][["variable"]][["classes"]] %>% readr::parse_number()
@@ -67,10 +67,10 @@ TECH1;',
     # Create MplusObject for all var in cov 
     for (i in cov) {
       
-    #Create df including C and cov
+      #Create df including C and cov
       savedata[[i]] <- model[["results"]][["savedata"]] %>%  
         as.data.frame() %>% 
-        select(-starts_with('SAPS')) %>% # bug when cov %in% savedata 
+        select(-starts_with(usevar)) %>% # bug when cov %in% savedata 
         merge(
           y = select(df, c(idvar, i)),
           by.x = str_to_upper(idvar), #vars name are always uppercase in Mplus data output
@@ -82,23 +82,23 @@ TECH1;',
         TITLE = 
           glue::glue("
   R3STEPm_{i};"),
-        
-        VARIABLE =
-          glue::glue("
+  
+  VARIABLE =
+    glue::glue("
   USEVAR = {i} N;
   NOMINAL= N;
   CLASSES = c({k});"),
-        
-        ANALYSIS = "
+  
+  ANALYSIS = "
   TYPE = MIXTURE;
-  ALGORITHM=INTEGRATION;
-  INTEGRATION=MONTECARLO;
+  ALGORITHM = INTEGRATION;
+  INTEGRATION = MONTECARLO;
   STARTS = 0;
   PROCESSORS = 8;",
-        
-        MODEL = (
-          if (k == 2) {
-            glue::glue("
+  
+  MODEL = (
+    if (k == 2) {
+      glue::glue("
   %OVERALL%
   C on {i}; {i};
 
@@ -107,9 +107,10 @@ TECH1;',
 
   %C#2%
   [N#1@{logits[2,1]}];")
-          } 
-          else if (k == 3) {
-            glue::glue("
+      
+    } else if (k == 3) {
+      
+    glue::glue("
   %OVERALL%
   C on {i}; {i};
 
@@ -124,45 +125,49 @@ TECH1;',
   %C#3%
   [N#1@{logits[3,1]}];
   [N#2@{logits[3,2]}];")
-          } 
-          else {
-            stop('Error: Does not currently support model with more than 3 classes')
-            }),
-        usevariables = colnames(savedata[[i]]),
-        rdata = savedata[[i]]
+      
+  } else {
+    
+    stop('Error: Does not currently support model with more than 3 classes')
+    
+  }
+  ),
+  
+  usevariables = colnames(savedata[[i]]),
+  rdata = savedata[[i]]
       )
     }
- }
+  }
   
   # Create directory for results if does not exist
   path <-glue::glue(getwd(), '{usevar}', 'Results', 'R3STEP', .sep = "/")
   if (!dir.exists(path)) {dir.create(path, recursive = TRUE)}
     
-  if (manual_R3STEP == FALSE) {
+  if (method == 'auxiliary') {
     for (i in cov) {
       R3STEP_fit[[i]] <- mplusModeler(
         object = R3STEP_mpobj[[i]],
-        dataout = glue::glue(path, '/R3STEP_{i}.dat'), #to change SAPS
-        modelout = glue::glue(path, '/R3STEP_{i}.inp'),
+        dataout = glue::glue(path, '/R3STEPa_{i}.dat'), #to change SAPS
+        modelout = glue::glue(path, '/R3STEPa_{i}.inp'),
         hashfilename = FALSE,
         run = 1,
         check=TRUE,
         varwarnings = TRUE,
         writeData = 'always')
-        }
-  } else {
-      for (i in cov) {
-        R3STEP_fit[[i]] <- MplusAutomation::mplusModeler(
-          object = R3STEP_mpobj[[i]],
-          dataout = glue::glue(path, '/R3STEPm_{i}.dat'),
-          modelout = glue::glue(path, '/R3STEPm_{i}.inp'),
-          hashfilename = FALSE,
-          run = 1,
-          check = TRUE,
-          varwarnings = TRUE,
-          writeData = 'always')
-        }
-      }
+    }
+  } else if (method == 'manual') {
+    for (i in cov) {
+      R3STEP_fit[[i]] <- MplusAutomation::mplusModeler(
+        object = R3STEP_mpobj[[i]],
+        dataout = glue::glue(path, '/R3STEPm_{i}.dat'),
+        modelout = glue::glue(path, '/R3STEPm_{i}.inp'),
+        hashfilename = FALSE,
+        run = 1,
+        check = TRUE,
+        varwarnings = TRUE,
+        writeData = 'always')
+    }
+  }
 
 return(R3STEP_fit)
   
