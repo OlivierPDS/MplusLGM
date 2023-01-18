@@ -10,7 +10,7 @@ D3STEPm <- function(df,
   
   # Extract logits and model parameters
   logits <- model[["results"]][["class_counts"]][["logitProbs.mostLikely"]] %>% as.data.frame()
-  k <- model[["results"]][["input"]][["variable"]][["classes"]] %>% readr::parse_number()
+  k <- model[["results"]][["summaries"]][["NLatentClasses"]]
   
   # Create MplusObject for all var in cov 
   for (i in cov) {
@@ -61,6 +61,7 @@ D3STEPm <- function(df,
     if (k == 2 & is.factor(df[[i]])) {
       glue::glue("
   %OVERALL%
+  [{i}$1];
   
   %C#1%
   [N#1@{logits[1,1]}];
@@ -74,7 +75,7 @@ D3STEPm <- function(df,
   else if (k == 2 & !is.factor(df[[i]])) {
     glue::glue("
   %OVERALL%
-  {i}
+  {i};
   
   %C#1%
   [N#1@{logits[1,1]}];
@@ -88,7 +89,8 @@ D3STEPm <- function(df,
   else if (k == 3 & is.factor(df[[i]])) {
     glue::glue("
   %OVERALL%
-
+  [{i}$1];
+  
   %C#1%
   [N#1@{logits[1,1]}];
   [N#2@{logits[1,2]}];
@@ -107,6 +109,7 @@ D3STEPm <- function(df,
   else if (k == 3 & !is.factor(df[[i]])) {
     glue::glue("
   %OVERALL%
+  {i};
   
   %C#1%
   [N#1@{logits[1,1]}];
@@ -132,16 +135,25 @@ D3STEPm <- function(df,
       glue::glue("M1 = M2;")
     } 
   else if (k == 3) {
-    glue::glue("M1 = M2; M1 = M3; M2 = M3;")
+    glue::glue("M1 = M2; M1 = M3;")
   } 
   else {
     stop('Error: Does not currently support model with more than 3 classes')
   }),
   
-  MODELCONSTRAINT = "
-  New (diff12);
-  diff12 = M1 - M2;
-  ",
+  MODELCONSTRAINT = (
+    if (k == 2) {
+      glue::glue("New (diff12); diff12 = M1 - M2;")
+    } 
+    else if (k == 3) {
+      glue::glue("New (diff12 diff13); 
+                  diff12 = M1 - M2;
+                  diff13 = M1 - M3;
+                  ")
+    } 
+    else {
+      stop('Error: Does not currently support model with more than 3 classes')
+    }),
   
   usevariables = colnames(savedata[[i]]),
   rdata = savedata[[i]]
