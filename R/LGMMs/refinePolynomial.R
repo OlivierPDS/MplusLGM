@@ -11,12 +11,11 @@
 #' @param working_dir The directory where the results folder will be created
 #' @return An MplusObject
 #' @export
-refinePolynomial <- function(model,
+Rpoly <- function(model,
                              df,
                              usevar,
-                             overall_poly) {
+                             p = c(1, 2, 3)) {
   
-  p <- overall_poly
   
   # Get necessary model information
   k <-  model %>%  purrr::pluck("results", "summaries", "NLatentClasses")
