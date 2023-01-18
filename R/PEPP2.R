@@ -25,7 +25,8 @@ library (haven)
 ### Define variables of interest 
   # SD  
 SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp', 'ageonset', 'duponset', 'PAS_tot2')
-SD_cat <- c('gender', 'minority', 'marital2', 'housing', 'work', 'dx_spect', 'SUD', 'Txsitn')
+SD_cat <- c('gender', 'minority', 'marital2', 'housing', 'work', 'dx_spect', 'SUD')
+misc_cat <- c('Txsitn')
 
   # Sx 
 SAPS <- names(select(PEPP2_df, num_range('SAPS_', 0:24)))
@@ -41,7 +42,7 @@ SX <- c(SAPS, SANS, SOFAS, HAS, CDS, YMRS)
 PSR <- names(select(PEPP2_df, num_range('PSR_', 0:24)))
 NSR <- names(select(PEPP2_df, num_range('NSR_', 0:24)))
 SR_C <- c('PSR_24C', 'NSR_24C')
-SR_BY <- c('PSR_BY3', 'NSR_BY3')
+SR <- c('PSR_BY3', 'NSR_BY3', 'PSR_at3', 'NSR_at3')
 
   # Trajectory 
 C <- c('C_SAPS', 'C_SANS', 'C_SOFAS')
