@@ -1,0 +1,332 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+01/17/2023  11:17 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_SAPS_24;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/D3STEP/D3STEP_SAPS_24.dat";
+
+  VARIABLE:
+  NAMES = PIN I S Q CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N SAPS_24;
+   MISSING=.;
+   USEVAR = SAPS_24 N;
+  NOMINAL = N;
+  CLASSES = c(3);
+  ANALYSIS:
+
+    TYPE = MIXTURE;
+    STARTS = 0;
+    PROCESSORS = 8;
+
+  MODEL:
+  %OVERALL%
+  SAPS_24;
+
+  %C#1%
+  [N#1@3.075];
+  [N#2@1.083];
+  [SAPS_24](M1);
+
+  %C#2%
+  [N#1@1.199];
+  [N#2@2.945];
+  [SAPS_24](M2);
+
+  %C#3%
+  [N#1@-1.281];
+  [N#2@-1.148];
+  [SAPS_24](M3);
+  MODEL CONSTRAINT:
+  New (diff12 diff13);
+  diff12 = M1 - M2;
+  diff13 = M1 - M3;
+  MODEL TEST:
+  M1 = M2; M1 = M3;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_SAPS_24;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         405
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   SAPS_24
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/D3STEP/D3STEP_SAPS_24.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              SAPS_24
+              ________
+ SAPS_24        0.793
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.437          177.000
+      Category 2    0.402          163.000
+      Category 3    0.160           65.000
+
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SAPS_24               3.287       1.343       0.000   33.64%       0.000      1.000      2.000
+             321.000      15.027       1.106      17.000    0.31%       3.000      6.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        6
+
+Loglikelihood
+
+          H0 Value                       -1278.419
+          H0 Scaling Correction Factor      1.1103
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    2568.838
+          Bayesian (BIC)                  2592.861
+          Sample-Size Adjusted BIC        2573.823
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                            314.329
+          Degrees of Freedom                     2
+          P-Value                           0.0000
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        168.02888          0.41489
+       2        164.07618          0.40513
+       3         72.89494          0.17999
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        168.02888          0.41489
+       2        164.07618          0.40513
+       3         72.89494          0.17999
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              174          0.42963
+       2              157          0.38765
+       3               74          0.18272
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.578
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.807    0.175    0.018
+    2   0.148    0.823    0.029
+    3   0.060    0.059    0.882
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.835    0.138    0.026
+    2   0.186    0.788    0.026
+    3   0.043    0.062    0.895
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      3.456    1.658    0.000
+    2      1.950    3.394    0.000
+    3     -3.027   -2.674    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    SAPS_24            1.709      0.224      7.632      0.000
+
+ Means
+    N#1                3.075      0.000    999.000    999.000
+    N#2                1.083      0.000    999.000    999.000
+
+ Variances
+    SAPS_24            4.882      0.498      9.797      0.000
+
+Latent Class 2
+
+ Means
+    SAPS_24            2.103      0.248      8.495      0.000
+
+ Means
+    N#1                1.199      0.000    999.000    999.000
+    N#2                2.945      0.000    999.000    999.000
+
+ Variances
+    SAPS_24            4.882      0.498      9.797      0.000
+
+Latent Class 3
+
+ Means
+    SAPS_24           10.598      0.523     20.260      0.000
+
+ Means
+    N#1               -1.281      0.000    999.000    999.000
+    N#2               -1.148      0.000    999.000    999.000
+
+ Variances
+    SAPS_24            4.882      0.498      9.797      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.835      0.173      4.819      0.000
+    C#2                0.811      0.177      4.592      0.000
+
+New/Additional Parameters
+    DIFF12            -0.394      0.345     -1.141      0.254
+    DIFF13            -8.889      0.520    -17.083      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.277E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+     Beginning Time:  11:17:11
+        Ending Time:  11:17:11
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-11/25/2022   9:34 AM
+01/12/2023   1:36 PM
 
 INPUT INSTRUCTIONS
 
@@ -18,11 +18,13 @@ INPUT INSTRUCTIONS
   ANALYSIS:
 
     TYPE = MIXTURE;
+    ALGORITHM = INTEGRATION;
+    INTEGRATION = MONTECARLO;
     STARTS = 0;
     PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  C on holltotp;
+  C on holltotp; holltotp;
 
   %C#1%
   [N#1@2.378];
@@ -32,11 +34,7 @@ INPUT INSTRUCTIONS
 
 
 
-*** WARNING
-  Data set contains cases with missing on x-variables.
-  These cases were not included in the analysis.
-  Number of cases with missing on x-variables:  104
-   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+INPUT READING TERMINATED NORMALLY
 
 
 
@@ -46,7 +44,7 @@ R3STEPm_holltotp;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         265
+Number of observations                                         369
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -74,19 +72,19 @@ Continuous Outcomes
 Optimization Specifications for the EM Algorithm
   Maximum number of iterations                                 500
   Convergence criteria
-    Loglikelihood change                                 0.100D-06
-    Relative loglikelihood change                        0.100D-06
-    Derivative                                           0.100D-05
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
 Optimization Specifications for the M step of the EM Algorithm for
 Categorical Latent variables
   Number of M step iterations                                    1
-  M step convergence criterion                           0.100D-05
+  M step convergence criterion                           0.100D-02
   Basis for M step termination                           ITERATION
 Optimization Specifications for the M step of the EM Algorithm for
 Censored, Binary or Ordered Categorical (Ordinal), Unordered
 Categorical (Nominal) and Count Outcomes
   Number of M step iterations                                    1
-  M step convergence criterion                           0.100D-05
+  M step convergence criterion                           0.100D-02
   Basis for M step termination                           ITERATION
   Maximum value for logit thresholds                            15
   Minimum value for logit thresholds                           -15
@@ -94,6 +92,13 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                  MONTECARLO
+  Number of integration points                                 250
+  Dimensions of numerical integration                            1
+  Adaptive quadrature                                           ON
+  Monte Carlo integration seed                                   0
+Cholesky                                                       OFF
 
 Input data file(s)
   /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/R3STEPm_holltotp.da
@@ -102,6 +107,9 @@ Input data format  FREE
 
 SUMMARY OF DATA
 
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
+     Number of u missing data patterns           0
 
 
 COVARIANCE COVERAGE OF DATA
@@ -109,11 +117,20 @@ COVARIANCE COVERAGE OF DATA
 Minimum covariance coverage value   0.100
 
 
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              HOLLTOTP
+              ________
+ HOLLTOTP       0.718
+
+
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.604          160.000
-      Category 2    0.396          105.000
+      Category 1    0.564          208.000
+      Category 2    0.436          161.000
 
 
 
@@ -135,19 +152,19 @@ THE MODEL ESTIMATION TERMINATED NORMALLY
 
 MODEL FIT INFORMATION
 
-Number of Free Parameters                        2
+Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                        -168.996
-          H0 Scaling Correction Factor      1.0020
+          H0 Value                       -1350.883
+          H0 Scaling Correction Factor      0.9724
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                     341.992
-          Bayesian (BIC)                   349.151
-          Sample-Size Adjusted BIC         342.810
+          Akaike (AIC)                    2709.766
+          Bayesian (BIC)                  2725.409
+          Sample-Size Adjusted BIC        2712.719
             (n* = (n + 2) / 24)
 
 
@@ -158,8 +175,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        160.89891          0.60717
-       2        104.10109          0.39283
+       1        206.19865          0.55880
+       2        162.80135          0.44120
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -168,8 +185,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        160.89892          0.60717
-       2        104.10108          0.39283
+       1        205.23714          0.55620
+       2        163.76286          0.44380
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -180,13 +197,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              160          0.60377
-       2              105          0.39623
+       1              208          0.56369
+       2              161          0.43631
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.565
+     Entropy                         0.545
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -194,8 +211,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.920    0.080
-    2   0.131    0.869
+    1   0.903    0.097
+    2   0.109    0.891
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -203,7 +220,7 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.914    0.086
+    1   0.915    0.085
     2   0.124    0.876
 
 
@@ -212,8 +229,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      2.369    0.000
-    2     -1.958    0.000
+    1      2.375    0.000
+    2     -1.959    0.000
 
 
 MODEL RESULTS
@@ -224,25 +241,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
+    HOLLTOTP          52.412      0.958     54.714      0.000
     N#1                2.378      0.000    999.000    999.000
+
+ Variances
+    HOLLTOTP         249.852     21.069     11.859      0.000
 
 Latent Class 2
 
  Means
+    HOLLTOTP          52.412      0.958     54.714      0.000
     N#1               -1.949      0.000    999.000    999.000
+
+ Variances
+    HOLLTOTP         249.852     21.069     11.859      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    HOLLTOTP          -0.049      0.014     -3.574      0.000
+    HOLLTOTP          -0.047      0.012     -3.750      0.000
 
  Intercepts
-    C#1                3.060      0.796      3.846      0.000
+    C#1                2.706      0.705      3.841      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.143E-04
+     Condition Number for the Information Matrix              0.230E-04
        (ratio of smallest to largest eigenvalue)
 
 
@@ -254,7 +279,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    HOLLTOTP           0.952      0.013      0.927      0.978
+    HOLLTOTP           0.955      0.012      0.932      0.978
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -265,10 +290,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    HOLLTOTP           0.049      0.014      3.574      0.000
+    HOLLTOTP           0.047      0.012      3.750      0.000
 
  Intercepts
-    C#2               -3.060      0.796     -3.846      0.000
+    C#2               -2.706      0.705     -3.841      0.000
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -279,12 +304,12 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    HOLLTOTP           1.050      0.014      1.022      1.079
+    HOLLTOTP           1.048      0.013      1.022      1.073
 
 
-     Beginning Time:  09:34:25
-        Ending Time:  09:34:25
-       Elapsed Time:  00:00:00
+     Beginning Time:  13:36:35
+        Ending Time:  13:36:36
+       Elapsed Time:  00:00:01
 
 
 
