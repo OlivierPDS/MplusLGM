@@ -10,7 +10,7 @@ MixREG <- function(df,
   
     # Extract logits and model parameters
     logits <- model[["results"]][["class_counts"]][["logitProbs.mostLikely"]] %>% as.data.frame()
-    k <- model[["results"]][["input"]][["variable"]][["classes"]] %>% readr::parse_number()
+    k <- model[["results"]][["summaries"]][["NLatentClasses"]]
     
     # Create MplusObject for all var in cov 
     for (i in cov) {
@@ -33,7 +33,7 @@ MixREG <- function(df,
         
         VARIABLE =
           glue::glue("
-  USEVAR = {i} N S;
+  USEVAR = {i} N I S;
   NOMINAL = N;
   CLASSES = c({k});"),
         
@@ -46,42 +46,54 @@ MixREG <- function(df,
           if (k == 2) {
             glue::glue("
   %OVERALL%
-  S ON {i}; 
+  I ON {i};
+  S ON {i};
   {i};
   
   %C#1%
   [N#1@{logits[1,1]}];
+  I ON {i};
   S ON {i};
   {i}; 
 
   %C#2%
   [N#1@{logits[2,1]}];
+  I ON {i};
   S ON {i};
   {i};")
-          } 
-          else if (k == 3) {
+          } else if (k == 3) {
             glue::glue("
   %OVERALL%
-  S ON {i}; {i};
+  I ON {i};
+  S ON {i};
+  {i};
 
   %C#1%
   [N#1@{logits[1,1]}];
   [N#2@{logits[1,2]}];
-  S ON {i}; {i};
+  I ON {i};
+  S ON {i};
+  {i};
 
   %C#2%
   [N#1@{logits[2,1]}];
   [N#2@{logits[2,2]}];
-  S ON {i}; {i};
+  I ON {i};
+  S ON {i}; 
+  {i};
 
   %C#3%
   [N#1@{logits[3,1]}];
   [N#2@{logits[3,2]}];
-  S ON {i}; {i};")
+  I ON {i};
+  S ON {i}; 
+  {i};")
           } 
           else {
             stop('Error: Does not currently support model with more than 3 classes')
             }),
+  
+        OUTPUT = "sampstat standardized TECH1;",
         usevariables = colnames(savedata[[i]]),
         rdata = savedata[[i]]
       )
