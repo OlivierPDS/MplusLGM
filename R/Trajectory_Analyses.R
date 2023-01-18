@@ -114,8 +114,8 @@ SOFAS_df <-
   rownames() %>%
   read_csv() %>%
   subset(miss_SOFAS <= 1 & n == 1) %>% 
-  select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY))) %>% 
-  modify_at(c(SD_cat, SR_BY, PSR, NSR), as.factor)
+  select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR))) %>% 
+  modify_at(c(SD_cat, SR, PSR, NSR), as.factor)
 
 ## rename vars > 8 characters
 SOFAS_df <- names(SOFAS_df) %>% 
@@ -126,7 +126,7 @@ SOFAS_df <- names(SOFAS_df) %>%
 
 # Step 1: Growth Curve Modeling  ------------------------------------------
 ## Run GCM model
-GCM_model <- runGCM(SOFAS_df, SOFAS, c(0, 12, 24))
+GCM_model <- fitGCM(SOFAS_df, SOFAS, c(0, 12, 24))
 
 ## Get GCM model fit indices
 GCM_fit <-
@@ -318,7 +318,7 @@ R3STEP_models <- R3STEP(
   usevar = 'SOFAS',
   cov = c('ageentry', 'gender', 'NSR_0'),
   model = FINAL_model,
-  manual_R3STEP = FALSE
+  method = 'manual'
 )
 
 ### Manual
@@ -326,13 +326,13 @@ R3STEPm_models <- R3STEP(
   df = SOFAS_df,
   idvar = 'pin',
   usevar = 'SOFAS',
-  cov = c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY),
+  cov = c(SX_0, SD_num, SD_cat, SR, SR_C),
   model = FINAL_model,
-  manual_R3STEP = TRUE
+  method = 'manual'
 )
 
-R3STEP_fit <- fitR3STEP(R3STEP_models, c('ageentry', 'gender', 'NSR_0'), manual_R3STEP = FALSE)
-R3STEPm_fit <- fitR3STEP(R3STEPm_models, c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY), manual_R3STEP = TRUE)
+R3STEP_fit <- R3STEPfit(R3STEP_models, c('ageentry', 'gender', 'NSR_0'))
+R3STEPm_fit <- R3STEPfit(R3STEPm_models, c(SX_0, SD_num, SD_cat, SR, SR_C))
 
 # R3STEP_warn <- map(R3STEP_models, pluck, 'results', 'warnings')
 # R3STEP_err <- map(R3STEP_models, pluck, 'results', 'errors')
@@ -577,7 +577,7 @@ miss <- {unlist(lapply(SAPS_df, function(x) sum(is.na(x)))) / nrow(SAPS_df) * 10
      manual_R3STEP = TRUE
    )
    
-    R3STEPm_fit <- fitR3STEP(R3STEPm_models, c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY), manual_R3STEP = TRUE)
+    R3STEPm_fit <- R3STEPfit(R3STEPm_models, c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY), manual_R3STEP = TRUE)
    
 # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = "/"))
@@ -598,16 +598,17 @@ load(.ws)
 ## Load dataset 
   SANS_df <-
     list.files(
-      "/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2",
+      "/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets",
       full.names = T
     ) %>%
     file.info() %>%
-    slice_max(mtime) %>% # get the most updated file
+    filter(isdir==FALSE) %>% 
+    slice_max(ctime) %>% # get the most updated file
     rownames() %>%
     read_csv() %>%
     subset(miss_SANS <= 4 & n == 1) %>%
-    select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY))) %>%
-    modify_at(c(SD_cat, SR_BY), as.factor)
+    select ('pin', all_of(c(SX_0, SD_num, SD_cat, PSR, NSR, SR_C, SR))) %>%
+    modify_at(c(SD_cat, SR), as.factor)
 
 
 ## rename vars > 8 characters
@@ -823,12 +824,12 @@ R3STEPm_models <- R3STEP(
   df = SANS_df,
   idvar = 'pin',
   usevar = 'SANS',
-  cov = c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY),
+  cov = c(SX_0, SD_num, SD_cat, SR_C, SR),
   model = FINAL_model,
-  manual_R3STEP = TRUE
+  method = 'manual'
 )
 
-R3STEPm_fit <- fitR3STEP(R3STEPm_models, c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR_BY))
+R3STEPm_fit <- R3STEPfit(R3STEPm_models, c(SX_0, SD_num, SD_cat, SR_C, SR))
 
 # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SANS', 'SANS_{today()}.RData', .sep = "/"))
