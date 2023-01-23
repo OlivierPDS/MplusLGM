@@ -1,4 +1,4 @@
-D3STEPm <- function(df,
+D3STEP <- function(df,
                    idvar,
                    usevar,
                    cov,
@@ -154,6 +154,8 @@ D3STEPm <- function(df,
     else {
       stop('Error: Does not currently support model with more than 3 classes')
     }),
+  
+  OUTPUT = ifelse(is.factor(df[[i]]), "CINTERVAL;", "SAMPSTAT STANDARDIZED CINTERVAL;"),
   
   usevariables = colnames(savedata[[i]]),
   rdata = savedata[[i]]
