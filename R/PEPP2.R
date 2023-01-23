@@ -3,7 +3,6 @@ library (magrittr)
 library (lubridate)
 library (haven)
 
-
 # PREPARE DATASET ####
 ### Load dataset 
   # SAV file 
@@ -13,15 +12,16 @@ library (haven)
   # CSV file 
   PEPP2_df <-
     list.files(
-      "/Users/olivierpercie/Library/Group Containers/UBF8T346G9.OneDriveStandaloneSuite/OneDrive - McGill University.noindex/OneDrive - McGill University/CRISP/PhD/1. PEPP2/Data/Datasets",
+      "/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets",
       full.names = T
     ) %>%
     file.info() %>%
     filter(isdir==FALSE) %>% 
-    slice_max(ctime) %>% # get the last updated file
+    slice_max(mtime) %>% # get the most updated file
     rownames() %>%
-    read_csv()
-
+    read_csv() %>% 
+    modify_at(c(SD_cat, SR, NSR, PSR), as.factor)
+  
 ### Define variables of interest 
   # SD  
 SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp', 'ageonset', 'duponset', 'PAS_tot2')
@@ -46,7 +46,7 @@ SR <- c('PSR_BY3', 'NSR_BY3', 'PSR_at3', 'NSR_at3')
 
   # Trajectory 
 C <- c('C_SAPS', 'C_SANS', 'C_SOFAS')
-CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
+CP <- c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
 t <- names(select(PEPP2_df, num_range('t', 0:24)))
 
   # Miscellaneous 
@@ -59,7 +59,7 @@ items <- names(select(PEPP2_df, sap1_0:ymrs11_24))
 
 ### Recode variables as factor 
 PEPP2_df <- PEPP2_df %>%
-  modify_at(c(SD_cat, SR_BY, C), as.factor) # attr(), attributes() to check label and levels
+  modify_at(c(SD_cat, SR, C, misc_cat), as.factor) # attr(), attributes() to check label and levels
 
 ### Add variables 
 vars <- "starts_with('dsfs')"
@@ -81,6 +81,8 @@ PEPP2_df <- PEPP2_df %>%
   setnames(old = c('minority_status', 'housing_status', 'working_status'), new = c('minority', 'housing', 'work'))
 
 vars8 <- names(PEPP2_df) %>% grep('.{9,}', ., value = TRUE) 
+
+PEPP2_df <-PEPP2_df %>% mutate(PAS_tot2 = round(PAS_tot2, digits = 2))
 
 ### Individually varying time of observation 
   # Replace missing in date of assessment with due date 
@@ -142,7 +144,6 @@ PEPP2_df <- merge(PEPP2_df, TSCORES_df, by = 'pin', all.x = TRUE)
 
 
 ### Total scores 
-library(stringr)
 for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
   PEPP2_df <- PEPP2_df %>%
     mutate(!!str_c("SAPS_", i) :=
@@ -213,7 +214,6 @@ SAPNS_Ldf <- pivot_longer(SAPNS_df,
 
 # DESCRIPTIVES STATS ####
 ### Df description 
-summary <- summary(SD_df$FU)########
 dfSummary()
 
 ### Sociodemographics 
@@ -288,7 +288,6 @@ SD_df <- PEPP2_df %>% subset(pin <= 857) %>% select(across(starts_with(c("sap7_"
 
 ### Percent of missing data per columns 
 miss <- {unlist(lapply(SAPNS_df, function(x) sum(is.na(x)))) / nrow(SAPNS_df) * 100} %>% view()
-
 
 # MULTIPLE IMPUTATION ####
 library(mice)
@@ -508,3 +507,4 @@ runModels('/Users/olivierpercie/Desktop/MplusLGM/MplusfromR/GMM1_i s-cub@0.inp')
 
 # SAVE #### 
 save.image(glue(getwd(), 'PEPP2_{today()}.RData', .sep = "/"))
+
