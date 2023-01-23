@@ -1,35 +1,47 @@
 
-MixREG_models <- MixREG(
-  df = SANS_df,
+R3STEP_models <- R3STEP(
+  df = SAPS_df,
   idvar = 'pin',
-  usevar = 'SANS',
-  cov = c('SAPS_0', 'SUD'),
+  usevar = 'SAPS',
+  cov = c(SD_num, SD_cat),
+  model = FINAL_model, 
+  method = 'manual'
+)
+
+list_mpobj <- R3STEP_models
+
+alt_param <- readModels(target=str_c(getwd(), '/SAPS/Results/R3STEP/R3STEPm_gender.out')) %>% paramExtract("regression")
+
+output <- R3STEPm_models[["gender"]][["results"]][["output"]]
+
+
+
+MixREG_models <- MixREG(
+  df = SAPS_df,
+  idvar = 'pin',
+  usevar = 'SAPS',
+  cov = c('SANS_0', 'gender'),
   model = FINAL_model
 )
 
-MixREG_fit <- MixREGfit(MixREG_models, c('SANS_24', "PSR_24"))
+list_mpobj <- MixREG_models
 
+MixREG_fit <- MixREGfit(MixREG_models, c('SANS_0', "gender"))
 
 D3STEPm_models <- D3STEPm(
-  df = SANS_df,
+  df = SAPS_df,
   idvar = 'pin',
-  usevar = 'SANS',
-  cov = c('SOFAS_24', 'SAPS_24', "PSR_24", "work"),
+  usevar = 'SAPS',
+  cov = c('SAPS_24', "work"),
   model = FINAL_model
 )
 
-
+list_mpobj <- D3STEPm_models
 
 D3STEPm_fit <- D3STEPfit(D3STEPm_models, c('SAPS_24', "work"))
 
-
-i <- 'SAPS_24'
-i <- 'work'
-cov <- c('SAPS_24', "work")
-list_mpobj <- D3STEPm_models
-
-df <- SANS_df
-usevar <- 'SANS'
+df <- SOFAS_df
+usevar <- 'SOFAS'
 idvar <- 'pin'
 timepoints <- c(0, 12, 24)
-p <- 3
+p <- 2
