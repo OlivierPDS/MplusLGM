@@ -11,7 +11,7 @@
 #' @param working_dir The directory where the results folder will be created
 #' @return An MplusObject
 #' @export
-Rpoly <- function(model,
+poly <- function(model,
                              df,
                              usevar,
                              p = c(1, 2, 3)) {
