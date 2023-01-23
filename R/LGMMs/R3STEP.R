@@ -46,11 +46,7 @@ STARTS = 0;
 OPTSEED = {seed};
 PROCESSORS = 8;'")),
 
-OUTPUT = ~ '
-SAMPSTAT
-STANDARDIZED
-TECH1;',
-
+OUTPUT = ~ "SAMPSTAT STANDARDIZED CINTERVAL;",
 usevariables = names(df),
 rdata = df
       )
@@ -132,7 +128,7 @@ rdata = df
     
   }
   ),
-  
+  OUTPUT = "SAMPSTAT STANDARDIZED CINTERVAL;",
   usevariables = colnames(savedata[[i]]),
   rdata = savedata[[i]]
       )
