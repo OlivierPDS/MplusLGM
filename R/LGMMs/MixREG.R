@@ -93,7 +93,8 @@ MixREG <- function(df,
             stop('Error: Does not currently support model with more than 3 classes')
             }),
   
-        OUTPUT = "sampstat standardized TECH1;",
+        OUTPUT = "SAMPSTAT STANDARDIZED CINTERVAL;",
+  
         usevariables = colnames(savedata[[i]]),
         rdata = savedata[[i]]
       )
