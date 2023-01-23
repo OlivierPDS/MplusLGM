@@ -1,0 +1,505 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+01/23/2023   4:51 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_SOFAS_24;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/D3STEP/D3STEP_SOFAS_24.dat";
+
+  VARIABLE:
+  NAMES = PIN I S Q C_I C_S C_Q CPROB1 CPROB2 N SOFAS_24;
+   MISSING=.;
+   USEVAR = SOFAS_24 N;
+  NOMINAL = N;
+  CLASSES = c(2);
+  ANALYSIS:
+
+    TYPE = MIXTURE;
+    STARTS = 0;
+    PROCESSORS = 8;
+
+  MODEL:
+  %OVERALL%
+  SOFAS_24;
+
+  %C#1%
+  [N#1@2.378];
+  [SOFAS_24](M1); SOFAS_24;
+
+  %C#2%
+  [N#1@-1.949];
+  [SOFAS_24](M2); SOFAS_24;
+  MODEL CONSTRAINT:
+  New (diff12); diff12 = M1 - M2;
+  MODEL TEST:
+  M1 = M2;
+  OUTPUT:
+  SAMPSTAT STANDARDIZED CINTERVAL;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_SOFAS_24;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         369
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   SOFAS_24
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/D3STEP/D3STEP_SOFAS_24.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              SOFAS_24
+              ________
+ SOFAS_24       0.637
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.564          208.000
+      Category 2    0.436          161.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              SOFAS_24
+              ________
+               63.472
+
+
+           Covariances
+              SOFAS_24
+              ________
+ SOFAS_24     328.649
+
+
+           Correlations
+              SOFAS_24
+              ________
+ SOFAS_24       1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1014.362
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SOFAS_24             63.472      -0.261       5.000    0.43%      49.000     60.000     65.000
+             235.000     328.649      -0.615     100.000    0.85%      70.000     80.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        5
+
+Loglikelihood
+
+          H0 Value                       -1168.292
+          H0 Scaling Correction Factor      1.0666
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    2346.584
+          Bayesian (BIC)                  2366.138
+          Sample-Size Adjusted BIC        2350.274
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                            426.492
+          Degrees of Freedom                     1
+          P-Value                           0.0000
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        202.74555          0.54945
+       2        166.25445          0.45055
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        202.74555          0.54945
+       2        166.25445          0.45055
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              203          0.55014
+       2              166          0.44986
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.732
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.941    0.059
+    2   0.071    0.929
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.942    0.058
+    2   0.072    0.928
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      2.791    0.000
+    2     -2.556    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    SOFAS_24          77.538      1.027     75.508      0.000
+
+ Means
+    N#1                2.378      0.000    999.000    999.000
+
+ Variances
+    SOFAS_24          94.283     13.359      7.058      0.000
+
+Latent Class 2
+
+ Means
+    SOFAS_24          48.106      1.138     42.275      0.000
+
+ Means
+    N#1               -1.949      0.000    999.000    999.000
+
+ Variances
+    SOFAS_24         132.434     23.304      5.683      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.198      0.121      1.636      0.102
+
+New/Additional Parameters
+    DIFF12            29.432      1.425     20.652      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.603E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    SOFAS_24           7.985      0.613     13.024      0.000
+
+ Variances
+    SOFAS_24           1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    SOFAS_24           4.180      0.396     10.556      0.000
+
+ Variances
+    SOFAS_24           1.000      0.000    999.000    999.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    SOFAS_24           7.985      0.613     13.024      0.000
+
+ Variances
+    SOFAS_24           1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    SOFAS_24           4.180      0.396     10.556      0.000
+
+ Variances
+    SOFAS_24           1.000      0.000    999.000    999.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    SOFAS_24          77.538      1.027     75.508      0.000
+
+ Variances
+    SOFAS_24          94.283     13.359      7.058      0.000
+
+Latent Class 2
+
+ Means
+    SOFAS_24          48.106      1.138     42.275      0.000
+
+ Variances
+    SOFAS_24         132.434     23.304      5.683      0.000
+
+
+R-SQUARE
+
+Class 1
+
+Class 2
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    SOFAS_24        74.893      75.525      75.848      77.538      79.227      79.550      80.183
+
+ Means
+    N#1              2.378       2.378       2.378       2.378       2.378       2.378       2.378
+
+ Variances
+    SOFAS_24        59.874      68.100      72.308      94.283     116.258     120.466     128.692
+
+Latent Class 2
+
+ Means
+    SOFAS_24        45.175      45.875      46.234      48.106      49.978      50.336      51.037
+
+ Means
+    N#1             -1.949      -1.949      -1.949      -1.949      -1.949      -1.949      -1.949
+
+ Variances
+    SOFAS_24        72.408      86.758      94.099     132.434     170.768     178.109     192.460
+
+Categorical Latent Variables
+
+ Means
+    C#1             -0.114      -0.039      -0.001       0.198       0.398       0.436       0.511
+
+New/Additional Parameters
+    DIFF12          25.761      26.638      27.087      29.432      31.776      32.225      33.103
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    SOFAS_24         6.406       6.784       6.977       7.985       8.994       9.187       9.565
+
+ Variances
+    SOFAS_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    SOFAS_24         3.160       3.404       3.529       4.180       4.832       4.956       5.200
+
+ Variances
+    SOFAS_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    SOFAS_24         6.406       6.784       6.977       7.985       8.994       9.187       9.565
+
+ Variances
+    SOFAS_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    SOFAS_24         3.160       3.404       3.529       4.180       4.832       4.956       5.200
+
+ Variances
+    SOFAS_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    SOFAS_24        74.893      75.525      75.848      77.538      79.227      79.550      80.183
+
+ Variances
+    SOFAS_24        59.874      68.100      72.308      94.283     116.258     120.466     128.692
+
+Latent Class 2
+
+ Means
+    SOFAS_24        45.175      45.875      46.234      48.106      49.978      50.336      51.037
+
+ Variances
+    SOFAS_24        72.408      86.758      94.099     132.434     170.768     178.109     192.460
+
+
+     Beginning Time:  16:51:00
+        Ending Time:  16:51:00
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

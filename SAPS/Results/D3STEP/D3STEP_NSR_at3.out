@@ -1,0 +1,394 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+01/23/2023   5:56 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_NSR_at3;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/D3STEP_NSR_at3.dat";
+
+  VARIABLE:
+  NAMES = PIN I S Q CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N NSR_at3;
+   MISSING=.;
+   USEVAR = NSR_at3 N;
+  NOMINAL = N;
+  CATEGORICAL = NSR_at3;
+  CLASSES = c(2);
+  ANALYSIS:
+
+    TYPE = MIXTURE;
+    STARTS = 0;
+    PROCESSORS = 8;
+
+  MODEL:
+  %OVERALL%
+  [NSR_at3$1];
+
+  %C#1%
+  [N#1@3.558];
+  [NSR_at3$1](M1);
+
+  %C#2%
+  [N#1@-3.697];
+  [NSR_at3$1](M2);
+  MODEL CONSTRAINT:
+  New (diff12); diff12 = M1 - M2;
+  MODEL TEST:
+  M1 = M2;
+  OUTPUT:
+  CINTERVAL;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+D3STEP_NSR_at3;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         405
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   NSR_AT3
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Link                                                         LOGIT
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/D3STEP_NSR_at3.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           0
+     Number of u missing data patterns           2
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR U
+
+
+           Covariance Coverage
+              NSR_AT3
+              ________
+ NSR_AT3        0.990
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    NSR_AT3
+      Category 1    0.953          382.000
+      Category 2    0.047           19.000
+    N
+      Category 1    0.346          140.000
+      Category 2    0.654          265.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        3
+
+Loglikelihood
+
+          H0 Value                        -331.355
+          H0 Scaling Correction Factor      1.0000
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                     668.709
+          Bayesian (BIC)                   680.721
+          Sample-Size Adjusted BIC         671.202
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit for the Binary and Ordered Categorical
+(Ordinal) Outcomes
+
+          Pearson Chi-Square
+
+          Value                              0.001
+          Degrees of freedom cannot be computed for this model part.
+
+          Likelihood Ratio Chi-Square
+
+          Value                              0.001
+          Degrees of freedom cannot be computed for this model part.
+
+Chi-Square Test for MCAR under the Unrestricted Latent Class Indicator Model
+
+          Pearson Chi-Square
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+          Likelihood Ratio Chi-Square
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+Wald Test of Parameter Constraints
+
+          Value                             10.108
+          Degrees of Freedom                     1
+          P-Value                           0.0015
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        137.32778          0.33908
+       2        267.67222          0.66092
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        137.32778          0.33908
+       2        267.67222          0.66092
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              140          0.34568
+       2              265          0.65432
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.838
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.954    0.046
+    2   0.014    0.986
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.972    0.028
+    2   0.024    0.976
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      3.558    0.000
+    2     -3.697    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                3.558      0.000    999.000    999.000
+
+ Thresholds
+    NSR_AT3$1          2.154      0.286      7.541      0.000
+
+Latent Class 2
+
+ Means
+    N#1               -3.697      0.000    999.000    999.000
+
+ Thresholds
+    NSR_AT3$1          4.004      0.490      8.171      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.667      0.111     -6.000      0.000
+
+New/Additional Parameters
+    DIFF12            -1.850      0.582     -3.179      0.001
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.124E-01
+       (ratio of smallest to largest eigenvalue)
+
+
+RESULTS IN PROBABILITY SCALE
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ NSR_AT3
+    Category 1         0.896      0.027     33.672      0.000
+    Category 2         0.104      0.027      3.908      0.000
+
+Latent Class 2
+
+ NSR_AT3
+    Category 1         0.982      0.009    113.874      0.000
+    Category 2         0.018      0.009      2.078      0.038
+
+
+LATENT CLASS INDICATOR ODDS RATIOS FOR THE LATENT CLASSES
+
+                                                95% C.I.
+                    Estimate       S.E.  Lower 2.5% Upper 2.5%
+
+Latent Class 1 Compared to Latent Class 2
+
+ NSR_AT3
+    Category > 1       6.359      3.700      2.033     19.894
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              3.558       3.558       3.558       3.558       3.558       3.558       3.558
+
+ Thresholds
+    NSR_AT3$1        1.418       1.594       1.684       2.154       2.624       2.714       2.889
+
+Latent Class 2
+
+ Means
+    N#1             -3.697      -3.697      -3.697      -3.697      -3.697      -3.697      -3.697
+
+ Thresholds
+    NSR_AT3$1        2.742       3.043       3.198       4.004       4.810       4.964       5.266
+
+Categorical Latent Variables
+
+ Means
+    C#1             -0.954      -0.885      -0.850      -0.667      -0.484      -0.449      -0.381
+
+New/Additional Parameters
+    DIFF12          -3.349      -2.990      -2.807      -1.850      -0.893      -0.709      -0.351
+
+
+CONFIDENCE INTERVALS IN PROBABILITY SCALE
+
+Latent Class 1
+
+ NSR_AT3
+    Category 1       0.827       0.844       0.852       0.896       0.940       0.948       0.965
+    Category 2       0.035       0.052       0.060       0.104       0.148       0.156       0.173
+
+Latent Class 2
+
+ NSR_AT3
+    Category 1       0.960       0.965       0.968       0.982       0.996       0.999       1.004
+    Category 2      -0.004       0.001       0.004       0.018       0.032       0.035       0.040
+
+
+CONFIDENCE INTERVALS FOR THE LATENT CLASS ODDS RATIO RESULTS
+
+Latent Class 1 Compared to Latent Class 2
+
+ NSR_AT3
+    Category > 1     1.421       2.033       2.442       6.359      16.562      19.894      28.466
+
+
+     Beginning Time:  17:56:55
+        Ending Time:  17:56:55
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

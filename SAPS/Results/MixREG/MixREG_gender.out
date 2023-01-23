@@ -1,0 +1,56 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+01/20/2023   7:05 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  MixREG_gender;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/MixREG/MixREG_gender.dat";
+
+  VARIABLE:
+  NAMES = PIN I S Q CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N gender;
+   MISSING=.;
+   USEVAR = gender N;
+  NOMINAL = N;
+  CLASSES = c(2);
+  ANALYSIS:
+
+    TYPE = MIXTURE;
+    STARTS = 1000;
+    PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  I ON gender;
+  S ON gender;
+  gender;
+
+  %C#1%
+  [N#1@3.558];
+  I ON gender;
+  S ON gender;
+  gender;
+
+  %C#2%
+  [N#1@-3.697];
+  I ON gender;
+  S ON gender;
+  gender;
+  OUTPUT:
+  SAMPSTAT STANDARDIZED CINTERVAL;
+
+*** ERROR in MODEL command
+  Unknown variable(s) in an ON statement:  I
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

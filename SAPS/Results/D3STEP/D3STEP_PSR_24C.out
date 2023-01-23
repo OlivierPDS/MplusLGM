@@ -1,0 +1,505 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+01/23/2023   5:56 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_PSR_24C;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/D3STEP_PSR_24C.dat";
+
+  VARIABLE:
+  NAMES = PIN I S Q CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N PSR_24C;
+   MISSING=.;
+   USEVAR = PSR_24C N;
+  NOMINAL = N;
+  CLASSES = c(2);
+  ANALYSIS:
+
+    TYPE = MIXTURE;
+    STARTS = 0;
+    PROCESSORS = 8;
+
+  MODEL:
+  %OVERALL%
+  PSR_24C;
+
+  %C#1%
+  [N#1@3.558];
+  [PSR_24C](M1); PSR_24C;
+
+  %C#2%
+  [N#1@-3.697];
+  [PSR_24C](M2); PSR_24C;
+  MODEL CONSTRAINT:
+  New (diff12); diff12 = M1 - M2;
+  MODEL TEST:
+  M1 = M2;
+  OUTPUT:
+  SAMPSTAT STANDARDIZED CINTERVAL;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_PSR_24C;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         405
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   PSR_24C
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/D3STEP_PSR_24C.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              PSR_24C
+              ________
+ PSR_24C        0.301
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.346          140.000
+      Category 2    0.654          265.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              PSR_24C
+              ________
+                5.082
+
+
+           Covariances
+              PSR_24C
+              ________
+ PSR_24C        6.912
+
+
+           Correlations
+              PSR_24C
+              ________
+ PSR_24C        1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -291.033
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     PSR_24C               5.082      -0.541       0.000    7.38%       2.000      5.000      6.000
+             122.000       6.911      -1.000       9.000    1.64%       7.000      7.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        5
+
+Loglikelihood
+
+          H0 Value                        -492.668
+          H0 Scaling Correction Factor      0.8830
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                     995.337
+          Bayesian (BIC)                  1015.356
+          Sample-Size Adjusted BIC         999.491
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                            172.401
+          Degrees of Freedom                     1
+          P-Value                           0.0000
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        136.38126          0.33674
+       2        268.61874          0.66326
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        136.38126          0.33674
+       2        268.61874          0.66326
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              137          0.33827
+       2              268          0.66173
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.863
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.965    0.035
+    2   0.015    0.985
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.970    0.030
+    2   0.018    0.982
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      3.462    0.000
+    2     -4.014    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    PSR_24C            7.475      0.101     73.823      0.000
+
+ Means
+    N#1                3.558      0.000    999.000    999.000
+
+ Variances
+    PSR_24C            0.429      0.098      4.363      0.000
+
+Latent Class 2
+
+ Means
+    PSR_24C            3.682      0.272     13.544      0.000
+
+ Means
+    N#1               -3.697      0.000    999.000    999.000
+
+ Variances
+    PSR_24C            5.395      0.588      9.168      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.678      0.111     -6.132      0.000
+
+New/Additional Parameters
+    DIFF12             3.793      0.289     13.130      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.731E-03
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    PSR_24C           11.409      1.325      8.610      0.000
+
+ Variances
+    PSR_24C            1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    PSR_24C            1.585      0.144     11.018      0.000
+
+ Variances
+    PSR_24C            1.000      0.000    999.000    999.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    PSR_24C           11.409      1.325      8.610      0.000
+
+ Variances
+    PSR_24C            1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    PSR_24C            1.585      0.144     11.018      0.000
+
+ Variances
+    PSR_24C            1.000      0.000    999.000    999.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    PSR_24C            7.475      0.101     73.823      0.000
+
+ Variances
+    PSR_24C            0.429      0.098      4.363      0.000
+
+Latent Class 2
+
+ Means
+    PSR_24C            3.682      0.272     13.544      0.000
+
+ Variances
+    PSR_24C            5.395      0.588      9.168      0.000
+
+
+R-SQUARE
+
+Class 1
+
+Class 2
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    PSR_24C          7.214       7.276       7.308       7.475       7.641       7.673       7.736
+
+ Means
+    N#1              3.558       3.558       3.558       3.558       3.558       3.558       3.558
+
+ Variances
+    PSR_24C          0.176       0.236       0.267       0.429       0.591       0.622       0.683
+
+Latent Class 2
+
+ Means
+    PSR_24C          2.982       3.149       3.235       3.682       4.129       4.215       4.383
+
+ Means
+    N#1             -3.697      -3.697      -3.697      -3.697      -3.697      -3.697      -3.697
+
+ Variances
+    PSR_24C          3.879       4.241       4.427       5.395       6.363       6.548       6.910
+
+Categorical Latent Variables
+
+ Means
+    C#1             -0.963      -0.895      -0.860      -0.678      -0.496      -0.461      -0.393
+
+New/Additional Parameters
+    DIFF12           3.049       3.226       3.317       3.793       4.268       4.359       4.537
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    PSR_24C          7.996       8.812       9.229      11.409      13.589      14.006      14.822
+
+ Variances
+    PSR_24C          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    PSR_24C          1.215       1.303       1.349       1.585       1.822       1.867       1.956
+
+ Variances
+    PSR_24C          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    PSR_24C          7.996       8.812       9.229      11.409      13.589      14.006      14.822
+
+ Variances
+    PSR_24C          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    PSR_24C          1.215       1.303       1.349       1.585       1.822       1.867       1.956
+
+ Variances
+    PSR_24C          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    PSR_24C          7.214       7.276       7.308       7.475       7.641       7.673       7.736
+
+ Variances
+    PSR_24C          0.176       0.236       0.267       0.429       0.591       0.622       0.683
+
+Latent Class 2
+
+ Means
+    PSR_24C          2.982       3.149       3.235       3.682       4.129       4.215       4.383
+
+ Variances
+    PSR_24C          3.879       4.241       4.427       5.395       6.363       6.548       6.910
+
+
+     Beginning Time:  17:56:55
+        Ending Time:  17:56:55
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen
