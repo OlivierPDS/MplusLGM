@@ -6,7 +6,7 @@
 #' @import MplusAutomation
 getFitIndices <- function(list_models) {
   
-  list_depth <- list_models %>% purrr::vec_depth()
+  list_depth <- list_models %>% purrr::pluck_depth()
 
   # While loop until 1-level depth list of Mplus Object  
   while (list_depth != 7) {
@@ -15,7 +15,7 @@ getFitIndices <- function(list_models) {
     } else {
       list_models <- list(list_models)
     }
-    list_depth <- list_models %>% purrr::vec_depth()
+    list_depth <- list_models %>% purrr::pluck_depth()
   }
 
   # Get model parameters
