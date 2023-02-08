@@ -21,6 +21,8 @@ R3STEPfit <- function(list_mpobj) {
   warnings <- list_mpobj %>% 
     map(pluck, "results", "warnings") %>% 
     modify_if(~ length(.x) > 0, paste, .else = ~ NA) %>% 
+    map(~ gsub("[^[:alnum:][:space:]]", "", .x)) %>% 
+    map(~ paste(.x, collapse = " ")) %>% 
     map_dfc(pluck) %>% 
     pivot_longer(cols = everything(), names_to = "param", values_to = 'warnings') %>% 
     mutate(param = str_to_upper(param))
@@ -28,6 +30,8 @@ R3STEPfit <- function(list_mpobj) {
   errors <- list_mpobj %>% 
     map(pluck, "results", "errors") %>% 
     modify_if(~ length(.x) > 0, paste, .else = ~ NA) %>% 
+    map(~ gsub("[^[:alnum:][:space:]]", "", .x)) %>% 
+    map(~ paste(.x, collapse = " ")) %>% 
     map_dfc(pluck) %>% 
     pivot_longer(cols = everything(), names_to = "param", values_to = 'errors') %>% 
     mutate(param = str_to_upper(param))

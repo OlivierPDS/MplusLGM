@@ -8,7 +8,7 @@ MixREGfit <- function(list_mpobj) {
       
       stdyx_ci <- merge(stdyx, ci, all = TRUE) %>%
         tryCatch(
-          expr = filter(., str_detect(paramHeader, "[:alpha:].ON")) %>%
+          expr = filter(., str_detect(paramHeader, ".+ON")) %>%
             select(., !matches("^(low|up)\\.?5")),
           error = function(e)
             .
@@ -19,12 +19,16 @@ MixREGfit <- function(list_mpobj) {
       warnings <- list_mpobj %>% 
         map(pluck, "results", "warnings") %>% 
         modify_if(~ length(.x) > 0, paste, .else = ~ NA) %>% 
+        map(~ gsub("[^[:alnum:][:space:]]", "", .x)) %>% 
+        map(~ paste(.x, collapse = " ")) %>% 
         map_dfc(pluck) %>% 
         pivot_longer(cols = everything(), names_to = "param", values_to = 'warnings')  
       
       errors <- list_mpobj %>% 
         map(pluck, "results", "errors") %>% 
         modify_if(~ length(.x) > 0, paste, .else = ~ NA) %>% 
+        map(~ gsub("[^[:alnum:][:space:]]", "", .x)) %>% 
+        map(~ paste(.x, collapse = " ")) %>% 
         map_dfc(pluck) %>% 
         pivot_longer(cols = everything(), names_to = "param", values_to = 'errors')
   
