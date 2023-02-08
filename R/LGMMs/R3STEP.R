@@ -1,170 +1,126 @@
-R3STEP <- function(df,
-                   idvar,
-                   usevar,
-                   cov,
-                   model,
-                   method = c('auxiliary', 'manual'))
-                   {
+MixREG_TVC <- function(df,
+                       idvar,
+                       usevar,
+                       cov,
+                       starts = 0,
+                       output = c("SAMPSTAT", "STANDARDIZED", "CINTERVAL"),
+                       model) {
   
-  savedata <- list()
-  R3STEP_mpobj <-  list()
-  R3STEP_fit <- list()
   
-  if (method == 'auxiliary') {
-    
-    # Read the output file and find separator sentence
-    output <- model[["results"]][["output"]]
-    line <- grep("Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:", output)
-    
-    # Get seed value for best LL value
-    vector <- stringr::str_split(output[line+2], " ")[[1]] 
-    seed <- vector[14] 
-    
-    # Get VARIABLE
-    var1 <- word(model[["results"]][["input"]][["variable"]][["usevar"]], 1)
-    var2 <- word(model[["results"]][["input"]][["variable"]][["usevar"]], -1)
-    class <- model[["results"]][["input"]][["variable"]][["classes"]]
-    
-    # Create MplusObject for all var in cov
-    for (i in cov) {
-      
-      R3STEP_mpobj[[i]] <- update(
-        model,
-        
-        TITLE = as.formula(glue("~ '
-R3STEPa_{i};'")),
-
-VARIABLE = as.formula(glue("~ '
-USEVAR = {var1}-{var2} {i};
-AUXILIARY = (R3STEP) {i};
-CLASSES = {class};'")),
-
-ANALYSIS = 
-  as.formula(glue("~ '
-TYPE = MIXTURE;
-STARTS = 0;
-OPTSEED = {seed};
-PROCESSORS = 8;'")),
-
-OUTPUT = ~ "SAMPSTAT STANDARDIZED CINTERVAL;",
-usevariables = names(df),
-rdata = df
-      )
-      
-      R3STEP_mpobj[[i]][["PLOT"]] <- NULL
-      R3STEP_mpobj[[i]][["SAVEDATA"]] <- NULL
-    }
-  } else if (method == 'manual') {
-    
-    # Extract logits and model parameters
-    logits <- model[["results"]][["class_counts"]][["logitProbs.mostLikely"]] %>% as.data.frame()
-    k <- model[["results"]][["input"]][["variable"]][["classes"]] %>% readr::parse_number()
-    
-    # Create MplusObject for all var in cov 
-    for (i in cov) {
-      
-      #Create df including C and cov
-      savedata[[i]] <- model[["results"]][["savedata"]] %>%  
-        as.data.frame() %>% 
-        select(-starts_with(usevar)) %>% # bug when cov %in% savedata 
-        merge(
-          y = select(df, c(idvar, i)),
-          by.x = str_to_upper(idvar), #vars name are always uppercase in Mplus data output
-          by.y = idvar,
-          all.x = TRUE) %>%
-        dplyr::rename(N = C) #Categorical latent variables (C) cannot have the same name as observed variables.
-      
-      R3STEP_mpobj[[i]] <- MplusAutomation::mplusObject(
-        TITLE = 
-          glue::glue("
-  R3STEPm_{i};"),
+  # To do -------------------------------------------------------------------
+  ## select cov-specific starts values
+  ## add arguments for plots  
+  ## silence warning message from MplusAutomation::parseMplus
   
-  VARIABLE =
-    glue::glue("
-  USEVAR = {i} N;
-  NOMINAL= N;
-  CLASSES = c({k});"),
+  # Test arguments ----------------------------------------------------------
+  # df <-  SAPS_df
+  # idvar  <-  'pin'
+  # usevar <-  SAPS
+  # cov <-  c(SD_num, SD_cat)
+  # starts <-  0
+  # output <-  c("SAMPSTAT", "STANDARDIZED", "CINTERVAL")
+  # model  <-  FINAL_model
   
-  ANALYSIS = "
-  TYPE = MIXTURE;
-  ALGORITHM = INTEGRATION;
-  INTEGRATION = MONTECARLO;
-  STARTS = 0;
-  PROCESSORS = 8;",
+  # Extract model parameters and data ---------------------------------------
+  logits_df <- model[["results"]][["class_counts"]][["logitProbs.mostLikely"]] #logits
+  k <- model[["results"]][["summaries"]][["NLatentClasses"]] #classes
+  lgmm <- model[["TITLE"]] #title
   
-  MODEL = (
-    if (k == 2) {
-      glue::glue("
-  %OVERALL%
-  C on {i}; {i};
-
-  %C#1%
-  [N#1@{logits[1,1]}];
-
-  %C#2%
-  [N#1@{logits[2,1]}];")
-      
-    } else if (k == 3) {
-      
-    glue::glue("
-  %OVERALL%
-  C on {i}; {i};
-
-  %C#1%
-  [N#1@{logits[1,1]}];
-  [N#2@{logits[1,2]}];
-
-  %C#2%
-  [N#1@{logits[2,1]}];
-  [N#2@{logits[2,2]}];
-
-  %C#3%
-  [N#1@{logits[3,1]}];
-  [N#2@{logits[3,2]}];")
-      
-  } else {
-    
-    stop('Error: Does not currently support model with more than 3 classes')
-    
-  }
-  ),
-  OUTPUT = "SAMPSTAT STANDARDIZED CINTERVAL;",
-  usevariables = colnames(savedata[[i]]),
-  rdata = savedata[[i]]
-      )
-    }
-  }
+  savedata <-
+    purrr::map(cov,
+               \(z) merge(
+                 x = model[["results"]][["savedata"]], 
+                 y = select(df, c(idvar, z)),
+                 by.x = stringr::str_to_upper(idvar),
+                 by.y = idvar,
+                 all = TRUE
+               )) %>%
+    purrr::map(rename, N = C) #data
   
-  # Create directory for results if does not exist
-  path <-glue::glue(getwd(), '{usevar}', 'Results', 'R3STEP', .sep = "/")
+  ## Create each arguments for mplusObject() -------------------------------
+  ## TITLE = 
+  title <-  cov %>% 
+    purrr::map(~ glue::glue("{lgmm} - R3STEP_{.x}")) %>%
+    purrr::map(~ MplusAutomation::parseMplus(.x, add = TRUE))
+  
+  ## VARIABLE = 
+  usevars <- purrr::map(cov, \(x) glue("USEVAR = {x} N"))
+  
+  nominal <- "NOMINAL = N"
+  
+  classes <- glue::glue("CLASSES = c({k})")
+  
+  variable <- purrr::map(usevars, \(x) c(x, nominal, classes)) %>%
+    purrr::map(~ MplusAutomation::parseMplus(.x, add = TRUE))
+    # purrr::map(~ strwrap(.x, width = 90, exdent = 5)) %>%
+    # purrr::map(~ paste(.x, collapse = "\n")) %>%
+    # purrr::map(~ gsub(";", ";\n",.x))
+  
+  ## ANALYSIS =
+  type <- "TYPE = MIXTURE"
+  algorithm <- "ALGORITHM = INTEGRATION"
+  integration <- "INTEGRATION = MONTECARLO"
+  start_val <-  glue::glue("STARTS = {starts}")
+  processors <- glue::glue('PROCESSORS = {detectCores()}')
+  analysis <- MplusAutomation::parseMplus(c(type, algorithm, integration, start_val, processors), add = TRUE)
+  
+  ## MODEL = 
+  class_spec <- purrr::map(1:k, ~ glue::glue('%C#{.x}%')) #class sections
+  
+  logits <-  purrr::map(1:k, \(x) purrr::map2(x, 1:k, \(x, y) logits_df[x, y])) %>%
+    unlist() %>%
+    purrr::map2(rep(1:k, k), ., \(x, y) glue::glue("[N#{x}@{y}]")) %>%
+    split(rep(1:k, each = k)) %>%
+    purrr::map(\(x) utils::head(x, -1))  #logits specification
+  
+  reg <- purrr::map(cov, \(x) glue::glue("C ON {x}")) #regressions specification
+
+  ### Model specification
+  model1 <- list('%OVERALL%', reg, cov) %>%
+    purrr::reduce(~ purrr::map2(.x, .y, ~ c(.x, .y)))
+  
+  model2 <- list(class_spec, logits) %>%
+    purrr::reduce(~ purrr::map2(.x, .y, ~ c(.x, .y)))
+  
+  model3 <- map(model1, \(x) append(x, model2)) %>% 
+    purrr::map(~ MplusAutomation::parseMplus(unlist(.x), add = TRUE)) %>%
+    purrr::map(~ gsub("%;", "%",.x)) #remove semicolon after model sections
+  
+  # OUTPUT =
+  outputs <- MplusAutomation::parseMplus(output, add = TRUE)
+  
+  # Create Mplus object -----------------------------------------------------
+  mpobj <- purrr::pmap(list(title, variable, model3, savedata),  \(title, variable, model, savedata)
+                       MplusAutomation::mplusObject(
+                         TITLE = title,
+                         VARIABLE = variable,
+                         MODEL = model,
+                         ANALYSIS = analysis,
+                         OUTPUT = outputs,
+                         autov = FALSE,
+                         usevariables = colnames(savedata),
+                         rdata = savedata)
+  )
+  
+  # Create directory for Mplus data, inputs and outputs ---------------------
+  path <- glue::glue(getwd(), substitute(usevar), 'Results', 'R3STEP', .sep = "/")
   if (!dir.exists(path)) {dir.create(path, recursive = TRUE)}
-    
-  if (method == 'auxiliary') {
-    for (i in cov) {
-      R3STEP_fit[[i]] <- mplusModeler(
-        object = R3STEP_mpobj[[i]],
-        dataout = glue::glue(path, '/R3STEPa_{i}.dat'), #to change SAPS
-        modelout = glue::glue(path, '/R3STEPa_{i}.inp'),
-        hashfilename = FALSE,
-        run = 1,
-        check=TRUE,
-        varwarnings = TRUE,
-        writeData = 'always')
-    }
-  } else if (method == 'manual') {
-    for (i in cov) {
-      R3STEP_fit[[i]] <- MplusAutomation::mplusModeler(
-        object = R3STEP_mpobj[[i]],
-        dataout = glue::glue(path, '/R3STEPm_{i}.dat'),
-        modelout = glue::glue(path, '/R3STEPm_{i}.inp'),
-        hashfilename = FALSE,
-        run = 1,
-        check = TRUE,
-        varwarnings = TRUE,
-        writeData = 'always')
-    }
-  }
-
-return(R3STEP_fit)
   
+  # Run Mplus models --------------------------------------------------------
+  model_lst <- purrr::map2(mpobj, cov, \(x, y)
+                           MplusAutomation::mplusModeler(
+                             object = x,
+                             dataout = glue::glue("{path}/{y}_R3STEP.dat"),
+                             modelout = glue::glue("{path}/{y}_R3STEP.inp"),
+                             hashfilename = FALSE,
+                             run = 1,
+                             check = FALSE,
+                             writeData = "always",
+                             quiet = TRUE
+                           )
+  )
+  
+  names(model_lst) <- cov
+  
+  return(model_lst)
 }
