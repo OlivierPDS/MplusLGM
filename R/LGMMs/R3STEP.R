@@ -1,4 +1,4 @@
-MixREG_TVC <- function(df,
+R3STEP <- function(df,
                        idvar,
                        usevar,
                        cov,
