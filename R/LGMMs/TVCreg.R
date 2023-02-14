@@ -1,4 +1,4 @@
-MixREG_TVC <- function(df,
+TVCreg <- function(df,
                        idvar,
                        usevar,
                        cov,
@@ -57,7 +57,7 @@ MixREG_TVC <- function(df,
 ## Create each arguments for mplusObject() -------------------------------
 ## TITLE = 
   title <-  cov_vec %>% 
-    purrr::map(~ glue::glue("{lgmm} - MixREG_TVC_{.x}")) %>%
+    purrr::map(~ glue::glue("{lgmm} - TVCreg_{.x}")) %>%
     purrr::map(~ MplusAutomation::parseMplus(.x, add = TRUE))
 
 ## VARIABLE = 
@@ -105,7 +105,7 @@ MixREG_TVC <- function(df,
   model3 <- list(class_spec, logits) %>%
     purrr::reduce(~ purrr::map2(.x, .y, ~ c(.x, .y)))
 
-  model4 <- cross2(model3, model1) %>% 
+  model4 <- purrr::cross2(model3, model1) %>% 
     split(., rep(1:(length(.)/k), each = k))
 
   model5 <- list(model2, model4) %>%
@@ -117,7 +117,7 @@ MixREG_TVC <- function(df,
   outputs <- MplusAutomation::parseMplus(output, add = TRUE)
   
 # Create Mplus object -----------------------------------------------------
-  mpobj <- purrr::map(list(title, variable, model5, savedata),  \(title, variable, model, savedata)
+  mpobj <- purrr::pmap(list(title, variable, model5, savedata),  \(title, variable, model, savedata)
                 MplusAutomation::mplusObject(
                   TITLE = title,
                   VARIABLE = variable,
@@ -130,15 +130,15 @@ MixREG_TVC <- function(df,
                 )
 
 # Create directory for Mplus data, inputs and outputs ---------------------
-  path <- glue::glue(getwd(), substitute(usevar), 'Results', 'MixREG', .sep = "/")
+  path <- glue::glue(getwd(), substitute(usevar), 'Results', 'TVCreg', .sep = "/")
   if (!dir.exists(path)) {dir.create(path, recursive = TRUE)}
 
 # Run Mplus models --------------------------------------------------------
   model_lst <- purrr::map2(mpobj, cov_vec, \(x, y)
     MplusAutomation::mplusModeler(
       object = x,
-      dataout = glue::glue("{path}/{y}_TVC.dat"),
-      modelout = glue::glue("{path}/{y}_TVC.inp"),
+      dataout = glue::glue("{path}/{y}_TVCreg.dat"),
+      modelout = glue::glue("{path}/{y}_TVCreg.inp"),
       hashfilename = FALSE,
       run = 1,
       check = FALSE,
