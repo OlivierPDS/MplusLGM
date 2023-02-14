@@ -1,7 +1,8 @@
 # To do -------------------------------------------------------------------
 ## improve SelectBestModel() by adding some conditions (class count < 5%, lowest k, warnings/errors)
 ## wrap in a function GetFitIndices() & mutate (BF10)
-## improve GMMi & GMMv functions to replicate best LL
+## wrap together fit functions (R3STEP, MixREG, D3STEP)
+## improve GMMi & GMMv functions to replicate best LL (using map functions)
 ## runModels(): do not always overwright models
 
 # Load packages & source functions ----------------------------------------------------------------
@@ -15,6 +16,7 @@ library(metan)
 library(MplusAutomation)
 library(MplusLGM)
 library(rhdf5) #BiocManager::install('rhdf5')
+library(parallel)
 
 R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
 
@@ -97,6 +99,8 @@ CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS
   rownames()
   
 load(.ws)
+
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
 
   # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
@@ -264,44 +268,38 @@ FitIndices_GBTM_tscores <- mplusModeler(
 R3STEP_models <- R3STEP(
   df = SOFAS_df,
   idvar = 'pin',
-  usevar = 'SOFAS',
+  usevar = SOFAS,
   cov = c(SD_num, SD_cat),
-  model = FINAL_model,
-  method = 'manual'
+  model = FINAL_model
 )
 
-R3STEP_unstd <- R3STEPfit(R3STEP_models)
-
-# .R3STEP_warn <- map(R3STEP_models, pluck, 'results', 'warnings')
-# .R3STEP_err <- map(R3STEP_models, pluck, 'results', 'errors')
+R3STEP_unstd <- R3STEPfit(R3STEP_models, std = "unstd")
 
 ## The 3-Step Procedure - mixture regressions with predictors of growth factors 
-#
 # CANNOT BE COMPUTED BECAUSE FINAL_MODEL IS GBTM (NO WITHIN CLASS VARIANCE)
-#
-# MixREG_models <- MixREG(
-#   df = SOFAS_df,
-#   idvar = 'pin',
-#   usevar = 'SOFAS',
-#   cov = SX_0,
-#   model = FINAL_model
-# )
-# 
-# MixREG_stdyx <- MixREGfit(MixREG_models)
+
+## The 3-Step Procedure - regressions with time-varying covariates
+# PSR, NSR: try with higher start values
+TVCreg_models <- TVCreg(
+  df = SOFAS_df,
+  idvar = 'pin',
+  usevar = SOFAS,
+  cov = list(SAPS, SANS, CDS, HAS, YMRS), 
+  model = FINAL_model
+)
+
+TVCreg_stdyx <- MixREGfit(TVCreg_models, std = "stdyx")
 
 ## The 3-Step Procedure - Linear regressions with distal outcome
 D3STEP_models <- D3STEP(
   df = SOFAS_df,
   idvar = 'pin',
-  usevar = 'SOFAS',
-  cov = c('SOFAS_24', 'SAPS_24', 'SANS_24', SR, SR_C),
+  usevar = SOFAS,
+  cov = c('SAPS_24', 'SANS_24', "PSR_24", "NSR_24", SR_C, SR),
   model = FINAL_model
 )
 
-D3STEP_unstd <- D3STEPfit(D3STEP_models)
-
-# .D3STEP_warn <- map(D3STEP_models, pluck, 'results', 'warnings')
-# .D3STEP_err <- map(D3STEP_models, pluck, 'results', 'errors')
+D3STEP_stdyx <- D3STEPfit(D3STEP_models, std = "stdyx")
 
   # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SOFAS', 'SOFAS_{today()}.RData', .sep = '/'))
@@ -317,6 +315,8 @@ save.image(glue(getwd(), 'SOFAS', 'SOFAS_{today()}.RData', .sep = '/'))
   rownames()
 
 load(.ws)
+
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
 
   # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
@@ -492,42 +492,48 @@ TSCORES_df <- TSCORES_df %>%
    R3STEP_models <- R3STEP(
      df = SAPS_df,
      idvar = 'pin',
-     usevar = 'SAPS',
+     usevar = SAPS,
      cov = c(SD_num, SD_cat),
-     model = FINAL_model,
-     method = 'manual'
+     model = FINAL_model
    )
    
-   R3STEP_unstd <- R3STEPfit(R3STEP_models)
-   
-# .R3STEP_warn <- map(R3STEP_models, pluck, 'results', 'warnings')
-# .R3STEP_err <- map(R3STEP_models, pluck, 'results', 'errors')
+   R3STEP_unstd <- R3STEPfit(R3STEP_models, std = "unstd")
 
 # The 3-Step Procedure - mixture regressions with predictors of growth factors
    MixREG_models <- MixREG(
      df = SAPS_df,
      idvar = 'pin',
-     usevar = 'SAPS',
-     cov = SX_0,
+     usevar = SAPS, 
+     cov = list(SOFAS, SANS, CDS, HAS, YMRS),
      model = FINAL_model
    )
 
-   MixREG_stdyx <- MixREGfit(MixREG_models)
+   MixREG_stdyx <- MixREGfit(MixREG_models, std = "stdyx")
+ 
+## The 3-Step Procedure - regressions with time-varying covariates
+# PSR, NSR: try with higher start values     
+   TVCreg_models <- TVCreg(
+     df = SAPS_df,
+     idvar = 'pin',
+     usevar = SAPS,
+     cov = list(SOFAS, SANS, CDS, HAS, YMRS),
+     starts = 0,
+     model = FINAL_model
+   )
+   
+   TVCreg_stdyx <- MixREGfit(TVCreg_models, std = "stdyx")
    
 ## The 3-Step Procedure - Linear regressions with distal outcome
    
    D3STEP_models <- D3STEP(
      df = SAPS_df,
      idvar = 'pin',
-     usevar = 'SAPS',
-     cov = c('SOFAS_24', 'SAPS_24', 'SANS_24', SR, SR_C),
+     usevar = SAPS,
+     cov = c('SOFAS_24', 'SANS_24', "PSR_24", "NSR_24", SR, SR_C),
      model = FINAL_model
    )
    
-   D3STEP_unstd <- D3STEPfit(D3STEP_models)
-   
-# .D3STEP_warn <- map(D3STEP_models, pluck, 'results', 'warnings')
-# .D3STEP_err <- map(R3STEP_models, pluck, 'results', 'errors')
+   D3STEP_stdyx <- D3STEPfit(D3STEP_models, std = "stdyx")
    
   # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = '/'))
@@ -544,6 +550,8 @@ save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = '/'))
     
 load(.ws)
 
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
+
   # Step 0: Prepare dataset  ------------------------------------------------
 ## Load dataset 
   SANS_df <-
@@ -557,7 +565,7 @@ load(.ws)
     rownames() %>%
     read_csv() %>%
     subset(miss_SANS <= 4 & n == 1) %>%
-    select ('pin', all_of(c(SX_0, SD_num, SD_cat, PSR, NSR, SR_C, SR))) %>%
+    select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR))) %>%
     modify_at(c(SD_cat, SR, PSR, NSR), as.factor)
 
 
@@ -660,8 +668,12 @@ FINAL_model <- poly(
 runModels(str_c(getwd(), '/SANS/Results/FINAL/311.inp')) # SV = 8000 to replicate best LL
 FINAL_model[['results']] <-  readModels(str_c(getwd(), '/SANS/Results/FINAL/311.out'))
 
-## Examine fit indices 
+## Examine fit indices & parameters
 FINAL_fit <- getFitIndices(FINAL_model)
+
+FINAL_param <-
+  FINAL_model[['results']][['parameters']][['unstandardized']] %>%
+  filter(str_detect(paramHeader, 'Means|^Variances'))
 
   # Step 6: Extract model parameters and save results  ----------------------
 ## Get and save final dataset based on most probable class membership 
@@ -672,16 +684,10 @@ FINAL_fit <- getFitIndices(FINAL_model)
   add_suffix(., everything(), suffix = 'SANS') %>% 
   merge(PEPP2_df, ., all = TRUE, by.x ='pin', by.y ='PIN_SANS')
 
-#final_dataset <- getDataset(final_model, SANS_df, 'pin') 
-
   # Step 7: Plot trajectories -----------------------------------------------
-plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE)
+plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = FALSE)
 
 est_means <- FINAL_model[['results']][['gh5']][['means_and_variances_data']][['y_estimated_medians']][['values']] %>%
-  as.data.frame()
-
-est.means <- 
-  final_model[['results']][['gh5']][['means_and_variances_data']][['y_estimated_medians']][['values']] %>%
   as.data.frame()
 
   # Step 8: Using individually varying timescores ---------------------------
@@ -731,42 +737,47 @@ FitIndices_GBTM_tscores <- mplusModeler(
 R3STEP_models <- R3STEP(
   df = SANS_df,
   idvar = 'pin',
-  usevar = 'SANS',
+  usevar = SANS,
   cov = c(SD_num, SD_cat),
-  model = FINAL_model,
-  method = 'manual'
+  model = FINAL_model
 )
 
-R3STEP_unstd <- R3STEPfit(R3STEP_models)
-
-# .R3STEP_warn <- map(R3STEP_models, pluck, 'results', 'warnings')
-# .R3STEP_err <- map(R3STEP_models, pluck, 'results', 'errors')
+R3STEP_unstd <- R3STEPfit(R3STEP_models, std = "unstd")
 
 # The 3-Step Procedure - mixture regressions with predictors of growth factors
 MixREG_models <- MixREG(
   df = SANS_df,
   idvar = 'pin',
-  usevar = 'SANS',
-  cov = SX_0,
+  usevar = SANS,
+  cov = list(SOFAS, SAPS, CDS, HAS, YMRS, PSR, NSR),
   model = FINAL_model
 )
 
-MixREG_stdyx <- MixREGfit(MixREG_models)
+MixREG_stdyx <- MixREGfit(MixREG_models, std = "stdyx")
+
+## The 3-Step Procedure - regressions with time-varying covariates
+TVCreg_models <- TVCreg(
+  df = SANS_df,
+  idvar = 'pin',
+  usevar = SANS,
+  cov = list(SOFAS, SAPS, CDS, HAS, YMRS, PSR, NSR),
+  starts = 0,
+  model = FINAL_model
+)
+
+TVCreg_stdyx <- MixREGfit(TVCreg_models, std = "stdyx")
 
 ## The 3-Step Procedure - Linear regressions with distal outcome
 
 D3STEP_models <- D3STEP(
   df = SANS_df,
   idvar = 'pin',
-  usevar = 'SANS',
-  cov = c('SOFAS', 'SAPS_24', 'SANS_24', SR, SR_C),
+  usevar = SANS,
+  cov = c('SOFAS_24', 'SAPS_24', 'PSR_24', 'NSR_24', SR, SR_C),
   model = FINAL_model
 )
 
-D3STEP_unstd <- D3STEPfit(D3STEP_models)
-
-# .D3STEP_warn <- map(D3STEP_models, pluck, 'results', 'warnings')
-# .D3STEP_err <- map(R3STEP_models, pluck, 'results', 'errors')
+D3STEP_stdyx <- D3STEPfit(D3STEP_models, std = "stdyx")
 
   # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SANS', 'SANS_{today()}.RData', .sep = '/'))
