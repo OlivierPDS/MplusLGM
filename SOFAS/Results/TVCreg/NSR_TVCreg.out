@@ -1,0 +1,385 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+02/09/2023   3:00 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  GBTM_P2_K2_S1000;
+   - TVCreg_NSR;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/TVCreg/NSR_TVCreg.dat";
+
+  VARIABLE:
+  NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N NSR_0 NSR_12
+       NSR_24;
+   MISSING=.;
+   USEVAR = NSR_0 NSR_12 NSR_24 SOFAS_0 SOFAS_12 SOFAS_24 N;
+   NOMINAL = N;
+   CLASSES = c(2);
+
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  SOFAS_0 ON NSR_0;
+  SOFAS_12 ON NSR_12;
+  SOFAS_24 ON NSR_24;
+  NSR_0 NSR_12 NSR_24;
+  %C#1%
+  [N#1@2.378];
+  SOFAS_0 ON NSR_0;
+  SOFAS_12 ON NSR_12;
+  SOFAS_24 ON NSR_24;
+  NSR_0 NSR_12 NSR_24;
+  %C#2%
+  [N#1@-1.949];
+  SOFAS_0 ON NSR_0;
+  SOFAS_12 ON NSR_12;
+  SOFAS_24 ON NSR_24;
+  NSR_0 NSR_12 NSR_24;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+GBTM_P2_K2_S1000;
+- TVCreg_NSR;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         369
+
+Number of dependent variables                                    4
+Number of independent variables                                  3
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   SOFAS_0     SOFAS_12    SOFAS_24
+
+  Unordered categorical (nominal)
+   N
+
+Observed independent variables
+   NSR_0       NSR_12      NSR_24
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/TVCreg/NSR_TVCreg.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             9
+     Number of y missing data patterns           9
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_0         NSR_12
+              ________      ________      ________      ________      ________
+ SOFAS_0        0.978
+ SOFAS_12       0.889         0.911
+ SOFAS_24       0.615         0.547         0.637
+ NSR_0          0.978         0.911         0.637         1.000
+ NSR_12         0.840         0.810         0.583         0.862         0.862
+ NSR_24         0.729         0.661         0.631         0.751         0.696
+
+
+           Covariance Coverage
+              NSR_24
+              ________
+ NSR_24         0.751
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.564          208.000
+      Category 2    0.436          161.000
+
+
+SAMPLE STATISTICS
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SOFAS_0              40.526       0.659      15.000    0.28%      30.000     35.000     40.000
+             361.000     164.388       0.129      85.000    0.28%      41.000     51.000
+     SOFAS_12             61.652      -0.130      22.000    0.30%      45.000     55.000     61.000
+             336.000     284.876      -0.861      95.000    0.30%      68.000     80.000
+     SOFAS_24             63.472      -0.261       5.000    0.43%      49.000     60.000     65.000
+             235.000     328.649      -0.615     100.000    0.85%      70.000     80.000
+     NSR_0                 1.111       2.475       1.000   88.89%       1.000      1.000      1.000
+             369.000       0.099       4.125       2.000   11.11%       1.000      1.000
+     NSR_12                1.443       0.228       1.000   55.66%       1.000      1.000      1.000
+             318.000       0.247      -1.948       2.000   44.34%       2.000      2.000
+     NSR_24                1.513      -0.051       1.000   48.74%       1.000      1.000      2.000
+             277.000       0.250      -1.997       2.000   51.26%       2.000      2.000
+
+     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 1 COULD NOT
+     BE INVERTED.  PROBLEM INVOLVING VARIABLE NSR_0.  COMPUTATION COULD
+     NOT BE COMPLETED IN ITERATION 3.  CHANGE YOUR MODEL AND/OR STARTING
+     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
+     VARIATION FOR THE VARIABLE.
+
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
+     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+
+
+
+
+
+
+MODEL RESULTS
+
+                    Estimate
+
+Latent Class 1
+
+ SOFAS_0    ON
+    NSR_0           -191.462
+
+ SOFAS_12   ON
+    NSR_12            22.056
+
+ SOFAS_24   ON
+    NSR_24            20.488
+
+ SOFAS_12 WITH
+    SOFAS_0           33.631
+
+ SOFAS_24 WITH
+    SOFAS_0            0.540
+    SOFAS_12          55.645
+
+ NSR_12   WITH
+    NSR_0              0.000
+
+ NSR_24   WITH
+    NSR_0              0.000
+    NSR_12            -0.009
+
+ Means
+    NSR_0              1.000
+    NSR_12             1.186
+    NSR_24             1.277
+
+ Means
+    N#1                2.378
+
+ Intercepts
+    SOFAS_0          229.046
+    SOFAS_12          29.136
+    SOFAS_24          29.100
+
+ Variances
+    NSR_0              0.000
+    NSR_12             0.164
+    NSR_24             0.175
+
+ Residual Variances
+    SOFAS_0          142.441
+    SOFAS_12         155.545
+    SOFAS_24         157.143
+
+Latent Class 2
+
+ SOFAS_0    ON
+    NSR_0              8.443
+
+ SOFAS_12   ON
+    NSR_12            20.478
+
+ SOFAS_24   ON
+    NSR_24            19.651
+
+ SOFAS_12 WITH
+    SOFAS_0           33.631
+
+ SOFAS_24 WITH
+    SOFAS_0            0.540
+    SOFAS_12          55.645
+
+ NSR_12   WITH
+    NSR_0              0.000
+
+ NSR_24   WITH
+    NSR_0              0.000
+    NSR_12            -0.009
+
+ Means
+    NSR_0              1.321
+    NSR_12             1.807
+    NSR_24             1.880
+
+ Means
+    N#1               -1.949
+
+ Intercepts
+    SOFAS_0           34.951
+    SOFAS_12          33.890
+    SOFAS_24          38.479
+
+ Variances
+    NSR_0              0.218
+    NSR_12             0.126
+    NSR_24             0.082
+
+ Residual Variances
+    SOFAS_0          142.441
+    SOFAS_12         155.545
+    SOFAS_24         157.143
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.603
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     %OVERALL%
+
+     sofas_0 ON nsr_0;
+     sofas_12 ON nsr_12;
+     sofas_24 ON nsr_24;
+
+     [ c#1*0.60293 ];
+
+     %C#1%
+
+     sofas_0 ON nsr_0*-191.46152;
+     sofas_12 ON nsr_12*22.05646;
+     sofas_24 ON nsr_24*20.48760;
+
+     sofas_12 WITH sofas_0*33.63094 (11);
+     sofas_24 WITH sofas_0*0.53963 (13);
+     sofas_24 WITH sofas_12*55.64474 (14);
+     nsr_12 WITH nsr_0*0.00000 (17);
+     nsr_24 WITH nsr_0*0.00000 (19);
+     nsr_24 WITH nsr_12*-0.00876 (20);
+
+     [ sofas_0*229.04591 ];
+     [ sofas_12*29.13595 ];
+     [ sofas_24*29.09953 ];
+     [ nsr_0*1.00001 ];
+     [ nsr_12*1.18599 ];
+     [ nsr_24*1.27683 ];
+     [ n#1@2.37800 ];
+
+     sofas_0*142.44070 (10);
+     sofas_12*155.54546 (12);
+     sofas_24*157.14305 (15);
+     nsr_0*0.00000;
+     nsr_12*0.16383;
+     nsr_24*0.17527;
+
+     %C#2%
+
+     sofas_0 ON nsr_0*8.44257;
+     sofas_12 ON nsr_12*20.47831;
+     sofas_24 ON nsr_24*19.65112;
+
+     sofas_12 WITH sofas_0*33.63094 (11);
+     sofas_24 WITH sofas_0*0.53963 (13);
+     sofas_24 WITH sofas_12*55.64474 (14);
+     nsr_12 WITH nsr_0*0.00000 (17);
+     nsr_24 WITH nsr_0*0.00000 (19);
+     nsr_24 WITH nsr_12*-0.00876 (20);
+
+     [ sofas_0*34.95120 ];
+     [ sofas_12*33.89032 ];
+     [ sofas_24*38.47940 ];
+     [ nsr_0*1.32089 ];
+     [ nsr_12*1.80653 ];
+     [ nsr_24*1.87963 ];
+     [ n#1@-1.94900 ];
+
+     sofas_0*142.44070 (10);
+     sofas_12*155.54546 (12);
+     sofas_24*157.14305 (15);
+     nsr_0*0.21758;
+     nsr_12*0.12616;
+     nsr_24*0.08170;
+
+
+
+     Beginning Time:  15:00:31
+        Ending Time:  15:00:31
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

@@ -1,0 +1,1155 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+02/09/2023   2:49 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  GBTM_P2_K2_S1000;
+   - MixREG_TVC_SANS;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/MixREG/SANS_TVC.dat";
+
+  VARIABLE:
+  NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N SANS_0
+       SANS_12 SANS_24;
+   MISSING=.;
+   USEVAR = SANS_0 SANS_12 SANS_24 SOFAS_0 SOFAS_12 SOFAS_24 N;
+   NOMINAL = N;
+   CLASSES = c(2);
+
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  SOFAS_0 ON SANS_0;
+  SOFAS_12 ON SANS_12;
+  SOFAS_24 ON SANS_24;
+  SANS_0 SANS_12 SANS_24;
+  %C#1%
+  [N#1@2.378];
+  SOFAS_0 ON SANS_0;
+  SOFAS_12 ON SANS_12;
+  SOFAS_24 ON SANS_24;
+  SANS_0 SANS_12 SANS_24;
+  %C#2%
+  [N#1@-1.949];
+  SOFAS_0 ON SANS_0;
+  SOFAS_12 ON SANS_12;
+  SOFAS_24 ON SANS_24;
+  SANS_0 SANS_12 SANS_24;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+GBTM_P2_K2_S1000;
+- MixREG_TVC_SANS;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         369
+
+Number of dependent variables                                    4
+Number of independent variables                                  3
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   SOFAS_0     SOFAS_12    SOFAS_24
+
+  Unordered categorical (nominal)
+   N
+
+Observed independent variables
+   SANS_0      SANS_12     SANS_24
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/MixREG/SANS_TVC.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             9
+     Number of y missing data patterns           9
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              SOFAS_0       SOFAS_12      SOFAS_24      SANS_0        SANS_12
+              ________      ________      ________      ________      ________
+ SOFAS_0        0.978
+ SOFAS_12       0.889         0.911
+ SOFAS_24       0.615         0.547         0.637
+ SANS_0         0.978         0.911         0.637         1.000
+ SANS_12        0.840         0.810         0.583         0.862         0.862
+ SANS_24        0.729         0.661         0.631         0.751         0.696
+
+
+           Covariance Coverage
+              SANS_24
+              ________
+ SANS_24        0.751
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.564          208.000
+      Category 2    0.436          161.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              SOFAS_0       SOFAS_12      SOFAS_24      SANS_0        SANS_12
+              ________      ________      ________      ________      ________
+               40.446        61.713        63.632        10.057         6.405
+
+
+           Means
+              SANS_24
+              ________
+                5.663
+
+
+           Covariances
+              SOFAS_0       SOFAS_12      SOFAS_24      SANS_0        SANS_12
+              ________      ________      ________      ________      ________
+ SOFAS_0      164.798
+ SOFAS_12      63.262       287.760
+ SOFAS_24      40.441       175.213       316.969
+ SANS_0       -23.626       -17.099       -17.444        14.476
+ SANS_12      -13.170       -53.267       -43.221         5.926        18.303
+ SANS_24       -9.624       -33.747       -56.118         5.197        10.403
+
+
+           Covariances
+              SANS_24
+              ________
+ SANS_24       18.479
+
+
+           Correlations
+              SOFAS_0       SOFAS_12      SOFAS_24      SANS_0        SANS_12
+              ________      ________      ________      ________      ________
+ SOFAS_0        1.000
+ SOFAS_12       0.291         1.000
+ SOFAS_24       0.177         0.580         1.000
+ SANS_0        -0.484        -0.265        -0.258         1.000
+ SANS_12       -0.240        -0.734        -0.567         0.364         1.000
+ SANS_24       -0.174        -0.463        -0.733         0.318         0.566
+
+
+           Correlations
+              SANS_24
+              ________
+ SANS_24        1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -6240.163
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SOFAS_0              40.526       0.659      15.000    0.28%      30.000     35.000     40.000
+             361.000     164.388       0.129      85.000    0.28%      41.000     51.000
+     SOFAS_12             61.652      -0.130      22.000    0.30%      45.000     55.000     61.000
+             336.000     284.876      -0.861      95.000    0.30%      68.000     80.000
+     SOFAS_24             63.472      -0.261       5.000    0.43%      49.000     60.000     65.000
+             235.000     328.649      -0.615     100.000    0.85%      70.000     80.000
+     SANS_0               10.057      -0.180       0.000    0.54%       7.000      9.000     10.000
+             369.000      14.476      -0.459      18.000    1.63%      11.000     14.000
+     SANS_12               6.384       0.361       0.000    8.18%       2.000      5.000      6.000
+             318.000      18.318      -0.721      18.000    0.31%       7.000     10.000
+     SANS_24               5.812       0.653       0.000   11.55%       2.000      4.000      5.000
+             277.000      18.672      -0.114      20.000    0.36%       6.000     10.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       34
+
+Loglikelihood
+
+          H0 Value                       -6304.604
+          H0 Scaling Correction Factor      1.0238
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   12677.207
+          Bayesian (BIC)                 12810.175
+          Sample-Size Adjusted BIC       12702.305
+            (n* = (n + 2) / 24)
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        206.62148          0.55995
+       2        162.37852          0.44005
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        206.62148          0.55995
+       2        162.37852          0.44005
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              207          0.56098
+       2              162          0.43902
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.899
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.981    0.019
+    2   0.022    0.978
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.983    0.017
+    2   0.024    0.976
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      4.066    0.000
+    2     -3.715    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ SOFAS_0    ON
+    SANS_0            -1.456      0.225     -6.478      0.000
+
+ SOFAS_12   ON
+    SANS_12           -1.989      0.213     -9.330      0.000
+
+ SOFAS_24   ON
+    SANS_24           -1.969      0.271     -7.267      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            7.449      5.996      1.242      0.214
+
+ SOFAS_24 WITH
+    SOFAS_0           -7.263      8.721     -0.833      0.405
+    SOFAS_12           1.171      6.555      0.179      0.858
+
+ SANS_12  WITH
+    SANS_0             3.012      0.789      3.817      0.000
+
+ SANS_24  WITH
+    SANS_0             2.588      0.858      3.016      0.003
+    SANS_12            4.080      0.866      4.713      0.000
+
+ Means
+    SANS_0             9.063      0.277     32.731      0.000
+    SANS_12            4.098      0.260     15.754      0.000
+    SANS_24            3.574      0.290     12.320      0.000
+
+ Means
+    N#1                2.378      0.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0           57.481      2.266     25.367      0.000
+    SOFAS_12          81.290      1.096     74.174      0.000
+    SOFAS_24          82.616      1.109     74.487      0.000
+
+ Variances
+    SANS_0            14.936      1.274     11.726      0.000
+    SANS_12           11.234      1.569      7.159      0.000
+    SANS_24            9.589      1.452      6.603      0.000
+
+ Residual Variances
+    SOFAS_0          119.320     10.470     11.397      0.000
+    SOFAS_12          85.380      6.785     12.584      0.000
+    SOFAS_24          94.852     10.561      8.981      0.000
+
+Latent Class 2
+
+ SOFAS_0    ON
+    SANS_0            -1.343      0.258     -5.210      0.000
+
+ SOFAS_12   ON
+    SANS_12           -1.384      0.241     -5.739      0.000
+
+ SOFAS_24   ON
+    SANS_24           -1.775      0.235     -7.546      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            7.449      5.996      1.242      0.214
+
+ SOFAS_24 WITH
+    SOFAS_0           -7.263      8.721     -0.833      0.405
+    SOFAS_12           1.171      6.555      0.179      0.858
+
+ SANS_12  WITH
+    SANS_0             3.012      0.789      3.817      0.000
+
+ SANS_24  WITH
+    SANS_0             2.588      0.858      3.016      0.003
+    SANS_12            4.080      0.866      4.713      0.000
+
+ Means
+    SANS_0            11.321      0.278     40.739      0.000
+    SANS_12            9.388      0.321     29.241      0.000
+    SANS_24            8.291      0.379     21.860      0.000
+
+ Means
+    N#1               -1.949      0.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0           50.783      3.309     15.348      0.000
+    SOFAS_12          59.988      2.589     23.172      0.000
+    SOFAS_24          63.687      2.259     28.196      0.000
+
+ Variances
+    SANS_0            11.108      1.057     10.505      0.000
+    SANS_12           11.632      1.585      7.338      0.000
+    SANS_24           16.808      1.642     10.235      0.000
+
+ Residual Variances
+    SOFAS_0          119.320     10.470     11.397      0.000
+    SOFAS_12          85.380      6.785     12.584      0.000
+    SOFAS_24          94.852     10.561      8.981      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.241      0.111      2.168      0.030
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.692E-05
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ SOFAS_0    ON
+    SANS_0            -0.458      0.066     -6.930      0.000
+
+ SOFAS_12   ON
+    SANS_12           -0.585      0.047    -12.448      0.000
+
+ SOFAS_24   ON
+    SANS_24           -0.531      0.064     -8.302      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            0.074      0.058      1.272      0.203
+
+ SOFAS_24 WITH
+    SOFAS_0           -0.068      0.080     -0.853      0.394
+    SOFAS_12           0.013      0.073      0.178      0.859
+
+ SANS_12  WITH
+    SANS_0             0.232      0.053      4.388      0.000
+
+ SANS_24  WITH
+    SANS_0             0.216      0.066      3.260      0.001
+    SANS_12            0.393      0.069      5.723      0.000
+
+ Means
+    SANS_0             2.345      0.124     18.857      0.000
+    SANS_12            1.223      0.077     15.954      0.000
+    SANS_24            1.154      0.072     16.025      0.000
+
+ Intercepts
+    SOFAS_0            4.678      0.169     27.754      0.000
+    SOFAS_12           7.135      0.292     24.451      0.000
+    SOFAS_24           7.190      0.402     17.873      0.000
+
+ Variances
+    SANS_0             1.000      0.000    999.000    999.000
+    SANS_12            1.000      0.000    999.000    999.000
+    SANS_24            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.790      0.061     13.057      0.000
+    SOFAS_12           0.658      0.055     11.959      0.000
+    SOFAS_24           0.718      0.068     10.593      0.000
+
+Latent Class 2
+
+ SOFAS_0    ON
+    SANS_0            -0.379      0.067     -5.693      0.000
+
+ SOFAS_12   ON
+    SANS_12           -0.455      0.079     -5.746      0.000
+
+ SOFAS_24   ON
+    SANS_24           -0.599      0.055    -10.889      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            0.074      0.058      1.272      0.203
+
+ SOFAS_24 WITH
+    SOFAS_0           -0.068      0.080     -0.853      0.394
+    SOFAS_12           0.013      0.073      0.178      0.859
+
+ SANS_12  WITH
+    SANS_0             0.265      0.076      3.479      0.001
+
+ SANS_24  WITH
+    SANS_0             0.189      0.061      3.122      0.002
+    SANS_12            0.292      0.065      4.461      0.000
+
+ Means
+    SANS_0             3.397      0.191     17.810      0.000
+    SANS_12            2.753      0.230     11.950      0.000
+    SANS_24            2.022      0.118     17.102      0.000
+
+ Intercepts
+    SOFAS_0            4.302      0.218     19.770      0.000
+    SOFAS_12           5.781      0.201     28.729      0.000
+    SOFAS_24           5.238      0.252     20.747      0.000
+
+ Variances
+    SANS_0             1.000      0.000    999.000    999.000
+    SANS_12            1.000      0.000    999.000    999.000
+    SANS_24            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.856      0.050     16.956      0.000
+    SOFAS_12           0.793      0.072     11.007      0.000
+    SOFAS_24           0.642      0.066      9.753      0.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ SOFAS_0    ON
+    SANS_0            -0.458      0.066     -6.930      0.000
+
+ SOFAS_12   ON
+    SANS_12           -0.585      0.047    -12.448      0.000
+
+ SOFAS_24   ON
+    SANS_24           -0.531      0.064     -8.302      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            0.074      0.058      1.272      0.203
+
+ SOFAS_24 WITH
+    SOFAS_0           -0.068      0.080     -0.853      0.394
+    SOFAS_12           0.013      0.073      0.178      0.859
+
+ SANS_12  WITH
+    SANS_0             0.232      0.053      4.388      0.000
+
+ SANS_24  WITH
+    SANS_0             0.216      0.066      3.260      0.001
+    SANS_12            0.393      0.069      5.723      0.000
+
+ Means
+    SANS_0             2.345      0.124     18.857      0.000
+    SANS_12            1.223      0.077     15.954      0.000
+    SANS_24            1.154      0.072     16.025      0.000
+
+ Intercepts
+    SOFAS_0            4.678      0.169     27.754      0.000
+    SOFAS_12           7.135      0.292     24.451      0.000
+    SOFAS_24           7.190      0.402     17.873      0.000
+
+ Variances
+    SANS_0             1.000      0.000    999.000    999.000
+    SANS_12            1.000      0.000    999.000    999.000
+    SANS_24            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.790      0.061     13.057      0.000
+    SOFAS_12           0.658      0.055     11.959      0.000
+    SOFAS_24           0.718      0.068     10.593      0.000
+
+Latent Class 2
+
+ SOFAS_0    ON
+    SANS_0            -0.379      0.067     -5.693      0.000
+
+ SOFAS_12   ON
+    SANS_12           -0.455      0.079     -5.746      0.000
+
+ SOFAS_24   ON
+    SANS_24           -0.599      0.055    -10.889      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            0.074      0.058      1.272      0.203
+
+ SOFAS_24 WITH
+    SOFAS_0           -0.068      0.080     -0.853      0.394
+    SOFAS_12           0.013      0.073      0.178      0.859
+
+ SANS_12  WITH
+    SANS_0             0.265      0.076      3.479      0.001
+
+ SANS_24  WITH
+    SANS_0             0.189      0.061      3.122      0.002
+    SANS_12            0.292      0.065      4.461      0.000
+
+ Means
+    SANS_0             3.397      0.191     17.810      0.000
+    SANS_12            2.753      0.230     11.950      0.000
+    SANS_24            2.022      0.118     17.102      0.000
+
+ Intercepts
+    SOFAS_0            4.302      0.218     19.770      0.000
+    SOFAS_12           5.781      0.201     28.729      0.000
+    SOFAS_24           5.238      0.252     20.747      0.000
+
+ Variances
+    SANS_0             1.000      0.000    999.000    999.000
+    SANS_12            1.000      0.000    999.000    999.000
+    SANS_24            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.856      0.050     16.956      0.000
+    SOFAS_12           0.793      0.072     11.007      0.000
+    SOFAS_24           0.642      0.066      9.753      0.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ SOFAS_0    ON
+    SANS_0            -1.456      0.225     -6.478      0.000
+
+ SOFAS_12   ON
+    SANS_12           -1.989      0.213     -9.330      0.000
+
+ SOFAS_24   ON
+    SANS_24           -1.969      0.271     -7.267      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            7.449      5.996      1.242      0.214
+
+ SOFAS_24 WITH
+    SOFAS_0           -7.263      8.721     -0.833      0.405
+    SOFAS_12           1.171      6.555      0.179      0.858
+
+ SANS_12  WITH
+    SANS_0             3.012      0.789      3.817      0.000
+
+ SANS_24  WITH
+    SANS_0             2.588      0.858      3.016      0.003
+    SANS_12            4.080      0.866      4.713      0.000
+
+ Means
+    SANS_0             9.063      0.277     32.731      0.000
+    SANS_12            4.098      0.260     15.754      0.000
+    SANS_24            3.574      0.290     12.320      0.000
+
+ Intercepts
+    SOFAS_0           57.481      2.266     25.367      0.000
+    SOFAS_12          81.290      1.096     74.174      0.000
+    SOFAS_24          82.616      1.109     74.487      0.000
+
+ Variances
+    SANS_0            14.936      1.274     11.726      0.000
+    SANS_12           11.234      1.569      7.159      0.000
+    SANS_24            9.589      1.452      6.603      0.000
+
+ Residual Variances
+    SOFAS_0          119.320     10.470     11.397      0.000
+    SOFAS_12          85.380      6.785     12.584      0.000
+    SOFAS_24          94.852     10.561      8.981      0.000
+
+Latent Class 2
+
+ SOFAS_0    ON
+    SANS_0            -1.343      0.258     -5.210      0.000
+
+ SOFAS_12   ON
+    SANS_12           -1.384      0.241     -5.739      0.000
+
+ SOFAS_24   ON
+    SANS_24           -1.775      0.235     -7.546      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            7.449      5.996      1.242      0.214
+
+ SOFAS_24 WITH
+    SOFAS_0           -7.263      8.721     -0.833      0.405
+    SOFAS_12           1.171      6.555      0.179      0.858
+
+ SANS_12  WITH
+    SANS_0             3.012      0.789      3.817      0.000
+
+ SANS_24  WITH
+    SANS_0             2.588      0.858      3.016      0.003
+    SANS_12            4.080      0.866      4.713      0.000
+
+ Means
+    SANS_0            11.321      0.278     40.739      0.000
+    SANS_12            9.388      0.321     29.241      0.000
+    SANS_24            8.291      0.379     21.860      0.000
+
+ Intercepts
+    SOFAS_0           50.783      3.309     15.348      0.000
+    SOFAS_12          59.988      2.589     23.172      0.000
+    SOFAS_24          63.687      2.259     28.196      0.000
+
+ Variances
+    SANS_0            11.108      1.057     10.505      0.000
+    SANS_12           11.632      1.585      7.338      0.000
+    SANS_24           16.808      1.642     10.235      0.000
+
+ Residual Variances
+    SOFAS_0          119.320     10.470     11.397      0.000
+    SOFAS_12          85.380      6.785     12.584      0.000
+    SOFAS_24          94.852     10.561      8.981      0.000
+
+
+R-SQUARE
+
+Class 1
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SOFAS_0            0.210      0.061      3.465      0.001
+    SOFAS_12           0.342      0.055      6.224      0.000
+    SOFAS_24           0.282      0.068      4.151      0.000
+
+Class 2
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SOFAS_0            0.144      0.050      2.846      0.004
+    SOFAS_12           0.207      0.072      2.873      0.004
+    SOFAS_24           0.358      0.066      5.445      0.000
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ SOFAS_0  ON
+    SANS_0          -2.035      -1.896      -1.826      -1.456      -1.086      -1.015      -0.877
+
+ SOFAS_12 ON
+    SANS_12         -2.538      -2.407      -2.339      -1.989      -1.638      -1.571      -1.440
+
+ SOFAS_24 ON
+    SANS_24         -2.667      -2.500      -2.414      -1.969      -1.523      -1.438      -1.271
+
+ SOFAS_12 WITH
+    SOFAS_0         -7.995      -4.303      -2.414       7.449      17.312      19.201      22.893
+
+ SOFAS_24 WITH
+    SOFAS_0        -29.728     -24.357     -21.610      -7.263       7.084       9.831      15.201
+    SOFAS_12       -15.713     -11.677      -9.612       1.171      11.954      14.018      18.055
+
+ SANS_12  WITH
+    SANS_0           0.979       1.465       1.714       3.012       4.309       4.558       5.044
+
+ SANS_24  WITH
+    SANS_0           0.377       0.906       1.176       2.588       4.000       4.271       4.799
+    SANS_12          1.850       2.383       2.656       4.080       5.504       5.777       6.310
+
+ Means
+    SANS_0           8.350       8.521       8.608       9.063       9.519       9.606       9.777
+    SANS_12          3.428       3.588       3.670       4.098       4.526       4.608       4.768
+    SANS_24          2.827       3.006       3.097       3.574       4.052       4.143       4.322
+
+ Means
+    N#1              2.378       2.378       2.378       2.378       2.378       2.378       2.378
+
+ Intercepts
+    SOFAS_0         51.645      53.040      53.754      57.481      61.209      61.923      63.318
+    SOFAS_12        78.467      79.142      79.487      81.290      83.093      83.438      84.113
+    SOFAS_24        79.759      80.442      80.792      82.616      84.441      84.790      85.473
+
+ Variances
+    SANS_0          11.655      12.440      12.841      14.936      17.032      17.433      18.218
+    SANS_12          7.193       8.159       8.653      11.234      13.816      14.310      15.276
+    SANS_24          5.848       6.743       7.200       9.589      11.979      12.436      13.330
+
+ Residual Variances
+    SOFAS_0         92.352      98.799     102.097     119.320     136.543     139.841     146.288
+    SOFAS_12        67.904      72.082      74.219      85.380      96.540      98.678     102.856
+    SOFAS_24        67.648      74.152      77.479      94.852     112.225     115.552     122.056
+
+Latent Class 2
+
+ SOFAS_0  ON
+    SANS_0          -2.007      -1.848      -1.767      -1.343      -0.919      -0.838      -0.679
+
+ SOFAS_12 ON
+    SANS_12         -2.005      -1.857      -1.781      -1.384      -0.987      -0.911      -0.763
+
+ SOFAS_24 ON
+    SANS_24         -2.381      -2.236      -2.162      -1.775      -1.388      -1.314      -1.169
+
+ SOFAS_12 WITH
+    SOFAS_0         -7.995      -4.303      -2.414       7.449      17.312      19.201      22.893
+
+ SOFAS_24 WITH
+    SOFAS_0        -29.728     -24.357     -21.610      -7.263       7.084       9.831      15.201
+    SOFAS_12       -15.713     -11.677      -9.612       1.171      11.954      14.018      18.055
+
+ SANS_12  WITH
+    SANS_0           0.979       1.465       1.714       3.012       4.309       4.558       5.044
+
+ SANS_24  WITH
+    SANS_0           0.377       0.906       1.176       2.588       4.000       4.271       4.799
+    SANS_12          1.850       2.383       2.656       4.080       5.504       5.777       6.310
+
+ Means
+    SANS_0          10.605      10.776      10.864      11.321      11.778      11.866      12.037
+    SANS_12          8.561       8.759       8.860       9.388       9.917      10.018      10.215
+    SANS_24          7.314       7.548       7.667       8.291       8.915       9.034       9.268
+
+ Means
+    N#1             -1.949      -1.949      -1.949      -1.949      -1.949      -1.949      -1.949
+
+ Intercepts
+    SOFAS_0         42.260      44.298      45.340      50.783      56.226      57.269      59.306
+    SOFAS_12        53.320      54.914      55.730      59.988      64.247      65.062      66.657
+    SOFAS_24        57.869      59.260      59.971      63.687      67.403      68.114      69.505
+
+ Variances
+    SANS_0           8.385       9.036       9.369      11.108      12.848      13.181      13.832
+    SANS_12          7.549       8.525       9.025      11.632      14.240      14.740      15.716
+    SANS_24         12.578      13.589      14.106      16.808      19.509      20.026      21.038
+
+ Residual Variances
+    SOFAS_0         92.352      98.799     102.097     119.320     136.543     139.841     146.288
+    SOFAS_12        67.904      72.082      74.219      85.380      96.540      98.678     102.856
+    SOFAS_24        67.648      74.152      77.479      94.852     112.225     115.552     122.056
+
+Categorical Latent Variables
+
+ Means
+    C#1             -0.045       0.023       0.058       0.241       0.424       0.459       0.527
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ SOFAS_0  ON
+    SANS_0          -0.628      -0.587      -0.567      -0.458      -0.349      -0.328      -0.288
+
+ SOFAS_12 ON
+    SANS_12         -0.706      -0.677      -0.662      -0.585      -0.508      -0.493      -0.464
+
+ SOFAS_24 ON
+    SANS_24         -0.695      -0.656      -0.636      -0.531      -0.425      -0.405      -0.366
+
+ SOFAS_12 WITH
+    SOFAS_0         -0.076      -0.040      -0.022       0.074       0.169       0.188       0.223
+
+ SOFAS_24 WITH
+    SOFAS_0         -0.274      -0.225      -0.200      -0.068       0.063       0.089       0.138
+    SOFAS_12        -0.175      -0.130      -0.107       0.013       0.133       0.156       0.201
+
+ SANS_12  WITH
+    SANS_0           0.096       0.129       0.145       0.232       0.320       0.336       0.369
+
+ SANS_24  WITH
+    SANS_0           0.045       0.086       0.107       0.216       0.325       0.346       0.387
+    SANS_12          0.216       0.258       0.280       0.393       0.506       0.528       0.570
+
+ Means
+    SANS_0           2.025       2.101       2.141       2.345       2.550       2.589       2.665
+    SANS_12          1.025       1.072       1.097       1.223       1.349       1.373       1.420
+    SANS_24          0.969       1.013       1.036       1.154       1.273       1.295       1.340
+
+ Intercepts
+    SOFAS_0          4.244       4.348       4.401       4.678       4.955       5.008       5.112
+    SOFAS_12         6.383       6.563       6.655       7.135       7.615       7.707       7.886
+    SOFAS_24         6.154       6.402       6.528       7.190       7.852       7.979       8.227
+
+ Variances
+    SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    SOFAS_0          0.634       0.672       0.691       0.790       0.890       0.909       0.946
+    SOFAS_12         0.516       0.550       0.567       0.658       0.748       0.765       0.799
+    SOFAS_24         0.544       0.586       0.607       0.718       0.830       0.851       0.893
+
+Latent Class 2
+
+ SOFAS_0  ON
+    SANS_0          -0.551      -0.510      -0.489      -0.379      -0.270      -0.249      -0.208
+
+ SOFAS_12 ON
+    SANS_12         -0.659      -0.610      -0.585      -0.455      -0.325      -0.300      -0.251
+
+ SOFAS_24 ON
+    SANS_24         -0.740      -0.706      -0.689      -0.599      -0.508      -0.491      -0.457
+
+ SOFAS_12 WITH
+    SOFAS_0         -0.076      -0.040      -0.022       0.074       0.169       0.188       0.223
+
+ SOFAS_24 WITH
+    SOFAS_0         -0.274      -0.225      -0.200      -0.068       0.063       0.089       0.138
+    SOFAS_12        -0.175      -0.130      -0.107       0.013       0.133       0.156       0.201
+
+ SANS_12  WITH
+    SANS_0           0.069       0.116       0.140       0.265       0.390       0.414       0.461
+
+ SANS_24  WITH
+    SANS_0           0.033       0.070       0.090       0.189       0.289       0.308       0.346
+    SANS_12          0.123       0.164       0.184       0.292       0.399       0.420       0.460
+
+ Means
+    SANS_0           2.905       3.023       3.083       3.397       3.711       3.771       3.888
+    SANS_12          2.159       2.301       2.374       2.753       3.132       3.204       3.346
+    SANS_24          1.718       1.791       1.828       2.022       2.217       2.254       2.327
+
+ Intercepts
+    SOFAS_0          3.741       3.875       3.944       4.302       4.660       4.728       4.862
+    SOFAS_12         5.263       5.387       5.450       5.781       6.112       6.176       6.300
+    SOFAS_24         4.588       4.744       4.823       5.238       5.654       5.733       5.889
+
+ Variances
+    SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    SOFAS_0          0.726       0.757       0.773       0.856       0.939       0.955       0.986
+    SOFAS_12         0.607       0.652       0.674       0.793       0.912       0.934       0.979
+    SOFAS_24         0.472       0.513       0.533       0.642       0.750       0.771       0.811
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ SOFAS_0  ON
+    SANS_0          -0.628      -0.587      -0.567      -0.458      -0.349      -0.328      -0.288
+
+ SOFAS_12 ON
+    SANS_12         -0.706      -0.677      -0.662      -0.585      -0.508      -0.493      -0.464
+
+ SOFAS_24 ON
+    SANS_24         -0.695      -0.656      -0.636      -0.531      -0.425      -0.405      -0.366
+
+ SOFAS_12 WITH
+    SOFAS_0         -0.076      -0.040      -0.022       0.074       0.169       0.188       0.223
+
+ SOFAS_24 WITH
+    SOFAS_0         -0.274      -0.225      -0.200      -0.068       0.063       0.089       0.138
+    SOFAS_12        -0.175      -0.130      -0.107       0.013       0.133       0.156       0.201
+
+ SANS_12  WITH
+    SANS_0           0.096       0.129       0.145       0.232       0.320       0.336       0.369
+
+ SANS_24  WITH
+    SANS_0           0.045       0.086       0.107       0.216       0.325       0.346       0.387
+    SANS_12          0.216       0.258       0.280       0.393       0.506       0.528       0.570
+
+ Means
+    SANS_0           2.025       2.101       2.141       2.345       2.550       2.589       2.665
+    SANS_12          1.025       1.072       1.097       1.223       1.349       1.373       1.420
+    SANS_24          0.969       1.013       1.036       1.154       1.273       1.295       1.340
+
+ Intercepts
+    SOFAS_0          4.244       4.348       4.401       4.678       4.955       5.008       5.112
+    SOFAS_12         6.383       6.563       6.655       7.135       7.615       7.707       7.886
+    SOFAS_24         6.154       6.402       6.528       7.190       7.852       7.979       8.227
+
+ Variances
+    SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    SOFAS_0          0.634       0.672       0.691       0.790       0.890       0.909       0.946
+    SOFAS_12         0.516       0.550       0.567       0.658       0.748       0.765       0.799
+    SOFAS_24         0.544       0.586       0.607       0.718       0.830       0.851       0.893
+
+Latent Class 2
+
+ SOFAS_0  ON
+    SANS_0          -0.551      -0.510      -0.489      -0.379      -0.270      -0.249      -0.208
+
+ SOFAS_12 ON
+    SANS_12         -0.659      -0.610      -0.585      -0.455      -0.325      -0.300      -0.251
+
+ SOFAS_24 ON
+    SANS_24         -0.740      -0.706      -0.689      -0.599      -0.508      -0.491      -0.457
+
+ SOFAS_12 WITH
+    SOFAS_0         -0.076      -0.040      -0.022       0.074       0.169       0.188       0.223
+
+ SOFAS_24 WITH
+    SOFAS_0         -0.274      -0.225      -0.200      -0.068       0.063       0.089       0.138
+    SOFAS_12        -0.175      -0.130      -0.107       0.013       0.133       0.156       0.201
+
+ SANS_12  WITH
+    SANS_0           0.069       0.116       0.140       0.265       0.390       0.414       0.461
+
+ SANS_24  WITH
+    SANS_0           0.033       0.070       0.090       0.189       0.289       0.308       0.346
+    SANS_12          0.123       0.164       0.184       0.292       0.399       0.420       0.460
+
+ Means
+    SANS_0           2.905       3.023       3.083       3.397       3.711       3.771       3.888
+    SANS_12          2.159       2.301       2.374       2.753       3.132       3.204       3.346
+    SANS_24          1.718       1.791       1.828       2.022       2.217       2.254       2.327
+
+ Intercepts
+    SOFAS_0          3.741       3.875       3.944       4.302       4.660       4.728       4.862
+    SOFAS_12         5.263       5.387       5.450       5.781       6.112       6.176       6.300
+    SOFAS_24         4.588       4.744       4.823       5.238       5.654       5.733       5.889
+
+ Variances
+    SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    SOFAS_0          0.726       0.757       0.773       0.856       0.939       0.955       0.986
+    SOFAS_12         0.607       0.652       0.674       0.793       0.912       0.934       0.979
+    SOFAS_24         0.472       0.513       0.533       0.642       0.750       0.771       0.811
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ SOFAS_0  ON
+    SANS_0          -2.035      -1.896      -1.826      -1.456      -1.086      -1.015      -0.877
+
+ SOFAS_12 ON
+    SANS_12         -2.538      -2.407      -2.339      -1.989      -1.638      -1.571      -1.440
+
+ SOFAS_24 ON
+    SANS_24         -2.667      -2.500      -2.414      -1.969      -1.523      -1.438      -1.271
+
+ SOFAS_12 WITH
+    SOFAS_0         -7.995      -4.303      -2.414       7.449      17.312      19.201      22.893
+
+ SOFAS_24 WITH
+    SOFAS_0        -29.728     -24.357     -21.610      -7.263       7.084       9.831      15.201
+    SOFAS_12       -15.713     -11.677      -9.612       1.171      11.954      14.018      18.055
+
+ SANS_12  WITH
+    SANS_0           0.979       1.465       1.714       3.012       4.309       4.558       5.044
+
+ SANS_24  WITH
+    SANS_0           0.377       0.906       1.176       2.588       4.000       4.271       4.799
+    SANS_12          1.850       2.383       2.656       4.080       5.504       5.777       6.310
+
+ Means
+    SANS_0           8.350       8.521       8.608       9.063       9.519       9.606       9.777
+    SANS_12          3.428       3.588       3.670       4.098       4.526       4.608       4.768
+    SANS_24          2.827       3.006       3.097       3.574       4.052       4.143       4.322
+
+ Intercepts
+    SOFAS_0         51.645      53.040      53.754      57.481      61.209      61.923      63.318
+    SOFAS_12        78.467      79.142      79.487      81.290      83.093      83.438      84.113
+    SOFAS_24        79.759      80.442      80.792      82.616      84.441      84.790      85.473
+
+ Variances
+    SANS_0          11.655      12.440      12.841      14.936      17.032      17.433      18.218
+    SANS_12          7.193       8.159       8.653      11.234      13.816      14.310      15.276
+    SANS_24          5.848       6.743       7.200       9.589      11.979      12.436      13.330
+
+ Residual Variances
+    SOFAS_0         92.352      98.799     102.097     119.320     136.543     139.841     146.288
+    SOFAS_12        67.904      72.082      74.219      85.380      96.540      98.678     102.856
+    SOFAS_24        67.648      74.152      77.479      94.852     112.225     115.552     122.056
+
+Latent Class 2
+
+ SOFAS_0  ON
+    SANS_0          -2.007      -1.848      -1.767      -1.343      -0.919      -0.838      -0.679
+
+ SOFAS_12 ON
+    SANS_12         -2.005      -1.857      -1.781      -1.384      -0.987      -0.911      -0.763
+
+ SOFAS_24 ON
+    SANS_24         -2.381      -2.236      -2.162      -1.775      -1.388      -1.314      -1.169
+
+ SOFAS_12 WITH
+    SOFAS_0         -7.995      -4.303      -2.414       7.449      17.312      19.201      22.893
+
+ SOFAS_24 WITH
+    SOFAS_0        -29.728     -24.357     -21.610      -7.263       7.084       9.831      15.201
+    SOFAS_12       -15.713     -11.677      -9.612       1.171      11.954      14.018      18.055
+
+ SANS_12  WITH
+    SANS_0           0.979       1.465       1.714       3.012       4.309       4.558       5.044
+
+ SANS_24  WITH
+    SANS_0           0.377       0.906       1.176       2.588       4.000       4.271       4.799
+    SANS_12          1.850       2.383       2.656       4.080       5.504       5.777       6.310
+
+ Means
+    SANS_0          10.605      10.776      10.864      11.321      11.778      11.866      12.037
+    SANS_12          8.561       8.759       8.860       9.388       9.917      10.018      10.215
+    SANS_24          7.314       7.548       7.667       8.291       8.915       9.034       9.268
+
+ Intercepts
+    SOFAS_0         42.260      44.298      45.340      50.783      56.226      57.269      59.306
+    SOFAS_12        53.320      54.914      55.730      59.988      64.247      65.062      66.657
+    SOFAS_24        57.869      59.260      59.971      63.687      67.403      68.114      69.505
+
+ Variances
+    SANS_0           8.385       9.036       9.369      11.108      12.848      13.181      13.832
+    SANS_12          7.549       8.525       9.025      11.632      14.240      14.740      15.716
+    SANS_24         12.578      13.589      14.106      16.808      19.509      20.026      21.038
+
+ Residual Variances
+    SOFAS_0         92.352      98.799     102.097     119.320     136.543     139.841     146.288
+    SOFAS_12        67.904      72.082      74.219      85.380      96.540      98.678     102.856
+    SOFAS_24        67.648      74.152      77.479      94.852     112.225     115.552     122.056
+
+
+     Beginning Time:  14:49:23
+        Ending Time:  14:49:23
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen
