@@ -1,8 +1,11 @@
-R3STEPfit <- function(list_mpobj, std = "unstd") {
+R3STEPfit <- function(list_mpobj, 
+                      std = "unstd", 
+                      ref = 1) {
   
 # Test arguments ----------------------------------------------------------
   # list_mpobj <- R3STEP_models
   # std <- "stdyx"
+  # ref <- 2
 
 
 # Validate arguments & define values   ------------------------------------
@@ -14,24 +17,22 @@ R3STEPfit <- function(list_mpobj, std = "unstd") {
                 "stdy" = "stdy.standardized",
                 "std" = "std.standardized")
   
+  stopifnot(ref %in% c("1", "2"))
+  
 # Extract parameters and confidence intervals -----------------------------
   param <- list_mpobj %>%
     purrr::map(pluck, "results", "parameters", std, .default = NULL) %>% 
-    purrr::map2_dfr(., names(list_mpobj), ~ dplyr::mutate(.x, name = .y)) %>% 
-    dplyr::mutate(paramHeader = ifelse(paramHeader == "Intercepts", paste(paramHeader, name), paramHeader), .keep = "unused")
+    purrr::map2_dfr(., names(list_mpobj), \(x, y) if(!is.null(x)){dplyr::mutate(x, name = stringr::str_to_upper(y))}) %>% 
+    dplyr::mutate(paramHeader = ifelse(paramHeader == "Intercepts", paste(paramHeader, param), paramHeader)) %>%
+    dplyr::mutate(param = ifelse(str_detect(paramHeader, "^Intercepts"), name, param))
   
   ci <- list_mpobj %>% 
     purrr::map(pluck, "results", "parameters", glue::glue("ci.{std}"), .default = NULL) %>% 
-    purrr::map2_dfr(., names(list_mpobj), ~ dplyr::mutate(.x, name = .y)) %>% 
-    dplyr::mutate(paramHeader = ifelse(paramHeader == "Intercepts", paste(paramHeader, name), paramHeader), .keep = "unused")
+    purrr::map2_dfr(., names(list_mpobj), \(x, y) if(!is.null(x)){dplyr::mutate(x, name = stringr::str_to_upper(y))}) %>% 
+    dplyr::mutate(paramHeader = ifelse(paramHeader == "Intercepts", paste(paramHeader, param), paramHeader)) %>%
+    dplyr::mutate(param = ifelse(str_detect(paramHeader, "^Intercepts"), name, param))
   
-  param_ci <- merge(param, ci, all = TRUE) %>%
-    tryCatch(
-      expr = filter(., str_detect(LatentClass, "Categorical.Latent.Variables")) %>%
-        dplyr::select(., !matches("^(low|up)\\.?5")),
-      error = function(e)
-        .
-    ) 
+  param_ci <- merge(param, ci, all = TRUE)
 
 # Extract warnings and errors ---------------------------------------------
   warnings <- list_mpobj %>% 
@@ -51,57 +52,67 @@ R3STEPfit <- function(list_mpobj, std = "unstd") {
     purrr::map_dfc(pluck) %>% 
     tidyr::pivot_longer(cols = everything(), names_to = "param", values_to = 'errors') %>% 
     dplyr::mutate(param = stringr::str_to_upper(param))
+    
 
-# Alternative parametrization ---------------------------------------------
-  #     line1_alt <-  output_alt %>% stringr::str_which("C#\\d\\s+ON") #get lines of regression coefs and ORs
-  #     line2_alt <-  output_alt %>% stringr::str_which("Intercepts") #get lines of regression coefs and ORs
-  #     
-  #     coef_alt[[i]] <-
-  #       output_alt[line1_alt[c(rep(TRUE, (k-1)*(k-1)), rep(FALSE, (k-1)*(k-1)))] + 1] %>% #Manual R3STEP
-  #       as.data.frame() %>%
-  #       setNames(c('class', 'cov', 'estimate', 'se', 'tval', 'pval')) %>%
-  #       stringr::str_split('[:space:]+', simplify = TRUE) %>%
-  #       dplyr::mutate(class = stringr::str_c('C#', parse_number(output_alt[line_alt[c(rep(TRUE, (k-1)*(k-1)), rep(FALSE, (k-1)*(k-1)))]]))) %>% 
-  #       dplyr::mutate(ref = stringr::str_c('Ref C#', rep(seq(k-1), each=k-1)))
-  # 
-  #     intercepts_alt[[i]] <-
-  #       output_alt[sort(as.vector(outer(line2_alt, seq_along(line2_alt), '+')))] %>% #Manual R3STEP
-  #       stringr::str_split('[:space:]+', simplify = TRUE) %>%
-  #       as.data.frame() %>%
-  #       dplyr::select(-1) %>%
-  #       setNames(c('class', 'estimate', 'se', 'tval', 'pval')) %>%
-  #       dplyr::mutate(class = stringr::str_replace(class, 'C#', 'intercept')) %>% 
-  #       dplyr::mutate(ref = stringr::str_c('Ref C#', rep(seq(k-1), each=k-1))) %>% 
-  #       dplyr::mutate('cov' = stringr::str_to_upper(i))
-  #     
-  #     ORs_alt[[i]] <-
-  #       output_alt[line1_alt[c(rep(FALSE, (k-1)*(k-1)), rep(TRUE, (k-1)*(k-1)))] + 1] %>% #Manual R3STEP
-  #       stringr::str_split('[:space:]+', simplify = TRUE) %>%
-  #       as.data.frame() %>%
-  #       setNames(c('class', 'cov', 'OR', 'OR_se', '[OR_CI', 'OR_CI]')) %>%
-  #       dplyr::mutate(class = stringr::str_c('C#', parse_number(output_alt[line_alt[c(rep(TRUE, (k-1)*(k-1)), rep(FALSE, (k-1)*(k-1)))]]))) %>% 
-  #       dplyr::mutate(ref = stringr::str_c('Ref C#', rep(seq(k-1), each=k-1)))
-  #     
-  # table_alt <- list(coef_alt, intercepts_alt, ORs_alt, warn_err) %>%
-  #   purrr::map(purrr::reduce, merge, all = TRUE) %>%
-  #   purrr::reduce(merge, all = TRUE) %>%
-  #   dplyr::select('cov', everything()) %>%
-  #   dplyr::arrange(ref, cov)
-  
 
-# Merge parameters, confidence intervals, warnings and errors into --------
+# Merge parameters, confidence intervals, warnings and errors  ------------
   table <- list(param_ci, warnings, errors) %>%
-    purrr::reduce(merge, all = TRUE) %>%
+    purrr::reduce(merge, all = TRUE)
+  
+# Alternative parameterization using reference class 1 or 2 --------------------
+  
+  if (ref == 1) {
+    table <- table %>%
+      tryCatch(
+        expr =
+          dplyr::mutate(., 
+                        dplyr::across(c('low2.5', 'est', 'up2.5'), 
+                                      ~ ifelse(str_detect(paramHeader, "C#\\d.ON"), 
+                                               round(exp(.x), 2), 
+                                               NA), 
+                                      .names = 'ORs_{.col}'
+          )),
+        error = function(e)
+          .
+      )
+  } else if (ref == 2) {
+    table <- table %>%
+      tryCatch(
+        expr =
+          dplyr::mutate(., 
+                        dplyr::across(c('low2.5', 'est', 'up2.5'), 
+                                      ~ ifelse(str_detect(paramHeader, "C#\\d.ON"), 
+                                               round(exp(-.x), 2), 
+                                               NA), 
+                                      .names = 'ORs_{.col}'
+                        )) %>%
+          mutate(
+            paramHeader = str_replace(paramHeader, "1", "2"),
+            est = -est,
+            ORs_low2.5 = ORs_up2.5,
+            ORs_up2.5 = .$ORs_low2.5
+          ),
+        error = function(e)
+          .
+      )
+  }
+  
+# Final table --------------------------------------------------------
+  table <- table %>%
     tryCatch(
       expr = 
-        dplyr::select(., paramHeader, param, everything(), -LatentClass) %>%
-        dplyr::arrange(., paramHeader, param) %>% 
+        dplyr::filter(.,
+                      LatentClass == "Categorical.Latent.Variables" |
+                      (paramHeader == "Means" & stringr::str_detect(param, "[:alpha:]#\\d", negate = TRUE))) %>%  # filter out irrelevant parameters
         dplyr::mutate(sig = dplyr::case_when(pval < 0.001 ~ "***",
-                               pval < 0.01 ~ "**",
-                               pval < 0.05 ~ "*")),
+                                             pval < 0.01 ~ "**",
+                                             pval < 0.05 ~ "*")) %>%  #add significativity
+        dplyr::select(paramHeader, param, est, se, pval, sig, dplyr::starts_with("ORs"), warnings, errors) %>%
+        dplyr::arrange(paramHeader, param),
       error = function(e)
         .
     )
   
   return(table)
+  
 }
