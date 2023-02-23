@@ -15,20 +15,13 @@ std <- switch(std,
 
 # Extract parameters and confidence intervals -----------------------------
 param <- list_mpobj %>%
-  purrr::map_dfr(pluck, "results", "parameters", std, .default = NULL)
-
+  purrr::map(pluck, "results", "parameters", std, .default = NULL) %>% 
+  plyr::rbind.fill() #dplyr::bind_rows fail if est_se residual variance = ****** (can't combine character and double)
+  
 ci <- list_mpobj %>% 
   purrr::map_dfr(pluck, "results", "parameters", glue::glue("ci.{std}"), .default = NULL) 
 
-param_ci <- merge(param, ci, all = TRUE) %>%
-  tryCatch(
-    expr = dplyr::filter(., stringr::str_detect(paramHeader, ".+ON")) %>%
-      dplyr::select(., !matches("^(low|up)\\.?5")),
-    error = function(e)
-      .
-  ) 
-        
-# mutate(ORs = case_when(!is.na(estimate) ~ exp(as.numeric(estimate)))) %>%  #compute OR and 95%CI
+param_ci <- merge(param, ci, all = TRUE)
 
 # Extract warnings and errors ---------------------------------------------
 warnings <- list_mpobj %>% 
@@ -52,15 +45,17 @@ errors <- list_mpobj %>%
 table <- list(param_ci, warnings, errors) %>%
   purrr::reduce(merge, all = TRUE) %>%
   tryCatch(
-    expr = 
-      dplyr::select(., paramHeader, param, LatentClass, dplyr::everything()) %>%
-      dplyr::arrange(., param, LatentClass)%>% 
-      dplyr::mutate(sig = dplyr::case_when(pval < 0.001 ~ "***",
-                             pval < 0.01 ~ "**",
-                             pval < 0.05 ~ "*")),
+    expr =
+      dplyr::filter(., (stringr::str_detect(paramHeader, ".+ON") | !is.na(warnings) | !is.na(errors))) %>% 
+      dplyr::mutate(
+        sig = dplyr::case_when(pval < 0.001 ~ "***",
+                               pval < 0.01 ~ "**",
+                               pval < 0.05 ~ "*")) %>%
+      dplyr::select(LatentClass, paramHeader, param, est, se, est_se, pval, sig, low2.5, up2.5, warnings, errors) %>%
+      dplyr::arrange(LatentClass, param),
     error = function(e)
       .
-    )
-         
+  )
+
 return(table)
 }
