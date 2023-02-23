@@ -31,7 +31,7 @@ D3STEP <- function(df,
     purrr::map(cov,
                \(z) merge(
                  x = model[["results"]][["savedata"]], 
-                 y = dplyr::select(df, c(idvar, z)),
+                 y = dplyr::select(df, c(idvar, z), -any_of(usevar)),
                  by.x = stringr::str_to_upper(idvar),
                  by.y = idvar,
                  all = TRUE
