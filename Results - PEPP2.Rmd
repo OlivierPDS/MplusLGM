@@ -1,0 +1,223 @@
+---
+title: "PEPP2 - results"
+author: "Olivier Percie du Sert"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo=FALSE)
+```
+
+```{r packages}
+library(tidyverse)
+library(magrittr)
+
+```
+
+```{r working session, include=FALSE}
+ws <- c("SOFAS", "SAPS", "SANS") %>% 
+  map_chr(\(x)
+          str_c(getwd(), x, sep = "/") %>%
+            list.files(full.names = T) %>% 
+            file.info() %>%
+            filter(isdir==FALSE) %>% 
+            slice_max(mtime) %>% # get the most updated workspace
+            rownames())
+
+env <- map(1:3, new.env) %>% 
+  set_names(c('SOFAS.env', 'SAPS.env', 'SANS.env'))
+  map2(ws, env, \(x, y) load(x, envir = y))
+  list2env(env, globalenv())
+```
+
+<!-- To add: R3STEP, Missing data, Assumptions -->
+
+# Analyses
+## Trajectory analyses
+
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/LGMMs.png) 
+
+**GCM:**\
+  - classe = c(1)\
+
+**GBTM:**\
+  - classe = c(1:6)\
+  - growth factors variance = i s q cub @0\
+  - residual variance = fixed across t & %C#%\
+
+**LCGA:**\
+  - classe = c(k)\
+  - growth factors variance = i s q cub @0\growth factors variance (i s q cub @0)\
+  - residual variance = relaxed across %C#%, across t,  across t & %C#%\
+  
+**GMMi:** (class-invariant)\
+  - classe = c(k)\
+  - growth factors variance = relaxed stepwise for %OVERALL% model\
+  - residual variance = fixed across t & %C#%, relaxed across %C#%, across t, across t & %C#%\
+  
+**GMMv:** (class-variant)\
+  - classe = c(k)\
+  - growth factors variance = relaxed stepwise for %C#%\
+  - residual variance = fixed across t & %C#%, relaxed across %C#%, across t, across t & %C#%\
+
+Missing data: FIML
+
+## Regression analyses
+
+$\alpha$: Bonferroni correction\
+Missing data: FIML
+
+### Multinomial logistic regressions:
+$$
+Pr(Y)=\frac{1}{1+e^{b_0 + b_1X_i}}
+$$
+
+$Y$: **Class membership** (C)\
+$X$:\
+  - **Sociodemographics** (age, education, FIQ, SES, onset, DUP, PAS)\
+  - **Baseline predictors** (`r paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '0', sep = '_')`)\
+
+### Mixture regressions:
+$Y$: **Growth factors** (i, s)\
+$X$: **Time-varying covariates** (SOFAS, SAPS, SANS, CDA, HAS, YMRS)\
+
+### Multiple linear regressions
+$$
+Y_i=(b_0 + b_1X_1 + b_2X_2 + ... + b_nX_{ni}) + \epsilon_i
+$$
+$Y$: **Primary outcome** (SOFAS, SAPS, SANS)\
+$X$: **Time-varying covariates** (SOFAS, SAPS, SANS, CDA, HAS, YMRS)\
+
+### Linear regressions:
+$$
+Y_i=(b_0 + b_1X_1) + \epsilon_i
+$$
+$Y$:**Distal outcomes** (`r paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '24', sep = '_')`, remission -early, -endpoint, -cumulative)\
+
+**variable to add/consider** (clozapine-use, recovery, mortality, suicide, self-harm)\
+
+$X$: **Class membership** (C)\
+
+# Results
+## SOFAS
+```{r}
+pluck(env, "SOFAS.env", "plot")
+```
+
+### Multinomial regressions
+```{r}
+  table <- pluck(env, "SOFAS.env", "R3STEP_unstd") %>%  
+  filter(str_detect(paramHeader, "C#\\d.ON")) %>%
+  filter(., pval<(0.05/nrow(.))) %>% 
+  select(-warnings, -errors)
+```
+
+### Mixture regressions
+#### Y = primary outcome
+```{r}
+  pluck(env, "SOFAS.env", "TVCreg_stdyx") %>%  
+  filter(str_detect(param, "^PSR", negate = TRUE)) %>%
+  filter(., pval<(0.05/(nrow(.)-sum(is.na(.$paramHeader))))) %>% 
+  select(-warnings, -errors)
+```
+
+### Distal outcomes
+```{r}
+  pluck(env, "SOFAS.env", "D3STEP_unstd") %>%  
+  filter(., pval<(0.05/nrow(.))) %>% 
+  select(-warnings, -errors)
+```
+
+
+## SAPS
+```{r}
+pluck(env, "SAPS.env", "plot")
+```
+
+### Multinomial regressions
+```{r}
+pluck(env, "SAPS.env", "R3STEP_unstd") %>%  
+  filter(str_detect(paramHeader, "C#\\d.ON")) %>%
+  filter(., pval<(0.05/nrow(.))) %>% 
+  select(-warnings, -errors)
+```
+
+### Mixture regressions
+#### Y = primary outcome
+```{r}
+  pluck(env, "SAPS.env", "TVCreg_stdyx") %>%  
+  filter(str_detect(param, "^(PSR|NSR|CDS)", negate = TRUE)) %>%
+  filter(., pval<(0.05/(nrow(.)-sum(is.na(.$paramHeader))))) %>% 
+  select(-warnings, -errors)
+```
+
+#### Y = growth factors
+```{r}
+  pluck(env, "SAPS.env", "MixREG_stdyx") %>%  
+  filter(str_detect(param, "^(PSR|YMRS)", negate = TRUE)) %>%
+  filter(., pval<(0.05/(nrow(.)-sum(is.na(.$paramHeader))))) %>% 
+  select(-warnings, -errors)
+```
+
+### Distal outcomes
+```{r}
+  pluck(env, "SAPS.env", "D3STEP_unstd") %>%  
+  filter(., pval<(0.05/nrow(.))) %>% 
+  select(-warnings, -errors)
+```
+
+## SANS
+```{r}
+pluck(env, "SANS.env", "plot")
+```
+
+### Multinomial regressions
+```{r}
+  pluck(env, "SANS.env", "R3STEP_unstd") %>%  
+  filter(str_detect(paramHeader, "C#\\d.ON")) %>%
+  filter(., pval<(0.05/(nrow(.))/2)) %>% 
+  select(-warnings, -errors)
+```
+
+### Mixture regressions
+#### Y = primary outcome
+```{r}
+  pluck(env, "SANS.env", "TVCreg_stdyx") %>%  
+  filter(str_detect(param, "^(PSR|NSR|CDS|YMRS)", negate = TRUE)) %>%
+  filter(., pval<(0.05/(nrow(.)-sum(is.na(.$paramHeader))))) %>% 
+  select(-warnings, -errors)
+```
+
+#### Y = growth factors
+```{r}
+  pluck(env, "SANS.env", "MixREG_stdyx") %>%  
+  filter(str_detect(param, "^(PSR|NSR|CDS|YMRS)", negate = TRUE)) %>%
+  filter(., pval<(0.05/(nrow(.)-sum(is.na(.$paramHeader))))) %>% 
+  select(-warnings, -errors)
+```
+
+
+
+
+
+<!-- JUNK -->
+<!-- Add alternative parameterization (when k=2)-->
+<!-- add_row(., -->
+<!--           paramHeader = str_replace(.$paramHeader, "1", "2"), -->
+<!--           param = .$param, -->
+<!--           se = .$se, -->
+<!--           sig = .$sig, -->
+<!--           est = - .$est, -->
+<!--           ORs_low2.5 = 1/.$ORs_up2.5, -->
+<!--           ORs_est = round(exp(- .$est),2), -->
+<!--           ORs_up2.5 = 1/.$ORs_low2.5 -->
+<!--           ) -->
+
+
+### Distal outcomes
+```{r}
+  pluck(env, "SANS.env", "D3STEP_unstd") %>%  
+  filter(., pval<(0.05/nrow(.))) %>% 
+  select(-warnings, -errors)
+```
