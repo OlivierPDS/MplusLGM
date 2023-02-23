@@ -13,9 +13,9 @@ R3STEP <- function(df,
   ## silence warning message from MplusAutomation::parseMplus
   
   # Test arguments ----------------------------------------------------------
-  # df <-  SAPS_df
+  # df <-  SOFAS_df
   # idvar  <-  'pin'
-  # usevar <-  SAPS
+  # usevar <-  SOFAS
   # cov <-  c(SD_num, SD_cat)
   # starts <-  0
   # output <-  c("SAMPSTAT", "STANDARDIZED", "CINTERVAL")
@@ -30,7 +30,7 @@ R3STEP <- function(df,
     purrr::map(cov,
                \(z) merge(
                  x = model[["results"]][["savedata"]], 
-                 y = select(df, c(idvar, z)),
+                 y = select(df, c(idvar, z), -any_of(usevar)),
                  by.x = stringr::str_to_upper(idvar),
                  by.y = idvar,
                  all = TRUE
@@ -43,8 +43,15 @@ R3STEP <- function(df,
     purrr::map(~ glue::glue("{lgmm} - R3STEP_{.x}")) %>%
     purrr::map(~ MplusAutomation::parseMplus(.x, add = TRUE))
   
+  cov_dummy <- cov %>%  
+    purrr::map_if( #x
+      \(x) is.factor(df[[x]]), #p
+      \(x) map_chr(1:(nlevels(df[[x]]) - 1), #f, y
+                   \(y) paste0(x, y)) %>% 
+        paste(collapse = " "))
+  
   ## VARIABLE = 
-  usevars <- purrr::map(cov, \(x) glue("USEVAR = {x} N"))
+  usevars <- purrr::map(cov_dummy, \(x) glue::glue("USEVAR = N {x}"))
   
   nominal <- "NOMINAL = N"
   
@@ -55,6 +62,15 @@ R3STEP <- function(df,
     # purrr::map(~ strwrap(.x, width = 90, exdent = 5)) %>%
     # purrr::map(~ paste(.x, collapse = "\n")) %>%
     # purrr::map(~ gsub(";", ";\n",.x))
+  
+
+  ## DEFINE =
+  define <- purrr::map_if(cov, #x
+                          \(x) is.factor(df[[x]]), #p
+                          \(x) purrr::map_chr(1:(nlevels(df[[x]]) - 1), #f, y
+                                       \(y) glue::glue("{x}{y} = {x} == {y}")),
+                          .else = ~ NULL) %>% 
+    purrr::map_if(~ !is.null(.x), ~ MplusAutomation::parseMplus(.x, add = TRUE))
   
   ## ANALYSIS =
   type <- "TYPE = MIXTURE"
@@ -73,10 +89,10 @@ R3STEP <- function(df,
     split(rep(1:k, each = k)) %>%
     purrr::map(\(x) utils::head(x, -1))  #logits specification
   
-  reg <- purrr::map(cov, \(x) glue::glue("C ON {x}")) #regressions specification
-
+  reg <- purrr::map(cov_dummy, \(x) glue::glue("C ON {x}")) #regressions specification
+  
   ### Model specification
-  model1 <- list('%OVERALL%', reg, cov) %>%
+  model1 <- list('%OVERALL%', reg, cov_dummy) %>%
     purrr::reduce(~ purrr::map2(.x, .y, ~ c(.x, .y)))
   
   model2 <- list(class_spec, logits) %>%
@@ -90,10 +106,11 @@ R3STEP <- function(df,
   outputs <- MplusAutomation::parseMplus(output, add = TRUE)
   
   # Create Mplus object -----------------------------------------------------
-  mpobj <- purrr::pmap(list(title, variable, model3, savedata),  \(title, variable, model, savedata)
+  mpobj <- purrr::pmap(list(title, variable, define,  model3, savedata),  \(title, variable, define, model, savedata)
                        MplusAutomation::mplusObject(
                          TITLE = title,
                          VARIABLE = variable,
+                         DEFINE = define,
                          MODEL = model,
                          ANALYSIS = analysis,
                          OUTPUT = outputs,
