@@ -15,7 +15,7 @@ MixREG <- function(df,
 # df <-  SAPS_df
 # idvar  <-  'pin'
 # usevar <-  SAPS
-# cov <-  list(SOFAS, SANS)
+# cov <-  list(SOFAS, SANS, CDS, HAS, YMRS)
 # starts  <-  0
 # output  <-  c("SAMPSTAT", "CINTERVAL")
 # model  <-  FINAL_model
@@ -25,6 +25,14 @@ cov_vec <- substitute(cov) %>%
  as.character() %>%
  tail(-1)
 
+cov_dummy <- cov %>%  
+ map_depth(1, #at
+            \(x) purrr::map_if(x,#x
+                               \(x) is.factor(df[[x]]), #p
+                               \(x) map_chr(1:(nlevels(df[[x]]) - 1), #f, y
+                                            \(y) paste0(x, y)) %>% #f
+                                 paste(collapse = " ")))
+
 # Extract model parameters and data ---------------------------------------
 logits_df <- model[["results"]][["class_counts"]][["logitProbs.mostLikely"]] #logits
 k <- model[["results"]][["summaries"]][["NLatentClasses"]] #classes
@@ -33,8 +41,8 @@ lgmm <- model[["TITLE"]] #title
 savedata <-
  purrr::map(cov,
      \(z) merge(
-       x = select(model[["results"]][["savedata"]], -usevar), #error when usevar %in% cov
-       y = select(df, c(idvar, z)),
+       x = select(model[["results"]][["savedata"]]), #error when usevar %in% cov
+       y = select(df, c(idvar, z), -any_of(usevar)),
        by.x = stringr::str_to_upper(idvar),
        by.y = idvar,
        all = TRUE
@@ -48,9 +56,9 @@ title <-  cov_vec %>%
  purrr::map(~ MplusAutomation::parseMplus(.x, add = TRUE))
 
 ## VARIABLE = 
-usevars <- cov %>% 
+usevars <- cov_dummy %>% 
  purrr::map(\(x) paste(x, collapse = " ")) %>%
- purrr::map(\(x) paste("USEVAR =", x, "N", "I", "S", collapse = " "))
+ purrr::map(\(x) paste("USEVAR =", "N", "I", "S", x, collapse = " "))
 
 nominal <- "NOMINAL = N"
 
@@ -68,6 +76,24 @@ start_val <-  glue::glue("STARTS = {starts}")
 processors <- glue::glue('PROCESSORS = {detectCores()}')
 analysis <- MplusAutomation::parseMplus(c(type, start_val, processors), add = TRUE)
 
+## DEFINE =
+define <- cov %>% 
+  purrr::map_depth(1, #at
+                   \(x) purrr::map_if(x, #x
+                                      \(x) is.factor(df[[x]]), #p
+                                      \(x) purrr::map_chr(1:(nlevels(df[[x]]) - 1), #f, y
+                                                          \(y) glue::glue("{x}{y} = {x} == {y}")),
+                                      .else = ~ NULL )) %>% 
+  purrr::map_depth(1,
+                   \(x) purrr::map_if(x,  
+                                      \(x) !is.null(x), 
+                                      \(x) MplusAutomation::parseMplus(x, add = TRUE))) %>% 
+  purrr::map_if(\(x) !all(purrr::map_lgl(x, \(y) is.null(y))), 
+                \(x) paste(x, collapse = " "), 
+                .else = ~ NULL) %>% 
+  purrr::map_if(\(x) !is.null(x),
+                \(x) gsub(";", ";\n", x))
+
 ## MODEL = 
 class_spec <- purrr::map_chr(1:k, ~ glue::glue('%C#{.x}%')) #class sections
 
@@ -77,10 +103,10 @@ logits <-  purrr::map(1:k, \(x) purrr::map2(x, 1:k, \(x, y) logits_df[x, y])) %>
  split(rep(1:k, each = k)) %>%
  purrr::map(\(x) head(x, -1))  #logits specification
 
-reg_i <- purrr::map(cov, \(x) glue::glue("I ON {paste(x, collapse = ' ')}")) #regressions specification
-reg_s <- purrr::map(cov, \(x) glue::glue("S ON {paste(x, collapse = ' ')}")) #regressions specification
+reg_i <- purrr::map(cov_dummy, \(x) glue::glue("I ON {paste(x, collapse = ' ')}")) #regressions specification
+reg_s <- purrr::map(cov_dummy, \(x) glue::glue("S ON {paste(x, collapse = ' ')}")) #regressions specification
 
-variance <- purrr::map(cov, \(x) paste(x, collapse = " ")) #covariates variance specification
+variance <- purrr::map(cov_dummy, \(x) paste(x, collapse = " ")) #covariates variance specification
 
 ### Model specification
 model1 <- list(reg_i, reg_s, variance) %>%
@@ -104,10 +130,11 @@ model5 <- list(model2, model4) %>%
 outputs <- MplusAutomation::parseMplus(output, add = TRUE)
 
 # Create Mplus object -----------------------------------------------------
-mpobj <- purrr::pmap(list(title, variable, model5, savedata),  \(title, variable, model, savedata)
+mpobj <- purrr::pmap(list(title, variable, define, model5, savedata),  \(title, variable, define, model, savedata)
                     MplusAutomation::mplusObject(
                       TITLE = title,
                       VARIABLE = variable,
+                      DEFINE = define, 
                       MODEL = model,
                       ANALYSIS = analysis,
                       OUTPUT = outputs,
