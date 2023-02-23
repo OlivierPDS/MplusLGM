@@ -7,9 +7,12 @@ FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/work_R3STEP.d
 VARIABLE:
 NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N work; 
  MISSING=.;
- USEVAR = work N;
+ USEVAR = N work1 work2;
 NOMINAL = N;
 CLASSES = c(2);
+DEFINE:
+work1 = work == 1;
+work2 = work == 2;
 ANALYSIS:
 TYPE = MIXTURE;
 ALGORITHM = INTEGRATION;
@@ -18,8 +21,8 @@ STARTS = 0;
 PROCESSORS = 8;
 MODEL:
 %OVERALL%
-C ON work;
-work;
+C ON work1 work2;
+work1 work2;
 %C#1%
 [N#1@2.378];
 %C#2%

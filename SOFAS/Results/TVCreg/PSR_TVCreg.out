@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-02/09/2023   3:00 PM
+02/15/2023  10:59 AM
 
 INPUT INSTRUCTIONS
 
@@ -14,32 +14,34 @@ INPUT INSTRUCTIONS
   NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N PSR_0 PSR_12
        PSR_24;
    MISSING=.;
-   USEVAR = PSR_0 PSR_12 PSR_24 SOFAS_0 SOFAS_12 SOFAS_24 N;
+   USEVAR = N SOFAS_0 SOFAS_12 SOFAS_24 PSR_01 PSR_121 PSR_241;
    NOMINAL = N;
    CLASSES = c(2);
 
+  DEFINE:
+  PSR_01 = PSR_0 == 1; PSR_121 = PSR_12 == 1; PSR_241 = PSR_24 == 1;
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 0;
+  STARTS = 500;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  SOFAS_0 ON PSR_0;
-  SOFAS_12 ON PSR_12;
-  SOFAS_24 ON PSR_24;
-  PSR_0 PSR_12 PSR_24;
+  SOFAS_0 ON PSR_01;
+  SOFAS_12 ON PSR_121;
+  SOFAS_24 ON PSR_241;
+  PSR_01 PSR_121 PSR_241;
   %C#1%
   [N#1@2.378];
-  SOFAS_0 ON PSR_0;
-  SOFAS_12 ON PSR_12;
-  SOFAS_24 ON PSR_24;
-  PSR_0 PSR_12 PSR_24;
+  SOFAS_0 ON PSR_01;
+  SOFAS_12 ON PSR_121;
+  SOFAS_24 ON PSR_241;
+  PSR_01 PSR_121 PSR_241;
   %C#2%
   [N#1@-1.949];
-  SOFAS_0 ON PSR_0;
-  SOFAS_12 ON PSR_12;
-  SOFAS_24 ON PSR_24;
-  PSR_0 PSR_12 PSR_24;
+  SOFAS_0 ON PSR_01;
+  SOFAS_12 ON PSR_121;
+  SOFAS_24 ON PSR_241;
+  PSR_01 PSR_121 PSR_241;
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
@@ -74,7 +76,7 @@ Observed dependent variables
    N
 
 Observed independent variables
-   PSR_0       PSR_12      PSR_24
+   PSR_01      PSR_121     PSR_241
 
 Categorical latent variables
    C
@@ -109,6 +111,13 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                        500
+  Number of final stage optimizations                          500
+  Number of initial stage iterations                             1
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
 
 Input data file(s)
   /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/TVCreg/PSR_TVCreg.dat
@@ -131,20 +140,20 @@ Minimum covariance coverage value   0.100
 
 
            Covariance Coverage
-              SOFAS_0       SOFAS_12      SOFAS_24      PSR_0         PSR_12
+              SOFAS_0       SOFAS_12      SOFAS_24      PSR_01        PSR_121
               ________      ________      ________      ________      ________
  SOFAS_0        0.978
  SOFAS_12       0.889         0.911
  SOFAS_24       0.615         0.547         0.637
- PSR_0          0.976         0.908         0.637         0.997
- PSR_12         0.837         0.808         0.580         0.856         0.859
- PSR_24         0.734         0.667         0.637         0.753         0.699
+ PSR_01         0.976         0.908         0.637         0.997
+ PSR_121        0.837         0.808         0.580         0.856         0.859
+ PSR_241        0.734         0.667         0.637         0.753         0.699
 
 
            Covariance Coverage
-              PSR_24
+              PSR_241
               ________
- PSR_24         0.756
+ PSR_241        0.756
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
@@ -155,6 +164,58 @@ UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
 
 SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              SOFAS_0       SOFAS_12      SOFAS_24      PSR_01        PSR_121
+              ________      ________      ________      ________      ________
+               40.502        61.764        63.523         0.989         0.295
+
+
+           Means
+              PSR_241
+              ________
+                0.262
+
+
+           Covariances
+              SOFAS_0       SOFAS_12      SOFAS_24      PSR_01        PSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0      164.521
+ SOFAS_12      61.829       284.420
+ SOFAS_24      49.492       177.863       333.058
+ PSR_01        -0.025         0.097         0.318         0.011
+ PSR_121       -0.431        -3.271        -2.568         0.002         0.206
+ PSR_241       -0.934        -1.909        -4.345        -0.001         0.082
+
+
+           Covariances
+              PSR_241
+              ________
+ PSR_241        0.194
+
+
+           Correlations
+              SOFAS_0       SOFAS_12      SOFAS_24      PSR_01        PSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0        1.000
+ SOFAS_12       0.286         1.000
+ SOFAS_24       0.211         0.578         1.000
+ PSR_01        -0.018         0.055         0.168         1.000
+ PSR_121       -0.074        -0.428        -0.310         0.049         1.000
+ PSR_241       -0.165        -0.257        -0.540        -0.030         0.411
+
+
+           Correlations
+              PSR_241
+              ________
+ PSR_241        1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -3774.957
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -171,205 +232,964 @@ UNIVARIATE SAMPLE STATISTICS
              336.000     284.876      -0.861      95.000    0.30%      68.000     80.000
      SOFAS_24             63.472      -0.261       5.000    0.43%      49.000     60.000     65.000
              235.000     328.649      -0.615     100.000    0.85%      70.000     80.000
-     PSR_0                 1.011       9.435       1.000   98.91%       1.000      1.000      1.000
-             368.000       0.011      87.011       2.000    1.09%       1.000      1.000
-     PSR_12                1.707      -0.908       1.000   29.34%       1.000      2.000      2.000
-             317.000       0.207      -1.176       2.000   70.66%       2.000      2.000
-     PSR_24                1.735      -1.064       1.000   26.52%       1.000      2.000      2.000
-             279.000       0.195      -0.869       2.000   73.48%       2.000      2.000
+     PSR_01                0.989      -9.435       0.000    1.09%       1.000      1.000      1.000
+             368.000       0.011      87.011       1.000   98.91%       1.000      1.000
+     PSR_121               0.293       0.908       0.000   70.66%       0.000      0.000      0.000
+             317.000       0.207      -1.176       1.000   29.34%       0.000      1.000
+     PSR_241               0.265       1.064       0.000   73.48%       0.000      0.000      0.000
+             279.000       0.195      -0.869       1.000   26.52%       0.000      1.000
 
-     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 1 COULD NOT
-     BE INVERTED.  PROBLEM INVOLVING VARIABLE PSR_0.  COMPUTATION COULD
-     NOT BE COMPLETED IN ITERATION 2.  CHANGE YOUR MODEL AND/OR STARTING
-     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
-     VARIATION FOR THE VARIABLE.
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+           -4199.516  366706           29
+           -4238.456  15715            274
+           -4238.456  570908           98
+           -4238.456  175199           247
+           -4238.456  232226           235
+           -4238.456  369602           146
+           -4238.456  797594           234
+
+Unperturbed starting value run did not converge or was rejected in the third stage.
+
+492 perturbed starting value run(s) did not converge or were rejected in the third stage.
 
 
-     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
-     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+
+     WARNING:  THE BEST LOGLIKELIHOOD VALUE WAS NOT REPLICATED.  THE
+     SOLUTION MAY NOT BE TRUSTWORTHY DUE TO LOCAL MAXIMA.  INCREASE THE
+     NUMBER OF RANDOM STARTS.
+
+     ONE OR MORE PARAMETERS WERE FIXED TO AVOID SINGULARITY OF THE
+     INFORMATION MATRIX. THE SINGULARITY IS MOST LIKELY BECAUSE THE
+     MODEL IS NOT IDENTIFIED, OR BECAUSE OF EMPTY CELLS IN THE JOINT
+     DISTRIBUTION OF THE CATEGORICAL VARIABLES IN THE MODEL.
+     THE FOLLOWING PARAMETERS WERE FIXED:
+     Parameter 22, %C#2%: [ SOFAS_0 ]
+     Parameter 23, %C#2%: [ SOFAS_12 ]
+     Parameter 24, %C#2%: [ SOFAS_24 ]
+     Parameter 25, %C#2%: [ PSR_01 ]
+     Parameter 26, %C#2%: [ PSR_121 ]
+     Parameter 27, %C#2%: [ PSR_241 ]
+     Parameter 28, %C#2%: SOFAS_0 ON PSR_01
+     Parameter 29, %C#2%: SOFAS_12 ON PSR_121
+     Parameter 30, %C#2%: SOFAS_24 ON PSR_241
+     Parameter 31, %C#2%: PSR_01
+     Parameter 32, %C#2%: PSR_121
+     Parameter 33, %C#2%: PSR_241
+     Parameter 34, [ C#1 ]
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
 
 
 
+MODEL FIT INFORMATION
 
+Number of Free Parameters                       34
+
+Loglikelihood
+
+          H0 Value                       -4199.516
+          H0 Scaling Correction Factor      1.8701
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    8467.032
+          Bayesian (BIC)                  8599.999
+          Sample-Size Adjusted BIC        8492.129
+            (n* = (n + 2) / 24)
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        369.00000          1.00000
+       2          0.00000          0.00000
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        369.00000          1.00000
+       2          0.00000          0.00000
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              369          1.00000
+       2                0          0.00000
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         1.000
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   1.000    0.000
+    2   0.000    0.000
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   1.000    0.000
+    2   0.000    0.000
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1     13.816    0.000
+    2      0.000    0.000
 
 
 MODEL RESULTS
 
-                    Estimate
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
 
 Latent Class 1
 
  SOFAS_0    ON
-    PSR_0          *********
+    PSR_01            -5.132      4.643     -1.105      0.269
 
  SOFAS_12   ON
-    PSR_12             6.196
+    PSR_121          -13.786      1.761     -7.827      0.000
 
  SOFAS_24   ON
-    PSR_24            13.012
+    PSR_241          -20.287      2.104     -9.642      0.000
 
  SOFAS_12 WITH
-    SOFAS_0           15.326
+    SOFAS_0           56.632     10.669      5.308      0.000
 
  SOFAS_24 WITH
-    SOFAS_0           -4.738
-    SOFAS_12          77.582
+    SOFAS_0           30.537     15.109      2.021      0.043
+    SOFAS_12         124.912     14.568      8.574      0.000
 
- PSR_12   WITH
-    PSR_0              0.000
+ PSR_121  WITH
+    PSR_01             0.002      0.002      1.220      0.223
 
- PSR_24   WITH
-    PSR_0              0.000
-    PSR_12             0.000
-
- Means
-    PSR_0              1.000
-    PSR_12             1.388
-    PSR_24             1.449
+ PSR_241  WITH
+    PSR_01            -0.001      0.003     -0.395      0.693
+    PSR_121            0.084      0.013      6.249      0.000
 
  Means
-    N#1                2.378
+    PSR_01             0.989      0.005    182.238      0.000
+    PSR_121            0.294      0.025     11.667      0.000
+    PSR_241            0.265      0.026     10.198      0.000
+
+ Means
+    N#1                2.378      0.000    999.000    999.000
 
  Intercepts
-    SOFAS_0        23980.533
-    SOFAS_12          42.572
-    SOFAS_24          32.845
+    SOFAS_0           45.587      4.616      9.875      0.000
+    SOFAS_12          65.815      0.993     66.274      0.000
+    SOFAS_24          68.999      1.086     63.513      0.000
 
  Variances
-    PSR_0              0.000
-    PSR_12             0.228
-    PSR_24             0.224
+    PSR_01             0.011      0.005      2.033      0.042
+    PSR_121            0.206      0.010     19.763      0.000
+    PSR_241            0.195      0.012     15.825      0.000
 
  Residual Variances
-    SOFAS_0          136.828
-    SOFAS_12         191.009
-    SOFAS_24         187.268
+    SOFAS_0          164.396     12.643     13.003      0.000
+    SOFAS_12         234.055     17.031     13.743      0.000
+    SOFAS_24         231.699     17.448     13.279      0.000
 
 Latent Class 2
 
  SOFAS_0    ON
-    PSR_0             -3.381
+    PSR_01            -0.627      0.000    999.000    999.000
 
  SOFAS_12   ON
-    PSR_12             2.898
+    PSR_121           -3.618      0.000    999.000    999.000
 
  SOFAS_24   ON
-    PSR_24            16.718
+    PSR_241           -4.067      0.000    999.000    999.000
 
  SOFAS_12 WITH
-    SOFAS_0           15.326
+    SOFAS_0           56.632     10.669      5.308      0.000
 
  SOFAS_24 WITH
-    SOFAS_0           -4.738
-    SOFAS_12          77.582
+    SOFAS_0           30.537     15.109      2.021      0.043
+    SOFAS_12         124.912     14.568      8.574      0.000
 
- PSR_12   WITH
-    PSR_0              0.000
+ PSR_121  WITH
+    PSR_01             0.002      0.002      1.220      0.223
 
- PSR_24   WITH
-    PSR_0              0.000
-    PSR_12             0.000
-
- Means
-    PSR_0              1.039
-    PSR_12             1.957
-    PSR_24             1.967
+ PSR_241  WITH
+    PSR_01            -0.001      0.003     -0.395      0.693
+    PSR_121            0.084      0.013      6.249      0.000
 
  Means
-    N#1               -1.949
+    PSR_01             2.471      0.000    999.000    999.000
+    PSR_121           -1.175      0.000    999.000    999.000
+    PSR_241           -0.345      0.000    999.000    999.000
+
+ Means
+    N#1               -1.949      0.000    999.000    999.000
 
  Intercepts
-    SOFAS_0           48.727
-    SOFAS_12          64.862
-    SOFAS_24          40.278
+    SOFAS_0           58.277      0.000    999.000    999.000
+    SOFAS_12          19.274      0.000    999.000    999.000
+    SOFAS_24         140.367      0.000    999.000    999.000
 
  Variances
-    PSR_0              0.014
-    PSR_12             0.041
-    PSR_24             0.032
+    PSR_01             0.012      0.000    999.000    999.000
+    PSR_121            1.212      0.000    999.000    999.000
+    PSR_241            1.379      0.000    999.000    999.000
 
  Residual Variances
-    SOFAS_0          136.828
-    SOFAS_12         191.009
-    SOFAS_24         187.268
+    SOFAS_0          164.396     12.643     13.003      0.000
+    SOFAS_12         234.055     17.031     13.743      0.000
+    SOFAS_24         231.699     17.448     13.279      0.000
 
 Categorical Latent Variables
 
  Means
-    C#1               -0.183
+    C#1               69.027      0.000    999.000    999.000
 
 
-MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+QUALITY OF NUMERICAL RESULTS
 
-     %OVERALL%
-
-     sofas_0 ON psr_0;
-     sofas_12 ON psr_12;
-     sofas_24 ON psr_24;
-
-     [ c#1*-0.18314 ];
-
-     %C#1%
-
-     sofas_0 ON psr_0*-23946.00195;
-     sofas_12 ON psr_12*6.19569;
-     sofas_24 ON psr_24*13.01226;
-
-     sofas_12 WITH sofas_0*15.32608 (11);
-     sofas_24 WITH sofas_0*-4.73846 (13);
-     sofas_24 WITH sofas_12*77.58161 (14);
-     psr_12 WITH psr_0*0.00000 (17);
-     psr_24 WITH psr_0*0.00000 (19);
-     psr_24 WITH psr_12*-0.00043 (20);
-
-     [ sofas_0*23980.53320 ];
-     [ sofas_12*42.57218 ];
-     [ sofas_24*32.84512 ];
-     [ psr_0*1.00000 ];
-     [ psr_12*1.38815 ];
-     [ psr_24*1.44949 ];
-     [ n#1@2.37800 ];
-
-     sofas_0*136.82767 (10);
-     sofas_12*191.00916 (12);
-     sofas_24*187.26801 (15);
-     psr_0*0.00000;
-     psr_12*0.22791;
-     psr_24*0.22379;
-
-     %C#2%
-
-     sofas_0 ON psr_0*-3.38103;
-     sofas_12 ON psr_12*2.89788;
-     sofas_24 ON psr_24*16.71831;
-
-     sofas_12 WITH sofas_0*15.32608 (11);
-     sofas_24 WITH sofas_0*-4.73846 (13);
-     sofas_24 WITH sofas_12*77.58161 (14);
-     psr_12 WITH psr_0*0.00000 (17);
-     psr_24 WITH psr_0*0.00000 (19);
-     psr_24 WITH psr_12*-0.00043 (20);
-
-     [ sofas_0*48.72689 ];
-     [ sofas_12*64.86185 ];
-     [ sofas_24*40.27818 ];
-     [ psr_0*1.03905 ];
-     [ psr_12*1.95672 ];
-     [ psr_24*1.96732 ];
-     [ n#1@-1.94900 ];
-
-     sofas_0*136.82767 (10);
-     sofas_12*191.00916 (12);
-     sofas_24*187.26801 (15);
-     psr_0*0.01414;
-     psr_12*0.04081;
-     psr_24*0.03169;
+     Condition Number for the Information Matrix              0.102E-06
+       (ratio of smallest to largest eigenvalue)
 
 
+STANDARDIZED MODEL RESULTS
 
-     Beginning Time:  15:00:31
-        Ending Time:  15:00:31
-       Elapsed Time:  00:00:00
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ SOFAS_0    ON
+    PSR_01            -0.041      0.039     -1.067      0.286
+
+ SOFAS_12   ON
+    PSR_121           -0.379      0.049     -7.759      0.000
+
+ SOFAS_24   ON
+    PSR_241           -0.507      0.044    -11.398      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            0.289      0.049      5.925      0.000
+
+ SOFAS_24 WITH
+    SOFAS_0            0.156      0.078      2.014      0.044
+    SOFAS_12           0.536      0.050     10.750      0.000
+
+ PSR_121  WITH
+    PSR_01             0.043      0.030      1.434      0.151
+
+ PSR_241  WITH
+    PSR_01            -0.026      0.065     -0.401      0.689
+    PSR_121            0.418      0.061      6.803      0.000
+
+ Means
+    PSR_01             9.539      2.398      3.978      0.000
+    PSR_121            0.647      0.039     16.452      0.000
+    PSR_241            0.600      0.040     14.967      0.000
+
+ Intercepts
+    SOFAS_0            3.552      0.372      9.542      0.000
+    SOFAS_12           3.982      0.126     31.604      0.000
+    SOFAS_24           3.907      0.151     25.904      0.000
+
+ Variances
+    PSR_01             1.000      0.000    999.000    999.000
+    PSR_121            1.000      0.000    999.000    999.000
+    PSR_241            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.998      0.003    309.630      0.000
+    SOFAS_12           0.857      0.037     23.179      0.000
+    SOFAS_24           0.743      0.045     16.477      0.000
+
+Latent Class 2
+
+ SOFAS_0    ON
+    PSR_01            -0.005      0.000    -26.007      0.000
+
+ SOFAS_12   ON
+    PSR_121           -0.252      0.009    -29.350      0.000
+
+ SOFAS_24   ON
+    PSR_241           -0.299      0.010    -29.173      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            0.289      0.049      5.925      0.000
+
+ SOFAS_24 WITH
+    SOFAS_0            0.156      0.078      2.014      0.044
+    SOFAS_12           0.536      0.050     10.750      0.000
+
+ PSR_121  WITH
+    PSR_01             0.017      0.014      1.220      0.223
+
+ PSR_241  WITH
+    PSR_01            -0.009      0.024     -0.395      0.693
+    PSR_121            0.065      0.010      6.249      0.000
+
+ Means
+    PSR_01            22.675      0.000    999.000    999.000
+    PSR_121           -1.068      0.000    999.000    999.000
+    PSR_241           -0.293      0.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0            4.545      0.175     26.007      0.000
+    SOFAS_12           1.219      0.042     29.350      0.000
+    SOFAS_24           8.799      0.302     29.173      0.000
+
+ Variances
+    PSR_01             1.000      0.000    999.000    999.000
+    PSR_121            1.000      0.000    999.000    999.000
+    PSR_241            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            1.000      0.000  *********      0.000
+    SOFAS_12           0.936      0.004    216.413      0.000
+    SOFAS_24           0.910      0.006    148.178      0.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ SOFAS_0    ON
+    PSR_01            -0.041      0.039     -1.067      0.286
+
+ SOFAS_12   ON
+    PSR_121           -0.379      0.049     -7.759      0.000
+
+ SOFAS_24   ON
+    PSR_241           -0.507      0.044    -11.398      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            0.289      0.049      5.925      0.000
+
+ SOFAS_24 WITH
+    SOFAS_0            0.156      0.078      2.014      0.044
+    SOFAS_12           0.536      0.050     10.750      0.000
+
+ PSR_121  WITH
+    PSR_01             0.043      0.030      1.434      0.151
+
+ PSR_241  WITH
+    PSR_01            -0.026      0.065     -0.401      0.689
+    PSR_121            0.418      0.061      6.803      0.000
+
+ Means
+    PSR_01             9.539      2.398      3.978      0.000
+    PSR_121            0.647      0.039     16.452      0.000
+    PSR_241            0.600      0.040     14.967      0.000
+
+ Intercepts
+    SOFAS_0            3.552      0.372      9.542      0.000
+    SOFAS_12           3.982      0.126     31.604      0.000
+    SOFAS_24           3.907      0.151     25.904      0.000
+
+ Variances
+    PSR_01             1.000      0.000    999.000    999.000
+    PSR_121            1.000      0.000    999.000    999.000
+    PSR_241            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.998      0.003    309.630      0.000
+    SOFAS_12           0.857      0.037     23.179      0.000
+    SOFAS_24           0.743      0.045     16.477      0.000
+
+Latent Class 2
+
+ SOFAS_0    ON
+    PSR_01            -0.005      0.000    -26.007      0.000
+
+ SOFAS_12   ON
+    PSR_121           -0.252      0.009    -29.350      0.000
+
+ SOFAS_24   ON
+    PSR_241           -0.299      0.010    -29.173      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            0.289      0.049      5.925      0.000
+
+ SOFAS_24 WITH
+    SOFAS_0            0.156      0.078      2.014      0.044
+    SOFAS_12           0.536      0.050     10.750      0.000
+
+ PSR_121  WITH
+    PSR_01             0.017      0.014      1.220      0.223
+
+ PSR_241  WITH
+    PSR_01            -0.009      0.024     -0.395      0.693
+    PSR_121            0.065      0.010      6.249      0.000
+
+ Means
+    PSR_01            22.675      0.000    999.000    999.000
+    PSR_121           -1.068      0.000    999.000    999.000
+    PSR_241           -0.293      0.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0            4.545      0.175     26.007      0.000
+    SOFAS_12           1.219      0.042     29.350      0.000
+    SOFAS_24           8.799      0.302     29.173      0.000
+
+ Variances
+    PSR_01             1.000      0.000    999.000    999.000
+    PSR_121            1.000      0.000    999.000    999.000
+    PSR_241            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            1.000      0.000  *********      0.000
+    SOFAS_12           0.936      0.004    216.413      0.000
+    SOFAS_24           0.910      0.006    148.178      0.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ SOFAS_0    ON
+    PSR_01            -5.132      4.643     -1.105      0.269
+
+ SOFAS_12   ON
+    PSR_121          -13.786      1.761     -7.827      0.000
+
+ SOFAS_24   ON
+    PSR_241          -20.287      2.104     -9.642      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0           56.632     10.669      5.308      0.000
+
+ SOFAS_24 WITH
+    SOFAS_0           30.537     15.109      2.021      0.043
+    SOFAS_12         124.912     14.568      8.574      0.000
+
+ PSR_121  WITH
+    PSR_01             0.002      0.002      1.220      0.223
+
+ PSR_241  WITH
+    PSR_01            -0.001      0.003     -0.395      0.693
+    PSR_121            0.084      0.013      6.249      0.000
+
+ Means
+    PSR_01             0.989      0.005    182.238      0.000
+    PSR_121            0.294      0.025     11.667      0.000
+    PSR_241            0.265      0.026     10.198      0.000
+
+ Intercepts
+    SOFAS_0           45.587      4.616      9.875      0.000
+    SOFAS_12          65.815      0.993     66.274      0.000
+    SOFAS_24          68.999      1.086     63.513      0.000
+
+ Variances
+    PSR_01             0.011      0.005      2.033      0.042
+    PSR_121            0.206      0.010     19.763      0.000
+    PSR_241            0.195      0.012     15.825      0.000
+
+ Residual Variances
+    SOFAS_0          164.396     12.643     13.003      0.000
+    SOFAS_12         234.055     17.031     13.743      0.000
+    SOFAS_24         231.699     17.448     13.279      0.000
+
+Latent Class 2
+
+ SOFAS_0    ON
+    PSR_01            -0.627      0.000    999.000    999.000
+
+ SOFAS_12   ON
+    PSR_121           -3.618      0.000    999.000    999.000
+
+ SOFAS_24   ON
+    PSR_241           -4.067      0.000    999.000    999.000
+
+ SOFAS_12 WITH
+    SOFAS_0           56.632     10.669      5.308      0.000
+
+ SOFAS_24 WITH
+    SOFAS_0           30.537     15.109      2.021      0.043
+    SOFAS_12         124.912     14.568      8.574      0.000
+
+ PSR_121  WITH
+    PSR_01             0.002      0.002      1.220      0.223
+
+ PSR_241  WITH
+    PSR_01            -0.001      0.003     -0.395      0.693
+    PSR_121            0.084      0.013      6.249      0.000
+
+ Means
+    PSR_01             2.471      0.000    999.000    999.000
+    PSR_121           -1.175      0.000    999.000    999.000
+    PSR_241           -0.345      0.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0           58.277      0.000    999.000    999.000
+    SOFAS_12          19.274      0.000    999.000    999.000
+    SOFAS_24         140.367      0.000    999.000    999.000
+
+ Variances
+    PSR_01             0.012      0.000    999.000    999.000
+    PSR_121            1.212      0.000    999.000    999.000
+    PSR_241            1.379      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0          164.396     12.643     13.003      0.000
+    SOFAS_12         234.055     17.031     13.743      0.000
+    SOFAS_24         231.699     17.448     13.279      0.000
+
+
+R-SQUARE
+
+Class 1
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SOFAS_0            0.002      0.003      0.533      0.594
+    SOFAS_12           0.143      0.037      3.879      0.000
+    SOFAS_24           0.257      0.045      5.699      0.000
+
+Class 2
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SOFAS_0            0.000      0.000     13.004      0.000
+    SOFAS_12           0.064      0.004     14.675      0.000
+    SOFAS_24           0.090      0.006     14.587      0.000
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ SOFAS_0  ON
+    PSR_01         -17.093     -14.233     -12.771      -5.132       2.506       3.968       6.828
+
+ SOFAS_12 ON
+    PSR_121        -18.324     -17.239     -16.684     -13.786     -10.889     -10.334      -9.249
+
+ SOFAS_24 ON
+    PSR_241        -25.707     -24.411     -23.749     -20.287     -16.826     -16.163     -14.867
+
+ SOFAS_12 WITH
+    SOFAS_0         29.150      35.720      39.081      56.632      74.183      77.544      84.114
+
+ SOFAS_24 WITH
+    SOFAS_0         -8.380       0.924       5.683      30.537      55.391      60.151      69.455
+    SOFAS_12        87.388      96.359     100.948     124.912     148.876     153.465     162.436
+
+ PSR_121  WITH
+    PSR_01          -0.002      -0.001      -0.001       0.002       0.005       0.005       0.006
+
+ PSR_241  WITH
+    PSR_01          -0.009      -0.007      -0.006      -0.001       0.004       0.005       0.007
+    PSR_121          0.049       0.057       0.062       0.084       0.106       0.110       0.118
+
+ Means
+    PSR_01           0.975       0.978       0.980       0.989       0.998       1.000       1.003
+    PSR_121          0.229       0.244       0.252       0.294       0.335       0.343       0.359
+    PSR_241          0.198       0.214       0.222       0.265       0.307       0.316       0.332
+
+ Means
+    N#1              2.378       2.378       2.378       2.378       2.378       2.378       2.378
+
+ Intercepts
+    SOFAS_0         33.697      36.540      37.994      45.587      53.181      54.635      57.478
+    SOFAS_12        63.257      63.869      64.182      65.815      67.449      67.762      68.373
+    SOFAS_24        66.201      66.870      67.212      68.999      70.786      71.128      71.797
+
+ Variances
+    PSR_01          -0.003       0.000       0.002       0.011       0.019       0.021       0.024
+    PSR_121          0.179       0.186       0.189       0.206       0.223       0.227       0.233
+    PSR_241          0.163       0.171       0.174       0.195       0.215       0.219       0.226
+
+ Residual Variances
+    SOFAS_0        131.831     139.616     143.599     164.396     185.194     189.176     196.961
+    SOFAS_12       190.187     200.674     206.039     234.055     262.071     267.435     277.923
+    SOFAS_24       186.756     197.500     202.997     231.699     260.401     265.897     276.641
+
+Latent Class 2
+
+ SOFAS_0  ON
+    PSR_01          -0.627      -0.627      -0.627      -0.627      -0.627      -0.627      -0.627
+
+ SOFAS_12 ON
+    PSR_121         -3.618      -3.618      -3.618      -3.618      -3.618      -3.618      -3.618
+
+ SOFAS_24 ON
+    PSR_241         -4.067      -4.067      -4.067      -4.067      -4.067      -4.067      -4.067
+
+ SOFAS_12 WITH
+    SOFAS_0         29.150      35.720      39.081      56.632      74.183      77.544      84.114
+
+ SOFAS_24 WITH
+    SOFAS_0         -8.380       0.924       5.683      30.537      55.391      60.151      69.455
+    SOFAS_12        87.388      96.359     100.948     124.912     148.876     153.465     162.436
+
+ PSR_121  WITH
+    PSR_01          -0.002      -0.001      -0.001       0.002       0.005       0.005       0.006
+
+ PSR_241  WITH
+    PSR_01          -0.009      -0.007      -0.006      -0.001       0.004       0.005       0.007
+    PSR_121          0.049       0.057       0.062       0.084       0.106       0.110       0.118
+
+ Means
+    PSR_01           2.471       2.471       2.471       2.471       2.471       2.471       2.471
+    PSR_121         -1.175      -1.175      -1.175      -1.175      -1.175      -1.175      -1.175
+    PSR_241         -0.345      -0.345      -0.345      -0.345      -0.345      -0.345      -0.345
+
+ Means
+    N#1             -1.949      -1.949      -1.949      -1.949      -1.949      -1.949      -1.949
+
+ Intercepts
+    SOFAS_0         58.277      58.277      58.277      58.277      58.277      58.277      58.277
+    SOFAS_12        19.274      19.274      19.274      19.274      19.274      19.274      19.274
+    SOFAS_24       140.367     140.367     140.367     140.367     140.367     140.367     140.367
+
+ Variances
+    PSR_01           0.012       0.012       0.012       0.012       0.012       0.012       0.012
+    PSR_121          1.212       1.212       1.212       1.212       1.212       1.212       1.212
+    PSR_241          1.379       1.379       1.379       1.379       1.379       1.379       1.379
+
+ Residual Variances
+    SOFAS_0        131.831     139.616     143.599     164.396     185.194     189.176     196.961
+    SOFAS_12       190.187     200.674     206.039     234.055     262.071     267.435     277.923
+    SOFAS_24       186.756     197.500     202.997     231.699     260.401     265.897     276.641
+
+Categorical Latent Variables
+
+ Means
+    C#1             69.027      69.027      69.027      69.027      69.027      69.027      69.027
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ SOFAS_0  ON
+    PSR_01          -0.142      -0.118      -0.105      -0.041       0.022       0.035       0.059
+
+ SOFAS_12 ON
+    PSR_121         -0.504      -0.474      -0.459      -0.379      -0.298      -0.283      -0.253
+
+ SOFAS_24 ON
+    PSR_241         -0.621      -0.594      -0.580      -0.507      -0.434      -0.420      -0.392
+
+ SOFAS_12 WITH
+    SOFAS_0          0.163       0.193       0.209       0.289       0.369       0.384       0.414
+
+ SOFAS_24 WITH
+    SOFAS_0         -0.044       0.004       0.029       0.156       0.284       0.309       0.357
+    SOFAS_12         0.408       0.439       0.454       0.536       0.618       0.634       0.665
+
+ PSR_121  WITH
+    PSR_01          -0.034      -0.016      -0.006       0.043       0.093       0.103       0.121
+
+ PSR_241  WITH
+    PSR_01          -0.194      -0.154      -0.133      -0.026       0.081       0.102       0.142
+    PSR_121          0.260       0.298       0.317       0.418       0.519       0.539       0.576
+
+ Means
+    PSR_01           3.362       4.838       5.594       9.539      13.484      14.239      15.716
+    PSR_121          0.546       0.570       0.582       0.647       0.712       0.724       0.748
+    PSR_241          0.497       0.521       0.534       0.600       0.666       0.678       0.703
+
+ Intercepts
+    SOFAS_0          2.594       2.823       2.940       3.552       4.165       4.282       4.511
+    SOFAS_12         3.657       3.735       3.774       3.982       4.189       4.229       4.306
+    SOFAS_24         3.519       3.612       3.659       3.907       4.155       4.203       4.296
+
+ Variances
+    PSR_01           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PSR_121          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PSR_241          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    SOFAS_0          0.990       0.992       0.993       0.998       1.004       1.005       1.007
+    SOFAS_12         0.761       0.784       0.796       0.857       0.917       0.929       0.952
+    SOFAS_24         0.627       0.655       0.669       0.743       0.817       0.831       0.859
+
+Latent Class 2
+
+ SOFAS_0  ON
+    PSR_01          -0.006      -0.006      -0.006      -0.005      -0.005      -0.005      -0.005
+
+ SOFAS_12 ON
+    PSR_121         -0.274      -0.269      -0.266      -0.252      -0.238      -0.235      -0.230
+
+ SOFAS_24 ON
+    PSR_241         -0.326      -0.319      -0.316      -0.299      -0.282      -0.279      -0.273
+
+ SOFAS_12 WITH
+    SOFAS_0          0.163       0.193       0.209       0.289       0.369       0.384       0.414
+
+ SOFAS_24 WITH
+    SOFAS_0         -0.044       0.004       0.029       0.156       0.284       0.309       0.357
+    SOFAS_12         0.408       0.439       0.454       0.536       0.618       0.634       0.665
+
+ PSR_121  WITH
+    PSR_01          -0.019      -0.010      -0.006       0.017       0.040       0.044       0.053
+
+ PSR_241  WITH
+    PSR_01          -0.070      -0.056      -0.048      -0.009       0.030       0.037       0.052
+    PSR_121          0.038       0.044       0.048       0.065       0.082       0.085       0.091
+
+ Means
+    PSR_01          22.675      22.675      22.675      22.675      22.675      22.675      22.675
+    PSR_121         -1.068      -1.068      -1.068      -1.068      -1.068      -1.068      -1.068
+    PSR_241         -0.293      -0.293      -0.293      -0.293      -0.293      -0.293      -0.293
+
+ Intercepts
+    SOFAS_0          4.095       4.203       4.258       4.545       4.833       4.888       4.995
+    SOFAS_12         1.112       1.138       1.151       1.219       1.287       1.301       1.326
+    SOFAS_24         8.022       8.207       8.302       8.799       9.295       9.390       9.575
+
+ Variances
+    PSR_01           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PSR_121          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PSR_241          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    SOFAS_0          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SOFAS_12         0.925       0.928       0.929       0.936       0.944       0.945       0.948
+    SOFAS_24         0.895       0.898       0.900       0.910       0.920       0.922       0.926
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ SOFAS_0  ON
+    PSR_01          -0.142      -0.118      -0.105      -0.041       0.022       0.035       0.059
+
+ SOFAS_12 ON
+    PSR_121         -0.504      -0.474      -0.459      -0.379      -0.298      -0.283      -0.253
+
+ SOFAS_24 ON
+    PSR_241         -0.621      -0.594      -0.580      -0.507      -0.434      -0.420      -0.392
+
+ SOFAS_12 WITH
+    SOFAS_0          0.163       0.193       0.209       0.289       0.369       0.384       0.414
+
+ SOFAS_24 WITH
+    SOFAS_0         -0.044       0.004       0.029       0.156       0.284       0.309       0.357
+    SOFAS_12         0.408       0.439       0.454       0.536       0.618       0.634       0.665
+
+ PSR_121  WITH
+    PSR_01          -0.034      -0.016      -0.006       0.043       0.093       0.103       0.121
+
+ PSR_241  WITH
+    PSR_01          -0.194      -0.154      -0.133      -0.026       0.081       0.102       0.142
+    PSR_121          0.260       0.298       0.317       0.418       0.519       0.539       0.576
+
+ Means
+    PSR_01           3.362       4.838       5.594       9.539      13.484      14.239      15.716
+    PSR_121          0.546       0.570       0.582       0.647       0.712       0.724       0.748
+    PSR_241          0.497       0.521       0.534       0.600       0.666       0.678       0.703
+
+ Intercepts
+    SOFAS_0          2.594       2.823       2.940       3.552       4.165       4.282       4.511
+    SOFAS_12         3.657       3.735       3.774       3.982       4.189       4.229       4.306
+    SOFAS_24         3.519       3.612       3.659       3.907       4.155       4.203       4.296
+
+ Variances
+    PSR_01           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PSR_121          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PSR_241          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    SOFAS_0          0.990       0.992       0.993       0.998       1.004       1.005       1.007
+    SOFAS_12         0.761       0.784       0.796       0.857       0.917       0.929       0.952
+    SOFAS_24         0.627       0.655       0.669       0.743       0.817       0.831       0.859
+
+Latent Class 2
+
+ SOFAS_0  ON
+    PSR_01          -0.006      -0.006      -0.006      -0.005      -0.005      -0.005      -0.005
+
+ SOFAS_12 ON
+    PSR_121         -0.274      -0.269      -0.266      -0.252      -0.238      -0.235      -0.230
+
+ SOFAS_24 ON
+    PSR_241         -0.326      -0.319      -0.316      -0.299      -0.282      -0.279      -0.273
+
+ SOFAS_12 WITH
+    SOFAS_0          0.163       0.193       0.209       0.289       0.369       0.384       0.414
+
+ SOFAS_24 WITH
+    SOFAS_0         -0.044       0.004       0.029       0.156       0.284       0.309       0.357
+    SOFAS_12         0.408       0.439       0.454       0.536       0.618       0.634       0.665
+
+ PSR_121  WITH
+    PSR_01          -0.019      -0.010      -0.006       0.017       0.040       0.044       0.053
+
+ PSR_241  WITH
+    PSR_01          -0.070      -0.056      -0.048      -0.009       0.030       0.037       0.052
+    PSR_121          0.038       0.044       0.048       0.065       0.082       0.085       0.091
+
+ Means
+    PSR_01          22.675      22.675      22.675      22.675      22.675      22.675      22.675
+    PSR_121         -1.068      -1.068      -1.068      -1.068      -1.068      -1.068      -1.068
+    PSR_241         -0.293      -0.293      -0.293      -0.293      -0.293      -0.293      -0.293
+
+ Intercepts
+    SOFAS_0          4.095       4.203       4.258       4.545       4.833       4.888       4.995
+    SOFAS_12         1.112       1.138       1.151       1.219       1.287       1.301       1.326
+    SOFAS_24         8.022       8.207       8.302       8.799       9.295       9.390       9.575
+
+ Variances
+    PSR_01           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PSR_121          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    PSR_241          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    SOFAS_0          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SOFAS_12         0.925       0.928       0.929       0.936       0.944       0.945       0.948
+    SOFAS_24         0.895       0.898       0.900       0.910       0.920       0.922       0.926
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ SOFAS_0  ON
+    PSR_01         -17.093     -14.233     -12.771      -5.132       2.506       3.968       6.828
+
+ SOFAS_12 ON
+    PSR_121        -18.324     -17.239     -16.684     -13.786     -10.889     -10.334      -9.249
+
+ SOFAS_24 ON
+    PSR_241        -25.707     -24.411     -23.749     -20.287     -16.826     -16.163     -14.867
+
+ SOFAS_12 WITH
+    SOFAS_0         29.150      35.720      39.081      56.632      74.183      77.544      84.114
+
+ SOFAS_24 WITH
+    SOFAS_0         -8.380       0.924       5.683      30.537      55.391      60.151      69.455
+    SOFAS_12        87.388      96.359     100.948     124.912     148.876     153.465     162.436
+
+ PSR_121  WITH
+    PSR_01          -0.002      -0.001      -0.001       0.002       0.005       0.005       0.006
+
+ PSR_241  WITH
+    PSR_01          -0.009      -0.007      -0.006      -0.001       0.004       0.005       0.007
+    PSR_121          0.049       0.057       0.062       0.084       0.106       0.110       0.118
+
+ Means
+    PSR_01           0.975       0.978       0.980       0.989       0.998       1.000       1.003
+    PSR_121          0.229       0.244       0.252       0.294       0.335       0.343       0.359
+    PSR_241          0.198       0.214       0.222       0.265       0.307       0.316       0.332
+
+ Intercepts
+    SOFAS_0         33.697      36.540      37.994      45.587      53.181      54.635      57.478
+    SOFAS_12        63.257      63.869      64.182      65.815      67.449      67.762      68.373
+    SOFAS_24        66.201      66.870      67.212      68.999      70.786      71.128      71.797
+
+ Variances
+    PSR_01          -0.003       0.000       0.002       0.011       0.019       0.021       0.024
+    PSR_121          0.179       0.186       0.189       0.206       0.223       0.227       0.233
+    PSR_241          0.163       0.171       0.174       0.195       0.215       0.219       0.226
+
+ Residual Variances
+    SOFAS_0        131.831     139.616     143.599     164.396     185.194     189.176     196.961
+    SOFAS_12       190.187     200.674     206.039     234.055     262.071     267.435     277.923
+    SOFAS_24       186.756     197.500     202.997     231.699     260.401     265.897     276.641
+
+Latent Class 2
+
+ SOFAS_0  ON
+    PSR_01          -0.627      -0.627      -0.627      -0.627      -0.627      -0.627      -0.627
+
+ SOFAS_12 ON
+    PSR_121         -3.618      -3.618      -3.618      -3.618      -3.618      -3.618      -3.618
+
+ SOFAS_24 ON
+    PSR_241         -4.067      -4.067      -4.067      -4.067      -4.067      -4.067      -4.067
+
+ SOFAS_12 WITH
+    SOFAS_0         29.150      35.720      39.081      56.632      74.183      77.544      84.114
+
+ SOFAS_24 WITH
+    SOFAS_0         -8.380       0.924       5.683      30.537      55.391      60.151      69.455
+    SOFAS_12        87.388      96.359     100.948     124.912     148.876     153.465     162.436
+
+ PSR_121  WITH
+    PSR_01          -0.002      -0.001      -0.001       0.002       0.005       0.005       0.006
+
+ PSR_241  WITH
+    PSR_01          -0.009      -0.007      -0.006      -0.001       0.004       0.005       0.007
+    PSR_121          0.049       0.057       0.062       0.084       0.106       0.110       0.118
+
+ Means
+    PSR_01           2.471       2.471       2.471       2.471       2.471       2.471       2.471
+    PSR_121         -1.175      -1.175      -1.175      -1.175      -1.175      -1.175      -1.175
+    PSR_241         -0.345      -0.345      -0.345      -0.345      -0.345      -0.345      -0.345
+
+ Intercepts
+    SOFAS_0         58.277      58.277      58.277      58.277      58.277      58.277      58.277
+    SOFAS_12        19.274      19.274      19.274      19.274      19.274      19.274      19.274
+    SOFAS_24       140.367     140.367     140.367     140.367     140.367     140.367     140.367
+
+ Variances
+    PSR_01           0.012       0.012       0.012       0.012       0.012       0.012       0.012
+    PSR_121          1.212       1.212       1.212       1.212       1.212       1.212       1.212
+    PSR_241          1.379       1.379       1.379       1.379       1.379       1.379       1.379
+
+ Residual Variances
+    SOFAS_0        131.831     139.616     143.599     164.396     185.194     189.176     196.961
+    SOFAS_12       190.187     200.674     206.039     234.055     262.071     267.435     277.923
+    SOFAS_24       186.756     197.500     202.997     231.699     260.401     265.897     276.641
+
+
+     Beginning Time:  10:59:27
+        Ending Time:  10:59:30
+       Elapsed Time:  00:00:03
 
 
 

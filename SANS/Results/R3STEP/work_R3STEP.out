@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-02/10/2023   3:12 PM
+02/16/2023   8:38 PM
 
 INPUT INSTRUCTIONS
 
@@ -13,9 +13,12 @@ INPUT INSTRUCTIONS
   NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
        CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N work;
    MISSING=.;
-   USEVAR = work N;
+   USEVAR = N work1 work2;
   NOMINAL = N;
   CLASSES = c(3);
+  DEFINE:
+  work1 = work == 1;
+  work2 = work == 2;
   ANALYSIS:
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
@@ -24,8 +27,8 @@ INPUT INSTRUCTIONS
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  C ON work;
-  work;
+  C ON work1 work2;
+  work1 work2;
   %C#1%
   [N#1@3.075];
   [N#2@1.083];
@@ -55,7 +58,7 @@ Number of groups                                                 1
 Number of observations                                         405
 
 Number of dependent variables                                    1
-Number of independent variables                                  1
+Number of independent variables                                  2
 Number of continuous latent variables                            0
 Number of categorical latent variables                           1
 
@@ -65,7 +68,7 @@ Observed dependent variables
    N
 
 Observed independent variables
-   WORK
+   WORK1       WORK2
 
 Categorical latent variables
    C
@@ -102,8 +105,8 @@ Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
 Integration Specifications
   Type                                                  MONTECARLO
-  Number of integration points                                 250
-  Dimensions of numerical integration                            1
+  Number of integration points                                 500
+  Dimensions of numerical integration                            2
   Adaptive quadrature                                           ON
   Monte Carlo integration seed                                   0
 Cholesky                                                       OFF
@@ -129,9 +132,10 @@ Minimum covariance coverage value   0.100
 
 
            Covariance Coverage
-              WORK
-              ________
- WORK           0.938
+              WORK1         WORK2
+              ________      ________
+ WORK1          0.938
+ WORK2          0.938         0.938
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
@@ -149,24 +153,26 @@ SAMPLE STATISTICS
 
 
            Means
-              WORK
-              ________
-                1.605
+              WORK1         WORK2
+              ________      ________
+                0.629         0.137
 
 
            Covariances
-              WORK
-              ________
- WORK           0.707
+              WORK1         WORK2
+              ________      ________
+ WORK1          0.233
+ WORK2         -0.086         0.118
 
 
            Correlations
-              WORK
-              ________
- WORK           1.000
+              WORK1         WORK2
+              ________      ________
+ WORK1          1.000
+ WORK2         -0.518         1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -473.411
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -336.601
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -177,8 +183,10 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     WORK                  1.605       0.848       1.000   62.89%       1.000      1.000      1.000
-             380.000       0.707      -1.053       3.000   23.42%       1.000      3.000
+     WORK1                 0.629      -0.534       0.000   37.11%       0.000      1.000      1.000
+             380.000       0.233      -1.715       1.000   62.89%       1.000      1.000
+     WORK2                 0.137       2.113       0.000   86.32%       0.000      0.000      0.000
+             380.000       0.118       2.466       1.000   13.68%       0.000      0.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -187,19 +195,19 @@ THE MODEL ESTIMATION TERMINATED NORMALLY
 
 MODEL FIT INFORMATION
 
-Number of Free Parameters                        6
+Number of Free Parameters                       11
 
 Loglikelihood
 
-          H0 Value                        -887.161
-          H0 Scaling Correction Factor      0.9149
+          H0 Value                        -748.973
+          H0 Scaling Correction Factor      1.0065
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    1786.322
-          Bayesian (BIC)                  1810.346
-          Sample-Size Adjusted BIC        1791.307
+          Akaike (AIC)                    1519.946
+          Bayesian (BIC)                  1563.989
+          Sample-Size Adjusted BIC        1529.084
             (n* = (n + 2) / 24)
 
 
@@ -210,9 +218,9 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        165.96907          0.40980
-       2        156.23340          0.38576
-       3         82.79753          0.20444
+       1        165.97207          0.40981
+       2        156.23736          0.38577
+       3         82.79057          0.20442
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -221,9 +229,9 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        165.96951          0.40980
-       2        156.23318          0.38576
-       3         82.79731          0.20444
+       1        165.97072          0.40980
+       2        156.23862          0.38577
+       3         82.79066          0.20442
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -241,7 +249,7 @@ Class Counts and Proportions
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.400
+     Entropy                         0.404
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -271,7 +279,7 @@ by Latent Class (Row)
 
     1      3.078    1.086    0.000
     2      1.202    2.948    0.000
-    3     -1.278   -1.145    0.000
+    3     -1.279   -1.145    0.000
 
 
 MODEL RESULTS
@@ -281,50 +289,67 @@ MODEL RESULTS
 
 Latent Class 1
 
+ WORK2    WITH
+    WORK1             -0.086      0.010     -8.807      0.000
+
  Means
-    WORK               1.605      0.043     37.143      0.000
+    WORK1              0.629      0.025     25.396      0.000
+    WORK2              0.137      0.018      7.783      0.000
     N#1                3.075      0.000    999.000    999.000
     N#2                1.083      0.000    999.000    999.000
 
  Variances
-    WORK               0.709      0.035     20.016      0.000
+    WORK1              0.233      0.006     36.401      0.000
+    WORK2              0.118      0.013      9.239      0.000
 
 Latent Class 2
 
+ WORK2    WITH
+    WORK1             -0.086      0.010     -8.807      0.000
+
  Means
-    WORK               1.605      0.043     37.143      0.000
+    WORK1              0.629      0.025     25.396      0.000
+    WORK2              0.137      0.018      7.783      0.000
     N#1                1.199      0.000    999.000    999.000
     N#2                2.945      0.000    999.000    999.000
 
  Variances
-    WORK               0.709      0.035     20.016      0.000
+    WORK1              0.233      0.006     36.401      0.000
+    WORK2              0.118      0.013      9.239      0.000
 
 Latent Class 3
 
+ WORK2    WITH
+    WORK1             -0.086      0.010     -8.807      0.000
+
  Means
-    WORK               1.605      0.043     37.143      0.000
+    WORK1              0.629      0.025     25.396      0.000
+    WORK2              0.137      0.018      7.783      0.000
     N#1               -1.281      0.000    999.000    999.000
     N#2               -1.148      0.000    999.000    999.000
 
  Variances
-    WORK               0.709      0.035     20.016      0.000
+    WORK1              0.233      0.006     36.401      0.000
+    WORK2              0.118      0.013      9.239      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    WORK               0.046      0.246      0.189      0.850
+    WORK1             -0.014      0.507     -0.029      0.977
+    WORK2              0.494      0.705      0.700      0.484
 
  C#2        ON
-    WORK               0.005      0.265      0.017      0.986
+    WORK1             -0.044      0.514     -0.086      0.931
+    WORK2             -0.353      0.804     -0.439      0.661
 
  Intercepts
-    C#1                0.621      0.443      1.403      0.161
-    C#2                0.628      0.471      1.331      0.183
+    C#1                0.629      0.433      1.454      0.146
+    C#2                0.701      0.437      1.604      0.109
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.555E-04
+     Condition Number for the Information Matrix              0.722E-05
        (ratio of smallest to largest eigenvalue)
 
 
@@ -336,10 +361,12 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    WORK               1.047      0.257      0.647      1.695
+    WORK1              0.986      0.500      0.365      2.664
+    WORK2              1.638      1.154      0.412      6.519
 
  C#2      ON
-    WORK               1.005      0.266      0.598      1.689
+    WORK1              0.957      0.492      0.349      2.620
+    WORK2              0.703      0.565      0.145      3.397
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -350,26 +377,30 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    WORK              -0.042      0.202     -0.206      0.836
+    WORK1             -0.030      0.411     -0.072      0.942
+    WORK2             -0.846      0.613     -1.380      0.168
 
  C#3      ON
-    WORK              -0.046      0.246     -0.189      0.850
+    WORK1              0.014      0.507      0.029      0.977
+    WORK2             -0.494      0.705     -0.700      0.484
 
  Intercepts
-    C#2                0.007      0.363      0.018      0.985
-    C#3               -0.621      0.443     -1.403      0.161
+    C#2                0.072      0.348      0.208      0.835
+    C#3               -0.629      0.433     -1.454      0.146
 
 Parameterization using Reference Class 2
 
  C#1      ON
-    WORK               0.042      0.202      0.206      0.836
+    WORK1              0.030      0.411      0.072      0.942
+    WORK2              0.846      0.613      1.380      0.168
 
  C#3      ON
-    WORK              -0.005      0.265     -0.017      0.986
+    WORK1              0.044      0.514      0.086      0.931
+    WORK2              0.353      0.804      0.439      0.661
 
  Intercepts
-    C#1               -0.007      0.363     -0.018      0.985
-    C#3               -0.628      0.471     -1.331      0.183
+    C#1               -0.072      0.348     -0.208      0.835
+    C#3               -0.701      0.437     -1.604      0.109
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -380,18 +411,22 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    WORK               0.959      0.194      0.646      1.425
+    WORK1              0.971      0.399      0.434      2.172
+    WORK2              0.429      0.263      0.129      1.427
 
  C#3      ON
-    WORK               0.955      0.234      0.590      1.545
+    WORK1              1.015      0.515      0.375      2.742
+    WORK2              0.610      0.430      0.153      2.429
 
 Parameterization using Reference Class 2
 
  C#1      ON
-    WORK               1.043      0.211      0.702      1.549
+    WORK1              1.030      0.423      0.460      2.305
+    WORK2              2.331      1.429      0.701      7.753
 
  C#3      ON
-    WORK               0.995      0.264      0.592      1.673
+    WORK1              1.045      0.537      0.382      2.862
+    WORK2              1.423      1.144      0.294      6.876
 
 
 STANDARDIZED MODEL RESULTS
@@ -404,33 +439,48 @@ STDYX Standardization
 
 Latent Class 1
 
+ WORK2    WITH
+    WORK1             -0.518      0.034    -15.262      0.000
+
  Means
-    WORK               1.907      0.025     74.920      0.000
+    WORK1              1.302      0.069     18.831      0.000
+    WORK2              0.398      0.030     13.435      0.000
     N#1                3.075      0.000    999.000    999.000
     N#2                1.083      0.000    999.000    999.000
 
  Variances
-    WORK               1.000      0.000    999.000    999.000
+    WORK1              1.000      0.000    999.000    999.000
+    WORK2              1.000      0.000    999.000    999.000
 
 Latent Class 2
 
+ WORK2    WITH
+    WORK1             -0.518      0.034    -15.262      0.000
+
  Means
-    WORK               1.907      0.025     74.920      0.000
+    WORK1              1.302      0.069     18.831      0.000
+    WORK2              0.398      0.030     13.435      0.000
     N#1                1.199      0.000    999.000    999.000
     N#2                2.945      0.000    999.000    999.000
 
  Variances
-    WORK               1.000      0.000    999.000    999.000
+    WORK1              1.000      0.000    999.000    999.000
+    WORK2              1.000      0.000    999.000    999.000
 
 Latent Class 3
 
+ WORK2    WITH
+    WORK1             -0.518      0.034    -15.262      0.000
+
  Means
-    WORK               1.907      0.025     74.920      0.000
+    WORK1              1.302      0.069     18.831      0.000
+    WORK2              0.398      0.030     13.435      0.000
     N#1               -1.281      0.000    999.000    999.000
     N#2               -1.148      0.000    999.000    999.000
 
  Variances
-    WORK               1.000      0.000    999.000    999.000
+    WORK1              1.000      0.000    999.000    999.000
+    WORK2              1.000      0.000    999.000    999.000
 
 
 STDY Standardization
@@ -440,33 +490,48 @@ STDY Standardization
 
 Latent Class 1
 
+ WORK2    WITH
+    WORK1             -0.518      0.034    -15.262      0.000
+
  Means
-    WORK               1.907      0.025     74.920      0.000
+    WORK1              1.302      0.069     18.831      0.000
+    WORK2              0.398      0.030     13.435      0.000
     N#1                3.075      0.000    999.000    999.000
     N#2                1.083      0.000    999.000    999.000
 
  Variances
-    WORK               1.000      0.000    999.000    999.000
+    WORK1              1.000      0.000    999.000    999.000
+    WORK2              1.000      0.000    999.000    999.000
 
 Latent Class 2
 
+ WORK2    WITH
+    WORK1             -0.518      0.034    -15.262      0.000
+
  Means
-    WORK               1.907      0.025     74.920      0.000
+    WORK1              1.302      0.069     18.831      0.000
+    WORK2              0.398      0.030     13.435      0.000
     N#1                1.199      0.000    999.000    999.000
     N#2                2.945      0.000    999.000    999.000
 
  Variances
-    WORK               1.000      0.000    999.000    999.000
+    WORK1              1.000      0.000    999.000    999.000
+    WORK2              1.000      0.000    999.000    999.000
 
 Latent Class 3
 
+ WORK2    WITH
+    WORK1             -0.518      0.034    -15.262      0.000
+
  Means
-    WORK               1.907      0.025     74.920      0.000
+    WORK1              1.302      0.069     18.831      0.000
+    WORK2              0.398      0.030     13.435      0.000
     N#1               -1.281      0.000    999.000    999.000
     N#2               -1.148      0.000    999.000    999.000
 
  Variances
-    WORK               1.000      0.000    999.000    999.000
+    WORK1              1.000      0.000    999.000    999.000
+    WORK2              1.000      0.000    999.000    999.000
 
 
 STD Standardization
@@ -476,33 +541,48 @@ STD Standardization
 
 Latent Class 1
 
+ WORK2    WITH
+    WORK1             -0.086      0.010     -8.807      0.000
+
  Means
-    WORK               1.605      0.043     37.143      0.000
+    WORK1              0.629      0.025     25.396      0.000
+    WORK2              0.137      0.018      7.783      0.000
     N#1                3.075      0.000    999.000    999.000
     N#2                1.083      0.000    999.000    999.000
 
  Variances
-    WORK               0.709      0.035     20.016      0.000
+    WORK1              0.233      0.006     36.401      0.000
+    WORK2              0.118      0.013      9.239      0.000
 
 Latent Class 2
 
+ WORK2    WITH
+    WORK1             -0.086      0.010     -8.807      0.000
+
  Means
-    WORK               1.605      0.043     37.143      0.000
+    WORK1              0.629      0.025     25.396      0.000
+    WORK2              0.137      0.018      7.783      0.000
     N#1                1.199      0.000    999.000    999.000
     N#2                2.945      0.000    999.000    999.000
 
  Variances
-    WORK               0.709      0.035     20.016      0.000
+    WORK1              0.233      0.006     36.401      0.000
+    WORK2              0.118      0.013      9.239      0.000
 
 Latent Class 3
 
+ WORK2    WITH
+    WORK1             -0.086      0.010     -8.807      0.000
+
  Means
-    WORK               1.605      0.043     37.143      0.000
+    WORK1              0.629      0.025     25.396      0.000
+    WORK2              0.137      0.018      7.783      0.000
     N#1               -1.281      0.000    999.000    999.000
     N#2               -1.148      0.000    999.000    999.000
 
  Variances
-    WORK               0.709      0.035     20.016      0.000
+    WORK1              0.233      0.006     36.401      0.000
+    WORK2              0.118      0.013      9.239      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -511,45 +591,62 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 
 Latent Class 1
 
+ WORK2    WITH
+    WORK1           -0.111      -0.105      -0.102      -0.086      -0.070      -0.067      -0.061
+
  Means
-    WORK             1.494       1.521       1.534       1.605       1.676       1.690       1.717
+    WORK1            0.565       0.581       0.589       0.629       0.670       0.678       0.693
+    WORK2            0.091       0.102       0.108       0.137       0.166       0.171       0.182
     N#1              3.075       3.075       3.075       3.075       3.075       3.075       3.075
     N#2              1.083       1.083       1.083       1.083       1.083       1.083       1.083
 
  Variances
-    WORK             0.618       0.639       0.651       0.709       0.767       0.778       0.800
+    WORK1            0.217       0.221       0.223       0.233       0.244       0.246       0.250
+    WORK2            0.085       0.093       0.097       0.118       0.139       0.143       0.151
 
 Latent Class 2
 
+ WORK2    WITH
+    WORK1           -0.111      -0.105      -0.102      -0.086      -0.070      -0.067      -0.061
+
  Means
-    WORK             1.494       1.521       1.534       1.605       1.676       1.690       1.717
+    WORK1            0.565       0.581       0.589       0.629       0.670       0.678       0.693
+    WORK2            0.091       0.102       0.108       0.137       0.166       0.171       0.182
     N#1              1.199       1.199       1.199       1.199       1.199       1.199       1.199
     N#2              2.945       2.945       2.945       2.945       2.945       2.945       2.945
 
  Variances
-    WORK             0.618       0.639       0.651       0.709       0.767       0.778       0.800
+    WORK1            0.217       0.221       0.223       0.233       0.244       0.246       0.250
+    WORK2            0.085       0.093       0.097       0.118       0.139       0.143       0.151
 
 Latent Class 3
 
+ WORK2    WITH
+    WORK1           -0.111      -0.105      -0.102      -0.086      -0.070      -0.067      -0.061
+
  Means
-    WORK             1.494       1.521       1.534       1.605       1.676       1.690       1.717
+    WORK1            0.565       0.581       0.589       0.629       0.670       0.678       0.693
+    WORK2            0.091       0.102       0.108       0.137       0.166       0.171       0.182
     N#1             -1.281      -1.281      -1.281      -1.281      -1.281      -1.281      -1.281
     N#2             -1.148      -1.148      -1.148      -1.148      -1.148      -1.148      -1.148
 
  Variances
-    WORK             0.618       0.639       0.651       0.709       0.767       0.778       0.800
+    WORK1            0.217       0.221       0.223       0.233       0.244       0.246       0.250
+    WORK2            0.085       0.093       0.097       0.118       0.139       0.143       0.151
 
 Categorical Latent Variables
 
  C#1      ON
-    WORK            -0.586      -0.435      -0.358       0.046       0.450       0.528       0.679
+    WORK1           -1.321      -1.009      -0.849      -0.014       0.820       0.980       1.292
+    WORK2           -1.322      -0.888      -0.666       0.494       1.653       1.875       2.309
 
  C#2      ON
-    WORK            -0.678      -0.515      -0.431       0.005       0.441       0.524       0.687
+    WORK1           -1.368      -1.052      -0.890      -0.044       0.801       0.963       1.280
+    WORK2           -2.423      -1.928      -1.675      -0.353       0.970       1.223       1.718
 
  Intercepts
-    C#1             -0.519      -0.247      -0.107       0.621       1.349       1.489       1.761
-    C#2             -0.587      -0.296      -0.148       0.628       1.403       1.551       1.842
+    C#1             -0.486      -0.219      -0.083       0.629       1.341       1.477       1.744
+    C#2             -0.425      -0.156      -0.018       0.701       1.421       1.558       1.827
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -557,10 +654,12 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    WORK             0.556       0.647       0.699       1.047       1.569       1.695       1.972
+    WORK1            0.267       0.365       0.428       0.986       2.270       2.664       3.640
+    WORK2            0.267       0.412       0.514       1.638       5.221       6.519      10.061
 
  C#2      ON
-    WORK             0.508       0.598       0.650       1.005       1.554       1.689       1.988
+    WORK1            0.255       0.349       0.411       0.957       2.228       2.620       3.596
+    WORK2            0.089       0.145       0.187       0.703       2.637       3.397       5.573
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -568,26 +667,30 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    WORK            -0.562      -0.438      -0.374      -0.042       0.291       0.354       0.479
+    WORK1           -1.088      -0.835      -0.706      -0.030       0.646       0.776       1.029
+    WORK2           -2.426      -2.048      -1.855      -0.846       0.163       0.356       0.733
 
  C#3      ON
-    WORK            -0.679      -0.528      -0.450      -0.046       0.358       0.435       0.586
+    WORK1           -1.292      -0.980      -0.820       0.014       0.849       1.009       1.321
+    WORK2           -2.309      -1.875      -1.653      -0.494       0.666       0.888       1.322
 
  Intercepts
-    C#2             -0.929      -0.706      -0.591       0.007       0.604       0.719       0.943
-    C#3             -1.761      -1.489      -1.349      -0.621       0.107       0.247       0.519
+    C#2             -0.823      -0.609      -0.500       0.072       0.644       0.753       0.968
+    C#3             -1.744      -1.477      -1.341      -0.629       0.083       0.219       0.486
 
 Parameterization using Reference Class 2
 
  C#1      ON
-    WORK            -0.479      -0.354      -0.291       0.042       0.374       0.438       0.562
+    WORK1           -1.029      -0.776      -0.646       0.030       0.706       0.835       1.088
+    WORK2           -0.733      -0.356      -0.163       0.846       1.855       2.048       2.426
 
  C#3      ON
-    WORK            -0.687      -0.524      -0.441      -0.005       0.431       0.515       0.678
+    WORK1           -1.280      -0.963      -0.801       0.044       0.890       1.052       1.368
+    WORK2           -1.718      -1.223      -0.970       0.353       1.675       1.928       2.423
 
  Intercepts
-    C#1             -0.943      -0.719      -0.604      -0.007       0.591       0.706       0.929
-    C#3             -1.842      -1.551      -1.403      -0.628       0.148       0.296       0.587
+    C#1             -0.968      -0.753      -0.644      -0.072       0.500       0.609       0.823
+    C#3             -1.827      -1.558      -1.421      -0.701       0.018       0.156       0.425
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -596,18 +699,22 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    WORK             0.570       0.646       0.688       0.959       1.337       1.425       1.614
+    WORK1            0.337       0.434       0.494       0.971       1.908       2.172       2.798
+    WORK2            0.088       0.129       0.156       0.429       1.177       1.427       2.082
 
  C#3      ON
-    WORK             0.507       0.590       0.637       0.955       1.430       1.545       1.797
+    WORK1            0.275       0.375       0.440       1.015       2.337       2.742       3.747
+    WORK2            0.099       0.153       0.192       0.610       1.946       2.429       3.749
 
 Parameterization using Reference Class 2
 
  C#1      ON
-    WORK             0.620       0.702       0.748       1.043       1.453       1.549       1.754
+    WORK1            0.357       0.460       0.524       1.030       2.025       2.305       2.969
+    WORK2            0.480       0.701       0.850       2.331       6.391       7.753      11.310
 
  C#3      ON
-    WORK             0.503       0.592       0.644       0.995       1.539       1.673       1.970
+    WORK1            0.278       0.382       0.449       1.045       2.435       2.862       3.928
+    WORK2            0.179       0.294       0.379       1.423       5.338       6.876      11.280
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -619,33 +726,48 @@ STDYX Standardization
 
 Latent Class 1
 
+ WORK2    WITH
+    WORK1           -0.606      -0.585      -0.574      -0.518      -0.462      -0.452      -0.431
+
  Means
-    WORK             1.841       1.857       1.865       1.907       1.949       1.957       1.972
+    WORK1            1.124       1.167       1.189       1.302       1.416       1.438       1.481
+    WORK2            0.322       0.340       0.349       0.398       0.447       0.456       0.474
     N#1              3.075       3.075       3.075       3.075       3.075       3.075       3.075
     N#2              1.083       1.083       1.083       1.083       1.083       1.083       1.083
 
  Variances
-    WORK             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    WORK1            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    WORK2            1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 Latent Class 2
 
+ WORK2    WITH
+    WORK1           -0.606      -0.585      -0.574      -0.518      -0.462      -0.452      -0.431
+
  Means
-    WORK             1.841       1.857       1.865       1.907       1.949       1.957       1.972
+    WORK1            1.124       1.167       1.189       1.302       1.416       1.438       1.481
+    WORK2            0.322       0.340       0.349       0.398       0.447       0.456       0.474
     N#1              1.199       1.199       1.199       1.199       1.199       1.199       1.199
     N#2              2.945       2.945       2.945       2.945       2.945       2.945       2.945
 
  Variances
-    WORK             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    WORK1            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    WORK2            1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 Latent Class 3
 
+ WORK2    WITH
+    WORK1           -0.606      -0.585      -0.574      -0.518      -0.462      -0.452      -0.431
+
  Means
-    WORK             1.841       1.857       1.865       1.907       1.949       1.957       1.972
+    WORK1            1.124       1.167       1.189       1.302       1.416       1.438       1.481
+    WORK2            0.322       0.340       0.349       0.398       0.447       0.456       0.474
     N#1             -1.281      -1.281      -1.281      -1.281      -1.281      -1.281      -1.281
     N#2             -1.148      -1.148      -1.148      -1.148      -1.148      -1.148      -1.148
 
  Variances
-    WORK             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    WORK1            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    WORK2            1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 
 STDY Standardization
@@ -654,33 +776,48 @@ STDY Standardization
 
 Latent Class 1
 
+ WORK2    WITH
+    WORK1           -0.606      -0.585      -0.574      -0.518      -0.462      -0.452      -0.431
+
  Means
-    WORK             1.841       1.857       1.865       1.907       1.949       1.957       1.972
+    WORK1            1.124       1.167       1.189       1.302       1.416       1.438       1.481
+    WORK2            0.322       0.340       0.349       0.398       0.447       0.456       0.474
     N#1              3.075       3.075       3.075       3.075       3.075       3.075       3.075
     N#2              1.083       1.083       1.083       1.083       1.083       1.083       1.083
 
  Variances
-    WORK             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    WORK1            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    WORK2            1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 Latent Class 2
 
+ WORK2    WITH
+    WORK1           -0.606      -0.585      -0.574      -0.518      -0.462      -0.452      -0.431
+
  Means
-    WORK             1.841       1.857       1.865       1.907       1.949       1.957       1.972
+    WORK1            1.124       1.167       1.189       1.302       1.416       1.438       1.481
+    WORK2            0.322       0.340       0.349       0.398       0.447       0.456       0.474
     N#1              1.199       1.199       1.199       1.199       1.199       1.199       1.199
     N#2              2.945       2.945       2.945       2.945       2.945       2.945       2.945
 
  Variances
-    WORK             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    WORK1            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    WORK2            1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 Latent Class 3
 
+ WORK2    WITH
+    WORK1           -0.606      -0.585      -0.574      -0.518      -0.462      -0.452      -0.431
+
  Means
-    WORK             1.841       1.857       1.865       1.907       1.949       1.957       1.972
+    WORK1            1.124       1.167       1.189       1.302       1.416       1.438       1.481
+    WORK2            0.322       0.340       0.349       0.398       0.447       0.456       0.474
     N#1             -1.281      -1.281      -1.281      -1.281      -1.281      -1.281      -1.281
     N#2             -1.148      -1.148      -1.148      -1.148      -1.148      -1.148      -1.148
 
  Variances
-    WORK             1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    WORK1            1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    WORK2            1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 
 STD Standardization
@@ -689,37 +826,52 @@ STD Standardization
 
 Latent Class 1
 
+ WORK2    WITH
+    WORK1           -0.111      -0.105      -0.102      -0.086      -0.070      -0.067      -0.061
+
  Means
-    WORK             1.494       1.521       1.534       1.605       1.676       1.690       1.717
+    WORK1            0.565       0.581       0.589       0.629       0.670       0.678       0.693
+    WORK2            0.091       0.102       0.108       0.137       0.166       0.171       0.182
     N#1              3.075       3.075       3.075       3.075       3.075       3.075       3.075
     N#2              1.083       1.083       1.083       1.083       1.083       1.083       1.083
 
  Variances
-    WORK             0.618       0.639       0.651       0.709       0.767       0.778       0.800
+    WORK1            0.217       0.221       0.223       0.233       0.244       0.246       0.250
+    WORK2            0.085       0.093       0.097       0.118       0.139       0.143       0.151
 
 Latent Class 2
 
+ WORK2    WITH
+    WORK1           -0.111      -0.105      -0.102      -0.086      -0.070      -0.067      -0.061
+
  Means
-    WORK             1.494       1.521       1.534       1.605       1.676       1.690       1.717
+    WORK1            0.565       0.581       0.589       0.629       0.670       0.678       0.693
+    WORK2            0.091       0.102       0.108       0.137       0.166       0.171       0.182
     N#1              1.199       1.199       1.199       1.199       1.199       1.199       1.199
     N#2              2.945       2.945       2.945       2.945       2.945       2.945       2.945
 
  Variances
-    WORK             0.618       0.639       0.651       0.709       0.767       0.778       0.800
+    WORK1            0.217       0.221       0.223       0.233       0.244       0.246       0.250
+    WORK2            0.085       0.093       0.097       0.118       0.139       0.143       0.151
 
 Latent Class 3
 
+ WORK2    WITH
+    WORK1           -0.111      -0.105      -0.102      -0.086      -0.070      -0.067      -0.061
+
  Means
-    WORK             1.494       1.521       1.534       1.605       1.676       1.690       1.717
+    WORK1            0.565       0.581       0.589       0.629       0.670       0.678       0.693
+    WORK2            0.091       0.102       0.108       0.137       0.166       0.171       0.182
     N#1             -1.281      -1.281      -1.281      -1.281      -1.281      -1.281      -1.281
     N#2             -1.148      -1.148      -1.148      -1.148      -1.148      -1.148      -1.148
 
  Variances
-    WORK             0.618       0.639       0.651       0.709       0.767       0.778       0.800
+    WORK1            0.217       0.221       0.223       0.233       0.244       0.246       0.250
+    WORK2            0.085       0.093       0.097       0.118       0.139       0.143       0.151
 
 
-     Beginning Time:  15:12:05
-        Ending Time:  15:12:06
+     Beginning Time:  20:38:59
+        Ending Time:  20:39:00
        Elapsed Time:  00:00:01
 
 

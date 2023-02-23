@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-02/10/2023   3:12 PM
+02/16/2023   8:38 PM
 
 INPUT INSTRUCTIONS
 
@@ -13,9 +13,13 @@ INPUT INSTRUCTIONS
   NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
        CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N housing;
    MISSING=.;
-   USEVAR = housing N;
+   USEVAR = N housing1 housing2 housing3;
   NOMINAL = N;
   CLASSES = c(3);
+  DEFINE:
+  housing1 = housing == 1;
+  housing2 = housing == 2;
+  housing3 = housing == 3;
   ANALYSIS:
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
@@ -24,8 +28,8 @@ INPUT INSTRUCTIONS
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  C ON housing;
-  housing;
+  C ON housing1 housing2 housing3;
+  housing1 housing2 housing3;
   %C#1%
   [N#1@3.075];
   [N#2@1.083];
@@ -55,7 +59,7 @@ Number of groups                                                 1
 Number of observations                                         405
 
 Number of dependent variables                                    1
-Number of independent variables                                  1
+Number of independent variables                                  3
 Number of continuous latent variables                            0
 Number of categorical latent variables                           1
 
@@ -65,7 +69,7 @@ Observed dependent variables
    N
 
 Observed independent variables
-   HOUSING
+   HOUSING1    HOUSING2    HOUSING3
 
 Categorical latent variables
    C
@@ -102,8 +106,8 @@ Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
 Integration Specifications
   Type                                                  MONTECARLO
-  Number of integration points                                 250
-  Dimensions of numerical integration                            1
+  Number of integration points                                 750
+  Dimensions of numerical integration                            3
   Adaptive quadrature                                           ON
   Monte Carlo integration seed                                   0
 Cholesky                                                       OFF
@@ -129,9 +133,11 @@ Minimum covariance coverage value   0.100
 
 
            Covariance Coverage
-              HOUSING
-              ________
- HOUSING        0.973
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1       0.973
+ HOUSING2       0.973         0.973
+ HOUSING3       0.973         0.973         0.973
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
@@ -149,24 +155,28 @@ SAMPLE STATISTICS
 
 
            Means
-              HOUSING
-              ________
-                1.239
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+                0.815         0.147         0.023
 
 
            Covariances
-              HOUSING
-              ________
- HOUSING        0.319
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1       0.151
+ HOUSING2      -0.120         0.126
+ HOUSING3      -0.019        -0.003         0.022
 
 
            Correlations
-              HOUSING
-              ________
- HOUSING        1.000
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1       1.000
+ HOUSING2      -0.871         1.000
+ HOUSING3      -0.321        -0.064         1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -333.800
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS 309.468
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -177,8 +187,19 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     HOUSING               1.239       2.776       1.000   81.47%       1.000      1.000      1.000
-             394.000       0.319       8.395       4.000    1.52%       1.000      1.000
+     HOUSING1              0.815      -1.620       0.000   18.53%       1.000      1.000      1.000
+             394.000       0.151       0.625       1.000   81.47%       1.000      1.000
+     HOUSING2              0.147       1.991       0.000   85.28%       0.000      0.000      0.000
+             394.000       0.126       1.966       1.000   14.72%       0.000      0.000
+     HOUSING3              0.023       6.388       0.000   97.72%       0.000      0.000      0.000
+             394.000       0.022      38.801       1.000    2.28%       0.000      0.000
+
+     THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES MAY NOT BE
+     TRUSTWORTHY FOR SOME PARAMETERS DUE TO A NON-POSITIVE DEFINITE
+     FIRST-ORDER DERIVATIVE PRODUCT MATRIX.  THIS MAY BE DUE TO THE STARTING
+     VALUES BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE
+     CONDITION NUMBER IS       0.187D-10.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
+     Parameter 8, %C#1%: HOUSING3 WITH HOUSING2 (equality/label)
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -187,19 +208,19 @@ THE MODEL ESTIMATION TERMINATED NORMALLY
 
 MODEL FIT INFORMATION
 
-Number of Free Parameters                        6
+Number of Free Parameters                       17
 
 Loglikelihood
 
-          H0 Value                        -746.395
-          H0 Scaling Correction Factor      1.7183
+          H0 Value                        -101.787
+          H0 Scaling Correction Factor      3.8040
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    1504.790
-          Bayesian (BIC)                  1528.814
-          Sample-Size Adjusted BIC        1509.775
+          Akaike (AIC)                     237.573
+          Bayesian (BIC)                   305.640
+          Sample-Size Adjusted BIC         251.696
             (n* = (n + 2) / 24)
 
 
@@ -210,9 +231,9 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        165.82349          0.40944
-       2        156.23918          0.38578
-       3         82.93733          0.20478
+       1        166.00480          0.40989
+       2        156.34188          0.38603
+       3         82.65332          0.20408
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -221,9 +242,9 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        165.83459          0.40947
-       2        156.23635          0.38577
-       3         82.92905          0.20476
+       1        166.00485          0.40989
+       2        156.35922          0.38607
+       3         82.63593          0.20404
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -235,13 +256,13 @@ Class Counts and Proportions
    Classes
 
        1              177          0.43704
-       2              163          0.40247
-       3               65          0.16049
+       2              161          0.39753
+       3               67          0.16543
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.403
+     Entropy                         0.408
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -249,9 +270,9 @@ by Latent Class (Column)
 
            1        2        3
 
-    1   0.792    0.126    0.082
-    2   0.117    0.781    0.101
-    3   0.099    0.103    0.798
+    1   0.793    0.126    0.081
+    2   0.116    0.787    0.097
+    3   0.103    0.111    0.786
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,9 +280,9 @@ by Latent Class (Row)
 
            1        2        3
 
-    1   0.846    0.115    0.039
-    2   0.142    0.815    0.043
-    3   0.175    0.199    0.626
+    1   0.846    0.113    0.042
+    2   0.142    0.810    0.048
+    3   0.174    0.189    0.637
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -269,9 +290,9 @@ by Latent Class (Row)
 
               1        2        3
 
-    1      3.081    1.090    0.000
-    2      1.204    2.949    0.000
-    3     -1.274   -1.145    0.000
+    1      3.014    1.000    0.000
+    2      1.092    2.833    0.000
+    3     -1.297   -1.217    0.000
 
 
 MODEL RESULTS
@@ -281,50 +302,87 @@ MODEL RESULTS
 
 Latent Class 1
 
+ HOUSING2 WITH
+    HOUSING1          -0.120      0.012     -9.899      0.000
+
+ HOUSING3 WITH
+    HOUSING1          -0.019      0.006     -3.091      0.002
+    HOUSING2          -0.003      0.001     -2.938      0.003
+
  Means
-    HOUSING            1.238      0.028     43.568      0.000
+    HOUSING1           0.815      0.020     41.680      0.000
+    HOUSING2           0.147      0.018      8.247      0.000
+    HOUSING3           0.023      0.007      3.038      0.002
     N#1                3.075      0.000    999.000    999.000
     N#2                1.083      0.000    999.000    999.000
 
  Variances
-    HOUSING            0.319      0.052      6.148      0.000
+    HOUSING1           0.151      0.012     12.246      0.000
+    HOUSING2           0.126      0.013      9.967      0.000
+    HOUSING3           0.022      0.007      3.106      0.002
 
 Latent Class 2
 
+ HOUSING2 WITH
+    HOUSING1          -0.120      0.012     -9.899      0.000
+
+ HOUSING3 WITH
+    HOUSING1          -0.019      0.006     -3.091      0.002
+    HOUSING2          -0.003      0.001     -2.938      0.003
+
  Means
-    HOUSING            1.238      0.028     43.568      0.000
+    HOUSING1           0.815      0.020     41.680      0.000
+    HOUSING2           0.147      0.018      8.247      0.000
+    HOUSING3           0.023      0.007      3.038      0.002
     N#1                1.199      0.000    999.000    999.000
     N#2                2.945      0.000    999.000    999.000
 
  Variances
-    HOUSING            0.319      0.052      6.148      0.000
+    HOUSING1           0.151      0.012     12.246      0.000
+    HOUSING2           0.126      0.013      9.967      0.000
+    HOUSING3           0.022      0.007      3.106      0.002
 
 Latent Class 3
 
+ HOUSING2 WITH
+    HOUSING1          -0.120      0.012     -9.899      0.000
+
+ HOUSING3 WITH
+    HOUSING1          -0.019      0.006     -3.091      0.002
+    HOUSING2          -0.003      0.001     -2.938      0.003
+
  Means
-    HOUSING            1.238      0.028     43.568      0.000
+    HOUSING1           0.815      0.020     41.680      0.000
+    HOUSING2           0.147      0.018      8.247      0.000
+    HOUSING3           0.023      0.007      3.038      0.002
     N#1               -1.281      0.000    999.000    999.000
     N#2               -1.148      0.000    999.000    999.000
 
  Variances
-    HOUSING            0.319      0.052      6.148      0.000
+    HOUSING1           0.151      0.012     12.246      0.000
+    HOUSING2           0.126      0.013      9.967      0.000
+    HOUSING3           0.022      0.007      3.106      0.002
 
 Categorical Latent Variables
 
  C#1        ON
-    HOUSING           -0.552      0.405     -1.362      0.173
+    HOUSING1           0.620      1.876      0.330      0.741
+    HOUSING2          -0.238      1.939     -0.123      0.902
+    HOUSING3          -0.408      2.125     -0.192      0.848
 
  C#2        ON
-    HOUSING           -0.262      0.326     -0.803      0.422
+    HOUSING1          -0.218      1.637     -0.133      0.894
+    HOUSING2          -0.442      1.689     -0.262      0.794
+    HOUSING3          -2.457      2.707     -0.908      0.364
 
  Intercepts
-    C#1                1.383      0.537      2.577      0.010
-    C#2                0.974      0.476      2.045      0.041
+    C#1                0.246      1.862      0.132      0.895
+    C#2                0.943      1.618      0.583      0.560
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.157E-03
+     Condition Number for the Information Matrix              0.187E-10
        (ratio of smallest to largest eigenvalue)
 
 
@@ -336,10 +394,14 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    HOUSING            0.576      0.233      0.260      1.274
+    HOUSING1           1.859      3.487      0.047     73.480
+    HOUSING2           0.788      1.529      0.018     35.268
+    HOUSING3           0.665      1.413      0.010     42.826
 
  C#2      ON
-    HOUSING            0.769      0.251      0.406      1.459
+    HOUSING1           0.804      1.317      0.032     19.913
+    HOUSING2           0.643      1.086      0.023     17.616
+    HOUSING3           0.086      0.232      0.000     17.262
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -350,26 +412,34 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    HOUSING            0.290      0.378      0.765      0.444
+    HOUSING1          -0.838      1.496     -0.560      0.575
+    HOUSING2          -0.204      1.562     -0.130      0.896
+    HOUSING3          -2.049      2.613     -0.784      0.433
 
  C#3      ON
-    HOUSING            0.552      0.405      1.362      0.173
+    HOUSING1          -0.620      1.876     -0.330      0.741
+    HOUSING2           0.238      1.939      0.123      0.902
+    HOUSING3           0.408      2.125      0.192      0.848
 
  Intercepts
-    C#2               -0.409      0.476     -0.860      0.390
-    C#3               -1.383      0.537     -2.577      0.010
+    C#2                0.697      1.484      0.469      0.639
+    C#3               -0.246      1.862     -0.132      0.895
 
 Parameterization using Reference Class 2
 
  C#1      ON
-    HOUSING           -0.290      0.378     -0.765      0.444
+    HOUSING1           0.838      1.496      0.560      0.575
+    HOUSING2           0.204      1.562      0.130      0.896
+    HOUSING3           2.049      2.613      0.784      0.433
 
  C#3      ON
-    HOUSING            0.262      0.326      0.803      0.422
+    HOUSING1           0.218      1.637      0.133      0.894
+    HOUSING2           0.442      1.689      0.262      0.794
+    HOUSING3           2.457      2.707      0.908      0.364
 
  Intercepts
-    C#1                0.409      0.476      0.860      0.390
-    C#3               -0.974      0.476     -2.045      0.041
+    C#1               -0.697      1.484     -0.469      0.639
+    C#3               -0.943      1.618     -0.583      0.560
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -380,18 +450,26 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    HOUSING            1.336      0.505      0.636      2.804
+    HOUSING1           0.433      0.647      0.023      8.116
+    HOUSING2           0.816      1.274      0.038     17.436
+    HOUSING3           0.129      0.337      0.001     21.566
 
  C#3      ON
-    HOUSING            1.736      0.704      0.785      3.842
+    HOUSING1           0.538      1.009      0.014     21.268
+    HOUSING2           1.269      2.460      0.028     56.766
+    HOUSING3           1.504      3.196      0.023     96.862
 
 Parameterization using Reference Class 2
 
  C#1      ON
-    HOUSING            0.749      0.283      0.357      1.571
+    HOUSING1           2.311      3.457      0.123     43.356
+    HOUSING2           1.226      1.915      0.057     26.208
+    HOUSING3           7.763     20.282      0.046   1299.839
 
  C#3      ON
-    HOUSING            1.300      0.424      0.686      2.464
+    HOUSING1           1.243      2.036      0.050     30.791
+    HOUSING2           1.555      2.627      0.057     42.617
+    HOUSING3          11.676     31.607      0.058   2353.149
 
 
 STANDARDIZED MODEL RESULTS
@@ -404,33 +482,66 @@ STDYX Standardization
 
 Latent Class 1
 
+ HOUSING2 WITH
+    HOUSING1          -0.871      0.031    -28.530      0.000
+
+ HOUSING3 WITH
+    HOUSING1          -0.320      0.052     -6.217      0.000
+    HOUSING2          -0.064      0.011     -5.704      0.000
+
  Means
-    HOUSING            2.191      0.137     15.954      0.000
+    HOUSING1           2.098      0.136     15.427      0.000
+    HOUSING2           0.415      0.030     14.065      0.000
+    HOUSING3           0.152      0.026      5.941      0.000
     N#1                3.075      0.000    999.000    999.000
     N#2                1.083      0.000    999.000    999.000
 
  Variances
-    HOUSING            1.000      0.000    999.000    999.000
+    HOUSING1           1.000      0.000    999.000    999.000
+    HOUSING2           1.000      0.000    999.000    999.000
+    HOUSING3           1.000      0.000    999.000    999.000
 
 Latent Class 2
 
+ HOUSING2 WITH
+    HOUSING1          -0.871      0.031    -28.530      0.000
+
+ HOUSING3 WITH
+    HOUSING1          -0.320      0.052     -6.217      0.000
+    HOUSING2          -0.064      0.011     -5.704      0.000
+
  Means
-    HOUSING            2.191      0.137     15.954      0.000
+    HOUSING1           2.098      0.136     15.427      0.000
+    HOUSING2           0.415      0.030     14.065      0.000
+    HOUSING3           0.152      0.026      5.941      0.000
     N#1                1.199      0.000    999.000    999.000
     N#2                2.945      0.000    999.000    999.000
 
  Variances
-    HOUSING            1.000      0.000    999.000    999.000
+    HOUSING1           1.000      0.000    999.000    999.000
+    HOUSING2           1.000      0.000    999.000    999.000
+    HOUSING3           1.000      0.000    999.000    999.000
 
 Latent Class 3
 
+ HOUSING2 WITH
+    HOUSING1          -0.871      0.031    -28.530      0.000
+
+ HOUSING3 WITH
+    HOUSING1          -0.320      0.052     -6.217      0.000
+    HOUSING2          -0.064      0.011     -5.704      0.000
+
  Means
-    HOUSING            2.191      0.137     15.954      0.000
+    HOUSING1           2.098      0.136     15.427      0.000
+    HOUSING2           0.415      0.030     14.065      0.000
+    HOUSING3           0.152      0.026      5.941      0.000
     N#1               -1.281      0.000    999.000    999.000
     N#2               -1.148      0.000    999.000    999.000
 
  Variances
-    HOUSING            1.000      0.000    999.000    999.000
+    HOUSING1           1.000      0.000    999.000    999.000
+    HOUSING2           1.000      0.000    999.000    999.000
+    HOUSING3           1.000      0.000    999.000    999.000
 
 
 STDY Standardization
@@ -440,33 +551,66 @@ STDY Standardization
 
 Latent Class 1
 
+ HOUSING2 WITH
+    HOUSING1          -0.871      0.031    -28.530      0.000
+
+ HOUSING3 WITH
+    HOUSING1          -0.320      0.052     -6.217      0.000
+    HOUSING2          -0.064      0.011     -5.704      0.000
+
  Means
-    HOUSING            2.191      0.137     15.954      0.000
+    HOUSING1           2.098      0.136     15.427      0.000
+    HOUSING2           0.415      0.030     14.065      0.000
+    HOUSING3           0.152      0.026      5.941      0.000
     N#1                3.075      0.000    999.000    999.000
     N#2                1.083      0.000    999.000    999.000
 
  Variances
-    HOUSING            1.000      0.000    999.000    999.000
+    HOUSING1           1.000      0.000    999.000    999.000
+    HOUSING2           1.000      0.000    999.000    999.000
+    HOUSING3           1.000      0.000    999.000    999.000
 
 Latent Class 2
 
+ HOUSING2 WITH
+    HOUSING1          -0.871      0.031    -28.530      0.000
+
+ HOUSING3 WITH
+    HOUSING1          -0.320      0.052     -6.217      0.000
+    HOUSING2          -0.064      0.011     -5.704      0.000
+
  Means
-    HOUSING            2.191      0.137     15.954      0.000
+    HOUSING1           2.098      0.136     15.427      0.000
+    HOUSING2           0.415      0.030     14.065      0.000
+    HOUSING3           0.152      0.026      5.941      0.000
     N#1                1.199      0.000    999.000    999.000
     N#2                2.945      0.000    999.000    999.000
 
  Variances
-    HOUSING            1.000      0.000    999.000    999.000
+    HOUSING1           1.000      0.000    999.000    999.000
+    HOUSING2           1.000      0.000    999.000    999.000
+    HOUSING3           1.000      0.000    999.000    999.000
 
 Latent Class 3
 
+ HOUSING2 WITH
+    HOUSING1          -0.871      0.031    -28.530      0.000
+
+ HOUSING3 WITH
+    HOUSING1          -0.320      0.052     -6.217      0.000
+    HOUSING2          -0.064      0.011     -5.704      0.000
+
  Means
-    HOUSING            2.191      0.137     15.954      0.000
+    HOUSING1           2.098      0.136     15.427      0.000
+    HOUSING2           0.415      0.030     14.065      0.000
+    HOUSING3           0.152      0.026      5.941      0.000
     N#1               -1.281      0.000    999.000    999.000
     N#2               -1.148      0.000    999.000    999.000
 
  Variances
-    HOUSING            1.000      0.000    999.000    999.000
+    HOUSING1           1.000      0.000    999.000    999.000
+    HOUSING2           1.000      0.000    999.000    999.000
+    HOUSING3           1.000      0.000    999.000    999.000
 
 
 STD Standardization
@@ -476,33 +620,66 @@ STD Standardization
 
 Latent Class 1
 
+ HOUSING2 WITH
+    HOUSING1          -0.120      0.012     -9.899      0.000
+
+ HOUSING3 WITH
+    HOUSING1          -0.019      0.006     -3.091      0.002
+    HOUSING2          -0.003      0.001     -2.938      0.003
+
  Means
-    HOUSING            1.238      0.028     43.568      0.000
+    HOUSING1           0.815      0.020     41.680      0.000
+    HOUSING2           0.147      0.018      8.247      0.000
+    HOUSING3           0.023      0.007      3.038      0.002
     N#1                3.075      0.000    999.000    999.000
     N#2                1.083      0.000    999.000    999.000
 
  Variances
-    HOUSING            0.319      0.052      6.148      0.000
+    HOUSING1           0.151      0.012     12.246      0.000
+    HOUSING2           0.126      0.013      9.967      0.000
+    HOUSING3           0.022      0.007      3.106      0.002
 
 Latent Class 2
 
+ HOUSING2 WITH
+    HOUSING1          -0.120      0.012     -9.899      0.000
+
+ HOUSING3 WITH
+    HOUSING1          -0.019      0.006     -3.091      0.002
+    HOUSING2          -0.003      0.001     -2.938      0.003
+
  Means
-    HOUSING            1.238      0.028     43.568      0.000
+    HOUSING1           0.815      0.020     41.680      0.000
+    HOUSING2           0.147      0.018      8.247      0.000
+    HOUSING3           0.023      0.007      3.038      0.002
     N#1                1.199      0.000    999.000    999.000
     N#2                2.945      0.000    999.000    999.000
 
  Variances
-    HOUSING            0.319      0.052      6.148      0.000
+    HOUSING1           0.151      0.012     12.246      0.000
+    HOUSING2           0.126      0.013      9.967      0.000
+    HOUSING3           0.022      0.007      3.106      0.002
 
 Latent Class 3
 
+ HOUSING2 WITH
+    HOUSING1          -0.120      0.012     -9.899      0.000
+
+ HOUSING3 WITH
+    HOUSING1          -0.019      0.006     -3.091      0.002
+    HOUSING2          -0.003      0.001     -2.938      0.003
+
  Means
-    HOUSING            1.238      0.028     43.568      0.000
+    HOUSING1           0.815      0.020     41.680      0.000
+    HOUSING2           0.147      0.018      8.247      0.000
+    HOUSING3           0.023      0.007      3.038      0.002
     N#1               -1.281      0.000    999.000    999.000
     N#2               -1.148      0.000    999.000    999.000
 
  Variances
-    HOUSING            0.319      0.052      6.148      0.000
+    HOUSING1           0.151      0.012     12.246      0.000
+    HOUSING2           0.126      0.013      9.967      0.000
+    HOUSING3           0.022      0.007      3.106      0.002
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -511,45 +688,82 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 
 Latent Class 1
 
+ HOUSING2 WITH
+    HOUSING1        -0.151      -0.144      -0.140      -0.120      -0.100      -0.096      -0.089
+
+ HOUSING3 WITH
+    HOUSING1        -0.034      -0.030      -0.029      -0.019      -0.009      -0.007      -0.003
+    HOUSING2        -0.006      -0.006      -0.005      -0.003      -0.001      -0.001       0.000
+
  Means
-    HOUSING          1.165       1.182       1.191       1.238       1.285       1.294       1.311
+    HOUSING1         0.765       0.777       0.783       0.815       0.847       0.853       0.865
+    HOUSING2         0.101       0.112       0.118       0.147       0.177       0.182       0.193
+    HOUSING3         0.003       0.008       0.010       0.023       0.035       0.037       0.042
     N#1              3.075       3.075       3.075       3.075       3.075       3.075       3.075
     N#2              1.083       1.083       1.083       1.083       1.083       1.083       1.083
 
  Variances
-    HOUSING          0.185       0.217       0.234       0.319       0.405       0.421       0.453
+    HOUSING1         0.119       0.127       0.131       0.151       0.171       0.175       0.183
+    HOUSING2         0.093       0.101       0.105       0.126       0.146       0.150       0.158
+    HOUSING3         0.004       0.008       0.010       0.022       0.034       0.036       0.041
 
 Latent Class 2
 
+ HOUSING2 WITH
+    HOUSING1        -0.151      -0.144      -0.140      -0.120      -0.100      -0.096      -0.089
+
+ HOUSING3 WITH
+    HOUSING1        -0.034      -0.030      -0.029      -0.019      -0.009      -0.007      -0.003
+    HOUSING2        -0.006      -0.006      -0.005      -0.003      -0.001      -0.001       0.000
+
  Means
-    HOUSING          1.165       1.182       1.191       1.238       1.285       1.294       1.311
+    HOUSING1         0.765       0.777       0.783       0.815       0.847       0.853       0.865
+    HOUSING2         0.101       0.112       0.118       0.147       0.177       0.182       0.193
+    HOUSING3         0.003       0.008       0.010       0.023       0.035       0.037       0.042
     N#1              1.199       1.199       1.199       1.199       1.199       1.199       1.199
     N#2              2.945       2.945       2.945       2.945       2.945       2.945       2.945
 
  Variances
-    HOUSING          0.185       0.217       0.234       0.319       0.405       0.421       0.453
+    HOUSING1         0.119       0.127       0.131       0.151       0.171       0.175       0.183
+    HOUSING2         0.093       0.101       0.105       0.126       0.146       0.150       0.158
+    HOUSING3         0.004       0.008       0.010       0.022       0.034       0.036       0.041
 
 Latent Class 3
 
+ HOUSING2 WITH
+    HOUSING1        -0.151      -0.144      -0.140      -0.120      -0.100      -0.096      -0.089
+
+ HOUSING3 WITH
+    HOUSING1        -0.034      -0.030      -0.029      -0.019      -0.009      -0.007      -0.003
+    HOUSING2        -0.006      -0.006      -0.005      -0.003      -0.001      -0.001       0.000
+
  Means
-    HOUSING          1.165       1.182       1.191       1.238       1.285       1.294       1.311
+    HOUSING1         0.765       0.777       0.783       0.815       0.847       0.853       0.865
+    HOUSING2         0.101       0.112       0.118       0.147       0.177       0.182       0.193
+    HOUSING3         0.003       0.008       0.010       0.023       0.035       0.037       0.042
     N#1             -1.281      -1.281      -1.281      -1.281      -1.281      -1.281      -1.281
     N#2             -1.148      -1.148      -1.148      -1.148      -1.148      -1.148      -1.148
 
  Variances
-    HOUSING          0.185       0.217       0.234       0.319       0.405       0.421       0.453
+    HOUSING1         0.119       0.127       0.131       0.151       0.171       0.175       0.183
+    HOUSING2         0.093       0.101       0.105       0.126       0.146       0.150       0.158
+    HOUSING3         0.004       0.008       0.010       0.022       0.034       0.036       0.041
 
 Categorical Latent Variables
 
  C#1      ON
-    HOUSING         -1.595      -1.346      -1.218      -0.552       0.115       0.242       0.492
+    HOUSING1        -4.212      -3.057      -2.466       0.620       3.706       4.297       5.452
+    HOUSING2        -5.233      -4.039      -3.428      -0.238       2.952       3.563       4.757
+    HOUSING3        -5.882      -4.573      -3.904      -0.408       3.088       3.757       5.066
 
  C#2      ON
-    HOUSING         -1.103      -0.902      -0.799      -0.262       0.275       0.378       0.578
+    HOUSING1        -4.436      -3.427      -2.911      -0.218       2.476       2.991       4.000
+    HOUSING2        -4.792      -3.752      -3.220      -0.442       2.337       2.869       3.909
+    HOUSING3        -9.431      -7.764      -6.911      -2.457       1.996       2.849       4.516
 
  Intercepts
-    C#1              0.001       0.331       0.500       1.383       2.265       2.434       2.765
-    C#2             -0.253       0.040       0.190       0.974       1.757       1.907       2.200
+    C#1             -4.549      -3.402      -2.816       0.246       3.309       3.895       5.041
+    C#2             -3.225      -2.229      -1.719       0.943       3.605       4.115       5.112
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -557,10 +771,14 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    HOUSING          0.203       0.260       0.296       0.576       1.122       1.274       1.636
+    HOUSING1         0.015       0.047       0.085       1.859      40.693      73.480     233.293
+    HOUSING2         0.005       0.018       0.032       0.788      19.146      35.268     116.417
+    HOUSING3         0.003       0.010       0.020       0.665      21.927      42.826     158.505
 
  C#2      ON
-    HOUSING          0.332       0.406       0.450       0.769       1.316       1.459       1.783
+    HOUSING1         0.012       0.032       0.054       0.804      11.889      19.913      54.582
+    HOUSING2         0.008       0.023       0.040       0.643      10.348      17.616      49.845
+    HOUSING3         0.000       0.000       0.001       0.086       7.358      17.262      91.430
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -568,26 +786,34 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    HOUSING         -0.685      -0.452      -0.333       0.290       0.912       1.031       1.264
+    HOUSING1        -4.691      -3.769      -3.298      -0.838       1.623       2.094       3.015
+    HOUSING2        -4.228      -3.266      -2.774      -0.204       2.366       2.859       3.821
+    HOUSING3        -8.779      -7.170      -6.347      -2.049       2.248       3.071       4.680
 
  C#3      ON
-    HOUSING         -0.492      -0.242      -0.115       0.552       1.218       1.346       1.595
+    HOUSING1        -5.452      -4.297      -3.706      -0.620       2.466       3.057       4.212
+    HOUSING2        -4.757      -3.563      -2.952       0.238       3.428       4.039       5.233
+    HOUSING3        -5.066      -3.757      -3.088       0.408       3.904       4.573       5.882
 
  Intercepts
-    C#2             -1.634      -1.341      -1.191      -0.409       0.373       0.523       0.816
-    C#3             -2.765      -2.434      -2.265      -1.383      -0.500      -0.331      -0.001
+    C#2             -3.127      -2.213      -1.745       0.697       3.139       3.606       4.520
+    C#3             -5.041      -3.895      -3.309      -0.246       2.816       3.402       4.549
 
 Parameterization using Reference Class 2
 
  C#1      ON
-    HOUSING         -1.264      -1.031      -0.912      -0.290       0.333       0.452       0.685
+    HOUSING1        -3.015      -2.094      -1.623       0.838       3.298       3.769       4.691
+    HOUSING2        -3.821      -2.859      -2.366       0.204       2.774       3.266       4.228
+    HOUSING3        -4.680      -3.071      -2.248       2.049       6.347       7.170       8.779
 
  C#3      ON
-    HOUSING         -0.578      -0.378      -0.275       0.262       0.799       0.902       1.103
+    HOUSING1        -4.000      -2.991      -2.476       0.218       2.911       3.427       4.436
+    HOUSING2        -3.909      -2.869      -2.337       0.442       3.220       3.752       4.792
+    HOUSING3        -4.516      -2.849      -1.996       2.457       6.911       7.764       9.431
 
  Intercepts
-    C#1             -0.816      -0.523      -0.373       0.409       1.191       1.341       1.634
-    C#3             -2.200      -1.907      -1.757      -0.974      -0.190      -0.040       0.253
+    C#1             -4.520      -3.606      -3.139      -0.697       1.745       2.213       3.127
+    C#3             -5.112      -4.115      -3.605      -0.943       1.719       2.229       3.225
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -596,18 +822,26 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    HOUSING          0.504       0.636       0.717       1.336       2.489       2.804       3.539
+    HOUSING1         0.009       0.023       0.037       0.433       5.067       8.116      20.387
+    HOUSING2         0.015       0.038       0.062       0.816      10.659      17.436      45.636
+    HOUSING3         0.000       0.001       0.002       0.129       9.471      21.566     107.764
 
  C#3      ON
-    HOUSING          0.611       0.785       0.892       1.736       3.381       3.842       4.930
+    HOUSING1         0.004       0.014       0.025       0.538      11.778      21.268      67.525
+    HOUSING2         0.009       0.028       0.052       1.269      30.817      56.766     187.381
+    HOUSING3         0.006       0.023       0.046       1.504      49.594      96.862     358.500
 
 Parameterization using Reference Class 2
 
  C#1      ON
-    HOUSING          0.283       0.357       0.402       0.749       1.395       1.571       1.983
+    HOUSING1         0.049       0.123       0.197       2.311      27.066      43.356     108.910
+    HOUSING2         0.022       0.057       0.094       1.226      16.021      26.208      68.592
+    HOUSING3         0.009       0.046       0.106       7.763     570.805    1299.839    6495.042
 
  C#3      ON
-    HOUSING          0.561       0.686       0.760       1.300       2.223       2.464       3.013
+    HOUSING1         0.018       0.050       0.084       1.243      18.383      30.791      84.397
+    HOUSING2         0.020       0.057       0.097       1.555      25.033      42.617     120.586
+    HOUSING3         0.011       0.058       0.136      11.676    1003.006    2353.149   12463.648
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -619,33 +853,66 @@ STDYX Standardization
 
 Latent Class 1
 
+ HOUSING2 WITH
+    HOUSING1        -0.950      -0.931      -0.921      -0.871      -0.821      -0.811      -0.793
+
+ HOUSING3 WITH
+    HOUSING1        -0.453      -0.422      -0.405      -0.320      -0.236      -0.219      -0.188
+    HOUSING2        -0.092      -0.086      -0.082      -0.064      -0.045      -0.042      -0.035
+
  Means
-    HOUSING          1.838       1.922       1.965       2.191       2.417       2.461       2.545
+    HOUSING1         1.748       1.831       1.874       2.098       2.322       2.364       2.448
+    HOUSING2         0.339       0.357       0.367       0.415       0.464       0.473       0.491
+    HOUSING3         0.086       0.102       0.110       0.152       0.194       0.202       0.218
     N#1              3.075       3.075       3.075       3.075       3.075       3.075       3.075
     N#2              1.083       1.083       1.083       1.083       1.083       1.083       1.083
 
  Variances
-    HOUSING          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING1         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING2         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING3         1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 Latent Class 2
 
+ HOUSING2 WITH
+    HOUSING1        -0.950      -0.931      -0.921      -0.871      -0.821      -0.811      -0.793
+
+ HOUSING3 WITH
+    HOUSING1        -0.453      -0.422      -0.405      -0.320      -0.236      -0.219      -0.188
+    HOUSING2        -0.092      -0.086      -0.082      -0.064      -0.045      -0.042      -0.035
+
  Means
-    HOUSING          1.838       1.922       1.965       2.191       2.417       2.461       2.545
+    HOUSING1         1.748       1.831       1.874       2.098       2.322       2.364       2.448
+    HOUSING2         0.339       0.357       0.367       0.415       0.464       0.473       0.491
+    HOUSING3         0.086       0.102       0.110       0.152       0.194       0.202       0.218
     N#1              1.199       1.199       1.199       1.199       1.199       1.199       1.199
     N#2              2.945       2.945       2.945       2.945       2.945       2.945       2.945
 
  Variances
-    HOUSING          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING1         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING2         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING3         1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 Latent Class 3
 
+ HOUSING2 WITH
+    HOUSING1        -0.950      -0.931      -0.921      -0.871      -0.821      -0.811      -0.793
+
+ HOUSING3 WITH
+    HOUSING1        -0.453      -0.422      -0.405      -0.320      -0.236      -0.219      -0.188
+    HOUSING2        -0.092      -0.086      -0.082      -0.064      -0.045      -0.042      -0.035
+
  Means
-    HOUSING          1.838       1.922       1.965       2.191       2.417       2.461       2.545
+    HOUSING1         1.748       1.831       1.874       2.098       2.322       2.364       2.448
+    HOUSING2         0.339       0.357       0.367       0.415       0.464       0.473       0.491
+    HOUSING3         0.086       0.102       0.110       0.152       0.194       0.202       0.218
     N#1             -1.281      -1.281      -1.281      -1.281      -1.281      -1.281      -1.281
     N#2             -1.148      -1.148      -1.148      -1.148      -1.148      -1.148      -1.148
 
  Variances
-    HOUSING          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING1         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING2         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING3         1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 
 STDY Standardization
@@ -654,33 +921,66 @@ STDY Standardization
 
 Latent Class 1
 
+ HOUSING2 WITH
+    HOUSING1        -0.950      -0.931      -0.921      -0.871      -0.821      -0.811      -0.793
+
+ HOUSING3 WITH
+    HOUSING1        -0.453      -0.422      -0.405      -0.320      -0.236      -0.219      -0.188
+    HOUSING2        -0.092      -0.086      -0.082      -0.064      -0.045      -0.042      -0.035
+
  Means
-    HOUSING          1.838       1.922       1.965       2.191       2.417       2.461       2.545
+    HOUSING1         1.748       1.831       1.874       2.098       2.322       2.364       2.448
+    HOUSING2         0.339       0.357       0.367       0.415       0.464       0.473       0.491
+    HOUSING3         0.086       0.102       0.110       0.152       0.194       0.202       0.218
     N#1              3.075       3.075       3.075       3.075       3.075       3.075       3.075
     N#2              1.083       1.083       1.083       1.083       1.083       1.083       1.083
 
  Variances
-    HOUSING          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING1         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING2         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING3         1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 Latent Class 2
 
+ HOUSING2 WITH
+    HOUSING1        -0.950      -0.931      -0.921      -0.871      -0.821      -0.811      -0.793
+
+ HOUSING3 WITH
+    HOUSING1        -0.453      -0.422      -0.405      -0.320      -0.236      -0.219      -0.188
+    HOUSING2        -0.092      -0.086      -0.082      -0.064      -0.045      -0.042      -0.035
+
  Means
-    HOUSING          1.838       1.922       1.965       2.191       2.417       2.461       2.545
+    HOUSING1         1.748       1.831       1.874       2.098       2.322       2.364       2.448
+    HOUSING2         0.339       0.357       0.367       0.415       0.464       0.473       0.491
+    HOUSING3         0.086       0.102       0.110       0.152       0.194       0.202       0.218
     N#1              1.199       1.199       1.199       1.199       1.199       1.199       1.199
     N#2              2.945       2.945       2.945       2.945       2.945       2.945       2.945
 
  Variances
-    HOUSING          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING1         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING2         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING3         1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 Latent Class 3
 
+ HOUSING2 WITH
+    HOUSING1        -0.950      -0.931      -0.921      -0.871      -0.821      -0.811      -0.793
+
+ HOUSING3 WITH
+    HOUSING1        -0.453      -0.422      -0.405      -0.320      -0.236      -0.219      -0.188
+    HOUSING2        -0.092      -0.086      -0.082      -0.064      -0.045      -0.042      -0.035
+
  Means
-    HOUSING          1.838       1.922       1.965       2.191       2.417       2.461       2.545
+    HOUSING1         1.748       1.831       1.874       2.098       2.322       2.364       2.448
+    HOUSING2         0.339       0.357       0.367       0.415       0.464       0.473       0.491
+    HOUSING3         0.086       0.102       0.110       0.152       0.194       0.202       0.218
     N#1             -1.281      -1.281      -1.281      -1.281      -1.281      -1.281      -1.281
     N#2             -1.148      -1.148      -1.148      -1.148      -1.148      -1.148      -1.148
 
  Variances
-    HOUSING          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING1         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING2         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    HOUSING3         1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 
 STD Standardization
@@ -689,38 +989,414 @@ STD Standardization
 
 Latent Class 1
 
+ HOUSING2 WITH
+    HOUSING1        -0.151      -0.144      -0.140      -0.120      -0.100      -0.096      -0.089
+
+ HOUSING3 WITH
+    HOUSING1        -0.034      -0.030      -0.029      -0.019      -0.009      -0.007      -0.003
+    HOUSING2        -0.006      -0.006      -0.005      -0.003      -0.001      -0.001       0.000
+
  Means
-    HOUSING          1.165       1.182       1.191       1.238       1.285       1.294       1.311
+    HOUSING1         0.765       0.777       0.783       0.815       0.847       0.853       0.865
+    HOUSING2         0.101       0.112       0.118       0.147       0.177       0.182       0.193
+    HOUSING3         0.003       0.008       0.010       0.023       0.035       0.037       0.042
     N#1              3.075       3.075       3.075       3.075       3.075       3.075       3.075
     N#2              1.083       1.083       1.083       1.083       1.083       1.083       1.083
 
  Variances
-    HOUSING          0.185       0.217       0.234       0.319       0.405       0.421       0.453
+    HOUSING1         0.119       0.127       0.131       0.151       0.171       0.175       0.183
+    HOUSING2         0.093       0.101       0.105       0.126       0.146       0.150       0.158
+    HOUSING3         0.004       0.008       0.010       0.022       0.034       0.036       0.041
 
 Latent Class 2
 
+ HOUSING2 WITH
+    HOUSING1        -0.151      -0.144      -0.140      -0.120      -0.100      -0.096      -0.089
+
+ HOUSING3 WITH
+    HOUSING1        -0.034      -0.030      -0.029      -0.019      -0.009      -0.007      -0.003
+    HOUSING2        -0.006      -0.006      -0.005      -0.003      -0.001      -0.001       0.000
+
  Means
-    HOUSING          1.165       1.182       1.191       1.238       1.285       1.294       1.311
+    HOUSING1         0.765       0.777       0.783       0.815       0.847       0.853       0.865
+    HOUSING2         0.101       0.112       0.118       0.147       0.177       0.182       0.193
+    HOUSING3         0.003       0.008       0.010       0.023       0.035       0.037       0.042
     N#1              1.199       1.199       1.199       1.199       1.199       1.199       1.199
     N#2              2.945       2.945       2.945       2.945       2.945       2.945       2.945
 
  Variances
-    HOUSING          0.185       0.217       0.234       0.319       0.405       0.421       0.453
+    HOUSING1         0.119       0.127       0.131       0.151       0.171       0.175       0.183
+    HOUSING2         0.093       0.101       0.105       0.126       0.146       0.150       0.158
+    HOUSING3         0.004       0.008       0.010       0.022       0.034       0.036       0.041
 
 Latent Class 3
 
+ HOUSING2 WITH
+    HOUSING1        -0.151      -0.144      -0.140      -0.120      -0.100      -0.096      -0.089
+
+ HOUSING3 WITH
+    HOUSING1        -0.034      -0.030      -0.029      -0.019      -0.009      -0.007      -0.003
+    HOUSING2        -0.006      -0.006      -0.005      -0.003      -0.001      -0.001       0.000
+
  Means
-    HOUSING          1.165       1.182       1.191       1.238       1.285       1.294       1.311
+    HOUSING1         0.765       0.777       0.783       0.815       0.847       0.853       0.865
+    HOUSING2         0.101       0.112       0.118       0.147       0.177       0.182       0.193
+    HOUSING3         0.003       0.008       0.010       0.023       0.035       0.037       0.042
     N#1             -1.281      -1.281      -1.281      -1.281      -1.281      -1.281      -1.281
     N#2             -1.148      -1.148      -1.148      -1.148      -1.148      -1.148      -1.148
 
  Variances
-    HOUSING          0.185       0.217       0.234       0.319       0.405       0.421       0.453
+    HOUSING1         0.119       0.127       0.131       0.151       0.171       0.175       0.183
+    HOUSING2         0.093       0.101       0.105       0.126       0.146       0.150       0.158
+    HOUSING3         0.004       0.008       0.010       0.022       0.034       0.036       0.041
 
 
-     Beginning Time:  15:12:05
-        Ending Time:  15:12:05
-       Elapsed Time:  00:00:00
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 1
+
+
+           NU
+              N#1           N#2           HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           LAMBDA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ N#1                0             0             0
+ N#2                0             0             0
+ HOUSING1           0             0             0
+ HOUSING2           0             0             0
+ HOUSING3           0             0             0
+
+
+           THETA
+              N#1           N#2           HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________      ________      ________
+ N#1                0
+ N#2                0             0
+ HOUSING1           0             0             0
+ HOUSING2           0             0             0             0
+ HOUSING3           0             0             0             0             0
+
+
+           ALPHA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+                    1             2             3
+
+
+           BETA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1           0             0             0
+ HOUSING2           0             0             0
+ HOUSING3           0             0             0
+
+
+           PSI
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1           4
+ HOUSING2           5             6
+ HOUSING3           7             8             9
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 2
+
+
+           NU
+              N#1           N#2           HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           LAMBDA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ N#1                0             0             0
+ N#2                0             0             0
+ HOUSING1           0             0             0
+ HOUSING2           0             0             0
+ HOUSING3           0             0             0
+
+
+           THETA
+              N#1           N#2           HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________      ________      ________
+ N#1                0
+ N#2                0             0
+ HOUSING1           0             0             0
+ HOUSING2           0             0             0             0
+ HOUSING3           0             0             0             0             0
+
+
+           ALPHA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+                    1             2             3
+
+
+           BETA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1           0             0             0
+ HOUSING2           0             0             0
+ HOUSING3           0             0             0
+
+
+           PSI
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1           4
+ HOUSING2           5             6
+ HOUSING3           7             8             9
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 3
+
+
+           NU
+              N#1           N#2           HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           LAMBDA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ N#1                0             0             0
+ N#2                0             0             0
+ HOUSING1           0             0             0
+ HOUSING2           0             0             0
+ HOUSING3           0             0             0
+
+
+           THETA
+              N#1           N#2           HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________      ________      ________
+ N#1                0
+ N#2                0             0
+ HOUSING1           0             0             0
+ HOUSING2           0             0             0             0
+ HOUSING3           0             0             0             0             0
+
+
+           ALPHA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+                    1             2             3
+
+
+           BETA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1           0             0             0
+ HOUSING2           0             0             0
+ HOUSING3           0             0             0
+
+
+           PSI
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1           4
+ HOUSING2           5             6
+ HOUSING3           7             8             9
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS REGRESSION MODEL PART
+
+
+           ALPHA(C)
+              C#1           C#2           C#3
+              ________      ________      ________
+                   10            11             0
+
+
+           GAMMA(C)
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ C#1               12            13            14
+ C#2               15            16            17
+ C#3                0             0             0
+
+
+     STARTING VALUES FOR LATENT CLASS 1
+
+
+           NU
+              N#1           N#2           HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________      ________      ________
+                3.075         1.083         0.000         0.000         0.000
+
+
+           LAMBDA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ N#1            0.000         0.000         0.000
+ N#2            0.000         0.000         0.000
+ HOUSING1       1.000         0.000         0.000
+ HOUSING2       0.000         1.000         0.000
+ HOUSING3       0.000         0.000         1.000
+
+
+           THETA
+              N#1           N#2           HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________      ________      ________
+ N#1            0.000
+ N#2            0.000         0.000
+ HOUSING1       0.000         0.000         0.000
+ HOUSING2       0.000         0.000         0.000         0.000
+ HOUSING3       0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+                0.815         0.147         0.023
+
+
+           BETA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1       0.000         0.000         0.000
+ HOUSING2       0.000         0.000         0.000
+ HOUSING3       0.000         0.000         0.000
+
+
+           PSI
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1       0.075
+ HOUSING2       0.000         0.063
+ HOUSING3       0.000         0.000         0.011
+
+
+     STARTING VALUES FOR LATENT CLASS 2
+
+
+           NU
+              N#1           N#2           HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________      ________      ________
+                1.199         2.945         0.000         0.000         0.000
+
+
+           LAMBDA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ N#1            0.000         0.000         0.000
+ N#2            0.000         0.000         0.000
+ HOUSING1       1.000         0.000         0.000
+ HOUSING2       0.000         1.000         0.000
+ HOUSING3       0.000         0.000         1.000
+
+
+           THETA
+              N#1           N#2           HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________      ________      ________
+ N#1            0.000
+ N#2            0.000         0.000
+ HOUSING1       0.000         0.000         0.000
+ HOUSING2       0.000         0.000         0.000         0.000
+ HOUSING3       0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+                0.815         0.147         0.023
+
+
+           BETA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1       0.000         0.000         0.000
+ HOUSING2       0.000         0.000         0.000
+ HOUSING3       0.000         0.000         0.000
+
+
+           PSI
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1       0.075
+ HOUSING2       0.000         0.063
+ HOUSING3       0.000         0.000         0.011
+
+
+     STARTING VALUES FOR LATENT CLASS 3
+
+
+           NU
+              N#1           N#2           HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________      ________      ________
+               -1.281        -1.148         0.000         0.000         0.000
+
+
+           LAMBDA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ N#1            0.000         0.000         0.000
+ N#2            0.000         0.000         0.000
+ HOUSING1       1.000         0.000         0.000
+ HOUSING2       0.000         1.000         0.000
+ HOUSING3       0.000         0.000         1.000
+
+
+           THETA
+              N#1           N#2           HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________      ________      ________
+ N#1            0.000
+ N#2            0.000         0.000
+ HOUSING1       0.000         0.000         0.000
+ HOUSING2       0.000         0.000         0.000         0.000
+ HOUSING3       0.000         0.000         0.000         0.000         0.000
+
+
+           ALPHA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+                0.815         0.147         0.023
+
+
+           BETA
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1       0.000         0.000         0.000
+ HOUSING2       0.000         0.000         0.000
+ HOUSING3       0.000         0.000         0.000
+
+
+           PSI
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ HOUSING1       0.075
+ HOUSING2       0.000         0.063
+ HOUSING3       0.000         0.000         0.011
+
+
+     STARTING VALUES FOR LATENT CLASS REGRESSION MODEL PART
+
+
+           ALPHA(C)
+              C#1           C#2           C#3
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           GAMMA(C)
+              HOUSING1      HOUSING2      HOUSING3
+              ________      ________      ________
+ C#1            0.000         0.000         0.000
+ C#2            0.000         0.000         0.000
+ C#3            0.000         0.000         0.000
+
+
+     Beginning Time:  20:38:56
+        Ending Time:  20:38:58
+       Elapsed Time:  00:00:02
 
 
 

@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-02/10/2023  12:14 PM
+02/16/2023   8:36 PM
 
 INPUT INSTRUCTIONS
 
@@ -13,9 +13,11 @@ INPUT INSTRUCTIONS
   NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
        CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N gender;
    MISSING=.;
-   USEVAR = gender N;
+   USEVAR = N gender1;
   NOMINAL = N;
   CLASSES = c(2);
+  DEFINE:
+  gender1 = gender == 1;
   ANALYSIS:
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
@@ -24,8 +26,8 @@ INPUT INSTRUCTIONS
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  C ON gender;
-  gender;
+  C ON gender1;
+  gender1;
   %C#1%
   [N#1@3.558];
   %C#2%
@@ -60,7 +62,7 @@ Observed dependent variables
    N
 
 Observed independent variables
-   GENDER
+   GENDER1
 
 Categorical latent variables
    C
@@ -124,9 +126,9 @@ Minimum covariance coverage value   0.100
 
 
            Covariance Coverage
-              GENDER
+              GENDER1
               ________
- GENDER         1.000
+ GENDER1        1.000
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
@@ -143,21 +145,21 @@ SAMPLE STATISTICS
 
 
            Means
-              GENDER
+              GENDER1
               ________
-                1.331
+                0.669
 
 
            Covariances
-              GENDER
+              GENDER1
               ________
- GENDER         0.221
+ GENDER1        0.221
 
 
            Correlations
-              GENDER
+              GENDER1
               ________
- GENDER         1.000
+ GENDER1        1.000
 
 
      MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -269.337
@@ -171,15 +173,15 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     GENDER                1.331       0.719       1.000   66.91%       1.000      1.000      1.000
-             405.000       0.221      -1.483       2.000   33.09%       1.000      2.000
+     GENDER1               0.669      -0.719       0.000   33.09%       0.000      1.000      1.000
+             405.000       0.221      -1.483       1.000   66.91%       1.000      1.000
 
      THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES MAY NOT BE
      TRUSTWORTHY FOR SOME PARAMETERS DUE TO A NON-POSITIVE DEFINITE
      FIRST-ORDER DERIVATIVE PRODUCT MATRIX.  THIS MAY BE DUE TO THE STARTING
      VALUES BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE
-     CONDITION NUMBER IS       0.235D-14.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
-     Parameter 2, %C#1%: GENDER (equality/label)
+     CONDITION NUMBER IS       0.228D-14.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
+     Parameter 2, %C#1%: GENDER1 (equality/label)
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -277,33 +279,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    GENDER             1.331      0.023     56.922      0.000
+    GENDER1            0.669      0.023     28.619      0.000
     N#1                3.558      0.000    999.000    999.000
 
  Variances
-    GENDER             0.221      0.008     27.993      0.000
+    GENDER1            0.221      0.008     27.993      0.000
 
 Latent Class 2
 
  Means
-    GENDER             1.331      0.023     56.922      0.000
+    GENDER1            0.669      0.023     28.619      0.000
     N#1               -3.697      0.000    999.000    999.000
 
  Variances
-    GENDER             0.221      0.008     27.993      0.000
+    GENDER1            0.221      0.008     27.993      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    GENDER             0.702      0.233      3.018      0.003
+    GENDER1           -0.702      0.233     -3.018      0.003
 
  Intercepts
-    C#1               -1.617      0.340     -4.758      0.000
+    C#1               -0.214      0.183     -1.166      0.243
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.235E-14
+     Condition Number for the Information Matrix              0.228E-14
        (ratio of smallest to largest eigenvalue)
 
 
@@ -315,7 +317,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    GENDER             2.017      0.469      1.279      3.183
+    GENDER1            0.496      0.115      0.314      0.782
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -326,10 +328,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    GENDER            -0.702      0.233     -3.018      0.003
+    GENDER1            0.702      0.233      3.018      0.003
 
  Intercepts
-    C#2                1.617      0.340      4.758      0.000
+    C#2                0.214      0.183      1.166      0.243
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -340,7 +342,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    GENDER             0.496      0.115      0.314      0.782
+    GENDER1            2.017      0.469      1.279      3.183
 
 
 STANDARDIZED MODEL RESULTS
@@ -354,20 +356,20 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    GENDER             2.828      0.001   3402.557      0.000
+    GENDER1            1.422      0.075     18.938      0.000
     N#1                3.558      0.000    999.000    999.000
 
  Variances
-    GENDER             1.000      0.000    999.000    999.000
+    GENDER1            1.000      0.000    999.000    999.000
 
 Latent Class 2
 
  Means
-    GENDER             2.828      0.001   3402.557      0.000
+    GENDER1            1.422      0.075     18.938      0.000
     N#1               -3.697      0.000    999.000    999.000
 
  Variances
-    GENDER             1.000      0.000    999.000    999.000
+    GENDER1            1.000      0.000    999.000    999.000
 
 
 STDY Standardization
@@ -378,20 +380,20 @@ STDY Standardization
 Latent Class 1
 
  Means
-    GENDER             2.828      0.001   3402.557      0.000
+    GENDER1            1.422      0.075     18.938      0.000
     N#1                3.558      0.000    999.000    999.000
 
  Variances
-    GENDER             1.000      0.000    999.000    999.000
+    GENDER1            1.000      0.000    999.000    999.000
 
 Latent Class 2
 
  Means
-    GENDER             2.828      0.001   3402.557      0.000
+    GENDER1            1.422      0.075     18.938      0.000
     N#1               -3.697      0.000    999.000    999.000
 
  Variances
-    GENDER             1.000      0.000    999.000    999.000
+    GENDER1            1.000      0.000    999.000    999.000
 
 
 STD Standardization
@@ -402,20 +404,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    GENDER             1.331      0.023     56.922      0.000
+    GENDER1            0.669      0.023     28.619      0.000
     N#1                3.558      0.000    999.000    999.000
 
  Variances
-    GENDER             0.221      0.008     27.993      0.000
+    GENDER1            0.221      0.008     27.993      0.000
 
 Latent Class 2
 
  Means
-    GENDER             1.331      0.023     56.922      0.000
+    GENDER1            0.669      0.023     28.619      0.000
     N#1               -3.697      0.000    999.000    999.000
 
  Variances
-    GENDER             0.221      0.008     27.993      0.000
+    GENDER1            0.221      0.008     27.993      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -425,28 +427,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    GENDER           1.271       1.285       1.292       1.331       1.369       1.377       1.391
+    GENDER1          0.609       0.623       0.631       0.669       0.708       0.715       0.729
     N#1              3.558       3.558       3.558       3.558       3.558       3.558       3.558
 
  Variances
-    GENDER           0.201       0.206       0.208       0.221       0.234       0.237       0.242
+    GENDER1          0.201       0.206       0.208       0.221       0.234       0.237       0.242
 
 Latent Class 2
 
  Means
-    GENDER           1.271       1.285       1.292       1.331       1.369       1.377       1.391
+    GENDER1          0.609       0.623       0.631       0.669       0.708       0.715       0.729
     N#1             -3.697      -3.697      -3.697      -3.697      -3.697      -3.697      -3.697
 
  Variances
-    GENDER           0.201       0.206       0.208       0.221       0.234       0.237       0.242
+    GENDER1          0.201       0.206       0.208       0.221       0.234       0.237       0.242
 
 Categorical Latent Variables
 
  C#1      ON
-    GENDER           0.103       0.246       0.319       0.702       1.084       1.158       1.301
+    GENDER1         -1.301      -1.158      -1.084      -0.702      -0.319      -0.246      -0.103
 
  Intercepts
-    C#1             -2.493      -2.284      -2.177      -1.617      -1.058      -0.951      -0.742
+    C#1             -0.686      -0.573      -0.515      -0.214       0.088       0.145       0.258
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -454,7 +456,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    GENDER           1.108       1.279       1.376       2.017       2.958       3.183       3.673
+    GENDER1          0.272       0.314       0.338       0.496       0.727       0.782       0.902
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -462,10 +464,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    GENDER          -1.301      -1.158      -1.084      -0.702      -0.319      -0.246      -0.103
+    GENDER1          0.103       0.246       0.319       0.702       1.084       1.158       1.301
 
  Intercepts
-    C#2              0.742       0.951       1.058       1.617       2.177       2.284       2.493
+    C#2             -0.258      -0.145      -0.088       0.214       0.515       0.573       0.686
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -474,7 +476,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    GENDER           0.272       0.314       0.338       0.496       0.727       0.782       0.902
+    GENDER1          1.108       1.279       1.376       2.017       2.958       3.183       3.673
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -487,20 +489,20 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    GENDER           2.826       2.827       2.827       2.828       2.830       2.830       2.831
+    GENDER1          1.229       1.275       1.299       1.422       1.546       1.569       1.616
     N#1              3.558       3.558       3.558       3.558       3.558       3.558       3.558
 
  Variances
-    GENDER           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    GENDER1          1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 Latent Class 2
 
  Means
-    GENDER           2.826       2.827       2.827       2.828       2.830       2.830       2.831
+    GENDER1          1.229       1.275       1.299       1.422       1.546       1.569       1.616
     N#1             -3.697      -3.697      -3.697      -3.697      -3.697      -3.697      -3.697
 
  Variances
-    GENDER           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    GENDER1          1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 
 STDY Standardization
@@ -510,20 +512,20 @@ STDY Standardization
 Latent Class 1
 
  Means
-    GENDER           2.826       2.827       2.827       2.828       2.830       2.830       2.831
+    GENDER1          1.229       1.275       1.299       1.422       1.546       1.569       1.616
     N#1              3.558       3.558       3.558       3.558       3.558       3.558       3.558
 
  Variances
-    GENDER           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    GENDER1          1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 Latent Class 2
 
  Means
-    GENDER           2.826       2.827       2.827       2.828       2.830       2.830       2.831
+    GENDER1          1.229       1.275       1.299       1.422       1.546       1.569       1.616
     N#1             -3.697      -3.697      -3.697      -3.697      -3.697      -3.697      -3.697
 
  Variances
-    GENDER           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    GENDER1          1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 
 STD Standardization
@@ -533,20 +535,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    GENDER           1.271       1.285       1.292       1.331       1.369       1.377       1.391
+    GENDER1          0.609       0.623       0.631       0.669       0.708       0.715       0.729
     N#1              3.558       3.558       3.558       3.558       3.558       3.558       3.558
 
  Variances
-    GENDER           0.201       0.206       0.208       0.221       0.234       0.237       0.242
+    GENDER1          0.201       0.206       0.208       0.221       0.234       0.237       0.242
 
 Latent Class 2
 
  Means
-    GENDER           1.271       1.285       1.292       1.331       1.369       1.377       1.391
+    GENDER1          0.609       0.623       0.631       0.669       0.708       0.715       0.729
     N#1             -3.697      -3.697      -3.697      -3.697      -3.697      -3.697      -3.697
 
  Variances
-    GENDER           0.201       0.206       0.208       0.221       0.234       0.237       0.242
+    GENDER1          0.201       0.206       0.208       0.221       0.234       0.237       0.242
 
 
 TECHNICAL 1 OUTPUT
@@ -556,82 +558,82 @@ TECHNICAL 1 OUTPUT
 
 
            NU
-              N#1           GENDER
+              N#1           GENDER1
               ________      ________
                     0             0
 
 
            LAMBDA
-              GENDER
+              GENDER1
               ________
  N#1                0
- GENDER             0
+ GENDER1            0
 
 
            THETA
-              N#1           GENDER
+              N#1           GENDER1
               ________      ________
  N#1                0
- GENDER             0             0
+ GENDER1            0             0
 
 
            ALPHA
-              GENDER
+              GENDER1
               ________
                     1
 
 
            BETA
-              GENDER
+              GENDER1
               ________
- GENDER             0
+ GENDER1            0
 
 
            PSI
-              GENDER
+              GENDER1
               ________
- GENDER             2
+ GENDER1            2
 
 
      PARAMETER SPECIFICATION FOR LATENT CLASS 2
 
 
            NU
-              N#1           GENDER
+              N#1           GENDER1
               ________      ________
                     0             0
 
 
            LAMBDA
-              GENDER
+              GENDER1
               ________
  N#1                0
- GENDER             0
+ GENDER1            0
 
 
            THETA
-              N#1           GENDER
+              N#1           GENDER1
               ________      ________
  N#1                0
- GENDER             0             0
+ GENDER1            0             0
 
 
            ALPHA
-              GENDER
+              GENDER1
               ________
                     1
 
 
            BETA
-              GENDER
+              GENDER1
               ________
- GENDER             0
+ GENDER1            0
 
 
            PSI
-              GENDER
+              GENDER1
               ________
- GENDER             2
+ GENDER1            2
 
 
      PARAMETER SPECIFICATION FOR LATENT CLASS REGRESSION MODEL PART
@@ -644,7 +646,7 @@ TECHNICAL 1 OUTPUT
 
 
            GAMMA(C)
-              GENDER
+              GENDER1
               ________
  C#1                4
  C#2                0
@@ -654,82 +656,82 @@ TECHNICAL 1 OUTPUT
 
 
            NU
-              N#1           GENDER
+              N#1           GENDER1
               ________      ________
                 3.558         0.000
 
 
            LAMBDA
-              GENDER
+              GENDER1
               ________
  N#1            0.000
- GENDER         1.000
+ GENDER1        1.000
 
 
            THETA
-              N#1           GENDER
+              N#1           GENDER1
               ________      ________
  N#1            0.000
- GENDER         0.000         0.000
+ GENDER1        0.000         0.000
 
 
            ALPHA
-              GENDER
+              GENDER1
               ________
-                1.331
+                0.669
 
 
            BETA
-              GENDER
+              GENDER1
               ________
- GENDER         0.000
+ GENDER1        0.000
 
 
            PSI
-              GENDER
+              GENDER1
               ________
- GENDER         0.111
+ GENDER1        0.111
 
 
      STARTING VALUES FOR LATENT CLASS 2
 
 
            NU
-              N#1           GENDER
+              N#1           GENDER1
               ________      ________
                -3.697         0.000
 
 
            LAMBDA
-              GENDER
+              GENDER1
               ________
  N#1            0.000
- GENDER         1.000
+ GENDER1        1.000
 
 
            THETA
-              N#1           GENDER
+              N#1           GENDER1
               ________      ________
  N#1            0.000
- GENDER         0.000         0.000
+ GENDER1        0.000         0.000
 
 
            ALPHA
-              GENDER
+              GENDER1
               ________
-                1.331
+                0.669
 
 
            BETA
-              GENDER
+              GENDER1
               ________
- GENDER         0.000
+ GENDER1        0.000
 
 
            PSI
-              GENDER
+              GENDER1
               ________
- GENDER         0.111
+ GENDER1        0.111
 
 
      STARTING VALUES FOR LATENT CLASS REGRESSION MODEL PART
@@ -742,14 +744,14 @@ TECHNICAL 1 OUTPUT
 
 
            GAMMA(C)
-              GENDER
+              GENDER1
               ________
  C#1            0.000
  C#2            0.000
 
 
-     Beginning Time:  12:14:43
-        Ending Time:  12:14:43
+     Beginning Time:  20:36:42
+        Ending Time:  20:36:42
        Elapsed Time:  00:00:00
 
 

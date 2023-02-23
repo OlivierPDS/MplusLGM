@@ -7,9 +7,12 @@ FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/marital2_R3ST
 VARIABLE:
 NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N marital2; 
  MISSING=.;
- USEVAR = marital2 N;
+ USEVAR = N marital21 marital22;
 NOMINAL = N;
 CLASSES = c(2);
+DEFINE:
+marital21 = marital2 == 1;
+marital22 = marital2 == 2;
 ANALYSIS:
 TYPE = MIXTURE;
 ALGORITHM = INTEGRATION;
@@ -18,8 +21,8 @@ STARTS = 0;
 PROCESSORS = 8;
 MODEL:
 %OVERALL%
-C ON marital2;
-marital2;
+C ON marital21 marital22;
+marital21 marital22;
 %C#1%
 [N#1@2.378];
 %C#2%

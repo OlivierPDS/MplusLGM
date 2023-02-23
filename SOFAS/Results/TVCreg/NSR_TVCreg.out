@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-02/09/2023   3:00 PM
+02/15/2023  10:59 AM
 
 INPUT INSTRUCTIONS
 
@@ -14,32 +14,34 @@ INPUT INSTRUCTIONS
   NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N NSR_0 NSR_12
        NSR_24;
    MISSING=.;
-   USEVAR = NSR_0 NSR_12 NSR_24 SOFAS_0 SOFAS_12 SOFAS_24 N;
+   USEVAR = N SOFAS_0 SOFAS_12 SOFAS_24 NSR_01 NSR_121 NSR_241;
    NOMINAL = N;
    CLASSES = c(2);
 
+  DEFINE:
+  NSR_01 = NSR_0 == 1; NSR_121 = NSR_12 == 1; NSR_241 = NSR_24 == 1;
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 0;
+  STARTS = 500;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  SOFAS_0 ON NSR_0;
-  SOFAS_12 ON NSR_12;
-  SOFAS_24 ON NSR_24;
-  NSR_0 NSR_12 NSR_24;
+  SOFAS_0 ON NSR_01;
+  SOFAS_12 ON NSR_121;
+  SOFAS_24 ON NSR_241;
+  NSR_01 NSR_121 NSR_241;
   %C#1%
   [N#1@2.378];
-  SOFAS_0 ON NSR_0;
-  SOFAS_12 ON NSR_12;
-  SOFAS_24 ON NSR_24;
-  NSR_0 NSR_12 NSR_24;
+  SOFAS_0 ON NSR_01;
+  SOFAS_12 ON NSR_121;
+  SOFAS_24 ON NSR_241;
+  NSR_01 NSR_121 NSR_241;
   %C#2%
   [N#1@-1.949];
-  SOFAS_0 ON NSR_0;
-  SOFAS_12 ON NSR_12;
-  SOFAS_24 ON NSR_24;
-  NSR_0 NSR_12 NSR_24;
+  SOFAS_0 ON NSR_01;
+  SOFAS_12 ON NSR_121;
+  SOFAS_24 ON NSR_241;
+  NSR_01 NSR_121 NSR_241;
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
@@ -74,7 +76,7 @@ Observed dependent variables
    N
 
 Observed independent variables
-   NSR_0       NSR_12      NSR_24
+   NSR_01      NSR_121     NSR_241
 
 Categorical latent variables
    C
@@ -109,6 +111,13 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                        500
+  Number of final stage optimizations                          500
+  Number of initial stage iterations                             1
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
 
 Input data file(s)
   /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/TVCreg/NSR_TVCreg.dat
@@ -131,20 +140,20 @@ Minimum covariance coverage value   0.100
 
 
            Covariance Coverage
-              SOFAS_0       SOFAS_12      SOFAS_24      NSR_0         NSR_12
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
               ________      ________      ________      ________      ________
  SOFAS_0        0.978
  SOFAS_12       0.889         0.911
  SOFAS_24       0.615         0.547         0.637
- NSR_0          0.978         0.911         0.637         1.000
- NSR_12         0.840         0.810         0.583         0.862         0.862
- NSR_24         0.729         0.661         0.631         0.751         0.696
+ NSR_01         0.978         0.911         0.637         1.000
+ NSR_121        0.840         0.810         0.583         0.862         0.862
+ NSR_241        0.729         0.661         0.631         0.751         0.696
 
 
            Covariance Coverage
-              NSR_24
+              NSR_241
               ________
- NSR_24         0.751
+ NSR_241        0.751
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
@@ -155,6 +164,58 @@ UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
 
 SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+               40.519        61.570        63.525         0.889         0.564
+
+
+           Means
+              NSR_241
+              ________
+                0.477
+
+
+           Covariances
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0      164.315
+ SOFAS_12      62.483       285.783
+ SOFAS_24      39.746       174.927       321.457
+ NSR_01        -1.294        -0.785        -1.058         0.099
+ NSR_121       -1.020        -5.732        -3.944         0.016         0.246
+ NSR_241       -1.065        -3.133        -6.332         0.028         0.087
+
+
+           Covariances
+              NSR_241
+              ________
+ NSR_241        0.250
+
+
+           Correlations
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0        1.000
+ SOFAS_12       0.288         1.000
+ SOFAS_24       0.173         0.577         1.000
+ NSR_01        -0.321        -0.148        -0.188         1.000
+ NSR_121       -0.160        -0.684        -0.444         0.101         1.000
+ NSR_241       -0.166        -0.371        -0.707         0.176         0.352
+
+
+           Correlations
+              NSR_241
+              ________
+ NSR_241        1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -4133.720
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -171,205 +232,1440 @@ UNIVARIATE SAMPLE STATISTICS
              336.000     284.876      -0.861      95.000    0.30%      68.000     80.000
      SOFAS_24             63.472      -0.261       5.000    0.43%      49.000     60.000     65.000
              235.000     328.649      -0.615     100.000    0.85%      70.000     80.000
-     NSR_0                 1.111       2.475       1.000   88.89%       1.000      1.000      1.000
-             369.000       0.099       4.125       2.000   11.11%       1.000      1.000
-     NSR_12                1.443       0.228       1.000   55.66%       1.000      1.000      1.000
-             318.000       0.247      -1.948       2.000   44.34%       2.000      2.000
-     NSR_24                1.513      -0.051       1.000   48.74%       1.000      1.000      2.000
-             277.000       0.250      -1.997       2.000   51.26%       2.000      2.000
+     NSR_01                0.889      -2.475       0.000   11.11%       1.000      1.000      1.000
+             369.000       0.099       4.125       1.000   88.89%       1.000      1.000
+     NSR_121               0.557      -0.228       0.000   44.34%       0.000      0.000      1.000
+             318.000       0.247      -1.948       1.000   55.66%       1.000      1.000
+     NSR_241               0.487       0.051       0.000   51.26%       0.000      0.000      0.000
+             277.000       0.250      -1.997       1.000   48.74%       1.000      1.000
 
-     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 1 COULD NOT
-     BE INVERTED.  PROBLEM INVOLVING VARIABLE NSR_0.  COMPUTATION COULD
-     NOT BE COMPLETED IN ITERATION 3.  CHANGE YOUR MODEL AND/OR STARTING
-     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
-     VARIATION FOR THE VARIABLE.
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+           -4570.135  418686           338
+           -4570.135  321390           133
+           -4609.075  462228           298
+
+Unperturbed starting value run did not converge or was rejected in the third stage.
+
+496 perturbed starting value run(s) did not converge or were rejected in the third stage.
 
 
-     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
-     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+
+THE BEST LOGLIKELIHOOD VALUE HAS BEEN REPLICATED.  RERUN WITH AT LEAST TWICE THE
+RANDOM STARTS TO CHECK THAT THE BEST LOGLIKELIHOOD IS STILL OBTAINED AND REPLICATED.
+
+     THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES MAY NOT BE
+     TRUSTWORTHY FOR SOME PARAMETERS DUE TO A NON-POSITIVE DEFINITE
+     FIRST-ORDER DERIVATIVE PRODUCT MATRIX.  THIS MAY BE DUE TO THE STARTING
+     VALUES BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE
+     CONDITION NUMBER IS      -0.145D-15.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
+     Parameter 21, %C#1%: NSR_241
+
+     THIS IS MOST LIKELY DUE TO A BINARY OUTCOME NSR_241 BEING TREATED AS
+     CONTINUOUS.  IF THIS IS THE CASE, THE STANDARD ERRORS MAY STILL BE USED.
+
+     ONE OR MORE PARAMETERS WERE FIXED TO AVOID SINGULARITY OF THE
+     INFORMATION MATRIX. THE SINGULARITY IS MOST LIKELY BECAUSE THE
+     MODEL IS NOT IDENTIFIED, OR BECAUSE OF EMPTY CELLS IN THE JOINT
+     DISTRIBUTION OF THE CATEGORICAL VARIABLES IN THE MODEL.
+     THE FOLLOWING PARAMETERS WERE FIXED:
+     Parameter 22, %C#2%: [ SOFAS_0 ]
+     Parameter 23, %C#2%: [ SOFAS_12 ]
+     Parameter 24, %C#2%: [ SOFAS_24 ]
+     Parameter 25, %C#2%: [ NSR_01 ]
+     Parameter 26, %C#2%: [ NSR_121 ]
+     Parameter 27, %C#2%: [ NSR_241 ]
+     Parameter 28, %C#2%: SOFAS_0 ON NSR_01
+     Parameter 29, %C#2%: SOFAS_12 ON NSR_121
+     Parameter 30, %C#2%: SOFAS_24 ON NSR_241
+     Parameter 31, %C#2%: NSR_01
+     Parameter 32, %C#2%: NSR_121
+     Parameter 33, %C#2%: NSR_241
+     Parameter 34, [ C#1 ]
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
 
 
 
+MODEL FIT INFORMATION
 
+Number of Free Parameters                       34
+
+Loglikelihood
+
+          H0 Value                       -4570.135
+          H0 Scaling Correction Factor      0.6560
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    9208.269
+          Bayesian (BIC)                  9341.236
+          Sample-Size Adjusted BIC        9233.366
+            (n* = (n + 2) / 24)
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        369.00000          1.00000
+       2          0.00000          0.00000
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        369.00000          1.00000
+       2          0.00000          0.00000
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              369          1.00000
+       2                0          0.00000
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         1.000
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   1.000    0.000
+    2   0.000    0.000
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   1.000    0.000
+    2   0.000    0.000
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1     13.816    0.000
+    2      0.000    0.000
 
 
 MODEL RESULTS
 
-                    Estimate
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
 
 Latent Class 1
 
  SOFAS_0    ON
-    NSR_0           -191.462
+    NSR_01           -12.290      2.132     -5.764      0.000
 
  SOFAS_12   ON
-    NSR_12            22.056
+    NSR_121          -20.654      1.358    -15.210      0.000
 
  SOFAS_24   ON
-    NSR_24            20.488
+    NSR_241          -24.276      1.731    -14.026      0.000
 
  SOFAS_12 WITH
-    SOFAS_0           33.631
+    SOFAS_0           37.617      8.762      4.293      0.000
 
  SOFAS_24 WITH
-    SOFAS_0            0.540
-    SOFAS_12          55.645
+    SOFAS_0            6.367     12.080      0.527      0.598
+    SOFAS_12          64.988     11.571      5.616      0.000
 
- NSR_12   WITH
-    NSR_0              0.000
+ NSR_121  WITH
+    NSR_01             0.016      0.009      1.814      0.070
 
- NSR_24   WITH
-    NSR_0              0.000
-    NSR_12            -0.009
-
- Means
-    NSR_0              1.000
-    NSR_12             1.186
-    NSR_24             1.277
+ NSR_241  WITH
+    NSR_01             0.028      0.009      3.235      0.001
+    NSR_121            0.087      0.014      6.092      0.000
 
  Means
-    N#1                2.378
+    NSR_01             0.889      0.016     54.332      0.000
+    NSR_121            0.562      0.027     20.785      0.000
+    NSR_241            0.479      0.029     16.302      0.000
+
+ Means
+    N#1                2.378      0.000    999.000    999.000
 
  Intercepts
-    SOFAS_0          229.046
-    SOFAS_12          29.136
-    SOFAS_24          29.100
+    SOFAS_0           51.456      2.022     25.442      0.000
+    SOFAS_12          73.143      0.982     74.519      0.000
+    SOFAS_24          74.956      1.027     72.972      0.000
 
  Variances
-    NSR_0              0.000
-    NSR_12             0.164
-    NSR_24             0.175
+    NSR_01             0.099      0.013      7.762      0.000
+    NSR_121            0.248      0.004     62.866      0.000
+    NSR_241            0.249      0.001    179.522      0.000
 
  Residual Variances
-    SOFAS_0          142.441
-    SOFAS_12         155.545
-    SOFAS_24         157.143
+    SOFAS_0          147.426     12.124     12.160      0.000
+    SOFAS_12         154.749     13.232     11.695      0.000
+    SOFAS_24         162.530     16.115     10.086      0.000
 
 Latent Class 2
 
  SOFAS_0    ON
-    NSR_0              8.443
+    NSR_01            -0.599      0.000    999.000    999.000
 
  SOFAS_12   ON
-    NSR_12            20.478
+    NSR_121           -0.514      0.000    999.000    999.000
 
  SOFAS_24   ON
-    NSR_24            19.651
+    NSR_241            3.742      0.000    999.000    999.000
 
  SOFAS_12 WITH
-    SOFAS_0           33.631
+    SOFAS_0           37.617      8.762      4.293      0.000
 
  SOFAS_24 WITH
-    SOFAS_0            0.540
-    SOFAS_12          55.645
+    SOFAS_0            6.367     12.080      0.527      0.598
+    SOFAS_12          64.988     11.571      5.616      0.000
 
- NSR_12   WITH
-    NSR_0              0.000
+ NSR_121  WITH
+    NSR_01             0.016      0.009      1.814      0.070
 
- NSR_24   WITH
-    NSR_0              0.000
-    NSR_12            -0.009
-
- Means
-    NSR_0              1.321
-    NSR_12             1.807
-    NSR_24             1.880
+ NSR_241  WITH
+    NSR_01             0.028      0.009      3.235      0.001
+    NSR_121            0.087      0.014      6.092      0.000
 
  Means
-    N#1               -1.949
+    NSR_01             2.566      0.000    999.000    999.000
+    NSR_121            1.647      0.000    999.000    999.000
+    NSR_241            1.143      0.000    999.000    999.000
+
+ Means
+    N#1               -1.949      0.000    999.000    999.000
 
  Intercepts
-    SOFAS_0           34.951
-    SOFAS_12          33.890
-    SOFAS_24          38.479
+    SOFAS_0           83.520      0.000    999.000    999.000
+    SOFAS_12         138.142      0.000    999.000    999.000
+    SOFAS_24          39.663      0.000    999.000    999.000
 
  Variances
-    NSR_0              0.218
-    NSR_12             0.126
-    NSR_24             0.082
+    NSR_01             0.118      0.000    999.000    999.000
+    NSR_121            0.261      0.000    999.000    999.000
+    NSR_241            0.228      0.000    999.000    999.000
 
  Residual Variances
-    SOFAS_0          142.441
-    SOFAS_12         155.545
-    SOFAS_24         157.143
+    SOFAS_0          147.426     12.124     12.160      0.000
+    SOFAS_12         154.749     13.232     11.695      0.000
+    SOFAS_24         162.530     16.115     10.086      0.000
 
 Categorical Latent Variables
 
  Means
-    C#1                0.603
+    C#1              121.695      0.000    999.000    999.000
 
 
-MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+QUALITY OF NUMERICAL RESULTS
 
-     %OVERALL%
-
-     sofas_0 ON nsr_0;
-     sofas_12 ON nsr_12;
-     sofas_24 ON nsr_24;
-
-     [ c#1*0.60293 ];
-
-     %C#1%
-
-     sofas_0 ON nsr_0*-191.46152;
-     sofas_12 ON nsr_12*22.05646;
-     sofas_24 ON nsr_24*20.48760;
-
-     sofas_12 WITH sofas_0*33.63094 (11);
-     sofas_24 WITH sofas_0*0.53963 (13);
-     sofas_24 WITH sofas_12*55.64474 (14);
-     nsr_12 WITH nsr_0*0.00000 (17);
-     nsr_24 WITH nsr_0*0.00000 (19);
-     nsr_24 WITH nsr_12*-0.00876 (20);
-
-     [ sofas_0*229.04591 ];
-     [ sofas_12*29.13595 ];
-     [ sofas_24*29.09953 ];
-     [ nsr_0*1.00001 ];
-     [ nsr_12*1.18599 ];
-     [ nsr_24*1.27683 ];
-     [ n#1@2.37800 ];
-
-     sofas_0*142.44070 (10);
-     sofas_12*155.54546 (12);
-     sofas_24*157.14305 (15);
-     nsr_0*0.00000;
-     nsr_12*0.16383;
-     nsr_24*0.17527;
-
-     %C#2%
-
-     sofas_0 ON nsr_0*8.44257;
-     sofas_12 ON nsr_12*20.47831;
-     sofas_24 ON nsr_24*19.65112;
-
-     sofas_12 WITH sofas_0*33.63094 (11);
-     sofas_24 WITH sofas_0*0.53963 (13);
-     sofas_24 WITH sofas_12*55.64474 (14);
-     nsr_12 WITH nsr_0*0.00000 (17);
-     nsr_24 WITH nsr_0*0.00000 (19);
-     nsr_24 WITH nsr_12*-0.00876 (20);
-
-     [ sofas_0*34.95120 ];
-     [ sofas_12*33.89032 ];
-     [ sofas_24*38.47940 ];
-     [ nsr_0*1.32089 ];
-     [ nsr_12*1.80653 ];
-     [ nsr_24*1.87963 ];
-     [ n#1@-1.94900 ];
-
-     sofas_0*142.44070 (10);
-     sofas_12*155.54546 (12);
-     sofas_24*157.14305 (15);
-     nsr_0*0.21758;
-     nsr_12*0.12616;
-     nsr_24*0.08170;
+     Condition Number for the Information Matrix              0.398E-05
+       (ratio of smallest to largest eigenvalue)
 
 
+STANDARDIZED MODEL RESULTS
 
-     Beginning Time:  15:00:31
-        Ending Time:  15:00:31
-       Elapsed Time:  00:00:00
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ SOFAS_0    ON
+    NSR_01            -0.303      0.054     -5.581      0.000
+
+ SOFAS_12   ON
+    NSR_121           -0.637      0.035    -18.080      0.000
+
+ SOFAS_24   ON
+    NSR_241           -0.689      0.034    -20.461      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            0.249      0.052      4.774      0.000
+
+ SOFAS_24 WITH
+    SOFAS_0            0.041      0.078      0.525      0.599
+    SOFAS_12           0.410      0.062      6.657      0.000
+
+ NSR_121  WITH
+    NSR_01             0.102      0.055      1.853      0.064
+
+ NSR_241  WITH
+    NSR_01             0.180      0.052      3.467      0.001
+    NSR_121            0.350      0.057      6.116      0.000
+
+ Means
+    NSR_01             2.828      0.234     12.074      0.000
+    NSR_121            1.129      0.061     18.375      0.000
+    NSR_241            0.960      0.057     16.747      0.000
+
+ Intercepts
+    SOFAS_0            4.039      0.180     22.404      0.000
+    SOFAS_12           4.532      0.120     37.791      0.000
+    SOFAS_24           4.262      0.158     27.017      0.000
+
+ Variances
+    NSR_01             1.000      0.000    999.000    999.000
+    NSR_121            1.000      0.000    999.000    999.000
+    NSR_241            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.908      0.033     27.578      0.000
+    SOFAS_12           0.594      0.045     13.238      0.000
+    SOFAS_24           0.526      0.046     11.332      0.000
+
+Latent Class 2
+
+ SOFAS_0    ON
+    NSR_01            -0.017      0.001    -24.326      0.000
+
+ SOFAS_12   ON
+    NSR_121           -0.021      0.001    -23.401      0.000
+
+ SOFAS_24   ON
+    NSR_241            0.139      0.007     20.567      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            0.249      0.052      4.774      0.000
+
+ SOFAS_24 WITH
+    SOFAS_0            0.041      0.078      0.525      0.599
+    SOFAS_12           0.410      0.062      6.657      0.000
+
+ NSR_121  WITH
+    NSR_01             0.091      0.050      1.814      0.070
+
+ NSR_241  WITH
+    NSR_01             0.173      0.053      3.235      0.001
+    NSR_121            0.356      0.058      6.092      0.000
+
+ Means
+    NSR_01             7.480      0.000    999.000    999.000
+    NSR_121            3.222      0.000    999.000    999.000
+    NSR_241            2.394      0.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0            6.878      0.283     24.326      0.000
+    SOFAS_12          11.102      0.474     23.401      0.000
+    SOFAS_24           3.081      0.150     20.567      0.000
+
+ Variances
+    NSR_01             1.000      0.000    999.000    999.000
+    NSR_121            1.000      0.000    999.000    999.000
+    NSR_241            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            1.000      0.000  42441.969      0.000
+    SOFAS_12           1.000      0.000  26253.793      0.000
+    SOFAS_24           0.981      0.002    523.986      0.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ SOFAS_0    ON
+    NSR_01            -0.303      0.054     -5.581      0.000
+
+ SOFAS_12   ON
+    NSR_121           -0.637      0.035    -18.080      0.000
+
+ SOFAS_24   ON
+    NSR_241           -0.689      0.034    -20.461      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            0.249      0.052      4.774      0.000
+
+ SOFAS_24 WITH
+    SOFAS_0            0.041      0.078      0.525      0.599
+    SOFAS_12           0.410      0.062      6.657      0.000
+
+ NSR_121  WITH
+    NSR_01             0.102      0.055      1.853      0.064
+
+ NSR_241  WITH
+    NSR_01             0.180      0.052      3.467      0.001
+    NSR_121            0.350      0.057      6.116      0.000
+
+ Means
+    NSR_01             2.828      0.234     12.074      0.000
+    NSR_121            1.129      0.061     18.375      0.000
+    NSR_241            0.960      0.057     16.747      0.000
+
+ Intercepts
+    SOFAS_0            4.039      0.180     22.404      0.000
+    SOFAS_12           4.532      0.120     37.791      0.000
+    SOFAS_24           4.262      0.158     27.017      0.000
+
+ Variances
+    NSR_01             1.000      0.000    999.000    999.000
+    NSR_121            1.000      0.000    999.000    999.000
+    NSR_241            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            0.908      0.033     27.578      0.000
+    SOFAS_12           0.594      0.045     13.238      0.000
+    SOFAS_24           0.526      0.046     11.332      0.000
+
+Latent Class 2
+
+ SOFAS_0    ON
+    NSR_01            -0.017      0.001    -24.326      0.000
+
+ SOFAS_12   ON
+    NSR_121           -0.021      0.001    -23.401      0.000
+
+ SOFAS_24   ON
+    NSR_241            0.139      0.007     20.567      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0            0.249      0.052      4.774      0.000
+
+ SOFAS_24 WITH
+    SOFAS_0            0.041      0.078      0.525      0.599
+    SOFAS_12           0.410      0.062      6.657      0.000
+
+ NSR_121  WITH
+    NSR_01             0.091      0.050      1.814      0.070
+
+ NSR_241  WITH
+    NSR_01             0.173      0.053      3.235      0.001
+    NSR_121            0.356      0.058      6.092      0.000
+
+ Means
+    NSR_01             7.480      0.000    999.000    999.000
+    NSR_121            3.222      0.000    999.000    999.000
+    NSR_241            2.394      0.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0            6.878      0.283     24.326      0.000
+    SOFAS_12          11.102      0.474     23.401      0.000
+    SOFAS_24           3.081      0.150     20.567      0.000
+
+ Variances
+    NSR_01             1.000      0.000    999.000    999.000
+    NSR_121            1.000      0.000    999.000    999.000
+    NSR_241            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0            1.000      0.000  42441.969      0.000
+    SOFAS_12           1.000      0.000  26253.793      0.000
+    SOFAS_24           0.981      0.002    523.986      0.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ SOFAS_0    ON
+    NSR_01           -12.290      2.132     -5.764      0.000
+
+ SOFAS_12   ON
+    NSR_121          -20.654      1.358    -15.210      0.000
+
+ SOFAS_24   ON
+    NSR_241          -24.276      1.731    -14.026      0.000
+
+ SOFAS_12 WITH
+    SOFAS_0           37.617      8.762      4.293      0.000
+
+ SOFAS_24 WITH
+    SOFAS_0            6.367     12.080      0.527      0.598
+    SOFAS_12          64.988     11.571      5.616      0.000
+
+ NSR_121  WITH
+    NSR_01             0.016      0.009      1.814      0.070
+
+ NSR_241  WITH
+    NSR_01             0.028      0.009      3.235      0.001
+    NSR_121            0.087      0.014      6.092      0.000
+
+ Means
+    NSR_01             0.889      0.016     54.332      0.000
+    NSR_121            0.562      0.027     20.785      0.000
+    NSR_241            0.479      0.029     16.302      0.000
+
+ Intercepts
+    SOFAS_0           51.456      2.022     25.442      0.000
+    SOFAS_12          73.143      0.982     74.519      0.000
+    SOFAS_24          74.956      1.027     72.972      0.000
+
+ Variances
+    NSR_01             0.099      0.013      7.762      0.000
+    NSR_121            0.248      0.004     62.866      0.000
+    NSR_241            0.249      0.001    179.522      0.000
+
+ Residual Variances
+    SOFAS_0          147.426     12.124     12.160      0.000
+    SOFAS_12         154.749     13.232     11.695      0.000
+    SOFAS_24         162.530     16.115     10.086      0.000
+
+Latent Class 2
+
+ SOFAS_0    ON
+    NSR_01            -0.599      0.000    999.000    999.000
+
+ SOFAS_12   ON
+    NSR_121           -0.514      0.000    999.000    999.000
+
+ SOFAS_24   ON
+    NSR_241            3.742      0.000    999.000    999.000
+
+ SOFAS_12 WITH
+    SOFAS_0           37.617      8.762      4.293      0.000
+
+ SOFAS_24 WITH
+    SOFAS_0            6.367     12.080      0.527      0.598
+    SOFAS_12          64.988     11.571      5.616      0.000
+
+ NSR_121  WITH
+    NSR_01             0.016      0.009      1.814      0.070
+
+ NSR_241  WITH
+    NSR_01             0.028      0.009      3.235      0.001
+    NSR_121            0.087      0.014      6.092      0.000
+
+ Means
+    NSR_01             2.566      0.000    999.000    999.000
+    NSR_121            1.647      0.000    999.000    999.000
+    NSR_241            1.143      0.000    999.000    999.000
+
+ Intercepts
+    SOFAS_0           83.520      0.000    999.000    999.000
+    SOFAS_12         138.142      0.000    999.000    999.000
+    SOFAS_24          39.663      0.000    999.000    999.000
+
+ Variances
+    NSR_01             0.118      0.000    999.000    999.000
+    NSR_121            0.261      0.000    999.000    999.000
+    NSR_241            0.228      0.000    999.000    999.000
+
+ Residual Variances
+    SOFAS_0          147.426     12.124     12.160      0.000
+    SOFAS_12         154.749     13.232     11.695      0.000
+    SOFAS_24         162.530     16.115     10.086      0.000
+
+
+R-SQUARE
+
+Class 1
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SOFAS_0            0.092      0.033      2.791      0.005
+    SOFAS_12           0.406      0.045      9.040      0.000
+    SOFAS_24           0.474      0.046     10.231      0.000
+
+Class 2
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SOFAS_0            0.000      0.000     12.163      0.000
+    SOFAS_12           0.000      0.000     11.701      0.000
+    SOFAS_24           0.019      0.002     10.284      0.000
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ SOFAS_0  ON
+    NSR_01         -17.782     -16.469     -15.797     -12.290      -8.783      -8.111      -6.798
+
+ SOFAS_12 ON
+    NSR_121        -24.151     -23.315     -22.887     -20.654     -18.420     -17.992     -17.156
+
+ SOFAS_24 ON
+    NSR_241        -28.734     -27.668     -27.123     -24.276     -21.429     -20.884     -19.818
+
+ SOFAS_12 WITH
+    SOFAS_0         15.048      20.444      23.204      37.617      52.030      54.790      60.186
+
+ SOFAS_24 WITH
+    SOFAS_0        -24.750     -17.311     -13.505       6.367      26.239      30.045      37.484
+    SOFAS_12        35.183      42.309      45.954      64.988      84.023      87.668      94.793
+
+ NSR_121  WITH
+    NSR_01          -0.007      -0.001       0.001       0.016       0.031       0.033       0.039
+
+ NSR_241  WITH
+    NSR_01           0.006       0.011       0.014       0.028       0.043       0.045       0.051
+    NSR_121          0.050       0.059       0.063       0.087       0.110       0.115       0.124
+
+ Means
+    NSR_01           0.847       0.857       0.862       0.889       0.916       0.921       0.931
+    NSR_121          0.492       0.509       0.517       0.562       0.606       0.615       0.631
+    NSR_241          0.403       0.422       0.431       0.479       0.527       0.537       0.555
+
+ Means
+    N#1              2.378       2.378       2.378       2.378       2.378       2.378       2.378
+
+ Intercepts
+    SOFAS_0         46.247      47.492      48.129      51.456      54.783      55.420      56.666
+    SOFAS_12        70.614      71.219      71.528      73.143      74.757      75.066      75.671
+    SOFAS_24        72.310      72.943      73.266      74.956      76.646      76.969      77.602
+
+ Variances
+    NSR_01           0.066       0.074       0.078       0.099       0.120       0.124       0.132
+    NSR_121          0.238       0.240       0.241       0.248       0.254       0.255       0.258
+    NSR_241          0.245       0.246       0.247       0.249       0.251       0.252       0.253
+
+ Residual Variances
+    SOFAS_0        116.196     123.662     127.481     147.426     167.370     171.189     178.655
+    SOFAS_12       120.667     128.815     132.983     154.749     176.515     180.683     188.831
+    SOFAS_24       121.021     130.944     136.020     162.530     189.039     194.115     204.039
+
+Latent Class 2
+
+ SOFAS_0  ON
+    NSR_01          -0.599      -0.599      -0.599      -0.599      -0.599      -0.599      -0.599
+
+ SOFAS_12 ON
+    NSR_121         -0.514      -0.514      -0.514      -0.514      -0.514      -0.514      -0.514
+
+ SOFAS_24 ON
+    NSR_241          3.742       3.742       3.742       3.742       3.742       3.742       3.742
+
+ SOFAS_12 WITH
+    SOFAS_0         15.048      20.444      23.204      37.617      52.030      54.790      60.186
+
+ SOFAS_24 WITH
+    SOFAS_0        -24.750     -17.311     -13.505       6.367      26.239      30.045      37.484
+    SOFAS_12        35.183      42.309      45.954      64.988      84.023      87.668      94.793
+
+ NSR_121  WITH
+    NSR_01          -0.007      -0.001       0.001       0.016       0.031       0.033       0.039
+
+ NSR_241  WITH
+    NSR_01           0.006       0.011       0.014       0.028       0.043       0.045       0.051
+    NSR_121          0.050       0.059       0.063       0.087       0.110       0.115       0.124
+
+ Means
+    NSR_01           2.566       2.566       2.566       2.566       2.566       2.566       2.566
+    NSR_121          1.647       1.647       1.647       1.647       1.647       1.647       1.647
+    NSR_241          1.143       1.143       1.143       1.143       1.143       1.143       1.143
+
+ Means
+    N#1             -1.949      -1.949      -1.949      -1.949      -1.949      -1.949      -1.949
+
+ Intercepts
+    SOFAS_0         83.520      83.520      83.520      83.520      83.520      83.520      83.520
+    SOFAS_12       138.142     138.142     138.142     138.142     138.142     138.142     138.142
+    SOFAS_24        39.663      39.663      39.663      39.663      39.663      39.663      39.663
+
+ Variances
+    NSR_01           0.118       0.118       0.118       0.118       0.118       0.118       0.118
+    NSR_121          0.261       0.261       0.261       0.261       0.261       0.261       0.261
+    NSR_241          0.228       0.228       0.228       0.228       0.228       0.228       0.228
+
+ Residual Variances
+    SOFAS_0        116.196     123.662     127.481     147.426     167.370     171.189     178.655
+    SOFAS_12       120.667     128.815     132.983     154.749     176.515     180.683     188.831
+    SOFAS_24       121.021     130.944     136.020     162.530     189.039     194.115     204.039
+
+Categorical Latent Variables
+
+ Means
+    C#1            121.695     121.695     121.695     121.695     121.695     121.695     121.695
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ SOFAS_0  ON
+    NSR_01          -0.443      -0.410      -0.392      -0.303      -0.214      -0.197      -0.163
+
+ SOFAS_12 ON
+    NSR_121         -0.728      -0.706      -0.695      -0.637      -0.579      -0.568      -0.546
+
+ SOFAS_24 ON
+    NSR_241         -0.776      -0.755      -0.744      -0.689      -0.633      -0.623      -0.602
+
+ SOFAS_12 WITH
+    SOFAS_0          0.115       0.147       0.163       0.249       0.335       0.351       0.383
+
+ SOFAS_24 WITH
+    SOFAS_0         -0.161      -0.112      -0.088       0.041       0.170       0.195       0.243
+    SOFAS_12         0.251       0.289       0.309       0.410       0.511       0.530       0.568
+
+ NSR_121  WITH
+    NSR_01          -0.040      -0.006       0.011       0.102       0.193       0.211       0.245
+
+ NSR_241  WITH
+    NSR_01           0.046       0.078       0.095       0.180       0.266       0.282       0.314
+    NSR_121          0.203       0.238       0.256       0.350       0.444       0.462       0.497
+
+ Means
+    NSR_01           2.225       2.369       2.443       2.828       3.214       3.288       3.432
+    NSR_121          0.971       1.008       1.028       1.129       1.230       1.249       1.287
+    NSR_241          0.813       0.848       0.866       0.960       1.055       1.073       1.108
+
+ Intercepts
+    SOFAS_0          3.574       3.685       3.742       4.039       4.335       4.392       4.503
+    SOFAS_12         4.223       4.297       4.335       4.532       4.730       4.767       4.841
+    SOFAS_24         3.856       3.953       4.003       4.262       4.522       4.572       4.669
+
+ Variances
+    NSR_01           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    NSR_121          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    NSR_241          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    SOFAS_0          0.823       0.844       0.854       0.908       0.962       0.973       0.993
+    SOFAS_12         0.479       0.506       0.520       0.594       0.668       0.682       0.710
+    SOFAS_24         0.406       0.435       0.449       0.526       0.602       0.616       0.645
+
+Latent Class 2
+
+ SOFAS_0  ON
+    NSR_01          -0.019      -0.018      -0.018      -0.017      -0.016      -0.016      -0.015
+
+ SOFAS_12 ON
+    NSR_121         -0.023      -0.023      -0.023      -0.021      -0.020      -0.019      -0.019
+
+ SOFAS_24 ON
+    NSR_241          0.121       0.126       0.128       0.139       0.150       0.152       0.156
+
+ SOFAS_12 WITH
+    SOFAS_0          0.115       0.147       0.163       0.249       0.335       0.351       0.383
+
+ SOFAS_24 WITH
+    SOFAS_0         -0.161      -0.112      -0.088       0.041       0.170       0.195       0.243
+    SOFAS_12         0.251       0.289       0.309       0.410       0.511       0.530       0.568
+
+ NSR_121  WITH
+    NSR_01          -0.038      -0.007       0.009       0.091       0.174       0.190       0.221
+
+ NSR_241  WITH
+    NSR_01           0.035       0.068       0.085       0.173       0.261       0.277       0.310
+    NSR_121          0.206       0.242       0.260       0.356       0.452       0.471       0.507
+
+ Means
+    NSR_01           7.480       7.480       7.480       7.480       7.480       7.480       7.480
+    NSR_121          3.222       3.222       3.222       3.222       3.222       3.222       3.222
+    NSR_241          2.394       2.394       2.394       2.394       2.394       2.394       2.394
+
+ Intercepts
+    SOFAS_0          6.149       6.324       6.413       6.878       7.343       7.432       7.606
+    SOFAS_12         9.880      10.172      10.322      11.102      11.883      12.032      12.324
+    SOFAS_24         2.695       2.787       2.835       3.081       3.327       3.375       3.467
+
+ Variances
+    NSR_01           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    NSR_121          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    NSR_241          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    SOFAS_0          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SOFAS_12         0.999       0.999       0.999       1.000       1.000       1.000       1.000
+    SOFAS_24         0.976       0.977       0.978       0.981       0.984       0.984       0.986
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ SOFAS_0  ON
+    NSR_01          -0.443      -0.410      -0.392      -0.303      -0.214      -0.197      -0.163
+
+ SOFAS_12 ON
+    NSR_121         -0.728      -0.706      -0.695      -0.637      -0.579      -0.568      -0.546
+
+ SOFAS_24 ON
+    NSR_241         -0.776      -0.755      -0.744      -0.689      -0.633      -0.623      -0.602
+
+ SOFAS_12 WITH
+    SOFAS_0          0.115       0.147       0.163       0.249       0.335       0.351       0.383
+
+ SOFAS_24 WITH
+    SOFAS_0         -0.161      -0.112      -0.088       0.041       0.170       0.195       0.243
+    SOFAS_12         0.251       0.289       0.309       0.410       0.511       0.530       0.568
+
+ NSR_121  WITH
+    NSR_01          -0.040      -0.006       0.011       0.102       0.193       0.211       0.245
+
+ NSR_241  WITH
+    NSR_01           0.046       0.078       0.095       0.180       0.266       0.282       0.314
+    NSR_121          0.203       0.238       0.256       0.350       0.444       0.462       0.497
+
+ Means
+    NSR_01           2.225       2.369       2.443       2.828       3.214       3.288       3.432
+    NSR_121          0.971       1.008       1.028       1.129       1.230       1.249       1.287
+    NSR_241          0.813       0.848       0.866       0.960       1.055       1.073       1.108
+
+ Intercepts
+    SOFAS_0          3.574       3.685       3.742       4.039       4.335       4.392       4.503
+    SOFAS_12         4.223       4.297       4.335       4.532       4.730       4.767       4.841
+    SOFAS_24         3.856       3.953       4.003       4.262       4.522       4.572       4.669
+
+ Variances
+    NSR_01           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    NSR_121          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    NSR_241          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    SOFAS_0          0.823       0.844       0.854       0.908       0.962       0.973       0.993
+    SOFAS_12         0.479       0.506       0.520       0.594       0.668       0.682       0.710
+    SOFAS_24         0.406       0.435       0.449       0.526       0.602       0.616       0.645
+
+Latent Class 2
+
+ SOFAS_0  ON
+    NSR_01          -0.019      -0.018      -0.018      -0.017      -0.016      -0.016      -0.015
+
+ SOFAS_12 ON
+    NSR_121         -0.023      -0.023      -0.023      -0.021      -0.020      -0.019      -0.019
+
+ SOFAS_24 ON
+    NSR_241          0.121       0.126       0.128       0.139       0.150       0.152       0.156
+
+ SOFAS_12 WITH
+    SOFAS_0          0.115       0.147       0.163       0.249       0.335       0.351       0.383
+
+ SOFAS_24 WITH
+    SOFAS_0         -0.161      -0.112      -0.088       0.041       0.170       0.195       0.243
+    SOFAS_12         0.251       0.289       0.309       0.410       0.511       0.530       0.568
+
+ NSR_121  WITH
+    NSR_01          -0.038      -0.007       0.009       0.091       0.174       0.190       0.221
+
+ NSR_241  WITH
+    NSR_01           0.035       0.068       0.085       0.173       0.261       0.277       0.310
+    NSR_121          0.206       0.242       0.260       0.356       0.452       0.471       0.507
+
+ Means
+    NSR_01           7.480       7.480       7.480       7.480       7.480       7.480       7.480
+    NSR_121          3.222       3.222       3.222       3.222       3.222       3.222       3.222
+    NSR_241          2.394       2.394       2.394       2.394       2.394       2.394       2.394
+
+ Intercepts
+    SOFAS_0          6.149       6.324       6.413       6.878       7.343       7.432       7.606
+    SOFAS_12         9.880      10.172      10.322      11.102      11.883      12.032      12.324
+    SOFAS_24         2.695       2.787       2.835       3.081       3.327       3.375       3.467
+
+ Variances
+    NSR_01           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    NSR_121          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    NSR_241          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    SOFAS_0          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SOFAS_12         0.999       0.999       0.999       1.000       1.000       1.000       1.000
+    SOFAS_24         0.976       0.977       0.978       0.981       0.984       0.984       0.986
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ SOFAS_0  ON
+    NSR_01         -17.782     -16.469     -15.797     -12.290      -8.783      -8.111      -6.798
+
+ SOFAS_12 ON
+    NSR_121        -24.151     -23.315     -22.887     -20.654     -18.420     -17.992     -17.156
+
+ SOFAS_24 ON
+    NSR_241        -28.734     -27.668     -27.123     -24.276     -21.429     -20.884     -19.818
+
+ SOFAS_12 WITH
+    SOFAS_0         15.048      20.444      23.204      37.617      52.030      54.790      60.186
+
+ SOFAS_24 WITH
+    SOFAS_0        -24.750     -17.311     -13.505       6.367      26.239      30.045      37.484
+    SOFAS_12        35.183      42.309      45.954      64.988      84.023      87.668      94.793
+
+ NSR_121  WITH
+    NSR_01          -0.007      -0.001       0.001       0.016       0.031       0.033       0.039
+
+ NSR_241  WITH
+    NSR_01           0.006       0.011       0.014       0.028       0.043       0.045       0.051
+    NSR_121          0.050       0.059       0.063       0.087       0.110       0.115       0.124
+
+ Means
+    NSR_01           0.847       0.857       0.862       0.889       0.916       0.921       0.931
+    NSR_121          0.492       0.509       0.517       0.562       0.606       0.615       0.631
+    NSR_241          0.403       0.422       0.431       0.479       0.527       0.537       0.555
+
+ Intercepts
+    SOFAS_0         46.247      47.492      48.129      51.456      54.783      55.420      56.666
+    SOFAS_12        70.614      71.219      71.528      73.143      74.757      75.066      75.671
+    SOFAS_24        72.310      72.943      73.266      74.956      76.646      76.969      77.602
+
+ Variances
+    NSR_01           0.066       0.074       0.078       0.099       0.120       0.124       0.132
+    NSR_121          0.238       0.240       0.241       0.248       0.254       0.255       0.258
+    NSR_241          0.245       0.246       0.247       0.249       0.251       0.252       0.253
+
+ Residual Variances
+    SOFAS_0        116.196     123.662     127.481     147.426     167.370     171.189     178.655
+    SOFAS_12       120.667     128.815     132.983     154.749     176.515     180.683     188.831
+    SOFAS_24       121.021     130.944     136.020     162.530     189.039     194.115     204.039
+
+Latent Class 2
+
+ SOFAS_0  ON
+    NSR_01          -0.599      -0.599      -0.599      -0.599      -0.599      -0.599      -0.599
+
+ SOFAS_12 ON
+    NSR_121         -0.514      -0.514      -0.514      -0.514      -0.514      -0.514      -0.514
+
+ SOFAS_24 ON
+    NSR_241          3.742       3.742       3.742       3.742       3.742       3.742       3.742
+
+ SOFAS_12 WITH
+    SOFAS_0         15.048      20.444      23.204      37.617      52.030      54.790      60.186
+
+ SOFAS_24 WITH
+    SOFAS_0        -24.750     -17.311     -13.505       6.367      26.239      30.045      37.484
+    SOFAS_12        35.183      42.309      45.954      64.988      84.023      87.668      94.793
+
+ NSR_121  WITH
+    NSR_01          -0.007      -0.001       0.001       0.016       0.031       0.033       0.039
+
+ NSR_241  WITH
+    NSR_01           0.006       0.011       0.014       0.028       0.043       0.045       0.051
+    NSR_121          0.050       0.059       0.063       0.087       0.110       0.115       0.124
+
+ Means
+    NSR_01           2.566       2.566       2.566       2.566       2.566       2.566       2.566
+    NSR_121          1.647       1.647       1.647       1.647       1.647       1.647       1.647
+    NSR_241          1.143       1.143       1.143       1.143       1.143       1.143       1.143
+
+ Intercepts
+    SOFAS_0         83.520      83.520      83.520      83.520      83.520      83.520      83.520
+    SOFAS_12       138.142     138.142     138.142     138.142     138.142     138.142     138.142
+    SOFAS_24        39.663      39.663      39.663      39.663      39.663      39.663      39.663
+
+ Variances
+    NSR_01           0.118       0.118       0.118       0.118       0.118       0.118       0.118
+    NSR_121          0.261       0.261       0.261       0.261       0.261       0.261       0.261
+    NSR_241          0.228       0.228       0.228       0.228       0.228       0.228       0.228
+
+ Residual Variances
+    SOFAS_0        116.196     123.662     127.481     147.426     167.370     171.189     178.655
+    SOFAS_12       120.667     128.815     132.983     154.749     176.515     180.683     188.831
+    SOFAS_24       121.021     130.944     136.020     162.530     189.039     194.115     204.039
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 1
+
+
+           NU
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              NSR_241
+              ________
+                    0
+
+
+           LAMBDA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0            0             0             0             0             0
+ SOFAS_12           0             0             0             0             0
+ SOFAS_24           0             0             0             0             0
+ NSR_01             0             0             0             0             0
+ NSR_121            0             0             0             0             0
+ NSR_241            0             0             0             0             0
+
+
+           LAMBDA
+              NSR_241
+              ________
+ SOFAS_0            0
+ SOFAS_12           0
+ SOFAS_24           0
+ NSR_01             0
+ NSR_121            0
+ NSR_241            0
+
+
+           THETA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0            0
+ SOFAS_12           0             0
+ SOFAS_24           0             0             0
+ NSR_01             0             0             0             0
+ NSR_121            0             0             0             0             0
+ NSR_241            0             0             0             0             0
+
+
+           THETA
+              NSR_241
+              ________
+ NSR_241            0
+
+
+           ALPHA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+                    1             2             3             4             5
+
+
+           ALPHA
+              NSR_241
+              ________
+                    6
+
+
+           BETA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0            0             0             0             7             0
+ SOFAS_12           0             0             0             0             8
+ SOFAS_24           0             0             0             0             0
+ NSR_01             0             0             0             0             0
+ NSR_121            0             0             0             0             0
+ NSR_241            0             0             0             0             0
+
+
+           BETA
+              NSR_241
+              ________
+ SOFAS_0            0
+ SOFAS_12           0
+ SOFAS_24           9
+ NSR_01             0
+ NSR_121            0
+ NSR_241            0
+
+
+           PSI
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0           10
+ SOFAS_12          11            12
+ SOFAS_24          13            14            15
+ NSR_01             0             0             0            16
+ NSR_121            0             0             0            17            18
+ NSR_241            0             0             0            19            20
+
+
+           PSI
+              NSR_241
+              ________
+ NSR_241           21
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 2
+
+
+           NU
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              NSR_241
+              ________
+                    0
+
+
+           LAMBDA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0            0             0             0             0             0
+ SOFAS_12           0             0             0             0             0
+ SOFAS_24           0             0             0             0             0
+ NSR_01             0             0             0             0             0
+ NSR_121            0             0             0             0             0
+ NSR_241            0             0             0             0             0
+
+
+           LAMBDA
+              NSR_241
+              ________
+ SOFAS_0            0
+ SOFAS_12           0
+ SOFAS_24           0
+ NSR_01             0
+ NSR_121            0
+ NSR_241            0
+
+
+           THETA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0            0
+ SOFAS_12           0             0
+ SOFAS_24           0             0             0
+ NSR_01             0             0             0             0
+ NSR_121            0             0             0             0             0
+ NSR_241            0             0             0             0             0
+
+
+           THETA
+              NSR_241
+              ________
+ NSR_241            0
+
+
+           ALPHA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+                   22            23            24            25            26
+
+
+           ALPHA
+              NSR_241
+              ________
+                   27
+
+
+           BETA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0            0             0             0            28             0
+ SOFAS_12           0             0             0             0            29
+ SOFAS_24           0             0             0             0             0
+ NSR_01             0             0             0             0             0
+ NSR_121            0             0             0             0             0
+ NSR_241            0             0             0             0             0
+
+
+           BETA
+              NSR_241
+              ________
+ SOFAS_0            0
+ SOFAS_12           0
+ SOFAS_24          30
+ NSR_01             0
+ NSR_121            0
+ NSR_241            0
+
+
+           PSI
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0           10
+ SOFAS_12          11            12
+ SOFAS_24          13            14            15
+ NSR_01             0             0             0            31
+ NSR_121            0             0             0            17            32
+ NSR_241            0             0             0            19            20
+
+
+           PSI
+              NSR_241
+              ________
+ NSR_241           33
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS REGRESSION MODEL PART
+
+
+           ALPHA(C)
+              C#1           C#2
+              ________      ________
+                   34             0
+
+
+     PARAMETER SPECIFICATION FOR THE CENSORED/NOMINAL/COUNT MODEL PART
+
+
+           NU(P) FOR LATENT CLASS 1
+              N#1
+              ________
+                    0
+
+
+           NU(P) FOR LATENT CLASS 2
+              N#1
+              ________
+                    0
+
+
+     STARTING VALUES FOR LATENT CLASS 1
+
+
+           NU
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              NSR_241
+              ________
+                0.000
+
+
+           LAMBDA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0        1.000         0.000         0.000         0.000         0.000
+ SOFAS_12       0.000         1.000         0.000         0.000         0.000
+ SOFAS_24       0.000         0.000         1.000         0.000         0.000
+ NSR_01         0.000         0.000         0.000         1.000         0.000
+ NSR_121        0.000         0.000         0.000         0.000         1.000
+ NSR_241        0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              NSR_241
+              ________
+ SOFAS_0        0.000
+ SOFAS_12       0.000
+ SOFAS_24       0.000
+ NSR_01         0.000
+ NSR_121        0.000
+ NSR_241        1.000
+
+
+           THETA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0        0.000
+ SOFAS_12       0.000         0.000
+ SOFAS_24       0.000         0.000         0.000
+ NSR_01         0.000         0.000         0.000         0.000
+ NSR_121        0.000         0.000         0.000         0.000         0.000
+ NSR_241        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              NSR_241
+              ________
+ NSR_241        0.000
+
+
+           ALPHA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+               27.705        44.774        45.344         0.575         0.060
+
+
+           ALPHA
+              NSR_241
+              ________
+               -0.012
+
+
+           BETA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0        0.000         0.000         0.000         0.000         0.000
+ SOFAS_12       0.000         0.000         0.000         0.000         0.000
+ SOFAS_24       0.000         0.000         0.000         0.000         0.000
+ NSR_01         0.000         0.000         0.000         0.000         0.000
+ NSR_121        0.000         0.000         0.000         0.000         0.000
+ NSR_241        0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              NSR_241
+              ________
+ SOFAS_0        0.000
+ SOFAS_12       0.000
+ SOFAS_24       0.000
+ NSR_01         0.000
+ NSR_121        0.000
+ NSR_241        0.000
+
+
+           PSI
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0       82.194
+ SOFAS_12       0.000       142.438
+ SOFAS_24       0.000         0.000       164.325
+ NSR_01         0.000         0.000         0.000         0.049
+ NSR_121        0.000         0.000         0.000         0.000         0.123
+ NSR_241        0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              NSR_241
+              ________
+ NSR_241        0.125
+
+
+     STARTING VALUES FOR LATENT CLASS 2
+
+
+           NU
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              NSR_241
+              ________
+                0.000
+
+
+           LAMBDA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0        1.000         0.000         0.000         0.000         0.000
+ SOFAS_12       0.000         1.000         0.000         0.000         0.000
+ SOFAS_24       0.000         0.000         1.000         0.000         0.000
+ NSR_01         0.000         0.000         0.000         1.000         0.000
+ NSR_121        0.000         0.000         0.000         0.000         1.000
+ NSR_241        0.000         0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              NSR_241
+              ________
+ SOFAS_0        0.000
+ SOFAS_12       0.000
+ SOFAS_24       0.000
+ NSR_01         0.000
+ NSR_121        0.000
+ NSR_241        1.000
+
+
+           THETA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0        0.000
+ SOFAS_12       0.000         0.000
+ SOFAS_24       0.000         0.000         0.000
+ NSR_01         0.000         0.000         0.000         0.000
+ NSR_121        0.000         0.000         0.000         0.000         0.000
+ NSR_241        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              NSR_241
+              ________
+ NSR_241        0.000
+
+
+           ALPHA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+               53.348        78.530        81.601         1.203         1.053
+
+
+           ALPHA
+              NSR_241
+              ________
+                0.987
+
+
+           BETA
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0        0.000         0.000         0.000         0.000         0.000
+ SOFAS_12       0.000         0.000         0.000         0.000         0.000
+ SOFAS_24       0.000         0.000         0.000         0.000         0.000
+ NSR_01         0.000         0.000         0.000         0.000         0.000
+ NSR_121        0.000         0.000         0.000         0.000         0.000
+ NSR_241        0.000         0.000         0.000         0.000         0.000
+
+
+           BETA
+              NSR_241
+              ________
+ SOFAS_0        0.000
+ SOFAS_12       0.000
+ SOFAS_24       0.000
+ NSR_01         0.000
+ NSR_121        0.000
+ NSR_241        0.000
+
+
+           PSI
+              SOFAS_0       SOFAS_12      SOFAS_24      NSR_01        NSR_121
+              ________      ________      ________      ________      ________
+ SOFAS_0       82.194
+ SOFAS_12       0.000       142.438
+ SOFAS_24       0.000         0.000       164.325
+ NSR_01         0.000         0.000         0.000         0.049
+ NSR_121        0.000         0.000         0.000         0.000         0.123
+ NSR_241        0.000         0.000         0.000         0.000         0.000
+
+
+           PSI
+              NSR_241
+              ________
+ NSR_241        0.125
+
+
+     STARTING VALUES FOR LATENT CLASS REGRESSION MODEL PART
+
+
+           ALPHA(C)
+              C#1           C#2
+              ________      ________
+                0.000         0.000
+
+
+     STARTING VALUES FOR THE CENSORED/NOMINAL/COUNT MODEL PART
+
+
+           NU(P) FOR LATENT CLASS 1
+              N#1
+              ________
+                2.378
+
+
+           NU(P) FOR LATENT CLASS 2
+              N#1
+              ________
+               -1.949
+
+
+     Beginning Time:  10:59:30
+        Ending Time:  10:59:33
+       Elapsed Time:  00:00:03
 
 
 

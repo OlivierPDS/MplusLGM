@@ -7,9 +7,11 @@ VARIABLE:
 NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
      CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N minority; 
  MISSING=.;
- USEVAR = minority N;
+ USEVAR = N minority1;
 NOMINAL = N;
 CLASSES = c(3);
+DEFINE:
+minority1 = minority == 1;
 ANALYSIS:
 TYPE = MIXTURE;
 ALGORITHM = INTEGRATION;
@@ -18,8 +20,8 @@ STARTS = 0;
 PROCESSORS = 8;
 MODEL:
 %OVERALL%
-C ON minority;
-minority;
+C ON minority1;
+minority1;
 %C#1%
 [N#1@3.075];
 [N#2@1.083];

@@ -7,9 +7,13 @@ FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/housing_R3STE
 VARIABLE:
 NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N housing; 
  MISSING=.;
- USEVAR = housing N;
+ USEVAR = N housing1 housing2 housing3;
 NOMINAL = N;
 CLASSES = c(2);
+DEFINE:
+housing1 = housing == 1;
+housing2 = housing == 2;
+housing3 = housing == 3;
 ANALYSIS:
 TYPE = MIXTURE;
 ALGORITHM = INTEGRATION;
@@ -18,8 +22,8 @@ STARTS = 0;
 PROCESSORS = 8;
 MODEL:
 %OVERALL%
-C ON housing;
-housing;
+C ON housing1 housing2 housing3;
+housing1 housing2 housing3;
 %C#1%
 [N#1@2.378];
 %C#2%

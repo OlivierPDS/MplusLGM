@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-02/10/2023  12:14 PM
+02/16/2023   8:36 PM
 
 INPUT INSTRUCTIONS
 
@@ -13,9 +13,11 @@ INPUT INSTRUCTIONS
   NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
        CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N dx_spect;
    MISSING=.;
-   USEVAR = dx_spect N;
+   USEVAR = N dx_spect1;
   NOMINAL = N;
   CLASSES = c(2);
+  DEFINE:
+  dx_spect1 = dx_spect == 1;
   ANALYSIS:
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
@@ -24,8 +26,8 @@ INPUT INSTRUCTIONS
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  C ON dx_spect;
-  dx_spect;
+  C ON dx_spect1;
+  dx_spect1;
   %C#1%
   [N#1@3.558];
   %C#2%
@@ -37,7 +39,10 @@ INPUT INSTRUCTIONS
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -145,7 +150,7 @@ SAMPLE STATISTICS
            Means
               DX_SPECT
               ________
-                1.322
+                0.678
 
 
            Covariances
@@ -171,8 +176,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     DX_SPECT              1.322       0.763       1.000   67.82%       1.000      1.000      1.000
-             404.000       0.218      -1.418       2.000   32.18%       1.000      2.000
+     DX_SPECT1             0.678      -0.763       0.000   32.18%       0.000      1.000      1.000
+             404.000       0.218      -1.418       1.000   67.82%       1.000      1.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -185,15 +190,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                        -522.099
-          H0 Scaling Correction Factor      0.8226
+          H0 Value                        -522.104
+          H0 Scaling Correction Factor      0.8227
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    1052.199
-          Bayesian (BIC)                  1068.214
-          Sample-Size Adjusted BIC        1055.522
+          Akaike (AIC)                    1052.208
+          Bayesian (BIC)                  1068.224
+          Sample-Size Adjusted BIC        1055.531
             (n* = (n + 2) / 24)
 
 
@@ -204,8 +209,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        137.33927          0.33911
-       2        267.66073          0.66089
+       1        137.33951          0.33911
+       2        267.66049          0.66089
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -214,8 +219,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        137.32988          0.33909
-       2        267.67012          0.66091
+       1        137.32986          0.33909
+       2        267.67014          0.66091
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -270,33 +275,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    DX_SPECT           1.322      0.023     56.864      0.000
+    DX_SPECT1          0.678      0.023     29.180      0.000
     N#1                3.558      0.000    999.000    999.000
 
  Variances
-    DX_SPECT           0.218      0.008     26.322      0.000
+    DX_SPECT1          0.218      0.008     26.317      0.000
 
 Latent Class 2
 
  Means
-    DX_SPECT           1.322      0.023     56.864      0.000
+    DX_SPECT1          0.678      0.023     29.180      0.000
     N#1               -3.697      0.000    999.000    999.000
 
  Variances
-    DX_SPECT           0.218      0.008     26.322      0.000
+    DX_SPECT1          0.218      0.008     26.317      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    DX_SPECT           0.726      0.234      3.101      0.002
+    DX_SPECT1         -0.725      0.234     -3.099      0.002
 
  Intercepts
-    C#1               -1.643      0.340     -4.835      0.000
+    C#1               -0.192      0.186     -1.034      0.301
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.101E-03
+     Condition Number for the Information Matrix              0.628E-04
        (ratio of smallest to largest eigenvalue)
 
 
@@ -308,7 +313,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    DX_SPECT           2.066      0.483      1.306      3.268
+    DX_SPECT1          0.484      0.113      0.306      0.766
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -319,10 +324,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    DX_SPECT          -0.726      0.234     -3.101      0.002
+    DX_SPECT1          0.725      0.234      3.099      0.002
 
  Intercepts
-    C#2                1.643      0.340      4.835      0.000
+    C#2                0.192      0.186      1.034      0.301
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -333,7 +338,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    DX_SPECT           0.484      0.113      0.306      0.766
+    DX_SPECT1          2.065      0.483      1.306      3.267
 
 
 STANDARDIZED MODEL RESULTS
@@ -347,20 +352,20 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    DX_SPECT           2.828      0.004    685.430      0.000
+    DX_SPECT1          1.452      0.077     18.773      0.000
     N#1                3.558      0.000    999.000    999.000
 
  Variances
-    DX_SPECT           1.000      0.000    999.000    999.000
+    DX_SPECT1          1.000      0.000    999.000    999.000
 
 Latent Class 2
 
  Means
-    DX_SPECT           2.828      0.004    685.430      0.000
+    DX_SPECT1          1.452      0.077     18.773      0.000
     N#1               -3.697      0.000    999.000    999.000
 
  Variances
-    DX_SPECT           1.000      0.000    999.000    999.000
+    DX_SPECT1          1.000      0.000    999.000    999.000
 
 
 STDY Standardization
@@ -371,20 +376,20 @@ STDY Standardization
 Latent Class 1
 
  Means
-    DX_SPECT           2.828      0.004    685.430      0.000
+    DX_SPECT1          1.452      0.077     18.773      0.000
     N#1                3.558      0.000    999.000    999.000
 
  Variances
-    DX_SPECT           1.000      0.000    999.000    999.000
+    DX_SPECT1          1.000      0.000    999.000    999.000
 
 Latent Class 2
 
  Means
-    DX_SPECT           2.828      0.004    685.430      0.000
+    DX_SPECT1          1.452      0.077     18.773      0.000
     N#1               -3.697      0.000    999.000    999.000
 
  Variances
-    DX_SPECT           1.000      0.000    999.000    999.000
+    DX_SPECT1          1.000      0.000    999.000    999.000
 
 
 STD Standardization
@@ -395,20 +400,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    DX_SPECT           1.322      0.023     56.864      0.000
+    DX_SPECT1          0.678      0.023     29.180      0.000
     N#1                3.558      0.000    999.000    999.000
 
  Variances
-    DX_SPECT           0.218      0.008     26.322      0.000
+    DX_SPECT1          0.218      0.008     26.317      0.000
 
 Latent Class 2
 
  Means
-    DX_SPECT           1.322      0.023     56.864      0.000
+    DX_SPECT1          0.678      0.023     29.180      0.000
     N#1               -3.697      0.000    999.000    999.000
 
  Variances
-    DX_SPECT           0.218      0.008     26.322      0.000
+    DX_SPECT1          0.218      0.008     26.317      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -418,28 +423,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    DX_SPECT         1.262       1.276       1.283       1.322       1.360       1.367       1.381
+    DX_SPECT1        0.618       0.633       0.640       0.678       0.717       0.724       0.738
     N#1              3.558       3.558       3.558       3.558       3.558       3.558       3.558
 
  Variances
-    DX_SPECT         0.197       0.202       0.205       0.218       0.232       0.235       0.240
+    DX_SPECT1        0.197       0.202       0.205       0.218       0.232       0.235       0.240
 
 Latent Class 2
 
  Means
-    DX_SPECT         1.262       1.276       1.283       1.322       1.360       1.367       1.381
+    DX_SPECT1        0.618       0.633       0.640       0.678       0.717       0.724       0.738
     N#1             -3.697      -3.697      -3.697      -3.697      -3.697      -3.697      -3.697
 
  Variances
-    DX_SPECT         0.197       0.202       0.205       0.218       0.232       0.235       0.240
+    DX_SPECT1        0.197       0.202       0.205       0.218       0.232       0.235       0.240
 
 Categorical Latent Variables
 
  C#1      ON
-    DX_SPECT         0.123       0.267       0.341       0.726       1.111       1.184       1.328
+    DX_SPECT1       -1.328      -1.184      -1.110      -0.725      -0.340      -0.267      -0.122
 
  Intercepts
-    C#1             -2.518      -2.309      -2.202      -1.643      -1.084      -0.977      -0.768
+    C#1             -0.671      -0.556      -0.498      -0.192       0.114       0.172       0.286
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -447,7 +452,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    DX_SPECT         1.131       1.306       1.406       2.066       3.036       3.268       3.775
+    DX_SPECT1        0.265       0.306       0.329       0.484       0.712       0.766       0.885
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -455,10 +460,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    DX_SPECT        -1.328      -1.184      -1.111      -0.726      -0.341      -0.267      -0.123
+    DX_SPECT1        0.122       0.267       0.340       0.725       1.110       1.184       1.328
 
  Intercepts
-    C#2              0.768       0.977       1.084       1.643       2.202       2.309       2.518
+    C#2             -0.286      -0.172      -0.114       0.192       0.498       0.556       0.671
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -467,7 +472,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    DX_SPECT         0.265       0.306       0.329       0.484       0.711       0.766       0.884
+    DX_SPECT1        1.130       1.306       1.405       2.065       3.035       3.267       3.774
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -480,20 +485,20 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    DX_SPECT         2.818       2.820       2.822       2.828       2.835       2.836       2.839
+    DX_SPECT1        1.253       1.300       1.325       1.452       1.579       1.603       1.651
     N#1              3.558       3.558       3.558       3.558       3.558       3.558       3.558
 
  Variances
-    DX_SPECT         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    DX_SPECT1        1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 Latent Class 2
 
  Means
-    DX_SPECT         2.818       2.820       2.822       2.828       2.835       2.836       2.839
+    DX_SPECT1        1.253       1.300       1.325       1.452       1.579       1.603       1.651
     N#1             -3.697      -3.697      -3.697      -3.697      -3.697      -3.697      -3.697
 
  Variances
-    DX_SPECT         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    DX_SPECT1        1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 
 STDY Standardization
@@ -503,20 +508,20 @@ STDY Standardization
 Latent Class 1
 
  Means
-    DX_SPECT         2.818       2.820       2.822       2.828       2.835       2.836       2.839
+    DX_SPECT1        1.253       1.300       1.325       1.452       1.579       1.603       1.651
     N#1              3.558       3.558       3.558       3.558       3.558       3.558       3.558
 
  Variances
-    DX_SPECT         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    DX_SPECT1        1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 Latent Class 2
 
  Means
-    DX_SPECT         2.818       2.820       2.822       2.828       2.835       2.836       2.839
+    DX_SPECT1        1.253       1.300       1.325       1.452       1.579       1.603       1.651
     N#1             -3.697      -3.697      -3.697      -3.697      -3.697      -3.697      -3.697
 
  Variances
-    DX_SPECT         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    DX_SPECT1        1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 
 STD Standardization
@@ -526,24 +531,24 @@ STD Standardization
 Latent Class 1
 
  Means
-    DX_SPECT         1.262       1.276       1.283       1.322       1.360       1.367       1.381
+    DX_SPECT1        0.618       0.633       0.640       0.678       0.717       0.724       0.738
     N#1              3.558       3.558       3.558       3.558       3.558       3.558       3.558
 
  Variances
-    DX_SPECT         0.197       0.202       0.205       0.218       0.232       0.235       0.240
+    DX_SPECT1        0.197       0.202       0.205       0.218       0.232       0.235       0.240
 
 Latent Class 2
 
  Means
-    DX_SPECT         1.262       1.276       1.283       1.322       1.360       1.367       1.381
+    DX_SPECT1        0.618       0.633       0.640       0.678       0.717       0.724       0.738
     N#1             -3.697      -3.697      -3.697      -3.697      -3.697      -3.697      -3.697
 
  Variances
-    DX_SPECT         0.197       0.202       0.205       0.218       0.232       0.235       0.240
+    DX_SPECT1        0.197       0.202       0.205       0.218       0.232       0.235       0.240
 
 
-     Beginning Time:  12:14:44
-        Ending Time:  12:14:44
+     Beginning Time:  20:36:59
+        Ending Time:  20:36:59
        Elapsed Time:  00:00:00
 
 
