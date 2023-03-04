@@ -1,7 +1,7 @@
 MixREGfit <- function(list_mpobj, std = "unstd") {
 
 # Test arguments ----------------------------------------------------------
-# list_mpobj <- MixREG_models
+# list_mpobj <- TVCreg_models
 # std <- "stdyx"
 
 # Validate arguments & define values   ------------------------------------
@@ -16,12 +16,22 @@ std <- switch(std,
 # Extract parameters and confidence intervals -----------------------------
 param <- list_mpobj %>%
   purrr::map(pluck, "results", "parameters", std, .default = NULL) %>% 
-  plyr::rbind.fill() #dplyr::bind_rows fail if est_se residual variance = ****** (can't combine character and double)
+  purrr::map2(., names(.), ~ if (!is.null(.x)) {dplyr::mutate(.x, name = stringr::str_to_upper(.y))}) %>%
+  plyr::rbind.fill() %>%  #dplyr::bind_rows fail if est_se residual variance = ****** (can't combine character and double)
+  dplyr::mutate(param = ifelse(paramHeader == "New.Additional.Parameters", paste(name, param), param))
   
 ci <- list_mpobj %>% 
-  purrr::map_dfr(pluck, "results", "parameters", glue::glue("ci.{std}"), .default = NULL) 
+  purrr::map(pluck, "results", "parameters", glue::glue("ci.{std}"), .default = NULL) %>% 
+  purrr::map2_dfr(., names(.), ~ if (!is.null(.x)) {dplyr::mutate(.x, name = stringr::str_to_upper(.y))}) %>%
+  dplyr::mutate(param = ifelse(paramHeader == "New.Additional.Parameters", paste(name, param),param))
 
 param_ci <- merge(param, ci, all = TRUE)
+
+# Extract Wald test -------------------------------------------------------
+wt <- list_mpobj %>%
+  purrr::map_dfr(pluck, "results", "summaries", .default = NULL) %>%
+  dplyr::select(dplyr::starts_with("Wald")) %>%
+  dplyr::mutate(name = stringr::str_to_upper(names(list_mpobj)))
 
 # Extract warnings and errors ---------------------------------------------
 warnings <- list_mpobj %>% 
@@ -30,7 +40,7 @@ warnings <- list_mpobj %>%
   purrr::map(~ gsub("[^[:alnum:][:space:]]", "", .x)) %>% 
   purrr::map(~ paste(.x, collapse = " ")) %>% 
   purrr::map_dfc(pluck) %>% 
-  tidyr::pivot_longer(cols = everything(), names_to = "param", values_to = 'warnings')  
+  tidyr::pivot_longer(cols = everything(), names_to = "name", values_to = 'warnings')  
 
 errors <- list_mpobj %>% 
   purrr::map(pluck, "results", "errors") %>% 
@@ -38,20 +48,20 @@ errors <- list_mpobj %>%
   purrr::map(~ gsub("[^[:alnum:][:space:]]", "", .x)) %>% 
   purrr::map(~ paste(.x, collapse = " ")) %>% 
   purrr::map_dfc(pluck) %>% 
-  tidyr::pivot_longer(cols = everything(), names_to = "param", values_to = 'errors')
-
+  tidyr::pivot_longer(cols = everything(), names_to = "name", values_to = 'errors')
 
 # Merge each data frame into one table ------------------------------------
-table <- list(param_ci, warnings, errors) %>%
+table <- list(param_ci, wt, warnings, errors) %>%
   purrr::reduce(merge, all = TRUE) %>%
   tryCatch(
     expr =
-      dplyr::filter(., (stringr::str_detect(paramHeader, ".+ON") | !is.na(warnings) | !is.na(errors))) %>% 
-      dplyr::mutate(
-        sig = dplyr::case_when(pval < 0.001 ~ "***",
-                               pval < 0.01 ~ "**",
-                               pval < 0.05 ~ "*")) %>%
-      dplyr::select(LatentClass, paramHeader, param, est, se, est_se, pval, sig, low2.5, up2.5, warnings, errors) %>%
+      dplyr::filter(., paramHeader == "New.Additional.Parameters" | stringr::str_detect(paramHeader, ".+ON")) %>%
+      mutate(sig = ifelse(exists("WaldChiSq_PValue"), 
+                          dplyr::case_when(WaldChiSq_PValue < 0.001 ~ "***",
+                                           WaldChiSq_PValue < 0.01 ~ "**",
+                                           WaldChiSq_PValue < 0.05 ~ "*"),
+                          NA)) %>% 
+      dplyr::select(LatentClass, paramHeader, param, est, se, pval, low2.5, up2.5, dplyr::starts_with("Wald"), sig, warnings, errors) %>%
       dplyr::arrange(LatentClass, param),
     error = function(e)
       .
