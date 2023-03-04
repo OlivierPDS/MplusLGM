@@ -39,10 +39,9 @@ R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifi
 
 ## Covariates/distal outcomes 
 ### simple/univariate regression then multiple/multivariate regressions
-### R3STEP: no need to list pred var as categorical
 ### missing on pred/Xs: manual R3STEP
 ### MI: has to be 2 separate steps/inp. files (AUXILIARY = vars excluded from IMPUTE = data)
-### can use the manual R3step, including a model for the covariates (instead of C on X; use C on X; X; )
+### can use the manual R3step, including var of the covariates (instead of C on X; use C on X; X; )
 ### (see section 3;  http://statmodel.com/download/webnotes/webnote15.pdf)
 
 # Installation ------------------------------------------------------------
@@ -60,7 +59,7 @@ PEPP2_df <-
   slice_max(mtime) %>% # get the most updated file
   rownames() %>%
   read_csv() %>% 
-  modify_at(c(SD_cat, SR, NSR, PSR), as.factor)
+  modify_at(c(SD_cat, SR, NSR, PSR, C), as.factor)
 
 # Vars of interest --------------------------------------------------------
 ## SD  
@@ -74,8 +73,10 @@ SOFAS <- str_c('SOFAS_', c(0, 12, 24))
 HAS <- str_c('HAS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 CDS <- str_c('CDS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 YMRS <- str_c('YMRS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-SX_0 <-  c('SAPS_0', 'SANS_0', 'SOFAS_0', 'HAS_0', 'CDS_0', 'YMRS_0')
 SX <- c(SAPS, SANS, SOFAS, HAS, CDS, YMRS)
+SX_0 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '0', sep = '_')
+SX_24 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '24', sep = '_')
+
 
 ## Remission 
 PSR <- str_c('PSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
@@ -124,6 +125,8 @@ SOFAS_df <- names(SOFAS_df) %>%
   setnames(SOFAS_df, old = ., new = c('varname'))
 
 # names(SOFAS_df) <- str_sub(names(SOFAS_df), 1, 8) # remove characters from variables names > 8 characters 
+
+
 
   # Step 1: Growth Curve Modeling  ------------------------------------------
 ## Run GCM model
@@ -219,10 +222,12 @@ FINAL_fit <- getFitIndices(FINAL_model)
   add_suffix(., everything(), suffix = 'SOFAS') %>% 
   merge(PEPP2_df, ., all = TRUE, by.x ='pin', by.y ='PIN_SOFAS')
 
+  sktest <- SKTEST(FINAL_model, "SOFAS")
+
 #final_dataset <- getDataset(final_model, SOFAS_df, 'pin') 
 
   # Step 7: Plot trajectories -----------------------------------------------
-plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE)
+plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = c(0, 12, 24))
 
 est_means <- FINAL_model[['results']][['gh5']][['means_and_variances_data']][['y_estimated_medians']][['values']] %>%
   as.data.frame()
@@ -269,11 +274,12 @@ R3STEP_models <- R3STEP(
   df = SOFAS_df,
   idvar = 'pin',
   usevar = SOFAS,
-  cov = c(SD_num, SD_cat),
+  cov = c(SD_num, SD_cat, SX_0),
   model = FINAL_model
 )
 
-R3STEP_unstd <- R3STEPfit(R3STEP_models, std = "unstd")
+R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 2)
+R3STEP_stdyx <- R3STEPfit(R3STEP_models, std = 'stdyx', ref = 2)
 
 ## The 3-Step Procedure - mixture regressions with predictors of growth factors 
 # CANNOT BE COMPUTED BECAUSE FINAL_MODEL IS GBTM (NO WITHIN CLASS VARIANCE)
@@ -284,26 +290,28 @@ TVCreg_models <- TVCreg(
   df = SOFAS_df,
   idvar = 'pin',
   usevar = SOFAS,
-  cov = list(SAPS, SANS, CDS, HAS, YMRS), 
+  cov = list(SAPS, SANS, CDS, HAS, YMRS, PSR, NSR),
+  starts = 500,
   model = FINAL_model
 )
 
-TVCreg_stdyx <- MixREGfit(TVCreg_models, std = "stdyx")
+TVCreg_unstd <- MixREGfit(TVCreg_models, std = 'unstd')
+TVCreg_stdyx <- MixREGfit(TVCreg_models, std = 'stdyx')
 
 ## The 3-Step Procedure - Linear regressions with distal outcome
 D3STEP_models <- D3STEP(
   df = SOFAS_df,
   idvar = 'pin',
   usevar = SOFAS,
-  cov = c('SAPS_24', 'SANS_24', "PSR_24", "NSR_24", SR_C, SR),
+  cov = c(SX_24, 'PSR_24', 'NSR_24', SR_C, SR),
   model = FINAL_model
 )
 
-D3STEP_stdyx <- D3STEPfit(D3STEP_models, std = "stdyx")
+D3STEP_stdyx <- D3STEPfit(D3STEP_models, std = 'stdyx')
+D3STEP_unstd <- D3STEPfit(D3STEP_models, std = 'unstd')
 
   # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SOFAS', 'SOFAS_{today()}.RData', .sep = '/'))
-
 
 # SAPS --------------------------------------------------------------------
 ## Load workingspace 
@@ -312,9 +320,9 @@ save.image(glue(getwd(), 'SOFAS', 'SOFAS_{today()}.RData', .sep = '/'))
   file.info() %>%
   filter(isdir==FALSE) %>% 
   slice_max(mtime) %>% # get the most updated workspace
-  rownames()
+  rownames() 
 
-load(.ws)
+  load(.ws)
 
 R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
 
@@ -332,7 +340,7 @@ SAPS_df <-
   read_csv() %>%
   subset(miss_SAPS <= 4 & n == 1) %>% 
   select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR))) %>% 
-  modify_at(c(SD_cat, SR, PSR, NSR), as.factor)
+  modify_at(c(SD_cat, SR, PSR, NSR, C), as.factor)
   
 ## rename vars > 8 characters
 SAPS_df <- names(SAPS_df) %>% 
@@ -435,15 +443,14 @@ write_csv(PEPP2_df, paste0('/Users/olivierpercie/OneDrive - McGill University/CR
 
 #final_dataset <- getDataset(final_model, SAPS_df, 'pin') 
 
+sktest <- SKTEST(FINAL_model, "SAPS")
+
   # Step 7: Plot trajectories -----------------------------------------------
-plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE)
+plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 
 est_means <- FINAL_model[['results']][['gh5']][['means_and_variances_data']][['y_estimated_medians']][['values']] %>%
   as.data.frame()
 
-est.means <- 
-  final_model[['results']][['gh5']][['means_and_variances_data']][['y_estimated_medians']][['values']] %>%
-  as.data.frame()
 
   # Step 8: Using individually varying timescores ---------------------------
 ## Exclude cases with complete SAPS and missing date of observation 
@@ -493,51 +500,55 @@ TSCORES_df <- TSCORES_df %>%
      df = SAPS_df,
      idvar = 'pin',
      usevar = SAPS,
-     cov = c(SD_num, SD_cat),
+     cov = c(SD_num, SD_cat, SX_0),
      model = FINAL_model
    )
    
-   R3STEP_unstd <- R3STEPfit(R3STEP_models, std = "unstd")
+   R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 2)
+   R3STEP_stdyx <- R3STEPfit(R3STEP_models, std = 'stdyx', ref = 2)
 
 # The 3-Step Procedure - mixture regressions with predictors of growth factors
    MixREG_models <- MixREG(
      df = SAPS_df,
      idvar = 'pin',
      usevar = SAPS, 
-     cov = list(SOFAS, SANS, CDS, HAS, YMRS),
+     cov = list(SOFAS, SANS, CDS, HAS, YMRS, PSR, NSR),
+     #test = "S",
+     startval = list(YMRS = 4000, PSR = 4000, NSR = 1000),
      model = FINAL_model
    )
-
-   MixREG_stdyx <- MixREGfit(MixREG_models, std = "stdyx")
+  
+   MixREG_unstd <- MixREGfit(MixREG_models, std = 'unstd')
+   MixREG_stdyx <- MixREGfit(MixREG_models, std = 'stdyx')
  
 ## The 3-Step Procedure - regressions with time-varying covariates
-# PSR, NSR: try with higher start values     
    TVCreg_models <- TVCreg(
      df = SAPS_df,
      idvar = 'pin',
      usevar = SAPS,
-     cov = list(SOFAS, SANS, CDS, HAS, YMRS),
-     starts = 0,
+     cov = list(SOFAS, SANS, HAS, YMRS, PSR, NSR),
+     startval = list(PSR = 2000, NSR = 2000), #CDS = 4000 (fail to converge)
      model = FINAL_model
    )
    
-   TVCreg_stdyx <- MixREGfit(TVCreg_models, std = "stdyx")
+   TVCreg_unstd <- MixREGfit(TVCreg_models, std = 'unstd')
+   TVCreg_stdyx <- MixREGfit(TVCreg_models, std = 'stdyx')
    
 ## The 3-Step Procedure - Linear regressions with distal outcome
-   
    D3STEP_models <- D3STEP(
      df = SAPS_df,
      idvar = 'pin',
      usevar = SAPS,
-     cov = c('SOFAS_24', 'SANS_24', "PSR_24", "NSR_24", SR, SR_C),
+     cov = c(SX_24, 'PSR_24', 'NSR_24', SR, SR_C),
+     startval = list(CDS_24 = 500),
      model = FINAL_model
    )
    
-   D3STEP_stdyx <- D3STEPfit(D3STEP_models, std = "stdyx")
+   D3STEP_stdyx <- D3STEPfit(D3STEP_models, std = 'stdyx')
+   D3STEP_unstd <- D3STEPfit(D3STEP_models, std = 'unstd')
    
   # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = '/'))
-
     
 # SANS --------------------------------------------------------------------
 ## Load workingspace 
@@ -684,8 +695,14 @@ FINAL_param <-
   add_suffix(., everything(), suffix = 'SANS') %>% 
   merge(PEPP2_df, ., all = TRUE, by.x ='pin', by.y ='PIN_SANS')
 
+sktest <- SKTEST(FINAL_model, "SANS")
+
   # Step 7: Plot trajectories -----------------------------------------------
-plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = FALSE)
+
+mplus.view.plots(file.choose())
+
+plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+
 
 est_means <- FINAL_model[['results']][['gh5']][['means_and_variances_data']][['y_estimated_medians']][['values']] %>%
   as.data.frame()
@@ -738,52 +755,102 @@ R3STEP_models <- R3STEP(
   df = SANS_df,
   idvar = 'pin',
   usevar = SANS,
-  cov = c(SD_num, SD_cat),
+  cov = c(SD_num, SD_cat, SX_0),
   model = FINAL_model
 )
 
-R3STEP_unstd <- R3STEPfit(R3STEP_models, std = "unstd")
+R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 1)
+R3STEP_stdyx <- R3STEPfit(R3STEP_models, std = 'stdyx', ref = 1)
 
 # The 3-Step Procedure - mixture regressions with predictors of growth factors
 MixREG_models <- MixREG(
   df = SANS_df,
   idvar = 'pin',
   usevar = SANS,
-  cov = list(SOFAS, SAPS, CDS, HAS, YMRS, PSR, NSR),
-  model = FINAL_model
+  cov = list(SOFAS, SAPS, HAS, CDS, YMRS, PSR, NSR),
+  startval = list(CDS = 500, YMRS = 500, PSR = 500, NSR = 500),
+  model = FINAL_model, 
 )
 
-MixREG_stdyx <- MixREGfit(MixREG_models, std = "stdyx")
+MixREG_unstd <- MixREGfit(MixREG_models, std = 'unstd')
+MixREG_stdyx <- MixREGfit(MixREG_models, std = 'stdyx')
 
 ## The 3-Step Procedure - regressions with time-varying covariates
 TVCreg_models <- TVCreg(
   df = SANS_df,
   idvar = 'pin',
   usevar = SANS,
-  cov = list(SOFAS, SAPS, CDS, HAS, YMRS, PSR, NSR),
-  starts = 0,
+  cov = list(SOFAS, SAPS, HAS, CDS, YMRS, PSR, NSR),
+  startval = list(YMRS = 4000, PSR = 4000, NSR = 1000),
   model = FINAL_model
 )
 
-TVCreg_stdyx <- MixREGfit(TVCreg_models, std = "stdyx")
+TVCreg_unstd <- MixREGfit(TVCreg_models, std = 'unstd')
+TVCreg_stdyx <- MixREGfit(TVCreg_models, std = 'stdyx')
 
 ## The 3-Step Procedure - Linear regressions with distal outcome
-
 D3STEP_models <- D3STEP(
   df = SANS_df,
   idvar = 'pin',
   usevar = SANS,
-  cov = c('SOFAS_24', 'SAPS_24', 'PSR_24', 'NSR_24', SR, SR_C),
+  cov = c(SX_24, 'PSR_24', 'NSR_24', SR, SR_C),
+  startval = list(SAPS_24 = 8000, CDS_24 = 8000),
   model = FINAL_model
 )
 
-D3STEP_stdyx <- D3STEPfit(D3STEP_models, std = "stdyx")
+D3STEP_unstd <- D3STEPfit(D3STEP_models, std = 'unstd')
+D3STEP_stdyx <- D3STEPfit(D3STEP_models, std = 'stdyx')
 
   # Save --------------------------------------------------------------------
 save.image(glue(getwd(), 'SANS', 'SANS_{today()}.RData', .sep = '/'))
 
 
+# Work in Progress --------------------------------------------------------
+WIP <- runModels(
+  target = file.choose(),
+  showOutput = FALSE,
+  logFile = NULL,
+)
 
+assumptions <- function(models, cov){
+
+  models <- MixREG_models
+  cov <- list(SOFAS, SANS, CDS, HAS, YMRS, PSR, NSR)
+    
+  
+  df <- map(models, ~ pluck(.x, "rdata"))
+  cov <- map(cov, ~ paste(.x, collapse = " + "))
+  
+  df <- df %>% 
+    map( ~ nest(.x, .by = N))
+  
+  reg <- map2(df, cov, \(df, cov) 
+              mutate(df,
+                     fit = map(data, ~ lm(S ~ cov, data = .x))
+                     )
+              )
+}
+  
+
+df <- PEPP2_df %>%
+nest(.by = C_SAPS) %>% 
+  filter(!is.na(C_SAPS))
+
+reg <- df %>% 
+    mutate(fit = map(data, ~ lm(S_SAPS ~ PSR_0 + PSR_1 + PSR_2 + PSR_3 + PSR_6 + PSR_9 + PSR_12 + PSR_18 + PSR_24, data = .x)),
+         summed = map(fit, summary),
+         vifed = map(fit, car::vif),
+         tidied = map(fit, broom::tidy),
+         glanced = map(fit, broom::glance),
+         augmented = map(fit, broom::augment))
+
+untidied <- reg %>% unnest(c(tidied))
+
+map(reg[["fit"]], ~ plot(.x))
+
+
+plot(S_SAPS ~ SANS_0, data = PEPP2_df)
+  
 # JUNK --------------------------------------------------------------------
 ## Function to check if column names are unique namesx2(PEPP2_df)
 namesx2 <- function(df) {
@@ -796,3 +863,7 @@ namesx2 <- function(df) {
 }
 anyDuplicated(colnames(PEPP2_df)) # locate column of the first duplicate)
 data.frame(colnames(PEPP2_df))
+
+## Write xlsx file
+list(R3STEP_unstd, TVCreg_stdyx, MixREG_stdyx, D3STEP_stdyx) %>% 
+  write.xlsx(file = glue(getwd(), 'SANS', 'results', 'SANS_{today()}.xlsx', .sep = '/'))
