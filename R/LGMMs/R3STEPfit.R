@@ -24,13 +24,15 @@ R3STEPfit <- function(list_mpobj,
     purrr::map(pluck, "results", "parameters", std, .default = NULL) %>% 
     purrr::map2_dfr(., names(list_mpobj), \(x, y) if(!is.null(x)){dplyr::mutate(x, name = stringr::str_to_upper(y))}) %>% 
     dplyr::mutate(paramHeader = ifelse(paramHeader == "Intercepts", paste(paramHeader, param), paramHeader)) %>%
-    dplyr::mutate(param = ifelse(str_detect(paramHeader, "^Intercepts"), name, param))
+    dplyr::mutate(param = ifelse(str_detect(paramHeader, "^Intercepts"), name, param)) %>% 
+    dplyr::mutate(param = ifelse(str_detect(param, "N#\\d"), paste(name, param), param))
   
   ci <- list_mpobj %>% 
     purrr::map(pluck, "results", "parameters", glue::glue("ci.{std}"), .default = NULL) %>% 
     purrr::map2_dfr(., names(list_mpobj), \(x, y) if(!is.null(x)){dplyr::mutate(x, name = stringr::str_to_upper(y))}) %>% 
     dplyr::mutate(paramHeader = ifelse(paramHeader == "Intercepts", paste(paramHeader, param), paramHeader)) %>%
-    dplyr::mutate(param = ifelse(str_detect(paramHeader, "^Intercepts"), name, param))
+    dplyr::mutate(param = ifelse(str_detect(paramHeader, "^Intercepts|^N#\\d"), name, param)) %>% 
+    dplyr::mutate(param = ifelse(str_detect(param, "N#\\d"), paste(name, param), param))
   
   param_ci <- merge(param, ci, all = TRUE)
 
@@ -101,9 +103,12 @@ R3STEPfit <- function(list_mpobj,
   table <- table %>%
     tryCatch(
       expr = 
-        dplyr::filter(.,
-                      LatentClass == "Categorical.Latent.Variables" |
-                      (paramHeader == "Means" & stringr::str_detect(param, "[:alpha:]#\\d", negate = TRUE))) %>%  # filter out irrelevant parameters
+        filter(., if (std == "unstandardized") {
+          stringr::str_detect(LatentClass, "Categorical.Latent.Variables")
+        } else{
+          paramHeader == "Means" |
+            stringr::str_detect(param, "N#\\d")
+        }) %>%  # filter out irrelevant parameters
         dplyr::mutate(sig = dplyr::case_when(pval < 0.001 ~ "***",
                                              pval < 0.01 ~ "**",
                                              pval < 0.05 ~ "*")) %>%  #add significativity
