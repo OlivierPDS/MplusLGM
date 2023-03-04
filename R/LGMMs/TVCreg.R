@@ -2,7 +2,7 @@ TVCreg <- function(df,
                        idvar,
                        usevar,
                        cov,
-                       starts = 0,
+                       startval = NULL,
                        output = c("SAMPSTAT", "STANDARDIZED", "CINTERVAL"),
                        model) {
 
@@ -16,40 +16,50 @@ TVCreg <- function(df,
   # df <-  SAPS_df
   # idvar  <-  'pin'
   # usevar <-  SAPS
-  # cov <-  list(SANS, CDS, PSR)
-  # starts  <-  0
+  # cov <-  list(SANS, CDS, SOFAS)
+  # startval <- list(CDS = 500, YMRS = 1000)
   # output  <-  c("SAMPSTAT", "CINTERVAL")
   # model  <-  FINAL_model
+  
   
 # Re-format called arguments ----------------------------------------------
   cov_vec <- substitute(cov) %>%
     as.character() %>%
     utils::tail(-1)
 
-  cov <- cov %>% 
-    purrr::modify_if(\(cov) length(usevar) < length(cov), 
-              \(cov) subset(cov, stringr::str_detect(cov, paste(parse_number(usevar), collapse = "|"))), 
-              .else = \(cov) identity(cov))
+  cov <- cov %>%
+    purrr::modify_if(
+      \(cov) length(usevar) < length(cov),
+      \(cov) subset(cov, stringr::str_detect(cov, paste(
+        parse_number(usevar), collapse = "|"
+      ))),
+      .else = \(cov) identity(cov)
+    )
   
   cov_dummy <- cov %>%  
     map_depth(1, #at
-    \(x) purrr::map_if(x,#x
-      \(x) is.factor(df[[x]]), #p
-      \(x) map_chr(1:(nlevels(df[[x]]) - 1), #f, y
-                   \(y) paste0(x, y)) %>% #f
-        paste(collapse = " ")))
+              \(x) purrr::map_if(x,#x
+                                 \(x) is.factor(df[[x]]), #p
+                                 \(x) purrr::map_chr(1:(nlevels(df[[x]]) - 1), #f, y
+                                                     \(y) paste0(x, y)) %>% #f
+                                   paste(collapse = " ")))
     
-  usevar_lst <- cov %>% 
-    purrr::map_if(\(x) length(usevar) > length(x), 
-           \(x) subset(usevar, stringr::str_detect(usevar, paste(parse_number(x), collapse = "|"))), 
-           .else = \(x) identity(usevar))
+  usevar_lst <- cov %>%
+    purrr::map_if(
+      \(x) length(usevar) > length(x),
+      \(x) subset(usevar, stringr::str_detect(
+        usevar, paste(parse_number(x), collapse = "|")
+      )),
+      .else = \(x) identity(usevar)
+    )
   
-  usevar_col <- usevar_lst %>% purrr::map(~ paste(.x, collapse = " "))
+  usevar_col <- usevar_lst %>% purrr::map( ~ paste(.x, collapse = " "))
   
 # Extract model parameters and data ---------------------------------------
   logits_df <- model[["results"]][["class_counts"]][["logitProbs.mostLikely"]] #logits
   k <- model[["results"]][["summaries"]][["NLatentClasses"]] #classes
   lgmm <- model[["TITLE"]] #title
+  gf <- as.list(c("I", "S")) #growth factors
   
   savedata <-
     purrr::map(cov,
@@ -103,9 +113,18 @@ TVCreg <- function(df,
 
 ## ANALYSIS =
   type <- "TYPE = MIXTURE"
-  start_val <-  glue::glue("STARTS = {starts}")
+  
+  starts <- purrr::map(seq_along(cov_vec), 
+                       \(x) glue::glue("STARTS = 0"))
+  names(starts) <- cov_vec
+  
+  if(!is.null(startval)){
+    SV <- purrr::map(startval, 
+                     \(x) glue::glue("STARTS = {x}"))
+    starts[names(SV)] <- SV}
+  
   processors <- glue::glue('PROCESSORS = {detectCores()}')
-  analysis <- MplusAutomation::parseMplus(c(type, start_val, processors), add = TRUE)
+  analysis <- purrr::map(starts, \(x) MplusAutomation::parseMplus(c(type, x, processors), add = TRUE))
   
 ## MODEL = 
   class_spec <- purrr::map_chr(1:k, ~ glue::glue('%C#{.x}%')) #class sections
@@ -120,7 +139,33 @@ TVCreg <- function(df,
               purrr::map2(x, y, \(x, y) glue::glue("{x} ON {y}"))) #regressions specification
 
   variance <- purrr::map(cov_dummy, \(x) paste(x, collapse = " ")) #covariates variance specification
-
+  
+### Model label
+  start <- map(cov_dummy,
+               \(x) seq(
+                 from = 1,
+                 to = length(x) * k,
+                 by = length(x)
+               ))
+  
+  end <- map(cov_dummy,
+             \(x) seq(
+               from = length(x),
+               to = length(x) * k,
+               by = length(x)
+             ))
+  
+  index <- purrr::map2(start, end,
+                       \(x, y) purrr::map2(x, y,
+                                           \(x, y) seq(x, y)))
+  
+  label <- purrr::map_depth(index, 2, \(x) glue("(M{x})"))
+  
+  reg_label <- purrr::map2(reg, label,
+                           \(x, y) purrr::map(y,
+                                              \(y) purrr::map2(x, y, \(x, y) c(x, y)))) %>%
+    purrr::map_depth(3, ~ paste(.x, collapse = " "))
+  
 ### Model specification
   model1 <- list(reg, variance) %>%
     purrr::reduce(~ purrr::map2(.x, .y, ~ c(.x, .y)))
@@ -130,25 +175,63 @@ TVCreg <- function(df,
 
   model3 <- list(class_spec, logits) %>%
     purrr::reduce(~ purrr::map2(.x, .y, ~ c(.x, .y)))
-
-  model4 <- purrr::cross2(model3, model1) %>% 
-    split(., rep(1:(length(.)/k), each = k))
-
+  
+  model4 <- purrr::map2(reg_label, variance,
+                        \(x, z) purrr::pmap(list(x, model3, z),
+                                            \(x, y, z) c(y, x, z)))
+  
   model5 <- list(model2, model4) %>%
     purrr::reduce(~ purrr::map2(.x, .y, ~ c(.x, .y))) %>%
     purrr::map(~ MplusAutomation::parseMplus(unlist(.x), add = TRUE)) %>%
     purrr::map(~ gsub("%;", "%",.x)) #remove semicolon after model sections
+
+## MODEL TEST =
+  # test_t <- map2(start, end,
+  #             \(x, y) map2(x, y,
+  #                          \(x, y) map(head(seq(x, y), -1), ~ glue::glue("M{.x} = M{.x+1}")
+  #                                      )
+  #                          )
+  #             )
+  # 
+  # test_k <- pmap(list(start, end, cov_dummy),
+  #              \(x, y, z) map2(head(x, -1), head(y, -1),
+  #                           \(x, y) map(seq(x, y), ~ glue::glue("M{.x} = M{.x+length(z)}")
+  #                           )
+  #              )
+  # )
+  # 
+  # test_tk <- map2(start, end,
+  #                \(x, y) map2(x, y,
+  #                             \(x, y) map(seq(x, y), ~ glue::glue("M{.x} = M{.x+1}")
+  #                             )
+  #                )
+  # )
+  # 
+  # 
+  #   map(~ MplusAutomation::parseMplus(.x, add = TRUE))
   
-# OUTPUT =
+## MODEL CONSTRAINTS =
+  # diff <- map(tail(1:k, -1), ~ glue::glue("diff1{.x}"))
+  # m <- map(tail(1:k, -1), ~ glue::glue(" = M1 - M{.x}"))
+  # new <- glue::glue("New ({paste(diff, collapse = ' ')})")
+  # 
+  # constraint <- c(new,
+  #                 purrr::map2(diff, m, \(x, y) c(x, y))) %>%
+  #   purrr::map_chr(~ paste(.x, collapse = " ")) %>%
+  #   MplusAutomation::parseMplus(add = TRUE)
+  
+## OUTPUT =
   outputs <- MplusAutomation::parseMplus(output, add = TRUE)
   
 # Create Mplus object -----------------------------------------------------
-  mpobj <- purrr::pmap(list(title, variable, define, model5, savedata),  \(title, variable, define, model, savedata)
+  mpobj <- purrr::pmap(list(title, variable, define, model5, analysis, savedata),  \(title, variable, define, model, analysis, savedata)
                 MplusAutomation::mplusObject(
                   TITLE = title,
                   VARIABLE = variable,
                   DEFINE = define,
                   MODEL = model,
+                  # MODELTEST = test, 
+                  # MODELCONSTRAINT = constraint,
                   ANALYSIS = analysis,
                   OUTPUT = outputs,
                   autov = FALSE,
