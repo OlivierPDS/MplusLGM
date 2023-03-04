@@ -2,7 +2,7 @@ D3STEP <- function(df,
                    idvar,
                    usevar,
                    cov,
-                   starts = 0,
+                   startval = NULL,
                    output = c("SAMPSTAT", "STANDARDIZED", "CINTERVAL"),
                    model) {
   
@@ -38,7 +38,7 @@ D3STEP <- function(df,
                )) %>%
     purrr::map(rename, N = C) #data
   
-  ## Create each arguments for mplusObject() -------------------------------
+  # Create each arguments for mplusObject() -------------------------------
   ## TITLE = 
   title <-  cov %>% 
     purrr::map(~ glue::glue("D3STEP_{.x} - {lgmm}")) %>%
@@ -70,9 +70,17 @@ D3STEP <- function(df,
                              ~ is.factor(df[[.x]]), 
                              ~ glue::glue("ALGORITHM = INTEGRATION"),
                              .else = ~ NULL)
-  start_val <-  glue::glue("STARTS = {starts}")
+  
+  starts <- purrr::map(seq_along(cov), \(x) glue::glue("STARTS = 0"))
+  names(starts) <- cov
+  
+  if(!is.null(startval)) {
+    SV <- purrr::map(startval, \(x) glue::glue("STARTS = {x}"))
+    starts[names(SV)] <- SV
+  }
+  
   processors <- glue::glue("PROCESSORS = {detectCores()}")
-  analysis <- purrr::map(algorithm, \(x) c(type, x, start_val, processors)) %>%
+  analysis <- purrr::map2(algorithm, starts, \(x, y) c(type, x, y, processors)) %>%
     purrr::map(~ MplusAutomation::parseMplus(.x, add = TRUE)) 
   
   ## MODEL = 
@@ -104,8 +112,8 @@ D3STEP <- function(df,
   
 
   ## MODEL CONSTRAINTS = 
-  diff <- map(tail(1:k, -1), ~ glue::glue("diff1{.x}"))
-  m <- map(tail(1:k, -1), ~ glue::glue(" = M1 - M{.x}"))
+  diff <- purrr::map(tail(1:k, -1), ~ glue::glue("diff1{.x}"))
+  m <- purrr::map(tail(1:k, -1), ~ glue::glue(" = M1 - M{.x}"))
   new <- glue::glue("New ({paste(diff, collapse = ' ')})")
   
   constraint <- c(new, 
@@ -114,9 +122,8 @@ D3STEP <- function(df,
     MplusAutomation::parseMplus(add = TRUE)
   
 
-# MODEL TEST =  -----------------------------------------------------------
-
-  test <- map_chr(tail(1:k, -1), ~ glue::glue("M1 = M{.x}")) %>% 
+  ## MODEL TEST =
+  test <- purrr::map_chr(head(1:k, -1), ~ glue::glue("M{.x} = M{.x+1}")) %>% 
     MplusAutomation::parseMplus(add = TRUE)
     
   ## OUTPUT =
@@ -128,8 +135,8 @@ D3STEP <- function(df,
                          TITLE = title,
                          VARIABLE = variable,
                          MODEL = model,
-                         MODELCONSTRAINT = constraint,
                          MODELTEST = test,
+                         MODELCONSTRAINT = constraint,
                          ANALYSIS = analysis,
                          OUTPUT = outputs,
                          autov = FALSE,
