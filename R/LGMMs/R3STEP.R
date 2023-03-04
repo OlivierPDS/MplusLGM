@@ -30,7 +30,7 @@ R3STEP <- function(df,
     purrr::map(cov,
                \(z) merge(
                  x = model[["results"]][["savedata"]], 
-                 y = select(df, c(idvar, z), -any_of(usevar)),
+                 y = select(df, all_of(c(idvar, z)), -any_of(usevar)),
                  by.x = stringr::str_to_upper(idvar),
                  by.y = idvar,
                  all = TRUE
@@ -91,16 +91,28 @@ R3STEP <- function(df,
   
   reg <- purrr::map(cov_dummy, \(x) glue::glue("C ON {x}")) #regressions specification
   
+  # #### Model test
+  # modeltest <- map(cov_dummy, ~ purrr::map2(.x, 1:k, \(x, y) glue::glue("N ON {x} (M{y})")))
+  # model3 <- map(modeltest, ~ map2(.x, model2, ~ c(.y, .x)))
+  # 
+  # model4 <- map2(model1, model3, \(x, y) c(x, y)) %>%
+  #   purrr::map(~ MplusAutomation::parseMplus(unlist(.x), add = TRUE)) %>%
+  #   purrr::map(~ gsub("%;", "%",.x)) #remove semicolon after model sections
+  
   ### Model specification
   model1 <- list('%OVERALL%', reg, cov_dummy) %>%
     purrr::reduce(~ purrr::map2(.x, .y, ~ c(.x, .y)))
   
   model2 <- list(class_spec, logits) %>%
     purrr::reduce(~ purrr::map2(.x, .y, ~ c(.x, .y)))
-  
-  model3 <- map(model1, \(x) append(x, model2)) %>% 
+    
+  model3 <- map(model1, \(x) append(x, model2)) %>%
     purrr::map(~ MplusAutomation::parseMplus(unlist(.x), add = TRUE)) %>%
     purrr::map(~ gsub("%;", "%",.x)) #remove semicolon after model sections
+  
+  # # MODEL TEST =  -----------------------------------------------------------
+  # test <- map_chr(tail(1:k, -1), ~ glue::glue("M1 = M{.x}")) %>%
+  #   MplusAutomation::parseMplus(add = TRUE)
   
   # OUTPUT =
   outputs <- MplusAutomation::parseMplus(output, add = TRUE)
@@ -112,6 +124,7 @@ R3STEP <- function(df,
                          VARIABLE = variable,
                          DEFINE = define,
                          MODEL = model,
+                         #MODELTEST = test,
                          ANALYSIS = analysis,
                          OUTPUT = outputs,
                          autov = FALSE,
