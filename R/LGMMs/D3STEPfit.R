@@ -35,7 +35,7 @@ D3STEPfit <- function(list_mpobj, std = "unstd") {
     tryCatch(
       expr = 
         dplyr::mutate(., low2.5 = est - 1.96 * se, up2.5 = est + 1.96 * se) %>%
-        dplyr::mutate(dplyr::across(c('est', 'low2.5', 'up2.5'), .names = 'PRs_{.col}'), .keep = "unused") %>% 
+        dplyr::mutate(dplyr::across(c('est', 'pval', 'low2.5', 'up2.5'), .names = 'PRs_{.col}'), .keep = "unused") %>% 
         dplyr::mutate(param = paste0(param, "$", category), .keep = "unused") %>% 
         dplyr::mutate(name = stringr::str_to_upper(name)) %>%
         dplyr::select(-se, -est_se),
@@ -79,9 +79,10 @@ D3STEPfit <- function(list_mpobj, std = "unstd") {
           WaldChiSq_PValue < 0.001 ~ "***", 
           WaldChiSq_PValue < 0.01 ~ "**", 
           WaldChiSq_PValue < 0.05 ~ "*")) %>% 
+        dplyr::mutate(dplyr::across(c(tidyselect::where(is.numeric), -pval, -dplyr::ends_with("PValue")), ~ round(.x, digits = 2))) %>%
         dplyr::select(LatentClass, param, paramHeader, est, se, pval, 
                       low2.5, up2.5, dplyr::starts_with("PRs"), dplyr::starts_with("Wald"), sig, warnings, errors) %>%
-        dplyr::arrange(LatentClass, paramHeader, param),
+        dplyr::arrange(LatentClass, -est, paramHeader, param),
       error = function(e)
         .
     )

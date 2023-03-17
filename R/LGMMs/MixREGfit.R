@@ -61,8 +61,9 @@ table <- list(param_ci, wt, warnings, errors) %>%
                                            WaldChiSq_PValue < 0.01 ~ "**",
                                            WaldChiSq_PValue < 0.05 ~ "*"),
                           NA)) %>% 
+      dplyr::mutate(dplyr::across(c(tidyselect::where(is.numeric), -pval, -dplyr::ends_with("PValue")), ~ round(.x, digits = 2))) %>%
       dplyr::select(LatentClass, paramHeader, param, est, se, pval, low2.5, up2.5, dplyr::starts_with("Wald"), sig, warnings, errors) %>%
-      dplyr::arrange(LatentClass, param),
+      dplyr::arrange(LatentClass, paramHeader, param, -est),
     error = function(e)
       .
   )

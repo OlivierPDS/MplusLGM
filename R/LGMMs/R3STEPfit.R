@@ -55,8 +55,6 @@ R3STEPfit <- function(list_mpobj,
     tidyr::pivot_longer(cols = everything(), names_to = "param", values_to = 'errors') %>% 
     dplyr::mutate(param = stringr::str_to_upper(param))
     
-
-
 # Merge parameters, confidence intervals, warnings and errors  ------------
   table <- list(param_ci, warnings, errors) %>%
     purrr::reduce(merge, all = TRUE)
@@ -112,8 +110,9 @@ R3STEPfit <- function(list_mpobj,
         dplyr::mutate(sig = dplyr::case_when(pval < 0.001 ~ "***",
                                              pval < 0.01 ~ "**",
                                              pval < 0.05 ~ "*")) %>%  #add significativity
+        dplyr::mutate(dplyr::across(c(tidyselect::where(is.numeric), -pval), ~ round(.x, digits = 2))) %>%
         dplyr::select(paramHeader, param, est, se, pval, sig, dplyr::starts_with("ORs"), warnings, errors) %>%
-        dplyr::arrange(paramHeader, param),
+        dplyr::arrange(paramHeader, -est, param),
       error = function(e)
         .
     )
