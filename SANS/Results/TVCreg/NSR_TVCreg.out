@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-02/10/2023   5:08 PM
+03/04/2023  11:09 AM
 
 INPUT INSTRUCTIONS
 
@@ -14,66 +14,78 @@ INPUT INSTRUCTIONS
        CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N NSR_0 NSR_1 NSR_2 NSR_3 NSR_6
        NSR_9 NSR_12 NSR_18 NSR_24;
    MISSING=.;
-   USEVAR = NSR_0 NSR_1 NSR_2 NSR_3 NSR_6 NSR_9 NSR_12 NSR_18 NSR_24 SANS_0 SANS_1 SANS_2
-       SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 N;
+   USEVAR = N SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 NSR_01
+       NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241;
    NOMINAL = N;
-   CLASSES = c(3);
+   CLASSES =
+       c(3);
+
+  DEFINE:
+  NSR_01 = NSR_0 == 1;
+   NSR_11 = NSR_1 == 1;
+   NSR_21 = NSR_2 == 1;
+   NSR_31 = NSR_3 == 1;
+   NSR_61 = NSR_6 == 1;
+   NSR_91 = NSR_9 == 1;
+   NSR_121 = NSR_12 == 1;
+   NSR_181 = NSR_18 == 1;
+   NSR_241 = NSR_24 == 1;
 
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 0;
+  STARTS = 4000;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  SANS_0 ON NSR_0;
-  SANS_1 ON NSR_1;
-  SANS_2 ON NSR_2;
-  SANS_3 ON NSR_3;
-  SANS_6 ON NSR_6;
-  SANS_9 ON NSR_9;
-  SANS_12 ON NSR_12;
-  SANS_18 ON NSR_18;
-  SANS_24 ON NSR_24;
-  NSR_0 NSR_1 NSR_2 NSR_3 NSR_6 NSR_9 NSR_12 NSR_18 NSR_24;
+  SANS_0 ON NSR_01;
+  SANS_1 ON NSR_11;
+  SANS_2 ON NSR_21;
+  SANS_3 ON NSR_31;
+  SANS_6 ON NSR_61;
+  SANS_9 ON NSR_91;
+  SANS_12 ON NSR_121;
+  SANS_18 ON NSR_181;
+  SANS_24 ON NSR_241;
+  NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241;
   %C#1%
   [N#1@3.075];
   [N#2@1.083];
-  SANS_0 ON NSR_0;
-  SANS_1 ON NSR_1;
-  SANS_2 ON NSR_2;
-  SANS_3 ON NSR_3;
-  SANS_6 ON NSR_6;
-  SANS_9 ON NSR_9;
-  SANS_12 ON NSR_12;
-  SANS_18 ON NSR_18;
-  SANS_24 ON NSR_24;
-  NSR_0 NSR_1 NSR_2 NSR_3 NSR_6 NSR_9 NSR_12 NSR_18 NSR_24;
+  SANS_0 ON NSR_01 (M1);
+  SANS_1 ON NSR_11 (M2);
+  SANS_2 ON NSR_21 (M3);
+  SANS_3 ON NSR_31 (M4);
+  SANS_6 ON NSR_61 (M5);
+  SANS_9 ON NSR_91 (M6);
+  SANS_12 ON NSR_121 (M7);
+  SANS_18 ON NSR_181 (M8);
+  SANS_24 ON NSR_241 (M9);
+  NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241;
   %C#2%
   [N#1@1.199];
   [N#2@2.945];
-  SANS_0 ON NSR_0;
-  SANS_1 ON NSR_1;
-  SANS_2 ON NSR_2;
-  SANS_3 ON NSR_3;
-  SANS_6 ON NSR_6;
-  SANS_9 ON NSR_9;
-  SANS_12 ON NSR_12;
-  SANS_18 ON NSR_18;
-  SANS_24 ON NSR_24;
-  NSR_0 NSR_1 NSR_2 NSR_3 NSR_6 NSR_9 NSR_12 NSR_18 NSR_24;
+  SANS_0 ON NSR_01 (M10);
+  SANS_1 ON NSR_11 (M11);
+  SANS_2 ON NSR_21 (M12);
+  SANS_3 ON NSR_31 (M13);
+  SANS_6 ON NSR_61 (M14);
+  SANS_9 ON NSR_91 (M15);
+  SANS_12 ON NSR_121 (M16);
+  SANS_18 ON NSR_181 (M17);
+  SANS_24 ON NSR_241 (M18);
+  NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241;
   %C#3%
   [N#1@-1.281];
   [N#2@-1.148];
-  SANS_0 ON NSR_0;
-  SANS_1 ON NSR_1;
-  SANS_2 ON NSR_2;
-  SANS_3 ON NSR_3;
-  SANS_6 ON NSR_6;
-  SANS_9 ON NSR_9;
-  SANS_12 ON NSR_12;
-  SANS_18 ON NSR_18;
-  SANS_24 ON NSR_24;
-  NSR_0 NSR_1 NSR_2 NSR_3 NSR_6 NSR_9 NSR_12 NSR_18 NSR_24;
+  SANS_0 ON NSR_01 (M19);
+  SANS_1 ON NSR_11 (M20);
+  SANS_2 ON NSR_21 (M21);
+  SANS_3 ON NSR_31 (M22);
+  SANS_6 ON NSR_61 (M23);
+  SANS_9 ON NSR_91 (M24);
+  SANS_12 ON NSR_121 (M25);
+  SANS_18 ON NSR_181 (M26);
+  SANS_24 ON NSR_241 (M27);
+  NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241;
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
@@ -108,8 +120,8 @@ Observed dependent variables
    N
 
 Observed independent variables
-   NSR_0       NSR_1       NSR_2       NSR_3       NSR_6       NSR_9
-   NSR_12      NSR_18      NSR_24
+   NSR_01      NSR_11      NSR_21      NSR_31      NSR_61      NSR_91
+   NSR_121     NSR_181     NSR_241
 
 Categorical latent variables
    C
@@ -144,6 +156,13 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                       4000
+  Number of final stage optimizations                         4000
+  Number of initial stage iterations                             1
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
 
 Input data file(s)
   /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/TVCreg/NSR_TVCreg.dat
@@ -177,54 +196,54 @@ Minimum covariance coverage value   0.100
  SANS_12        0.872         0.573         0.733         0.815         0.793
  SANS_18        0.820         0.538         0.686         0.765         0.746
  SANS_24        0.793         0.519         0.694         0.743         0.723
- NSR_0          1.000         0.674         0.852         0.941         0.911
- NSR_1          0.674         0.674         0.602         0.627         0.605
- NSR_2          0.852         0.602         0.852         0.822         0.785
- NSR_3          0.941         0.627         0.822         0.941         0.872
- NSR_6          0.911         0.605         0.785         0.872         0.911
- NSR_9          0.862         0.578         0.756         0.807         0.795
- NSR_12         0.872         0.573         0.733         0.815         0.793
- NSR_18         0.820         0.538         0.686         0.765         0.746
- NSR_24         0.793         0.519         0.694         0.743         0.723
+ NSR_01         1.000         0.674         0.852         0.941         0.911
+ NSR_11         0.674         0.674         0.602         0.627         0.605
+ NSR_21         0.852         0.602         0.852         0.822         0.785
+ NSR_31         0.941         0.627         0.822         0.941         0.872
+ NSR_61         0.911         0.605         0.785         0.872         0.911
+ NSR_91         0.862         0.578         0.756         0.807         0.795
+ NSR_121        0.872         0.573         0.733         0.815         0.793
+ NSR_181        0.820         0.538         0.686         0.765         0.746
+ NSR_241        0.793         0.519         0.694         0.743         0.723
 
 
            Covariance Coverage
-              SANS_9        SANS_12       SANS_18       SANS_24       NSR_0
+              SANS_9        SANS_12       SANS_18       SANS_24       NSR_01
               ________      ________      ________      ________      ________
  SANS_9         0.862
  SANS_12        0.775         0.872
  SANS_18        0.719         0.746         0.820
  SANS_24        0.721         0.723         0.709         0.793
- NSR_0          0.862         0.872         0.820         0.793         1.000
- NSR_1          0.578         0.573         0.538         0.519         0.674
- NSR_2          0.756         0.733         0.686         0.694         0.852
- NSR_3          0.807         0.815         0.765         0.743         0.941
- NSR_6          0.795         0.793         0.746         0.723         0.911
- NSR_9          0.862         0.775         0.719         0.721         0.862
- NSR_12         0.775         0.872         0.746         0.723         0.872
- NSR_18         0.719         0.746         0.820         0.709         0.820
- NSR_24         0.721         0.723         0.709         0.793         0.793
+ NSR_01         0.862         0.872         0.820         0.793         1.000
+ NSR_11         0.578         0.573         0.538         0.519         0.674
+ NSR_21         0.756         0.733         0.686         0.694         0.852
+ NSR_31         0.807         0.815         0.765         0.743         0.941
+ NSR_61         0.795         0.793         0.746         0.723         0.911
+ NSR_91         0.862         0.775         0.719         0.721         0.862
+ NSR_121        0.775         0.872         0.746         0.723         0.872
+ NSR_181        0.719         0.746         0.820         0.709         0.820
+ NSR_241        0.721         0.723         0.709         0.793         0.793
 
 
            Covariance Coverage
-              NSR_1         NSR_2         NSR_3         NSR_6         NSR_9
+              NSR_11        NSR_21        NSR_31        NSR_61        NSR_91
               ________      ________      ________      ________      ________
- NSR_1          0.674
- NSR_2          0.602         0.852
- NSR_3          0.627         0.822         0.941
- NSR_6          0.605         0.785         0.872         0.911
- NSR_9          0.578         0.756         0.807         0.795         0.862
- NSR_12         0.573         0.733         0.815         0.793         0.775
- NSR_18         0.538         0.686         0.765         0.746         0.719
- NSR_24         0.519         0.694         0.743         0.723         0.721
+ NSR_11         0.674
+ NSR_21         0.602         0.852
+ NSR_31         0.627         0.822         0.941
+ NSR_61         0.605         0.785         0.872         0.911
+ NSR_91         0.578         0.756         0.807         0.795         0.862
+ NSR_121        0.573         0.733         0.815         0.793         0.775
+ NSR_181        0.538         0.686         0.765         0.746         0.719
+ NSR_241        0.519         0.694         0.743         0.723         0.721
 
 
            Covariance Coverage
-              NSR_12        NSR_18        NSR_24
+              NSR_121       NSR_181       NSR_241
               ________      ________      ________
- NSR_12         0.872
- NSR_18         0.746         0.820
- NSR_24         0.723         0.709         0.793
+ NSR_121        0.872
+ NSR_181        0.746         0.820
+ NSR_241        0.723         0.709         0.793
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
@@ -264,30 +283,43 @@ UNIVARIATE SAMPLE STATISTICS
              332.000      18.591      -0.491      19.000    0.30%       7.000     10.000
      SANS_24               5.866       0.677       0.000   10.90%       2.000      4.000      5.000
              321.000      18.745      -0.108      20.000    0.31%       6.000     10.000
-     NSR_0                 1.109       2.515       1.000   89.14%       1.000      1.000      1.000
-             405.000       0.097       4.326       2.000   10.86%       1.000      1.000
-     NSR_1                 1.176       1.703       1.000   82.42%       1.000      1.000      1.000
-             273.000       0.145       0.901       2.000   17.58%       1.000      1.000
-     NSR_2                 1.252       1.141       1.000   74.78%       1.000      1.000      1.000
-             345.000       0.189      -0.697       2.000   25.22%       1.000      2.000
-     NSR_3                 1.281       0.975       1.000   71.92%       1.000      1.000      1.000
-             381.000       0.202      -1.049       2.000   28.08%       1.000      2.000
-     NSR_6                 1.352       0.618       1.000   64.77%       1.000      1.000      1.000
-             369.000       0.228      -1.618       2.000   35.23%       1.000      2.000
-     NSR_9                 1.387       0.465       1.000   61.32%       1.000      1.000      1.000
-             349.000       0.237      -1.784       2.000   38.68%       1.000      2.000
-     NSR_12                1.425       0.304       1.000   57.51%       1.000      1.000      1.000
-             353.000       0.244      -1.908       2.000   42.49%       2.000      2.000
-     NSR_18                1.446       0.218       1.000   55.42%       1.000      1.000      1.000
-             332.000       0.247      -1.952       2.000   44.58%       2.000      2.000
-     NSR_24                1.517      -0.069       1.000   48.29%       1.000      1.000      2.000
-             321.000       0.250      -1.995       2.000   51.71%       2.000      2.000
+     NSR_01                0.891      -2.515       0.000   10.86%       1.000      1.000      1.000
+             405.000       0.097       4.326       1.000   89.14%       1.000      1.000
+     NSR_11                0.824      -1.703       0.000   17.58%       1.000      1.000      1.000
+             273.000       0.145       0.901       1.000   82.42%       1.000      1.000
+     NSR_21                0.748      -1.141       0.000   25.22%       0.000      1.000      1.000
+             345.000       0.189      -0.697       1.000   74.78%       1.000      1.000
+     NSR_31                0.719      -0.975       0.000   28.08%       0.000      1.000      1.000
+             381.000       0.202      -1.049       1.000   71.92%       1.000      1.000
+     NSR_61                0.648      -0.618       0.000   35.23%       0.000      1.000      1.000
+             369.000       0.228      -1.618       1.000   64.77%       1.000      1.000
+     NSR_91                0.613      -0.465       0.000   38.68%       0.000      1.000      1.000
+             349.000       0.237      -1.784       1.000   61.32%       1.000      1.000
+     NSR_121               0.575      -0.304       0.000   42.49%       0.000      0.000      1.000
+             353.000       0.244      -1.908       1.000   57.51%       1.000      1.000
+     NSR_181               0.554      -0.218       0.000   44.58%       0.000      0.000      1.000
+             332.000       0.247      -1.952       1.000   55.42%       1.000      1.000
+     NSR_241               0.483       0.069       0.000   51.71%       0.000      0.000      0.000
+             321.000       0.250      -1.995       1.000   48.29%       1.000      1.000
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+
+Unperturbed starting value run did not converge or was rejected in the third stage.
+
+3999 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
 
      THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 3 COULD NOT
-     BE INVERTED.  PROBLEM INVOLVING VARIABLE NSR_24.  COMPUTATION COULD
+     BE INVERTED.  PROBLEM INVOLVING VARIABLE NSR_31.  COMPUTATION COULD
      NOT BE COMPLETED IN ITERATION 3.  CHANGE YOUR MODEL AND/OR STARTING
      VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
      VARIATION FOR THE VARIABLE.
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY.  ESTIMATES CANNOT
+     BE TRUSTED.
+
 
 
      THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
@@ -305,950 +337,950 @@ MODEL RESULTS
 Latent Class 1
 
  SANS_0     ON
-    NSR_0             -2.351
+    NSR_01             5.897
 
  SANS_1     ON
-    NSR_1             -1.986
+    NSR_11             3.626
 
  SANS_2     ON
-    NSR_2             -3.736
+    NSR_21             2.596
 
  SANS_3     ON
-    NSR_3             -1.407
+    NSR_31             3.641
 
  SANS_6     ON
-    NSR_6             -4.514
+    NSR_61             3.147
 
  SANS_9     ON
-    NSR_9             -4.677
+    NSR_91             3.183
 
  SANS_12    ON
-    NSR_12            -2.647
+    NSR_121            4.021
 
  SANS_18    ON
-    NSR_18            -4.210
+    NSR_181            3.807
 
  SANS_24    ON
-    NSR_24            -4.867
+    NSR_241            5.240
 
  SANS_1   WITH
-    SANS_0             3.752
+    SANS_0             3.476
 
  SANS_2   WITH
-    SANS_0             3.684
-    SANS_1             5.519
+    SANS_0             3.259
+    SANS_1             4.827
 
  SANS_3   WITH
-    SANS_0             2.835
-    SANS_1             4.136
-    SANS_2             5.110
+    SANS_0             2.548
+    SANS_1             3.570
+    SANS_2             4.398
 
  SANS_6   WITH
-    SANS_0             2.214
-    SANS_1             3.220
-    SANS_2             3.762
-    SANS_3             4.064
+    SANS_0             1.745
+    SANS_1             2.451
+    SANS_2             2.808
+    SANS_3             3.217
 
  SANS_9   WITH
-    SANS_0             2.411
-    SANS_1             2.707
-    SANS_2             3.473
-    SANS_3             3.916
-    SANS_6             4.133
+    SANS_0             1.607
+    SANS_1             1.641
+    SANS_2             2.206
+    SANS_3             2.863
+    SANS_6             2.995
 
  SANS_12  WITH
-    SANS_0             2.015
-    SANS_1             2.365
-    SANS_2             2.522
-    SANS_3             2.576
-    SANS_6             3.201
-    SANS_9             5.063
+    SANS_0             1.470
+    SANS_1             1.433
+    SANS_2             1.312
+    SANS_3             1.621
+    SANS_6             2.279
+    SANS_9             3.786
 
  SANS_18  WITH
-    SANS_0             2.257
-    SANS_1             2.864
-    SANS_2             2.173
-    SANS_3             2.392
-    SANS_6             2.831
-    SANS_9             3.760
-    SANS_12            4.251
+    SANS_0             1.684
+    SANS_1             1.950
+    SANS_2             1.152
+    SANS_3             1.543
+    SANS_6             1.952
+    SANS_9             2.616
+    SANS_12            3.250
 
  SANS_24  WITH
-    SANS_0             1.677
-    SANS_1             1.764
-    SANS_2             1.608
-    SANS_3             1.379
-    SANS_6             1.863
-    SANS_9             2.396
-    SANS_12            2.968
-    SANS_18            3.549
+    SANS_0             1.244
+    SANS_1             1.149
+    SANS_2             0.846
+    SANS_3             0.816
+    SANS_6             1.356
+    SANS_9             1.647
+    SANS_12            2.415
+    SANS_18            3.030
 
- NSR_1    WITH
-    NSR_0              0.054
+ NSR_11   WITH
+    NSR_01             0.000
 
- NSR_2    WITH
-    NSR_0              0.032
-    NSR_1              0.074
+ NSR_21   WITH
+    NSR_01             0.000
+    NSR_11             0.000
 
- NSR_3    WITH
-    NSR_0              0.036
-    NSR_1              0.079
-    NSR_2              0.115
+ NSR_31   WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
 
- NSR_6    WITH
-    NSR_0              0.030
-    NSR_1              0.061
-    NSR_2              0.094
-    NSR_3              0.096
+ NSR_61   WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
 
- NSR_9    WITH
-    NSR_0              0.028
-    NSR_1              0.051
-    NSR_2              0.070
-    NSR_3              0.073
-    NSR_6              0.115
+ NSR_91   WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.002
 
- NSR_12   WITH
-    NSR_0              0.019
-    NSR_1              0.028
-    NSR_2              0.062
-    NSR_3              0.062
-    NSR_6              0.109
-    NSR_9              0.108
+ NSR_121  WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.002
+    NSR_91             0.002
 
- NSR_18   WITH
-    NSR_0              0.014
-    NSR_1              0.013
-    NSR_2              0.053
-    NSR_3              0.046
-    NSR_6              0.062
-    NSR_9              0.091
-    NSR_12             0.130
+ NSR_181  WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.000
+    NSR_91             0.000
+    NSR_121            0.000
 
- NSR_24   WITH
-    NSR_0              0.019
-    NSR_1              0.016
-    NSR_2              0.049
-    NSR_3              0.061
-    NSR_6              0.064
-    NSR_9              0.090
-    NSR_12             0.081
-    NSR_18             0.128
+ NSR_241  WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.000
+    NSR_91             0.000
+    NSR_121            0.000
+    NSR_181            0.000
 
  Means
-    NSR_0              1.000
-    NSR_1              0.997
-    NSR_2              1.055
-    NSR_3              1.050
-    NSR_6              1.298
-    NSR_9              1.081
-    NSR_12             1.100
-    NSR_18             1.477
-    NSR_24             1.853
+    NSR_01             0.673
+    NSR_11             0.536
+    NSR_21             0.308
+    NSR_31             0.239
+    NSR_61             0.175
+    NSR_91             0.158
+    NSR_121            0.145
+    NSR_181            0.228
+    NSR_241            0.162
 
  Means
     N#1                3.075
     N#2                1.083
 
  Intercepts
-    SANS_0            10.138
-    SANS_1             8.253
-    SANS_2             9.702
-    SANS_3             7.507
-    SANS_6             9.564
-    SANS_9             9.518
-    SANS_12            7.065
-    SANS_18            9.783
-    SANS_24           10.475
+    SANS_0             3.767
+    SANS_1             3.610
+    SANS_2             3.520
+    SANS_3             3.213
+    SANS_6             2.935
+    SANS_9             2.338
+    SANS_12            2.193
+    SANS_18            2.133
+    SANS_24            2.009
 
  Variances
-    NSR_0              0.023
-    NSR_1              0.130
-    NSR_2              0.230
-    NSR_3              0.134
-    NSR_6              0.310
-    NSR_9              0.172
-    NSR_12             0.166
-    NSR_18             0.374
-    NSR_24             0.335
+    NSR_01             0.219
+    NSR_11             0.245
+    NSR_21             0.211
+    NSR_31             0.180
+    NSR_61             0.142
+    NSR_91             0.131
+    NSR_121            0.122
+    NSR_181            0.173
+    NSR_241            0.136
 
  Residual Variances
-    SANS_0             9.207
-    SANS_1             7.766
-    SANS_2             8.159
-    SANS_3             7.438
-    SANS_6             7.762
-    SANS_9             8.148
-    SANS_12            8.310
-    SANS_18            8.364
-    SANS_24            7.711
+    SANS_0             9.006
+    SANS_1             7.143
+    SANS_2             7.212
+    SANS_3             6.834
+    SANS_6             6.877
+    SANS_9             6.620
+    SANS_12            7.130
+    SANS_18            7.451
+    SANS_24            7.346
 
 Latent Class 2
 
  SANS_0     ON
-    NSR_0             -5.605
+    NSR_01             5.113
 
  SANS_1     ON
-    NSR_1             -4.031
+    NSR_11             3.739
 
  SANS_2     ON
-    NSR_2             -3.668
+    NSR_21             3.648
 
  SANS_3     ON
-    NSR_3             -4.068
+    NSR_31             3.608
 
  SANS_6     ON
-    NSR_6             -4.030
+    NSR_61             3.696
 
  SANS_9     ON
-    NSR_9             -4.350
+    NSR_91             4.026
 
  SANS_12    ON
-    NSR_12            -4.510
+    NSR_121            3.731
 
  SANS_18    ON
-    NSR_18            -4.495
+    NSR_181            4.080
 
  SANS_24    ON
-    NSR_24            -5.341
+    NSR_241            4.917
 
  SANS_1   WITH
-    SANS_0             3.752
+    SANS_0             3.476
 
  SANS_2   WITH
-    SANS_0             3.684
-    SANS_1             5.519
+    SANS_0             3.259
+    SANS_1             4.827
 
  SANS_3   WITH
-    SANS_0             2.835
-    SANS_1             4.136
-    SANS_2             5.110
+    SANS_0             2.548
+    SANS_1             3.570
+    SANS_2             4.398
 
  SANS_6   WITH
-    SANS_0             2.214
-    SANS_1             3.220
-    SANS_2             3.762
-    SANS_3             4.064
+    SANS_0             1.745
+    SANS_1             2.451
+    SANS_2             2.808
+    SANS_3             3.217
 
  SANS_9   WITH
-    SANS_0             2.411
-    SANS_1             2.707
-    SANS_2             3.473
-    SANS_3             3.916
-    SANS_6             4.133
+    SANS_0             1.607
+    SANS_1             1.641
+    SANS_2             2.206
+    SANS_3             2.863
+    SANS_6             2.995
 
  SANS_12  WITH
-    SANS_0             2.015
-    SANS_1             2.365
-    SANS_2             2.522
-    SANS_3             2.576
-    SANS_6             3.201
-    SANS_9             5.063
+    SANS_0             1.470
+    SANS_1             1.433
+    SANS_2             1.312
+    SANS_3             1.621
+    SANS_6             2.279
+    SANS_9             3.786
 
  SANS_18  WITH
-    SANS_0             2.257
-    SANS_1             2.864
-    SANS_2             2.173
-    SANS_3             2.392
-    SANS_6             2.831
-    SANS_9             3.760
-    SANS_12            4.251
+    SANS_0             1.684
+    SANS_1             1.950
+    SANS_2             1.152
+    SANS_3             1.543
+    SANS_6             1.952
+    SANS_9             2.616
+    SANS_12            3.250
 
  SANS_24  WITH
-    SANS_0             1.677
-    SANS_1             1.764
-    SANS_2             1.608
-    SANS_3             1.379
-    SANS_6             1.863
-    SANS_9             2.396
-    SANS_12            2.968
-    SANS_18            3.549
+    SANS_0             1.244
+    SANS_1             1.149
+    SANS_2             0.846
+    SANS_3             0.816
+    SANS_6             1.356
+    SANS_9             1.647
+    SANS_12            2.415
+    SANS_18            3.030
 
- NSR_1    WITH
-    NSR_0              0.054
+ NSR_11   WITH
+    NSR_01             0.000
 
- NSR_2    WITH
-    NSR_0              0.032
-    NSR_1              0.074
+ NSR_21   WITH
+    NSR_01             0.000
+    NSR_11             0.000
 
- NSR_3    WITH
-    NSR_0              0.036
-    NSR_1              0.079
-    NSR_2              0.115
+ NSR_31   WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
 
- NSR_6    WITH
-    NSR_0              0.030
-    NSR_1              0.061
-    NSR_2              0.094
-    NSR_3              0.096
+ NSR_61   WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
 
- NSR_9    WITH
-    NSR_0              0.028
-    NSR_1              0.051
-    NSR_2              0.070
-    NSR_3              0.073
-    NSR_6              0.115
+ NSR_91   WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.002
 
- NSR_12   WITH
-    NSR_0              0.019
-    NSR_1              0.028
-    NSR_2              0.062
-    NSR_3              0.062
-    NSR_6              0.109
-    NSR_9              0.108
+ NSR_121  WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.002
+    NSR_91             0.002
 
- NSR_18   WITH
-    NSR_0              0.014
-    NSR_1              0.013
-    NSR_2              0.053
-    NSR_3              0.046
-    NSR_6              0.062
-    NSR_9              0.091
-    NSR_12             0.130
+ NSR_181  WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.000
+    NSR_91             0.000
+    NSR_121            0.000
 
- NSR_24   WITH
-    NSR_0              0.019
-    NSR_1              0.016
-    NSR_2              0.049
-    NSR_3              0.061
-    NSR_6              0.064
-    NSR_9              0.090
-    NSR_12             0.081
-    NSR_18             0.128
+ NSR_241  WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.000
+    NSR_91             0.000
+    NSR_121            0.000
+    NSR_181            0.000
 
  Means
-    NSR_0              1.112
-    NSR_1              1.194
-    NSR_2              1.262
-    NSR_3              1.294
-    NSR_6              1.356
-    NSR_9              1.391
-    NSR_12             1.438
-    NSR_18             1.461
-    NSR_24             1.525
+    NSR_01             0.957
+    NSR_11             0.863
+    NSR_21             0.855
+    NSR_31             0.833
+    NSR_61             0.717
+    NSR_91             0.661
+    NSR_121            0.590
+    NSR_181            0.458
+    NSR_241            0.406
 
  Means
     N#1                1.199
     N#2                2.945
 
  Intercepts
-    SANS_0            16.155
-    SANS_1            13.202
-    SANS_2            12.340
-    SANS_3            12.890
-    SANS_6            12.433
-    SANS_9            12.638
-    SANS_12           12.847
-    SANS_18           12.593
-    SANS_24           13.854
+    SANS_0             5.179
+    SANS_1             5.413
+    SANS_2             5.013
+    SANS_3             5.125
+    SANS_6             4.340
+    SANS_9             3.888
+    SANS_12            4.068
+    SANS_18            3.643
+    SANS_24            3.220
 
  Variances
-    NSR_0              0.096
-    NSR_1              0.153
-    NSR_2              0.192
-    NSR_3              0.197
-    NSR_6              0.226
-    NSR_9              0.242
-    NSR_12             0.239
-    NSR_18             0.243
-    NSR_24             0.249
+    NSR_01             0.041
+    NSR_11             0.117
+    NSR_21             0.123
+    NSR_31             0.138
+    NSR_61             0.201
+    NSR_91             0.223
+    NSR_121            0.237
+    NSR_181            0.243
+    NSR_241            0.236
 
  Residual Variances
-    SANS_0             9.207
-    SANS_1             7.766
-    SANS_2             8.159
-    SANS_3             7.438
-    SANS_6             7.762
-    SANS_9             8.148
-    SANS_12            8.310
-    SANS_18            8.364
-    SANS_24            7.711
+    SANS_0             9.006
+    SANS_1             7.143
+    SANS_2             7.212
+    SANS_3             6.834
+    SANS_6             6.877
+    SANS_9             6.620
+    SANS_12            7.130
+    SANS_18            7.451
+    SANS_24            7.346
 
 Latent Class 3
 
  SANS_0     ON
-    NSR_0            -13.396
+    NSR_01             8.631
 
  SANS_1     ON
-    NSR_1             -9.167
+    NSR_11             3.736
 
  SANS_2     ON
-    NSR_2             -7.958
+    NSR_21             3.650
 
  SANS_3     ON
-    NSR_3             -8.471
+    NSR_31             1.574
 
  SANS_6     ON
-    NSR_6             -9.847
+    NSR_61             3.975
 
  SANS_9     ON
-    NSR_9             -7.611
+    NSR_91             3.060
 
  SANS_12    ON
-    NSR_12            -7.837
+    NSR_121            5.674
 
  SANS_18    ON
-    NSR_18            -8.303
+    NSR_181            7.164
 
  SANS_24    ON
-    NSR_24            -8.587
+    NSR_241            4.914
 
  SANS_1   WITH
-    SANS_0             3.752
+    SANS_0             3.476
 
  SANS_2   WITH
-    SANS_0             3.684
-    SANS_1             5.519
+    SANS_0             3.259
+    SANS_1             4.827
 
  SANS_3   WITH
-    SANS_0             2.835
-    SANS_1             4.136
-    SANS_2             5.110
+    SANS_0             2.548
+    SANS_1             3.570
+    SANS_2             4.398
 
  SANS_6   WITH
-    SANS_0             2.214
-    SANS_1             3.220
-    SANS_2             3.762
-    SANS_3             4.064
+    SANS_0             1.745
+    SANS_1             2.451
+    SANS_2             2.808
+    SANS_3             3.217
 
  SANS_9   WITH
-    SANS_0             2.411
-    SANS_1             2.707
-    SANS_2             3.473
-    SANS_3             3.916
-    SANS_6             4.133
+    SANS_0             1.607
+    SANS_1             1.641
+    SANS_2             2.206
+    SANS_3             2.863
+    SANS_6             2.995
 
  SANS_12  WITH
-    SANS_0             2.015
-    SANS_1             2.365
-    SANS_2             2.522
-    SANS_3             2.576
-    SANS_6             3.201
-    SANS_9             5.063
+    SANS_0             1.470
+    SANS_1             1.433
+    SANS_2             1.312
+    SANS_3             1.621
+    SANS_6             2.279
+    SANS_9             3.786
 
  SANS_18  WITH
-    SANS_0             2.257
-    SANS_1             2.864
-    SANS_2             2.173
-    SANS_3             2.392
-    SANS_6             2.831
-    SANS_9             3.760
-    SANS_12            4.251
+    SANS_0             1.684
+    SANS_1             1.950
+    SANS_2             1.152
+    SANS_3             1.543
+    SANS_6             1.952
+    SANS_9             2.616
+    SANS_12            3.250
 
  SANS_24  WITH
-    SANS_0             1.677
-    SANS_1             1.764
-    SANS_2             1.608
-    SANS_3             1.379
-    SANS_6             1.863
-    SANS_9             2.396
-    SANS_12            2.968
-    SANS_18            3.549
+    SANS_0             1.244
+    SANS_1             1.149
+    SANS_2             0.846
+    SANS_3             0.816
+    SANS_6             1.356
+    SANS_9             1.647
+    SANS_12            2.415
+    SANS_18            3.030
 
- NSR_1    WITH
-    NSR_0              0.054
+ NSR_11   WITH
+    NSR_01             0.000
 
- NSR_2    WITH
-    NSR_0              0.032
-    NSR_1              0.074
+ NSR_21   WITH
+    NSR_01             0.000
+    NSR_11             0.000
 
- NSR_3    WITH
-    NSR_0              0.036
-    NSR_1              0.079
-    NSR_2              0.115
+ NSR_31   WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
 
- NSR_6    WITH
-    NSR_0              0.030
-    NSR_1              0.061
-    NSR_2              0.094
-    NSR_3              0.096
+ NSR_61   WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
 
- NSR_9    WITH
-    NSR_0              0.028
-    NSR_1              0.051
-    NSR_2              0.070
-    NSR_3              0.073
-    NSR_6              0.115
+ NSR_91   WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.002
 
- NSR_12   WITH
-    NSR_0              0.019
-    NSR_1              0.028
-    NSR_2              0.062
-    NSR_3              0.062
-    NSR_6              0.109
-    NSR_9              0.108
+ NSR_121  WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.002
+    NSR_91             0.002
 
- NSR_18   WITH
-    NSR_0              0.014
-    NSR_1              0.013
-    NSR_2              0.053
-    NSR_3              0.046
-    NSR_6              0.062
-    NSR_9              0.091
-    NSR_12             0.130
+ NSR_181  WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.000
+    NSR_91             0.000
+    NSR_121            0.000
 
- NSR_24   WITH
-    NSR_0              0.019
-    NSR_1              0.016
-    NSR_2              0.049
-    NSR_3              0.061
-    NSR_6              0.064
-    NSR_9              0.090
-    NSR_12             0.081
-    NSR_18             0.128
+ NSR_241  WITH
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.000
+    NSR_91             0.000
+    NSR_121            0.000
+    NSR_181            0.000
 
  Means
-    NSR_0              1.026
-    NSR_1              1.018
-    NSR_2              1.014
-    NSR_3              1.026
-    NSR_6              1.128
-    NSR_9              1.193
-    NSR_12             1.079
-    NSR_18             1.083
-    NSR_24             1.224
+    NSR_01             1.000
+    NSR_11             0.999
+    NSR_21             1.000
+    NSR_31             1.000
+    NSR_61             0.997
+    NSR_91             0.998
+    NSR_121            0.963
+    NSR_181            1.000
+    NSR_241            0.911
 
  Means
     N#1               -1.281
     N#2               -1.148
 
  Intercepts
-    SANS_0            29.489
-    SANS_1            25.254
-    SANS_2            23.620
-    SANS_3            24.257
-    SANS_6            25.799
-    SANS_9            23.043
-    SANS_12           23.174
-    SANS_18           23.266
-    SANS_24           23.172
+    SANS_0             3.630
+    SANS_1             7.614
+    SANS_2             7.332
+    SANS_3             9.397
+    SANS_6             6.880
+    SANS_9             7.878
+    SANS_12            5.171
+    SANS_18            3.255
+    SANS_24            5.294
 
  Variances
-    NSR_0              0.049
-    NSR_1              0.081
-    NSR_2              0.112
-    NSR_3              0.122
-    NSR_6              0.147
-    NSR_9              0.148
-    NSR_12             0.158
-    NSR_18             0.223
-    NSR_24             0.220
+    NSR_01             0.000
+    NSR_11             0.000
+    NSR_21             0.000
+    NSR_31             0.000
+    NSR_61             0.002
+    NSR_91             0.002
+    NSR_121            0.033
+    NSR_181            0.001
+    NSR_241            0.059
 
  Residual Variances
-    SANS_0             9.207
-    SANS_1             7.766
-    SANS_2             8.159
-    SANS_3             7.438
-    SANS_6             7.762
-    SANS_9             8.148
-    SANS_12            8.310
-    SANS_18            8.364
-    SANS_24            7.711
+    SANS_0             9.006
+    SANS_1             7.143
+    SANS_2             7.212
+    SANS_3             6.834
+    SANS_6             6.877
+    SANS_9             6.620
+    SANS_12            7.130
+    SANS_18            7.451
+    SANS_24            7.346
 
 Categorical Latent Variables
 
  Means
-    C#1               -1.129
-    C#2                1.614
+    C#1               -0.049
+    C#2                0.411
 
 
 MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
 
      %OVERALL%
 
-     sans_0 ON nsr_0;
-     sans_1 ON nsr_1;
-     sans_2 ON nsr_2;
-     sans_3 ON nsr_3;
-     sans_6 ON nsr_6;
-     sans_9 ON nsr_9;
-     sans_12 ON nsr_12;
-     sans_18 ON nsr_18;
-     sans_24 ON nsr_24;
+     sans_0 ON nsr_01;
+     sans_1 ON nsr_11;
+     sans_2 ON nsr_21;
+     sans_3 ON nsr_31;
+     sans_6 ON nsr_61;
+     sans_9 ON nsr_91;
+     sans_12 ON nsr_121;
+     sans_18 ON nsr_181;
+     sans_24 ON nsr_241;
 
-     [ c#1*-1.12936 ];
-     [ c#2*1.61379 ];
+     [ c#1*-0.04911 ];
+     [ c#2*0.41050 ];
 
      %C#1%
 
-     sans_0 ON nsr_0*-2.35138;
-     sans_1 ON nsr_1*-1.98649;
-     sans_2 ON nsr_2*-3.73589;
-     sans_3 ON nsr_3*-1.40707;
-     sans_6 ON nsr_6*-4.51359;
-     sans_9 ON nsr_9*-4.67717;
-     sans_12 ON nsr_12*-2.64697;
-     sans_18 ON nsr_18*-4.20955;
-     sans_24 ON nsr_24*-4.86685;
+     sans_0 ON nsr_01*5.89652 (m1);
+     sans_1 ON nsr_11*3.62576 (m2);
+     sans_2 ON nsr_21*2.59607 (m3);
+     sans_3 ON nsr_31*3.64132 (m4);
+     sans_6 ON nsr_61*3.14677 (m5);
+     sans_9 ON nsr_91*3.18295 (m6);
+     sans_12 ON nsr_121*4.02098 (m7);
+     sans_18 ON nsr_181*3.80734 (m8);
+     sans_24 ON nsr_241*5.23967 (m9);
 
-     sans_1 WITH sans_0*3.75176 (29);
-     sans_2 WITH sans_0*3.68383 (31);
-     sans_2 WITH sans_1*5.51946 (32);
-     sans_3 WITH sans_0*2.83508 (34);
-     sans_3 WITH sans_1*4.13605 (35);
-     sans_3 WITH sans_2*5.11041 (36);
-     sans_6 WITH sans_0*2.21370 (38);
-     sans_6 WITH sans_1*3.21954 (39);
-     sans_6 WITH sans_2*3.76211 (40);
-     sans_6 WITH sans_3*4.06374 (41);
-     sans_9 WITH sans_0*2.41054 (43);
-     sans_9 WITH sans_1*2.70653 (44);
-     sans_9 WITH sans_2*3.47345 (45);
-     sans_9 WITH sans_3*3.91638 (46);
-     sans_9 WITH sans_6*4.13350 (47);
-     sans_12 WITH sans_0*2.01498 (49);
-     sans_12 WITH sans_1*2.36522 (50);
-     sans_12 WITH sans_2*2.52202 (51);
-     sans_12 WITH sans_3*2.57592 (52);
-     sans_12 WITH sans_6*3.20086 (53);
-     sans_12 WITH sans_9*5.06320 (54);
-     sans_18 WITH sans_0*2.25741 (56);
-     sans_18 WITH sans_1*2.86427 (57);
-     sans_18 WITH sans_2*2.17292 (58);
-     sans_18 WITH sans_3*2.39199 (59);
-     sans_18 WITH sans_6*2.83087 (60);
-     sans_18 WITH sans_9*3.75976 (61);
-     sans_18 WITH sans_12*4.25148 (62);
-     sans_24 WITH sans_0*1.67707 (64);
-     sans_24 WITH sans_1*1.76448 (65);
-     sans_24 WITH sans_2*1.60789 (66);
-     sans_24 WITH sans_3*1.37901 (67);
-     sans_24 WITH sans_6*1.86324 (68);
-     sans_24 WITH sans_9*2.39621 (69);
-     sans_24 WITH sans_12*2.96817 (70);
-     sans_24 WITH sans_18*3.54908 (71);
-     nsr_1 WITH nsr_0*0.05395 (74);
-     nsr_2 WITH nsr_0*0.03185 (76);
-     nsr_2 WITH nsr_1*0.07416 (77);
-     nsr_3 WITH nsr_0*0.03637 (79);
-     nsr_3 WITH nsr_1*0.07914 (80);
-     nsr_3 WITH nsr_2*0.11526 (81);
-     nsr_6 WITH nsr_0*0.02974 (83);
-     nsr_6 WITH nsr_1*0.06086 (84);
-     nsr_6 WITH nsr_2*0.09405 (85);
-     nsr_6 WITH nsr_3*0.09570 (86);
-     nsr_9 WITH nsr_0*0.02826 (88);
-     nsr_9 WITH nsr_1*0.05072 (89);
-     nsr_9 WITH nsr_2*0.06951 (90);
-     nsr_9 WITH nsr_3*0.07347 (91);
-     nsr_9 WITH nsr_6*0.11495 (92);
-     nsr_12 WITH nsr_0*0.01915 (94);
-     nsr_12 WITH nsr_1*0.02790 (95);
-     nsr_12 WITH nsr_2*0.06193 (96);
-     nsr_12 WITH nsr_3*0.06234 (97);
-     nsr_12 WITH nsr_6*0.10855 (98);
-     nsr_12 WITH nsr_9*0.10808 (99);
-     nsr_18 WITH nsr_0*0.01442 (101);
-     nsr_18 WITH nsr_1*0.01270 (102);
-     nsr_18 WITH nsr_2*0.05309 (103);
-     nsr_18 WITH nsr_3*0.04588 (104);
-     nsr_18 WITH nsr_6*0.06174 (105);
-     nsr_18 WITH nsr_9*0.09062 (106);
-     nsr_18 WITH nsr_12*0.12966 (107);
-     nsr_24 WITH nsr_0*0.01943 (109);
-     nsr_24 WITH nsr_1*0.01565 (110);
-     nsr_24 WITH nsr_2*0.04863 (111);
-     nsr_24 WITH nsr_3*0.06066 (112);
-     nsr_24 WITH nsr_6*0.06391 (113);
-     nsr_24 WITH nsr_9*0.09042 (114);
-     nsr_24 WITH nsr_12*0.08061 (115);
-     nsr_24 WITH nsr_18*0.12761 (116);
+     sans_1 WITH sans_0*3.47587 (29);
+     sans_2 WITH sans_0*3.25911 (31);
+     sans_2 WITH sans_1*4.82698 (32);
+     sans_3 WITH sans_0*2.54845 (34);
+     sans_3 WITH sans_1*3.56964 (35);
+     sans_3 WITH sans_2*4.39822 (36);
+     sans_6 WITH sans_0*1.74545 (38);
+     sans_6 WITH sans_1*2.45132 (39);
+     sans_6 WITH sans_2*2.80771 (40);
+     sans_6 WITH sans_3*3.21655 (41);
+     sans_9 WITH sans_0*1.60734 (43);
+     sans_9 WITH sans_1*1.64135 (44);
+     sans_9 WITH sans_2*2.20552 (45);
+     sans_9 WITH sans_3*2.86265 (46);
+     sans_9 WITH sans_6*2.99461 (47);
+     sans_12 WITH sans_0*1.47031 (49);
+     sans_12 WITH sans_1*1.43337 (50);
+     sans_12 WITH sans_2*1.31171 (51);
+     sans_12 WITH sans_3*1.62132 (52);
+     sans_12 WITH sans_6*2.27865 (53);
+     sans_12 WITH sans_9*3.78637 (54);
+     sans_18 WITH sans_0*1.68434 (56);
+     sans_18 WITH sans_1*1.94974 (57);
+     sans_18 WITH sans_2*1.15190 (58);
+     sans_18 WITH sans_3*1.54261 (59);
+     sans_18 WITH sans_6*1.95189 (60);
+     sans_18 WITH sans_9*2.61590 (61);
+     sans_18 WITH sans_12*3.25000 (62);
+     sans_24 WITH sans_0*1.24428 (64);
+     sans_24 WITH sans_1*1.14906 (65);
+     sans_24 WITH sans_2*0.84646 (66);
+     sans_24 WITH sans_3*0.81627 (67);
+     sans_24 WITH sans_6*1.35590 (68);
+     sans_24 WITH sans_9*1.64729 (69);
+     sans_24 WITH sans_12*2.41524 (70);
+     sans_24 WITH sans_18*3.03019 (71);
+     nsr_11 WITH nsr_01*0.00000 (74);
+     nsr_21 WITH nsr_01*0.00000 (76);
+     nsr_21 WITH nsr_11*0.00000 (77);
+     nsr_31 WITH nsr_01*0.00000 (79);
+     nsr_31 WITH nsr_11*0.00000 (80);
+     nsr_31 WITH nsr_21*0.00000 (81);
+     nsr_61 WITH nsr_01*0.00000 (83);
+     nsr_61 WITH nsr_11*0.00002 (84);
+     nsr_61 WITH nsr_21*0.00000 (85);
+     nsr_61 WITH nsr_31*0.00000 (86);
+     nsr_91 WITH nsr_01*0.00000 (88);
+     nsr_91 WITH nsr_11*0.00002 (89);
+     nsr_91 WITH nsr_21*0.00000 (90);
+     nsr_91 WITH nsr_31*0.00000 (91);
+     nsr_91 WITH nsr_61*0.00184 (92);
+     nsr_121 WITH nsr_01*0.00000 (94);
+     nsr_121 WITH nsr_11*0.00000 (95);
+     nsr_121 WITH nsr_21*0.00001 (96);
+     nsr_121 WITH nsr_31*0.00001 (97);
+     nsr_121 WITH nsr_61*0.00186 (98);
+     nsr_121 WITH nsr_91*0.00185 (99);
+     nsr_181 WITH nsr_01*0.00000 (101);
+     nsr_181 WITH nsr_11*0.00001 (102);
+     nsr_181 WITH nsr_21*0.00000 (103);
+     nsr_181 WITH nsr_31*0.00000 (104);
+     nsr_181 WITH nsr_61*-0.00016 (105);
+     nsr_181 WITH nsr_91*0.00001 (106);
+     nsr_181 WITH nsr_121*0.00000 (107);
+     nsr_241 WITH nsr_01*0.00001 (109);
+     nsr_241 WITH nsr_11*0.00031 (110);
+     nsr_241 WITH nsr_21*0.00004 (111);
+     nsr_241 WITH nsr_31*0.00005 (112);
+     nsr_241 WITH nsr_61*0.00014 (113);
+     nsr_241 WITH nsr_91*0.00012 (114);
+     nsr_241 WITH nsr_121*0.00007 (115);
+     nsr_241 WITH nsr_181*-0.00002 (116);
 
-     [ sans_0*10.13801 ];
-     [ sans_1*8.25288 ];
-     [ sans_2*9.70156 ];
-     [ sans_3*7.50665 ];
-     [ sans_6*9.56394 ];
-     [ sans_9*9.51791 ];
-     [ sans_12*7.06492 ];
-     [ sans_18*9.78307 ];
-     [ sans_24*10.47469 ];
-     [ nsr_0*1.00006 ];
-     [ nsr_1*0.99722 ];
-     [ nsr_2*1.05479 ];
-     [ nsr_3*1.05018 ];
-     [ nsr_6*1.29847 ];
-     [ nsr_9*1.08127 ];
-     [ nsr_12*1.10024 ];
-     [ nsr_18*1.47677 ];
-     [ nsr_24*1.85320 ];
+     [ sans_0*3.76738 ];
+     [ sans_1*3.61050 ];
+     [ sans_2*3.52020 ];
+     [ sans_3*3.21340 ];
+     [ sans_6*2.93514 ];
+     [ sans_9*2.33756 ];
+     [ sans_12*2.19298 ];
+     [ sans_18*2.13265 ];
+     [ sans_24*2.00934 ];
+     [ nsr_01*0.67317 ];
+     [ nsr_11*0.53624 ];
+     [ nsr_21*0.30796 ];
+     [ nsr_31*0.23940 ];
+     [ nsr_61*0.17516 ];
+     [ nsr_91*0.15803 ];
+     [ nsr_121*0.14545 ];
+     [ nsr_181*0.22844 ];
+     [ nsr_241*0.16228 ];
      [ n#1@3.07500 ];
      [ n#2@1.08300 ];
 
-     sans_0*9.20693 (28);
-     sans_1*7.76562 (30);
-     sans_2*8.15931 (33);
-     sans_3*7.43781 (37);
-     sans_6*7.76184 (42);
-     sans_9*8.14813 (48);
-     sans_12*8.31040 (55);
-     sans_18*8.36364 (63);
-     sans_24*7.71113 (72);
-     nsr_0*0.02319;
-     nsr_1*0.13024;
-     nsr_2*0.23014;
-     nsr_3*0.13368;
-     nsr_6*0.31046;
-     nsr_9*0.17177;
-     nsr_12*0.16572;
-     nsr_18*0.37361;
-     nsr_24*0.33531;
+     sans_0*9.00609 (28);
+     sans_1*7.14346 (30);
+     sans_2*7.21193 (33);
+     sans_3*6.83445 (37);
+     sans_6*6.87696 (42);
+     sans_9*6.61967 (48);
+     sans_12*7.13029 (55);
+     sans_18*7.45076 (63);
+     sans_24*7.34615 (72);
+     nsr_01*0.21936;
+     nsr_11*0.24492;
+     nsr_21*0.21081;
+     nsr_31*0.18017;
+     nsr_61*0.14176;
+     nsr_91*0.13090;
+     nsr_121*0.12238;
+     nsr_181*0.17290;
+     nsr_241*0.13565;
 
      %C#2%
 
-     sans_0 ON nsr_0*-5.60452;
-     sans_1 ON nsr_1*-4.03100;
-     sans_2 ON nsr_2*-3.66803;
-     sans_3 ON nsr_3*-4.06793;
-     sans_6 ON nsr_6*-4.03047;
-     sans_9 ON nsr_9*-4.35020;
-     sans_12 ON nsr_12*-4.50983;
-     sans_18 ON nsr_18*-4.49496;
-     sans_24 ON nsr_24*-5.34096;
+     sans_0 ON nsr_01*5.11297 (m10);
+     sans_1 ON nsr_11*3.73926 (m11);
+     sans_2 ON nsr_21*3.64761 (m12);
+     sans_3 ON nsr_31*3.60834 (m13);
+     sans_6 ON nsr_61*3.69612 (m14);
+     sans_9 ON nsr_91*4.02601 (m15);
+     sans_12 ON nsr_121*3.73102 (m16);
+     sans_18 ON nsr_181*4.07951 (m17);
+     sans_24 ON nsr_241*4.91706 (m18);
 
-     sans_1 WITH sans_0*3.75176 (29);
-     sans_2 WITH sans_0*3.68383 (31);
-     sans_2 WITH sans_1*5.51946 (32);
-     sans_3 WITH sans_0*2.83508 (34);
-     sans_3 WITH sans_1*4.13605 (35);
-     sans_3 WITH sans_2*5.11041 (36);
-     sans_6 WITH sans_0*2.21370 (38);
-     sans_6 WITH sans_1*3.21954 (39);
-     sans_6 WITH sans_2*3.76211 (40);
-     sans_6 WITH sans_3*4.06374 (41);
-     sans_9 WITH sans_0*2.41054 (43);
-     sans_9 WITH sans_1*2.70653 (44);
-     sans_9 WITH sans_2*3.47345 (45);
-     sans_9 WITH sans_3*3.91638 (46);
-     sans_9 WITH sans_6*4.13350 (47);
-     sans_12 WITH sans_0*2.01498 (49);
-     sans_12 WITH sans_1*2.36522 (50);
-     sans_12 WITH sans_2*2.52202 (51);
-     sans_12 WITH sans_3*2.57592 (52);
-     sans_12 WITH sans_6*3.20086 (53);
-     sans_12 WITH sans_9*5.06320 (54);
-     sans_18 WITH sans_0*2.25741 (56);
-     sans_18 WITH sans_1*2.86427 (57);
-     sans_18 WITH sans_2*2.17292 (58);
-     sans_18 WITH sans_3*2.39199 (59);
-     sans_18 WITH sans_6*2.83087 (60);
-     sans_18 WITH sans_9*3.75976 (61);
-     sans_18 WITH sans_12*4.25148 (62);
-     sans_24 WITH sans_0*1.67707 (64);
-     sans_24 WITH sans_1*1.76448 (65);
-     sans_24 WITH sans_2*1.60789 (66);
-     sans_24 WITH sans_3*1.37901 (67);
-     sans_24 WITH sans_6*1.86324 (68);
-     sans_24 WITH sans_9*2.39621 (69);
-     sans_24 WITH sans_12*2.96817 (70);
-     sans_24 WITH sans_18*3.54908 (71);
-     nsr_1 WITH nsr_0*0.05395 (74);
-     nsr_2 WITH nsr_0*0.03185 (76);
-     nsr_2 WITH nsr_1*0.07416 (77);
-     nsr_3 WITH nsr_0*0.03637 (79);
-     nsr_3 WITH nsr_1*0.07914 (80);
-     nsr_3 WITH nsr_2*0.11526 (81);
-     nsr_6 WITH nsr_0*0.02974 (83);
-     nsr_6 WITH nsr_1*0.06086 (84);
-     nsr_6 WITH nsr_2*0.09405 (85);
-     nsr_6 WITH nsr_3*0.09570 (86);
-     nsr_9 WITH nsr_0*0.02826 (88);
-     nsr_9 WITH nsr_1*0.05072 (89);
-     nsr_9 WITH nsr_2*0.06951 (90);
-     nsr_9 WITH nsr_3*0.07347 (91);
-     nsr_9 WITH nsr_6*0.11495 (92);
-     nsr_12 WITH nsr_0*0.01915 (94);
-     nsr_12 WITH nsr_1*0.02790 (95);
-     nsr_12 WITH nsr_2*0.06193 (96);
-     nsr_12 WITH nsr_3*0.06234 (97);
-     nsr_12 WITH nsr_6*0.10855 (98);
-     nsr_12 WITH nsr_9*0.10808 (99);
-     nsr_18 WITH nsr_0*0.01442 (101);
-     nsr_18 WITH nsr_1*0.01270 (102);
-     nsr_18 WITH nsr_2*0.05309 (103);
-     nsr_18 WITH nsr_3*0.04588 (104);
-     nsr_18 WITH nsr_6*0.06174 (105);
-     nsr_18 WITH nsr_9*0.09062 (106);
-     nsr_18 WITH nsr_12*0.12966 (107);
-     nsr_24 WITH nsr_0*0.01943 (109);
-     nsr_24 WITH nsr_1*0.01565 (110);
-     nsr_24 WITH nsr_2*0.04863 (111);
-     nsr_24 WITH nsr_3*0.06066 (112);
-     nsr_24 WITH nsr_6*0.06391 (113);
-     nsr_24 WITH nsr_9*0.09042 (114);
-     nsr_24 WITH nsr_12*0.08061 (115);
-     nsr_24 WITH nsr_18*0.12761 (116);
+     sans_1 WITH sans_0*3.47587 (29);
+     sans_2 WITH sans_0*3.25911 (31);
+     sans_2 WITH sans_1*4.82698 (32);
+     sans_3 WITH sans_0*2.54845 (34);
+     sans_3 WITH sans_1*3.56964 (35);
+     sans_3 WITH sans_2*4.39822 (36);
+     sans_6 WITH sans_0*1.74545 (38);
+     sans_6 WITH sans_1*2.45132 (39);
+     sans_6 WITH sans_2*2.80771 (40);
+     sans_6 WITH sans_3*3.21655 (41);
+     sans_9 WITH sans_0*1.60734 (43);
+     sans_9 WITH sans_1*1.64135 (44);
+     sans_9 WITH sans_2*2.20552 (45);
+     sans_9 WITH sans_3*2.86265 (46);
+     sans_9 WITH sans_6*2.99461 (47);
+     sans_12 WITH sans_0*1.47031 (49);
+     sans_12 WITH sans_1*1.43337 (50);
+     sans_12 WITH sans_2*1.31171 (51);
+     sans_12 WITH sans_3*1.62132 (52);
+     sans_12 WITH sans_6*2.27865 (53);
+     sans_12 WITH sans_9*3.78637 (54);
+     sans_18 WITH sans_0*1.68434 (56);
+     sans_18 WITH sans_1*1.94974 (57);
+     sans_18 WITH sans_2*1.15190 (58);
+     sans_18 WITH sans_3*1.54261 (59);
+     sans_18 WITH sans_6*1.95189 (60);
+     sans_18 WITH sans_9*2.61590 (61);
+     sans_18 WITH sans_12*3.25000 (62);
+     sans_24 WITH sans_0*1.24428 (64);
+     sans_24 WITH sans_1*1.14906 (65);
+     sans_24 WITH sans_2*0.84646 (66);
+     sans_24 WITH sans_3*0.81627 (67);
+     sans_24 WITH sans_6*1.35590 (68);
+     sans_24 WITH sans_9*1.64729 (69);
+     sans_24 WITH sans_12*2.41524 (70);
+     sans_24 WITH sans_18*3.03019 (71);
+     nsr_11 WITH nsr_01*0.00000 (74);
+     nsr_21 WITH nsr_01*0.00000 (76);
+     nsr_21 WITH nsr_11*0.00000 (77);
+     nsr_31 WITH nsr_01*0.00000 (79);
+     nsr_31 WITH nsr_11*0.00000 (80);
+     nsr_31 WITH nsr_21*0.00000 (81);
+     nsr_61 WITH nsr_01*0.00000 (83);
+     nsr_61 WITH nsr_11*0.00002 (84);
+     nsr_61 WITH nsr_21*0.00000 (85);
+     nsr_61 WITH nsr_31*0.00000 (86);
+     nsr_91 WITH nsr_01*0.00000 (88);
+     nsr_91 WITH nsr_11*0.00002 (89);
+     nsr_91 WITH nsr_21*0.00000 (90);
+     nsr_91 WITH nsr_31*0.00000 (91);
+     nsr_91 WITH nsr_61*0.00184 (92);
+     nsr_121 WITH nsr_01*0.00000 (94);
+     nsr_121 WITH nsr_11*0.00000 (95);
+     nsr_121 WITH nsr_21*0.00001 (96);
+     nsr_121 WITH nsr_31*0.00001 (97);
+     nsr_121 WITH nsr_61*0.00186 (98);
+     nsr_121 WITH nsr_91*0.00185 (99);
+     nsr_181 WITH nsr_01*0.00000 (101);
+     nsr_181 WITH nsr_11*0.00001 (102);
+     nsr_181 WITH nsr_21*0.00000 (103);
+     nsr_181 WITH nsr_31*0.00000 (104);
+     nsr_181 WITH nsr_61*-0.00016 (105);
+     nsr_181 WITH nsr_91*0.00001 (106);
+     nsr_181 WITH nsr_121*0.00000 (107);
+     nsr_241 WITH nsr_01*0.00001 (109);
+     nsr_241 WITH nsr_11*0.00031 (110);
+     nsr_241 WITH nsr_21*0.00004 (111);
+     nsr_241 WITH nsr_31*0.00005 (112);
+     nsr_241 WITH nsr_61*0.00014 (113);
+     nsr_241 WITH nsr_91*0.00012 (114);
+     nsr_241 WITH nsr_121*0.00007 (115);
+     nsr_241 WITH nsr_181*-0.00002 (116);
 
-     [ sans_0*16.15517 ];
-     [ sans_1*13.20196 ];
-     [ sans_2*12.34030 ];
-     [ sans_3*12.89022 ];
-     [ sans_6*12.43314 ];
-     [ sans_9*12.63763 ];
-     [ sans_12*12.84733 ];
-     [ sans_18*12.59287 ];
-     [ sans_24*13.85438 ];
-     [ nsr_0*1.11231 ];
-     [ nsr_1*1.19439 ];
-     [ nsr_2*1.26197 ];
-     [ nsr_3*1.29426 ];
-     [ nsr_6*1.35628 ];
-     [ nsr_9*1.39063 ];
-     [ nsr_12*1.43759 ];
-     [ nsr_18*1.46098 ];
-     [ nsr_24*1.52512 ];
+     [ sans_0*5.17889 ];
+     [ sans_1*5.41274 ];
+     [ sans_2*5.01292 ];
+     [ sans_3*5.12469 ];
+     [ sans_6*4.33961 ];
+     [ sans_9*3.88839 ];
+     [ sans_12*4.06848 ];
+     [ sans_18*3.64331 ];
+     [ sans_24*3.22002 ];
+     [ nsr_01*0.95699 ];
+     [ nsr_11*0.86251 ];
+     [ nsr_21*0.85471 ];
+     [ nsr_31*0.83262 ];
+     [ nsr_61*0.71659 ];
+     [ nsr_91*0.66074 ];
+     [ nsr_121*0.58977 ];
+     [ nsr_181*0.45776 ];
+     [ nsr_241*0.40555 ];
      [ n#1@1.19900 ];
      [ n#2@2.94500 ];
 
-     sans_0*9.20693 (28);
-     sans_1*7.76562 (30);
-     sans_2*8.15931 (33);
-     sans_3*7.43781 (37);
-     sans_6*7.76184 (42);
-     sans_9*8.14813 (48);
-     sans_12*8.31040 (55);
-     sans_18*8.36364 (63);
-     sans_24*7.71113 (72);
-     nsr_0*0.09639;
-     nsr_1*0.15303;
-     nsr_2*0.19232;
-     nsr_3*0.19681;
-     nsr_6*0.22619;
-     nsr_9*0.24162;
-     nsr_12*0.23920;
-     nsr_18*0.24307;
-     nsr_24*0.24856;
+     sans_0*9.00609 (28);
+     sans_1*7.14346 (30);
+     sans_2*7.21193 (33);
+     sans_3*6.83445 (37);
+     sans_6*6.87696 (42);
+     sans_9*6.61967 (48);
+     sans_12*7.13029 (55);
+     sans_18*7.45076 (63);
+     sans_24*7.34615 (72);
+     nsr_01*0.04099;
+     nsr_11*0.11664;
+     nsr_21*0.12272;
+     nsr_31*0.13780;
+     nsr_61*0.20140;
+     nsr_91*0.22268;
+     nsr_121*0.23673;
+     nsr_181*0.24310;
+     nsr_241*0.23633;
 
      %C#3%
 
-     sans_0 ON nsr_0*-13.39613;
-     sans_1 ON nsr_1*-9.16666;
-     sans_2 ON nsr_2*-7.95802;
-     sans_3 ON nsr_3*-8.47145;
-     sans_6 ON nsr_6*-9.84650;
-     sans_9 ON nsr_9*-7.61073;
-     sans_12 ON nsr_12*-7.83745;
-     sans_18 ON nsr_18*-8.30323;
-     sans_24 ON nsr_24*-8.58748;
+     sans_0 ON nsr_01*8.63076 (m19);
+     sans_1 ON nsr_11*3.73579 (m20);
+     sans_2 ON nsr_21*3.64983 (m21);
+     sans_3 ON nsr_31*1.57427 (m22);
+     sans_6 ON nsr_61*3.97538 (m23);
+     sans_9 ON nsr_91*3.06008 (m24);
+     sans_12 ON nsr_121*5.67434 (m25);
+     sans_18 ON nsr_181*7.16390 (m26);
+     sans_24 ON nsr_241*4.91376 (m27);
 
-     sans_1 WITH sans_0*3.75176 (29);
-     sans_2 WITH sans_0*3.68383 (31);
-     sans_2 WITH sans_1*5.51946 (32);
-     sans_3 WITH sans_0*2.83508 (34);
-     sans_3 WITH sans_1*4.13605 (35);
-     sans_3 WITH sans_2*5.11041 (36);
-     sans_6 WITH sans_0*2.21370 (38);
-     sans_6 WITH sans_1*3.21954 (39);
-     sans_6 WITH sans_2*3.76211 (40);
-     sans_6 WITH sans_3*4.06374 (41);
-     sans_9 WITH sans_0*2.41054 (43);
-     sans_9 WITH sans_1*2.70653 (44);
-     sans_9 WITH sans_2*3.47345 (45);
-     sans_9 WITH sans_3*3.91638 (46);
-     sans_9 WITH sans_6*4.13350 (47);
-     sans_12 WITH sans_0*2.01498 (49);
-     sans_12 WITH sans_1*2.36522 (50);
-     sans_12 WITH sans_2*2.52202 (51);
-     sans_12 WITH sans_3*2.57592 (52);
-     sans_12 WITH sans_6*3.20086 (53);
-     sans_12 WITH sans_9*5.06320 (54);
-     sans_18 WITH sans_0*2.25741 (56);
-     sans_18 WITH sans_1*2.86427 (57);
-     sans_18 WITH sans_2*2.17292 (58);
-     sans_18 WITH sans_3*2.39199 (59);
-     sans_18 WITH sans_6*2.83087 (60);
-     sans_18 WITH sans_9*3.75976 (61);
-     sans_18 WITH sans_12*4.25148 (62);
-     sans_24 WITH sans_0*1.67707 (64);
-     sans_24 WITH sans_1*1.76448 (65);
-     sans_24 WITH sans_2*1.60789 (66);
-     sans_24 WITH sans_3*1.37901 (67);
-     sans_24 WITH sans_6*1.86324 (68);
-     sans_24 WITH sans_9*2.39621 (69);
-     sans_24 WITH sans_12*2.96817 (70);
-     sans_24 WITH sans_18*3.54908 (71);
-     nsr_1 WITH nsr_0*0.05395 (74);
-     nsr_2 WITH nsr_0*0.03185 (76);
-     nsr_2 WITH nsr_1*0.07416 (77);
-     nsr_3 WITH nsr_0*0.03637 (79);
-     nsr_3 WITH nsr_1*0.07914 (80);
-     nsr_3 WITH nsr_2*0.11526 (81);
-     nsr_6 WITH nsr_0*0.02974 (83);
-     nsr_6 WITH nsr_1*0.06086 (84);
-     nsr_6 WITH nsr_2*0.09405 (85);
-     nsr_6 WITH nsr_3*0.09570 (86);
-     nsr_9 WITH nsr_0*0.02826 (88);
-     nsr_9 WITH nsr_1*0.05072 (89);
-     nsr_9 WITH nsr_2*0.06951 (90);
-     nsr_9 WITH nsr_3*0.07347 (91);
-     nsr_9 WITH nsr_6*0.11495 (92);
-     nsr_12 WITH nsr_0*0.01915 (94);
-     nsr_12 WITH nsr_1*0.02790 (95);
-     nsr_12 WITH nsr_2*0.06193 (96);
-     nsr_12 WITH nsr_3*0.06234 (97);
-     nsr_12 WITH nsr_6*0.10855 (98);
-     nsr_12 WITH nsr_9*0.10808 (99);
-     nsr_18 WITH nsr_0*0.01442 (101);
-     nsr_18 WITH nsr_1*0.01270 (102);
-     nsr_18 WITH nsr_2*0.05309 (103);
-     nsr_18 WITH nsr_3*0.04588 (104);
-     nsr_18 WITH nsr_6*0.06174 (105);
-     nsr_18 WITH nsr_9*0.09062 (106);
-     nsr_18 WITH nsr_12*0.12966 (107);
-     nsr_24 WITH nsr_0*0.01943 (109);
-     nsr_24 WITH nsr_1*0.01565 (110);
-     nsr_24 WITH nsr_2*0.04863 (111);
-     nsr_24 WITH nsr_3*0.06066 (112);
-     nsr_24 WITH nsr_6*0.06391 (113);
-     nsr_24 WITH nsr_9*0.09042 (114);
-     nsr_24 WITH nsr_12*0.08061 (115);
-     nsr_24 WITH nsr_18*0.12761 (116);
+     sans_1 WITH sans_0*3.47587 (29);
+     sans_2 WITH sans_0*3.25911 (31);
+     sans_2 WITH sans_1*4.82698 (32);
+     sans_3 WITH sans_0*2.54845 (34);
+     sans_3 WITH sans_1*3.56964 (35);
+     sans_3 WITH sans_2*4.39822 (36);
+     sans_6 WITH sans_0*1.74545 (38);
+     sans_6 WITH sans_1*2.45132 (39);
+     sans_6 WITH sans_2*2.80771 (40);
+     sans_6 WITH sans_3*3.21655 (41);
+     sans_9 WITH sans_0*1.60734 (43);
+     sans_9 WITH sans_1*1.64135 (44);
+     sans_9 WITH sans_2*2.20552 (45);
+     sans_9 WITH sans_3*2.86265 (46);
+     sans_9 WITH sans_6*2.99461 (47);
+     sans_12 WITH sans_0*1.47031 (49);
+     sans_12 WITH sans_1*1.43337 (50);
+     sans_12 WITH sans_2*1.31171 (51);
+     sans_12 WITH sans_3*1.62132 (52);
+     sans_12 WITH sans_6*2.27865 (53);
+     sans_12 WITH sans_9*3.78637 (54);
+     sans_18 WITH sans_0*1.68434 (56);
+     sans_18 WITH sans_1*1.94974 (57);
+     sans_18 WITH sans_2*1.15190 (58);
+     sans_18 WITH sans_3*1.54261 (59);
+     sans_18 WITH sans_6*1.95189 (60);
+     sans_18 WITH sans_9*2.61590 (61);
+     sans_18 WITH sans_12*3.25000 (62);
+     sans_24 WITH sans_0*1.24428 (64);
+     sans_24 WITH sans_1*1.14906 (65);
+     sans_24 WITH sans_2*0.84646 (66);
+     sans_24 WITH sans_3*0.81627 (67);
+     sans_24 WITH sans_6*1.35590 (68);
+     sans_24 WITH sans_9*1.64729 (69);
+     sans_24 WITH sans_12*2.41524 (70);
+     sans_24 WITH sans_18*3.03019 (71);
+     nsr_11 WITH nsr_01*0.00000 (74);
+     nsr_21 WITH nsr_01*0.00000 (76);
+     nsr_21 WITH nsr_11*0.00000 (77);
+     nsr_31 WITH nsr_01*0.00000 (79);
+     nsr_31 WITH nsr_11*0.00000 (80);
+     nsr_31 WITH nsr_21*0.00000 (81);
+     nsr_61 WITH nsr_01*0.00000 (83);
+     nsr_61 WITH nsr_11*0.00002 (84);
+     nsr_61 WITH nsr_21*0.00000 (85);
+     nsr_61 WITH nsr_31*0.00000 (86);
+     nsr_91 WITH nsr_01*0.00000 (88);
+     nsr_91 WITH nsr_11*0.00002 (89);
+     nsr_91 WITH nsr_21*0.00000 (90);
+     nsr_91 WITH nsr_31*0.00000 (91);
+     nsr_91 WITH nsr_61*0.00184 (92);
+     nsr_121 WITH nsr_01*0.00000 (94);
+     nsr_121 WITH nsr_11*0.00000 (95);
+     nsr_121 WITH nsr_21*0.00001 (96);
+     nsr_121 WITH nsr_31*0.00001 (97);
+     nsr_121 WITH nsr_61*0.00186 (98);
+     nsr_121 WITH nsr_91*0.00185 (99);
+     nsr_181 WITH nsr_01*0.00000 (101);
+     nsr_181 WITH nsr_11*0.00001 (102);
+     nsr_181 WITH nsr_21*0.00000 (103);
+     nsr_181 WITH nsr_31*0.00000 (104);
+     nsr_181 WITH nsr_61*-0.00016 (105);
+     nsr_181 WITH nsr_91*0.00001 (106);
+     nsr_181 WITH nsr_121*0.00000 (107);
+     nsr_241 WITH nsr_01*0.00001 (109);
+     nsr_241 WITH nsr_11*0.00031 (110);
+     nsr_241 WITH nsr_21*0.00004 (111);
+     nsr_241 WITH nsr_31*0.00005 (112);
+     nsr_241 WITH nsr_61*0.00014 (113);
+     nsr_241 WITH nsr_91*0.00012 (114);
+     nsr_241 WITH nsr_121*0.00007 (115);
+     nsr_241 WITH nsr_181*-0.00002 (116);
 
-     [ sans_0*29.48933 ];
-     [ sans_1*25.25376 ];
-     [ sans_2*23.61954 ];
-     [ sans_3*24.25718 ];
-     [ sans_6*25.79904 ];
-     [ sans_9*23.04294 ];
-     [ sans_12*23.17435 ];
-     [ sans_18*23.26644 ];
-     [ sans_24*23.17184 ];
-     [ nsr_0*1.02572 ];
-     [ nsr_1*1.01762 ];
-     [ nsr_2*1.01432 ];
-     [ nsr_3*1.02644 ];
-     [ nsr_6*1.12771 ];
-     [ nsr_9*1.19305 ];
-     [ nsr_12*1.07858 ];
-     [ nsr_18*1.08281 ];
-     [ nsr_24*1.22389 ];
+     [ sans_0*3.63035 ];
+     [ sans_1*7.61444 ];
+     [ sans_2*7.33185 ];
+     [ sans_3*9.39687 ];
+     [ sans_6*6.87973 ];
+     [ sans_9*7.87801 ];
+     [ sans_12*5.17083 ];
+     [ sans_18*3.25544 ];
+     [ sans_24*5.29436 ];
+     [ nsr_01*0.99996 ];
+     [ nsr_11*0.99943 ];
+     [ nsr_21*0.99983 ];
+     [ nsr_31*0.99978 ];
+     [ nsr_61*0.99749 ];
+     [ nsr_91*0.99750 ];
+     [ nsr_121*0.96278 ];
+     [ nsr_181*0.99968 ];
+     [ nsr_241*0.91079 ];
      [ n#1@-1.28100 ];
      [ n#2@-1.14800 ];
 
-     sans_0*9.20693 (28);
-     sans_1*7.76562 (30);
-     sans_2*8.15931 (33);
-     sans_3*7.43781 (37);
-     sans_6*7.76184 (42);
-     sans_9*8.14813 (48);
-     sans_12*8.31040 (55);
-     sans_18*8.36364 (63);
-     sans_24*7.71113 (72);
-     nsr_0*0.04865;
-     nsr_1*0.08102;
-     nsr_2*0.11191;
-     nsr_3*0.12170;
-     nsr_6*0.14730;
-     nsr_9*0.14830;
-     nsr_12*0.15797;
-     nsr_18*0.22319;
-     nsr_24*0.21969;
+     sans_0*9.00609 (28);
+     sans_1*7.14346 (30);
+     sans_2*7.21193 (33);
+     sans_3*6.83445 (37);
+     sans_6*6.87696 (42);
+     sans_9*6.61967 (48);
+     sans_12*7.13029 (55);
+     sans_18*7.45076 (63);
+     sans_24*7.34615 (72);
+     nsr_01*0.00000;
+     nsr_11*0.00003;
+     nsr_21*0.00000;
+     nsr_31*0.00000;
+     nsr_61*0.00190;
+     nsr_91*0.00185;
+     nsr_121*0.03302;
+     nsr_181*0.00051;
+     nsr_241*0.05895;
 
 
 
-     Beginning Time:  17:08:15
-        Ending Time:  17:08:16
-       Elapsed Time:  00:00:01
+     Beginning Time:  11:09:00
+        Ending Time:  11:33:08
+       Elapsed Time:  00:24:08
 
 
 

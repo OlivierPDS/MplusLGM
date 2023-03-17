@@ -1,0 +1,504 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+03/06/2023   5:03 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_YMRS_24 -  GMM4v_i s q cub@0;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/YMRS_24_D3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N YMRS_24;
+   MISSING=.;
+   USEVAR = YMRS_24 N;
+  NOMINAL = N;
+  CLASSES = c(2);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  %C#1%
+  [N#1@3.513];
+  [YMRS_24](M1); YMRS_24;
+  %C#2%
+  [N#1@-3.952];
+  [YMRS_24](M2); YMRS_24;
+  MODEL CONSTRAINT:
+  New (diff12);
+  diff12  = M1 - M2;
+  MODEL TEST:
+  M1 = M2;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_YMRS_24 -  GMM4v_i s q cub@0;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         405
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   YMRS_24
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/YMRS_24_D3STEP.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              YMRS_24
+              ________
+ YMRS_24        0.235
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.341          138.000
+      Category 2    0.659          267.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              YMRS_24
+              ________
+                7.305
+
+
+           Covariances
+              YMRS_24
+              ________
+ YMRS_24       92.205
+
+
+           Correlations
+              YMRS_24
+              ________
+ YMRS_24        1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -349.683
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     YMRS_24               7.305       1.424       0.000   31.58%       0.000      1.000      2.000
+              95.000      92.191       1.143      37.000    1.05%       5.000     16.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        5
+
+Loglikelihood
+
+          H0 Value                        -564.945
+          H0 Scaling Correction Factor      1.4512
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    1139.889
+          Bayesian (BIC)                  1159.909
+          Sample-Size Adjusted BIC        1144.043
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                             39.953
+          Degrees of Freedom                     1
+          P-Value                           0.0000
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        137.59756          0.33975
+       2        267.40244          0.66025
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        137.59756          0.33975
+       2        267.40244          0.66025
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              137          0.33827
+       2              268          0.66173
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.849
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.965    0.035
+    2   0.020    0.980
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.961    0.039
+    2   0.018    0.982
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      3.200    0.000
+    2     -4.004    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    YMRS_24            1.477      0.632      2.338      0.019
+
+ Means
+    N#1                3.513      0.000    999.000    999.000
+
+ Variances
+    YMRS_24            4.623      2.866      1.613      0.107
+
+Latent Class 2
+
+ Means
+    YMRS_24           11.372      1.454      7.820      0.000
+
+ Means
+    N#1               -3.952      0.000    999.000    999.000
+
+ Variances
+    YMRS_24          113.055     19.269      5.867      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.664      0.112     -5.921      0.000
+
+New/Additional Parameters
+    DIFF12            -9.894      1.565     -6.321      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.123E-01
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    YMRS_24            0.687      0.108      6.352      0.000
+
+ Variances
+    YMRS_24            1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    YMRS_24            1.069      0.110      9.703      0.000
+
+ Variances
+    YMRS_24            1.000      0.000    999.000    999.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    YMRS_24            0.687      0.108      6.352      0.000
+
+ Variances
+    YMRS_24            1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    YMRS_24            1.069      0.110      9.703      0.000
+
+ Variances
+    YMRS_24            1.000      0.000    999.000    999.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    YMRS_24            1.477      0.632      2.338      0.019
+
+ Variances
+    YMRS_24            4.623      2.866      1.613      0.107
+
+Latent Class 2
+
+ Means
+    YMRS_24           11.372      1.454      7.820      0.000
+
+ Variances
+    YMRS_24          113.055     19.269      5.867      0.000
+
+
+R-SQUARE
+
+Class 1
+
+Class 2
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    YMRS_24         -0.150       0.239       0.438       1.477       2.517       2.716       3.105
+
+ Means
+    N#1              3.513       3.513       3.513       3.513       3.513       3.513       3.513
+
+ Variances
+    YMRS_24         -2.760      -0.995      -0.092       4.623       9.338      10.241      12.006
+
+Latent Class 2
+
+ Means
+    YMRS_24          7.626       8.521       8.979      11.372      13.764      14.222      15.117
+
+ Means
+    N#1             -3.952      -3.952      -3.952      -3.952      -3.952      -3.952      -3.952
+
+ Variances
+    YMRS_24         63.421      75.287      81.357     113.055     144.752     150.822     162.688
+
+Categorical Latent Variables
+
+ Means
+    C#1             -0.953      -0.884      -0.849      -0.664      -0.480      -0.444      -0.375
+
+New/Additional Parameters
+    DIFF12         -13.926     -12.962     -12.469      -9.894      -7.319      -6.826      -5.862
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    YMRS_24          0.408       0.475       0.509       0.687       0.865       0.899       0.966
+
+ Variances
+    YMRS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    YMRS_24          0.786       0.853       0.888       1.069       1.251       1.286       1.353
+
+ Variances
+    YMRS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    YMRS_24          0.408       0.475       0.509       0.687       0.865       0.899       0.966
+
+ Variances
+    YMRS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    YMRS_24          0.786       0.853       0.888       1.069       1.251       1.286       1.353
+
+ Variances
+    YMRS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    YMRS_24         -0.150       0.239       0.438       1.477       2.517       2.716       3.105
+
+ Variances
+    YMRS_24         -2.760      -0.995      -0.092       4.623       9.338      10.241      12.006
+
+Latent Class 2
+
+ Means
+    YMRS_24          7.626       8.521       8.979      11.372      13.764      14.222      15.117
+
+ Variances
+    YMRS_24         63.421      75.287      81.357     113.055     144.752     150.822     162.688
+
+
+     Beginning Time:  17:03:33
+        Ending Time:  17:03:33
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

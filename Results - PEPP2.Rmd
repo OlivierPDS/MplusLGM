@@ -12,7 +12,6 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo=FALSE)
 ```{r packages}
 library(tidyverse)
 library(magrittr)
-
 ```
 
 ```{r working session, include=FALSE}
@@ -34,70 +33,144 @@ env <- map(1:3, new.env) %>%
 <!-- To add: R3STEP, Missing data, Assumptions -->
 
 # Analyses
+## Sample
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/Sample.png)
+
 ## Trajectory analyses
+Primary outcomes:\
+- SOFAS | 0, 12, 24 months\
+- SAPS | 0, 1, 2, 3, 6, 9, 12, 18, 24-month\
+- SANS | 0, 1, 2, 3, 6, 9, 12, 18, 24-month\
 
-![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/LGMMs.png) 
+### Models
+#### GCM
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/GCM.png)
 
-**GCM:**\
-  - classe = c(1)\
+$$Y_{it} = \pi_{0i} + \pi_{1i}t + \varepsilon_{it} $$\
+$\pi_{0i} = \mu_{00} + \zeta_{0i}$ (intercept)\
+$\pi_{1i} = \mu_{10} + \zeta_{1i}$ (slope)\
+\
 
-**GBTM:**\
-  - classe = c(1:6)\
-  - growth factors variance = i s q cub @0\
-  - residual variance = fixed across t & %C#%\
+**Assumptions:**\
+- class = $C_{i=1}$\
+- growth factors variance $\zeta_{ji} \text{ ~ } N(0, \Psi_{jj}) \text{, } j = 0, 1$ <span style="color:red">= freely estimated</span>\
+- residual variance $\varepsilon_{it} \text{ ~ } N(0, \sigma_t^2)$ <span style="color:red"> = freely estimated across $t$</span>\
+\
+\
 
-**LCGA:**\
-  - classe = c(k)\
-  - growth factors variance = i s q cub @0\growth factors variance (i s q cub @0)\
-  - residual variance = relaxed across %C#%, across t,  across t & %C#%\
-  
-**GMMi:** (class-invariant)\
-  - classe = c(k)\
-  - growth factors variance = relaxed stepwise for %OVERALL% model\
-  - residual variance = fixed across t & %C#%, relaxed across %C#%, across t, across t & %C#%\
-  
-**GMMv:** (class-variant)\
-  - classe = c(k)\
-  - growth factors variance = relaxed stepwise for %C#%\
-  - residual variance = fixed across t & %C#%, relaxed across %C#%, across t, across t & %C#%\
+#### GBTM
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/GBTM.png)
+
+$$Y_{it}^k = \pi_{0i}^k + \pi_{1i}^kt + \varepsilon_{i}$$\
+$\pi_{0i}^k = \mu_{00}^k + \zeta_{0i}$ (intercept)\
+$\pi_{1i}^k = \mu_{10}^k + \zeta_{1i}$ (slope)\
+
+**Assumptions:**\
+- class = $C_{i=1:6}$\
+- growth factors variance $\zeta_{ji} \text{, } j = 0, 1$ <span style="color:red">= 0</span>\
+- residual variance $\varepsilon_{i} \text{ ~ } N(0, \sigma^2)$ <span style="color:red">= fixed across $t$ & $C_{i=1:k}$</span>\
+\
+\
+
+#### LCGA
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/LCGA.png)
+
+$$Y_{it}^k = \pi_{0i}^k + \pi_{1i}^kt + \varepsilon_{i(t)}^{(k)}$$\
+$\pi_{0i}^k = \mu_{00}^k + \zeta_{0i}$ (intercept)\
+$\pi_{1i}^k = \mu_{10}^k + \zeta_{1i}$ (slope)\
+\
+**Assumptions:**\
+- class = $C_{i=k}$\
+- growth factors variance $\zeta_{ji}\text{, } j = 0, 1$ <span style="color:red">= 0</span>\
+- residual variance $\varepsilon_{i(t)}^{(k)} \text{ ~ } N(0, \sigma_{(k)(t)}^2)$ <span style="color:red">= relaxed across $C_{i=k}$, across $t$,  across $t$ & $C_{i=k}$</span>\
+\
+\
+
+#### GMM
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/GMM.png)
+
+##### GMMi (class-invariant)
+$$Y_{it}^k = \pi_{0i}^k + \pi_{1i}^kt + \varepsilon_{i(t)}^{(k)}$$\
+$\pi_{0i}^k = \mu_{00}^k + \zeta_{0i}$ (intercept)\
+$\pi_{1i} = \mu_{10}^k + \zeta_{1i}$ (slope)\
+\
+**Assumptions:**\
+- class = $C_{i=k}$\
+- growth factors variance $\zeta_{ji} \text{ ~ } N(0, \Psi_{jj}) \text{, } j = 0, 1$ <span style="color:red"> = relaxed stepwise</span>\
+- residual variance $\varepsilon_{i(t)}^{(k)} \text{ ~ } N(0, \sigma_{((k)(t))}^2)$ <span style="color:red"> = fixed across $t$ & $C_{i=k}$, relaxed across $C_{i=k}$, across $t$, across $t$ & $C_{i=k}$</span>\
+\
+\
+
+##### GMMv (class-variant)\
+$$Y_{it}^k = \pi_{0i}^k + \pi_{1i}^kt + \varepsilon_{i(t)}^{(k)}$$\
+$\pi_{0i}^k = \mu_{00}^k + \zeta_{0i}^k$ (intercept)\
+$\pi_{1i}^k = \mu_{10}^k + \zeta_{1i}^k$ (slope)\
+\
+**Assumptions:**\
+- class = $C_{i=k}$\
+- growth factors variance $\zeta_{ji}^k \text{ ~ } N(0, \Psi_{jj}^k) \text{, } j = 0, 1$ <span style="color:red"> = relaxed stepwise across $C_{i=k}$</span>\
+- residual variance $\varepsilon_{i(t)}^{(k)} \text{ ~ } N(0, \sigma_{((k)(t))}^2)$ <span style="color:red"> = fixed across $t$ & $C_{i=k}$, relaxed across $C_{i=k}$, across $t$, across $t$ & $C_{i=k}$</span>\
+
+### Model selection strategy
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/LGMMs.png)
 
 Missing data: FIML
 
 ## Regression analyses
+**Manual 3-step approach:**\
+- Estimate the unconditional (covariates excluded) LGM model (class enumeration, optimal model selection)\
+- Extract misclassification error rates (logit)\
+- Estimate the conditional (covariates included) LGM model using class variables and logits\
 
+The three-step approach preserves the class classification from the unconditional LGM and allows for the estimation of the effects of covariates after taking into account class uncertainty rates.\
+
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/Regression models.png)
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/TVCreg.png)
+
+Missing data: FIML\
 $\alpha$: Bonferroni correction\
-Missing data: FIML
 
-### Multinomial logistic regressions:
-$$
-Pr(Y)=\frac{1}{1+e^{b_0 + b_1X_i}}
-$$
+### Multinomial logistic regressions: 
+$$P(C_i = k |X_i) = \frac{e^{(b_{k0} +b_{k1}X_i)}}{\sum_{s=1}^K e^{(b_{s0} +b_{s1}X_i)}}$$
 
-$Y$: **Class membership** (C)\
-$X$:\
-  - **Sociodemographics** (age, education, FIQ, SES, onset, DUP, PAS)\
-  - **Baseline predictors** (`r paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '0', sep = '_')`)\
+   |
+---|-------------------------------------------------------------------
+$Y$| **Class membership:** $C_{i=k}$
+$X$| **Sociodemographics:** age, education, FIQ, SES, onset, DUP, PAS\
+     **Baseline predictors:** `r paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '0', sep = '_')`
 
 ### Mixture regressions:
-$Y$: **Growth factors** (i, s)\
-$X$: **Time-varying covariates** (SOFAS, SAPS, SANS, CDA, HAS, YMRS)\
+$$\pi_{0i}^{(k)} = \mu_{00}^{(k)} + \gamma_{01}^{(k)}X_i + \zeta_{_{0i}}^{(k)}$$
+$$\pi_{1i}^{(k)} = \mu_{10}^{(k)} + \gamma_{11}^{(k)}X_i + \zeta_{_{1i}}^{(k)}$$
+   
+   | 
+---|-----------------------------------------------------------
+$Y$| **Growth factors** $\pi_{0i}^{(k)}$ (intercept), $\pi_{1i}^{(k)}(slope)$\
+**Primary outcome:** SOFAS, SAPS, SANS
+$X$| **Time-varying covariates:** SOFAS, SAPS, SANS, CDA, HAS, YMRS
 
-### Multiple linear regressions
-$$
-Y_i=(b_0 + b_1X_1 + b_2X_2 + ... + b_nX_{ni}) + \epsilon_i
-$$
-$Y$: **Primary outcome** (SOFAS, SAPS, SANS)\
-$X$: **Time-varying covariates** (SOFAS, SAPS, SANS, CDA, HAS, YMRS)\
+<!-- ### Multiple linear regressions -->
+<!-- $$ -->
+<!-- Y_i=(b_0 + b_1X_1 + b_2X_2 + ... + b_nX_{ni}) + \varepsilon_i -->
+<!-- $$ -->
+<!-- $Y$: **Primary outcome** (SOFAS, SAPS, SANS)\ -->
+<!-- $X$: **Time-varying covariates** (SOFAS, SAPS, SANS, CDA, HAS, YMRS)\ -->
 
 ### Linear regressions:
 $$
-Y_i=(b_0 + b_1X_1) + \epsilon_i
+Y_i=(b_0 + b_1C_{i=k}) + \varepsilon_i
 $$
-$Y$:**Distal outcomes** (`r paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '24', sep = '_')`, remission -early, -endpoint, -cumulative)\
+   
+   
+   | 
+---|-----------------------------------------------
+$Y$| **Distal outcomes:** `r paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '24', sep = '_')`, remission ( -early, -endpoint, -cumulative)\
+**variable to add/consider:** clozapine-use, recovery, mortality, suicide, self-harm
+$X$| **Class membership:** $C_{i=k}$
 
-**variable to add/consider** (clozapine-use, recovery, mortality, suicide, self-harm)\
-
-$X$: **Class membership** (C)\
+## Sensitivity analyses
+- individually varying timescores\
+- intent-to-treat analysis\
 
 # Results
 ## SOFAS
@@ -105,28 +178,45 @@ $X$: **Class membership** (C)\
 pluck(env, "SOFAS.env", "plot")
 ```
 
-### Multinomial regressions
+Quadratic GBTM\
 ```{r}
-  table <- pluck(env, "SOFAS.env", "R3STEP_unstd") %>%  
-  filter(str_detect(paramHeader, "C#\\d.ON")) %>%
-  filter(., pval<(0.05/nrow(.))) %>% 
-  select(-warnings, -errors)
+pluck(env, "SOFAS.env", "FINAL_fit") %>% 
+select(n, starts_with(c("count", "proportion"))) %>% 
+knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+kableExtra::kable_styling()
 ```
 
-### Mixture regressions
-#### Y = primary outcome
+### Predictors of class membership
+```{r}
+  pluck(env, "SOFAS.env", "R3STEP_unstd") %>%  
+  filter(str_detect(paramHeader, "C#\\d.ON")) %>%
+  filter(pval < (0.05 / nrow(.))) %>% 
+  select(-warnings, -errors) %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+  kableExtra::kable_styling()
+```
+
+### Time-varying predictors of primary outome
 ```{r}
   pluck(env, "SOFAS.env", "TVCreg_stdyx") %>%  
   filter(str_detect(param, "^PSR", negate = TRUE)) %>%
-  filter(., pval<(0.05/(nrow(.)-sum(is.na(.$paramHeader))))) %>% 
-  select(-warnings, -errors)
+  filter(pval < (0.05 / length(env$SOFAS.env$TVCreg_models))) %>% 
+  select(-warnings, -errors, -sig) %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+  kableExtra::kable_styling()
 ```
 
-### Distal outcomes
+### Distal outcomes of latent classes
 ```{r}
   pluck(env, "SOFAS.env", "D3STEP_unstd") %>%  
-  filter(., pval<(0.05/nrow(.))) %>% 
-  select(-warnings, -errors)
+  filter(str_detect(param, "^CDS", negate = TRUE)) %>%
+  mutate(LatentClass = ifelse(LatentClass == "Categorical.Latent.Variables", "C", LatentClass)) %>% 
+  mutate(paramHeader = ifelse(paramHeader == "New.Additional.Parameters", "Pairwise", paramHeader)) %>% 
+  filter(WaldChiSq_PValue < (0.05 / sum(.$paramHeader == "Pairwise"))) %>% 
+  filter(pval < 0.05) %>% 
+  select(-warnings, -errors) %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+  kableExtra::kable_styling()
 ```
 
 
@@ -135,36 +225,56 @@ pluck(env, "SOFAS.env", "plot")
 pluck(env, "SAPS.env", "plot")
 ```
 
-### Multinomial regressions
+
+Cubic class-variant GMM\
 ```{r}
-pluck(env, "SAPS.env", "R3STEP_unstd") %>%  
-  filter(str_detect(paramHeader, "C#\\d.ON")) %>%
-  filter(., pval<(0.05/nrow(.))) %>% 
-  select(-warnings, -errors)
+pluck(env, "SAPS.env", "FINAL_fit") %>% 
+select(n, starts_with(c("count", "proportion"))) %>% 
+knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+kableExtra::kable_styling()
 ```
 
-### Mixture regressions
-#### Y = primary outcome
+### Predictors of class membership
+```{r}
+  pluck(env, "SAPS.env", "R3STEP_unstd") %>%  
+  filter(str_detect(paramHeader, "C#\\d.ON")) %>%
+  filter(pval < (0.05 / nrow(.))) %>% 
+  select(-warnings, -errors) %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+  kableExtra::kable_styling()
+```
+
+### Time-varying predictors of primary outome
 ```{r}
   pluck(env, "SAPS.env", "TVCreg_stdyx") %>%  
-  filter(str_detect(param, "^(PSR|NSR|CDS)", negate = TRUE)) %>%
-  filter(., pval<(0.05/(nrow(.)-sum(is.na(.$paramHeader))))) %>% 
-  select(-warnings, -errors)
+  filter(str_detect(param, "^(NSR|CDS)", negate = TRUE)) %>%
+  filter(pval < (0.05 / length(env$SAPS.env$TVCreg_models))) %>% 
+  select(-warnings, -errors, -sig) %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+  kableExtra::kable_styling()
 ```
 
-#### Y = growth factors
+### Time-varying predictors of growth factors wihtin latent classes
 ```{r}
   pluck(env, "SAPS.env", "MixREG_stdyx") %>%  
   filter(str_detect(param, "^(PSR|YMRS)", negate = TRUE)) %>%
-  filter(., pval<(0.05/(nrow(.)-sum(is.na(.$paramHeader))))) %>% 
-  select(-warnings, -errors)
+  filter(pval < (0.05/length(env$SAPS.env$MixREG_models))) %>% 
+  select(-warnings, -errors, -sig) %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+  kableExtra::kable_styling()
 ```
 
-### Distal outcomes
+### Distal outcomes of latent classes
 ```{r}
   pluck(env, "SAPS.env", "D3STEP_unstd") %>%  
-  filter(., pval<(0.05/nrow(.))) %>% 
-  select(-warnings, -errors)
+  mutate(LatentClass = ifelse(LatentClass == "Categorical.Latent.Variables", "C", LatentClass)) %>% 
+  mutate(paramHeader = ifelse(paramHeader == "New.Additional.Parameters", "Pairwise", paramHeader)) %>% 
+  filter(WaldChiSq_PValue < (0.05 / sum(.$paramHeader == "Pairwise"))) %>% 
+  filter(pval<0.05) %>% 
+  select(-warnings, -errors) %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+  kableExtra::kable_styling()
+
 ```
 
 ## SANS
@@ -172,39 +282,61 @@ pluck(env, "SAPS.env", "R3STEP_unstd") %>%
 pluck(env, "SANS.env", "plot")
 ```
 
-### Multinomial regressions
+Cubic ($C_1$) / linear($C_2$, $C_3$) class-variant GMM\
+```{r}
+pluck(env, "SANS.env", "FINAL_fit") %>% 
+select(n, starts_with(c("count", "proportion"))) %>% 
+knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+kableExtra::kable_styling()
+```
+
+### Predictors of class membership
 ```{r}
   pluck(env, "SANS.env", "R3STEP_unstd") %>%  
   filter(str_detect(paramHeader, "C#\\d.ON")) %>%
-  filter(., pval<(0.05/(nrow(.))/2)) %>% 
-  select(-warnings, -errors)
+  filter(pval < (0.05 / (nrow(.) / 2))) %>% 
+  select(-warnings, -errors) %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+  kableExtra::kable_styling()
 ```
 
-### Mixture regressions
-#### Y = primary outcome
+### Time-varying predictors of primary outome
 ```{r}
   pluck(env, "SANS.env", "TVCreg_stdyx") %>%  
   filter(str_detect(param, "^(PSR|NSR|CDS|YMRS)", negate = TRUE)) %>%
-  filter(., pval<(0.05/(nrow(.)-sum(is.na(.$paramHeader))))) %>% 
-  select(-warnings, -errors)
+  filter(pval < (0.05 / length(env$SANS.env$TVCreg_models))) %>% 
+  select(-warnings, -errors, -sig) %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+  kableExtra::kable_styling()
 ```
 
-#### Y = growth factors
+### Time-varying predictors of growth factors wihtin latent classes
 ```{r}
   pluck(env, "SANS.env", "MixREG_stdyx") %>%  
-  filter(str_detect(param, "^(PSR|NSR|CDS|YMRS)", negate = TRUE)) %>%
-  filter(., pval<(0.05/(nrow(.)-sum(is.na(.$paramHeader))))) %>% 
-  select(-warnings, -errors)
+  filter(str_detect(param, "^(YMRS|PSR|NSR)", negate = TRUE)) %>%
+  filter(pval < (0.05 / length(env$SANS.env$MixREG_models))) %>% 
+  select(-warnings, -errors, -sig) %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+  kableExtra::kable_styling()
 ```
 
-
-
+### Distal outcomes of latent classes
+```{r}
+  pluck(env, "SANS.env", "D3STEP_unstd") %>%  
+  mutate(LatentClass = ifelse(LatentClass == "Categorical.Latent.Variables", "C", LatentClass)) %>% 
+  mutate(paramHeader = ifelse(paramHeader == "New.Additional.Parameters", "Pairwise", paramHeader)) %>% 
+  filter(WaldChiSq_PValue < (0.05 / (sum(.$paramHeader == "Pairwise")/2))) %>% 
+  filter(pval < 0.05) %>% 
+  select(-warnings, -errors) %>% 
+  knitr::kable(format = "html", digits = c(2, 2, 2, 2, 2, 3), align = "l", table.attr = "style='width:90%;'") %>% 
+  kableExtra::kable_styling()
+```
 
 
 <!-- JUNK -->
 <!-- Add alternative parameterization (when k=2)-->
 <!-- add_row(., -->
-<!--           paramHeader = str_replace(.$paramHeader, "1", "2"), -->
+<!--           paramHeader = str_replace(.$paramHeader, "l", "2"), -->
 <!--           param = .$param, -->
 <!--           se = .$se, -->
 <!--           sig = .$sig, -->
@@ -213,11 +345,3 @@ pluck(env, "SANS.env", "plot")
 <!--           ORs_est = round(exp(- .$est),2), -->
 <!--           ORs_up2.5 = 1/.$ORs_low2.5 -->
 <!--           ) -->
-
-
-### Distal outcomes
-```{r}
-  pluck(env, "SANS.env", "D3STEP_unstd") %>%  
-  filter(., pval<(0.05/nrow(.))) %>% 
-  select(-warnings, -errors)
-```

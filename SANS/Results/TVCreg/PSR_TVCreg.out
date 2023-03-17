@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-02/10/2023   5:08 PM
+03/04/2023   3:23 AM
 
 INPUT INSTRUCTIONS
 
@@ -14,66 +14,78 @@ INPUT INSTRUCTIONS
        CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N PSR_0 PSR_1 PSR_2 PSR_3 PSR_6
        PSR_9 PSR_12 PSR_18 PSR_24;
    MISSING=.;
-   USEVAR = PSR_0 PSR_1 PSR_2 PSR_3 PSR_6 PSR_9 PSR_12 PSR_18 PSR_24 SANS_0 SANS_1 SANS_2
-       SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 N;
+   USEVAR = N SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 PSR_01
+       PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241;
    NOMINAL = N;
-   CLASSES = c(3);
+   CLASSES =
+       c(3);
+
+  DEFINE:
+  PSR_01 = PSR_0 == 1;
+   PSR_11 = PSR_1 == 1;
+   PSR_21 = PSR_2 == 1;
+   PSR_31 = PSR_3 == 1;
+   PSR_61 = PSR_6 == 1;
+   PSR_91 = PSR_9 == 1;
+   PSR_121 = PSR_12 == 1;
+   PSR_181 = PSR_18 == 1;
+   PSR_241 = PSR_24 == 1;
 
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 0;
+  STARTS = 4000;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  SANS_0 ON PSR_0;
-  SANS_1 ON PSR_1;
-  SANS_2 ON PSR_2;
-  SANS_3 ON PSR_3;
-  SANS_6 ON PSR_6;
-  SANS_9 ON PSR_9;
-  SANS_12 ON PSR_12;
-  SANS_18 ON PSR_18;
-  SANS_24 ON PSR_24;
-  PSR_0 PSR_1 PSR_2 PSR_3 PSR_6 PSR_9 PSR_12 PSR_18 PSR_24;
+  SANS_0 ON PSR_01;
+  SANS_1 ON PSR_11;
+  SANS_2 ON PSR_21;
+  SANS_3 ON PSR_31;
+  SANS_6 ON PSR_61;
+  SANS_9 ON PSR_91;
+  SANS_12 ON PSR_121;
+  SANS_18 ON PSR_181;
+  SANS_24 ON PSR_241;
+  PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241;
   %C#1%
   [N#1@3.075];
   [N#2@1.083];
-  SANS_0 ON PSR_0;
-  SANS_1 ON PSR_1;
-  SANS_2 ON PSR_2;
-  SANS_3 ON PSR_3;
-  SANS_6 ON PSR_6;
-  SANS_9 ON PSR_9;
-  SANS_12 ON PSR_12;
-  SANS_18 ON PSR_18;
-  SANS_24 ON PSR_24;
-  PSR_0 PSR_1 PSR_2 PSR_3 PSR_6 PSR_9 PSR_12 PSR_18 PSR_24;
+  SANS_0 ON PSR_01 (M1);
+  SANS_1 ON PSR_11 (M2);
+  SANS_2 ON PSR_21 (M3);
+  SANS_3 ON PSR_31 (M4);
+  SANS_6 ON PSR_61 (M5);
+  SANS_9 ON PSR_91 (M6);
+  SANS_12 ON PSR_121 (M7);
+  SANS_18 ON PSR_181 (M8);
+  SANS_24 ON PSR_241 (M9);
+  PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241;
   %C#2%
   [N#1@1.199];
   [N#2@2.945];
-  SANS_0 ON PSR_0;
-  SANS_1 ON PSR_1;
-  SANS_2 ON PSR_2;
-  SANS_3 ON PSR_3;
-  SANS_6 ON PSR_6;
-  SANS_9 ON PSR_9;
-  SANS_12 ON PSR_12;
-  SANS_18 ON PSR_18;
-  SANS_24 ON PSR_24;
-  PSR_0 PSR_1 PSR_2 PSR_3 PSR_6 PSR_9 PSR_12 PSR_18 PSR_24;
+  SANS_0 ON PSR_01 (M10);
+  SANS_1 ON PSR_11 (M11);
+  SANS_2 ON PSR_21 (M12);
+  SANS_3 ON PSR_31 (M13);
+  SANS_6 ON PSR_61 (M14);
+  SANS_9 ON PSR_91 (M15);
+  SANS_12 ON PSR_121 (M16);
+  SANS_18 ON PSR_181 (M17);
+  SANS_24 ON PSR_241 (M18);
+  PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241;
   %C#3%
   [N#1@-1.281];
   [N#2@-1.148];
-  SANS_0 ON PSR_0;
-  SANS_1 ON PSR_1;
-  SANS_2 ON PSR_2;
-  SANS_3 ON PSR_3;
-  SANS_6 ON PSR_6;
-  SANS_9 ON PSR_9;
-  SANS_12 ON PSR_12;
-  SANS_18 ON PSR_18;
-  SANS_24 ON PSR_24;
-  PSR_0 PSR_1 PSR_2 PSR_3 PSR_6 PSR_9 PSR_12 PSR_18 PSR_24;
+  SANS_0 ON PSR_01 (M19);
+  SANS_1 ON PSR_11 (M20);
+  SANS_2 ON PSR_21 (M21);
+  SANS_3 ON PSR_31 (M22);
+  SANS_6 ON PSR_61 (M23);
+  SANS_9 ON PSR_91 (M24);
+  SANS_12 ON PSR_121 (M25);
+  SANS_18 ON PSR_181 (M26);
+  SANS_24 ON PSR_241 (M27);
+  PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241;
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
@@ -108,8 +120,8 @@ Observed dependent variables
    N
 
 Observed independent variables
-   PSR_0       PSR_1       PSR_2       PSR_3       PSR_6       PSR_9
-   PSR_12      PSR_18      PSR_24
+   PSR_01      PSR_11      PSR_21      PSR_31      PSR_61      PSR_91
+   PSR_121     PSR_181     PSR_241
 
 Categorical latent variables
    C
@@ -144,6 +156,13 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                       4000
+  Number of final stage optimizations                         4000
+  Number of initial stage iterations                             1
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
 
 Input data file(s)
   /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/TVCreg/PSR_TVCreg.dat
@@ -177,54 +196,54 @@ Minimum covariance coverage value   0.100
  SANS_12        0.872         0.573         0.733         0.815         0.793
  SANS_18        0.820         0.538         0.686         0.765         0.746
  SANS_24        0.793         0.519         0.694         0.743         0.723
- PSR_0          0.998         0.672         0.849         0.938         0.909
- PSR_1          0.674         0.674         0.602         0.627         0.605
- PSR_2          0.847         0.595         0.844         0.817         0.780
- PSR_3          0.946         0.632         0.827         0.941         0.874
- PSR_6          0.909         0.605         0.783         0.869         0.906
- PSR_9          0.864         0.578         0.756         0.807         0.795
- PSR_12         0.869         0.573         0.731         0.812         0.790
- PSR_18         0.820         0.538         0.686         0.765         0.746
- PSR_24         0.793         0.519         0.694         0.743         0.723
+ PSR_01         0.998         0.672         0.849         0.938         0.909
+ PSR_11         0.674         0.674         0.602         0.627         0.605
+ PSR_21         0.847         0.595         0.844         0.817         0.780
+ PSR_31         0.946         0.632         0.827         0.941         0.874
+ PSR_61         0.909         0.605         0.783         0.869         0.906
+ PSR_91         0.864         0.578         0.756         0.807         0.795
+ PSR_121        0.869         0.573         0.731         0.812         0.790
+ PSR_181        0.820         0.538         0.686         0.765         0.746
+ PSR_241        0.793         0.519         0.694         0.743         0.723
 
 
            Covariance Coverage
-              SANS_9        SANS_12       SANS_18       SANS_24       PSR_0
+              SANS_9        SANS_12       SANS_18       SANS_24       PSR_01
               ________      ________      ________      ________      ________
  SANS_9         0.862
  SANS_12        0.775         0.872
  SANS_18        0.719         0.746         0.820
  SANS_24        0.721         0.723         0.709         0.793
- PSR_0          0.859         0.869         0.817         0.790         0.998
- PSR_1          0.578         0.573         0.538         0.519         0.672
- PSR_2          0.751         0.726         0.681         0.691         0.844
- PSR_3          0.812         0.820         0.770         0.748         0.943
- PSR_6          0.795         0.793         0.743         0.721         0.906
- PSR_9          0.857         0.775         0.723         0.721         0.862
- PSR_12         0.773         0.869         0.743         0.721         0.867
- PSR_18         0.719         0.746         0.820         0.709         0.817
- PSR_24         0.723         0.723         0.706         0.790         0.790
+ PSR_01         0.859         0.869         0.817         0.790         0.998
+ PSR_11         0.578         0.573         0.538         0.519         0.672
+ PSR_21         0.751         0.726         0.681         0.691         0.844
+ PSR_31         0.812         0.820         0.770         0.748         0.943
+ PSR_61         0.795         0.793         0.743         0.721         0.906
+ PSR_91         0.857         0.775         0.723         0.721         0.862
+ PSR_121        0.773         0.869         0.743         0.721         0.867
+ PSR_181        0.719         0.746         0.820         0.709         0.817
+ PSR_241        0.723         0.723         0.706         0.790         0.790
 
 
            Covariance Coverage
-              PSR_1         PSR_2         PSR_3         PSR_6         PSR_9
+              PSR_11        PSR_21        PSR_31        PSR_61        PSR_91
               ________      ________      ________      ________      ________
- PSR_1          0.674
- PSR_2          0.595         0.847
- PSR_3          0.632         0.822         0.946
- PSR_6          0.605         0.778         0.872         0.909
- PSR_9          0.578         0.751         0.812         0.795         0.864
- PSR_12         0.573         0.723         0.817         0.790         0.773
- PSR_18         0.538         0.681         0.770         0.743         0.723
- PSR_24         0.519         0.691         0.748         0.721         0.723
+ PSR_11         0.674
+ PSR_21         0.595         0.847
+ PSR_31         0.632         0.822         0.946
+ PSR_61         0.605         0.778         0.872         0.909
+ PSR_91         0.578         0.751         0.812         0.795         0.864
+ PSR_121        0.573         0.723         0.817         0.790         0.773
+ PSR_181        0.538         0.681         0.770         0.743         0.723
+ PSR_241        0.519         0.691         0.748         0.721         0.723
 
 
            Covariance Coverage
-              PSR_12        PSR_18        PSR_24
+              PSR_121       PSR_181       PSR_241
               ________      ________      ________
- PSR_12         0.869
- PSR_18         0.743         0.820
- PSR_24         0.721         0.706         0.793
+ PSR_121        0.869
+ PSR_181        0.743         0.820
+ PSR_241        0.721         0.706         0.793
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
@@ -264,27 +283,42 @@ UNIVARIATE SAMPLE STATISTICS
              332.000      18.591      -0.491      19.000    0.30%       7.000     10.000
      SANS_24               5.866       0.677       0.000   10.90%       2.000      4.000      5.000
              321.000      18.745      -0.108      20.000    0.31%       6.000     10.000
-     PSR_0                 1.020       6.893       1.000   98.02%       1.000      1.000      1.000
-             404.000       0.019      45.520       2.000    1.98%       1.000      1.000
-     PSR_1                 1.396       0.427       1.000   60.44%       1.000      1.000      1.000
-             273.000       0.239      -1.818       2.000   39.56%       1.000      2.000
-     PSR_2                 1.606      -0.436       1.000   39.36%       1.000      2.000      2.000
-             343.000       0.239      -1.810       2.000   60.64%       2.000      2.000
-     PSR_3                 1.681      -0.779       1.000   31.85%       1.000      2.000      2.000
-             383.000       0.217      -1.393       2.000   68.15%       2.000      2.000
-     PSR_6                 1.685      -0.795       1.000   31.52%       1.000      2.000      2.000
-             368.000       0.216      -1.367       2.000   68.48%       2.000      2.000
-     PSR_9                 1.691      -0.829       1.000   30.86%       1.000      2.000      2.000
-             350.000       0.213      -1.313       2.000   69.14%       2.000      2.000
-     PSR_12                1.702      -0.882       1.000   29.83%       1.000      2.000      2.000
-             352.000       0.209      -1.223       2.000   70.17%       2.000      2.000
-     PSR_18                1.735      -1.065       1.000   26.51%       1.000      2.000      2.000
-             332.000       0.195      -0.867       2.000   73.49%       2.000      2.000
-     PSR_24                1.726      -1.013       1.000   27.41%       1.000      2.000      2.000
-             321.000       0.199      -0.975       2.000   72.59%       2.000      2.000
+     PSR_01                0.980      -6.893       0.000    1.98%       1.000      1.000      1.000
+             404.000       0.019      45.520       1.000   98.02%       1.000      1.000
+     PSR_11                0.604      -0.427       0.000   39.56%       0.000      1.000      1.000
+             273.000       0.239      -1.818       1.000   60.44%       1.000      1.000
+     PSR_21                0.394       0.436       0.000   60.64%       0.000      0.000      0.000
+             343.000       0.239      -1.810       1.000   39.36%       0.000      1.000
+     PSR_31                0.319       0.779       0.000   68.15%       0.000      0.000      0.000
+             383.000       0.217      -1.393       1.000   31.85%       0.000      1.000
+     PSR_61                0.315       0.795       0.000   68.48%       0.000      0.000      0.000
+             368.000       0.216      -1.367       1.000   31.52%       0.000      1.000
+     PSR_91                0.309       0.829       0.000   69.14%       0.000      0.000      0.000
+             350.000       0.213      -1.313       1.000   30.86%       0.000      1.000
+     PSR_121               0.298       0.882       0.000   70.17%       0.000      0.000      0.000
+             352.000       0.209      -1.223       1.000   29.83%       0.000      1.000
+     PSR_181               0.265       1.065       0.000   73.49%       0.000      0.000      0.000
+             332.000       0.195      -0.867       1.000   26.51%       0.000      1.000
+     PSR_241               0.274       1.013       0.000   72.59%       0.000      0.000      0.000
+             321.000       0.199      -0.975       1.000   27.41%       0.000      1.000
 
-     THE LOGLIKELIHOOD DECREASED IN THE LAST EM ITERATION.  CHANGE YOUR MODEL
-     AND/OR STARTING VALUES.
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+
+Unperturbed starting value run did not converge or was rejected in the third stage.
+
+3999 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 3 COULD NOT
+     BE INVERTED.  PROBLEM INVOLVING VARIABLE PSR_01.  COMPUTATION COULD
+     NOT BE COMPLETED IN ITERATION 3.  CHANGE YOUR MODEL AND/OR STARTING
+     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
+     VARIATION FOR THE VARIABLE.
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY.  ESTIMATES CANNOT
+     BE TRUSTED.
 
 
 
@@ -303,950 +337,950 @@ MODEL RESULTS
 Latent Class 1
 
  SANS_0     ON
-    PSR_0             -3.212
+    PSR_01             2.581
 
  SANS_1     ON
-    PSR_1             -1.198
+    PSR_11             0.340
 
  SANS_2     ON
-    PSR_2             -0.648
+    PSR_21             1.897
 
  SANS_3     ON
-    PSR_3             -0.556
+    PSR_31             1.982
 
  SANS_6     ON
-    PSR_6             -2.266
+    PSR_61             0.706
 
  SANS_9     ON
-    PSR_9              0.196
+    PSR_91             9.375
 
  SANS_12    ON
-    PSR_12            -0.903
+    PSR_121           12.938
 
  SANS_18    ON
-    PSR_18            -1.473
+    PSR_181            5.085
 
  SANS_24    ON
-    PSR_24            -0.377
+    PSR_241            4.346
 
  SANS_1   WITH
-    SANS_0             5.125
+    SANS_0             7.340
 
  SANS_2   WITH
-    SANS_0             5.111
-    SANS_1             7.699
+    SANS_0             6.928
+    SANS_1            10.097
 
  SANS_3   WITH
-    SANS_0             4.664
-    SANS_1             6.251
-    SANS_2             7.872
+    SANS_0             6.413
+    SANS_1             8.428
+    SANS_2             9.715
 
  SANS_6   WITH
-    SANS_0             3.287
-    SANS_1             4.415
-    SANS_2             5.601
-    SANS_3             5.721
+    SANS_0             5.397
+    SANS_1             6.930
+    SANS_2             7.689
+    SANS_3             7.678
 
  SANS_9   WITH
-    SANS_0             3.548
-    SANS_1             4.132
-    SANS_2             5.074
-    SANS_3             5.675
-    SANS_6             6.172
+    SANS_0             5.374
+    SANS_1             6.311
+    SANS_2             6.882
+    SANS_3             7.271
+    SANS_6             8.330
 
  SANS_12  WITH
-    SANS_0             2.779
-    SANS_1             3.818
-    SANS_2             4.190
-    SANS_3             3.829
-    SANS_6             5.475
-    SANS_9             8.028
+    SANS_0             4.590
+    SANS_1             5.874
+    SANS_2             5.898
+    SANS_3             5.552
+    SANS_6             7.579
+    SANS_9             9.751
 
  SANS_18  WITH
-    SANS_0             2.948
-    SANS_1             3.873
-    SANS_2             4.300
-    SANS_3             3.784
-    SANS_6             4.621
-    SANS_9             6.644
-    SANS_12            7.656
+    SANS_0             4.213
+    SANS_1             5.520
+    SANS_2             5.462
+    SANS_3             4.723
+    SANS_6             6.140
+    SANS_9             7.905
+    SANS_12            8.791
 
  SANS_24  WITH
-    SANS_0             2.215
-    SANS_1             2.220
-    SANS_2             2.348
-    SANS_3             2.842
-    SANS_6             3.506
-    SANS_9             5.540
-    SANS_12            5.825
-    SANS_18            7.927
+    SANS_0             3.345
+    SANS_1             3.904
+    SANS_2             3.496
+    SANS_3             3.981
+    SANS_6             4.966
+    SANS_9             6.751
+    SANS_12            6.794
+    SANS_18            8.575
 
- PSR_1    WITH
-    PSR_0              0.000
+ PSR_11   WITH
+    PSR_01             0.000
 
- PSR_2    WITH
-    PSR_0              0.000
-    PSR_1              0.081
+ PSR_21   WITH
+    PSR_01             0.000
+    PSR_11             0.053
 
- PSR_3    WITH
-    PSR_0              0.000
-    PSR_1              0.067
-    PSR_2              0.131
+ PSR_31   WITH
+    PSR_01             0.000
+    PSR_11             0.043
+    PSR_21             0.073
 
- PSR_6    WITH
-    PSR_0              0.000
-    PSR_1              0.031
-    PSR_2              0.081
-    PSR_3              0.076
+ PSR_61   WITH
+    PSR_01             0.000
+    PSR_11             0.006
+    PSR_21             0.001
+    PSR_31             0.006
 
- PSR_9    WITH
-    PSR_0              0.000
-    PSR_1              0.022
-    PSR_2              0.060
-    PSR_3              0.063
-    PSR_6              0.093
+ PSR_91   WITH
+    PSR_01             0.000
+    PSR_11             0.009
+    PSR_21             0.002
+    PSR_31             0.010
+    PSR_61             0.007
 
- PSR_12   WITH
-    PSR_0              0.000
-    PSR_1              0.019
-    PSR_2              0.043
-    PSR_3              0.032
-    PSR_6              0.078
-    PSR_9              0.083
+ PSR_121  WITH
+    PSR_01             0.000
+    PSR_11             0.000
+    PSR_21             0.000
+    PSR_31             0.000
+    PSR_61             0.000
+    PSR_91             0.000
 
- PSR_18   WITH
-    PSR_0              0.000
-    PSR_1              0.029
-    PSR_2              0.037
-    PSR_3              0.039
-    PSR_6              0.059
-    PSR_9              0.051
-    PSR_12             0.092
+ PSR_181  WITH
+    PSR_01             0.000
+    PSR_11            -0.004
+    PSR_21             0.001
+    PSR_31             0.001
+    PSR_61            -0.001
+    PSR_91            -0.001
+    PSR_121            0.000
 
- PSR_24   WITH
-    PSR_0              0.000
-    PSR_1              0.017
-    PSR_2              0.034
-    PSR_3              0.033
-    PSR_6              0.038
-    PSR_9              0.040
-    PSR_12             0.078
-    PSR_18             0.050
+ PSR_241  WITH
+    PSR_01             0.000
+    PSR_11            -0.018
+    PSR_21            -0.013
+    PSR_31            -0.009
+    PSR_61            -0.001
+    PSR_91            -0.001
+    PSR_121            0.000
+    PSR_181            0.002
 
  Means
-    PSR_0              1.000
-    PSR_1              1.089
-    PSR_2              1.154
-    PSR_3              1.262
-    PSR_6              1.372
-    PSR_9              1.346
-    PSR_12             1.334
-    PSR_18             1.350
-    PSR_24             1.522
+    PSR_01             0.950
+    PSR_11             0.426
+    PSR_21             0.090
+    PSR_31             0.056
+    PSR_61             0.012
+    PSR_91             0.015
+    PSR_121            0.000
+    PSR_181            0.008
+    PSR_241            0.073
 
  Means
     N#1                3.075
     N#2                1.083
 
  Intercepts
-    SANS_0            10.777
-    SANS_1             7.734
-    SANS_2             6.475
-    SANS_3             6.187
-    SANS_6             7.641
-    SANS_9             3.462
-    SANS_12            5.302
-    SANS_18            6.537
-    SANS_24            4.695
+    SANS_0             6.570
+    SANS_1             7.149
+    SANS_2             6.059
+    SANS_3             5.753
+    SANS_6             4.818
+    SANS_9             4.516
+    SANS_12            4.129
+    SANS_18            3.793
+    SANS_24            3.041
 
  Variances
-    PSR_0              0.000
-    PSR_1              0.114
-    PSR_2              0.160
-    PSR_3              0.201
-    PSR_6              0.233
-    PSR_9              0.197
-    PSR_12             0.202
-    PSR_18             1.378
-    PSR_24             0.233
+    PSR_01             0.057
+    PSR_11             0.267
+    PSR_21             0.123
+    PSR_31             0.077
+    PSR_61             0.006
+    PSR_91             0.010
+    PSR_121            0.000
+    PSR_181            0.007
+    PSR_241            0.064
 
  Residual Variances
-    SANS_0            11.995
-    SANS_1            10.126
-    SANS_2            11.267
-    SANS_3            10.962
-    SANS_6            10.528
-    SANS_9            12.602
-    SANS_12           12.976
-    SANS_18           13.216
-    SANS_24           13.267
+    SANS_0            13.815
+    SANS_1            12.851
+    SANS_2            13.206
+    SANS_3            12.598
+    SANS_6            12.774
+    SANS_9            14.347
+    SANS_12           14.569
+    SANS_18           13.772
+    SANS_24           13.751
 
 Latent Class 2
 
  SANS_0     ON
-    PSR_0             -3.777
+    PSR_01             3.151
 
  SANS_1     ON
-    PSR_1             -0.899
+    PSR_11             1.070
 
  SANS_2     ON
-    PSR_2             -1.154
+    PSR_21             0.914
 
  SANS_3     ON
-    PSR_3             -1.914
+    PSR_31             0.881
 
  SANS_6     ON
-    PSR_6             -2.296
+    PSR_61             0.701
 
  SANS_9     ON
-    PSR_9             -1.570
+    PSR_91             0.497
 
  SANS_12    ON
-    PSR_12            -2.424
+    PSR_121            1.761
 
  SANS_18    ON
-    PSR_18            -2.775
+    PSR_181            1.763
 
  SANS_24    ON
-    PSR_24            -3.298
+    PSR_241            2.789
 
  SANS_1   WITH
-    SANS_0             5.125
+    SANS_0             7.340
 
  SANS_2   WITH
-    SANS_0             5.111
-    SANS_1             7.699
+    SANS_0             6.928
+    SANS_1            10.097
 
  SANS_3   WITH
-    SANS_0             4.664
-    SANS_1             6.251
-    SANS_2             7.872
+    SANS_0             6.413
+    SANS_1             8.428
+    SANS_2             9.715
 
  SANS_6   WITH
-    SANS_0             3.287
-    SANS_1             4.415
-    SANS_2             5.601
-    SANS_3             5.721
+    SANS_0             5.397
+    SANS_1             6.930
+    SANS_2             7.689
+    SANS_3             7.678
 
  SANS_9   WITH
-    SANS_0             3.548
-    SANS_1             4.132
-    SANS_2             5.074
-    SANS_3             5.675
-    SANS_6             6.172
+    SANS_0             5.374
+    SANS_1             6.311
+    SANS_2             6.882
+    SANS_3             7.271
+    SANS_6             8.330
 
  SANS_12  WITH
-    SANS_0             2.779
-    SANS_1             3.818
-    SANS_2             4.190
-    SANS_3             3.829
-    SANS_6             5.475
-    SANS_9             8.028
+    SANS_0             4.590
+    SANS_1             5.874
+    SANS_2             5.898
+    SANS_3             5.552
+    SANS_6             7.579
+    SANS_9             9.751
 
  SANS_18  WITH
-    SANS_0             2.948
-    SANS_1             3.873
-    SANS_2             4.300
-    SANS_3             3.784
-    SANS_6             4.621
-    SANS_9             6.644
-    SANS_12            7.656
+    SANS_0             4.213
+    SANS_1             5.520
+    SANS_2             5.462
+    SANS_3             4.723
+    SANS_6             6.140
+    SANS_9             7.905
+    SANS_12            8.791
 
  SANS_24  WITH
-    SANS_0             2.215
-    SANS_1             2.220
-    SANS_2             2.348
-    SANS_3             2.842
-    SANS_6             3.506
-    SANS_9             5.540
-    SANS_12            5.825
-    SANS_18            7.927
+    SANS_0             3.345
+    SANS_1             3.904
+    SANS_2             3.496
+    SANS_3             3.981
+    SANS_6             4.966
+    SANS_9             6.751
+    SANS_12            6.794
+    SANS_18            8.575
 
- PSR_1    WITH
-    PSR_0              0.000
+ PSR_11   WITH
+    PSR_01             0.000
 
- PSR_2    WITH
-    PSR_0              0.000
-    PSR_1              0.081
+ PSR_21   WITH
+    PSR_01             0.000
+    PSR_11             0.053
 
- PSR_3    WITH
-    PSR_0              0.000
-    PSR_1              0.067
-    PSR_2              0.131
+ PSR_31   WITH
+    PSR_01             0.000
+    PSR_11             0.043
+    PSR_21             0.073
 
- PSR_6    WITH
-    PSR_0              0.000
-    PSR_1              0.031
-    PSR_2              0.081
-    PSR_3              0.076
+ PSR_61   WITH
+    PSR_01             0.000
+    PSR_11             0.006
+    PSR_21             0.001
+    PSR_31             0.006
 
- PSR_9    WITH
-    PSR_0              0.000
-    PSR_1              0.022
-    PSR_2              0.060
-    PSR_3              0.063
-    PSR_6              0.093
+ PSR_91   WITH
+    PSR_01             0.000
+    PSR_11             0.009
+    PSR_21             0.002
+    PSR_31             0.010
+    PSR_61             0.007
 
- PSR_12   WITH
-    PSR_0              0.000
-    PSR_1              0.019
-    PSR_2              0.043
-    PSR_3              0.032
-    PSR_6              0.078
-    PSR_9              0.083
+ PSR_121  WITH
+    PSR_01             0.000
+    PSR_11             0.000
+    PSR_21             0.000
+    PSR_31             0.000
+    PSR_61             0.000
+    PSR_91             0.000
 
- PSR_18   WITH
-    PSR_0              0.000
-    PSR_1              0.029
-    PSR_2              0.037
-    PSR_3              0.039
-    PSR_6              0.059
-    PSR_9              0.051
-    PSR_12             0.092
+ PSR_181  WITH
+    PSR_01             0.000
+    PSR_11            -0.004
+    PSR_21             0.001
+    PSR_31             0.001
+    PSR_61            -0.001
+    PSR_91            -0.001
+    PSR_121            0.000
 
- PSR_24   WITH
-    PSR_0              0.000
-    PSR_1              0.017
-    PSR_2              0.034
-    PSR_3              0.033
-    PSR_6              0.038
-    PSR_9              0.040
-    PSR_12             0.078
-    PSR_18             0.050
+ PSR_241  WITH
+    PSR_01             0.000
+    PSR_11            -0.018
+    PSR_21            -0.013
+    PSR_31            -0.009
+    PSR_61            -0.001
+    PSR_91            -0.001
+    PSR_121            0.000
+    PSR_181            0.002
 
  Means
-    PSR_0              1.004
-    PSR_1              1.400
-    PSR_2              1.627
-    PSR_3              1.705
-    PSR_6              1.704
-    PSR_9              1.705
-    PSR_12             1.733
-    PSR_18             1.760
-    PSR_24             1.745
+    PSR_01             1.000
+    PSR_11             0.631
+    PSR_21             0.430
+    PSR_31             0.318
+    PSR_61             0.336
+    PSR_91             0.338
+    PSR_121            0.262
+    PSR_181            0.235
+    PSR_241            0.211
 
  Means
     N#1                1.199
     N#2                2.945
 
  Intercepts
-    SANS_0            13.706
-    SANS_1             9.492
-    SANS_2             9.470
-    SANS_3            10.844
-    SANS_6            10.750
-    SANS_9             9.204
-    SANS_12           10.486
-    SANS_18           10.784
-    SANS_24           11.276
+    SANS_0             7.039
+    SANS_1             8.139
+    SANS_2             7.738
+    SANS_3             7.755
+    SANS_6             7.234
+    SANS_9             6.850
+    SANS_12            6.445
+    SANS_18            5.825
+    SANS_24            5.564
 
  Variances
-    PSR_0              0.004
-    PSR_1              0.229
-    PSR_2              0.218
-    PSR_3              0.194
-    PSR_6              0.207
-    PSR_9              0.193
-    PSR_12             0.196
-    PSR_18             0.175
-    PSR_24             0.189
+    PSR_01             0.000
+    PSR_11             0.222
+    PSR_21             0.193
+    PSR_31             0.177
+    PSR_61             0.219
+    PSR_91             0.221
+    PSR_121            0.193
+    PSR_181            0.180
+    PSR_241            0.168
 
  Residual Variances
-    SANS_0            11.995
-    SANS_1            10.126
-    SANS_2            11.267
-    SANS_3            10.962
-    SANS_6            10.528
-    SANS_9            12.602
-    SANS_12           12.976
-    SANS_18           13.216
-    SANS_24           13.267
+    SANS_0            13.815
+    SANS_1            12.851
+    SANS_2            13.206
+    SANS_3            12.598
+    SANS_6            12.774
+    SANS_9            14.347
+    SANS_12           14.569
+    SANS_18           13.772
+    SANS_24           13.751
 
 Latent Class 3
 
  SANS_0     ON
-    PSR_0             -3.436
+    PSR_01            18.441
 
  SANS_1     ON
-    PSR_1             -0.767
+    PSR_11             0.408
 
  SANS_2     ON
-    PSR_2             -1.395
+    PSR_21             0.549
 
  SANS_3     ON
-    PSR_3             -0.760
+    PSR_31             1.084
 
  SANS_6     ON
-    PSR_6             -1.742
+    PSR_61             2.251
 
  SANS_9     ON
-    PSR_9             -3.746
+    PSR_91             0.734
 
  SANS_12    ON
-    PSR_12            -1.279
+    PSR_121            1.112
 
  SANS_18    ON
-    PSR_18            -2.508
+    PSR_181            2.271
 
  SANS_24    ON
-    PSR_24            -4.580
+    PSR_241            1.484
 
  SANS_1   WITH
-    SANS_0             5.125
+    SANS_0             7.340
 
  SANS_2   WITH
-    SANS_0             5.111
-    SANS_1             7.699
+    SANS_0             6.928
+    SANS_1            10.097
 
  SANS_3   WITH
-    SANS_0             4.664
-    SANS_1             6.251
-    SANS_2             7.872
+    SANS_0             6.413
+    SANS_1             8.428
+    SANS_2             9.715
 
  SANS_6   WITH
-    SANS_0             3.287
-    SANS_1             4.415
-    SANS_2             5.601
-    SANS_3             5.721
+    SANS_0             5.397
+    SANS_1             6.930
+    SANS_2             7.689
+    SANS_3             7.678
 
  SANS_9   WITH
-    SANS_0             3.548
-    SANS_1             4.132
-    SANS_2             5.074
-    SANS_3             5.675
-    SANS_6             6.172
+    SANS_0             5.374
+    SANS_1             6.311
+    SANS_2             6.882
+    SANS_3             7.271
+    SANS_6             8.330
 
  SANS_12  WITH
-    SANS_0             2.779
-    SANS_1             3.818
-    SANS_2             4.190
-    SANS_3             3.829
-    SANS_6             5.475
-    SANS_9             8.028
+    SANS_0             4.590
+    SANS_1             5.874
+    SANS_2             5.898
+    SANS_3             5.552
+    SANS_6             7.579
+    SANS_9             9.751
 
  SANS_18  WITH
-    SANS_0             2.948
-    SANS_1             3.873
-    SANS_2             4.300
-    SANS_3             3.784
-    SANS_6             4.621
-    SANS_9             6.644
-    SANS_12            7.656
+    SANS_0             4.213
+    SANS_1             5.520
+    SANS_2             5.462
+    SANS_3             4.723
+    SANS_6             6.140
+    SANS_9             7.905
+    SANS_12            8.791
 
  SANS_24  WITH
-    SANS_0             2.215
-    SANS_1             2.220
-    SANS_2             2.348
-    SANS_3             2.842
-    SANS_6             3.506
-    SANS_9             5.540
-    SANS_12            5.825
-    SANS_18            7.927
+    SANS_0             3.345
+    SANS_1             3.904
+    SANS_2             3.496
+    SANS_3             3.981
+    SANS_6             4.966
+    SANS_9             6.751
+    SANS_12            6.794
+    SANS_18            8.575
 
- PSR_1    WITH
-    PSR_0              0.000
+ PSR_11   WITH
+    PSR_01             0.000
 
- PSR_2    WITH
-    PSR_0              0.000
-    PSR_1              0.081
+ PSR_21   WITH
+    PSR_01             0.000
+    PSR_11             0.053
 
- PSR_3    WITH
-    PSR_0              0.000
-    PSR_1              0.067
-    PSR_2              0.131
+ PSR_31   WITH
+    PSR_01             0.000
+    PSR_11             0.043
+    PSR_21             0.073
 
- PSR_6    WITH
-    PSR_0              0.000
-    PSR_1              0.031
-    PSR_2              0.081
-    PSR_3              0.076
+ PSR_61   WITH
+    PSR_01             0.000
+    PSR_11             0.006
+    PSR_21             0.001
+    PSR_31             0.006
 
- PSR_9    WITH
-    PSR_0              0.000
-    PSR_1              0.022
-    PSR_2              0.060
-    PSR_3              0.063
-    PSR_6              0.093
+ PSR_91   WITH
+    PSR_01             0.000
+    PSR_11             0.009
+    PSR_21             0.002
+    PSR_31             0.010
+    PSR_61             0.007
 
- PSR_12   WITH
-    PSR_0              0.000
-    PSR_1              0.019
-    PSR_2              0.043
-    PSR_3              0.032
-    PSR_6              0.078
-    PSR_9              0.083
+ PSR_121  WITH
+    PSR_01             0.000
+    PSR_11             0.000
+    PSR_21             0.000
+    PSR_31             0.000
+    PSR_61             0.000
+    PSR_91             0.000
 
- PSR_18   WITH
-    PSR_0              0.000
-    PSR_1              0.029
-    PSR_2              0.037
-    PSR_3              0.039
-    PSR_6              0.059
-    PSR_9              0.051
-    PSR_12             0.092
+ PSR_181  WITH
+    PSR_01             0.000
+    PSR_11            -0.004
+    PSR_21             0.001
+    PSR_31             0.001
+    PSR_61            -0.001
+    PSR_91            -0.001
+    PSR_121            0.000
 
- PSR_24   WITH
-    PSR_0              0.000
-    PSR_1              0.017
-    PSR_2              0.034
-    PSR_3              0.033
-    PSR_6              0.038
-    PSR_9              0.040
-    PSR_12             0.078
-    PSR_18             0.050
+ PSR_241  WITH
+    PSR_01             0.000
+    PSR_11            -0.018
+    PSR_21            -0.013
+    PSR_31            -0.009
+    PSR_61            -0.001
+    PSR_91            -0.001
+    PSR_121            0.000
+    PSR_181            0.002
 
  Means
-    PSR_0              1.159
-    PSR_1              1.659
-    PSR_2              1.806
-    PSR_3              1.885
-    PSR_6              1.871
-    PSR_9              1.900
-    PSR_12             1.827
-    PSR_18             1.888
-    PSR_24             1.736
+    PSR_01             1.000
+    PSR_11             0.839
+    PSR_21             0.761
+    PSR_31             0.664
+    PSR_61             0.689
+    PSR_91             0.706
+    PSR_121            0.751
+    PSR_181            0.655
+    PSR_241            0.667
 
  Means
     N#1               -1.281
     N#2               -1.148
 
  Intercepts
-    SANS_0            17.682
-    SANS_1            14.612
-    SANS_2            14.823
-    SANS_3            13.475
-    SANS_6            15.321
-    SANS_9            18.863
-    SANS_12           13.501
-    SANS_18           15.107
-    SANS_24           18.087
+    SANS_0            -7.207
+    SANS_1             9.572
+    SANS_2             9.255
+    SANS_3             9.336
+    SANS_6             8.099
+    SANS_9             8.763
+    SANS_12            8.371
+    SANS_18            7.856
+    SANS_24            7.758
 
  Variances
-    PSR_0              0.134
-    PSR_1              0.222
-    PSR_2              0.254
-    PSR_3              0.164
-    PSR_6              0.141
-    PSR_9              0.172
-    PSR_12             0.164
-    PSR_18             0.137
-    PSR_24             0.199
+    PSR_01             0.000
+    PSR_11             0.112
+    PSR_21             0.155
+    PSR_31             0.202
+    PSR_61             0.205
+    PSR_91             0.181
+    PSR_121            0.163
+    PSR_181            0.190
+    PSR_241            0.205
 
  Residual Variances
-    SANS_0            11.995
-    SANS_1            10.126
-    SANS_2            11.267
-    SANS_3            10.962
-    SANS_6            10.528
-    SANS_9            12.602
-    SANS_12           12.976
-    SANS_18           13.216
-    SANS_24           13.267
+    SANS_0            13.815
+    SANS_1            12.851
+    SANS_2            13.206
+    SANS_3            12.598
+    SANS_6            12.774
+    SANS_9            14.347
+    SANS_12           14.569
+    SANS_18           13.772
+    SANS_24           13.751
 
 Categorical Latent Variables
 
  Means
-    C#1                2.634
-    C#2                1.419
+    C#1                0.247
+    C#2                0.362
 
 
 MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
 
      %OVERALL%
 
-     sans_0 ON psr_0;
-     sans_1 ON psr_1;
-     sans_2 ON psr_2;
-     sans_3 ON psr_3;
-     sans_6 ON psr_6;
-     sans_9 ON psr_9;
-     sans_12 ON psr_12;
-     sans_18 ON psr_18;
-     sans_24 ON psr_24;
+     sans_0 ON psr_01;
+     sans_1 ON psr_11;
+     sans_2 ON psr_21;
+     sans_3 ON psr_31;
+     sans_6 ON psr_61;
+     sans_9 ON psr_91;
+     sans_12 ON psr_121;
+     sans_18 ON psr_181;
+     sans_24 ON psr_241;
 
-     [ c#1*2.63392 ];
-     [ c#2*1.41935 ];
+     [ c#1*0.24681 ];
+     [ c#2*0.36151 ];
 
      %C#1%
 
-     sans_0 ON psr_0*-3.21213;
-     sans_1 ON psr_1*-1.19831;
-     sans_2 ON psr_2*-0.64796;
-     sans_3 ON psr_3*-0.55590;
-     sans_6 ON psr_6*-2.26590;
-     sans_9 ON psr_9*0.19600;
-     sans_12 ON psr_12*-0.90299;
-     sans_18 ON psr_18*-1.47319;
-     sans_24 ON psr_24*-0.37685;
+     sans_0 ON psr_01*2.58070 (m1);
+     sans_1 ON psr_11*0.33964 (m2);
+     sans_2 ON psr_21*1.89738 (m3);
+     sans_3 ON psr_31*1.98177 (m4);
+     sans_6 ON psr_61*0.70614 (m5);
+     sans_9 ON psr_91*9.37522 (m6);
+     sans_12 ON psr_121*12.93796 (m7);
+     sans_18 ON psr_181*5.08507 (m8);
+     sans_24 ON psr_241*4.34560 (m9);
 
-     sans_1 WITH sans_0*5.12493 (29);
-     sans_2 WITH sans_0*5.11100 (31);
-     sans_2 WITH sans_1*7.69898 (32);
-     sans_3 WITH sans_0*4.66391 (34);
-     sans_3 WITH sans_1*6.25057 (35);
-     sans_3 WITH sans_2*7.87170 (36);
-     sans_6 WITH sans_0*3.28745 (38);
-     sans_6 WITH sans_1*4.41461 (39);
-     sans_6 WITH sans_2*5.60055 (40);
-     sans_6 WITH sans_3*5.72101 (41);
-     sans_9 WITH sans_0*3.54845 (43);
-     sans_9 WITH sans_1*4.13210 (44);
-     sans_9 WITH sans_2*5.07363 (45);
-     sans_9 WITH sans_3*5.67451 (46);
-     sans_9 WITH sans_6*6.17200 (47);
-     sans_12 WITH sans_0*2.77916 (49);
-     sans_12 WITH sans_1*3.81784 (50);
-     sans_12 WITH sans_2*4.18998 (51);
-     sans_12 WITH sans_3*3.82949 (52);
-     sans_12 WITH sans_6*5.47534 (53);
-     sans_12 WITH sans_9*8.02809 (54);
-     sans_18 WITH sans_0*2.94761 (56);
-     sans_18 WITH sans_1*3.87344 (57);
-     sans_18 WITH sans_2*4.30023 (58);
-     sans_18 WITH sans_3*3.78409 (59);
-     sans_18 WITH sans_6*4.62133 (60);
-     sans_18 WITH sans_9*6.64428 (61);
-     sans_18 WITH sans_12*7.65551 (62);
-     sans_24 WITH sans_0*2.21529 (64);
-     sans_24 WITH sans_1*2.22027 (65);
-     sans_24 WITH sans_2*2.34836 (66);
-     sans_24 WITH sans_3*2.84164 (67);
-     sans_24 WITH sans_6*3.50641 (68);
-     sans_24 WITH sans_9*5.54032 (69);
-     sans_24 WITH sans_12*5.82488 (70);
-     sans_24 WITH sans_18*7.92713 (71);
-     psr_1 WITH psr_0*0.00000 (74);
-     psr_2 WITH psr_0*0.00000 (76);
-     psr_2 WITH psr_1*0.08092 (77);
-     psr_3 WITH psr_0*0.00000 (79);
-     psr_3 WITH psr_1*0.06745 (80);
-     psr_3 WITH psr_2*0.13122 (81);
-     psr_6 WITH psr_0*0.00000 (83);
-     psr_6 WITH psr_1*0.03097 (84);
-     psr_6 WITH psr_2*0.08121 (85);
-     psr_6 WITH psr_3*0.07605 (86);
-     psr_9 WITH psr_0*0.00000 (88);
-     psr_9 WITH psr_1*0.02191 (89);
-     psr_9 WITH psr_2*0.06035 (90);
-     psr_9 WITH psr_3*0.06346 (91);
-     psr_9 WITH psr_6*0.09333 (92);
-     psr_12 WITH psr_0*0.00000 (94);
-     psr_12 WITH psr_1*0.01917 (95);
-     psr_12 WITH psr_2*0.04339 (96);
-     psr_12 WITH psr_3*0.03194 (97);
-     psr_12 WITH psr_6*0.07824 (98);
-     psr_12 WITH psr_9*0.08298 (99);
-     psr_18 WITH psr_0*-0.00008 (101);
-     psr_18 WITH psr_1*0.02918 (102);
-     psr_18 WITH psr_2*0.03654 (103);
-     psr_18 WITH psr_3*0.03889 (104);
-     psr_18 WITH psr_6*0.05874 (105);
-     psr_18 WITH psr_9*0.05147 (106);
-     psr_18 WITH psr_12*0.09230 (107);
-     psr_24 WITH psr_0*0.00000 (109);
-     psr_24 WITH psr_1*0.01699 (110);
-     psr_24 WITH psr_2*0.03429 (111);
-     psr_24 WITH psr_3*0.03337 (112);
-     psr_24 WITH psr_6*0.03791 (113);
-     psr_24 WITH psr_9*0.04015 (114);
-     psr_24 WITH psr_12*0.07778 (115);
-     psr_24 WITH psr_18*0.05041 (116);
+     sans_1 WITH sans_0*7.33979 (29);
+     sans_2 WITH sans_0*6.92829 (31);
+     sans_2 WITH sans_1*10.09704 (32);
+     sans_3 WITH sans_0*6.41348 (34);
+     sans_3 WITH sans_1*8.42842 (35);
+     sans_3 WITH sans_2*9.71452 (36);
+     sans_6 WITH sans_0*5.39670 (38);
+     sans_6 WITH sans_1*6.93018 (39);
+     sans_6 WITH sans_2*7.68869 (40);
+     sans_6 WITH sans_3*7.67800 (41);
+     sans_9 WITH sans_0*5.37391 (43);
+     sans_9 WITH sans_1*6.31096 (44);
+     sans_9 WITH sans_2*6.88208 (45);
+     sans_9 WITH sans_3*7.27058 (46);
+     sans_9 WITH sans_6*8.32978 (47);
+     sans_12 WITH sans_0*4.59018 (49);
+     sans_12 WITH sans_1*5.87366 (50);
+     sans_12 WITH sans_2*5.89844 (51);
+     sans_12 WITH sans_3*5.55189 (52);
+     sans_12 WITH sans_6*7.57905 (53);
+     sans_12 WITH sans_9*9.75073 (54);
+     sans_18 WITH sans_0*4.21311 (56);
+     sans_18 WITH sans_1*5.52012 (57);
+     sans_18 WITH sans_2*5.46241 (58);
+     sans_18 WITH sans_3*4.72322 (59);
+     sans_18 WITH sans_6*6.13966 (60);
+     sans_18 WITH sans_9*7.90539 (61);
+     sans_18 WITH sans_12*8.79144 (62);
+     sans_24 WITH sans_0*3.34497 (64);
+     sans_24 WITH sans_1*3.90429 (65);
+     sans_24 WITH sans_2*3.49550 (66);
+     sans_24 WITH sans_3*3.98083 (67);
+     sans_24 WITH sans_6*4.96640 (68);
+     sans_24 WITH sans_9*6.75069 (69);
+     sans_24 WITH sans_12*6.79446 (70);
+     sans_24 WITH sans_18*8.57547 (71);
+     psr_11 WITH psr_01*0.00000 (74);
+     psr_21 WITH psr_01*0.00000 (76);
+     psr_21 WITH psr_11*0.05313 (77);
+     psr_31 WITH psr_01*0.00000 (79);
+     psr_31 WITH psr_11*0.04289 (80);
+     psr_31 WITH psr_21*0.07314 (81);
+     psr_61 WITH psr_01*0.00000 (83);
+     psr_61 WITH psr_11*0.00634 (84);
+     psr_61 WITH psr_21*0.00073 (85);
+     psr_61 WITH psr_31*0.00608 (86);
+     psr_91 WITH psr_01*0.00000 (88);
+     psr_91 WITH psr_11*0.00940 (89);
+     psr_91 WITH psr_21*0.00163 (90);
+     psr_91 WITH psr_31*0.00978 (91);
+     psr_91 WITH psr_61*0.00656 (92);
+     psr_121 WITH psr_01*0.00000 (94);
+     psr_121 WITH psr_11*-0.00020 (95);
+     psr_121 WITH psr_21*0.00002 (96);
+     psr_121 WITH psr_31*0.00005 (97);
+     psr_121 WITH psr_61*-0.00004 (98);
+     psr_121 WITH psr_91*-0.00006 (99);
+     psr_181 WITH psr_01*0.00000 (101);
+     psr_181 WITH psr_11*-0.00378 (102);
+     psr_181 WITH psr_21*0.00062 (103);
+     psr_181 WITH psr_31*0.00100 (104);
+     psr_181 WITH psr_61*-0.00089 (105);
+     psr_181 WITH psr_91*-0.00128 (106);
+     psr_181 WITH psr_121*0.00037 (107);
+     psr_241 WITH psr_01*0.00000 (109);
+     psr_241 WITH psr_11*-0.01793 (110);
+     psr_241 WITH psr_21*-0.01314 (111);
+     psr_241 WITH psr_31*-0.00886 (112);
+     psr_241 WITH psr_61*-0.00068 (113);
+     psr_241 WITH psr_91*-0.00131 (114);
+     psr_241 WITH psr_121*0.00009 (115);
+     psr_241 WITH psr_181*0.00170 (116);
 
-     [ sans_0*10.77745 ];
-     [ sans_1*7.73353 ];
-     [ sans_2*6.47497 ];
-     [ sans_3*6.18683 ];
-     [ sans_6*7.64096 ];
-     [ sans_9*3.46194 ];
-     [ sans_12*5.30187 ];
-     [ sans_18*6.53721 ];
-     [ sans_24*4.69498 ];
-     [ psr_0*1.00000 ];
-     [ psr_1*1.08851 ];
-     [ psr_2*1.15412 ];
-     [ psr_3*1.26223 ];
-     [ psr_6*1.37206 ];
-     [ psr_9*1.34562 ];
-     [ psr_12*1.33421 ];
-     [ psr_18*1.34953 ];
-     [ psr_24*1.52150 ];
+     [ sans_0*6.56973 ];
+     [ sans_1*7.14887 ];
+     [ sans_2*6.05860 ];
+     [ sans_3*5.75279 ];
+     [ sans_6*4.81845 ];
+     [ sans_9*4.51630 ];
+     [ sans_12*4.12858 ];
+     [ sans_18*3.79315 ];
+     [ sans_24*3.04057 ];
+     [ psr_01*0.95003 ];
+     [ psr_11*0.42562 ];
+     [ psr_21*0.08969 ];
+     [ psr_31*0.05638 ];
+     [ psr_61*0.01167 ];
+     [ psr_91*0.01518 ];
+     [ psr_121*0.00041 ];
+     [ psr_181*0.00756 ];
+     [ psr_241*0.07319 ];
      [ n#1@3.07500 ];
      [ n#2@1.08300 ];
 
-     sans_0*11.99456 (28);
-     sans_1*10.12561 (30);
-     sans_2*11.26689 (33);
-     sans_3*10.96201 (37);
-     sans_6*10.52756 (42);
-     sans_9*12.60167 (48);
-     sans_12*12.97570 (55);
-     sans_18*13.21567 (63);
-     sans_24*13.26673 (72);
-     psr_0*0.00042;
-     psr_1*0.11415;
-     psr_2*0.16022;
-     psr_3*0.20056;
-     psr_6*0.23302;
-     psr_9*0.19720;
-     psr_12*0.20215;
-     psr_18*1.37799;
-     psr_24*0.23277;
+     sans_0*13.81490 (28);
+     sans_1*12.85131 (30);
+     sans_2*13.20590 (33);
+     sans_3*12.59790 (37);
+     sans_6*12.77436 (42);
+     sans_9*14.34656 (48);
+     sans_12*14.56865 (55);
+     sans_18*13.77230 (63);
+     sans_24*13.75086 (72);
+     psr_01*0.05740;
+     psr_11*0.26698;
+     psr_21*0.12288;
+     psr_31*0.07698;
+     psr_61*0.00607;
+     psr_91*0.01009;
+     psr_121*0.00002;
+     psr_181*0.00745;
+     psr_241*0.06433;
 
      %C#2%
 
-     sans_0 ON psr_0*-3.77741;
-     sans_1 ON psr_1*-0.89936;
-     sans_2 ON psr_2*-1.15379;
-     sans_3 ON psr_3*-1.91354;
-     sans_6 ON psr_6*-2.29551;
-     sans_9 ON psr_9*-1.57043;
-     sans_12 ON psr_12*-2.42357;
-     sans_18 ON psr_18*-2.77456;
-     sans_24 ON psr_24*-3.29798;
+     sans_0 ON psr_01*3.15060 (m10);
+     sans_1 ON psr_11*1.07038 (m11);
+     sans_2 ON psr_21*0.91418 (m12);
+     sans_3 ON psr_31*0.88122 (m13);
+     sans_6 ON psr_61*0.70133 (m14);
+     sans_9 ON psr_91*0.49726 (m15);
+     sans_12 ON psr_121*1.76121 (m16);
+     sans_18 ON psr_181*1.76294 (m17);
+     sans_24 ON psr_241*2.78911 (m18);
 
-     sans_1 WITH sans_0*5.12493 (29);
-     sans_2 WITH sans_0*5.11100 (31);
-     sans_2 WITH sans_1*7.69898 (32);
-     sans_3 WITH sans_0*4.66391 (34);
-     sans_3 WITH sans_1*6.25057 (35);
-     sans_3 WITH sans_2*7.87170 (36);
-     sans_6 WITH sans_0*3.28745 (38);
-     sans_6 WITH sans_1*4.41461 (39);
-     sans_6 WITH sans_2*5.60055 (40);
-     sans_6 WITH sans_3*5.72101 (41);
-     sans_9 WITH sans_0*3.54845 (43);
-     sans_9 WITH sans_1*4.13210 (44);
-     sans_9 WITH sans_2*5.07363 (45);
-     sans_9 WITH sans_3*5.67451 (46);
-     sans_9 WITH sans_6*6.17200 (47);
-     sans_12 WITH sans_0*2.77916 (49);
-     sans_12 WITH sans_1*3.81784 (50);
-     sans_12 WITH sans_2*4.18998 (51);
-     sans_12 WITH sans_3*3.82949 (52);
-     sans_12 WITH sans_6*5.47534 (53);
-     sans_12 WITH sans_9*8.02809 (54);
-     sans_18 WITH sans_0*2.94761 (56);
-     sans_18 WITH sans_1*3.87344 (57);
-     sans_18 WITH sans_2*4.30023 (58);
-     sans_18 WITH sans_3*3.78409 (59);
-     sans_18 WITH sans_6*4.62133 (60);
-     sans_18 WITH sans_9*6.64428 (61);
-     sans_18 WITH sans_12*7.65551 (62);
-     sans_24 WITH sans_0*2.21529 (64);
-     sans_24 WITH sans_1*2.22027 (65);
-     sans_24 WITH sans_2*2.34836 (66);
-     sans_24 WITH sans_3*2.84164 (67);
-     sans_24 WITH sans_6*3.50641 (68);
-     sans_24 WITH sans_9*5.54032 (69);
-     sans_24 WITH sans_12*5.82488 (70);
-     sans_24 WITH sans_18*7.92713 (71);
-     psr_1 WITH psr_0*0.00000 (74);
-     psr_2 WITH psr_0*0.00000 (76);
-     psr_2 WITH psr_1*0.08092 (77);
-     psr_3 WITH psr_0*0.00000 (79);
-     psr_3 WITH psr_1*0.06745 (80);
-     psr_3 WITH psr_2*0.13122 (81);
-     psr_6 WITH psr_0*0.00000 (83);
-     psr_6 WITH psr_1*0.03097 (84);
-     psr_6 WITH psr_2*0.08121 (85);
-     psr_6 WITH psr_3*0.07605 (86);
-     psr_9 WITH psr_0*0.00000 (88);
-     psr_9 WITH psr_1*0.02191 (89);
-     psr_9 WITH psr_2*0.06035 (90);
-     psr_9 WITH psr_3*0.06346 (91);
-     psr_9 WITH psr_6*0.09333 (92);
-     psr_12 WITH psr_0*0.00000 (94);
-     psr_12 WITH psr_1*0.01917 (95);
-     psr_12 WITH psr_2*0.04339 (96);
-     psr_12 WITH psr_3*0.03194 (97);
-     psr_12 WITH psr_6*0.07824 (98);
-     psr_12 WITH psr_9*0.08298 (99);
-     psr_18 WITH psr_0*-0.00008 (101);
-     psr_18 WITH psr_1*0.02918 (102);
-     psr_18 WITH psr_2*0.03654 (103);
-     psr_18 WITH psr_3*0.03889 (104);
-     psr_18 WITH psr_6*0.05874 (105);
-     psr_18 WITH psr_9*0.05147 (106);
-     psr_18 WITH psr_12*0.09230 (107);
-     psr_24 WITH psr_0*0.00000 (109);
-     psr_24 WITH psr_1*0.01699 (110);
-     psr_24 WITH psr_2*0.03429 (111);
-     psr_24 WITH psr_3*0.03337 (112);
-     psr_24 WITH psr_6*0.03791 (113);
-     psr_24 WITH psr_9*0.04015 (114);
-     psr_24 WITH psr_12*0.07778 (115);
-     psr_24 WITH psr_18*0.05041 (116);
+     sans_1 WITH sans_0*7.33979 (29);
+     sans_2 WITH sans_0*6.92829 (31);
+     sans_2 WITH sans_1*10.09704 (32);
+     sans_3 WITH sans_0*6.41348 (34);
+     sans_3 WITH sans_1*8.42842 (35);
+     sans_3 WITH sans_2*9.71452 (36);
+     sans_6 WITH sans_0*5.39670 (38);
+     sans_6 WITH sans_1*6.93018 (39);
+     sans_6 WITH sans_2*7.68869 (40);
+     sans_6 WITH sans_3*7.67800 (41);
+     sans_9 WITH sans_0*5.37391 (43);
+     sans_9 WITH sans_1*6.31096 (44);
+     sans_9 WITH sans_2*6.88208 (45);
+     sans_9 WITH sans_3*7.27058 (46);
+     sans_9 WITH sans_6*8.32978 (47);
+     sans_12 WITH sans_0*4.59018 (49);
+     sans_12 WITH sans_1*5.87366 (50);
+     sans_12 WITH sans_2*5.89844 (51);
+     sans_12 WITH sans_3*5.55189 (52);
+     sans_12 WITH sans_6*7.57905 (53);
+     sans_12 WITH sans_9*9.75073 (54);
+     sans_18 WITH sans_0*4.21311 (56);
+     sans_18 WITH sans_1*5.52012 (57);
+     sans_18 WITH sans_2*5.46241 (58);
+     sans_18 WITH sans_3*4.72322 (59);
+     sans_18 WITH sans_6*6.13966 (60);
+     sans_18 WITH sans_9*7.90539 (61);
+     sans_18 WITH sans_12*8.79144 (62);
+     sans_24 WITH sans_0*3.34497 (64);
+     sans_24 WITH sans_1*3.90429 (65);
+     sans_24 WITH sans_2*3.49550 (66);
+     sans_24 WITH sans_3*3.98083 (67);
+     sans_24 WITH sans_6*4.96640 (68);
+     sans_24 WITH sans_9*6.75069 (69);
+     sans_24 WITH sans_12*6.79446 (70);
+     sans_24 WITH sans_18*8.57547 (71);
+     psr_11 WITH psr_01*0.00000 (74);
+     psr_21 WITH psr_01*0.00000 (76);
+     psr_21 WITH psr_11*0.05313 (77);
+     psr_31 WITH psr_01*0.00000 (79);
+     psr_31 WITH psr_11*0.04289 (80);
+     psr_31 WITH psr_21*0.07314 (81);
+     psr_61 WITH psr_01*0.00000 (83);
+     psr_61 WITH psr_11*0.00634 (84);
+     psr_61 WITH psr_21*0.00073 (85);
+     psr_61 WITH psr_31*0.00608 (86);
+     psr_91 WITH psr_01*0.00000 (88);
+     psr_91 WITH psr_11*0.00940 (89);
+     psr_91 WITH psr_21*0.00163 (90);
+     psr_91 WITH psr_31*0.00978 (91);
+     psr_91 WITH psr_61*0.00656 (92);
+     psr_121 WITH psr_01*0.00000 (94);
+     psr_121 WITH psr_11*-0.00020 (95);
+     psr_121 WITH psr_21*0.00002 (96);
+     psr_121 WITH psr_31*0.00005 (97);
+     psr_121 WITH psr_61*-0.00004 (98);
+     psr_121 WITH psr_91*-0.00006 (99);
+     psr_181 WITH psr_01*0.00000 (101);
+     psr_181 WITH psr_11*-0.00378 (102);
+     psr_181 WITH psr_21*0.00062 (103);
+     psr_181 WITH psr_31*0.00100 (104);
+     psr_181 WITH psr_61*-0.00089 (105);
+     psr_181 WITH psr_91*-0.00128 (106);
+     psr_181 WITH psr_121*0.00037 (107);
+     psr_241 WITH psr_01*0.00000 (109);
+     psr_241 WITH psr_11*-0.01793 (110);
+     psr_241 WITH psr_21*-0.01314 (111);
+     psr_241 WITH psr_31*-0.00886 (112);
+     psr_241 WITH psr_61*-0.00068 (113);
+     psr_241 WITH psr_91*-0.00131 (114);
+     psr_241 WITH psr_121*0.00009 (115);
+     psr_241 WITH psr_181*0.00170 (116);
 
-     [ sans_0*13.70557 ];
-     [ sans_1*9.49186 ];
-     [ sans_2*9.47007 ];
-     [ sans_3*10.84361 ];
-     [ sans_6*10.74969 ];
-     [ sans_9*9.20385 ];
-     [ sans_12*10.48606 ];
-     [ sans_18*10.78424 ];
-     [ sans_24*11.27648 ];
-     [ psr_0*1.00358 ];
-     [ psr_1*1.39995 ];
-     [ psr_2*1.62684 ];
-     [ psr_3*1.70478 ];
-     [ psr_6*1.70425 ];
-     [ psr_9*1.70461 ];
-     [ psr_12*1.73278 ];
-     [ psr_18*1.76024 ];
-     [ psr_24*1.74520 ];
+     [ sans_0*7.03941 ];
+     [ sans_1*8.13852 ];
+     [ sans_2*7.73788 ];
+     [ sans_3*7.75506 ];
+     [ sans_6*7.23354 ];
+     [ sans_9*6.84952 ];
+     [ sans_12*6.44497 ];
+     [ sans_18*5.82544 ];
+     [ sans_24*5.56413 ];
+     [ psr_01*0.99998 ];
+     [ psr_11*0.63067 ];
+     [ psr_21*0.42963 ];
+     [ psr_31*0.31837 ];
+     [ psr_61*0.33553 ];
+     [ psr_91*0.33761 ];
+     [ psr_121*0.26153 ];
+     [ psr_181*0.23504 ];
+     [ psr_241*0.21083 ];
      [ n#1@1.19900 ];
      [ n#2@2.94500 ];
 
-     sans_0*11.99456 (28);
-     sans_1*10.12561 (30);
-     sans_2*11.26689 (33);
-     sans_3*10.96201 (37);
-     sans_6*10.52756 (42);
-     sans_9*12.60167 (48);
-     sans_12*12.97570 (55);
-     sans_18*13.21567 (63);
-     sans_24*13.26673 (72);
-     psr_0*0.00357;
-     psr_1*0.22878;
-     psr_2*0.21816;
-     psr_3*0.19434;
-     psr_6*0.20744;
-     psr_9*0.19318;
-     psr_12*0.19567;
-     psr_18*0.17492;
-     psr_24*0.18864;
+     sans_0*13.81490 (28);
+     sans_1*12.85131 (30);
+     sans_2*13.20590 (33);
+     sans_3*12.59790 (37);
+     sans_6*12.77436 (42);
+     sans_9*14.34656 (48);
+     sans_12*14.56865 (55);
+     sans_18*13.77230 (63);
+     sans_24*13.75086 (72);
+     psr_01*0.00002;
+     psr_11*0.22247;
+     psr_21*0.19302;
+     psr_31*0.17703;
+     psr_61*0.21870;
+     psr_91*0.22126;
+     psr_121*0.19338;
+     psr_181*0.17987;
+     psr_241*0.16774;
 
      %C#3%
 
-     sans_0 ON psr_0*-3.43612;
-     sans_1 ON psr_1*-0.76733;
-     sans_2 ON psr_2*-1.39486;
-     sans_3 ON psr_3*-0.75975;
-     sans_6 ON psr_6*-1.74157;
-     sans_9 ON psr_9*-3.74572;
-     sans_12 ON psr_12*-1.27881;
-     sans_18 ON psr_18*-2.50840;
-     sans_24 ON psr_24*-4.57986;
+     sans_0 ON psr_01*18.44083 (m19);
+     sans_1 ON psr_11*0.40775 (m20);
+     sans_2 ON psr_21*0.54943 (m21);
+     sans_3 ON psr_31*1.08356 (m22);
+     sans_6 ON psr_61*2.25105 (m23);
+     sans_9 ON psr_91*0.73361 (m24);
+     sans_12 ON psr_121*1.11189 (m25);
+     sans_18 ON psr_181*2.27105 (m26);
+     sans_24 ON psr_241*1.48377 (m27);
 
-     sans_1 WITH sans_0*5.12493 (29);
-     sans_2 WITH sans_0*5.11100 (31);
-     sans_2 WITH sans_1*7.69898 (32);
-     sans_3 WITH sans_0*4.66391 (34);
-     sans_3 WITH sans_1*6.25057 (35);
-     sans_3 WITH sans_2*7.87170 (36);
-     sans_6 WITH sans_0*3.28745 (38);
-     sans_6 WITH sans_1*4.41461 (39);
-     sans_6 WITH sans_2*5.60055 (40);
-     sans_6 WITH sans_3*5.72101 (41);
-     sans_9 WITH sans_0*3.54845 (43);
-     sans_9 WITH sans_1*4.13210 (44);
-     sans_9 WITH sans_2*5.07363 (45);
-     sans_9 WITH sans_3*5.67451 (46);
-     sans_9 WITH sans_6*6.17200 (47);
-     sans_12 WITH sans_0*2.77916 (49);
-     sans_12 WITH sans_1*3.81784 (50);
-     sans_12 WITH sans_2*4.18998 (51);
-     sans_12 WITH sans_3*3.82949 (52);
-     sans_12 WITH sans_6*5.47534 (53);
-     sans_12 WITH sans_9*8.02809 (54);
-     sans_18 WITH sans_0*2.94761 (56);
-     sans_18 WITH sans_1*3.87344 (57);
-     sans_18 WITH sans_2*4.30023 (58);
-     sans_18 WITH sans_3*3.78409 (59);
-     sans_18 WITH sans_6*4.62133 (60);
-     sans_18 WITH sans_9*6.64428 (61);
-     sans_18 WITH sans_12*7.65551 (62);
-     sans_24 WITH sans_0*2.21529 (64);
-     sans_24 WITH sans_1*2.22027 (65);
-     sans_24 WITH sans_2*2.34836 (66);
-     sans_24 WITH sans_3*2.84164 (67);
-     sans_24 WITH sans_6*3.50641 (68);
-     sans_24 WITH sans_9*5.54032 (69);
-     sans_24 WITH sans_12*5.82488 (70);
-     sans_24 WITH sans_18*7.92713 (71);
-     psr_1 WITH psr_0*0.00000 (74);
-     psr_2 WITH psr_0*0.00000 (76);
-     psr_2 WITH psr_1*0.08092 (77);
-     psr_3 WITH psr_0*0.00000 (79);
-     psr_3 WITH psr_1*0.06745 (80);
-     psr_3 WITH psr_2*0.13122 (81);
-     psr_6 WITH psr_0*0.00000 (83);
-     psr_6 WITH psr_1*0.03097 (84);
-     psr_6 WITH psr_2*0.08121 (85);
-     psr_6 WITH psr_3*0.07605 (86);
-     psr_9 WITH psr_0*0.00000 (88);
-     psr_9 WITH psr_1*0.02191 (89);
-     psr_9 WITH psr_2*0.06035 (90);
-     psr_9 WITH psr_3*0.06346 (91);
-     psr_9 WITH psr_6*0.09333 (92);
-     psr_12 WITH psr_0*0.00000 (94);
-     psr_12 WITH psr_1*0.01917 (95);
-     psr_12 WITH psr_2*0.04339 (96);
-     psr_12 WITH psr_3*0.03194 (97);
-     psr_12 WITH psr_6*0.07824 (98);
-     psr_12 WITH psr_9*0.08298 (99);
-     psr_18 WITH psr_0*-0.00008 (101);
-     psr_18 WITH psr_1*0.02918 (102);
-     psr_18 WITH psr_2*0.03654 (103);
-     psr_18 WITH psr_3*0.03889 (104);
-     psr_18 WITH psr_6*0.05874 (105);
-     psr_18 WITH psr_9*0.05147 (106);
-     psr_18 WITH psr_12*0.09230 (107);
-     psr_24 WITH psr_0*0.00000 (109);
-     psr_24 WITH psr_1*0.01699 (110);
-     psr_24 WITH psr_2*0.03429 (111);
-     psr_24 WITH psr_3*0.03337 (112);
-     psr_24 WITH psr_6*0.03791 (113);
-     psr_24 WITH psr_9*0.04015 (114);
-     psr_24 WITH psr_12*0.07778 (115);
-     psr_24 WITH psr_18*0.05041 (116);
+     sans_1 WITH sans_0*7.33979 (29);
+     sans_2 WITH sans_0*6.92829 (31);
+     sans_2 WITH sans_1*10.09704 (32);
+     sans_3 WITH sans_0*6.41348 (34);
+     sans_3 WITH sans_1*8.42842 (35);
+     sans_3 WITH sans_2*9.71452 (36);
+     sans_6 WITH sans_0*5.39670 (38);
+     sans_6 WITH sans_1*6.93018 (39);
+     sans_6 WITH sans_2*7.68869 (40);
+     sans_6 WITH sans_3*7.67800 (41);
+     sans_9 WITH sans_0*5.37391 (43);
+     sans_9 WITH sans_1*6.31096 (44);
+     sans_9 WITH sans_2*6.88208 (45);
+     sans_9 WITH sans_3*7.27058 (46);
+     sans_9 WITH sans_6*8.32978 (47);
+     sans_12 WITH sans_0*4.59018 (49);
+     sans_12 WITH sans_1*5.87366 (50);
+     sans_12 WITH sans_2*5.89844 (51);
+     sans_12 WITH sans_3*5.55189 (52);
+     sans_12 WITH sans_6*7.57905 (53);
+     sans_12 WITH sans_9*9.75073 (54);
+     sans_18 WITH sans_0*4.21311 (56);
+     sans_18 WITH sans_1*5.52012 (57);
+     sans_18 WITH sans_2*5.46241 (58);
+     sans_18 WITH sans_3*4.72322 (59);
+     sans_18 WITH sans_6*6.13966 (60);
+     sans_18 WITH sans_9*7.90539 (61);
+     sans_18 WITH sans_12*8.79144 (62);
+     sans_24 WITH sans_0*3.34497 (64);
+     sans_24 WITH sans_1*3.90429 (65);
+     sans_24 WITH sans_2*3.49550 (66);
+     sans_24 WITH sans_3*3.98083 (67);
+     sans_24 WITH sans_6*4.96640 (68);
+     sans_24 WITH sans_9*6.75069 (69);
+     sans_24 WITH sans_12*6.79446 (70);
+     sans_24 WITH sans_18*8.57547 (71);
+     psr_11 WITH psr_01*0.00000 (74);
+     psr_21 WITH psr_01*0.00000 (76);
+     psr_21 WITH psr_11*0.05313 (77);
+     psr_31 WITH psr_01*0.00000 (79);
+     psr_31 WITH psr_11*0.04289 (80);
+     psr_31 WITH psr_21*0.07314 (81);
+     psr_61 WITH psr_01*0.00000 (83);
+     psr_61 WITH psr_11*0.00634 (84);
+     psr_61 WITH psr_21*0.00073 (85);
+     psr_61 WITH psr_31*0.00608 (86);
+     psr_91 WITH psr_01*0.00000 (88);
+     psr_91 WITH psr_11*0.00940 (89);
+     psr_91 WITH psr_21*0.00163 (90);
+     psr_91 WITH psr_31*0.00978 (91);
+     psr_91 WITH psr_61*0.00656 (92);
+     psr_121 WITH psr_01*0.00000 (94);
+     psr_121 WITH psr_11*-0.00020 (95);
+     psr_121 WITH psr_21*0.00002 (96);
+     psr_121 WITH psr_31*0.00005 (97);
+     psr_121 WITH psr_61*-0.00004 (98);
+     psr_121 WITH psr_91*-0.00006 (99);
+     psr_181 WITH psr_01*0.00000 (101);
+     psr_181 WITH psr_11*-0.00378 (102);
+     psr_181 WITH psr_21*0.00062 (103);
+     psr_181 WITH psr_31*0.00100 (104);
+     psr_181 WITH psr_61*-0.00089 (105);
+     psr_181 WITH psr_91*-0.00128 (106);
+     psr_181 WITH psr_121*0.00037 (107);
+     psr_241 WITH psr_01*0.00000 (109);
+     psr_241 WITH psr_11*-0.01793 (110);
+     psr_241 WITH psr_21*-0.01314 (111);
+     psr_241 WITH psr_31*-0.00886 (112);
+     psr_241 WITH psr_61*-0.00068 (113);
+     psr_241 WITH psr_91*-0.00131 (114);
+     psr_241 WITH psr_121*0.00009 (115);
+     psr_241 WITH psr_181*0.00170 (116);
 
-     [ sans_0*17.68212 ];
-     [ sans_1*14.61180 ];
-     [ sans_2*14.82301 ];
-     [ sans_3*13.47476 ];
-     [ sans_6*15.32087 ];
-     [ sans_9*18.86259 ];
-     [ sans_12*13.50130 ];
-     [ sans_18*15.10682 ];
-     [ sans_24*18.08659 ];
-     [ psr_0*1.15900 ];
-     [ psr_1*1.65893 ];
-     [ psr_2*1.80616 ];
-     [ psr_3*1.88485 ];
-     [ psr_6*1.87081 ];
-     [ psr_9*1.90040 ];
-     [ psr_12*1.82679 ];
-     [ psr_18*1.88753 ];
-     [ psr_24*1.73621 ];
+     [ sans_0*-7.20695 ];
+     [ sans_1*9.57237 ];
+     [ sans_2*9.25534 ];
+     [ sans_3*9.33587 ];
+     [ sans_6*8.09947 ];
+     [ sans_9*8.76293 ];
+     [ sans_12*8.37062 ];
+     [ sans_18*7.85600 ];
+     [ sans_24*7.75771 ];
+     [ psr_01*1.00000 ];
+     [ psr_11*0.83892 ];
+     [ psr_21*0.76099 ];
+     [ psr_31*0.66355 ];
+     [ psr_61*0.68917 ];
+     [ psr_91*0.70614 ];
+     [ psr_121*0.75062 ];
+     [ psr_181*0.65451 ];
+     [ psr_241*0.66664 ];
      [ n#1@-1.28100 ];
      [ n#2@-1.14800 ];
 
-     sans_0*11.99456 (28);
-     sans_1*10.12561 (30);
-     sans_2*11.26689 (33);
-     sans_3*10.96201 (37);
-     sans_6*10.52756 (42);
-     sans_9*12.60167 (48);
-     sans_12*12.97570 (55);
-     sans_18*13.21567 (63);
-     sans_24*13.26673 (72);
-     psr_0*0.13368;
-     psr_1*0.22245;
-     psr_2*0.25371;
-     psr_3*0.16420;
-     psr_6*0.14097;
-     psr_9*0.17163;
-     psr_12*0.16400;
-     psr_18*0.13667;
-     psr_24*0.19927;
+     sans_0*13.81490 (28);
+     sans_1*12.85131 (30);
+     sans_2*13.20590 (33);
+     sans_3*12.59790 (37);
+     sans_6*12.77436 (42);
+     sans_9*14.34656 (48);
+     sans_12*14.56865 (55);
+     sans_18*13.77230 (63);
+     sans_24*13.75086 (72);
+     psr_01*0.00000;
+     psr_11*0.11182;
+     psr_21*0.15489;
+     psr_31*0.20201;
+     psr_61*0.20526;
+     psr_91*0.18128;
+     psr_121*0.16332;
+     psr_181*0.18976;
+     psr_241*0.20490;
 
 
 
-     Beginning Time:  17:08:14
-        Ending Time:  17:08:15
-       Elapsed Time:  00:00:01
+     Beginning Time:  03:23:41
+        Ending Time:  03:54:33
+       Elapsed Time:  00:30:52
 
 
 

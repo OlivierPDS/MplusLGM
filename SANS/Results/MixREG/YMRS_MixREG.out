@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-02/10/2023   4:41 PM
+03/04/2023  10:06 AM
 
 INPUT INSTRUCTIONS
 
@@ -10,15 +10,16 @@ INPUT INSTRUCTIONS
   FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/YMRS_MixREG.dat";
 
   VARIABLE:
-  NAMES = PIN I S Q CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N YMRS_0 YMRS_1 YMRS_2
-       YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24;
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6
+       YMRS_9 YMRS_12 YMRS_18 YMRS_24;
    MISSING=.;
-   USEVAR = YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24 N I S;
+   USEVAR = N I S YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24;
   NOMINAL = N;
   CLASSES = c(3);
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 0;
+  STARTS = 500;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
@@ -28,20 +29,20 @@ INPUT INSTRUCTIONS
   %C#1%
   [N#1@3.075];
   [N#2@1.083];
-  I ON YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24;
-  S ON YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24;
+  I ON YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24 (I1 - I9);
+  S ON YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24 (S1 - S9);
   YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24;
   %C#2%
   [N#1@1.199];
   [N#2@2.945];
-  I ON YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24;
-  S ON YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24;
+  I ON YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24 (I10 - I18);
+  S ON YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24 (S10 - S18);
   YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24;
   %C#3%
   [N#1@-1.281];
   [N#2@-1.148];
-  I ON YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24;
-  S ON YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24;
+  I ON YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24 (I19 - I27);
+  S ON YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24 (S19 - S27);
   YMRS_0 YMRS_1 YMRS_2 YMRS_3 YMRS_6 YMRS_9 YMRS_12 YMRS_18 YMRS_24;
   OUTPUT:
   SAMPSTAT;
@@ -112,6 +113,13 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                        500
+  Number of final stage optimizations                          500
+  Number of initial stage iterations                             1
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
 
 Input data file(s)
   /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/YMRS_MixREG.dat
@@ -212,655 +220,2854 @@ UNIVARIATE SAMPLE STATISTICS
      YMRS_24               7.305       1.424       0.000   31.58%       0.000      1.000      2.000
               95.000      92.191       1.143      37.000    1.05%       5.000     16.000
 
-     THE LOGLIKELIHOOD DECREASED IN THE LAST EM ITERATION.  CHANGE YOUR MODEL
-     AND/OR STARTING VALUES.
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+           -4216.667  903369           134
+
+Unperturbed starting value run did not converge or was rejected in the third stage.
+
+498 perturbed starting value run(s) did not converge or were rejected in the third stage.
 
 
 
-     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
-     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+     WARNING:  THE BEST LOGLIKELIHOOD VALUE WAS NOT REPLICATED.  THE
+     SOLUTION MAY NOT BE TRUSTWORTHY DUE TO LOCAL MAXIMA.  INCREASE THE
+     NUMBER OF RANDOM STARTS.
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
 
 
 
+MODEL FIT INFORMATION
 
+Number of Free Parameters                      155
+
+Loglikelihood
+
+          H0 Value                       -4216.667
+          H0 Scaling Correction Factor      1.1982
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    8743.334
+          Bayesian (BIC)                  9363.936
+          Sample-Size Adjusted BIC        8872.101
+            (n* = (n + 2) / 24)
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        160.61387          0.39658
+       2        165.47383          0.40858
+       3         78.91230          0.19485
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        160.61387          0.39658
+       2        165.47383          0.40858
+       3         78.91230          0.19485
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              164          0.40494
+       2              172          0.42469
+       3               69          0.17037
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.823
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.965    0.027    0.008
+    2   0.012    0.903    0.085
+    3   0.005    0.083    0.912
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.985    0.013    0.002
+    2   0.026    0.939    0.035
+    3   0.017    0.185    0.797
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      6.210    1.849    0.000
+    2     -0.274    3.296    0.000
+    3     -3.842   -1.459    0.000
 
 
 MODEL RESULTS
 
-                    Estimate
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
 
 Latent Class 1
 
  I          ON
-    YMRS_0            -5.492
-    YMRS_1             3.574
-    YMRS_2            -8.345
-    YMRS_3           -49.990
-    YMRS_6            28.655
-    YMRS_9            20.095
-    YMRS_12            1.902
-    YMRS_18          -12.801
-    YMRS_24           23.869
+    YMRS_0            -0.119      0.053     -2.258      0.024
+    YMRS_1             0.097      0.133      0.736      0.462
+    YMRS_2            -0.322      0.374     -0.862      0.389
+    YMRS_3            -0.437      0.475     -0.920      0.357
+    YMRS_6             1.738      0.532      3.267      0.001
+    YMRS_9            -1.660      0.584     -2.843      0.004
+    YMRS_12           -0.137      0.139     -0.989      0.323
+    YMRS_18            1.517      0.561      2.703      0.007
+    YMRS_24            0.245      0.131      1.870      0.061
 
  S          ON
-    YMRS_0            -0.196
-    YMRS_1             0.139
-    YMRS_2            -0.342
-    YMRS_3            -1.730
-    YMRS_6             0.902
-    YMRS_9             0.884
-    YMRS_12            0.049
-    YMRS_18           -0.594
-    YMRS_24            0.820
+    YMRS_0            -0.004      0.004     -0.943      0.345
+    YMRS_1             0.023      0.007      3.451      0.001
+    YMRS_2            -0.032      0.019     -1.673      0.094
+    YMRS_3             0.090      0.021      4.310      0.000
+    YMRS_6            -0.010      0.052     -0.197      0.844
+    YMRS_9            -0.035      0.056     -0.631      0.528
+    YMRS_12            0.004      0.006      0.695      0.487
+    YMRS_18           -0.002      0.047     -0.051      0.960
+    YMRS_24            0.003      0.007      0.483      0.629
 
  S        WITH
-    I                 -0.176
+    I                 -0.086      0.058     -1.486      0.137
 
  YMRS_1   WITH
-    YMRS_0             7.302
+    YMRS_0            32.338     11.992      2.697      0.007
 
  YMRS_2   WITH
-    YMRS_0            -8.840
-    YMRS_1            20.556
+    YMRS_0            13.986      6.200      2.256      0.024
+    YMRS_1            29.500      7.692      3.835      0.000
 
  YMRS_3   WITH
-    YMRS_0            -4.550
-    YMRS_1             6.109
-    YMRS_2             4.053
+    YMRS_0             3.169      7.198      0.440      0.660
+    YMRS_1            10.233      3.679      2.782      0.005
+    YMRS_2             8.670      2.721      3.186      0.001
 
  YMRS_6   WITH
-    YMRS_0             5.774
-    YMRS_1             4.714
-    YMRS_2             4.881
-    YMRS_3             1.496
+    YMRS_0            10.717      7.484      1.432      0.152
+    YMRS_1            18.222      6.738      2.704      0.007
+    YMRS_2            15.082      4.667      3.232      0.001
+    YMRS_3             9.983      5.459      1.829      0.067
 
  YMRS_9   WITH
-    YMRS_0             6.213
-    YMRS_1             3.015
-    YMRS_2             3.069
-    YMRS_3             1.615
-    YMRS_6             1.812
+    YMRS_0            11.104      5.957      1.864      0.062
+    YMRS_1            26.566      8.479      3.133      0.002
+    YMRS_2            15.724      4.154      3.786      0.000
+    YMRS_3            13.648      4.925      2.771      0.006
+    YMRS_6            16.892      9.559      1.767      0.077
 
  YMRS_12  WITH
-    YMRS_0            -1.152
-    YMRS_1             2.667
-    YMRS_2             2.936
-    YMRS_3             1.448
-    YMRS_6             0.533
-    YMRS_9             2.178
+    YMRS_0            -1.735     11.393     -0.152      0.879
+    YMRS_1            14.272      4.367      3.268      0.001
+    YMRS_2             8.904      3.976      2.239      0.025
+    YMRS_3             8.356      3.498      2.389      0.017
+    YMRS_6             8.479      5.161      1.643      0.100
+    YMRS_9            23.884      6.906      3.458      0.001
 
  YMRS_18  WITH
-    YMRS_0             7.323
-    YMRS_1            -1.132
-    YMRS_2            -1.196
-    YMRS_3             0.016
-    YMRS_6            -1.317
-    YMRS_9             1.856
-    YMRS_12            0.902
+    YMRS_0             9.776      5.891      1.660      0.097
+    YMRS_1            11.296      8.248      1.369      0.171
+    YMRS_2             5.508      3.841      1.434      0.152
+    YMRS_3             5.062      2.351      2.153      0.031
+    YMRS_6             2.917      5.025      0.580      0.562
+    YMRS_9            17.894      6.156      2.907      0.004
+    YMRS_12           17.189      4.875      3.526      0.000
 
  YMRS_24  WITH
-    YMRS_0             6.017
-    YMRS_1             4.150
-    YMRS_2            -0.145
-    YMRS_3             2.069
-    YMRS_6            -3.122
-    YMRS_9             1.367
-    YMRS_12            1.038
-    YMRS_18            3.354
+    YMRS_0            19.509     16.782      1.163      0.245
+    YMRS_1            28.362     11.192      2.534      0.011
+    YMRS_2            10.352      5.046      2.052      0.040
+    YMRS_3            18.233      6.519      2.797      0.005
+    YMRS_6            14.298      9.800      1.459      0.145
+    YMRS_9            41.504     10.043      4.132      0.000
+    YMRS_12           28.375     10.720      2.647      0.008
+    YMRS_18           16.257      9.799      1.659      0.097
 
  Means
-    YMRS_0            18.579
-    YMRS_1             4.287
-    YMRS_2             3.065
-    YMRS_3             1.018
-    YMRS_6             1.682
-    YMRS_9             1.369
-    YMRS_12            1.094
-    YMRS_18            1.149
-    YMRS_24            1.872
+    YMRS_0            20.190      2.188      9.227      0.000
+    YMRS_1             6.752      1.586      4.258      0.000
+    YMRS_2             5.085      0.991      5.129      0.000
+    YMRS_3             1.338      0.439      3.050      0.002
+    YMRS_6             3.040      0.958      3.174      0.002
+    YMRS_9             3.657      0.817      4.475      0.000
+    YMRS_12            3.634      0.912      3.986      0.000
+    YMRS_18            2.330      0.710      3.283      0.001
+    YMRS_24            6.589      1.584      4.161      0.000
 
  Means
-    N#1                3.075
-    N#2                1.083
+    N#1                3.075      0.000    999.000    999.000
+    N#2                1.083      0.000    999.000    999.000
 
  Intercepts
-    I                 64.815
-    S                  1.183
+    I                  9.516      0.944     10.083      0.000
+    S                 -0.995      0.100     -9.971      0.000
 
  Variances
-    YMRS_0           121.579
-    YMRS_1            58.250
-    YMRS_2            16.313
-    YMRS_3             2.775
-    YMRS_6             5.315
-    YMRS_9             3.251
-    YMRS_12            4.803
-    YMRS_18            3.611
-    YMRS_24            9.375
+    YMRS_0           174.722     50.064      3.490      0.000
+    YMRS_1            79.157     21.153      3.742      0.000
+    YMRS_2            23.755      4.226      5.621      0.000
+    YMRS_3             9.019      3.373      2.674      0.007
+    YMRS_6            17.953     10.080      1.781      0.075
+    YMRS_9            32.967      9.860      3.344      0.001
+    YMRS_12           46.433     13.556      3.425      0.001
+    YMRS_18           17.408      6.047      2.879      0.004
+    YMRS_24          136.491     51.286      2.661      0.008
 
  Residual Variances
-    I                  4.008
-    S                  0.051
+    I                  1.920      0.698      2.753      0.006
+    S                  0.015      0.006      2.336      0.019
 
 Latent Class 2
 
  I          ON
-    YMRS_0            -0.009
-    YMRS_1            -0.206
-    YMRS_2             0.194
-    YMRS_3            -0.204
-    YMRS_6            -0.062
-    YMRS_9             0.341
-    YMRS_12           -0.193
-    YMRS_18            0.131
-    YMRS_24           -0.061
+    YMRS_0            -0.066      0.047     -1.413      0.158
+    YMRS_1            -0.169      0.306     -0.550      0.582
+    YMRS_2             0.357      0.180      1.978      0.048
+    YMRS_3            -0.208      0.061     -3.420      0.001
+    YMRS_6             0.063      0.067      0.940      0.347
+    YMRS_9             0.091      0.195      0.467      0.640
+    YMRS_12           -0.224      0.240     -0.932      0.352
+    YMRS_18            0.094      0.038      2.444      0.015
+    YMRS_24            0.222      0.091      2.448      0.014
 
  S          ON
-    YMRS_0            -0.006
-    YMRS_1            -0.019
-    YMRS_2             0.023
-    YMRS_3            -0.013
-    YMRS_6            -0.016
-    YMRS_9            -0.015
-    YMRS_12           -0.010
-    YMRS_18            0.012
-    YMRS_24           -0.017
+    YMRS_0             0.004      0.007      0.540      0.589
+    YMRS_1            -0.007      0.021     -0.328      0.743
+    YMRS_2             0.005      0.014      0.385      0.700
+    YMRS_3            -0.021      0.008     -2.731      0.006
+    YMRS_6            -0.009      0.009     -1.092      0.275
+    YMRS_9            -0.017      0.011     -1.634      0.102
+    YMRS_12            0.038      0.010      3.834      0.000
+    YMRS_18           -0.004      0.004     -0.944      0.345
+    YMRS_24            0.020      0.010      2.088      0.037
 
  S        WITH
-    I                 -0.176
+    I                 -0.086      0.058     -1.486      0.137
 
  YMRS_1   WITH
-    YMRS_0             7.302
+    YMRS_0            32.338     11.992      2.697      0.007
 
  YMRS_2   WITH
-    YMRS_0            -8.840
-    YMRS_1            20.556
+    YMRS_0            13.986      6.200      2.256      0.024
+    YMRS_1            29.500      7.692      3.835      0.000
 
  YMRS_3   WITH
-    YMRS_0            -4.550
-    YMRS_1             6.109
-    YMRS_2             4.053
+    YMRS_0             3.169      7.198      0.440      0.660
+    YMRS_1            10.233      3.679      2.782      0.005
+    YMRS_2             8.670      2.721      3.186      0.001
 
  YMRS_6   WITH
-    YMRS_0             5.774
-    YMRS_1             4.714
-    YMRS_2             4.881
-    YMRS_3             1.496
+    YMRS_0            10.717      7.484      1.432      0.152
+    YMRS_1            18.222      6.738      2.704      0.007
+    YMRS_2            15.082      4.667      3.232      0.001
+    YMRS_3             9.983      5.459      1.829      0.067
 
  YMRS_9   WITH
-    YMRS_0             6.213
-    YMRS_1             3.015
-    YMRS_2             3.069
-    YMRS_3             1.615
-    YMRS_6             1.812
+    YMRS_0            11.104      5.957      1.864      0.062
+    YMRS_1            26.566      8.479      3.133      0.002
+    YMRS_2            15.724      4.154      3.786      0.000
+    YMRS_3            13.648      4.925      2.771      0.006
+    YMRS_6            16.892      9.559      1.767      0.077
 
  YMRS_12  WITH
-    YMRS_0            -1.152
-    YMRS_1             2.667
-    YMRS_2             2.936
-    YMRS_3             1.448
-    YMRS_6             0.533
-    YMRS_9             2.178
+    YMRS_0            -1.735     11.393     -0.152      0.879
+    YMRS_1            14.272      4.367      3.268      0.001
+    YMRS_2             8.904      3.976      2.239      0.025
+    YMRS_3             8.356      3.498      2.389      0.017
+    YMRS_6             8.479      5.161      1.643      0.100
+    YMRS_9            23.884      6.906      3.458      0.001
 
  YMRS_18  WITH
-    YMRS_0             7.323
-    YMRS_1            -1.132
-    YMRS_2            -1.196
-    YMRS_3             0.016
-    YMRS_6            -1.317
-    YMRS_9             1.856
-    YMRS_12            0.902
+    YMRS_0             9.776      5.891      1.660      0.097
+    YMRS_1            11.296      8.248      1.369      0.171
+    YMRS_2             5.508      3.841      1.434      0.152
+    YMRS_3             5.062      2.351      2.153      0.031
+    YMRS_6             2.917      5.025      0.580      0.562
+    YMRS_9            17.894      6.156      2.907      0.004
+    YMRS_12           17.189      4.875      3.526      0.000
 
  YMRS_24  WITH
-    YMRS_0             6.017
-    YMRS_1             4.150
-    YMRS_2            -0.145
-    YMRS_3             2.069
-    YMRS_6            -3.122
-    YMRS_9             1.367
-    YMRS_12            1.038
-    YMRS_18            3.354
+    YMRS_0            19.509     16.782      1.163      0.245
+    YMRS_1            28.362     11.192      2.534      0.011
+    YMRS_2            10.352      5.046      2.052      0.040
+    YMRS_3            18.233      6.519      2.797      0.005
+    YMRS_6            14.298      9.800      1.459      0.145
+    YMRS_9            41.504     10.043      4.132      0.000
+    YMRS_12           28.375     10.720      2.647      0.008
+    YMRS_18           16.257      9.799      1.659      0.097
 
  Means
-    YMRS_0            24.417
-    YMRS_1             6.119
-    YMRS_2             6.835
-    YMRS_3             2.538
-    YMRS_6             4.247
-    YMRS_9             5.086
-    YMRS_12            5.380
-    YMRS_18            5.384
-    YMRS_24            6.314
+    YMRS_0            24.468      3.211      7.621      0.000
+    YMRS_1             7.087      1.437      4.931      0.000
+    YMRS_2             8.830      2.084      4.237      0.000
+    YMRS_3             4.240      1.277      3.319      0.001
+    YMRS_6             5.529      1.111      4.977      0.000
+    YMRS_9             7.328      1.327      5.521      0.000
+    YMRS_12            5.663      1.301      4.351      0.000
+    YMRS_18            9.421      2.105      4.476      0.000
+    YMRS_24            8.897      1.766      5.037      0.000
 
  Means
-    N#1                1.199
-    N#2                2.945
+    N#1                1.199      0.000    999.000    999.000
+    N#2                2.945      0.000    999.000    999.000
 
  Intercepts
-    I                  9.449
-    S                  0.017
+    I                  7.643      1.196      6.388      0.000
+    S                 -0.464      0.148     -3.141      0.002
 
  Variances
-    YMRS_0           106.427
-    YMRS_1            40.228
-    YMRS_2            32.889
-    YMRS_3            16.843
-    YMRS_6            24.190
-    YMRS_9            18.383
-    YMRS_12           46.251
-    YMRS_18           23.861
-    YMRS_24           98.151
+    YMRS_0            95.845     26.527      3.613      0.000
+    YMRS_1            41.293      7.840      5.267      0.000
+    YMRS_2            60.284     25.924      2.325      0.020
+    YMRS_3            53.456     15.086      3.543      0.000
+    YMRS_6            43.908     10.435      4.208      0.000
+    YMRS_9            53.024     11.706      4.530      0.000
+    YMRS_12           33.433     18.622      1.795      0.073
+    YMRS_18          107.058     44.905      2.384      0.017
+    YMRS_24           72.860     17.508      4.161      0.000
 
  Residual Variances
-    I                  4.008
-    S                  0.051
+    I                  1.920      0.698      2.753      0.006
+    S                  0.015      0.006      2.336      0.019
 
 Latent Class 3
 
  I          ON
-    YMRS_0            -0.050
-    YMRS_1             0.035
-    YMRS_2             0.006
-    YMRS_3            -0.021
-    YMRS_6            -0.030
-    YMRS_9             0.053
-    YMRS_12           -0.039
-    YMRS_18           -0.017
-    YMRS_24            0.044
+    YMRS_0            -0.004      0.049     -0.089      0.929
+    YMRS_1             0.021      0.032      0.671      0.502
+    YMRS_2             0.026      0.254      0.103      0.918
+    YMRS_3            -0.122      0.153     -0.793      0.428
+    YMRS_6            -0.048      0.035     -1.373      0.170
+    YMRS_9             0.047      0.035      1.351      0.177
+    YMRS_12           -0.023      0.034     -0.682      0.496
+    YMRS_18           -0.183      0.054     -3.357      0.001
+    YMRS_24            0.134      0.052      2.577      0.010
 
  S          ON
-    YMRS_0            -0.010
-    YMRS_1             0.013
-    YMRS_2            -0.028
-    YMRS_3            -0.007
-    YMRS_6             0.000
-    YMRS_9             0.005
-    YMRS_12           -0.002
-    YMRS_18           -0.003
-    YMRS_24            0.003
+    YMRS_0             0.000      0.005     -0.089      0.929
+    YMRS_1             0.002      0.003      0.800      0.424
+    YMRS_2            -0.072      0.023     -3.172      0.002
+    YMRS_3            -0.002      0.014     -0.147      0.883
+    YMRS_6             0.007      0.006      1.212      0.225
+    YMRS_9             0.002      0.006      0.352      0.725
+    YMRS_12            0.000      0.002     -0.199      0.842
+    YMRS_18            0.017      0.007      2.619      0.009
+    YMRS_24           -0.001      0.005     -0.272      0.786
 
  S        WITH
-    I                 -0.176
+    I                 -0.086      0.058     -1.486      0.137
 
  YMRS_1   WITH
-    YMRS_0             7.302
+    YMRS_0            32.338     11.992      2.697      0.007
 
  YMRS_2   WITH
-    YMRS_0            -8.840
-    YMRS_1            20.556
+    YMRS_0            13.986      6.200      2.256      0.024
+    YMRS_1            29.500      7.692      3.835      0.000
 
  YMRS_3   WITH
-    YMRS_0            -4.550
-    YMRS_1             6.109
-    YMRS_2             4.053
+    YMRS_0             3.169      7.198      0.440      0.660
+    YMRS_1            10.233      3.679      2.782      0.005
+    YMRS_2             8.670      2.721      3.186      0.001
 
  YMRS_6   WITH
-    YMRS_0             5.774
-    YMRS_1             4.714
-    YMRS_2             4.881
-    YMRS_3             1.496
+    YMRS_0            10.717      7.484      1.432      0.152
+    YMRS_1            18.222      6.738      2.704      0.007
+    YMRS_2            15.082      4.667      3.232      0.001
+    YMRS_3             9.983      5.459      1.829      0.067
 
  YMRS_9   WITH
-    YMRS_0             6.213
-    YMRS_1             3.015
-    YMRS_2             3.069
-    YMRS_3             1.615
-    YMRS_6             1.812
+    YMRS_0            11.104      5.957      1.864      0.062
+    YMRS_1            26.566      8.479      3.133      0.002
+    YMRS_2            15.724      4.154      3.786      0.000
+    YMRS_3            13.648      4.925      2.771      0.006
+    YMRS_6            16.892      9.559      1.767      0.077
 
  YMRS_12  WITH
-    YMRS_0            -1.152
-    YMRS_1             2.667
-    YMRS_2             2.936
-    YMRS_3             1.448
-    YMRS_6             0.533
-    YMRS_9             2.178
+    YMRS_0            -1.735     11.393     -0.152      0.879
+    YMRS_1            14.272      4.367      3.268      0.001
+    YMRS_2             8.904      3.976      2.239      0.025
+    YMRS_3             8.356      3.498      2.389      0.017
+    YMRS_6             8.479      5.161      1.643      0.100
+    YMRS_9            23.884      6.906      3.458      0.001
 
  YMRS_18  WITH
-    YMRS_0             7.323
-    YMRS_1            -1.132
-    YMRS_2            -1.196
-    YMRS_3             0.016
-    YMRS_6            -1.317
-    YMRS_9             1.856
-    YMRS_12            0.902
+    YMRS_0             9.776      5.891      1.660      0.097
+    YMRS_1            11.296      8.248      1.369      0.171
+    YMRS_2             5.508      3.841      1.434      0.152
+    YMRS_3             5.062      2.351      2.153      0.031
+    YMRS_6             2.917      5.025      0.580      0.562
+    YMRS_9            17.894      6.156      2.907      0.004
+    YMRS_12           17.189      4.875      3.526      0.000
 
  YMRS_24  WITH
-    YMRS_0             6.017
-    YMRS_1             4.150
-    YMRS_2            -0.145
-    YMRS_3             2.069
-    YMRS_6            -3.122
-    YMRS_9             1.367
-    YMRS_12            1.038
-    YMRS_18            3.354
+    YMRS_0            19.509     16.782      1.163      0.245
+    YMRS_1            28.362     11.192      2.534      0.011
+    YMRS_2            10.352      5.046      2.052      0.040
+    YMRS_3            18.233      6.519      2.797      0.005
+    YMRS_6            14.298      9.800      1.459      0.145
+    YMRS_9            41.504     10.043      4.132      0.000
+    YMRS_12           28.375     10.720      2.647      0.008
+    YMRS_18           16.257      9.799      1.659      0.097
 
  Means
-    YMRS_0            29.199
-    YMRS_1            12.696
-    YMRS_2             7.955
-    YMRS_3             8.933
-    YMRS_6            12.980
-    YMRS_9            17.093
-    YMRS_12           15.159
-    YMRS_18           12.139
-    YMRS_24           13.844
+    YMRS_0            29.868      3.388      8.815      0.000
+    YMRS_1            11.930      5.237      2.278      0.023
+    YMRS_2             3.113      0.788      3.948      0.000
+    YMRS_3             3.138      1.473      2.131      0.033
+    YMRS_6            10.388      3.077      3.376      0.001
+    YMRS_9            11.439      3.583      3.193      0.001
+    YMRS_12           14.207      3.403      4.175      0.000
+    YMRS_18            5.975      1.899      3.147      0.002
+    YMRS_24            6.603      2.307      2.862      0.004
 
  Means
-    N#1               -1.281
-    N#2               -1.148
+    N#1               -1.281      0.000    999.000    999.000
+    N#2               -1.148      0.000    999.000    999.000
 
  Intercepts
-    I                 10.331
-    S                  0.044
+    I                  9.923      1.592      6.234      0.000
+    S                 -0.221      0.168     -1.316      0.188
 
  Variances
-    YMRS_0            62.105
-    YMRS_1           109.073
-    YMRS_2            54.580
-    YMRS_3           103.732
-    YMRS_6           148.184
-    YMRS_9           152.941
-    YMRS_12          139.785
-    YMRS_18          135.925
-    YMRS_24          121.005
+    YMRS_0            86.983     45.270      1.921      0.055
+    YMRS_1           284.051    105.836      2.684      0.007
+    YMRS_2            12.288      2.897      4.242      0.000
+    YMRS_3            13.532      3.937      3.437      0.001
+    YMRS_6           139.667     80.818      1.728      0.084
+    YMRS_9           158.276     47.163      3.356      0.001
+    YMRS_12          195.540     65.241      2.997      0.003
+    YMRS_18           26.353      8.424      3.128      0.002
+    YMRS_24           79.898     21.667      3.687      0.000
 
  Residual Variances
-    I                  4.008
-    S                  0.051
+    I                  1.920      0.698      2.753      0.006
+    S                  0.015      0.006      2.336      0.019
 
 Categorical Latent Variables
 
  Means
-    C#1                0.501
-    C#2                0.583
+    C#1                0.711      0.164      4.323      0.000
+    C#2                0.740      0.189      3.912      0.000
 
 
-MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+QUALITY OF NUMERICAL RESULTS
 
-     %OVERALL%
-
-     i ON ymrs_0;
-     i ON ymrs_1;
-     i ON ymrs_2;
-     i ON ymrs_3;
-     i ON ymrs_6;
-     i ON ymrs_9;
-     i ON ymrs_12;
-     i ON ymrs_18;
-     i ON ymrs_24;
-     s ON ymrs_0;
-     s ON ymrs_1;
-     s ON ymrs_2;
-     s ON ymrs_3;
-     s ON ymrs_6;
-     s ON ymrs_9;
-     s ON ymrs_12;
-     s ON ymrs_18;
-     s ON ymrs_24;
-
-     [ c#1*0.50148 ];
-     [ c#2*0.58256 ];
-
-     %C#1%
-
-     i ON ymrs_0*-5.49211;
-     i ON ymrs_1*3.57404;
-     i ON ymrs_2*-8.34497;
-     i ON ymrs_3*-49.99043;
-     i ON ymrs_6*28.65512;
-     i ON ymrs_9*20.09540;
-     i ON ymrs_12*1.90244;
-     i ON ymrs_18*-12.80062;
-     i ON ymrs_24*23.86883;
-     s ON ymrs_0*-0.19565;
-     s ON ymrs_1*0.13909;
-     s ON ymrs_2*-0.34239;
-     s ON ymrs_3*-1.73023;
-     s ON ymrs_6*0.90167;
-     s ON ymrs_9*0.88351;
-     s ON ymrs_12*0.04867;
-     s ON ymrs_18*-0.59445;
-     s ON ymrs_24*0.82020;
-
-     s WITH i*-0.17612 (31);
-     ymrs_1 WITH ymrs_0*7.30206 (34);
-     ymrs_2 WITH ymrs_0*-8.83990 (36);
-     ymrs_2 WITH ymrs_1*20.55627 (37);
-     ymrs_3 WITH ymrs_0*-4.54955 (39);
-     ymrs_3 WITH ymrs_1*6.10912 (40);
-     ymrs_3 WITH ymrs_2*4.05286 (41);
-     ymrs_6 WITH ymrs_0*5.77423 (43);
-     ymrs_6 WITH ymrs_1*4.71400 (44);
-     ymrs_6 WITH ymrs_2*4.88128 (45);
-     ymrs_6 WITH ymrs_3*1.49550 (46);
-     ymrs_9 WITH ymrs_0*6.21253 (48);
-     ymrs_9 WITH ymrs_1*3.01538 (49);
-     ymrs_9 WITH ymrs_2*3.06866 (50);
-     ymrs_9 WITH ymrs_3*1.61543 (51);
-     ymrs_9 WITH ymrs_6*1.81230 (52);
-     ymrs_12 WITH ymrs_0*-1.15199 (54);
-     ymrs_12 WITH ymrs_1*2.66657 (55);
-     ymrs_12 WITH ymrs_2*2.93623 (56);
-     ymrs_12 WITH ymrs_3*1.44767 (57);
-     ymrs_12 WITH ymrs_6*0.53265 (58);
-     ymrs_12 WITH ymrs_9*2.17768 (59);
-     ymrs_18 WITH ymrs_0*7.32258 (61);
-     ymrs_18 WITH ymrs_1*-1.13168 (62);
-     ymrs_18 WITH ymrs_2*-1.19633 (63);
-     ymrs_18 WITH ymrs_3*0.01574 (64);
-     ymrs_18 WITH ymrs_6*-1.31722 (65);
-     ymrs_18 WITH ymrs_9*1.85618 (66);
-     ymrs_18 WITH ymrs_12*0.90220 (67);
-     ymrs_24 WITH ymrs_0*6.01711 (69);
-     ymrs_24 WITH ymrs_1*4.15009 (70);
-     ymrs_24 WITH ymrs_2*-0.14464 (71);
-     ymrs_24 WITH ymrs_3*2.06852 (72);
-     ymrs_24 WITH ymrs_6*-3.12170 (73);
-     ymrs_24 WITH ymrs_9*1.36718 (74);
-     ymrs_24 WITH ymrs_12*1.03788 (75);
-     ymrs_24 WITH ymrs_18*3.35432 (76);
-
-     [ i*64.81535 ];
-     [ s*1.18296 ];
-     [ ymrs_0*18.57854 ];
-     [ ymrs_1*4.28669 ];
-     [ ymrs_2*3.06453 ];
-     [ ymrs_3*1.01842 ];
-     [ ymrs_6*1.68248 ];
-     [ ymrs_9*1.36867 ];
-     [ ymrs_12*1.09427 ];
-     [ ymrs_18*1.14917 ];
-     [ ymrs_24*1.87172 ];
-     [ n#1@3.07500 ];
-     [ n#2@1.08300 ];
-
-     i*4.00848 (30);
-     s*0.05071 (32);
-     ymrs_0*121.57930;
-     ymrs_1*58.25039;
-     ymrs_2*16.31273;
-     ymrs_3*2.77490;
-     ymrs_6*5.31485;
-     ymrs_9*3.25093;
-     ymrs_12*4.80339;
-     ymrs_18*3.61102;
-     ymrs_24*9.37467;
-
-     %C#2%
-
-     i ON ymrs_0*-0.00932;
-     i ON ymrs_1*-0.20627;
-     i ON ymrs_2*0.19442;
-     i ON ymrs_3*-0.20436;
-     i ON ymrs_6*-0.06224;
-     i ON ymrs_9*0.34096;
-     i ON ymrs_12*-0.19261;
-     i ON ymrs_18*0.13094;
-     i ON ymrs_24*-0.06132;
-     s ON ymrs_0*-0.00562;
-     s ON ymrs_1*-0.01856;
-     s ON ymrs_2*0.02293;
-     s ON ymrs_3*-0.01321;
-     s ON ymrs_6*-0.01606;
-     s ON ymrs_9*-0.01461;
-     s ON ymrs_12*-0.00967;
-     s ON ymrs_18*0.01174;
-     s ON ymrs_24*-0.01707;
-
-     s WITH i*-0.17612 (31);
-     ymrs_1 WITH ymrs_0*7.30206 (34);
-     ymrs_2 WITH ymrs_0*-8.83990 (36);
-     ymrs_2 WITH ymrs_1*20.55627 (37);
-     ymrs_3 WITH ymrs_0*-4.54955 (39);
-     ymrs_3 WITH ymrs_1*6.10912 (40);
-     ymrs_3 WITH ymrs_2*4.05286 (41);
-     ymrs_6 WITH ymrs_0*5.77423 (43);
-     ymrs_6 WITH ymrs_1*4.71400 (44);
-     ymrs_6 WITH ymrs_2*4.88128 (45);
-     ymrs_6 WITH ymrs_3*1.49550 (46);
-     ymrs_9 WITH ymrs_0*6.21253 (48);
-     ymrs_9 WITH ymrs_1*3.01538 (49);
-     ymrs_9 WITH ymrs_2*3.06866 (50);
-     ymrs_9 WITH ymrs_3*1.61543 (51);
-     ymrs_9 WITH ymrs_6*1.81230 (52);
-     ymrs_12 WITH ymrs_0*-1.15199 (54);
-     ymrs_12 WITH ymrs_1*2.66657 (55);
-     ymrs_12 WITH ymrs_2*2.93623 (56);
-     ymrs_12 WITH ymrs_3*1.44767 (57);
-     ymrs_12 WITH ymrs_6*0.53265 (58);
-     ymrs_12 WITH ymrs_9*2.17768 (59);
-     ymrs_18 WITH ymrs_0*7.32258 (61);
-     ymrs_18 WITH ymrs_1*-1.13168 (62);
-     ymrs_18 WITH ymrs_2*-1.19633 (63);
-     ymrs_18 WITH ymrs_3*0.01574 (64);
-     ymrs_18 WITH ymrs_6*-1.31722 (65);
-     ymrs_18 WITH ymrs_9*1.85618 (66);
-     ymrs_18 WITH ymrs_12*0.90220 (67);
-     ymrs_24 WITH ymrs_0*6.01711 (69);
-     ymrs_24 WITH ymrs_1*4.15009 (70);
-     ymrs_24 WITH ymrs_2*-0.14464 (71);
-     ymrs_24 WITH ymrs_3*2.06852 (72);
-     ymrs_24 WITH ymrs_6*-3.12170 (73);
-     ymrs_24 WITH ymrs_9*1.36718 (74);
-     ymrs_24 WITH ymrs_12*1.03788 (75);
-     ymrs_24 WITH ymrs_18*3.35432 (76);
-
-     [ i*9.44874 ];
-     [ s*0.01658 ];
-     [ ymrs_0*24.41690 ];
-     [ ymrs_1*6.11936 ];
-     [ ymrs_2*6.83493 ];
-     [ ymrs_3*2.53799 ];
-     [ ymrs_6*4.24674 ];
-     [ ymrs_9*5.08616 ];
-     [ ymrs_12*5.38039 ];
-     [ ymrs_18*5.38368 ];
-     [ ymrs_24*6.31445 ];
-     [ n#1@1.19900 ];
-     [ n#2@2.94500 ];
-
-     i*4.00848 (30);
-     s*0.05071 (32);
-     ymrs_0*106.42679;
-     ymrs_1*40.22813;
-     ymrs_2*32.88887;
-     ymrs_3*16.84282;
-     ymrs_6*24.19021;
-     ymrs_9*18.38293;
-     ymrs_12*46.25137;
-     ymrs_18*23.86104;
-     ymrs_24*98.15089;
-
-     %C#3%
-
-     i ON ymrs_0*-0.05040;
-     i ON ymrs_1*0.03485;
-     i ON ymrs_2*0.00579;
-     i ON ymrs_3*-0.02106;
-     i ON ymrs_6*-0.03020;
-     i ON ymrs_9*0.05285;
-     i ON ymrs_12*-0.03944;
-     i ON ymrs_18*-0.01737;
-     i ON ymrs_24*0.04350;
-     s ON ymrs_0*-0.00987;
-     s ON ymrs_1*0.01277;
-     s ON ymrs_2*-0.02821;
-     s ON ymrs_3*-0.00668;
-     s ON ymrs_6*-0.00016;
-     s ON ymrs_9*0.00535;
-     s ON ymrs_12*-0.00167;
-     s ON ymrs_18*-0.00309;
-     s ON ymrs_24*0.00255;
-
-     s WITH i*-0.17612 (31);
-     ymrs_1 WITH ymrs_0*7.30206 (34);
-     ymrs_2 WITH ymrs_0*-8.83990 (36);
-     ymrs_2 WITH ymrs_1*20.55627 (37);
-     ymrs_3 WITH ymrs_0*-4.54955 (39);
-     ymrs_3 WITH ymrs_1*6.10912 (40);
-     ymrs_3 WITH ymrs_2*4.05286 (41);
-     ymrs_6 WITH ymrs_0*5.77423 (43);
-     ymrs_6 WITH ymrs_1*4.71400 (44);
-     ymrs_6 WITH ymrs_2*4.88128 (45);
-     ymrs_6 WITH ymrs_3*1.49550 (46);
-     ymrs_9 WITH ymrs_0*6.21253 (48);
-     ymrs_9 WITH ymrs_1*3.01538 (49);
-     ymrs_9 WITH ymrs_2*3.06866 (50);
-     ymrs_9 WITH ymrs_3*1.61543 (51);
-     ymrs_9 WITH ymrs_6*1.81230 (52);
-     ymrs_12 WITH ymrs_0*-1.15199 (54);
-     ymrs_12 WITH ymrs_1*2.66657 (55);
-     ymrs_12 WITH ymrs_2*2.93623 (56);
-     ymrs_12 WITH ymrs_3*1.44767 (57);
-     ymrs_12 WITH ymrs_6*0.53265 (58);
-     ymrs_12 WITH ymrs_9*2.17768 (59);
-     ymrs_18 WITH ymrs_0*7.32258 (61);
-     ymrs_18 WITH ymrs_1*-1.13168 (62);
-     ymrs_18 WITH ymrs_2*-1.19633 (63);
-     ymrs_18 WITH ymrs_3*0.01574 (64);
-     ymrs_18 WITH ymrs_6*-1.31722 (65);
-     ymrs_18 WITH ymrs_9*1.85618 (66);
-     ymrs_18 WITH ymrs_12*0.90220 (67);
-     ymrs_24 WITH ymrs_0*6.01711 (69);
-     ymrs_24 WITH ymrs_1*4.15009 (70);
-     ymrs_24 WITH ymrs_2*-0.14464 (71);
-     ymrs_24 WITH ymrs_3*2.06852 (72);
-     ymrs_24 WITH ymrs_6*-3.12170 (73);
-     ymrs_24 WITH ymrs_9*1.36718 (74);
-     ymrs_24 WITH ymrs_12*1.03788 (75);
-     ymrs_24 WITH ymrs_18*3.35432 (76);
-
-     [ i*10.33139 ];
-     [ s*0.04380 ];
-     [ ymrs_0*29.19889 ];
-     [ ymrs_1*12.69557 ];
-     [ ymrs_2*7.95504 ];
-     [ ymrs_3*8.93268 ];
-     [ ymrs_6*12.98029 ];
-     [ ymrs_9*17.09328 ];
-     [ ymrs_12*15.15926 ];
-     [ ymrs_18*12.13877 ];
-     [ ymrs_24*13.84416 ];
-     [ n#1@-1.28100 ];
-     [ n#2@-1.14800 ];
-
-     i*4.00848 (30);
-     s*0.05071 (32);
-     ymrs_0*62.10475;
-     ymrs_1*109.07333;
-     ymrs_2*54.58002;
-     ymrs_3*103.73215;
-     ymrs_6*148.18439;
-     ymrs_9*152.94127;
-     ymrs_12*139.78487;
-     ymrs_18*135.92458;
-     ymrs_24*121.00523;
+     Condition Number for the Information Matrix              0.145E-08
+       (ratio of smallest to largest eigenvalue)
 
 
+STANDARDIZED MODEL RESULTS
 
-     Beginning Time:  16:41:49
-        Ending Time:  16:41:50
-       Elapsed Time:  00:00:01
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I          ON
+    YMRS_0            -0.655      0.318     -2.056      0.040
+    YMRS_1             0.360      0.482      0.746      0.456
+    YMRS_2            -0.652      0.773     -0.843      0.399
+    YMRS_3            -0.545      0.600     -0.907      0.364
+    YMRS_6             3.054      1.063      2.874      0.004
+    YMRS_9            -3.954      1.612     -2.452      0.014
+    YMRS_12           -0.388      0.401     -0.967      0.334
+    YMRS_18            2.625      1.003      2.618      0.009
+    YMRS_24            1.187      0.556      2.135      0.033
+
+ S          ON
+    YMRS_0            -0.208      0.224     -0.930      0.353
+    YMRS_1             0.896      0.295      3.032      0.002
+    YMRS_2            -0.680      0.430     -1.582      0.114
+    YMRS_3             1.170      0.359      3.257      0.001
+    YMRS_6            -0.189      0.946     -0.200      0.842
+    YMRS_9            -0.878      1.422     -0.617      0.537
+    YMRS_12            0.127      0.182      0.696      0.486
+    YMRS_18           -0.043      0.850     -0.051      0.959
+    YMRS_24            0.171      0.353      0.483      0.629
+
+ S        WITH
+    I                 -0.506      0.305     -1.657      0.097
+
+ YMRS_1   WITH
+    YMRS_0             0.275      0.115      2.382      0.017
+
+ YMRS_2   WITH
+    YMRS_0             0.217      0.090      2.423      0.015
+    YMRS_1             0.680      0.107      6.350      0.000
+
+ YMRS_3   WITH
+    YMRS_0             0.080      0.180      0.444      0.657
+    YMRS_1             0.383      0.106      3.609      0.000
+    YMRS_2             0.592      0.115      5.137      0.000
+
+ YMRS_6   WITH
+    YMRS_0             0.191      0.104      1.841      0.066
+    YMRS_1             0.483      0.104      4.634      0.000
+    YMRS_2             0.730      0.100      7.316      0.000
+    YMRS_3             0.785      0.136      5.766      0.000
+
+ YMRS_9   WITH
+    YMRS_0             0.146      0.084      1.752      0.080
+    YMRS_1             0.520      0.081      6.400      0.000
+    YMRS_2             0.562      0.139      4.048      0.000
+    YMRS_3             0.792      0.084      9.416      0.000
+    YMRS_6             0.694      0.145      4.796      0.000
+
+ YMRS_12  WITH
+    YMRS_0            -0.019      0.127     -0.152      0.879
+    YMRS_1             0.235      0.080      2.942      0.003
+    YMRS_2             0.268      0.116      2.307      0.021
+    YMRS_3             0.408      0.149      2.749      0.006
+    YMRS_6             0.294      0.148      1.986      0.047
+    YMRS_9             0.610      0.151      4.032      0.000
+
+ YMRS_18  WITH
+    YMRS_0             0.177      0.105      1.681      0.093
+    YMRS_1             0.304      0.169      1.805      0.071
+    YMRS_2             0.271      0.172      1.573      0.116
+    YMRS_3             0.404      0.127      3.176      0.001
+    YMRS_6             0.165      0.243      0.679      0.497
+    YMRS_9             0.747      0.084      8.891      0.000
+    YMRS_12            0.605      0.122      4.962      0.000
+
+ YMRS_24  WITH
+    YMRS_0             0.126      0.123      1.024      0.306
+    YMRS_1             0.273      0.108      2.520      0.012
+    YMRS_2             0.182      0.091      1.988      0.047
+    YMRS_3             0.520      0.108      4.822      0.000
+    YMRS_6             0.289      0.166      1.736      0.083
+    YMRS_9             0.619      0.096      6.425      0.000
+    YMRS_12            0.356      0.168      2.126      0.034
+    YMRS_18            0.334      0.182      1.835      0.066
+
+ Means
+    YMRS_0             1.527      0.239      6.391      0.000
+    YMRS_1             0.759      0.158      4.808      0.000
+    YMRS_2             1.043      0.173      6.048      0.000
+    YMRS_3             0.446      0.140      3.173      0.002
+    YMRS_6             0.717      0.126      5.709      0.000
+    YMRS_9             0.637      0.117      5.445      0.000
+    YMRS_12            0.533      0.099      5.383      0.000
+    YMRS_18            0.558      0.123      4.558      0.000
+    YMRS_24            0.564      0.128      4.404      0.000
+
+ Intercepts
+    I                  3.947      0.446      8.842      0.000
+    S                 -4.293      0.514     -8.358      0.000
+
+ Variances
+    YMRS_0             1.000      0.000    999.000    999.000
+    YMRS_1             1.000      0.000    999.000    999.000
+    YMRS_2             1.000      0.000    999.000    999.000
+    YMRS_3             1.000      0.000    999.000    999.000
+    YMRS_6             1.000      0.000    999.000    999.000
+    YMRS_9             1.000      0.000    999.000    999.000
+    YMRS_12            1.000      0.000    999.000    999.000
+    YMRS_18            1.000      0.000    999.000    999.000
+    YMRS_24            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    I                  0.330      0.122      2.710      0.007
+    S                  0.282      0.120      2.342      0.019
+
+Latent Class 2
+
+ I          ON
+    YMRS_0            -0.190      0.141     -1.349      0.177
+    YMRS_1            -0.317      0.589     -0.538      0.591
+    YMRS_2             0.810      0.269      3.010      0.003
+    YMRS_3            -0.444      0.113     -3.917      0.000
+    YMRS_6             0.121      0.124      0.976      0.329
+    YMRS_9             0.194      0.409      0.473      0.636
+    YMRS_12           -0.378      0.341     -1.108      0.268
+    YMRS_18            0.283      0.130      2.171      0.030
+    YMRS_24            0.554      0.223      2.487      0.013
+
+ S          ON
+    YMRS_0             0.120      0.222      0.541      0.589
+    YMRS_1            -0.145      0.450     -0.322      0.747
+    YMRS_2             0.139      0.342      0.407      0.684
+    YMRS_3            -0.493      0.150     -3.291      0.001
+    YMRS_6            -0.204      0.180     -1.132      0.258
+    YMRS_9            -0.410      0.250     -1.638      0.101
+    YMRS_12            0.716      0.309      2.321      0.020
+    YMRS_18           -0.135      0.136     -0.986      0.324
+    YMRS_24            0.572      0.252      2.270      0.023
+
+ S        WITH
+    I                 -0.506      0.305     -1.657      0.097
+
+ YMRS_1   WITH
+    YMRS_0             0.514      0.166      3.101      0.002
+
+ YMRS_2   WITH
+    YMRS_0             0.184      0.091      2.033      0.042
+    YMRS_1             0.591      0.211      2.802      0.005
+
+ YMRS_3   WITH
+    YMRS_0             0.044      0.101      0.437      0.662
+    YMRS_1             0.218      0.081      2.691      0.007
+    YMRS_2             0.153      0.063      2.426      0.015
+
+ YMRS_6   WITH
+    YMRS_0             0.165      0.117      1.415      0.157
+    YMRS_1             0.428      0.128      3.340      0.001
+    YMRS_2             0.293      0.108      2.715      0.007
+    YMRS_3             0.206      0.118      1.743      0.081
+
+ YMRS_9   WITH
+    YMRS_0             0.156      0.085      1.837      0.066
+    YMRS_1             0.568      0.170      3.337      0.001
+    YMRS_2             0.278      0.083      3.352      0.001
+    YMRS_3             0.256      0.098      2.617      0.009
+    YMRS_6             0.350      0.186      1.879      0.060
+
+ YMRS_12  WITH
+    YMRS_0            -0.031      0.196     -0.157      0.876
+    YMRS_1             0.384      0.155      2.472      0.013
+    YMRS_2             0.198      0.132      1.502      0.133
+    YMRS_3             0.198      0.105      1.875      0.061
+    YMRS_6             0.221      0.143      1.547      0.122
+    YMRS_9             0.567      0.242      2.342      0.019
+
+ YMRS_18  WITH
+    YMRS_0             0.097      0.066      1.461      0.144
+    YMRS_1             0.170      0.130      1.307      0.191
+    YMRS_2             0.069      0.054      1.268      0.205
+    YMRS_3             0.067      0.037      1.787      0.074
+    YMRS_6             0.043      0.072      0.588      0.557
+    YMRS_9             0.238      0.100      2.370      0.018
+    YMRS_12            0.287      0.115      2.508      0.012
+
+ YMRS_24  WITH
+    YMRS_0             0.233      0.190      1.230      0.219
+    YMRS_1             0.517      0.182      2.844      0.004
+    YMRS_2             0.156      0.072      2.184      0.029
+    YMRS_3             0.292      0.112      2.603      0.009
+    YMRS_6             0.253      0.159      1.595      0.111
+    YMRS_9             0.668      0.130      5.131      0.000
+    YMRS_12            0.575      0.283      2.030      0.042
+    YMRS_18            0.184      0.129      1.428      0.153
+
+ Means
+    YMRS_0             2.499      0.513      4.876      0.000
+    YMRS_1             1.103      0.230      4.787      0.000
+    YMRS_2             1.137      0.148      7.688      0.000
+    YMRS_3             0.580      0.154      3.755      0.000
+    YMRS_6             0.834      0.134      6.244      0.000
+    YMRS_9             1.006      0.133      7.565      0.000
+    YMRS_12            0.979      0.165      5.951      0.000
+    YMRS_18            0.910      0.166      5.471      0.000
+    YMRS_24            1.042      0.145      7.173      0.000
+
+ Intercepts
+    I                  2.234      0.398      5.611      0.000
+    S                 -1.523      0.537     -2.835      0.005
+
+ Variances
+    YMRS_0             1.000      0.000    999.000    999.000
+    YMRS_1             1.000      0.000    999.000    999.000
+    YMRS_2             1.000      0.000    999.000    999.000
+    YMRS_3             1.000      0.000    999.000    999.000
+    YMRS_6             1.000      0.000    999.000    999.000
+    YMRS_9             1.000      0.000    999.000    999.000
+    YMRS_12            1.000      0.000    999.000    999.000
+    YMRS_18            1.000      0.000    999.000    999.000
+    YMRS_24            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    I                  0.164      0.069      2.388      0.017
+    S                  0.163      0.075      2.172      0.030
+
+Latent Class 3
+
+ I          ON
+    YMRS_0            -0.020      0.226     -0.089      0.929
+    YMRS_1             0.178      0.264      0.674      0.501
+    YMRS_2             0.045      0.439      0.103      0.918
+    YMRS_3            -0.220      0.287     -0.769      0.442
+    YMRS_6            -0.281      0.203     -1.381      0.167
+    YMRS_9             0.290      0.219      1.323      0.186
+    YMRS_12           -0.160      0.238     -0.671      0.502
+    YMRS_18           -0.462      0.158     -2.923      0.003
+    YMRS_24            0.588      0.210      2.792      0.005
+
+ S          ON
+    YMRS_0            -0.018      0.206     -0.089      0.929
+    YMRS_1             0.143      0.183      0.782      0.434
+    YMRS_2            -1.024      0.322     -3.180      0.001
+    YMRS_3            -0.031      0.212     -0.148      0.883
+    YMRS_6             0.351      0.202      1.733      0.083
+    YMRS_9             0.107      0.305      0.349      0.727
+    YMRS_12           -0.026      0.131     -0.200      0.841
+    YMRS_18            0.362      0.170      2.124      0.034
+    YMRS_24           -0.053      0.191     -0.275      0.783
+
+ S        WITH
+    I                 -0.506      0.305     -1.657      0.097
+
+ YMRS_1   WITH
+    YMRS_0             0.206      0.104      1.972      0.049
+
+ YMRS_2   WITH
+    YMRS_0             0.428      0.174      2.457      0.014
+    YMRS_1             0.499      0.081      6.170      0.000
+
+ YMRS_3   WITH
+    YMRS_0             0.092      0.215      0.430      0.667
+    YMRS_1             0.165      0.054      3.054      0.002
+    YMRS_2             0.672      0.132      5.098      0.000
+
+ YMRS_6   WITH
+    YMRS_0             0.097      0.080      1.220      0.222
+    YMRS_1             0.091      0.044      2.070      0.038
+    YMRS_2             0.364      0.157      2.319      0.020
+    YMRS_3             0.230      0.140      1.642      0.101
+
+ YMRS_9   WITH
+    YMRS_0             0.095      0.054      1.767      0.077
+    YMRS_1             0.125      0.039      3.241      0.001
+    YMRS_2             0.357      0.086      4.156      0.000
+    YMRS_3             0.295      0.085      3.471      0.001
+    YMRS_6             0.114      0.073      1.567      0.117
+
+ YMRS_12  WITH
+    YMRS_0            -0.013      0.087     -0.153      0.879
+    YMRS_1             0.061      0.025      2.448      0.014
+    YMRS_2             0.182      0.093      1.964      0.050
+    YMRS_3             0.162      0.069      2.370      0.018
+    YMRS_6             0.051      0.036      1.409      0.159
+    YMRS_9             0.136      0.050      2.704      0.007
+
+ YMRS_18  WITH
+    YMRS_0             0.204      0.134      1.524      0.128
+    YMRS_1             0.131      0.098      1.334      0.182
+    YMRS_2             0.306      0.214      1.430      0.153
+    YMRS_3             0.268      0.127      2.111      0.035
+    YMRS_6             0.048      0.086      0.560      0.576
+    YMRS_9             0.277      0.112      2.467      0.014
+    YMRS_12            0.239      0.078      3.088      0.002
+
+ YMRS_24  WITH
+    YMRS_0             0.234      0.204      1.145      0.252
+    YMRS_1             0.188      0.068      2.755      0.006
+    YMRS_2             0.330      0.169      1.952      0.051
+    YMRS_3             0.554      0.135      4.104      0.000
+    YMRS_6             0.135      0.098      1.383      0.167
+    YMRS_9             0.369      0.108      3.410      0.001
+    YMRS_12            0.227      0.101      2.251      0.024
+    YMRS_18            0.354      0.238      1.487      0.137
+
+ Means
+    YMRS_0             3.202      1.115      2.873      0.004
+    YMRS_1             0.708      0.265      2.674      0.007
+    YMRS_2             0.888      0.199      4.470      0.000
+    YMRS_3             0.853      0.395      2.157      0.031
+    YMRS_6             0.879      0.222      3.951      0.000
+    YMRS_9             0.909      0.217      4.189      0.000
+    YMRS_12            1.016      0.228      4.462      0.000
+    YMRS_18            1.164      0.261      4.459      0.000
+    YMRS_24            0.739      0.242      3.053      0.002
+
+ Intercepts
+    I                  4.883      0.808      6.046      0.000
+    S                 -0.899      0.685     -1.312      0.190
+
+ Variances
+    YMRS_0             1.000      0.000    999.000    999.000
+    YMRS_1             1.000      0.000    999.000    999.000
+    YMRS_2             1.000      0.000    999.000    999.000
+    YMRS_3             1.000      0.000    999.000    999.000
+    YMRS_6             1.000      0.000    999.000    999.000
+    YMRS_9             1.000      0.000    999.000    999.000
+    YMRS_12            1.000      0.000    999.000    999.000
+    YMRS_18            1.000      0.000    999.000    999.000
+    YMRS_24            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    I                  0.465      0.153      3.044      0.002
+    S                  0.250      0.142      1.762      0.078
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I          ON
+    YMRS_0            -0.655      0.318     -2.056      0.040
+    YMRS_1             0.360      0.482      0.746      0.456
+    YMRS_2            -0.652      0.773     -0.843      0.399
+    YMRS_3            -0.545      0.600     -0.907      0.364
+    YMRS_6             3.054      1.063      2.874      0.004
+    YMRS_9            -3.954      1.612     -2.452      0.014
+    YMRS_12           -0.388      0.401     -0.967      0.334
+    YMRS_18            2.625      1.003      2.618      0.009
+    YMRS_24            1.187      0.556      2.135      0.033
+
+ S          ON
+    YMRS_0            -0.208      0.224     -0.930      0.353
+    YMRS_1             0.896      0.295      3.032      0.002
+    YMRS_2            -0.680      0.430     -1.582      0.114
+    YMRS_3             1.170      0.359      3.257      0.001
+    YMRS_6            -0.189      0.946     -0.200      0.842
+    YMRS_9            -0.878      1.422     -0.617      0.537
+    YMRS_12            0.127      0.182      0.696      0.486
+    YMRS_18           -0.043      0.850     -0.051      0.959
+    YMRS_24            0.171      0.353      0.483      0.629
+
+ S        WITH
+    I                 -0.506      0.305     -1.657      0.097
+
+ YMRS_1   WITH
+    YMRS_0             0.275      0.115      2.382      0.017
+
+ YMRS_2   WITH
+    YMRS_0             0.217      0.090      2.423      0.015
+    YMRS_1             0.680      0.107      6.350      0.000
+
+ YMRS_3   WITH
+    YMRS_0             0.080      0.180      0.444      0.657
+    YMRS_1             0.383      0.106      3.609      0.000
+    YMRS_2             0.592      0.115      5.137      0.000
+
+ YMRS_6   WITH
+    YMRS_0             0.191      0.104      1.841      0.066
+    YMRS_1             0.483      0.104      4.634      0.000
+    YMRS_2             0.730      0.100      7.316      0.000
+    YMRS_3             0.785      0.136      5.766      0.000
+
+ YMRS_9   WITH
+    YMRS_0             0.146      0.084      1.752      0.080
+    YMRS_1             0.520      0.081      6.400      0.000
+    YMRS_2             0.562      0.139      4.048      0.000
+    YMRS_3             0.792      0.084      9.416      0.000
+    YMRS_6             0.694      0.145      4.796      0.000
+
+ YMRS_12  WITH
+    YMRS_0            -0.019      0.127     -0.152      0.879
+    YMRS_1             0.235      0.080      2.942      0.003
+    YMRS_2             0.268      0.116      2.307      0.021
+    YMRS_3             0.408      0.149      2.749      0.006
+    YMRS_6             0.294      0.148      1.986      0.047
+    YMRS_9             0.610      0.151      4.032      0.000
+
+ YMRS_18  WITH
+    YMRS_0             0.177      0.105      1.681      0.093
+    YMRS_1             0.304      0.169      1.805      0.071
+    YMRS_2             0.271      0.172      1.573      0.116
+    YMRS_3             0.404      0.127      3.176      0.001
+    YMRS_6             0.165      0.243      0.679      0.497
+    YMRS_9             0.747      0.084      8.891      0.000
+    YMRS_12            0.605      0.122      4.962      0.000
+
+ YMRS_24  WITH
+    YMRS_0             0.126      0.123      1.024      0.306
+    YMRS_1             0.273      0.108      2.520      0.012
+    YMRS_2             0.182      0.091      1.988      0.047
+    YMRS_3             0.520      0.108      4.822      0.000
+    YMRS_6             0.289      0.166      1.736      0.083
+    YMRS_9             0.619      0.096      6.425      0.000
+    YMRS_12            0.356      0.168      2.126      0.034
+    YMRS_18            0.334      0.182      1.835      0.066
+
+ Means
+    YMRS_0             1.527      0.239      6.391      0.000
+    YMRS_1             0.759      0.158      4.808      0.000
+    YMRS_2             1.043      0.173      6.048      0.000
+    YMRS_3             0.446      0.140      3.173      0.002
+    YMRS_6             0.717      0.126      5.709      0.000
+    YMRS_9             0.637      0.117      5.445      0.000
+    YMRS_12            0.533      0.099      5.383      0.000
+    YMRS_18            0.558      0.123      4.558      0.000
+    YMRS_24            0.564      0.128      4.404      0.000
+
+ Intercepts
+    I                  3.947      0.446      8.842      0.000
+    S                 -4.293      0.514     -8.358      0.000
+
+ Variances
+    YMRS_0             1.000      0.000    999.000    999.000
+    YMRS_1             1.000      0.000    999.000    999.000
+    YMRS_2             1.000      0.000    999.000    999.000
+    YMRS_3             1.000      0.000    999.000    999.000
+    YMRS_6             1.000      0.000    999.000    999.000
+    YMRS_9             1.000      0.000    999.000    999.000
+    YMRS_12            1.000      0.000    999.000    999.000
+    YMRS_18            1.000      0.000    999.000    999.000
+    YMRS_24            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    I                  0.330      0.122      2.710      0.007
+    S                  0.282      0.120      2.342      0.019
+
+Latent Class 2
+
+ I          ON
+    YMRS_0            -0.190      0.141     -1.349      0.177
+    YMRS_1            -0.317      0.589     -0.538      0.591
+    YMRS_2             0.810      0.269      3.010      0.003
+    YMRS_3            -0.444      0.113     -3.917      0.000
+    YMRS_6             0.121      0.124      0.976      0.329
+    YMRS_9             0.194      0.409      0.473      0.636
+    YMRS_12           -0.378      0.341     -1.108      0.268
+    YMRS_18            0.283      0.130      2.171      0.030
+    YMRS_24            0.554      0.223      2.487      0.013
+
+ S          ON
+    YMRS_0             0.120      0.222      0.541      0.589
+    YMRS_1            -0.145      0.450     -0.322      0.747
+    YMRS_2             0.139      0.342      0.407      0.684
+    YMRS_3            -0.493      0.150     -3.291      0.001
+    YMRS_6            -0.204      0.180     -1.132      0.258
+    YMRS_9            -0.410      0.250     -1.638      0.101
+    YMRS_12            0.716      0.309      2.321      0.020
+    YMRS_18           -0.135      0.136     -0.986      0.324
+    YMRS_24            0.572      0.252      2.270      0.023
+
+ S        WITH
+    I                 -0.506      0.305     -1.657      0.097
+
+ YMRS_1   WITH
+    YMRS_0             0.514      0.166      3.101      0.002
+
+ YMRS_2   WITH
+    YMRS_0             0.184      0.091      2.033      0.042
+    YMRS_1             0.591      0.211      2.802      0.005
+
+ YMRS_3   WITH
+    YMRS_0             0.044      0.101      0.437      0.662
+    YMRS_1             0.218      0.081      2.691      0.007
+    YMRS_2             0.153      0.063      2.426      0.015
+
+ YMRS_6   WITH
+    YMRS_0             0.165      0.117      1.415      0.157
+    YMRS_1             0.428      0.128      3.340      0.001
+    YMRS_2             0.293      0.108      2.715      0.007
+    YMRS_3             0.206      0.118      1.743      0.081
+
+ YMRS_9   WITH
+    YMRS_0             0.156      0.085      1.837      0.066
+    YMRS_1             0.568      0.170      3.337      0.001
+    YMRS_2             0.278      0.083      3.352      0.001
+    YMRS_3             0.256      0.098      2.617      0.009
+    YMRS_6             0.350      0.186      1.879      0.060
+
+ YMRS_12  WITH
+    YMRS_0            -0.031      0.196     -0.157      0.876
+    YMRS_1             0.384      0.155      2.472      0.013
+    YMRS_2             0.198      0.132      1.502      0.133
+    YMRS_3             0.198      0.105      1.875      0.061
+    YMRS_6             0.221      0.143      1.547      0.122
+    YMRS_9             0.567      0.242      2.342      0.019
+
+ YMRS_18  WITH
+    YMRS_0             0.097      0.066      1.461      0.144
+    YMRS_1             0.170      0.130      1.307      0.191
+    YMRS_2             0.069      0.054      1.268      0.205
+    YMRS_3             0.067      0.037      1.787      0.074
+    YMRS_6             0.043      0.072      0.588      0.557
+    YMRS_9             0.238      0.100      2.370      0.018
+    YMRS_12            0.287      0.115      2.508      0.012
+
+ YMRS_24  WITH
+    YMRS_0             0.233      0.190      1.230      0.219
+    YMRS_1             0.517      0.182      2.844      0.004
+    YMRS_2             0.156      0.072      2.184      0.029
+    YMRS_3             0.292      0.112      2.603      0.009
+    YMRS_6             0.253      0.159      1.595      0.111
+    YMRS_9             0.668      0.130      5.131      0.000
+    YMRS_12            0.575      0.283      2.030      0.042
+    YMRS_18            0.184      0.129      1.428      0.153
+
+ Means
+    YMRS_0             2.499      0.513      4.876      0.000
+    YMRS_1             1.103      0.230      4.787      0.000
+    YMRS_2             1.137      0.148      7.688      0.000
+    YMRS_3             0.580      0.154      3.755      0.000
+    YMRS_6             0.834      0.134      6.244      0.000
+    YMRS_9             1.006      0.133      7.565      0.000
+    YMRS_12            0.979      0.165      5.951      0.000
+    YMRS_18            0.910      0.166      5.471      0.000
+    YMRS_24            1.042      0.145      7.173      0.000
+
+ Intercepts
+    I                  2.234      0.398      5.611      0.000
+    S                 -1.523      0.537     -2.835      0.005
+
+ Variances
+    YMRS_0             1.000      0.000    999.000    999.000
+    YMRS_1             1.000      0.000    999.000    999.000
+    YMRS_2             1.000      0.000    999.000    999.000
+    YMRS_3             1.000      0.000    999.000    999.000
+    YMRS_6             1.000      0.000    999.000    999.000
+    YMRS_9             1.000      0.000    999.000    999.000
+    YMRS_12            1.000      0.000    999.000    999.000
+    YMRS_18            1.000      0.000    999.000    999.000
+    YMRS_24            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    I                  0.164      0.069      2.388      0.017
+    S                  0.163      0.075      2.172      0.030
+
+Latent Class 3
+
+ I          ON
+    YMRS_0            -0.020      0.226     -0.089      0.929
+    YMRS_1             0.178      0.264      0.674      0.501
+    YMRS_2             0.045      0.439      0.103      0.918
+    YMRS_3            -0.220      0.287     -0.769      0.442
+    YMRS_6            -0.281      0.203     -1.381      0.167
+    YMRS_9             0.290      0.219      1.323      0.186
+    YMRS_12           -0.160      0.238     -0.671      0.502
+    YMRS_18           -0.462      0.158     -2.923      0.003
+    YMRS_24            0.588      0.210      2.792      0.005
+
+ S          ON
+    YMRS_0            -0.018      0.206     -0.089      0.929
+    YMRS_1             0.143      0.183      0.782      0.434
+    YMRS_2            -1.024      0.322     -3.180      0.001
+    YMRS_3            -0.031      0.212     -0.148      0.883
+    YMRS_6             0.351      0.202      1.733      0.083
+    YMRS_9             0.107      0.305      0.349      0.727
+    YMRS_12           -0.026      0.131     -0.200      0.841
+    YMRS_18            0.362      0.170      2.124      0.034
+    YMRS_24           -0.053      0.191     -0.275      0.783
+
+ S        WITH
+    I                 -0.506      0.305     -1.657      0.097
+
+ YMRS_1   WITH
+    YMRS_0             0.206      0.104      1.972      0.049
+
+ YMRS_2   WITH
+    YMRS_0             0.428      0.174      2.457      0.014
+    YMRS_1             0.499      0.081      6.170      0.000
+
+ YMRS_3   WITH
+    YMRS_0             0.092      0.215      0.430      0.667
+    YMRS_1             0.165      0.054      3.054      0.002
+    YMRS_2             0.672      0.132      5.098      0.000
+
+ YMRS_6   WITH
+    YMRS_0             0.097      0.080      1.220      0.222
+    YMRS_1             0.091      0.044      2.070      0.038
+    YMRS_2             0.364      0.157      2.319      0.020
+    YMRS_3             0.230      0.140      1.642      0.101
+
+ YMRS_9   WITH
+    YMRS_0             0.095      0.054      1.767      0.077
+    YMRS_1             0.125      0.039      3.241      0.001
+    YMRS_2             0.357      0.086      4.156      0.000
+    YMRS_3             0.295      0.085      3.471      0.001
+    YMRS_6             0.114      0.073      1.567      0.117
+
+ YMRS_12  WITH
+    YMRS_0            -0.013      0.087     -0.153      0.879
+    YMRS_1             0.061      0.025      2.448      0.014
+    YMRS_2             0.182      0.093      1.964      0.050
+    YMRS_3             0.162      0.069      2.370      0.018
+    YMRS_6             0.051      0.036      1.409      0.159
+    YMRS_9             0.136      0.050      2.704      0.007
+
+ YMRS_18  WITH
+    YMRS_0             0.204      0.134      1.524      0.128
+    YMRS_1             0.131      0.098      1.334      0.182
+    YMRS_2             0.306      0.214      1.430      0.153
+    YMRS_3             0.268      0.127      2.111      0.035
+    YMRS_6             0.048      0.086      0.560      0.576
+    YMRS_9             0.277      0.112      2.467      0.014
+    YMRS_12            0.239      0.078      3.088      0.002
+
+ YMRS_24  WITH
+    YMRS_0             0.234      0.204      1.145      0.252
+    YMRS_1             0.188      0.068      2.755      0.006
+    YMRS_2             0.330      0.169      1.952      0.051
+    YMRS_3             0.554      0.135      4.104      0.000
+    YMRS_6             0.135      0.098      1.383      0.167
+    YMRS_9             0.369      0.108      3.410      0.001
+    YMRS_12            0.227      0.101      2.251      0.024
+    YMRS_18            0.354      0.238      1.487      0.137
+
+ Means
+    YMRS_0             3.202      1.115      2.873      0.004
+    YMRS_1             0.708      0.265      2.674      0.007
+    YMRS_2             0.888      0.199      4.470      0.000
+    YMRS_3             0.853      0.395      2.157      0.031
+    YMRS_6             0.879      0.222      3.951      0.000
+    YMRS_9             0.909      0.217      4.189      0.000
+    YMRS_12            1.016      0.228      4.462      0.000
+    YMRS_18            1.164      0.261      4.459      0.000
+    YMRS_24            0.739      0.242      3.053      0.002
+
+ Intercepts
+    I                  4.883      0.808      6.046      0.000
+    S                 -0.899      0.685     -1.312      0.190
+
+ Variances
+    YMRS_0             1.000      0.000    999.000    999.000
+    YMRS_1             1.000      0.000    999.000    999.000
+    YMRS_2             1.000      0.000    999.000    999.000
+    YMRS_3             1.000      0.000    999.000    999.000
+    YMRS_6             1.000      0.000    999.000    999.000
+    YMRS_9             1.000      0.000    999.000    999.000
+    YMRS_12            1.000      0.000    999.000    999.000
+    YMRS_18            1.000      0.000    999.000    999.000
+    YMRS_24            1.000      0.000    999.000    999.000
+
+ Residual Variances
+    I                  0.465      0.153      3.044      0.002
+    S                  0.250      0.142      1.762      0.078
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I          ON
+    YMRS_0            -0.119      0.053     -2.258      0.024
+    YMRS_1             0.097      0.133      0.736      0.462
+    YMRS_2            -0.322      0.374     -0.862      0.389
+    YMRS_3            -0.437      0.475     -0.920      0.357
+    YMRS_6             1.738      0.532      3.267      0.001
+    YMRS_9            -1.660      0.584     -2.843      0.004
+    YMRS_12           -0.137      0.139     -0.989      0.323
+    YMRS_18            1.517      0.561      2.703      0.007
+    YMRS_24            0.245      0.131      1.870      0.061
+
+ S          ON
+    YMRS_0            -0.004      0.004     -0.943      0.345
+    YMRS_1             0.023      0.007      3.451      0.001
+    YMRS_2            -0.032      0.019     -1.673      0.094
+    YMRS_3             0.090      0.021      4.310      0.000
+    YMRS_6            -0.010      0.052     -0.197      0.844
+    YMRS_9            -0.035      0.056     -0.631      0.528
+    YMRS_12            0.004      0.006      0.695      0.487
+    YMRS_18           -0.002      0.047     -0.051      0.960
+    YMRS_24            0.003      0.007      0.483      0.629
+
+ S        WITH
+    I                 -0.086      0.058     -1.486      0.137
+
+ YMRS_1   WITH
+    YMRS_0            32.338     11.992      2.697      0.007
+
+ YMRS_2   WITH
+    YMRS_0            13.986      6.200      2.256      0.024
+    YMRS_1            29.500      7.692      3.835      0.000
+
+ YMRS_3   WITH
+    YMRS_0             3.169      7.198      0.440      0.660
+    YMRS_1            10.233      3.679      2.782      0.005
+    YMRS_2             8.670      2.721      3.186      0.001
+
+ YMRS_6   WITH
+    YMRS_0            10.717      7.484      1.432      0.152
+    YMRS_1            18.222      6.738      2.704      0.007
+    YMRS_2            15.082      4.667      3.232      0.001
+    YMRS_3             9.983      5.459      1.829      0.067
+
+ YMRS_9   WITH
+    YMRS_0            11.104      5.957      1.864      0.062
+    YMRS_1            26.566      8.479      3.133      0.002
+    YMRS_2            15.724      4.154      3.786      0.000
+    YMRS_3            13.648      4.925      2.771      0.006
+    YMRS_6            16.892      9.559      1.767      0.077
+
+ YMRS_12  WITH
+    YMRS_0            -1.735     11.393     -0.152      0.879
+    YMRS_1            14.272      4.367      3.268      0.001
+    YMRS_2             8.904      3.976      2.239      0.025
+    YMRS_3             8.356      3.498      2.389      0.017
+    YMRS_6             8.479      5.161      1.643      0.100
+    YMRS_9            23.884      6.906      3.458      0.001
+
+ YMRS_18  WITH
+    YMRS_0             9.776      5.891      1.660      0.097
+    YMRS_1            11.296      8.248      1.369      0.171
+    YMRS_2             5.508      3.841      1.434      0.152
+    YMRS_3             5.062      2.351      2.153      0.031
+    YMRS_6             2.917      5.025      0.580      0.562
+    YMRS_9            17.894      6.156      2.907      0.004
+    YMRS_12           17.189      4.875      3.526      0.000
+
+ YMRS_24  WITH
+    YMRS_0            19.509     16.782      1.163      0.245
+    YMRS_1            28.362     11.192      2.534      0.011
+    YMRS_2            10.352      5.046      2.052      0.040
+    YMRS_3            18.233      6.519      2.797      0.005
+    YMRS_6            14.298      9.800      1.459      0.145
+    YMRS_9            41.504     10.043      4.132      0.000
+    YMRS_12           28.375     10.720      2.647      0.008
+    YMRS_18           16.257      9.799      1.659      0.097
+
+ Means
+    YMRS_0            20.190      2.188      9.227      0.000
+    YMRS_1             6.752      1.586      4.258      0.000
+    YMRS_2             5.085      0.991      5.129      0.000
+    YMRS_3             1.338      0.439      3.050      0.002
+    YMRS_6             3.040      0.958      3.174      0.002
+    YMRS_9             3.657      0.817      4.475      0.000
+    YMRS_12            3.634      0.912      3.986      0.000
+    YMRS_18            2.330      0.710      3.283      0.001
+    YMRS_24            6.589      1.584      4.161      0.000
+
+ Intercepts
+    I                  9.516      0.944     10.083      0.000
+    S                 -0.995      0.100     -9.971      0.000
+
+ Variances
+    YMRS_0           174.722     50.064      3.490      0.000
+    YMRS_1            79.157     21.153      3.742      0.000
+    YMRS_2            23.755      4.226      5.621      0.000
+    YMRS_3             9.019      3.373      2.674      0.007
+    YMRS_6            17.953     10.080      1.781      0.075
+    YMRS_9            32.967      9.860      3.344      0.001
+    YMRS_12           46.433     13.556      3.425      0.001
+    YMRS_18           17.408      6.047      2.879      0.004
+    YMRS_24          136.491     51.286      2.661      0.008
+
+ Residual Variances
+    I                  1.920      0.698      2.753      0.006
+    S                  0.015      0.006      2.336      0.019
+
+Latent Class 2
+
+ I          ON
+    YMRS_0            -0.066      0.047     -1.413      0.158
+    YMRS_1            -0.169      0.306     -0.550      0.582
+    YMRS_2             0.357      0.180      1.978      0.048
+    YMRS_3            -0.208      0.061     -3.420      0.001
+    YMRS_6             0.063      0.067      0.940      0.347
+    YMRS_9             0.091      0.195      0.467      0.640
+    YMRS_12           -0.224      0.240     -0.932      0.352
+    YMRS_18            0.094      0.038      2.444      0.015
+    YMRS_24            0.222      0.091      2.448      0.014
+
+ S          ON
+    YMRS_0             0.004      0.007      0.540      0.589
+    YMRS_1            -0.007      0.021     -0.328      0.743
+    YMRS_2             0.005      0.014      0.385      0.700
+    YMRS_3            -0.021      0.008     -2.731      0.006
+    YMRS_6            -0.009      0.009     -1.092      0.275
+    YMRS_9            -0.017      0.011     -1.634      0.102
+    YMRS_12            0.038      0.010      3.834      0.000
+    YMRS_18           -0.004      0.004     -0.944      0.345
+    YMRS_24            0.020      0.010      2.088      0.037
+
+ S        WITH
+    I                 -0.086      0.058     -1.486      0.137
+
+ YMRS_1   WITH
+    YMRS_0            32.338     11.992      2.697      0.007
+
+ YMRS_2   WITH
+    YMRS_0            13.986      6.200      2.256      0.024
+    YMRS_1            29.500      7.692      3.835      0.000
+
+ YMRS_3   WITH
+    YMRS_0             3.169      7.198      0.440      0.660
+    YMRS_1            10.233      3.679      2.782      0.005
+    YMRS_2             8.670      2.721      3.186      0.001
+
+ YMRS_6   WITH
+    YMRS_0            10.717      7.484      1.432      0.152
+    YMRS_1            18.222      6.738      2.704      0.007
+    YMRS_2            15.082      4.667      3.232      0.001
+    YMRS_3             9.983      5.459      1.829      0.067
+
+ YMRS_9   WITH
+    YMRS_0            11.104      5.957      1.864      0.062
+    YMRS_1            26.566      8.479      3.133      0.002
+    YMRS_2            15.724      4.154      3.786      0.000
+    YMRS_3            13.648      4.925      2.771      0.006
+    YMRS_6            16.892      9.559      1.767      0.077
+
+ YMRS_12  WITH
+    YMRS_0            -1.735     11.393     -0.152      0.879
+    YMRS_1            14.272      4.367      3.268      0.001
+    YMRS_2             8.904      3.976      2.239      0.025
+    YMRS_3             8.356      3.498      2.389      0.017
+    YMRS_6             8.479      5.161      1.643      0.100
+    YMRS_9            23.884      6.906      3.458      0.001
+
+ YMRS_18  WITH
+    YMRS_0             9.776      5.891      1.660      0.097
+    YMRS_1            11.296      8.248      1.369      0.171
+    YMRS_2             5.508      3.841      1.434      0.152
+    YMRS_3             5.062      2.351      2.153      0.031
+    YMRS_6             2.917      5.025      0.580      0.562
+    YMRS_9            17.894      6.156      2.907      0.004
+    YMRS_12           17.189      4.875      3.526      0.000
+
+ YMRS_24  WITH
+    YMRS_0            19.509     16.782      1.163      0.245
+    YMRS_1            28.362     11.192      2.534      0.011
+    YMRS_2            10.352      5.046      2.052      0.040
+    YMRS_3            18.233      6.519      2.797      0.005
+    YMRS_6            14.298      9.800      1.459      0.145
+    YMRS_9            41.504     10.043      4.132      0.000
+    YMRS_12           28.375     10.720      2.647      0.008
+    YMRS_18           16.257      9.799      1.659      0.097
+
+ Means
+    YMRS_0            24.468      3.211      7.621      0.000
+    YMRS_1             7.087      1.437      4.931      0.000
+    YMRS_2             8.830      2.084      4.237      0.000
+    YMRS_3             4.240      1.277      3.319      0.001
+    YMRS_6             5.529      1.111      4.977      0.000
+    YMRS_9             7.328      1.327      5.521      0.000
+    YMRS_12            5.663      1.301      4.351      0.000
+    YMRS_18            9.421      2.105      4.476      0.000
+    YMRS_24            8.897      1.766      5.037      0.000
+
+ Intercepts
+    I                  7.643      1.196      6.388      0.000
+    S                 -0.464      0.148     -3.141      0.002
+
+ Variances
+    YMRS_0            95.845     26.527      3.613      0.000
+    YMRS_1            41.293      7.840      5.267      0.000
+    YMRS_2            60.284     25.924      2.325      0.020
+    YMRS_3            53.456     15.086      3.543      0.000
+    YMRS_6            43.908     10.435      4.208      0.000
+    YMRS_9            53.024     11.706      4.530      0.000
+    YMRS_12           33.433     18.622      1.795      0.073
+    YMRS_18          107.058     44.905      2.384      0.017
+    YMRS_24           72.860     17.508      4.161      0.000
+
+ Residual Variances
+    I                  1.920      0.698      2.753      0.006
+    S                  0.015      0.006      2.336      0.019
+
+Latent Class 3
+
+ I          ON
+    YMRS_0            -0.004      0.049     -0.089      0.929
+    YMRS_1             0.021      0.032      0.671      0.502
+    YMRS_2             0.026      0.254      0.103      0.918
+    YMRS_3            -0.122      0.153     -0.793      0.428
+    YMRS_6            -0.048      0.035     -1.373      0.170
+    YMRS_9             0.047      0.035      1.351      0.177
+    YMRS_12           -0.023      0.034     -0.682      0.496
+    YMRS_18           -0.183      0.054     -3.357      0.001
+    YMRS_24            0.134      0.052      2.577      0.010
+
+ S          ON
+    YMRS_0             0.000      0.005     -0.089      0.929
+    YMRS_1             0.002      0.003      0.800      0.424
+    YMRS_2            -0.072      0.023     -3.172      0.002
+    YMRS_3            -0.002      0.014     -0.147      0.883
+    YMRS_6             0.007      0.006      1.212      0.225
+    YMRS_9             0.002      0.006      0.352      0.725
+    YMRS_12            0.000      0.002     -0.199      0.842
+    YMRS_18            0.017      0.007      2.619      0.009
+    YMRS_24           -0.001      0.005     -0.272      0.786
+
+ S        WITH
+    I                 -0.086      0.058     -1.486      0.137
+
+ YMRS_1   WITH
+    YMRS_0            32.338     11.992      2.697      0.007
+
+ YMRS_2   WITH
+    YMRS_0            13.986      6.200      2.256      0.024
+    YMRS_1            29.500      7.692      3.835      0.000
+
+ YMRS_3   WITH
+    YMRS_0             3.169      7.198      0.440      0.660
+    YMRS_1            10.233      3.679      2.782      0.005
+    YMRS_2             8.670      2.721      3.186      0.001
+
+ YMRS_6   WITH
+    YMRS_0            10.717      7.484      1.432      0.152
+    YMRS_1            18.222      6.738      2.704      0.007
+    YMRS_2            15.082      4.667      3.232      0.001
+    YMRS_3             9.983      5.459      1.829      0.067
+
+ YMRS_9   WITH
+    YMRS_0            11.104      5.957      1.864      0.062
+    YMRS_1            26.566      8.479      3.133      0.002
+    YMRS_2            15.724      4.154      3.786      0.000
+    YMRS_3            13.648      4.925      2.771      0.006
+    YMRS_6            16.892      9.559      1.767      0.077
+
+ YMRS_12  WITH
+    YMRS_0            -1.735     11.393     -0.152      0.879
+    YMRS_1            14.272      4.367      3.268      0.001
+    YMRS_2             8.904      3.976      2.239      0.025
+    YMRS_3             8.356      3.498      2.389      0.017
+    YMRS_6             8.479      5.161      1.643      0.100
+    YMRS_9            23.884      6.906      3.458      0.001
+
+ YMRS_18  WITH
+    YMRS_0             9.776      5.891      1.660      0.097
+    YMRS_1            11.296      8.248      1.369      0.171
+    YMRS_2             5.508      3.841      1.434      0.152
+    YMRS_3             5.062      2.351      2.153      0.031
+    YMRS_6             2.917      5.025      0.580      0.562
+    YMRS_9            17.894      6.156      2.907      0.004
+    YMRS_12           17.189      4.875      3.526      0.000
+
+ YMRS_24  WITH
+    YMRS_0            19.509     16.782      1.163      0.245
+    YMRS_1            28.362     11.192      2.534      0.011
+    YMRS_2            10.352      5.046      2.052      0.040
+    YMRS_3            18.233      6.519      2.797      0.005
+    YMRS_6            14.298      9.800      1.459      0.145
+    YMRS_9            41.504     10.043      4.132      0.000
+    YMRS_12           28.375     10.720      2.647      0.008
+    YMRS_18           16.257      9.799      1.659      0.097
+
+ Means
+    YMRS_0            29.868      3.388      8.815      0.000
+    YMRS_1            11.930      5.237      2.278      0.023
+    YMRS_2             3.113      0.788      3.948      0.000
+    YMRS_3             3.138      1.473      2.131      0.033
+    YMRS_6            10.388      3.077      3.376      0.001
+    YMRS_9            11.439      3.583      3.193      0.001
+    YMRS_12           14.207      3.403      4.175      0.000
+    YMRS_18            5.975      1.899      3.147      0.002
+    YMRS_24            6.603      2.307      2.862      0.004
+
+ Intercepts
+    I                  9.923      1.592      6.234      0.000
+    S                 -0.221      0.168     -1.316      0.188
+
+ Variances
+    YMRS_0            86.983     45.270      1.921      0.055
+    YMRS_1           284.051    105.836      2.684      0.007
+    YMRS_2            12.288      2.897      4.242      0.000
+    YMRS_3            13.532      3.937      3.437      0.001
+    YMRS_6           139.667     80.818      1.728      0.084
+    YMRS_9           158.276     47.163      3.356      0.001
+    YMRS_12          195.540     65.241      2.997      0.003
+    YMRS_18           26.353      8.424      3.128      0.002
+    YMRS_24           79.898     21.667      3.687      0.000
+
+ Residual Variances
+    I                  1.920      0.698      2.753      0.006
+    S                  0.015      0.006      2.336      0.019
+
+
+R-SQUARE
+
+Class 1
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    I                  0.670      0.122      5.494      0.000
+    S                  0.718      0.120      5.971      0.000
+
+Class 2
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    I                  0.836      0.069     12.166      0.000
+    S                  0.837      0.075     11.186      0.000
+
+Class 3
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    I                  0.535      0.153      3.503      0.000
+    S                  0.750      0.142      5.296      0.000
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ I        ON
+    YMRS_0          -0.256      -0.223      -0.206      -0.119      -0.032      -0.016       0.017
+    YMRS_1          -0.244      -0.162      -0.120       0.097       0.315       0.357       0.439
+    YMRS_2          -1.286      -1.056      -0.938      -0.322       0.293       0.411       0.641
+    YMRS_3          -1.661      -1.368      -1.218      -0.437       0.344       0.494       0.786
+    YMRS_6           0.368       0.695       0.863       1.738       2.613       2.780       3.108
+    YMRS_9          -3.165      -2.805      -2.621      -1.660      -0.699      -0.515      -0.156
+    YMRS_12         -0.494      -0.409      -0.365      -0.137       0.091       0.135       0.220
+    YMRS_18          0.071       0.417       0.594       1.517       2.440       2.617       2.962
+    YMRS_24         -0.093      -0.012       0.029       0.245       0.461       0.502       0.583
+
+ S        ON
+    YMRS_0          -0.014      -0.011      -0.010      -0.004       0.003       0.004       0.006
+    YMRS_1           0.006       0.010       0.012       0.023       0.034       0.037       0.041
+    YMRS_2          -0.082      -0.070      -0.064      -0.032      -0.001       0.006       0.017
+    YMRS_3           0.036       0.049       0.056       0.090       0.125       0.131       0.144
+    YMRS_6          -0.145      -0.113      -0.097      -0.010       0.076       0.092       0.125
+    YMRS_9          -0.180      -0.145      -0.128      -0.035       0.057       0.075       0.109
+    YMRS_12         -0.012      -0.008      -0.006       0.004       0.015       0.016       0.020
+    YMRS_18         -0.124      -0.095      -0.080      -0.002       0.075       0.090       0.119
+    YMRS_24         -0.015      -0.010      -0.008       0.003       0.015       0.017       0.021
+
+ S        WITH
+    I               -0.236      -0.200      -0.182      -0.086       0.009       0.027       0.063
+
+ YMRS_1   WITH
+    YMRS_0           1.449       8.833      12.611      32.338      52.064      55.842      63.227
+
+ YMRS_2   WITH
+    YMRS_0          -1.984       1.834       3.787      13.986      24.186      26.139      29.957
+    YMRS_1           9.688      14.424      16.847      29.500      42.153      44.576      49.312
+
+ YMRS_3   WITH
+    YMRS_0         -15.372     -10.939      -8.672       3.169      15.010      17.278      21.710
+    YMRS_1           0.757       3.023       4.182      10.233      16.285      17.444      19.709
+    YMRS_2           1.660       3.336       4.194       8.670      13.147      14.004      15.680
+
+ YMRS_6   WITH
+    YMRS_0          -8.562      -3.953      -1.595      10.717      23.028      25.386      29.995
+    YMRS_1           0.866       5.015       7.138      18.222      29.306      31.428      35.577
+    YMRS_2           3.061       5.935       7.405      15.082      22.760      24.230      27.104
+    YMRS_3          -4.079      -0.717       1.002       9.983      18.963      20.683      24.045
+
+ YMRS_9   WITH
+    YMRS_0          -4.240      -0.572       1.304      11.104      20.904      22.780      26.448
+    YMRS_1           4.725       9.947      12.618      26.566      40.514      43.185      48.406
+    YMRS_2           5.025       7.583       8.891      15.724      22.556      23.865      26.423
+    YMRS_3           0.962       3.995       5.546      13.648      21.750      23.301      26.334
+    YMRS_6          -7.730      -1.844       1.167      16.892      32.616      35.627      41.514
+
+ YMRS_12  WITH
+    YMRS_0         -31.082     -24.066     -20.477      -1.735      17.007      20.596      27.612
+    YMRS_1           3.024       5.713       7.089      14.272      21.455      22.830      25.519
+    YMRS_2          -1.339       1.110       2.363       8.904      15.445      16.698      19.146
+    YMRS_3          -0.654       1.500       2.602       8.356      14.110      15.212      17.366
+    YMRS_6          -4.815      -1.637      -0.011       8.479      16.969      18.595      21.773
+    YMRS_9           6.095      10.348      12.523      23.884      35.245      37.420      41.673
+
+ YMRS_18  WITH
+    YMRS_0          -5.397      -1.770       0.086       9.776      19.466      21.322      24.949
+    YMRS_1          -9.950      -4.871      -2.273      11.296      24.865      27.463      32.542
+    YMRS_2          -4.387      -2.021      -0.811       5.508      11.827      13.037      15.403
+    YMRS_3          -0.994       0.454       1.195       5.062       8.929       9.670      11.118
+    YMRS_6         -10.027      -6.932      -5.349       2.917      11.183      12.766      15.861
+    YMRS_9           2.037       5.828       7.767      17.894      28.021      29.960      33.751
+    YMRS_12          4.632       7.634       9.170      17.189      25.207      26.743      29.745
+
+ YMRS_24  WITH
+    YMRS_0         -23.717     -13.383      -8.097      19.509      47.114      52.400      62.734
+    YMRS_1          -0.467       6.426       9.951      28.362      46.774      50.299      57.191
+    YMRS_2          -2.645       0.462       2.051      10.352      18.653      20.242      23.349
+    YMRS_3           1.441       5.456       7.509      18.233      28.957      31.010      35.025
+    YMRS_6         -10.946      -4.911      -1.824      14.298      30.419      33.506      39.541
+    YMRS_9          15.634      21.819      24.983      41.504      58.026      61.189      67.374
+    YMRS_12          0.762       7.363      10.740      28.375      46.010      49.386      55.988
+    YMRS_18         -8.984      -2.949       0.137      16.257      32.377      35.464      41.499
+
+ Means
+    YMRS_0          14.553      15.901      16.590      20.190      23.789      24.479      25.826
+    YMRS_1           2.668       3.644       4.144       6.752       9.361       9.860      10.837
+    YMRS_2           2.531       3.142       3.454       5.085       6.716       7.028       7.639
+    YMRS_3           0.208       0.478       0.617       1.338       2.060       2.198       2.468
+    YMRS_6           0.573       1.162       1.464       3.040       4.615       4.917       5.507
+    YMRS_9           1.552       2.056       2.313       3.657       5.002       5.259       5.762
+    YMRS_12          1.286       1.847       2.134       3.634       5.134       5.421       5.982
+    YMRS_18          0.502       0.939       1.162       2.330       3.497       3.721       4.158
+    YMRS_24          2.510       3.485       3.984       6.589       9.194       9.692      10.668
+
+ Means
+    N#1              3.075       3.075       3.075       3.075       3.075       3.075       3.075
+    N#2              1.083       1.083       1.083       1.083       1.083       1.083       1.083
+
+ Intercepts
+    I                7.085       7.666       7.963       9.516      11.068      11.366      11.947
+    S               -1.252      -1.190      -1.159      -0.995      -0.831      -0.799      -0.738
+
+ Variances
+    YMRS_0          45.768      76.597      92.367     174.722     257.078     272.848     303.677
+    YMRS_1          24.671      37.697      44.360      79.157     113.953     120.616     133.642
+    YMRS_2          12.869      15.471      16.802      23.755      30.707      32.038      34.641
+    YMRS_3           0.332       2.409       3.471       9.019      14.568      15.630      17.707
+    YMRS_6          -8.011      -1.804       1.371      17.953      34.535      37.710      43.917
+    YMRS_9           7.571      13.642      16.748      32.967      49.186      52.291      58.363
+    YMRS_12         11.516      19.864      24.134      46.433      68.732      73.002      81.349
+    YMRS_18          1.832       5.556       7.460      17.408      27.355      29.260      32.984
+    YMRS_24          4.387      35.969      52.125     136.491     220.857     237.012     268.594
+
+ Residual Variances
+    I                0.123       0.553       0.773       1.920       3.068       3.287       3.717
+    S               -0.002       0.002       0.004       0.015       0.026       0.028       0.032
+
+Latent Class 2
+
+ I        ON
+    YMRS_0          -0.188      -0.159      -0.144      -0.066       0.011       0.026       0.055
+    YMRS_1          -0.957      -0.769      -0.672      -0.169       0.335       0.432       0.620
+    YMRS_2          -0.108       0.003       0.060       0.357       0.654       0.710       0.821
+    YMRS_3          -0.364      -0.327      -0.308      -0.208      -0.108      -0.089      -0.051
+    YMRS_6          -0.109      -0.068      -0.047       0.063       0.172       0.193       0.234
+    YMRS_9          -0.410      -0.291      -0.229       0.091       0.411       0.473       0.592
+    YMRS_12         -0.843      -0.695      -0.619      -0.224       0.171       0.247       0.395
+    YMRS_18         -0.005       0.019       0.031       0.094       0.157       0.169       0.192
+    YMRS_24         -0.012       0.044       0.073       0.222       0.371       0.399       0.455
+
+ S        ON
+    YMRS_0          -0.014      -0.010      -0.008       0.004       0.015       0.017       0.022
+    YMRS_1          -0.061      -0.048      -0.041      -0.007       0.028       0.034       0.047
+    YMRS_2          -0.031      -0.022      -0.018       0.005       0.029       0.033       0.042
+    YMRS_3          -0.040      -0.035      -0.033      -0.021      -0.008      -0.006      -0.001
+    YMRS_6          -0.032      -0.026      -0.024      -0.009       0.005       0.007       0.013
+    YMRS_9          -0.044      -0.038      -0.034      -0.017       0.000       0.003       0.010
+    YMRS_12          0.012       0.018       0.022       0.038       0.054       0.057       0.063
+    YMRS_18         -0.015      -0.012      -0.011      -0.004       0.003       0.004       0.007
+    YMRS_24         -0.005       0.001       0.004       0.020       0.037       0.040       0.046
+
+ S        WITH
+    I               -0.236      -0.200      -0.182      -0.086       0.009       0.027       0.063
+
+ YMRS_1   WITH
+    YMRS_0           1.449       8.833      12.611      32.338      52.064      55.842      63.227
+
+ YMRS_2   WITH
+    YMRS_0          -1.984       1.834       3.787      13.986      24.186      26.139      29.957
+    YMRS_1           9.688      14.424      16.847      29.500      42.153      44.576      49.312
+
+ YMRS_3   WITH
+    YMRS_0         -15.372     -10.939      -8.672       3.169      15.010      17.278      21.710
+    YMRS_1           0.757       3.023       4.182      10.233      16.285      17.444      19.709
+    YMRS_2           1.660       3.336       4.194       8.670      13.147      14.004      15.680
+
+ YMRS_6   WITH
+    YMRS_0          -8.562      -3.953      -1.595      10.717      23.028      25.386      29.995
+    YMRS_1           0.866       5.015       7.138      18.222      29.306      31.428      35.577
+    YMRS_2           3.061       5.935       7.405      15.082      22.760      24.230      27.104
+    YMRS_3          -4.079      -0.717       1.002       9.983      18.963      20.683      24.045
+
+ YMRS_9   WITH
+    YMRS_0          -4.240      -0.572       1.304      11.104      20.904      22.780      26.448
+    YMRS_1           4.725       9.947      12.618      26.566      40.514      43.185      48.406
+    YMRS_2           5.025       7.583       8.891      15.724      22.556      23.865      26.423
+    YMRS_3           0.962       3.995       5.546      13.648      21.750      23.301      26.334
+    YMRS_6          -7.730      -1.844       1.167      16.892      32.616      35.627      41.514
+
+ YMRS_12  WITH
+    YMRS_0         -31.082     -24.066     -20.477      -1.735      17.007      20.596      27.612
+    YMRS_1           3.024       5.713       7.089      14.272      21.455      22.830      25.519
+    YMRS_2          -1.339       1.110       2.363       8.904      15.445      16.698      19.146
+    YMRS_3          -0.654       1.500       2.602       8.356      14.110      15.212      17.366
+    YMRS_6          -4.815      -1.637      -0.011       8.479      16.969      18.595      21.773
+    YMRS_9           6.095      10.348      12.523      23.884      35.245      37.420      41.673
+
+ YMRS_18  WITH
+    YMRS_0          -5.397      -1.770       0.086       9.776      19.466      21.322      24.949
+    YMRS_1          -9.950      -4.871      -2.273      11.296      24.865      27.463      32.542
+    YMRS_2          -4.387      -2.021      -0.811       5.508      11.827      13.037      15.403
+    YMRS_3          -0.994       0.454       1.195       5.062       8.929       9.670      11.118
+    YMRS_6         -10.027      -6.932      -5.349       2.917      11.183      12.766      15.861
+    YMRS_9           2.037       5.828       7.767      17.894      28.021      29.960      33.751
+    YMRS_12          4.632       7.634       9.170      17.189      25.207      26.743      29.745
+
+ YMRS_24  WITH
+    YMRS_0         -23.717     -13.383      -8.097      19.509      47.114      52.400      62.734
+    YMRS_1          -0.467       6.426       9.951      28.362      46.774      50.299      57.191
+    YMRS_2          -2.645       0.462       2.051      10.352      18.653      20.242      23.349
+    YMRS_3           1.441       5.456       7.509      18.233      28.957      31.010      35.025
+    YMRS_6         -10.946      -4.911      -1.824      14.298      30.419      33.506      39.541
+    YMRS_9          15.634      21.819      24.983      41.504      58.026      61.189      67.374
+    YMRS_12          0.762       7.363      10.740      28.375      46.010      49.386      55.988
+    YMRS_18         -8.984      -2.949       0.137      16.257      32.377      35.464      41.499
+
+ Means
+    YMRS_0          16.199      18.176      19.187      24.468      29.750      30.761      32.738
+    YMRS_1           3.385       4.270       4.723       7.087       9.451       9.903      10.788
+    YMRS_2           3.462       4.745       5.402       8.830      12.258      12.915      14.198
+    YMRS_3           0.950       1.736       2.139       4.240       6.341       6.743       7.530
+    YMRS_6           2.667       3.351       3.701       5.529       7.356       7.706       8.390
+    YMRS_9           3.909       4.726       5.145       7.328       9.512       9.930      10.747
+    YMRS_12          2.311       3.112       3.522       5.663       7.804       8.214       9.015
+    YMRS_18          4.000       5.296       5.959       9.421      12.883      13.546      14.842
+    YMRS_24          4.347       5.435       5.992       8.897      11.803      12.359      13.447
+
+ Means
+    N#1              1.199       1.199       1.199       1.199       1.199       1.199       1.199
+    N#2              2.945       2.945       2.945       2.945       2.945       2.945       2.945
+
+ Intercepts
+    I                4.561       5.298       5.675       7.643       9.611       9.988      10.725
+    S               -0.845      -0.754      -0.708      -0.464      -0.221      -0.175      -0.084
+
+ Variances
+    YMRS_0          27.518      43.853      52.209      95.845     139.481     147.837     164.173
+    YMRS_1          21.099      25.927      28.396      41.293      54.190      56.660      61.488
+    YMRS_2          -6.491       9.473      17.639      60.284     102.929     111.095     127.059
+    YMRS_3          14.596      23.886      28.638      53.456      78.273      83.025      92.315
+    YMRS_6          17.029      23.455      26.742      43.908      61.074      64.361      70.787
+    YMRS_9          22.872      30.081      33.768      53.024      72.279      75.967      83.175
+    YMRS_12        -14.534      -3.066       2.800      33.433      64.067      69.933      81.400
+    YMRS_18         -8.608      19.044      33.189     107.058     180.926     195.071     222.724
+    YMRS_24         27.762      38.543      44.059      72.860     101.661     107.176     117.958
+
+ Residual Variances
+    I                0.123       0.553       0.773       1.920       3.068       3.287       3.717
+    S               -0.002       0.002       0.004       0.015       0.026       0.028       0.032
+
+Latent Class 3
+
+ I        ON
+    YMRS_0          -0.131      -0.101      -0.085      -0.004       0.077       0.092       0.123
+    YMRS_1          -0.061      -0.041      -0.031       0.021       0.074       0.084       0.104
+    YMRS_2          -0.628      -0.472      -0.392       0.026       0.444       0.524       0.680
+    YMRS_3          -0.517      -0.422      -0.374      -0.122       0.131       0.179       0.274
+    YMRS_6          -0.139      -0.117      -0.106      -0.048       0.010       0.021       0.042
+    YMRS_9          -0.042      -0.021      -0.010       0.047       0.104       0.115       0.136
+    YMRS_12         -0.111      -0.090      -0.079      -0.023       0.033       0.043       0.064
+    YMRS_18         -0.323      -0.290      -0.272      -0.183      -0.093      -0.076      -0.043
+    YMRS_24          0.000       0.032       0.048       0.134       0.219       0.235       0.267
+
+ S        ON
+    YMRS_0          -0.014      -0.011      -0.009       0.000       0.008       0.010       0.013
+    YMRS_1          -0.005      -0.003      -0.002       0.002       0.006       0.007       0.009
+    YMRS_2          -0.130      -0.116      -0.109      -0.072      -0.035      -0.027      -0.014
+    YMRS_3          -0.039      -0.030      -0.025      -0.002       0.021       0.026       0.034
+    YMRS_6          -0.008      -0.005      -0.003       0.007       0.017       0.019       0.023
+    YMRS_9          -0.013      -0.010      -0.008       0.002       0.012       0.014       0.017
+    YMRS_12         -0.006      -0.005      -0.004       0.000       0.003       0.004       0.006
+    YMRS_18          0.000       0.004       0.006       0.017       0.028       0.030       0.034
+    YMRS_24         -0.015      -0.012      -0.010      -0.001       0.007       0.009       0.012
+
+ S        WITH
+    I               -0.236      -0.200      -0.182      -0.086       0.009       0.027       0.063
+
+ YMRS_1   WITH
+    YMRS_0           1.449       8.833      12.611      32.338      52.064      55.842      63.227
+
+ YMRS_2   WITH
+    YMRS_0          -1.984       1.834       3.787      13.986      24.186      26.139      29.957
+    YMRS_1           9.688      14.424      16.847      29.500      42.153      44.576      49.312
+
+ YMRS_3   WITH
+    YMRS_0         -15.372     -10.939      -8.672       3.169      15.010      17.278      21.710
+    YMRS_1           0.757       3.023       4.182      10.233      16.285      17.444      19.709
+    YMRS_2           1.660       3.336       4.194       8.670      13.147      14.004      15.680
+
+ YMRS_6   WITH
+    YMRS_0          -8.562      -3.953      -1.595      10.717      23.028      25.386      29.995
+    YMRS_1           0.866       5.015       7.138      18.222      29.306      31.428      35.577
+    YMRS_2           3.061       5.935       7.405      15.082      22.760      24.230      27.104
+    YMRS_3          -4.079      -0.717       1.002       9.983      18.963      20.683      24.045
+
+ YMRS_9   WITH
+    YMRS_0          -4.240      -0.572       1.304      11.104      20.904      22.780      26.448
+    YMRS_1           4.725       9.947      12.618      26.566      40.514      43.185      48.406
+    YMRS_2           5.025       7.583       8.891      15.724      22.556      23.865      26.423
+    YMRS_3           0.962       3.995       5.546      13.648      21.750      23.301      26.334
+    YMRS_6          -7.730      -1.844       1.167      16.892      32.616      35.627      41.514
+
+ YMRS_12  WITH
+    YMRS_0         -31.082     -24.066     -20.477      -1.735      17.007      20.596      27.612
+    YMRS_1           3.024       5.713       7.089      14.272      21.455      22.830      25.519
+    YMRS_2          -1.339       1.110       2.363       8.904      15.445      16.698      19.146
+    YMRS_3          -0.654       1.500       2.602       8.356      14.110      15.212      17.366
+    YMRS_6          -4.815      -1.637      -0.011       8.479      16.969      18.595      21.773
+    YMRS_9           6.095      10.348      12.523      23.884      35.245      37.420      41.673
+
+ YMRS_18  WITH
+    YMRS_0          -5.397      -1.770       0.086       9.776      19.466      21.322      24.949
+    YMRS_1          -9.950      -4.871      -2.273      11.296      24.865      27.463      32.542
+    YMRS_2          -4.387      -2.021      -0.811       5.508      11.827      13.037      15.403
+    YMRS_3          -0.994       0.454       1.195       5.062       8.929       9.670      11.118
+    YMRS_6         -10.027      -6.932      -5.349       2.917      11.183      12.766      15.861
+    YMRS_9           2.037       5.828       7.767      17.894      28.021      29.960      33.751
+    YMRS_12          4.632       7.634       9.170      17.189      25.207      26.743      29.745
+
+ YMRS_24  WITH
+    YMRS_0         -23.717     -13.383      -8.097      19.509      47.114      52.400      62.734
+    YMRS_1          -0.467       6.426       9.951      28.362      46.774      50.299      57.191
+    YMRS_2          -2.645       0.462       2.051      10.352      18.653      20.242      23.349
+    YMRS_3           1.441       5.456       7.509      18.233      28.957      31.010      35.025
+    YMRS_6         -10.946      -4.911      -1.824      14.298      30.419      33.506      39.541
+    YMRS_9          15.634      21.819      24.983      41.504      58.026      61.189      67.374
+    YMRS_12          0.762       7.363      10.740      28.375      46.010      49.386      55.988
+    YMRS_18         -8.984      -2.949       0.137      16.257      32.377      35.464      41.499
+
+ Means
+    YMRS_0          21.141      23.227      24.294      29.868      35.441      36.508      38.595
+    YMRS_1          -1.559       1.666       3.315      11.930      20.545      22.194      25.419
+    YMRS_2           1.082       1.567       1.816       3.113       4.410       4.658       5.143
+    YMRS_3          -0.655       0.252       0.715       3.138       5.561       6.025       6.931
+    YMRS_6           2.463       4.358       5.327      10.388      15.450      16.419      18.314
+    YMRS_9           2.210       4.416       5.545      11.439      17.332      18.461      20.667
+    YMRS_12          5.442       7.538       8.610      14.207      19.805      20.877      22.973
+    YMRS_18          1.084       2.254       2.852       5.975       9.099       9.697      10.866
+    YMRS_24          0.661       2.082       2.808       6.603      10.398      11.125      12.546
+
+ Means
+    N#1             -1.281      -1.281      -1.281      -1.281      -1.281      -1.281      -1.281
+    N#2             -1.148      -1.148      -1.148      -1.148      -1.148      -1.148      -1.148
+
+ Intercepts
+    I                5.823       6.803       7.305       9.923      12.541      13.043      14.023
+    S               -0.654      -0.551      -0.498      -0.221       0.055       0.108       0.212
+
+ Variances
+    YMRS_0         -29.624      -1.746      12.514      86.983     161.453     175.713     203.590
+    YMRS_1          11.439      76.613     109.951     284.051     458.150     491.488     556.662
+    YMRS_2           4.826       6.610       7.523      12.288      17.053      17.966      19.749
+    YMRS_3           3.391       5.815       7.056      13.532      20.009      21.250      23.674
+    YMRS_6         -68.505     -18.737       6.721     139.667     272.613     298.071     347.838
+    YMRS_9          36.793      65.836      80.693     158.276     235.859     250.715     279.758
+    YMRS_12         27.492      67.668      88.219     195.540     302.861     323.412     363.587
+    YMRS_18          4.655       9.842      12.496      26.353      40.211      42.864      48.052
+    YMRS_24         24.087      37.430      44.255      79.898     115.540     122.366     135.708
+
+ Residual Variances
+    I                0.123       0.553       0.773       1.920       3.068       3.287       3.717
+    S               -0.002       0.002       0.004       0.015       0.026       0.028       0.032
+
+Categorical Latent Variables
+
+ Means
+    C#1              0.287       0.388       0.440       0.711       0.981       1.033       1.134
+    C#2              0.253       0.370       0.429       0.740       1.052       1.111       1.228
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ I        ON
+    YMRS_0          -1.475      -1.279      -1.178      -0.655      -0.131      -0.031       0.166
+    YMRS_1          -0.882      -0.585      -0.433       0.360       1.153       1.305       1.602
+    YMRS_2          -2.643      -2.167      -1.923      -0.652       0.620       0.863       1.339
+    YMRS_3          -2.090      -1.721      -1.532      -0.545       0.443       0.632       1.001
+    YMRS_6           0.317       0.971       1.306       3.054       4.802       5.137       5.791
+    YMRS_9          -8.107      -7.114      -6.606      -3.954      -1.302      -0.794       0.199
+    YMRS_12         -1.421      -1.174      -1.047      -0.388       0.272       0.398       0.645
+    YMRS_18          0.042       0.659       0.975       2.625       4.275       4.590       5.208
+    YMRS_24         -0.245       0.097       0.273       1.187       2.102       2.278       2.620
+
+ S        ON
+    YMRS_0          -0.784      -0.646      -0.576      -0.208       0.160       0.230       0.368
+    YMRS_1           0.135       0.317       0.410       0.896       1.382       1.475       1.657
+    YMRS_2          -1.787      -1.522      -1.387      -0.680       0.027       0.162       0.427
+    YMRS_3           0.245       0.466       0.579       1.170       1.761       1.874       2.096
+    YMRS_6          -2.624      -2.042      -1.744      -0.189       1.367       1.665       2.247
+    YMRS_9          -4.540      -3.665      -3.217      -0.878       1.462       1.910       2.785
+    YMRS_12         -0.342      -0.230      -0.173       0.127       0.426       0.484       0.596
+    YMRS_18         -2.232      -1.709      -1.441      -0.043       1.355       1.623       2.146
+    YMRS_24         -0.740      -0.522      -0.411       0.171       0.752       0.863       1.081
+
+ S        WITH
+    I               -1.293      -1.105      -1.009      -0.506      -0.004       0.092       0.280
+
+ YMRS_1   WITH
+    YMRS_0          -0.022       0.049       0.085       0.275       0.465       0.501       0.572
+
+ YMRS_2   WITH
+    YMRS_0          -0.014       0.041       0.070       0.217       0.364       0.393       0.448
+    YMRS_1           0.404       0.470       0.504       0.680       0.857       0.890       0.956
+
+ YMRS_3   WITH
+    YMRS_0          -0.383      -0.273      -0.216       0.080       0.376       0.432       0.543
+    YMRS_1           0.110       0.175       0.208       0.383       0.558       0.591       0.656
+    YMRS_2           0.295       0.366       0.403       0.592       0.782       0.818       0.889
+
+ YMRS_6   WITH
+    YMRS_0          -0.076      -0.012       0.020       0.191       0.362       0.395       0.459
+    YMRS_1           0.215       0.279       0.312       0.483       0.655       0.688       0.752
+    YMRS_2           0.473       0.535       0.566       0.730       0.895       0.926       0.987
+    YMRS_3           0.434       0.518       0.561       0.785       1.008       1.051       1.135
+
+ YMRS_9   WITH
+    YMRS_0          -0.069      -0.017       0.009       0.146       0.284       0.310       0.361
+    YMRS_1           0.311       0.361       0.386       0.520       0.654       0.679       0.729
+    YMRS_2           0.204       0.290       0.334       0.562       0.790       0.834       0.919
+    YMRS_3           0.575       0.627       0.653       0.792       0.930       0.956       1.008
+    YMRS_6           0.321       0.411       0.456       0.694       0.932       0.978       1.067
+
+ YMRS_12  WITH
+    YMRS_0          -0.346      -0.268      -0.228      -0.019       0.189       0.229       0.307
+    YMRS_1           0.029       0.079       0.104       0.235       0.367       0.392       0.442
+    YMRS_2          -0.031       0.040       0.077       0.268       0.459       0.496       0.567
+    YMRS_3           0.026       0.117       0.164       0.408       0.653       0.699       0.791
+    YMRS_6          -0.087       0.004       0.050       0.294       0.537       0.583       0.675
+    YMRS_9           0.221       0.314       0.361       0.610       0.859       0.907       1.000
+
+ YMRS_18  WITH
+    YMRS_0          -0.094      -0.029       0.004       0.177       0.351       0.384       0.449
+    YMRS_1          -0.130      -0.026       0.027       0.304       0.582       0.635       0.739
+    YMRS_2          -0.173      -0.067      -0.012       0.271       0.554       0.608       0.714
+    YMRS_3           0.076       0.155       0.195       0.404       0.613       0.653       0.732
+    YMRS_6          -0.461      -0.311      -0.235       0.165       0.565       0.641       0.791
+    YMRS_9           0.531       0.582       0.609       0.747       0.885       0.912       0.963
+    YMRS_12          0.291       0.366       0.404       0.605       0.805       0.843       0.918
+
+ YMRS_24  WITH
+    YMRS_0          -0.191      -0.115      -0.077       0.126       0.329       0.368       0.444
+    YMRS_1          -0.006       0.061       0.095       0.273       0.451       0.485       0.552
+    YMRS_2          -0.054       0.003       0.031       0.182       0.332       0.361       0.417
+    YMRS_3           0.242       0.308       0.342       0.520       0.697       0.731       0.797
+    YMRS_6          -0.140      -0.037       0.015       0.289       0.563       0.615       0.717
+    YMRS_9           0.371       0.430       0.460       0.619       0.777       0.807       0.867
+    YMRS_12         -0.075       0.028       0.081       0.356       0.632       0.685       0.788
+    YMRS_18         -0.135      -0.023       0.035       0.334       0.632       0.690       0.802
+
+ Means
+    YMRS_0           0.912       1.059       1.134       1.527       1.921       1.996       2.143
+    YMRS_1           0.352       0.450       0.499       0.759       1.019       1.068       1.166
+    YMRS_2           0.599       0.705       0.760       1.043       1.327       1.381       1.488
+    YMRS_3           0.084       0.170       0.215       0.446       0.677       0.721       0.807
+    YMRS_6           0.394       0.471       0.511       0.717       0.924       0.964       1.041
+    YMRS_9           0.336       0.408       0.445       0.637       0.829       0.866       0.938
+    YMRS_12          0.278       0.339       0.370       0.533       0.696       0.727       0.788
+    YMRS_18          0.243       0.318       0.357       0.558       0.760       0.798       0.874
+    YMRS_24          0.234       0.313       0.353       0.564       0.775       0.815       0.894
+
+ Intercepts
+    I                2.797       3.072       3.213       3.947       4.681       4.822       5.097
+    S               -5.616      -5.300      -5.138      -4.293      -3.448      -3.287      -2.970
+
+ Variances
+    YMRS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    I                0.016       0.091       0.130       0.330       0.531       0.569       0.644
+    S               -0.028       0.046       0.084       0.282       0.480       0.517       0.592
+
+Latent Class 2
+
+ I        ON
+    YMRS_0          -0.554      -0.467      -0.422      -0.190       0.042       0.086       0.173
+    YMRS_1          -1.833      -1.471      -1.285      -0.317       0.652       0.837       1.200
+    YMRS_2           0.117       0.283       0.367       0.810       1.253       1.337       1.503
+    YMRS_3          -0.736      -0.666      -0.630      -0.444      -0.258      -0.222      -0.152
+    YMRS_6          -0.199      -0.122      -0.083       0.121       0.326       0.365       0.442
+    YMRS_9          -0.861      -0.609      -0.480       0.194       0.867       0.996       1.248
+    YMRS_12         -1.258      -1.048      -0.940      -0.378       0.183       0.291       0.501
+    YMRS_18         -0.053       0.028       0.069       0.283       0.498       0.539       0.619
+    YMRS_24         -0.020       0.117       0.187       0.554       0.920       0.990       1.127
+
+ S        ON
+    YMRS_0          -0.452      -0.315      -0.245       0.120       0.486       0.556       0.693
+    YMRS_1          -1.303      -1.026      -0.885      -0.145       0.595       0.736       1.013
+    YMRS_2          -0.741      -0.530      -0.423       0.139       0.701       0.809       1.019
+    YMRS_3          -0.880      -0.787      -0.740      -0.493      -0.247      -0.200      -0.107
+    YMRS_6          -0.668      -0.557      -0.500      -0.204       0.092       0.149       0.260
+    YMRS_9          -1.055      -0.901      -0.822      -0.410       0.002       0.081       0.235
+    YMRS_12         -0.078       0.112       0.209       0.716       1.224       1.321       1.511
+    YMRS_18         -0.486      -0.402      -0.359      -0.135       0.090       0.133       0.217
+    YMRS_24         -0.077       0.078       0.158       0.572       0.987       1.066       1.222
+
+ S        WITH
+    I               -1.293      -1.105      -1.009      -0.506      -0.004       0.092       0.280
+
+ YMRS_1   WITH
+    YMRS_0           0.087       0.189       0.241       0.514       0.787       0.839       0.941
+
+ YMRS_2   WITH
+    YMRS_0          -0.049       0.007       0.035       0.184       0.333       0.361       0.417
+    YMRS_1           0.048       0.178       0.244       0.591       0.938       1.005       1.135
+
+ YMRS_3   WITH
+    YMRS_0          -0.217      -0.154      -0.122       0.044       0.211       0.243       0.305
+    YMRS_1           0.009       0.059       0.085       0.218       0.351       0.376       0.426
+    YMRS_2          -0.009       0.029       0.049       0.153       0.256       0.276       0.315
+
+ YMRS_6   WITH
+    YMRS_0          -0.136      -0.064      -0.027       0.165       0.357       0.394       0.466
+    YMRS_1           0.098       0.177       0.217       0.428       0.639       0.679       0.758
+    YMRS_2           0.015       0.082       0.116       0.293       0.471       0.505       0.571
+    YMRS_3          -0.098      -0.026       0.012       0.206       0.401       0.438       0.511
+
+ YMRS_9   WITH
+    YMRS_0          -0.063      -0.010       0.016       0.156       0.295       0.322       0.374
+    YMRS_1           0.130       0.234       0.288       0.568       0.848       0.901       1.006
+    YMRS_2           0.064       0.116       0.142       0.278       0.415       0.441       0.492
+    YMRS_3           0.004       0.064       0.095       0.256       0.417       0.448       0.509
+    YMRS_6          -0.130      -0.015       0.044       0.350       0.657       0.715       0.830
+
+ YMRS_12  WITH
+    YMRS_0          -0.535      -0.414      -0.353      -0.031       0.291       0.353       0.473
+    YMRS_1          -0.016       0.080       0.129       0.384       0.640       0.689       0.784
+    YMRS_2          -0.142      -0.060      -0.019       0.198       0.415       0.457       0.538
+    YMRS_3          -0.074      -0.009       0.024       0.198       0.371       0.404       0.469
+    YMRS_6          -0.147      -0.059      -0.014       0.221       0.457       0.502       0.590
+    YMRS_9          -0.057       0.093       0.169       0.567       0.966       1.042       1.191
+
+ YMRS_18  WITH
+    YMRS_0          -0.074      -0.033      -0.012       0.097       0.205       0.226       0.267
+    YMRS_1          -0.165      -0.085      -0.044       0.170       0.384       0.425       0.505
+    YMRS_2          -0.071      -0.037      -0.020       0.069       0.158       0.175       0.208
+    YMRS_3          -0.030      -0.006       0.005       0.067       0.129       0.140       0.163
+    YMRS_6          -0.144      -0.099      -0.077       0.043       0.162       0.184       0.229
+    YMRS_9          -0.021       0.041       0.073       0.238       0.402       0.434       0.496
+    YMRS_12         -0.008       0.063       0.099       0.287       0.476       0.512       0.582
+
+ YMRS_24  WITH
+    YMRS_0          -0.255      -0.138      -0.079       0.233       0.546       0.605       0.722
+    YMRS_1           0.049       0.161       0.218       0.517       0.816       0.873       0.985
+    YMRS_2          -0.028       0.016       0.039       0.156       0.274       0.296       0.340
+    YMRS_3           0.003       0.072       0.108       0.292       0.477       0.512       0.581
+    YMRS_6          -0.156      -0.058      -0.008       0.253       0.514       0.563       0.661
+    YMRS_9           0.333       0.413       0.454       0.668       0.882       0.923       1.003
+    YMRS_12         -0.155       0.020       0.109       0.575       1.041       1.130       1.304
+    YMRS_18         -0.148      -0.069      -0.028       0.184       0.396       0.437       0.516
+
+ Means
+    YMRS_0           1.179       1.495       1.656       2.499       3.343       3.504       3.820
+    YMRS_1           0.509       0.651       0.724       1.103       1.482       1.554       1.696
+    YMRS_2           0.756       0.847       0.894       1.137       1.381       1.427       1.518
+    YMRS_3           0.182       0.277       0.326       0.580       0.834       0.883       0.978
+    YMRS_6           0.490       0.572       0.615       0.834       1.054       1.096       1.179
+    YMRS_9           0.664       0.746       0.788       1.006       1.225       1.267       1.349
+    YMRS_12          0.555       0.657       0.709       0.979       1.250       1.302       1.403
+    YMRS_18          0.482       0.584       0.637       0.910       1.184       1.237       1.339
+    YMRS_24          0.668       0.758       0.803       1.042       1.281       1.327       1.417
+
+ Intercepts
+    I                1.208       1.454       1.579       2.234       2.889       3.015       3.260
+    S               -2.906      -2.576      -2.406      -1.523      -0.639      -0.470      -0.139
+
+ Variances
+    YMRS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    I               -0.013       0.029       0.051       0.164       0.277       0.299       0.341
+    S               -0.030       0.016       0.039       0.163       0.286       0.309       0.355
+
+Latent Class 3
+
+ I        ON
+    YMRS_0          -0.603      -0.464      -0.392      -0.020       0.352       0.423       0.563
+    YMRS_1          -0.502      -0.340      -0.256       0.178       0.612       0.695       0.858
+    YMRS_2          -1.085      -0.815      -0.677       0.045       0.767       0.905       1.175
+    YMRS_3          -0.959      -0.782      -0.692      -0.220       0.251       0.342       0.518
+    YMRS_6          -0.804      -0.679      -0.615      -0.281       0.054       0.118       0.243
+    YMRS_9          -0.275      -0.140      -0.071       0.290       0.651       0.720       0.855
+    YMRS_12         -0.772      -0.625      -0.551      -0.160       0.231       0.306       0.453
+    YMRS_18         -0.869      -0.772      -0.722      -0.462      -0.202      -0.152      -0.055
+    YMRS_24          0.046       0.175       0.241       0.588       0.934       1.000       1.129
+
+ S        ON
+    YMRS_0          -0.549      -0.422      -0.357      -0.018       0.321       0.386       0.513
+    YMRS_1          -0.329      -0.216      -0.158       0.143       0.445       0.502       0.615
+    YMRS_2          -1.853      -1.655      -1.553      -1.024      -0.494      -0.393      -0.195
+    YMRS_3          -0.576      -0.446      -0.379      -0.031       0.317       0.383       0.514
+    YMRS_6          -0.171      -0.046       0.018       0.351       0.683       0.747       0.872
+    YMRS_9          -0.680      -0.492      -0.395       0.107       0.609       0.705       0.893
+    YMRS_12         -0.363      -0.283      -0.241      -0.026       0.189       0.230       0.311
+    YMRS_18         -0.077       0.028       0.082       0.362       0.642       0.696       0.801
+    YMRS_24         -0.545      -0.427      -0.367      -0.053       0.262       0.322       0.440
+
+ S        WITH
+    I               -1.293      -1.105      -1.009      -0.506      -0.004       0.092       0.280
+
+ YMRS_1   WITH
+    YMRS_0          -0.063       0.001       0.034       0.206       0.377       0.410       0.474
+
+ YMRS_2   WITH
+    YMRS_0          -0.021       0.087       0.141       0.428       0.714       0.769       0.876
+    YMRS_1           0.291       0.341       0.366       0.499       0.632       0.658       0.708
+
+ YMRS_3   WITH
+    YMRS_0          -0.461      -0.329      -0.261       0.092       0.446       0.514       0.646
+    YMRS_1           0.026       0.059       0.076       0.165       0.254       0.271       0.304
+    YMRS_2           0.333       0.414       0.455       0.672       0.889       0.931       1.012
+
+ YMRS_6   WITH
+    YMRS_0          -0.108      -0.059      -0.034       0.097       0.228       0.253       0.302
+    YMRS_1          -0.022       0.005       0.019       0.091       0.164       0.178       0.205
+    YMRS_2          -0.040       0.056       0.106       0.364       0.622       0.672       0.768
+    YMRS_3          -0.131      -0.044       0.000       0.230       0.460       0.504       0.590
+
+ YMRS_9   WITH
+    YMRS_0          -0.043      -0.010       0.007       0.095       0.183       0.200       0.233
+    YMRS_1           0.026       0.050       0.062       0.125       0.189       0.201       0.225
+    YMRS_2           0.136       0.188       0.215       0.357       0.498       0.525       0.578
+    YMRS_3           0.076       0.128       0.155       0.295       0.435       0.461       0.514
+    YMRS_6          -0.073      -0.029      -0.006       0.114       0.233       0.256       0.300
+
+ YMRS_12  WITH
+    YMRS_0          -0.237      -0.184      -0.156      -0.013       0.130       0.157       0.211
+    YMRS_1          -0.003       0.012       0.020       0.061       0.101       0.109       0.124
+    YMRS_2          -0.057       0.000       0.029       0.182       0.334       0.363       0.420
+    YMRS_3          -0.014       0.028       0.050       0.162       0.275       0.297       0.339
+    YMRS_6          -0.042      -0.020      -0.009       0.051       0.111       0.123       0.145
+    YMRS_9           0.006       0.037       0.053       0.136       0.218       0.234       0.265
+
+ YMRS_18  WITH
+    YMRS_0          -0.141      -0.058      -0.016       0.204       0.425       0.467       0.549
+    YMRS_1          -0.121      -0.061      -0.030       0.131       0.292       0.322       0.383
+    YMRS_2          -0.245      -0.113      -0.046       0.306       0.658       0.726       0.857
+    YMRS_3          -0.059       0.019       0.059       0.268       0.477       0.517       0.595
+    YMRS_6          -0.173      -0.120      -0.093       0.048       0.189       0.216       0.269
+    YMRS_9          -0.012       0.057       0.092       0.277       0.462       0.497       0.566
+    YMRS_12          0.040       0.087       0.112       0.239       0.367       0.391       0.439
+
+ YMRS_24  WITH
+    YMRS_0          -0.292      -0.167      -0.102       0.234       0.570       0.635       0.760
+    YMRS_1           0.012       0.054       0.076       0.188       0.301       0.322       0.364
+    YMRS_2          -0.106      -0.001       0.052       0.330       0.609       0.662       0.766
+    YMRS_3           0.206       0.290       0.332       0.554       0.777       0.819       0.903
+    YMRS_6          -0.117      -0.056      -0.026       0.135       0.296       0.327       0.387
+    YMRS_9           0.090       0.157       0.191       0.369       0.547       0.581       0.648
+    YMRS_12         -0.033       0.029       0.061       0.227       0.393       0.425       0.487
+    YMRS_18         -0.259      -0.113      -0.038       0.354       0.746       0.821       0.968
+
+ Means
+    YMRS_0           0.331       1.017       1.369       3.202       5.036       5.387       6.074
+    YMRS_1           0.026       0.189       0.272       0.708       1.143       1.227       1.390
+    YMRS_2           0.376       0.499       0.561       0.888       1.215       1.277       1.400
+    YMRS_3          -0.166       0.078       0.203       0.853       1.504       1.628       1.872
+    YMRS_6           0.306       0.443       0.513       0.879       1.245       1.315       1.452
+    YMRS_9           0.350       0.484       0.552       0.909       1.266       1.335       1.468
+    YMRS_12          0.430       0.570       0.641       1.016       1.391       1.462       1.602
+    YMRS_18          0.492       0.652       0.735       1.164       1.593       1.676       1.836
+    YMRS_24          0.116       0.265       0.341       0.739       1.137       1.213       1.362
+
+ Intercepts
+    I                2.803       3.300       3.554       4.883       6.211       6.466       6.963
+    S               -2.663      -2.242      -2.026      -0.899       0.228       0.444       0.866
+
+ Variances
+    YMRS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    I                0.071       0.166       0.214       0.465       0.716       0.764       0.858
+    S               -0.115      -0.028       0.017       0.250       0.483       0.527       0.615
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ I        ON
+    YMRS_0          -1.475      -1.279      -1.178      -0.655      -0.131      -0.031       0.166
+    YMRS_1          -0.882      -0.585      -0.433       0.360       1.153       1.305       1.602
+    YMRS_2          -2.643      -2.167      -1.923      -0.652       0.620       0.863       1.339
+    YMRS_3          -2.090      -1.721      -1.532      -0.545       0.443       0.632       1.001
+    YMRS_6           0.317       0.971       1.306       3.054       4.802       5.137       5.791
+    YMRS_9          -8.107      -7.114      -6.606      -3.954      -1.302      -0.794       0.199
+    YMRS_12         -1.421      -1.174      -1.047      -0.388       0.272       0.398       0.645
+    YMRS_18          0.042       0.659       0.975       2.625       4.275       4.590       5.208
+    YMRS_24         -0.245       0.097       0.273       1.187       2.102       2.278       2.620
+
+ S        ON
+    YMRS_0          -0.784      -0.646      -0.576      -0.208       0.160       0.230       0.368
+    YMRS_1           0.135       0.317       0.410       0.896       1.382       1.475       1.657
+    YMRS_2          -1.787      -1.522      -1.387      -0.680       0.027       0.162       0.427
+    YMRS_3           0.245       0.466       0.579       1.170       1.761       1.874       2.096
+    YMRS_6          -2.624      -2.042      -1.744      -0.189       1.367       1.665       2.247
+    YMRS_9          -4.540      -3.665      -3.217      -0.878       1.462       1.910       2.785
+    YMRS_12         -0.342      -0.230      -0.173       0.127       0.426       0.484       0.596
+    YMRS_18         -2.232      -1.709      -1.441      -0.043       1.355       1.623       2.146
+    YMRS_24         -0.740      -0.522      -0.411       0.171       0.752       0.863       1.081
+
+ S        WITH
+    I               -1.293      -1.105      -1.009      -0.506      -0.004       0.092       0.280
+
+ YMRS_1   WITH
+    YMRS_0          -0.022       0.049       0.085       0.275       0.465       0.501       0.572
+
+ YMRS_2   WITH
+    YMRS_0          -0.014       0.041       0.070       0.217       0.364       0.393       0.448
+    YMRS_1           0.404       0.470       0.504       0.680       0.857       0.890       0.956
+
+ YMRS_3   WITH
+    YMRS_0          -0.383      -0.273      -0.216       0.080       0.376       0.432       0.543
+    YMRS_1           0.110       0.175       0.208       0.383       0.558       0.591       0.656
+    YMRS_2           0.295       0.366       0.403       0.592       0.782       0.818       0.889
+
+ YMRS_6   WITH
+    YMRS_0          -0.076      -0.012       0.020       0.191       0.362       0.395       0.459
+    YMRS_1           0.215       0.279       0.312       0.483       0.655       0.688       0.752
+    YMRS_2           0.473       0.535       0.566       0.730       0.895       0.926       0.987
+    YMRS_3           0.434       0.518       0.561       0.785       1.008       1.051       1.135
+
+ YMRS_9   WITH
+    YMRS_0          -0.069      -0.017       0.009       0.146       0.284       0.310       0.361
+    YMRS_1           0.311       0.361       0.386       0.520       0.654       0.679       0.729
+    YMRS_2           0.204       0.290       0.334       0.562       0.790       0.834       0.919
+    YMRS_3           0.575       0.627       0.653       0.792       0.930       0.956       1.008
+    YMRS_6           0.321       0.411       0.456       0.694       0.932       0.978       1.067
+
+ YMRS_12  WITH
+    YMRS_0          -0.346      -0.268      -0.228      -0.019       0.189       0.229       0.307
+    YMRS_1           0.029       0.079       0.104       0.235       0.367       0.392       0.442
+    YMRS_2          -0.031       0.040       0.077       0.268       0.459       0.496       0.567
+    YMRS_3           0.026       0.117       0.164       0.408       0.653       0.699       0.791
+    YMRS_6          -0.087       0.004       0.050       0.294       0.537       0.583       0.675
+    YMRS_9           0.221       0.314       0.361       0.610       0.859       0.907       1.000
+
+ YMRS_18  WITH
+    YMRS_0          -0.094      -0.029       0.004       0.177       0.351       0.384       0.449
+    YMRS_1          -0.130      -0.026       0.027       0.304       0.582       0.635       0.739
+    YMRS_2          -0.173      -0.067      -0.012       0.271       0.554       0.608       0.714
+    YMRS_3           0.076       0.155       0.195       0.404       0.613       0.653       0.732
+    YMRS_6          -0.461      -0.311      -0.235       0.165       0.565       0.641       0.791
+    YMRS_9           0.531       0.582       0.609       0.747       0.885       0.912       0.963
+    YMRS_12          0.291       0.366       0.404       0.605       0.805       0.843       0.918
+
+ YMRS_24  WITH
+    YMRS_0          -0.191      -0.115      -0.077       0.126       0.329       0.368       0.444
+    YMRS_1          -0.006       0.061       0.095       0.273       0.451       0.485       0.552
+    YMRS_2          -0.054       0.003       0.031       0.182       0.332       0.361       0.417
+    YMRS_3           0.242       0.308       0.342       0.520       0.697       0.731       0.797
+    YMRS_6          -0.140      -0.037       0.015       0.289       0.563       0.615       0.717
+    YMRS_9           0.371       0.430       0.460       0.619       0.777       0.807       0.867
+    YMRS_12         -0.075       0.028       0.081       0.356       0.632       0.685       0.788
+    YMRS_18         -0.135      -0.023       0.035       0.334       0.632       0.690       0.802
+
+ Means
+    YMRS_0           0.912       1.059       1.134       1.527       1.921       1.996       2.143
+    YMRS_1           0.352       0.450       0.499       0.759       1.019       1.068       1.166
+    YMRS_2           0.599       0.705       0.760       1.043       1.327       1.381       1.488
+    YMRS_3           0.084       0.170       0.215       0.446       0.677       0.721       0.807
+    YMRS_6           0.394       0.471       0.511       0.717       0.924       0.964       1.041
+    YMRS_9           0.336       0.408       0.445       0.637       0.829       0.866       0.938
+    YMRS_12          0.278       0.339       0.370       0.533       0.696       0.727       0.788
+    YMRS_18          0.243       0.318       0.357       0.558       0.760       0.798       0.874
+    YMRS_24          0.234       0.313       0.353       0.564       0.775       0.815       0.894
+
+ Intercepts
+    I                2.797       3.072       3.213       3.947       4.681       4.822       5.097
+    S               -5.616      -5.300      -5.138      -4.293      -3.448      -3.287      -2.970
+
+ Variances
+    YMRS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    I                0.016       0.091       0.130       0.330       0.531       0.569       0.644
+    S               -0.028       0.046       0.084       0.282       0.480       0.517       0.592
+
+Latent Class 2
+
+ I        ON
+    YMRS_0          -0.554      -0.467      -0.422      -0.190       0.042       0.086       0.173
+    YMRS_1          -1.833      -1.471      -1.285      -0.317       0.652       0.837       1.200
+    YMRS_2           0.117       0.283       0.367       0.810       1.253       1.337       1.503
+    YMRS_3          -0.736      -0.666      -0.630      -0.444      -0.258      -0.222      -0.152
+    YMRS_6          -0.199      -0.122      -0.083       0.121       0.326       0.365       0.442
+    YMRS_9          -0.861      -0.609      -0.480       0.194       0.867       0.996       1.248
+    YMRS_12         -1.258      -1.048      -0.940      -0.378       0.183       0.291       0.501
+    YMRS_18         -0.053       0.028       0.069       0.283       0.498       0.539       0.619
+    YMRS_24         -0.020       0.117       0.187       0.554       0.920       0.990       1.127
+
+ S        ON
+    YMRS_0          -0.452      -0.315      -0.245       0.120       0.486       0.556       0.693
+    YMRS_1          -1.303      -1.026      -0.885      -0.145       0.595       0.736       1.013
+    YMRS_2          -0.741      -0.530      -0.423       0.139       0.701       0.809       1.019
+    YMRS_3          -0.880      -0.787      -0.740      -0.493      -0.247      -0.200      -0.107
+    YMRS_6          -0.668      -0.557      -0.500      -0.204       0.092       0.149       0.260
+    YMRS_9          -1.055      -0.901      -0.822      -0.410       0.002       0.081       0.235
+    YMRS_12         -0.078       0.112       0.209       0.716       1.224       1.321       1.511
+    YMRS_18         -0.486      -0.402      -0.359      -0.135       0.090       0.133       0.217
+    YMRS_24         -0.077       0.078       0.158       0.572       0.987       1.066       1.222
+
+ S        WITH
+    I               -1.293      -1.105      -1.009      -0.506      -0.004       0.092       0.280
+
+ YMRS_1   WITH
+    YMRS_0           0.087       0.189       0.241       0.514       0.787       0.839       0.941
+
+ YMRS_2   WITH
+    YMRS_0          -0.049       0.007       0.035       0.184       0.333       0.361       0.417
+    YMRS_1           0.048       0.178       0.244       0.591       0.938       1.005       1.135
+
+ YMRS_3   WITH
+    YMRS_0          -0.217      -0.154      -0.122       0.044       0.211       0.243       0.305
+    YMRS_1           0.009       0.059       0.085       0.218       0.351       0.376       0.426
+    YMRS_2          -0.009       0.029       0.049       0.153       0.256       0.276       0.315
+
+ YMRS_6   WITH
+    YMRS_0          -0.136      -0.064      -0.027       0.165       0.357       0.394       0.466
+    YMRS_1           0.098       0.177       0.217       0.428       0.639       0.679       0.758
+    YMRS_2           0.015       0.082       0.116       0.293       0.471       0.505       0.571
+    YMRS_3          -0.098      -0.026       0.012       0.206       0.401       0.438       0.511
+
+ YMRS_9   WITH
+    YMRS_0          -0.063      -0.010       0.016       0.156       0.295       0.322       0.374
+    YMRS_1           0.130       0.234       0.288       0.568       0.848       0.901       1.006
+    YMRS_2           0.064       0.116       0.142       0.278       0.415       0.441       0.492
+    YMRS_3           0.004       0.064       0.095       0.256       0.417       0.448       0.509
+    YMRS_6          -0.130      -0.015       0.044       0.350       0.657       0.715       0.830
+
+ YMRS_12  WITH
+    YMRS_0          -0.535      -0.414      -0.353      -0.031       0.291       0.353       0.473
+    YMRS_1          -0.016       0.080       0.129       0.384       0.640       0.689       0.784
+    YMRS_2          -0.142      -0.060      -0.019       0.198       0.415       0.457       0.538
+    YMRS_3          -0.074      -0.009       0.024       0.198       0.371       0.404       0.469
+    YMRS_6          -0.147      -0.059      -0.014       0.221       0.457       0.502       0.590
+    YMRS_9          -0.057       0.093       0.169       0.567       0.966       1.042       1.191
+
+ YMRS_18  WITH
+    YMRS_0          -0.074      -0.033      -0.012       0.097       0.205       0.226       0.267
+    YMRS_1          -0.165      -0.085      -0.044       0.170       0.384       0.425       0.505
+    YMRS_2          -0.071      -0.037      -0.020       0.069       0.158       0.175       0.208
+    YMRS_3          -0.030      -0.006       0.005       0.067       0.129       0.140       0.163
+    YMRS_6          -0.144      -0.099      -0.077       0.043       0.162       0.184       0.229
+    YMRS_9          -0.021       0.041       0.073       0.238       0.402       0.434       0.496
+    YMRS_12         -0.008       0.063       0.099       0.287       0.476       0.512       0.582
+
+ YMRS_24  WITH
+    YMRS_0          -0.255      -0.138      -0.079       0.233       0.546       0.605       0.722
+    YMRS_1           0.049       0.161       0.218       0.517       0.816       0.873       0.985
+    YMRS_2          -0.028       0.016       0.039       0.156       0.274       0.296       0.340
+    YMRS_3           0.003       0.072       0.108       0.292       0.477       0.512       0.581
+    YMRS_6          -0.156      -0.058      -0.008       0.253       0.514       0.563       0.661
+    YMRS_9           0.333       0.413       0.454       0.668       0.882       0.923       1.003
+    YMRS_12         -0.155       0.020       0.109       0.575       1.041       1.130       1.304
+    YMRS_18         -0.148      -0.069      -0.028       0.184       0.396       0.437       0.516
+
+ Means
+    YMRS_0           1.179       1.495       1.656       2.499       3.343       3.504       3.820
+    YMRS_1           0.509       0.651       0.724       1.103       1.482       1.554       1.696
+    YMRS_2           0.756       0.847       0.894       1.137       1.381       1.427       1.518
+    YMRS_3           0.182       0.277       0.326       0.580       0.834       0.883       0.978
+    YMRS_6           0.490       0.572       0.615       0.834       1.054       1.096       1.179
+    YMRS_9           0.664       0.746       0.788       1.006       1.225       1.267       1.349
+    YMRS_12          0.555       0.657       0.709       0.979       1.250       1.302       1.403
+    YMRS_18          0.482       0.584       0.637       0.910       1.184       1.237       1.339
+    YMRS_24          0.668       0.758       0.803       1.042       1.281       1.327       1.417
+
+ Intercepts
+    I                1.208       1.454       1.579       2.234       2.889       3.015       3.260
+    S               -2.906      -2.576      -2.406      -1.523      -0.639      -0.470      -0.139
+
+ Variances
+    YMRS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    I               -0.013       0.029       0.051       0.164       0.277       0.299       0.341
+    S               -0.030       0.016       0.039       0.163       0.286       0.309       0.355
+
+Latent Class 3
+
+ I        ON
+    YMRS_0          -0.603      -0.464      -0.392      -0.020       0.352       0.423       0.563
+    YMRS_1          -0.502      -0.340      -0.256       0.178       0.612       0.695       0.858
+    YMRS_2          -1.085      -0.815      -0.677       0.045       0.767       0.905       1.175
+    YMRS_3          -0.959      -0.782      -0.692      -0.220       0.251       0.342       0.518
+    YMRS_6          -0.804      -0.679      -0.615      -0.281       0.054       0.118       0.243
+    YMRS_9          -0.275      -0.140      -0.071       0.290       0.651       0.720       0.855
+    YMRS_12         -0.772      -0.625      -0.551      -0.160       0.231       0.306       0.453
+    YMRS_18         -0.869      -0.772      -0.722      -0.462      -0.202      -0.152      -0.055
+    YMRS_24          0.046       0.175       0.241       0.588       0.934       1.000       1.129
+
+ S        ON
+    YMRS_0          -0.549      -0.422      -0.357      -0.018       0.321       0.386       0.513
+    YMRS_1          -0.329      -0.216      -0.158       0.143       0.445       0.502       0.615
+    YMRS_2          -1.853      -1.655      -1.553      -1.024      -0.494      -0.393      -0.195
+    YMRS_3          -0.576      -0.446      -0.379      -0.031       0.317       0.383       0.514
+    YMRS_6          -0.171      -0.046       0.018       0.351       0.683       0.747       0.872
+    YMRS_9          -0.680      -0.492      -0.395       0.107       0.609       0.705       0.893
+    YMRS_12         -0.363      -0.283      -0.241      -0.026       0.189       0.230       0.311
+    YMRS_18         -0.077       0.028       0.082       0.362       0.642       0.696       0.801
+    YMRS_24         -0.545      -0.427      -0.367      -0.053       0.262       0.322       0.440
+
+ S        WITH
+    I               -1.293      -1.105      -1.009      -0.506      -0.004       0.092       0.280
+
+ YMRS_1   WITH
+    YMRS_0          -0.063       0.001       0.034       0.206       0.377       0.410       0.474
+
+ YMRS_2   WITH
+    YMRS_0          -0.021       0.087       0.141       0.428       0.714       0.769       0.876
+    YMRS_1           0.291       0.341       0.366       0.499       0.632       0.658       0.708
+
+ YMRS_3   WITH
+    YMRS_0          -0.461      -0.329      -0.261       0.092       0.446       0.514       0.646
+    YMRS_1           0.026       0.059       0.076       0.165       0.254       0.271       0.304
+    YMRS_2           0.333       0.414       0.455       0.672       0.889       0.931       1.012
+
+ YMRS_6   WITH
+    YMRS_0          -0.108      -0.059      -0.034       0.097       0.228       0.253       0.302
+    YMRS_1          -0.022       0.005       0.019       0.091       0.164       0.178       0.205
+    YMRS_2          -0.040       0.056       0.106       0.364       0.622       0.672       0.768
+    YMRS_3          -0.131      -0.044       0.000       0.230       0.460       0.504       0.590
+
+ YMRS_9   WITH
+    YMRS_0          -0.043      -0.010       0.007       0.095       0.183       0.200       0.233
+    YMRS_1           0.026       0.050       0.062       0.125       0.189       0.201       0.225
+    YMRS_2           0.136       0.188       0.215       0.357       0.498       0.525       0.578
+    YMRS_3           0.076       0.128       0.155       0.295       0.435       0.461       0.514
+    YMRS_6          -0.073      -0.029      -0.006       0.114       0.233       0.256       0.300
+
+ YMRS_12  WITH
+    YMRS_0          -0.237      -0.184      -0.156      -0.013       0.130       0.157       0.211
+    YMRS_1          -0.003       0.012       0.020       0.061       0.101       0.109       0.124
+    YMRS_2          -0.057       0.000       0.029       0.182       0.334       0.363       0.420
+    YMRS_3          -0.014       0.028       0.050       0.162       0.275       0.297       0.339
+    YMRS_6          -0.042      -0.020      -0.009       0.051       0.111       0.123       0.145
+    YMRS_9           0.006       0.037       0.053       0.136       0.218       0.234       0.265
+
+ YMRS_18  WITH
+    YMRS_0          -0.141      -0.058      -0.016       0.204       0.425       0.467       0.549
+    YMRS_1          -0.121      -0.061      -0.030       0.131       0.292       0.322       0.383
+    YMRS_2          -0.245      -0.113      -0.046       0.306       0.658       0.726       0.857
+    YMRS_3          -0.059       0.019       0.059       0.268       0.477       0.517       0.595
+    YMRS_6          -0.173      -0.120      -0.093       0.048       0.189       0.216       0.269
+    YMRS_9          -0.012       0.057       0.092       0.277       0.462       0.497       0.566
+    YMRS_12          0.040       0.087       0.112       0.239       0.367       0.391       0.439
+
+ YMRS_24  WITH
+    YMRS_0          -0.292      -0.167      -0.102       0.234       0.570       0.635       0.760
+    YMRS_1           0.012       0.054       0.076       0.188       0.301       0.322       0.364
+    YMRS_2          -0.106      -0.001       0.052       0.330       0.609       0.662       0.766
+    YMRS_3           0.206       0.290       0.332       0.554       0.777       0.819       0.903
+    YMRS_6          -0.117      -0.056      -0.026       0.135       0.296       0.327       0.387
+    YMRS_9           0.090       0.157       0.191       0.369       0.547       0.581       0.648
+    YMRS_12         -0.033       0.029       0.061       0.227       0.393       0.425       0.487
+    YMRS_18         -0.259      -0.113      -0.038       0.354       0.746       0.821       0.968
+
+ Means
+    YMRS_0           0.331       1.017       1.369       3.202       5.036       5.387       6.074
+    YMRS_1           0.026       0.189       0.272       0.708       1.143       1.227       1.390
+    YMRS_2           0.376       0.499       0.561       0.888       1.215       1.277       1.400
+    YMRS_3          -0.166       0.078       0.203       0.853       1.504       1.628       1.872
+    YMRS_6           0.306       0.443       0.513       0.879       1.245       1.315       1.452
+    YMRS_9           0.350       0.484       0.552       0.909       1.266       1.335       1.468
+    YMRS_12          0.430       0.570       0.641       1.016       1.391       1.462       1.602
+    YMRS_18          0.492       0.652       0.735       1.164       1.593       1.676       1.836
+    YMRS_24          0.116       0.265       0.341       0.739       1.137       1.213       1.362
+
+ Intercepts
+    I                2.803       3.300       3.554       4.883       6.211       6.466       6.963
+    S               -2.663      -2.242      -2.026      -0.899       0.228       0.444       0.866
+
+ Variances
+    YMRS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    YMRS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    I                0.071       0.166       0.214       0.465       0.716       0.764       0.858
+    S               -0.115      -0.028       0.017       0.250       0.483       0.527       0.615
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ I        ON
+    YMRS_0          -0.256      -0.223      -0.206      -0.119      -0.032      -0.016       0.017
+    YMRS_1          -0.244      -0.162      -0.120       0.097       0.315       0.357       0.439
+    YMRS_2          -1.286      -1.056      -0.938      -0.322       0.293       0.411       0.641
+    YMRS_3          -1.661      -1.368      -1.218      -0.437       0.344       0.494       0.786
+    YMRS_6           0.368       0.695       0.863       1.738       2.613       2.780       3.108
+    YMRS_9          -3.165      -2.805      -2.621      -1.660      -0.699      -0.515      -0.156
+    YMRS_12         -0.494      -0.409      -0.365      -0.137       0.091       0.135       0.220
+    YMRS_18          0.071       0.417       0.594       1.517       2.440       2.617       2.962
+    YMRS_24         -0.093      -0.012       0.029       0.245       0.461       0.502       0.583
+
+ S        ON
+    YMRS_0          -0.014      -0.011      -0.010      -0.004       0.003       0.004       0.006
+    YMRS_1           0.006       0.010       0.012       0.023       0.034       0.037       0.041
+    YMRS_2          -0.082      -0.070      -0.064      -0.032      -0.001       0.006       0.017
+    YMRS_3           0.036       0.049       0.056       0.090       0.125       0.131       0.144
+    YMRS_6          -0.145      -0.113      -0.097      -0.010       0.076       0.092       0.125
+    YMRS_9          -0.180      -0.145      -0.128      -0.035       0.057       0.075       0.109
+    YMRS_12         -0.012      -0.008      -0.006       0.004       0.015       0.016       0.020
+    YMRS_18         -0.124      -0.095      -0.080      -0.002       0.075       0.090       0.119
+    YMRS_24         -0.015      -0.010      -0.008       0.003       0.015       0.017       0.021
+
+ S        WITH
+    I               -0.236      -0.200      -0.182      -0.086       0.009       0.027       0.063
+
+ YMRS_1   WITH
+    YMRS_0           1.449       8.833      12.611      32.338      52.064      55.842      63.227
+
+ YMRS_2   WITH
+    YMRS_0          -1.984       1.834       3.787      13.986      24.186      26.139      29.957
+    YMRS_1           9.688      14.424      16.847      29.500      42.153      44.576      49.312
+
+ YMRS_3   WITH
+    YMRS_0         -15.372     -10.939      -8.672       3.169      15.010      17.278      21.710
+    YMRS_1           0.757       3.023       4.182      10.233      16.285      17.444      19.709
+    YMRS_2           1.660       3.336       4.194       8.670      13.147      14.004      15.680
+
+ YMRS_6   WITH
+    YMRS_0          -8.562      -3.953      -1.595      10.717      23.028      25.386      29.995
+    YMRS_1           0.866       5.015       7.138      18.222      29.306      31.428      35.577
+    YMRS_2           3.061       5.935       7.405      15.082      22.760      24.230      27.104
+    YMRS_3          -4.079      -0.717       1.002       9.983      18.963      20.683      24.045
+
+ YMRS_9   WITH
+    YMRS_0          -4.240      -0.572       1.304      11.104      20.904      22.780      26.448
+    YMRS_1           4.725       9.947      12.618      26.566      40.514      43.185      48.406
+    YMRS_2           5.025       7.583       8.891      15.724      22.556      23.865      26.423
+    YMRS_3           0.962       3.995       5.546      13.648      21.750      23.301      26.334
+    YMRS_6          -7.730      -1.844       1.167      16.892      32.616      35.627      41.514
+
+ YMRS_12  WITH
+    YMRS_0         -31.082     -24.066     -20.477      -1.735      17.007      20.596      27.612
+    YMRS_1           3.024       5.713       7.089      14.272      21.455      22.830      25.519
+    YMRS_2          -1.339       1.110       2.363       8.904      15.445      16.698      19.146
+    YMRS_3          -0.654       1.500       2.602       8.356      14.110      15.212      17.366
+    YMRS_6          -4.815      -1.637      -0.011       8.479      16.969      18.595      21.773
+    YMRS_9           6.095      10.348      12.523      23.884      35.245      37.420      41.673
+
+ YMRS_18  WITH
+    YMRS_0          -5.397      -1.770       0.086       9.776      19.466      21.322      24.949
+    YMRS_1          -9.950      -4.871      -2.273      11.296      24.865      27.463      32.542
+    YMRS_2          -4.387      -2.021      -0.811       5.508      11.827      13.037      15.403
+    YMRS_3          -0.994       0.454       1.195       5.062       8.929       9.670      11.118
+    YMRS_6         -10.027      -6.932      -5.349       2.917      11.183      12.766      15.861
+    YMRS_9           2.037       5.828       7.767      17.894      28.021      29.960      33.751
+    YMRS_12          4.632       7.634       9.170      17.189      25.207      26.743      29.745
+
+ YMRS_24  WITH
+    YMRS_0         -23.717     -13.383      -8.097      19.509      47.114      52.400      62.734
+    YMRS_1          -0.467       6.426       9.951      28.362      46.774      50.299      57.191
+    YMRS_2          -2.645       0.462       2.051      10.352      18.653      20.242      23.349
+    YMRS_3           1.441       5.456       7.509      18.233      28.957      31.010      35.025
+    YMRS_6         -10.946      -4.911      -1.824      14.298      30.419      33.506      39.541
+    YMRS_9          15.634      21.819      24.983      41.504      58.026      61.189      67.374
+    YMRS_12          0.762       7.363      10.740      28.375      46.010      49.386      55.988
+    YMRS_18         -8.984      -2.949       0.137      16.257      32.377      35.464      41.499
+
+ Means
+    YMRS_0          14.553      15.901      16.590      20.190      23.789      24.479      25.826
+    YMRS_1           2.668       3.644       4.144       6.752       9.361       9.860      10.837
+    YMRS_2           2.531       3.142       3.454       5.085       6.716       7.028       7.639
+    YMRS_3           0.208       0.478       0.617       1.338       2.060       2.198       2.468
+    YMRS_6           0.573       1.162       1.464       3.040       4.615       4.917       5.507
+    YMRS_9           1.552       2.056       2.313       3.657       5.002       5.259       5.762
+    YMRS_12          1.286       1.847       2.134       3.634       5.134       5.421       5.982
+    YMRS_18          0.502       0.939       1.162       2.330       3.497       3.721       4.158
+    YMRS_24          2.510       3.485       3.984       6.589       9.194       9.692      10.668
+
+ Intercepts
+    I                7.085       7.666       7.963       9.516      11.068      11.366      11.947
+    S               -1.252      -1.190      -1.159      -0.995      -0.831      -0.799      -0.738
+
+ Variances
+    YMRS_0          45.768      76.597      92.367     174.722     257.078     272.848     303.677
+    YMRS_1          24.671      37.697      44.360      79.157     113.953     120.616     133.642
+    YMRS_2          12.869      15.471      16.802      23.755      30.707      32.038      34.641
+    YMRS_3           0.332       2.409       3.471       9.019      14.568      15.630      17.707
+    YMRS_6          -8.011      -1.804       1.371      17.953      34.535      37.710      43.917
+    YMRS_9           7.571      13.642      16.748      32.967      49.186      52.291      58.363
+    YMRS_12         11.516      19.864      24.134      46.433      68.732      73.002      81.349
+    YMRS_18          1.832       5.556       7.460      17.408      27.355      29.260      32.984
+    YMRS_24          4.387      35.969      52.125     136.491     220.857     237.012     268.594
+
+ Residual Variances
+    I                0.123       0.553       0.773       1.920       3.068       3.287       3.717
+    S               -0.002       0.002       0.004       0.015       0.026       0.028       0.032
+
+Latent Class 2
+
+ I        ON
+    YMRS_0          -0.188      -0.159      -0.144      -0.066       0.011       0.026       0.055
+    YMRS_1          -0.957      -0.769      -0.672      -0.169       0.335       0.432       0.620
+    YMRS_2          -0.108       0.003       0.060       0.357       0.654       0.710       0.821
+    YMRS_3          -0.364      -0.327      -0.308      -0.208      -0.108      -0.089      -0.051
+    YMRS_6          -0.109      -0.068      -0.047       0.063       0.172       0.193       0.234
+    YMRS_9          -0.410      -0.291      -0.229       0.091       0.411       0.473       0.592
+    YMRS_12         -0.843      -0.695      -0.619      -0.224       0.171       0.247       0.395
+    YMRS_18         -0.005       0.019       0.031       0.094       0.157       0.169       0.192
+    YMRS_24         -0.012       0.044       0.073       0.222       0.371       0.399       0.455
+
+ S        ON
+    YMRS_0          -0.014      -0.010      -0.008       0.004       0.015       0.017       0.022
+    YMRS_1          -0.061      -0.048      -0.041      -0.007       0.028       0.034       0.047
+    YMRS_2          -0.031      -0.022      -0.018       0.005       0.029       0.033       0.042
+    YMRS_3          -0.040      -0.035      -0.033      -0.021      -0.008      -0.006      -0.001
+    YMRS_6          -0.032      -0.026      -0.024      -0.009       0.005       0.007       0.013
+    YMRS_9          -0.044      -0.038      -0.034      -0.017       0.000       0.003       0.010
+    YMRS_12          0.012       0.018       0.022       0.038       0.054       0.057       0.063
+    YMRS_18         -0.015      -0.012      -0.011      -0.004       0.003       0.004       0.007
+    YMRS_24         -0.005       0.001       0.004       0.020       0.037       0.040       0.046
+
+ S        WITH
+    I               -0.236      -0.200      -0.182      -0.086       0.009       0.027       0.063
+
+ YMRS_1   WITH
+    YMRS_0           1.449       8.833      12.611      32.338      52.064      55.842      63.227
+
+ YMRS_2   WITH
+    YMRS_0          -1.984       1.834       3.787      13.986      24.186      26.139      29.957
+    YMRS_1           9.688      14.424      16.847      29.500      42.153      44.576      49.312
+
+ YMRS_3   WITH
+    YMRS_0         -15.372     -10.939      -8.672       3.169      15.010      17.278      21.710
+    YMRS_1           0.757       3.023       4.182      10.233      16.285      17.444      19.709
+    YMRS_2           1.660       3.336       4.194       8.670      13.147      14.004      15.680
+
+ YMRS_6   WITH
+    YMRS_0          -8.562      -3.953      -1.595      10.717      23.028      25.386      29.995
+    YMRS_1           0.866       5.015       7.138      18.222      29.306      31.428      35.577
+    YMRS_2           3.061       5.935       7.405      15.082      22.760      24.230      27.104
+    YMRS_3          -4.079      -0.717       1.002       9.983      18.963      20.683      24.045
+
+ YMRS_9   WITH
+    YMRS_0          -4.240      -0.572       1.304      11.104      20.904      22.780      26.448
+    YMRS_1           4.725       9.947      12.618      26.566      40.514      43.185      48.406
+    YMRS_2           5.025       7.583       8.891      15.724      22.556      23.865      26.423
+    YMRS_3           0.962       3.995       5.546      13.648      21.750      23.301      26.334
+    YMRS_6          -7.730      -1.844       1.167      16.892      32.616      35.627      41.514
+
+ YMRS_12  WITH
+    YMRS_0         -31.082     -24.066     -20.477      -1.735      17.007      20.596      27.612
+    YMRS_1           3.024       5.713       7.089      14.272      21.455      22.830      25.519
+    YMRS_2          -1.339       1.110       2.363       8.904      15.445      16.698      19.146
+    YMRS_3          -0.654       1.500       2.602       8.356      14.110      15.212      17.366
+    YMRS_6          -4.815      -1.637      -0.011       8.479      16.969      18.595      21.773
+    YMRS_9           6.095      10.348      12.523      23.884      35.245      37.420      41.673
+
+ YMRS_18  WITH
+    YMRS_0          -5.397      -1.770       0.086       9.776      19.466      21.322      24.949
+    YMRS_1          -9.950      -4.871      -2.273      11.296      24.865      27.463      32.542
+    YMRS_2          -4.387      -2.021      -0.811       5.508      11.827      13.037      15.403
+    YMRS_3          -0.994       0.454       1.195       5.062       8.929       9.670      11.118
+    YMRS_6         -10.027      -6.932      -5.349       2.917      11.183      12.766      15.861
+    YMRS_9           2.037       5.828       7.767      17.894      28.021      29.960      33.751
+    YMRS_12          4.632       7.634       9.170      17.189      25.207      26.743      29.745
+
+ YMRS_24  WITH
+    YMRS_0         -23.717     -13.383      -8.097      19.509      47.114      52.400      62.734
+    YMRS_1          -0.467       6.426       9.951      28.362      46.774      50.299      57.191
+    YMRS_2          -2.645       0.462       2.051      10.352      18.653      20.242      23.349
+    YMRS_3           1.441       5.456       7.509      18.233      28.957      31.010      35.025
+    YMRS_6         -10.946      -4.911      -1.824      14.298      30.419      33.506      39.541
+    YMRS_9          15.634      21.819      24.983      41.504      58.026      61.189      67.374
+    YMRS_12          0.762       7.363      10.740      28.375      46.010      49.386      55.988
+    YMRS_18         -8.984      -2.949       0.137      16.257      32.377      35.464      41.499
+
+ Means
+    YMRS_0          16.199      18.176      19.187      24.468      29.750      30.761      32.738
+    YMRS_1           3.385       4.270       4.723       7.087       9.451       9.903      10.788
+    YMRS_2           3.462       4.745       5.402       8.830      12.258      12.915      14.198
+    YMRS_3           0.950       1.736       2.139       4.240       6.341       6.743       7.530
+    YMRS_6           2.667       3.351       3.701       5.529       7.356       7.706       8.390
+    YMRS_9           3.909       4.726       5.145       7.328       9.512       9.930      10.747
+    YMRS_12          2.311       3.112       3.522       5.663       7.804       8.214       9.015
+    YMRS_18          4.000       5.296       5.959       9.421      12.883      13.546      14.842
+    YMRS_24          4.347       5.435       5.992       8.897      11.803      12.359      13.447
+
+ Intercepts
+    I                4.561       5.298       5.675       7.643       9.611       9.988      10.725
+    S               -0.845      -0.754      -0.708      -0.464      -0.221      -0.175      -0.084
+
+ Variances
+    YMRS_0          27.518      43.853      52.209      95.845     139.481     147.837     164.173
+    YMRS_1          21.099      25.927      28.396      41.293      54.190      56.660      61.488
+    YMRS_2          -6.491       9.473      17.639      60.284     102.929     111.095     127.059
+    YMRS_3          14.596      23.886      28.638      53.456      78.273      83.025      92.315
+    YMRS_6          17.029      23.455      26.742      43.908      61.074      64.361      70.787
+    YMRS_9          22.872      30.081      33.768      53.024      72.279      75.967      83.175
+    YMRS_12        -14.534      -3.066       2.800      33.433      64.067      69.933      81.400
+    YMRS_18         -8.608      19.044      33.189     107.058     180.926     195.071     222.724
+    YMRS_24         27.762      38.543      44.059      72.860     101.661     107.176     117.958
+
+ Residual Variances
+    I                0.123       0.553       0.773       1.920       3.068       3.287       3.717
+    S               -0.002       0.002       0.004       0.015       0.026       0.028       0.032
+
+Latent Class 3
+
+ I        ON
+    YMRS_0          -0.131      -0.101      -0.085      -0.004       0.077       0.092       0.123
+    YMRS_1          -0.061      -0.041      -0.031       0.021       0.074       0.084       0.104
+    YMRS_2          -0.628      -0.472      -0.392       0.026       0.444       0.524       0.680
+    YMRS_3          -0.517      -0.422      -0.374      -0.122       0.131       0.179       0.274
+    YMRS_6          -0.139      -0.117      -0.106      -0.048       0.010       0.021       0.042
+    YMRS_9          -0.042      -0.021      -0.010       0.047       0.104       0.115       0.136
+    YMRS_12         -0.111      -0.090      -0.079      -0.023       0.033       0.043       0.064
+    YMRS_18         -0.323      -0.290      -0.272      -0.183      -0.093      -0.076      -0.043
+    YMRS_24          0.000       0.032       0.048       0.134       0.219       0.235       0.267
+
+ S        ON
+    YMRS_0          -0.014      -0.011      -0.009       0.000       0.008       0.010       0.013
+    YMRS_1          -0.005      -0.003      -0.002       0.002       0.006       0.007       0.009
+    YMRS_2          -0.130      -0.116      -0.109      -0.072      -0.035      -0.027      -0.014
+    YMRS_3          -0.039      -0.030      -0.025      -0.002       0.021       0.026       0.034
+    YMRS_6          -0.008      -0.005      -0.003       0.007       0.017       0.019       0.023
+    YMRS_9          -0.013      -0.010      -0.008       0.002       0.012       0.014       0.017
+    YMRS_12         -0.006      -0.005      -0.004       0.000       0.003       0.004       0.006
+    YMRS_18          0.000       0.004       0.006       0.017       0.028       0.030       0.034
+    YMRS_24         -0.015      -0.012      -0.010      -0.001       0.007       0.009       0.012
+
+ S        WITH
+    I               -0.236      -0.200      -0.182      -0.086       0.009       0.027       0.063
+
+ YMRS_1   WITH
+    YMRS_0           1.449       8.833      12.611      32.338      52.064      55.842      63.227
+
+ YMRS_2   WITH
+    YMRS_0          -1.984       1.834       3.787      13.986      24.186      26.139      29.957
+    YMRS_1           9.688      14.424      16.847      29.500      42.153      44.576      49.312
+
+ YMRS_3   WITH
+    YMRS_0         -15.372     -10.939      -8.672       3.169      15.010      17.278      21.710
+    YMRS_1           0.757       3.023       4.182      10.233      16.285      17.444      19.709
+    YMRS_2           1.660       3.336       4.194       8.670      13.147      14.004      15.680
+
+ YMRS_6   WITH
+    YMRS_0          -8.562      -3.953      -1.595      10.717      23.028      25.386      29.995
+    YMRS_1           0.866       5.015       7.138      18.222      29.306      31.428      35.577
+    YMRS_2           3.061       5.935       7.405      15.082      22.760      24.230      27.104
+    YMRS_3          -4.079      -0.717       1.002       9.983      18.963      20.683      24.045
+
+ YMRS_9   WITH
+    YMRS_0          -4.240      -0.572       1.304      11.104      20.904      22.780      26.448
+    YMRS_1           4.725       9.947      12.618      26.566      40.514      43.185      48.406
+    YMRS_2           5.025       7.583       8.891      15.724      22.556      23.865      26.423
+    YMRS_3           0.962       3.995       5.546      13.648      21.750      23.301      26.334
+    YMRS_6          -7.730      -1.844       1.167      16.892      32.616      35.627      41.514
+
+ YMRS_12  WITH
+    YMRS_0         -31.082     -24.066     -20.477      -1.735      17.007      20.596      27.612
+    YMRS_1           3.024       5.713       7.089      14.272      21.455      22.830      25.519
+    YMRS_2          -1.339       1.110       2.363       8.904      15.445      16.698      19.146
+    YMRS_3          -0.654       1.500       2.602       8.356      14.110      15.212      17.366
+    YMRS_6          -4.815      -1.637      -0.011       8.479      16.969      18.595      21.773
+    YMRS_9           6.095      10.348      12.523      23.884      35.245      37.420      41.673
+
+ YMRS_18  WITH
+    YMRS_0          -5.397      -1.770       0.086       9.776      19.466      21.322      24.949
+    YMRS_1          -9.950      -4.871      -2.273      11.296      24.865      27.463      32.542
+    YMRS_2          -4.387      -2.021      -0.811       5.508      11.827      13.037      15.403
+    YMRS_3          -0.994       0.454       1.195       5.062       8.929       9.670      11.118
+    YMRS_6         -10.027      -6.932      -5.349       2.917      11.183      12.766      15.861
+    YMRS_9           2.037       5.828       7.767      17.894      28.021      29.960      33.751
+    YMRS_12          4.632       7.634       9.170      17.189      25.207      26.743      29.745
+
+ YMRS_24  WITH
+    YMRS_0         -23.717     -13.383      -8.097      19.509      47.114      52.400      62.734
+    YMRS_1          -0.467       6.426       9.951      28.362      46.774      50.299      57.191
+    YMRS_2          -2.645       0.462       2.051      10.352      18.653      20.242      23.349
+    YMRS_3           1.441       5.456       7.509      18.233      28.957      31.010      35.025
+    YMRS_6         -10.946      -4.911      -1.824      14.298      30.419      33.506      39.541
+    YMRS_9          15.634      21.819      24.983      41.504      58.026      61.189      67.374
+    YMRS_12          0.762       7.363      10.740      28.375      46.010      49.386      55.988
+    YMRS_18         -8.984      -2.949       0.137      16.257      32.377      35.464      41.499
+
+ Means
+    YMRS_0          21.141      23.227      24.294      29.868      35.441      36.508      38.595
+    YMRS_1          -1.559       1.666       3.315      11.930      20.545      22.194      25.419
+    YMRS_2           1.082       1.567       1.816       3.113       4.410       4.658       5.143
+    YMRS_3          -0.655       0.252       0.715       3.138       5.561       6.025       6.931
+    YMRS_6           2.463       4.358       5.327      10.388      15.450      16.419      18.314
+    YMRS_9           2.210       4.416       5.545      11.439      17.332      18.461      20.667
+    YMRS_12          5.442       7.538       8.610      14.207      19.805      20.877      22.973
+    YMRS_18          1.084       2.254       2.852       5.975       9.099       9.697      10.866
+    YMRS_24          0.661       2.082       2.808       6.603      10.398      11.125      12.546
+
+ Intercepts
+    I                5.823       6.803       7.305       9.923      12.541      13.043      14.023
+    S               -0.654      -0.551      -0.498      -0.221       0.055       0.108       0.212
+
+ Variances
+    YMRS_0         -29.624      -1.746      12.514      86.983     161.453     175.713     203.590
+    YMRS_1          11.439      76.613     109.951     284.051     458.150     491.488     556.662
+    YMRS_2           4.826       6.610       7.523      12.288      17.053      17.966      19.749
+    YMRS_3           3.391       5.815       7.056      13.532      20.009      21.250      23.674
+    YMRS_6         -68.505     -18.737       6.721     139.667     272.613     298.071     347.838
+    YMRS_9          36.793      65.836      80.693     158.276     235.859     250.715     279.758
+    YMRS_12         27.492      67.668      88.219     195.540     302.861     323.412     363.587
+    YMRS_18          4.655       9.842      12.496      26.353      40.211      42.864      48.052
+    YMRS_24         24.087      37.430      44.255      79.898     115.540     122.366     135.708
+
+ Residual Variances
+    I                0.123       0.553       0.773       1.920       3.068       3.287       3.717
+    S               -0.002       0.002       0.004       0.015       0.026       0.028       0.032
+
+
+     Beginning Time:  10:06:49
+        Ending Time:  10:10:27
+       Elapsed Time:  00:03:38
 
 
 
