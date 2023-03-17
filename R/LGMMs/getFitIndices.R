@@ -4,6 +4,12 @@
 #' @return A data frame
 #' @export
 #' @import MplusAutomation
+
+
+# Test arguments/function -------------------------------------------------
+# list_models <- GMMi_models
+
+
 getFitIndices <- function(list_models) {
   
   list_depth <- list_models %>% purrr::pluck_depth()
@@ -19,18 +25,21 @@ getFitIndices <- function(list_models) {
   }
 
   # Get model parameters
-  n <- purrr::map(list_models, purrr::pluck, "results", "summaries", "Observations") %>%
-       plyr::ldply(rbind) %>%
-       dplyr::select("1") %>% 
-       data.table::setnames("n")
+  n <- list_models %>%  
+    purrr::map(purrr::pluck, "results", "summaries", "Observations") %>%
+    plyr::ldply(rbind) %>%
+    dplyr::select("1") %>% 
+    data.table::setnames("n")
   
-  k <- purrr::map(list_models, purrr::pluck, "results", "summaries", "NLatentClasses") %>%
-       plyr::ldply(rbind) %>%
-       dplyr::select("1") %>% 
-       max()
+  k <- list_models %>% 
+    purrr::map(purrr::pluck, "results", "summaries", "NLatentClasses") %>%
+    plyr::ldply(rbind) %>%
+    dplyr::select("1") %>% 
+    max()
   
   # Get model errors & warnings
-  models_err <- list_models %>% purrr::map(purrr::pluck, 'results', 'errors') %>%
+  models_err <- list_models %>% 
+    purrr::map(purrr::pluck, 'results', 'errors') %>%
     purrr::map_depth(2, purrr::keep, stringr::str_detect, "THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY") %>% 
     purrr::map_depth(1, purrr::flatten_chr) %>% 
     purrr::modify_if(~ length(.) == 0, ~ NA_character_) %>% 
@@ -38,7 +47,8 @@ getFitIndices <- function(list_models) {
     dplyr::select("1") %>% 
     data.table::setnames("errors")
   
-  models_warn <- list_models %>% purrr::map(purrr::pluck, 'results', 'warnings') %>%
+  models_warn <- list_models %>% 
+    purrr::map(purrr::pluck, 'results', 'warnings') %>%
     purrr::map_depth(2, purrr::keep, stringr::str_detect, "WARNING:") %>% 
     purrr::map_depth(1, purrr::flatten_chr) %>% 
     purrr::modify_if(~ length(.) == 0, ~ NA_character_) %>% 
