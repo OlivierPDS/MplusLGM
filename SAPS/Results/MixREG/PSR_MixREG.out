@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-03/06/2023   5:01 PM
+05/08/2023   1:15 PM
 
 INPUT INSTRUCTIONS
 
@@ -14,42 +14,37 @@ INPUT INSTRUCTIONS
        CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N PSR_0 PSR_1 PSR_2 PSR_3 PSR_6 PSR_9
        PSR_12 PSR_18 PSR_24;
    MISSING=.;
-   USEVAR = N I S PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241;
+   USEVAR = N S PSR_0 PSR_1 PSR_2 PSR_3 PSR_6 PSR_9 PSR_12 PSR_18 PSR_24;
   NOMINAL = N;
   CLASSES = c(2);
-  DEFINE:
-  PSR_01 = PSR_0 == 1;
-   PSR_11 = PSR_1 == 1;
-   PSR_21 = PSR_2 == 1;
-   PSR_31 = PSR_3 == 1;
-   PSR_61 = PSR_6 == 1;
-   PSR_91 = PSR_9 == 1;
-   PSR_121 = PSR_12 == 1;
-   PSR_181 = PSR_18 == 1;
-   PSR_241 = PSR_24 == 1;
-
   ANALYSIS:
   TYPE = MIXTURE;
   STARTS = 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  I ON PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241;
-  S ON PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241;
-  PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241;
+  iw sw | PSR_0@0 PSR_1@1 PSR_2@2 PSR_3@3 PSR_6@6 PSR_9@9 PSR_12@12 PSR_18@18 PSR_24@24;
+  S ON iw sw;
   %C#1%
   [N#1@3.513];
-  I ON PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241 (I1 - I9);
-  S ON PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241 (S1 - S9);
-  PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241;
+  S ON iw sw (S1 - S2);
+  [iw] (iw1);
+  [sw] (sw1);
+  iw sw;
+  iw WITH sw;
+  PSR_0 PSR_1 PSR_2 PSR_3 PSR_6 PSR_9 PSR_12 PSR_18 PSR_24;
   %C#2%
   [N#1@-3.952];
-  I ON PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241 (I10 - I18);
-  S ON PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241 (S10 - S18);
-  PSR_01 PSR_11 PSR_21 PSR_31 PSR_61 PSR_91 PSR_121 PSR_181 PSR_241;
+  S ON iw sw (S3 - S4);
+  [iw] (iw2);
+  [sw] (sw2);
+  iw sw;
+  iw WITH sw;
+  PSR_0 PSR_1 PSR_2 PSR_3 PSR_6 PSR_9 PSR_12 PSR_18 PSR_24;
+  MODEL TEST:
+  S1 = S3;
   OUTPUT:
   SAMPSTAT;
-  STANDARDIZED;
   CINTERVAL;
 
 
@@ -66,22 +61,22 @@ SUMMARY OF ANALYSIS
 Number of groups                                                 1
 Number of observations                                         405
 
-Number of dependent variables                                    3
-Number of independent variables                                  9
-Number of continuous latent variables                            0
+Number of dependent variables                                   11
+Number of independent variables                                  0
+Number of continuous latent variables                            2
 Number of categorical latent variables                           1
 
 Observed dependent variables
 
   Continuous
-   I           S
+   S           PSR_0       PSR_1       PSR_2       PSR_3       PSR_6
+   PSR_9       PSR_12      PSR_18      PSR_24
 
   Unordered categorical (nominal)
    N
 
-Observed independent variables
-   PSR_01      PSR_11      PSR_21      PSR_31      PSR_61      PSR_91
-   PSR_121     PSR_181     PSR_241
+Continuous latent variables
+   IW          SW
 
 Categorical latent variables
    C
@@ -138,36 +133,28 @@ Minimum covariance coverage value   0.100
 
 
            Covariance Coverage
-              I             S             PSR_01        PSR_11        PSR_21
+              S             PSR_0         PSR_1         PSR_2         PSR_3
               ________      ________      ________      ________      ________
- I              1.000
- S              1.000         1.000
- PSR_01         0.998         0.998         0.998
- PSR_11         0.674         0.674         0.672         0.674
- PSR_21         0.847         0.847         0.844         0.595         0.847
- PSR_31         0.946         0.946         0.943         0.632         0.822
- PSR_61         0.909         0.909         0.906         0.605         0.778
- PSR_91         0.864         0.864         0.862         0.578         0.751
- PSR_121        0.869         0.869         0.867         0.573         0.723
- PSR_181        0.820         0.820         0.817         0.538         0.681
- PSR_241        0.793         0.793         0.790         0.519         0.691
+ S              1.000
+ PSR_0          0.998         0.998
+ PSR_1          0.674         0.672         0.674
+ PSR_2          0.847         0.844         0.595         0.847
+ PSR_3          0.946         0.943         0.632         0.822         0.946
+ PSR_6          0.909         0.906         0.605         0.778         0.872
+ PSR_9          0.864         0.862         0.578         0.751         0.812
+ PSR_12         0.869         0.867         0.573         0.723         0.817
+ PSR_18         0.820         0.817         0.538         0.681         0.770
+ PSR_24         0.793         0.790         0.519         0.691         0.748
 
 
            Covariance Coverage
-              PSR_31        PSR_61        PSR_91        PSR_121       PSR_181
+              PSR_6         PSR_9         PSR_12        PSR_18        PSR_24
               ________      ________      ________      ________      ________
- PSR_31         0.946
- PSR_61         0.872         0.909
- PSR_91         0.812         0.795         0.864
- PSR_121        0.817         0.790         0.773         0.869
- PSR_181        0.770         0.743         0.723         0.743         0.820
- PSR_241        0.748         0.721         0.723         0.721         0.706
-
-
-           Covariance Coverage
-              PSR_241
-              ________
- PSR_241        0.793
+ PSR_6          0.909
+ PSR_9          0.795         0.864
+ PSR_12         0.790         0.773         0.869
+ PSR_18         0.743         0.723         0.743         0.820
+ PSR_24         0.721         0.723         0.721         0.706         0.793
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
@@ -188,32 +175,32 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     I                     6.644      -0.012       0.731    0.25%       2.875      5.867      7.059
-             405.000      10.403      -0.929      14.980    0.25%       7.851      9.456
      S                    -1.071       0.642      -1.721    0.25%      -1.403     -1.298     -1.255
              405.000       0.149      -1.102      -0.217    0.49%      -1.156     -0.592
-     PSR_01                0.980      -6.893       0.000    1.98%       1.000      1.000      1.000
-             404.000       0.019      45.520       1.000   98.02%       1.000      1.000
-     PSR_11                0.604      -0.427       0.000   39.56%       0.000      1.000      1.000
-             273.000       0.239      -1.818       1.000   60.44%       1.000      1.000
-     PSR_21                0.394       0.436       0.000   60.64%       0.000      0.000      0.000
-             343.000       0.239      -1.810       1.000   39.36%       0.000      1.000
-     PSR_31                0.319       0.779       0.000   68.15%       0.000      0.000      0.000
-             383.000       0.217      -1.393       1.000   31.85%       0.000      1.000
-     PSR_61                0.315       0.795       0.000   68.48%       0.000      0.000      0.000
-             368.000       0.216      -1.367       1.000   31.52%       0.000      1.000
-     PSR_91                0.309       0.829       0.000   69.14%       0.000      0.000      0.000
-             350.000       0.213      -1.313       1.000   30.86%       0.000      1.000
-     PSR_121               0.298       0.882       0.000   70.17%       0.000      0.000      0.000
-             352.000       0.209      -1.223       1.000   29.83%       0.000      1.000
-     PSR_181               0.265       1.065       0.000   73.49%       0.000      0.000      0.000
-             332.000       0.195      -0.867       1.000   26.51%       0.000      1.000
-     PSR_241               0.274       1.013       0.000   72.59%       0.000      0.000      0.000
-             321.000       0.199      -0.975       1.000   27.41%       0.000      1.000
+     PSR_0                 1.020       6.893       1.000   98.02%       1.000      1.000      1.000
+             404.000       0.019      45.520       2.000    1.98%       1.000      1.000
+     PSR_1                 1.396       0.427       1.000   60.44%       1.000      1.000      1.000
+             273.000       0.239      -1.818       2.000   39.56%       1.000      2.000
+     PSR_2                 1.606      -0.436       1.000   39.36%       1.000      2.000      2.000
+             343.000       0.239      -1.810       2.000   60.64%       2.000      2.000
+     PSR_3                 1.681      -0.779       1.000   31.85%       1.000      2.000      2.000
+             383.000       0.217      -1.393       2.000   68.15%       2.000      2.000
+     PSR_6                 1.685      -0.795       1.000   31.52%       1.000      2.000      2.000
+             368.000       0.216      -1.367       2.000   68.48%       2.000      2.000
+     PSR_9                 1.691      -0.829       1.000   30.86%       1.000      2.000      2.000
+             350.000       0.213      -1.313       2.000   69.14%       2.000      2.000
+     PSR_12                1.702      -0.882       1.000   29.83%       1.000      2.000      2.000
+             352.000       0.209      -1.223       2.000   70.17%       2.000      2.000
+     PSR_18                1.735      -1.065       1.000   26.51%       1.000      2.000      2.000
+             332.000       0.195      -0.867       2.000   73.49%       2.000      2.000
+     PSR_24                1.726      -1.013       1.000   27.41%       1.000      2.000      2.000
+             321.000       0.199      -0.975       2.000   72.59%       2.000      2.000
 
-     THE LOGLIKELIHOOD DECREASED IN THE LAST EM ITERATION.  CHANGE YOUR MODEL
-     AND/OR STARTING VALUES.
-
+     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 1 COULD NOT
+     BE INVERTED.  PROBLEM INVOLVING VARIABLE PSR_0.  COMPUTATION COULD
+     NOT BE COMPLETED IN ITERATION 3.  CHANGE YOUR MODEL AND/OR STARTING
+     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
+     VARIATION FOR THE VARIABLE.
 
 
      THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
@@ -230,432 +217,226 @@ MODEL RESULTS
 
 Latent Class 1
 
- I          ON
-    PSR_01            -0.466
-    PSR_11             1.904
-    PSR_21             3.196
-    PSR_31             0.255
-    PSR_61             2.776
-    PSR_91             2.637
-    PSR_121            1.509
-    PSR_181            1.926
-    PSR_241            3.037
+ IW       |
+    PSR_0              1.000
+    PSR_1              1.000
+    PSR_2              1.000
+    PSR_3              1.000
+    PSR_6              1.000
+    PSR_9              1.000
+    PSR_12             1.000
+    PSR_18             1.000
+    PSR_24             1.000
+
+ SW       |
+    PSR_0              0.000
+    PSR_1              1.000
+    PSR_2              2.000
+    PSR_3              3.000
+    PSR_6              6.000
+    PSR_9              9.000
+    PSR_12            12.000
+    PSR_18            18.000
+    PSR_24            24.000
 
  S          ON
-    PSR_01             0.061
-    PSR_11            -0.253
-    PSR_21            -0.445
-    PSR_31            -0.025
-    PSR_61            -0.410
-    PSR_91            -0.415
-    PSR_121           -0.249
-    PSR_181           -0.366
-    PSR_241           -0.609
+    IW                 1.050
+    SW                25.559
 
- S        WITH
-    I                 -0.274
-
- PSR_11   WITH
-    PSR_01             0.000
-
- PSR_21   WITH
-    PSR_01             0.000
-    PSR_11             0.028
-
- PSR_31   WITH
-    PSR_01             0.000
-    PSR_11             0.024
-    PSR_21             0.035
-
- PSR_61   WITH
-    PSR_01             0.000
-    PSR_11            -0.014
-    PSR_21             0.001
-    PSR_31             0.001
-
- PSR_91   WITH
-    PSR_01             0.000
-    PSR_11            -0.013
-    PSR_21            -0.006
-    PSR_31            -0.003
-    PSR_61             0.013
-
- PSR_121  WITH
-    PSR_01             0.000
-    PSR_11            -0.007
-    PSR_21            -0.005
-    PSR_31            -0.004
-    PSR_61             0.000
-    PSR_91            -0.001
-
- PSR_181  WITH
-    PSR_01             0.000
-    PSR_11            -0.006
-    PSR_21            -0.008
-    PSR_31            -0.002
-    PSR_61            -0.002
-    PSR_91             0.002
-    PSR_121            0.003
-
- PSR_241  WITH
-    PSR_01             0.000
-    PSR_11            -0.017
-    PSR_21            -0.016
-    PSR_31            -0.005
-    PSR_61            -0.005
-    PSR_91            -0.004
-    PSR_121            0.014
-    PSR_181            0.001
+ SW       WITH
+    IW                 0.000
 
  Means
-    PSR_01             0.962
-    PSR_11             0.392
-    PSR_21             0.111
-    PSR_31             0.050
-    PSR_61             0.056
-    PSR_91             0.067
-    PSR_121            0.054
-    PSR_181            0.061
-    PSR_241            0.112
+    IW                 1.000
+    SW                 0.050
 
  Means
     N#1                3.513
 
  Intercepts
-    I                  2.884
-    S                 -0.586
+    S                 -3.336
+    PSR_0              0.000
+    PSR_1              0.000
+    PSR_2              0.000
+    PSR_3              0.000
+    PSR_6              0.000
+    PSR_9              0.000
+    PSR_12             0.000
+    PSR_18             0.000
+    PSR_24             0.000
 
  Variances
-    PSR_01             0.036
-    PSR_11             0.249
-    PSR_21             0.109
-    PSR_31             0.055
-    PSR_61             0.051
-    PSR_91             0.064
-    PSR_121            0.051
-    PSR_181            0.054
-    PSR_241            0.097
+    IW                 0.000
+    SW                 0.000
 
  Residual Variances
-    I                  2.416
-    S                  0.041
+    S                  0.063
+    PSR_0              0.000
+    PSR_1              0.217
+    PSR_2              0.514
+    PSR_3              0.494
+    PSR_6              0.330
+    PSR_9              0.254
+    PSR_12             0.138
+    PSR_18             0.064
+    PSR_24             0.132
 
 Latent Class 2
 
- I          ON
-    PSR_01         -2810.823
-    PSR_11             1.536
-    PSR_21             0.835
-    PSR_31             1.202
-    PSR_61             0.994
-    PSR_91             0.658
-    PSR_121            0.129
-    PSR_181            0.478
-    PSR_241            0.403
+ IW       |
+    PSR_0              1.000
+    PSR_1              1.000
+    PSR_2              1.000
+    PSR_3              1.000
+    PSR_6              1.000
+    PSR_9              1.000
+    PSR_12             1.000
+    PSR_18             1.000
+    PSR_24             1.000
+
+ SW       |
+    PSR_0              0.000
+    PSR_1              1.000
+    PSR_2              2.000
+    PSR_3              3.000
+    PSR_6              6.000
+    PSR_9              9.000
+    PSR_12            12.000
+    PSR_18            18.000
+    PSR_24            24.000
 
  S          ON
-    PSR_01          -796.619
-    PSR_11            -0.096
-    PSR_21            -0.053
-    PSR_31            -0.061
-    PSR_61            -0.026
-    PSR_91            -0.005
-    PSR_121            0.027
-    PSR_181            0.005
-    PSR_241           -0.040
+    IW                 0.938
+    SW                 4.976
 
- S        WITH
-    I                 -0.274
-
- PSR_11   WITH
-    PSR_01             0.000
-
- PSR_21   WITH
-    PSR_01             0.000
-    PSR_11             0.028
-
- PSR_31   WITH
-    PSR_01             0.000
-    PSR_11             0.024
-    PSR_21             0.035
-
- PSR_61   WITH
-    PSR_01             0.000
-    PSR_11            -0.014
-    PSR_21             0.001
-    PSR_31             0.001
-
- PSR_91   WITH
-    PSR_01             0.000
-    PSR_11            -0.013
-    PSR_21            -0.006
-    PSR_31            -0.003
-    PSR_61             0.013
-
- PSR_121  WITH
-    PSR_01             0.000
-    PSR_11            -0.007
-    PSR_21            -0.005
-    PSR_31            -0.004
-    PSR_61             0.000
-    PSR_91            -0.001
-
- PSR_181  WITH
-    PSR_01             0.000
-    PSR_11            -0.006
-    PSR_21            -0.008
-    PSR_31            -0.002
-    PSR_61            -0.002
-    PSR_91             0.002
-    PSR_121            0.003
-
- PSR_241  WITH
-    PSR_01             0.000
-    PSR_11            -0.017
-    PSR_21            -0.016
-    PSR_31            -0.005
-    PSR_61            -0.005
-    PSR_91            -0.004
-    PSR_121            0.014
-    PSR_181            0.001
+ SW       WITH
+    IW                -0.003
 
  Means
-    PSR_01             1.000
-    PSR_11             0.876
-    PSR_21             0.743
-    PSR_31             0.629
-    PSR_61             0.601
-    PSR_91             0.605
-    PSR_121            0.578
-    PSR_181            0.519
-    PSR_241            0.467
+    IW                 1.520
+    SW                 0.009
 
  Means
     N#1               -3.952
 
  Intercepts
-    I               2815.714
-    S                795.464
+    S                 -2.609
+    PSR_0              0.000
+    PSR_1              0.000
+    PSR_2              0.000
+    PSR_3              0.000
+    PSR_6              0.000
+    PSR_9              0.000
+    PSR_12             0.000
+    PSR_18             0.000
+    PSR_24             0.000
 
  Variances
-    PSR_01             0.000
-    PSR_11             0.121
-    PSR_21             0.164
-    PSR_31             0.204
-    PSR_61             0.232
-    PSR_91             0.236
-    PSR_121            2.744
-    PSR_181            0.255
-    PSR_241            0.252
+    IW                 0.103
+    SW                 0.000
 
  Residual Variances
-    I                  2.416
-    S                  0.041
+    S                  0.063
+    PSR_0              0.362
+    PSR_1              0.141
+    PSR_2              0.106
+    PSR_3              0.124
+    PSR_6              0.141
+    PSR_9              0.145
+    PSR_12             0.146
+    PSR_18             0.133
+    PSR_24             0.143
 
 Categorical Latent Variables
 
  Means
-    C#1               -0.755
+    C#1               -1.130
 
 
 MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
 
      %OVERALL%
 
-     i ON psr_01;
-     i ON psr_11;
-     i ON psr_21;
-     i ON psr_31;
-     i ON psr_61;
-     i ON psr_91;
-     i ON psr_121;
-     i ON psr_181;
-     i ON psr_241;
-     s ON psr_01;
-     s ON psr_11;
-     s ON psr_21;
-     s ON psr_31;
-     s ON psr_61;
-     s ON psr_91;
-     s ON psr_121;
-     s ON psr_181;
-     s ON psr_241;
+     iw sw | psr_0@0 psr_1@1 psr_2@2 psr_3@3 psr_6@6 psr_9@9 psr_12@12 psr_18@18 psr_24@24;
 
-     [ c#1*-0.75474 ];
+     s ON iw;
+     s ON sw;
+
+     [ c#1*-1.12963 ];
 
      %C#1%
 
-     i ON psr_01*-0.46646 (i1);
-     i ON psr_11*1.90413 (i2);
-     i ON psr_21*3.19645 (i3);
-     i ON psr_31*0.25550 (i4);
-     i ON psr_61*2.77628 (i5);
-     i ON psr_91*2.63652 (i6);
-     i ON psr_121*1.50898 (i7);
-     i ON psr_181*1.92580 (i8);
-     i ON psr_241*3.03713 (i9);
-     s ON psr_01*0.06058 (s1);
-     s ON psr_11*-0.25345 (s2);
-     s ON psr_21*-0.44473 (s3);
-     s ON psr_31*-0.02502 (s4);
-     s ON psr_61*-0.40993 (s5);
-     s ON psr_91*-0.41477 (s6);
-     s ON psr_121*-0.24890 (s7);
-     s ON psr_181*-0.36613 (s8);
-     s ON psr_241*-0.60856 (s9);
+     s ON iw*1.04974 (s1);
+     s ON sw*25.55885 (s2);
 
-     s WITH i*-0.27427 (31);
-     psr_11 WITH psr_01*0.00000 (34);
-     psr_21 WITH psr_01*0.00000 (36);
-     psr_21 WITH psr_11*0.02760 (37);
-     psr_31 WITH psr_01*0.00000 (39);
-     psr_31 WITH psr_11*0.02412 (40);
-     psr_31 WITH psr_21*0.03511 (41);
-     psr_61 WITH psr_01*0.00000 (43);
-     psr_61 WITH psr_11*-0.01392 (44);
-     psr_61 WITH psr_21*0.00094 (45);
-     psr_61 WITH psr_31*0.00071 (46);
-     psr_91 WITH psr_01*0.00000 (48);
-     psr_91 WITH psr_11*-0.01330 (49);
-     psr_91 WITH psr_21*-0.00607 (50);
-     psr_91 WITH psr_31*-0.00252 (51);
-     psr_91 WITH psr_61*0.01310 (52);
-     psr_121 WITH psr_01*0.00009 (54);
-     psr_121 WITH psr_11*-0.00721 (55);
-     psr_121 WITH psr_21*-0.00463 (56);
-     psr_121 WITH psr_31*-0.00407 (57);
-     psr_121 WITH psr_61*-0.00042 (58);
-     psr_121 WITH psr_91*-0.00149 (59);
-     psr_181 WITH psr_01*0.00000 (61);
-     psr_181 WITH psr_11*-0.00616 (62);
-     psr_181 WITH psr_21*-0.00845 (63);
-     psr_181 WITH psr_31*-0.00154 (64);
-     psr_181 WITH psr_61*-0.00183 (65);
-     psr_181 WITH psr_91*0.00177 (66);
-     psr_181 WITH psr_121*0.00297 (67);
-     psr_241 WITH psr_01*0.00000 (69);
-     psr_241 WITH psr_11*-0.01707 (70);
-     psr_241 WITH psr_21*-0.01598 (71);
-     psr_241 WITH psr_31*-0.00509 (72);
-     psr_241 WITH psr_61*-0.00518 (73);
-     psr_241 WITH psr_91*-0.00441 (74);
-     psr_241 WITH psr_121*0.01434 (75);
-     psr_241 WITH psr_181*0.00138 (76);
+     sw WITH iw*0.00000;
 
-     [ i*2.88351 ];
-     [ s*-0.58624 ];
-     [ psr_01*0.96236 ];
-     [ psr_11*0.39191 ];
-     [ psr_21*0.11139 ];
-     [ psr_31*0.05030 ];
-     [ psr_61*0.05629 ];
-     [ psr_91*0.06688 ];
-     [ psr_121*0.05400 ];
-     [ psr_181*0.06055 ];
-     [ psr_241*0.11249 ];
+     [ s*-3.33638 ];
+     [ psr_0@0 ];
+     [ psr_1@0 ];
+     [ psr_2@0 ];
+     [ psr_3@0 ];
+     [ psr_6@0 ];
+     [ psr_9@0 ];
+     [ psr_12@0 ];
+     [ psr_18@0 ];
+     [ psr_24@0 ];
+     [ iw*1.00001 ] (iw1);
+     [ sw*0.05035 ] (sw1);
      [ n#1@3.51300 ];
 
-     i*2.41588 (30);
-     s*0.04126 (32);
-     psr_01*0.03624;
-     psr_11*0.24916;
-     psr_21*0.10898;
-     psr_31*0.05451;
-     psr_61*0.05050;
-     psr_91*0.06361;
-     psr_121*0.05078;
-     psr_181*0.05420;
-     psr_241*0.09708;
+     s*0.06349 (18);
+     psr_0*0.00000;
+     psr_1*0.21652;
+     psr_2*0.51387;
+     psr_3*0.49422;
+     psr_6*0.32984;
+     psr_9*0.25430;
+     psr_12*0.13773;
+     psr_18*0.06441;
+     psr_24*0.13215;
+     iw*0.00000;
+     sw*0.00009;
 
      %C#2%
 
-     i ON psr_01*-2810.82275 (i10);
-     i ON psr_11*1.53560 (i11);
-     i ON psr_21*0.83520 (i12);
-     i ON psr_31*1.20200 (i13);
-     i ON psr_61*0.99351 (i14);
-     i ON psr_91*0.65766 (i15);
-     i ON psr_121*0.12943 (i16);
-     i ON psr_181*0.47801 (i17);
-     i ON psr_241*0.40255 (i18);
-     s ON psr_01*-796.61945 (s10);
-     s ON psr_11*-0.09584 (s11);
-     s ON psr_21*-0.05257 (s12);
-     s ON psr_31*-0.06076 (s13);
-     s ON psr_61*-0.02554 (s14);
-     s ON psr_91*-0.00493 (s15);
-     s ON psr_121*0.02660 (s16);
-     s ON psr_181*0.00503 (s17);
-     s ON psr_241*-0.04050 (s18);
+     s ON iw*0.93778 (s3);
+     s ON sw*4.97575 (s4);
 
-     s WITH i*-0.27427 (31);
-     psr_11 WITH psr_01*0.00000 (34);
-     psr_21 WITH psr_01*0.00000 (36);
-     psr_21 WITH psr_11*0.02760 (37);
-     psr_31 WITH psr_01*0.00000 (39);
-     psr_31 WITH psr_11*0.02412 (40);
-     psr_31 WITH psr_21*0.03511 (41);
-     psr_61 WITH psr_01*0.00000 (43);
-     psr_61 WITH psr_11*-0.01392 (44);
-     psr_61 WITH psr_21*0.00094 (45);
-     psr_61 WITH psr_31*0.00071 (46);
-     psr_91 WITH psr_01*0.00000 (48);
-     psr_91 WITH psr_11*-0.01330 (49);
-     psr_91 WITH psr_21*-0.00607 (50);
-     psr_91 WITH psr_31*-0.00252 (51);
-     psr_91 WITH psr_61*0.01310 (52);
-     psr_121 WITH psr_01*0.00009 (54);
-     psr_121 WITH psr_11*-0.00721 (55);
-     psr_121 WITH psr_21*-0.00463 (56);
-     psr_121 WITH psr_31*-0.00407 (57);
-     psr_121 WITH psr_61*-0.00042 (58);
-     psr_121 WITH psr_91*-0.00149 (59);
-     psr_181 WITH psr_01*0.00000 (61);
-     psr_181 WITH psr_11*-0.00616 (62);
-     psr_181 WITH psr_21*-0.00845 (63);
-     psr_181 WITH psr_31*-0.00154 (64);
-     psr_181 WITH psr_61*-0.00183 (65);
-     psr_181 WITH psr_91*0.00177 (66);
-     psr_181 WITH psr_121*0.00297 (67);
-     psr_241 WITH psr_01*0.00000 (69);
-     psr_241 WITH psr_11*-0.01707 (70);
-     psr_241 WITH psr_21*-0.01598 (71);
-     psr_241 WITH psr_31*-0.00509 (72);
-     psr_241 WITH psr_61*-0.00518 (73);
-     psr_241 WITH psr_91*-0.00441 (74);
-     psr_241 WITH psr_121*0.01434 (75);
-     psr_241 WITH psr_181*0.00138 (76);
+     sw WITH iw*-0.00251;
 
-     [ i*2815.71411 ];
-     [ s*795.46429 ];
-     [ psr_01*1 ];
-     [ psr_11*0.87616 ];
-     [ psr_21*0.74298 ];
-     [ psr_31*0.62908 ];
-     [ psr_61*0.60090 ];
-     [ psr_91*0.60472 ];
-     [ psr_121*0.57806 ];
-     [ psr_181*0.51872 ];
-     [ psr_241*0.46695 ];
+     [ s*-2.60858 ];
+     [ psr_0@0 ];
+     [ psr_1@0 ];
+     [ psr_2@0 ];
+     [ psr_3@0 ];
+     [ psr_6@0 ];
+     [ psr_9@0 ];
+     [ psr_12@0 ];
+     [ psr_18@0 ];
+     [ psr_24@0 ];
+     [ iw*1.51994 ] (iw2);
+     [ sw*0.00887 ] (sw2);
      [ n#1@-3.95200 ];
 
-     i*2.41588 (30);
-     s*0.04126 (32);
-     psr_01*0.00042;
-     psr_11*0.12132;
-     psr_21*0.16396;
-     psr_31*0.20374;
-     psr_61*0.23168;
-     psr_91*0.23645;
-     psr_121*2.74410;
-     psr_181*0.25490;
-     psr_241*0.25243;
+     s*0.06349 (18);
+     psr_0*0.36158;
+     psr_1*0.14123;
+     psr_2*0.10612;
+     psr_3*0.12415;
+     psr_6*0.14105;
+     psr_9*0.14498;
+     psr_12*0.14573;
+     psr_18*0.13334;
+     psr_24*0.14293;
+     iw*0.10333;
+     sw*0.00021;
 
 
 
-     Beginning Time:  17:01:37
-        Ending Time:  17:01:37
-       Elapsed Time:  00:00:00
+     Beginning Time:  13:15:38
+        Ending Time:  13:15:39
+       Elapsed Time:  00:00:01
 
 
 
