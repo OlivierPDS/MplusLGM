@@ -22,17 +22,33 @@ SOFAS <- str_c('SOFAS_', c(0, 12, 24))
 HAS <- str_c('HAS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 CDS <- str_c('CDS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 YMRS <- str_c('YMRS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-SUDx <-  str_c('secdx', c(1:6))
-SUDpc <-  str_c('secdx', c(1:6), 'pc')
+insight <- str_c('PANSS12_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 
-SX_0 <-  c('SAPS_0', 'SANS_0', 'SOFAS_0', 'HAS_0', 'CDS_0', 'YMRS_0')
+SX_0 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '0', sep = '_')
+SX_24 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '24', sep = '_')
 SX <- c(SAPS, SANS, SOFAS, HAS, CDS, YMRS)
 
 ### Remission 
 PSR <- str_c('PSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 NSR <- str_c('NSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+JSR <- str_c('JSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 SR <- c('PSR_BY3', 'NSR_BY3', 'NSR_at3', 'NSR_at3')
 SR_C <- c('PSR_24C', 'NSR_24C')
+
+### SUD
+SUDx <-  str_c('secdx', c(1:6))
+SUDpc <-  str_c('secdx', c(1:6), 'pc')
+
+### Suicide
+scd_CDS <- str_c('cd8_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+scd_BPRS <- str_c('bprs4_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+
+### Rx
+adh <- str_c('comp_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+ord <- str_c('txm', c(2, 3, 6, 9, 12, 18, 24), "co")
+
+### Pathway to/off care
+path <- c('Transfcat')
 
 ### Trajectory 
 C <- c('C_SAPS', 'C_SANS', 'C_SOFAS')
@@ -45,8 +61,33 @@ t <- str_c('t', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 # sxb <- names(select(PEPP2_df, ends_with('_0')))
 # items <- names(select(PEPP2_df, sap1_0:ymrs11_24))
 
-# LOAD DATASET ------------------------------------------------------------
-## CSV file 
+# DATABASE ----------------------------------------------------------------
+OG_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/0. PEPP/Data/Databases/1-992 (N=762) Jan2003-Jan2020/Merged_25Feb2022.sav") %>%
+  read_spss()
+
+CORS_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/0. PEPP/Data/Databases/1-992 (N=762) Jan2003-Jan2020/Cors-Demo March 2020.sav") %>%
+  read_spss()
+
+Rx_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/0. PEPP/Data/Databases/Rx_2016-10-17.xlsx") %>%
+  read_excel()
+  
+  read.xlsx()
+  read.table(header = TRUE)
+
+database <- full_join(CORS_df, OG_df, by = "pin")
+
+# LOAD PEPP2 -------------------------------------------------------------------
+## Working session
+.ws <- list.files(
+  str_c(getwd(), '/PEPP2'), full.names = TRUE) %>%
+  file.info() %>%
+  filter(isdir == FALSE) %>% 
+  slice_max(mtime) %>% # get the most updated workspace
+  rownames()
+
+load(.ws)
+
+## Dataset 
 PEPP2_df <-
   list.files(
     '/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets',
@@ -57,16 +98,15 @@ PEPP2_df <-
   slice_max(mtime) %>% # get the most updated file
   rownames() %>%
   read_csv() %>% 
-  modify_at(c(SD_cat, SR, NSR, PSR, C, misc_cat, SUDx, SUDpc), as.factor) # Recode variables as factor 
-  
-# PREPARE DATASET ---------------------------------------------------------
-  
-## Get and Set labels  from most updated SPSS file
-labelled_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets/Older/PEPP2_2022-03-07.sav") %>% 
-  read_spss()
+  modify_at(c(SD_cat, SR, NSR, PSR, C, misc_cat, SUDx, SUDpc, adh), as.factor) # Recode variables as factor 
 
-  # labels <- look_for(original_df)
+# PREPARE DATASET ---------------------------------------------------------
+## Get and set labels from most updated SPSS file
+labelled_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets/Older/PEPP2_2022-03-07.sav") %>% 
+  read_spss() # read.spss(use.value.labels = TRUE, to.data.frame = TRUE)
+
   labels <- look_for(labelled_df)
+  labels_db <- look_for(database)
   
   for (var in names(PEPP2_df)) {
     if (var %in% labels$variable) {
@@ -82,7 +122,7 @@ labelled_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillU
         val_labels(PEPP2_df[[var]]) <- val_labels(labelled_df[[var]])
         
         PEPP2_df[[var]] <- PEPP2_df[[var]] %>%
-           to_factor(levels = "labels", nolabel_to_na = TRUE)
+          to_factor(levels = "labels", nolabel_to_na = TRUE)
       }
     }
   }
@@ -90,28 +130,27 @@ labelled_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillU
   labels <- look_for(PEPP2_df)
 
 ## Remove old variables
-PEPP2_df <- PEPP2_df %>% 
-  select(-("PSR_0":"t24"))
+# PEPP2_df <- PEPP2_df %>%
+#   select(everything(), -starts_with('appmiss'))
+#   select(-("PSR_0":"t24"))
+#   select(-starts_with('dsfs'), -starts_with(c('datedue', 'app')), -'dsofas_b')
   
-## Add variables from original dataset
-original_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/0. PEPP/Data/Databases/1-992 (N=762) Jan2003-Jan2020/Merged_25Feb2022.sav") %>% 
-  read_spss() # read.spss(use.value.labels = TRUE, to.data.frame = TRUE)
-
-PEPP2_df <- original_df %>% 
-  select('pin', starts_with('dsfs'), starts_with(c('datedue', 'app')), 'dsofas_b') %>% 
-  merge(PEPP2_df, ., by = 'pin')
+## Add variables from database
+PEPP2_df <- database %>%
+select('pin', adh, ord, scd_BPRS, scd ) %>%
+merge(PEPP2_df, ., by = 'pin')
 
 #added = 'starts_with('dsfs')' 'starts_with('datedue'), starts_with('app'), 'dsofas_b', 'CRsofas12'
 
 ## Clean dataset - history
-PEPP2_df <- PEPP2_df %>%
-  setNames(., gsub('_b', '_0', names(.))) %>%
-  mutate(across(c(dsofas_0, dsfs_0, dsfs_12), ~ replace(.x, .x < 2000-01-01, NA))) #some rows in dsfs_0 and dsfs_12 = 1582-10-14 (issue with spss import?)
+# PEPP2_df <- PEPP2_df %>%
+  # setNames(., gsub('_b', '_0', names(.))) %>%
   # setNames(., gsub('_M', '_', names(.))) %>%
   # setNames(., gsub('ROB', '', names(.))) %>%
   # mutate(SOFAS_12 = coalesce(SOFAS_12, CRsofas12)) #replace missing SOFAS_12 from case review
   # setnames(old = c('minority_status', 'housing_status', 'working_status'), new = c('minority', 'housing', 'work'))
-  # PEPP2_df <-PEPP2_df %>% mutate(across(case_when(is.numeric(.) ~ round(., digits = 2)))) #to fix
+  # mutate(across(where(is.numeric), ~ round(.x, digits = 2)))  
+  # mutate(across(where(is.Date), ~ replace(.x, .x < 1900-01-01, NA)))
   # vars8 <- names(PEPP2_df) %>% grep('.{9,}', ., value = TRUE) 
 
 ## Individually varying time of observation 
@@ -123,10 +162,11 @@ pmap_dfc(
   select(starts_with('dmy'))})
 
 ### Compute individually varying time of observation t0:t24 
-T_df <- DMY_df %>%
+T_df <- PEPP2_df %>%
+  select(., starts_with('dsfs')) %>% 
   {map2_dfc(., 
             c(0, 1, 2, 3, 6, 9, 12, 18, 24),
-            \(x, y) {mutate(., "t{y}" := as.numeric(difftime(x, dmy_0, 'days')) / (365.25 / 12)) %>%
+            \(x, y) {mutate(., "t{y}" := as.numeric(difftime(x, dsfs_0, 'days'))) %>%
                 select(glue("t{y}"))})}
 
 ### Replace missing with mean timescores 
@@ -177,9 +217,9 @@ PSR_df <-  map(c(0, 1, 2, 3, 6, 9, 12, 18, 24),
               if_any(paste0(c('sap7_', 'sap20_', 'sap25_', 'sap34_'), t), ~ .x > 2) ~ 0,
               TRUE ~ NA))) %>% 
   map_dfc(\(x) select(x, starts_with("PSR"))) %>% 
-  bind_cols(select(PEPP2_df, "pin", all_of(t)), .)
+  bind_cols(select(PEPP2_df, "pin"), T_df, .)
 
-PSR_lf <- PSR_df %>% 
+PSR_df <- PSR_df %>% 
   pivot_longer(cols = starts_with("PSR"), 
                names_to = c('.value', 'time'),
                names_pattern = '(.+)_(\\d+)') %>% 
@@ -187,24 +227,25 @@ PSR_lf <- PSR_df %>%
   mutate(PSR_t = time[which(PSR == 1)[1]]) %>% 
   ungroup()
 
-PSR_wf <- PSR_lf %>%
+PSR_df <- PSR_df %>%
   pivot_wider(names_from = time,
               names_glue = "PSR_{time}",
               values_from = PSR)
 
-PSR_wf <- PSR_wf %>% 
-  mutate(PSR_1st = map_dbl(PSR_t, \(x) ifelse(!is.na(x), get(glue("t{x}")), NA)))
+PSR_df <- PSR_df %>% rowwise %>% 
+  mutate(PSR_1st = map_dbl(PSR_t, \(x) ifelse(!is.na(x), get(glue("t{x}")), NA))) %>% 
+  select(-all_of(t))
            
 ### NSR
-NSR <-  map(c(0, 1, 2, 3, 6, 9, 12, 18, 24),
+NSR_df <-  map(c(0, 1, 2, 3, 6, 9, 12, 18, 24),
             \(t) mutate(PEPP2_df, "NSR_{t}" := case_when(
               if_all(paste0(c("san8_", "san13_", "san17_", "san22_"), t), ~ .x < 3) ~ 1,
               if_any(paste0(c("san8_", "san13_", "san17_", "san22_"), t), ~ .x > 2) ~ 0,
               TRUE ~ NA))) %>% 
   map_dfc(\(x) select(x, starts_with("NSR"))) %>% 
-  bind_cols(select(PEPP2_df, "pin", all_of(t)), .)
+  bind_cols(select(PEPP2_df, "pin"), T_df, .)
 
-NSR_lf <- NSR_df %>% 
+NSR_df <- NSR_df %>% 
   pivot_longer(cols = starts_with("NSR"), 
                names_to = c('.value', 'time'),
                names_pattern = '(.+)_(\\d+)') %>% 
@@ -212,32 +253,57 @@ NSR_lf <- NSR_df %>%
   mutate(NSR_t = time[which(NSR == 1)[1]]) %>% 
   ungroup()
 
-NSR_wf <- NSR_lf %>%
+NSR_df <- NSR_df %>%
   pivot_wider(names_from = time,
               names_glue = "NSR_{time}",
               values_from = NSR)
 
-NSR_wf <- NSR_wf %>% 
-  mutate(NSR_1st = map_dbl(NSR_t, \(x) ifelse(!is.na(x), get(glue("t{x}")), NA)))
+NSR_df <- NSR_df %>% 
+  mutate(NSR_1st = map_dbl(NSR_t, \(x) ifelse(!is.na(x), get(glue("t{x}")), NA))) %>% 
+  select(-all_of(t))
   
-PEPP2_df <- PEPP2_df %>% 
-  select(starts_with("PSR", "NSR")) %>% 
-  factor(levels = c(0, 1), labels = c("not remitting", "remitting"))
+### Joint
+JSR_df <-  merge(PSR_df, NSR_df, all = TRUE)
 
-  
-  
+JSR_df <-  map(c(0, 1, 2, 3, 6, 9, 12, 18, 24),
+               \(t) mutate(JSR_df, "JSR_{t}" := case_when(
+                 if_all(paste0(c("PSR_", "NSR_"), t), ~ .x == 1) ~ 1,
+                 if_any(paste0(c("PSR_", "NSR_"), t), ~ .x == 0) ~ 0,
+                 TRUE ~ NA))) %>% 
+  map_dfc(\(x) select(x, starts_with("JSR"))) %>% 
+  bind_cols(select(PEPP2_df, "pin"), T_df, .)
 
+JSR_df <- JSR_df %>% 
+  pivot_longer(cols = starts_with("JSR"), 
+               names_to = c('.value', 'time'),
+               names_pattern = '(.+)_(\\d+)') %>% 
+  group_by(pin) %>% 
+  mutate(JSR_t = time[which(JSR == 1)[1]]) %>% 
+  ungroup()
 
+JSR_df <- JSR_df %>%
+  pivot_wider(names_from = time,
+              names_glue = "JSR_{time}",
+              values_from = JSR)
+
+JSR_df <- JSR_df %>% 
+  mutate(JSR_1st = map_dbl(JSR_t, \(x) ifelse(!is.na(x), get(glue("t{x}")), NA))) %>% 
+  select(-all_of(t))
+
+PEPP2_df <- list(PEPP2_df, PSR_df, NSR_df, JSR_df) %>% 
+  reduce(merge, all = TRUE) %>% 
+  mutate(across(all_of(c(PSR, NSR, JSR)), ~ factor(.x, levels = c(0, 1), labels = c("not remitting", "remitting"))))
 
 ## SUD dx
 val_labels(PEPP2_df$secdx1) %>% as.data.frame
+attributes(PEPP2_df$secdx1)$levels %>% as.data.frame
 
 scid <- c(seq(from = 303.90, to = 305.90, 0.1), 999.99)
 
 PEPP2_df <- PEPP2_df %>% 
   {pmap_dfc(list(
-    select(., SUDx), 
-    select(., SUDpc), 
+    select(., all_of(SUDx)), 
+    select(., all_of(SUDpc)), 
     1:6), 
     \(x, y, z) {mutate(., "SUD{z}" := case_when(
       !is.na(x) & (x %in% scid) & (y == 1) ~ 2,
@@ -255,39 +321,58 @@ PEPP2_df <- PEPP2_df %>%
 
 PEPP2_df$SUD <- factor(PEPP2_df$SUD, levels = c(0, 1, 2), labels = c("no SUD dx", "current SUD dx", "past SUD dx"))
 
+## Age
+PEPP2_df <- PEPP2_df %>% 
+  mutate(age = as.numeric(difftime(Sys.Date(), dob, 'days') / 365.25))
+
+## Previous episode, treatment duration & antipsychotic duration
+PEPP2_df <- PEPP2_df %>% 
+  mutate(prev_EP = case_when(dt2stpsy < onset ~ 1, 
+                             dt2stpsy >= onset ~ 0))
+
+PEPP2_df <- PEPP2_df %>%   
+  mutate(prevTx_dur = as.numeric(difftime(doe, datecont, units = 'days'))) %>% 
+  mutate(prevTx_dur = case_when(prevTx_dur < 0 ~ 0, .default = prevTx_dur))
+
+PEPP2_df <- PEPP2_df %>% 
+  mutate(prevAP_dur = case_when(prevTx_dur == 0 ~ 0, 
+                                ever_ap == 0 | evercont !=1 | txiscm == 1 ~ 0,
+                                evercont == 1 ~ prevTx_dur))
+  
+## Mean folLow-up 
+SD_df <- SD_df %>% 
+  mutate(FU = as.numeric(difftime(ymd('2023-01-01'), doe, 'days') / 365.25))
+  
+
 ## Compute missings count per outcome 
   PEPP2_df <- PEPP2_df %>% # could use rowwise() and sum()
-  mutate(miss_SOFAS = rowSums(is.na(across(SOFAS)))) %>%
-  mutate(miss_SAPS =rowSums(is.na(across(SAPS)))) %>%
-  mutate(miss_SANS =rowSums(is.na(across(SANS))))
-
-# SAVE DATASET  -----------------------------------------------------------
-## SAV file 
-  write_sav(PEPP2_df, paste('/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets/PEPP2_', today(), '.sav',  sep=''))
-  
-## CSV file
-  write_csv(PEPP2_df, paste0('/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets/PEPP2_', today(), '.csv'))
-
+  mutate(miss_SOFAS = rowSums(is.na(across(all_of(SOFAS))))) %>%
+  mutate(miss_SAPS =rowSums(is.na(across(all_of(SAPS))))) %>%
+  mutate(miss_SANS =rowSums(is.na(across(all_of(SANS)))))
 
 # SUBSET DATASET ----------------------------------------------------------
 ## SD 
 SD_df <- PEPP2_df %>%
-  subset(pin <= 857) %>%
-  select('pin', SD_num, SD_cat, 'doe', SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, SR_C, SR_BY, t)
+  filter(pin <= 857) %>% 
+  filter(ageentry >= 14 & ageentry < 36) %>%
+  filter(FIQ >= 70 | is.na(FIQ)) %>% 
+  filter(dx_spect !=3 | is.na(dx_spect)) %>% 
+  filter(prev_EP == 0 | is.na(prev_EP)) %>% 
+  filter(prevAP_dur < 30 | is.na(prevAP_dur)) %>% 
+  filter(case_when(prevTx_dur >= 30 & is.na(prevAP_dur) ~ FALSE, .default = TRUE)) %>% 
+  filter(is.na(Txsitn)) %>% 
+  select('pin', all_of(c(SD_num, SD_cat, 'doe', SAPS, SANS, SOFAS, HAS, CDS, YMRS)))
+
+val_labels(labelled_df$dx_spect) %>% as.data.frame
+val_labels(labelled_df$Txsitn) %>% as.data.frame
 
 ## Traj 
-SAPNS_df <- PEPP2_df %>%
-  subset(miss_SAPS <= 4 & n == 1) %>%
-  select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, K, CP, SR_C, SR_BY, t)
+SAPNS_df <- SD_df %>%
+  filter(miss_SAPS <= 4)
 
-SOFAS_df <- PEPP2_df %>%
-  subset(miss_SOFAS <= 1 & n == 1) %>%
-  select('pin', SD_num, SD_cat, SAPS, SANS, PSR, NSR, SOFAS, HAS, CDS, YMRS, K, CP, SR_C, SR_BY, t)
+SOFAS_df <- SD_df %>%
+  filter(miss_SOFAS <= 1)
 
-## MI 
-df2imput <- PEPP2_df %>% 
-  subset(n == 1 & pin <= 857) %>%
-  select(c('pin', SD_num, SD_cat, items)) #impute raw scores is thought to be better than transformed scores
 
 
 # RESHAPE DATASET ---------------------------------------------------------
@@ -351,16 +436,11 @@ SANS_tb <- sumtable(
   out = 'return',
 )
 
-# mean folow-up
-
-SD_df <- SD_df %>% 
-  mutate(FU = as.numeric(difftime(ymd('2023-01-01'), doe, 'days') / 365.25)) 
-
 # MISSING DATA ANALYSES ####
 ## Little's MCAR 
 library(MissMech)
 
-df2imput %>% 
+df %>% 
   select('vars') %>% 
   TestMCARNormality
 
@@ -374,11 +454,10 @@ SD_df <- PEPP2_df %>% subset(pin <= 857) %>% select(across(starts_with(c('sap7_'
 miss <- {unlist(lapply(SAPNS_df, function(x) sum(is.na(x)))) / nrow(SAPNS_df) * 100} %>% view()
 
 # MULTIPLE IMPUTATION ####
-library(mice)
-df2imput <- mice(df2imput, maxit = 0)
-pred <- df2imput$predictorMatrix #variables included in the prediction moded
-meth <- df2imput$method #method choose for imputation per variables
-df2imput$loggedEvents
+## Dataset to imput 
+df2imput <- PEPP2_df %>% 
+  subset(n == 1 & pin <= 857) %>%
+  select(c('pin', SD_num, SD_cat, items)) #impute raw scores is thought to be better than transformed scores
 
 ## Imputation method 
 # Instructions 
@@ -387,6 +466,11 @@ df2imput$loggedEvents
 # polyreg(Bayesian polytomous regression) – For Factor Variables (>= 2 levels)
 # Proportional odds model (ordered, >= 2 levels)
 
+library(mice)
+df2imput <- mice(df2imput, maxit = 0)
+pred <- df2imput$predictorMatrix #variables included in the prediction moded
+meth <- df2imput$method #method choose for imputation per variables
+df2imput$loggedEvents
 
 meth <- make.method(df2imput)# make default method
 
@@ -519,6 +603,18 @@ age_anova <- mi.anova(imput_df,'ageentry ~ K_SANS')
 FIQ_anova <- mi.anova(imput_df, 'FIQ ~ K_SANS')
 
 
+# SAVE DATASET -----------------------------------------------------------
+## CSV file
+  write_csv(PEPP2_df, paste0('/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets/PEPP2_', today(), '.csv'))
+
+## SAV file 
+  # write_sav(PEPP2_df, paste('/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets/PEPP2_', today(), '.sav',  sep=''))
+
+# SAVE IMAGE --------------------------------------------------------------
+save.image(glue(getwd(), 'PEPP2', 'PEPP2_{today()}.RData', .sep = '/'))
+
+
+  
 # JUNK #### 
 ### Linear models 
 library(lavaan) #SEM
@@ -588,7 +684,3 @@ runModels('/Users/olivierpercie/Desktop/MplusLGM/MplusfromR/GMM1_i s-cub@0.inp')
 
 
 
-# SAVE #### 
-save.image(glue(getwd(), 'PEPP2_{today()}.RData', .sep = '/'))
-
-X
