@@ -48,82 +48,118 @@ R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifi
 install.packages('devtools') # Install devtools 
 devtools::install_github('joshunrau/MplusLGM') # Install MplusLGM 
 
-# Load dataset ------------------------------------------------------------
-PEPP2_df <-
-  list.files(
-    '/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets',
-    full.names = T
-  ) %>%
-  file.info() %>%
-  filter(isdir==FALSE) %>% 
-  slice_max(mtime) %>% # get the most updated file
-  rownames() %>%
-  read_csv() %>% 
-  modify_at(c(SD_cat, SR, NSR, PSR, C), as.factor)
+# Vars of interest ---------------------------------------------------------
+## Sociodemographics
+SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp')
+SD_cat <- c('gender', 'minority', 'marital2', 'housing', 'work')
+MISC_cat <- c('Txsitn')
+SD <- c(SD_num, SD_cat, MISC_cat)
 
-# Vars of interest --------------------------------------------------------
-## SD  
-SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp', 'ageonset', 'duponset', 'PAS_tot2')
-SD_cat <- c('gender', 'minority', 'marital2', 'housing', 'work', 'dx_spect', 'SUD')
+## Clinical characteristics
+CLIN_num <- c('PAS_tot2', 'ageonset', 'duponset', 'conv')
+CLIN_cat <- c('CAYRconv', 'mode', 'referral', 'Transfcat', 'dx_spect', 'SUD')
+CLIN <- c(CLIN_num, CLIN_cat, 'doe')
 
-## Sx 
+## Psychopathology
 SAPS <- str_c('SAPS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 SANS <- str_c('SANS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 SOFAS <- str_c('SOFAS_', c(0, 12, 24))
 HAS <- str_c('HAS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 CDS <- str_c('CDS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 YMRS <- str_c('YMRS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-SX <- c(SAPS, SANS, SOFAS, HAS, CDS, YMRS)
-SX_0 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '0', sep = '_')
-SX_24 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '24', sep = '_')
+INS8 <- str_c('G12_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 
+## SUD
+SUDx <-  str_c('secdx', c(1:6))
+SUDpc <-  str_c('secdx', c(1:6), 'pc')
 
-## Remission 
+## Suicide
+scd_CDS <- str_c('cd8_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+scd_BPRS <- str_c('bprs4_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+
+## Neurocognition
+COG <- c('verbm_z', 'wm_z', 'ef_z', 'sop_z', 'vism_z', 'va_z', 'sc_z')
+
+## Summary
+SX_0 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS', 'G12', 'cd8', 'bprs4'), '0', sep = '_')
+SX_24 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS', 'G12', 'cd8', 'bprs4'), '24', sep = '_')
+SX <- c(SAPS, SANS, SOFAS, HAS, CDS, YMRS, INS8, scd_CDS, scd_BPRS)
+
+## Remission & Recovery
 PSR <- str_c('PSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 NSR <- str_c('NSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-SR <- c('PSR_BY3', 'NSR_BY3', 'NSR_at3', 'NSR_at3')
-SR_C <- c('PSR_24C', 'NSR_24C')
+JSR <- str_c('JSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+SR_0 <- paste(c('PSR', 'NSR', 'JSR'), '0', sep = '_')
+SR_24 <- paste(c('PSR', 'NSR', 'JSR'), '24', sep = '_')
+SR_t <- paste(c('PSR', 'NSR', 'JSR'), 't', sep = '_')
+SR_1st <- paste(c('PSR', 'NSR', 'JSR'), '1st', sep = '_')
+SR <- c(PSR, NSR, JSR, SR_t, SR_1st, 'JSR_by3', 'JSR_24C', 'RECOV_24')
 
-## Trajectories 
+## Rx
+adh <- str_c('comp_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+ord <- str_c('txm', c(0, 1, 2, 3, 6, 9, 12, 18, 24), "co")
+CPZw <- str_c('CPZw_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+RX_0 <- c('comp_0', 'txm0co', 'CPZw_0')
+RX_24 <- c('comp_24', 'txm24co', 'CPZw_24')
+RX <-  c(ord, adh, CPZw)
+# AP_yn <- starts_with('anti')
+# AP_type <- starts_with('atype')
+
+## Trajectory 
 C <- c('C_SAPS', 'C_SANS', 'C_SOFAS')
 CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
-#t <- str_c('t', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 
+## Categorical variables to recode as factors
+cat <- c(SD_cat, MISC_cat, CLIN_cat, SUDx, SUDpc, PSR, NSR, JSR, 'JSR_by3', 'RECOV_24', ord, C)
+
+# Load dataset ------------------------------------------------------------
+PEPP2_df <-
+  list.files(
+    '/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets',
+    full.names = TRUE) %>%
+  file.info() %>%
+  filter(isdir == FALSE) %>% 
+  slice_max(mtime) %>% # get the most updated file
+  rownames() %>%
+  read_csv() %>% 
+  modify_at(cat, as.factor) # Recode variables as factor 
+
+SD_df <- PEPP2_df %>%
+  filter(pin <= 857) %>% 
+  filter(ageentry >= 14 & ageentry < 36) %>%
+  filter(FIQ >= 70 | is.na(FIQ)) %>% 
+  filter(dx_spect !=3 | is.na(dx_spect)) %>% 
+  filter(prev_EP == 0 | is.na(prev_EP)) %>% 
+  filter(prevAP_dur < 30 | is.na(prevAP_dur)) %>% 
+  filter(case_when(prevTx_dur >= 30 & is.na(prevAP_dur) ~ FALSE, .default = TRUE)) %>% 
+  filter(is.na(Txsitn))
+
+SD_df <- SD_df %>% 
+  select('pin', all_of(c(SD, CLIN, SX, SR, COG, RX)), starts_with('miss'))
+
+### rename vars > 8 characters for Mplus
+SD_df <- names(SD_df) %>%
+  grep('.{9,}', ., value = TRUE) %>%
+#   setnames(SD_df, old = ., new = c('varname'))
+# names(SOFAS_df) <- str_sub(names(SOFAS_df), 1, 8) # remove characters from variables names > 8 characters 
 
 # SOFAS -------------------------------------------------------------------
 ## Load workingspace 
 .ws <- list.files(
-  str_c(getwd(), '/SOFAS'), full.names = T) %>%
+  str_c(getwd(), '/SOFAS'), full.names = TRUE) %>%
   file.info() %>%
-  filter(isdir==FALSE) %>% 
+  filter(isdir == FALSE) %>% 
   slice_max(mtime) %>% # get the most updated workspace
   rownames()
   
 load(.ws)
 
-R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly = FALSE, envir = globalenv())
 
 ## Step 0: Prepare dataset  ------------------------------------------------
-### Load dataset 
-SOFAS_df <- 
-  list.files(
-    '/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets',
-    full.names = T
-  ) %>%
-  file.info() %>%
-  filter(isdir==FALSE) %>% 
-  slice_max(ctime) %>% # get the most updated file
-  rownames() %>%
-  read_csv() %>%
-  subset(miss_SOFAS <= 1 & n == 1) %>% 
-  select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR, SR_C))) %>% 
-  modify_at(c(SD_cat, SR, PSR, NSR, C), as.factor)
-
-### rename vars > 8 characters
-SOFAS_df <- names(SOFAS_df) %>% 
-  grep('.{9,}', ., value = TRUE) %>% 
-  setnames(SOFAS_df, old = ., new = c('varname'))
-# names(SOFAS_df) <- str_sub(names(SOFAS_df), 1, 8) # remove characters from variables names > 8 characters 
+### Subset dataset
+SOFAS_df <- SD_df %>%
+  filter(miss_SOFAS <= 1)
 
 ## Step 1: Growth Curve Modeling  ------------------------------------------
 ### Run GCM model
@@ -234,10 +270,10 @@ FINAL_sk <- SKTEST(FINAL_model, "SOFAS")
   select(., -starts_with('SOFAS')) %>% 
   add_suffix(., everything(), suffix = 'SOFAS') %>% 
   merge(PEPP2_df, ., all = TRUE, by.x ='pin', by.y ='PIN_SOFAS')
-
+    
 #final_dataset <- getDataset(final_model, SOFAS_df, 'pin') 
   
-  write_csv(PEPP2_df, paste0('/Users/olivierpercie/OneDrive - McGill University/CRISP_Lab/LTOS/Data/Datasets/PEPP2/PEPP2_', today(), '.csv'))
+  write_csv(PEPP2_df, paste0('/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets/PEPP2_', today(), '.csv'))
 
 ## Step 8: Plot trajectories -----------------------------------------------
 plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = c(0, 12, 24))
@@ -245,14 +281,14 @@ plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = 
 est_means <- FINAL_model[['results']][['gh5']][['means_and_variances_data']][['y_estimated_medians']][['values']] %>%
   as.data.frame()
 
-## Step 9: Add covariates  -------------------------------------------------
+## Step 9: Covariates  -------------------------------------------------
 ## The 3-Step Procedure - multinomial logistic regressions with predictors of class membership
 ### Manual
 R3STEP_models <- R3STEP(
   df = SOFAS_df,
   idvar = 'pin',
   usevar = SOFAS,
-  cov = c(SD_num, SD_cat, SX_0),
+  cov = c(SD_num, SD_cat, CLIN_num, CLIN_cat, SX_0, SR_0, SR_t, SR_1st, RX_0),
   model = FINAL_model
 )
 
@@ -264,24 +300,24 @@ R3STEP_stdyx <- R3STEPfit(R3STEP_models, std = 'stdyx', ref = 2)
 
 ## The 3-Step Procedure - regressions with time-varying covariates
 # PSR, NSR: try with higher start values
-TVCreg_models <- TVCreg(
-  df = SOFAS_df,
-  idvar = 'pin',
-  usevar = SOFAS,
-  cov = list(SAPS, SANS, CDS, HAS, YMRS, PSR, NSR),
-  starts = 500,
-  model = FINAL_model
-)
-
-TVCreg_unstd <- MixREGfit(TVCreg_models, std = 'unstd')
-TVCreg_stdyx <- MixREGfit(TVCreg_models, std = 'stdyx')
+# TVCreg_models <- TVCreg(
+#   df = SOFAS_df,
+#   idvar = 'pin',
+#   usevar = SOFAS,
+#   cov = list(SAPS, SANS, CDS, HAS, YMRS, PSR, NSR),
+#   starts = 500,
+#   model = FINAL_model
+# )
+# 
+# TVCreg_unstd <- MixREGfit(TVCreg_models, std = 'unstd')
+# TVCreg_stdyx <- MixREGfit(TVCreg_models, std = 'stdyx')
 
 ## The 3-Step Procedure - Linear regressions with distal outcome
 D3STEP_models <- D3STEP(
   df = SOFAS_df,
   idvar = 'pin',
   usevar = SOFAS,
-  cov = c(SX_24, 'PSR_24', 'NSR_24', SR_C, SR),
+  cov = c(SX_24, 'PSR_24', 'NSR_24', SR_C, SR, RX_24),
   model = FINAL_model
 )
 
@@ -341,25 +377,8 @@ save.image(glue(getwd(), 'SOFAS', 'SOFAS_{today()}.RData', .sep = '/'))
 R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
 
 ## Step 0: Prepare dataset  ------------------------------------------------
-## Load dataset 
-SAPS_df <- 
-  list.files(
-    '/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets',
-    full.names = T
-  ) %>%
-  file.info() %>%
-  filter(isdir==FALSE) %>% 
-  slice_max(ctime) %>% # get the most updated file
-  rownames() %>%
-  read_csv() %>%
-  subset(miss_SAPS <= 4 & n == 1) %>% 
-  select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR))) %>% 
-  modify_at(c(SD_cat, SR, PSR, NSR, C), as.factor)
-  
-## rename vars > 8 characters
-SAPS_df <- names(SAPS_df) %>% 
-  grep('.{9,}', ., value = TRUE) %>% 
-  setnames(SAPS_df, old = ., new = c('minority', 'housing', 'work'))
+SAPS_df <- SD_df %>% 
+  subset(miss_SAPS <= 4)
 
 ## Step 1: Growth Curve Modeling  ------------------------------------------
 ## Run GCM model
@@ -471,7 +490,7 @@ plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = 
 
 # est_means <- FINAL_model[['results']][['gh5']][['means_and_variances_data']][['y_estimated_medians']][['values']] %>% as.data.frame()
 
-## Step 9: Add covariates  -------------------------------------------------
+## Step 9: Covariates  -------------------------------------------------
 ## The 3-Step Procedure - multinomial logistic regressions with predictors of class membership
 ### Manual
    R3STEP_models <- R3STEP(
@@ -486,17 +505,19 @@ plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = 
    R3STEP_stdyx <- R3STEPfit(R3STEP_models, std = 'stdyx', ref = 2)
 
 # The 3-Step Procedure - mixture regressions with predictors of growth factors
-   MixREG_models <- MixREG(
+   MixREG2_models <- MixREG2(
      df = SAPS_df,
      idvar = 'pin',
      usevar = SAPS, 
      cov = list(SOFAS, SANS, CDS, HAS, YMRS, PSR, NSR),
      #startval = list(PSR = 500, NSR = 500)
-     #test = "S",
+     gf = "S",
+     gfw = c("iw", "sw"),
+     test = "sw1 = sw2",
      model = FINAL_model
    )
   
-   MixREG_unstd <- MixREGfit(MixREG_models, std = 'unstd')
+   MixREG_unstd <- MixREGfit(MixREG2_models, std = 'unstd')
    MixREG_stdyx <- MixREGfit(MixREG_models, std = 'stdyx')
  
 ## The 3-Step Procedure - regressions with time-varying covariates
@@ -586,28 +607,8 @@ load(.ws)
 R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
 
 ## Step 0: Prepare dataset  ------------------------------------------------
-## Load dataset 
-  SANS_df <-
-    list.files(
-      '/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets',
-      full.names = T
-    ) %>%
-    file.info() %>%
-    filter(isdir==FALSE) %>% 
-    slice_max(ctime) %>% # get the most updated file
-    rownames() %>%
-    read_csv() %>%
-    subset(miss_SANS <= 4 & n == 1) %>%
-    select ('pin', all_of(c(SX, SD_num, SD_cat, PSR, NSR, SR_C, SR))) %>%
-    modify_at(c(SD_cat, SR, PSR, NSR), as.factor)
-
-
-## rename vars > 8 characters
-SANS_df <- names(SANS_df) %>% 
-  grep('.{9,}', ., value = TRUE) %>% 
-  setnames(SANS_df, old = ., new = c('minority', 'housing', 'work'))
-
-# names(SANS_df) <- str_sub(names(SANS_df), 1, 8) # remove characters from variables names > 8 characters 
+  SANS_df <- SD_df %>% 
+    subset(miss_SANS <= 4)
 
 ## Step 1: Growth Curve Modeling  ------------------------------------------
 ## Run GCM model
@@ -803,7 +804,7 @@ save.image(glue(getwd(), 'SANS', 'SANS_{today()}.RData', .sep = '/'))
 
 # Work in Progress --------------------------------------------------------
 WIP <- runModels(
-  target = file.choose(),
+  target = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/MixREG/HAS_MixREG.inp",
   showOutput = FALSE,
   logFile = NULL,
 )
@@ -862,3 +863,4 @@ data.frame(colnames(PEPP2_df))
 ## Write xlsx file
 list(R3STEP_unstd, TVCreg_stdyx, MixREG_stdyx, D3STEP_stdyx) %>% 
   write.xlsx(file = glue(getwd(), 'SANS', 'results', 'SANS_{today()}.xlsx', .sep = '/'))
+
