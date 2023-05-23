@@ -23,9 +23,10 @@ param <- list_mpobj %>%
 ci <- list_mpobj %>% 
   purrr::map(pluck, "results", "parameters", glue::glue("ci.{std}"), .default = NULL) %>% 
   purrr::map2_dfr(., names(.), ~ if (!is.null(.x)) {dplyr::mutate(.x, name = stringr::str_to_upper(.y))}) %>%
-  dplyr::mutate(param = ifelse(paramHeader == "New.Additional.Parameters", paste(name, param),param))
+  dplyr::mutate(param = ifelse(paramHeader == "New.Additional.Parameters", paste(name, param), param))
 
-param_ci <- merge(param, ci, all = TRUE)
+param_ci <- merge(param, ci, all = TRUE) %>% 
+  dplyr::mutate(param = ifelse(str_ends(param, "W"), paste(name, param, sep = "_"), param))
 
 # Extract Wald test -------------------------------------------------------
 wt <- list_mpobj %>%
