@@ -3,62 +3,81 @@ library (tidyverse)
 library (magrittr)
 library(foreign) 
 library (haven)
+library(readxl)
 library (lubridate)
 library(labelled)
 library(magrittr)
 library(glue)
 
 # VARS OF INTEREST ---------------------------------------------------------
-## Define variables of interest 
-### SD
-SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp', 'ageonset', 'duponset', 'PAS_tot2')
-SD_cat <- c('gender', 'minority', 'marital2', 'housing', 'work', 'dx_spect', 'SUD')
-misc_cat <- c('Txsitn')
+## Sociodemographics
+SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp')
+SD_cat <- c('gender', 'minority', 'marital2', 'housing', 'work')
+MISC_cat <- c('Txsitn')
+SD <- c(SD_num, SD_cat, MISC_cat)
 
-### Sx
+## Clinical characteristics
+CLIN_num <- c('PAS_tot2', 'ageonset', 'duponset', 'conv')
+CLIN_cat <- c('CAYRconv', 'mode', 'referral', 'transfR', 'dx_spect', 'SUD')
+CLIN <- c(CLIN_num, CLIN_cat, 'doe')
+
+## Psychopathology
 SAPS <- str_c('SAPS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 SANS <- str_c('SANS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 SOFAS <- str_c('SOFAS_', c(0, 12, 24))
 HAS <- str_c('HAS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 CDS <- str_c('CDS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 YMRS <- str_c('YMRS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-insight <- str_c('PANSS12_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+INS8 <- str_c('G12_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 
-SX_0 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '0', sep = '_')
-SX_24 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '24', sep = '_')
-SX <- c(SAPS, SANS, SOFAS, HAS, CDS, YMRS)
-
-### Remission 
-PSR <- str_c('PSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-NSR <- str_c('NSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-JSR <- str_c('JSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-SR <- c('PSR_BY3', 'NSR_BY3', 'NSR_at3', 'NSR_at3')
-SR_C <- c('PSR_24C', 'NSR_24C')
-
-### SUD
+## SUD
 SUDx <-  str_c('secdx', c(1:6))
 SUDpc <-  str_c('secdx', c(1:6), 'pc')
 
-### Suicide
+## Suicide
 scd_CDS <- str_c('cd8_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 scd_BPRS <- str_c('bprs4_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 
-### Rx
+## Neurocognition
+COG <- c('verbm_z', 'wm_z', 'ef_z', 'sop_z', 'vism_z', 'va_z', 'sc_z')
+
+## Summary
+SX_0 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS', 'G12', 'cd8', 'bprs4'), '0', sep = '_')
+SX_24 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS', 'G12', 'cd8', 'bprs4'), '24', sep = '_')
+SX <- c(SAPS, SANS, SOFAS, HAS, CDS, YMRS, INS8, scd_CDS, scd_BPRS)
+
+## Remission & Recovery
+PSR <- str_c('PSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+NSR <- str_c('NSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+JSR <- str_c('JSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+SR_0 <- paste(c('PSR', 'NSR', 'JSR'), '0', sep = '_')
+SR_24 <- paste(c('PSR', 'NSR', 'JSR'), '24', sep = '_')
+SR_t <- paste(c('PSR', 'NSR', 'JSR'), 't', sep = '_')
+SR_1st <- paste(c('PSR', 'NSR', 'JSR'), '1st', sep = '_')
+SR <- c(PSR, NSR, JSR, SR_t, SR_1st, 'JSR_by3', 'JSR_24C', 'RECOV_24')
+
+## Rx
 adh <- str_c('comp_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-ord <- str_c('txm', c(2, 3, 6, 9, 12, 18, 24), "co")
+ord <- str_c('txm', c(0, 1, 2, 3, 6, 9, 12, 18, 24), "co")
+CPZw <- str_c('CPZw_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+RX_0 <- c('comp_0', 'txm0co', 'CPZw_0')
+RX_24 <- c('comp_24', 'txm24co', 'CPZw_24')
+RX <-  c(ord, adh, CPZw)
+# AP_yn <- starts_with('anti')
+# AP_type <- starts_with('atype')
 
-### Pathway to/off care
-path <- c('Transfcat')
-
-### Trajectory 
+## Trajectory 
 C <- c('C_SAPS', 'C_SANS', 'C_SOFAS')
 CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
-t <- str_c('t', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 
-### Miscellaneous 
+## Categorical variables to recode as factors
+cat <- c(SD_cat, MISC_cat, CLIN_cat, SUDx, SUDpc, PSR, NSR, JSR, 'JSR_by3', 'RECOV_24', ord, C)
+
+## Miscellaneous
+# miss <- paste('miss', c('SOFAS','SAPS', 'SANS'))
+# dsfs <- paste('dsfs_' c(1, 2, 3, 6, 9, 12, 18, 24))
 # appmiss <- names(select(PEPP2_df, starts_with('appmiss')))
 # datedue <- names(select(PEPP2_df, starts_with('datedue')))
-# sxb <- names(select(PEPP2_df, ends_with('_0')))
 # items <- names(select(PEPP2_df, sap1_0:ymrs11_24))
 
 # DATABASE ----------------------------------------------------------------
@@ -68,13 +87,17 @@ OG_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUnivers
 CORS_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/0. PEPP/Data/Databases/1-992 (N=762) Jan2003-Jan2020/Cors-Demo March 2020.sav") %>%
   read_spss()
 
-Rx_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/0. PEPP/Data/Databases/Rx_2016-10-17.xlsx") %>%
-  read_excel()
-  
-  read.xlsx()
-  read.table(header = TRUE)
+COG_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/0. PEPP/Data/Databases/2021-09-16_neuropsyc_PEPP.sav") %>%
+  read_spss() %>% 
+  rename(pin = PEPP_ID)
 
-database <- full_join(CORS_df, OG_df, by = "pin")
+CPZeq_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/0. PEPP/Data/Databases/CPZeq_2016-10-17.xlsx") %>%
+  read_excel(na = ".")
+
+database <- list(OG_df, CORS_df, COG_df, CPZeq_df) %>% 
+  reduce(full_join, by = "pin")
+
+labels_db <- look_for(database)
 
 # LOAD PEPP2 -------------------------------------------------------------------
 ## Working session
@@ -91,35 +114,32 @@ load(.ws)
 PEPP2_df <-
   list.files(
     '/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets',
-    full.names = T
-  ) %>%
+    full.names = TRUE) %>%
   file.info() %>%
-  filter(isdir==FALSE) %>% 
+  filter(isdir == FALSE) %>% 
   slice_max(mtime) %>% # get the most updated file
   rownames() %>%
   read_csv() %>% 
-  modify_at(c(SD_cat, SR, NSR, PSR, C, misc_cat, SUDx, SUDpc, adh), as.factor) # Recode variables as factor 
+  modify_at(cat, as.factor) # Recode variables as factor 
 
 # PREPARE DATASET ---------------------------------------------------------
 ## Get and set labels from most updated SPSS file
-labelled_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets/Older/PEPP2_2022-03-07.sav") %>% 
-  read_spss() # read.spss(use.value.labels = TRUE, to.data.frame = TRUE)
+# labelled_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets/Older/PEPP2_2022-03-07.sav") %>%
+#   read_spss() # read.spss(use.value.labels = TRUE, to.data.frame = TRUE)
 
-  labels <- look_for(labelled_df)
-  labels_db <- look_for(database)
   
   for (var in names(PEPP2_df)) {
-    if (var %in% labels$variable) {
+    if (var %in% labels_db$variable) {
       if (!is.factor(PEPP2_df[[var]])) {
-        var_label(PEPP2_df[[var]]) <- var_label(labelled_df[[var]])
-        val_labels(PEPP2_df[[var]]) <- val_labels(labelled_df[[var]])
+        var_label(PEPP2_df[[var]]) <- var_label(database[[var]])
+        val_labels(PEPP2_df[[var]]) <- val_labels(database[[var]])
         
       } else if (is.factor(PEPP2_df[[var]])) {
         PEPP2_df[[var]] <- PEPP2_df[[var]] %>%
           to_labelled
         
-        var_label(PEPP2_df[[var]]) <- var_label(labelled_df[[var]])
-        val_labels(PEPP2_df[[var]]) <- val_labels(labelled_df[[var]])
+        var_label(PEPP2_df[[var]]) <- var_label(database[[var]])
+        val_labels(PEPP2_df[[var]]) <- val_labels(database[[var]])
         
         PEPP2_df[[var]] <- PEPP2_df[[var]] %>%
           to_factor(levels = "labels", nolabel_to_na = TRUE)
@@ -127,61 +147,57 @@ labelled_df <- paste("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillU
     }
   }
   
-  labels <- look_for(PEPP2_df)
-
-## Remove old variables
-# PEPP2_df <- PEPP2_df %>%
-#   select(everything(), -starts_with('appmiss'))
-#   select(-("PSR_0":"t24"))
-#   select(-starts_with('dsfs'), -starts_with(c('datedue', 'app')), -'dsofas_b')
+  labels_PEPP2 <- look_for(PEPP2_df)
   
-## Add variables from database
+## Add variables
 PEPP2_df <- database %>%
-select('pin', adh, ord, scd_BPRS, scd ) %>%
-merge(PEPP2_df, ., by = 'pin')
+  select(any_of(c(SD, conv, path, SX, COG, SR, RX)), starts_with('pang12'), -any_of(c(as.vector(names(PEPP2_df)))), 'pin') %>%
+  merge(PEPP2_df, ., all.x = TRUE, by = 'pin')
 
-#added = 'starts_with('dsfs')' 'starts_with('datedue'), starts_with('app'), 'dsofas_b', 'CRsofas12'
+### Already added
+  # select('pin', starts_with('dsfs'), starts_with('datedue'), starts_with('app'), 'dsofas_b', 'CRsofas12')
 
-## Clean dataset - history
+## Remove variables
 # PEPP2_df <- PEPP2_df %>%
-  # setNames(., gsub('_b', '_0', names(.))) %>%
-  # setNames(., gsub('_M', '_', names(.))) %>%
-  # setNames(., gsub('ROB', '', names(.))) %>%
-  # mutate(SOFAS_12 = coalesce(SOFAS_12, CRsofas12)) #replace missing SOFAS_12 from case review
-  # setnames(old = c('minority_status', 'housing_status', 'working_status'), new = c('minority', 'housing', 'work'))
-  # mutate(across(where(is.numeric), ~ round(.x, digits = 2)))  
-  # mutate(across(where(is.Date), ~ replace(.x, .x < 1900-01-01, NA)))
-  # vars8 <- names(PEPP2_df) %>% grep('.{9,}', ., value = TRUE) 
+# select(-any_of(c(SR)))
+# select(-any_of(c(C, CP)))
+# select(-starts_with('dsfs'), -starts_with(c('datedue', 'app')), -'dsofas_b')
 
-## Individually varying time of observation 
-### Replace missing in date of assessment with due date 
-DMY_df <- PEPP2_df %>% 
-{list(select(., starts_with('dsfs')), select(., all_of(SAPS)), select(., 'dsfs_0', starts_with('datedue')), c(0, 1, 2, 3, 6, 9, 12, 18, 24))} %>% 
-pmap_dfc(
-  \(x, y, z, n) {mutate(PEPP2_df, "dmy_{n}" := case_when(!is.na(y) ~ coalesce(x, z))) %>% 
-  select(starts_with('dmy'))})
-
-### Compute individually varying time of observation t0:t24 
-T_df <- PEPP2_df %>%
-  select(., starts_with('dsfs')) %>% 
-  {map2_dfc(., 
-            c(0, 1, 2, 3, 6, 9, 12, 18, 24),
-            \(x, y) {mutate(., "t{y}" := as.numeric(difftime(x, dsfs_0, 'days'))) %>%
-                select(glue("t{y}"))})}
-
-### Replace missing with mean timescores 
-# subset(df, n == 1 & pin <= 857)
-TSCORES_df <- T_df %>% 
-  {pmap_dfc(list(., 
-    select(PEPP2_df, all_of(SAPS)),
-    c(0, 1, 2, 3, 6, 9, 12, 18, 24)), 
-       \(x, y, z) {mutate(., "tscores_{z}" := case_when(!is.na(y) ~ replace_na(x, mean(x, na.rm = TRUE)))) %>% 
-           select(glue("tscores_{z}"))
-    })}
-
+## Relocate variables
 PEPP2_df <- PEPP2_df %>% 
-  bind_cols(T_df)
-  # merge(PEPP2_df, TSCORES_df, by = 'pin', all.x = TRUE)
+  select('pin', all_of(c(SD, CLIN)), everything()) %>% 
+  relocate(starts_with('miss'), starts_with('complete'), all_of(c(SX, COG, SR, RX)), .after = last_col())
+  
+## Modification  history
+### Rename variables (inconsistent / > 8 characters)
+# PEPP2_df <- PEPP2_df %>%
+#   rename(transfR = Transfcat)
+# rename_with(~ str_c('G12_', c(0, 1, 2, 3, 6, 9, 12, 18, 24)), starts_with('pang12'))
+# setNames(., str_remove(names(.), 'CogState_'))
+# rename(txm0co = txordb, txm1co = txordm1)
+# setNames(., gsub('_b', '_0', names(.)))
+# setNames(., gsub('_M', '_', names(.)))
+# setnames(old = c('minority_status', 'housing_status', 'working_status'),
+#          new = c('minority', 'housing', 'work'))
+# vars8 <- names(PEPP2_df) %>% grep('.{9,}', ., value = TRUE)
+
+### Recode categorical variables
+PEPP2_df <- PEPP2_df %>%
+  fct_collapse(referral,
+             community = c(),
+             line_1st = c(),
+             line_2nd = c(),
+             line_3rd = c())
+
+### Recode missings
+# PEPP2_df <- PEPP2_df %>%
+# mutate(across(c('CAYRconv', all_of(ord)), ~ coalesce(.x, '0')))
+# mutate(across(where(is.Date), ~ replace(.x, .x < 1900-01-01, NA)))
+# mutate(SOFAS_12 = coalesce(SOFAS_12, CRsofas12)) #replace missing SOFAS_12 from case review
+
+### Reformat variables
+# PEPP2_df <- PEPP2_df %>%
+# mutate(across(where(is.numeric), ~ round(.x, digits = 2)))
 
 # COMPUTE VARS ------------------------------------------------------------
 ## Total scores 
@@ -237,7 +253,7 @@ PSR_df <- PSR_df %>% rowwise %>%
   select(-all_of(t))
            
 ### NSR
-NSR_df <-  map(c(0, 1, 2, 3, 6, 9, 12, 18, 24),
+NSR_df <- map(c(0, 1, 2, 3, 6, 9, 12, 18, 24),
             \(t) mutate(PEPP2_df, "NSR_{t}" := case_when(
               if_all(paste0(c("san8_", "san13_", "san17_", "san22_"), t), ~ .x < 3) ~ 1,
               if_any(paste0(c("san8_", "san13_", "san17_", "san22_"), t), ~ .x > 2) ~ 0,
@@ -262,10 +278,10 @@ NSR_df <- NSR_df %>%
   mutate(NSR_1st = map_dbl(NSR_t, \(x) ifelse(!is.na(x), get(glue("t{x}")), NA))) %>% 
   select(-all_of(t))
   
-### Joint
-JSR_df <-  merge(PSR_df, NSR_df, all = TRUE)
+### JSR
+JSR_df <- merge(PSR_df, NSR_df, all = TRUE)
 
-JSR_df <-  map(c(0, 1, 2, 3, 6, 9, 12, 18, 24),
+JSR_df <- map(c(0, 1, 2, 3, 6, 9, 12, 18, 24),
                \(t) mutate(JSR_df, "JSR_{t}" := case_when(
                  if_all(paste0(c("PSR_", "NSR_"), t), ~ .x == 1) ~ 1,
                  if_any(paste0(c("PSR_", "NSR_"), t), ~ .x == 0) ~ 0,
@@ -288,11 +304,28 @@ JSR_df <- JSR_df %>%
 
 JSR_df <- JSR_df %>% 
   mutate(JSR_1st = map_dbl(JSR_t, \(x) ifelse(!is.na(x), get(glue("t{x}")), NA))) %>% 
+  mutate(JSR_by3 = case_when(
+    if_any(num_range('JSR_', 1:3), ~ .x == 1) ~ 1,
+    if_all(num_range('JSR_', 1:3), ~ .x == 0) ~ 0,
+    TRUE ~ NA)) %>% 
+  rowwise() %>% 
+  mutate(JSR_24C = sum(c_across(all_of(JSR)), na.rm = TRUE)) %>% #INCLUDE NA
   select(-all_of(t))
-
+  
 PEPP2_df <- list(PEPP2_df, PSR_df, NSR_df, JSR_df) %>% 
   reduce(merge, all = TRUE) %>% 
-  mutate(across(all_of(c(PSR, NSR, JSR)), ~ factor(.x, levels = c(0, 1), labels = c("not remitting", "remitting"))))
+  mutate(across(c('JSR_by3', all_of(c(PSR, NSR, JSR))), ~ factor(.x, levels = c(0, 1), labels = c("no remission", "remission"))))
+
+## Recovery
+PEPP2_df <- PEPP2_df %>% 
+  mutate(RECOV_24 = case_when(JSR_24 == 'remission' & SOFAS_24 >= 61 ~ 1, 
+                              JSR_24 == 'no remission' | SOFAS_24 < 61 ~ 0, 
+                              .default = NA))
+
+PEPP2_df$RECOV_24 <- factor(PEPP2_df$RECOV_24, levels = c(0, 1), labels = c("no recovery", "recovery"))
+
+recov <- PEPP2_df %>% 
+  select(JSR_24, SOFAS_24, RECOV_24)
 
 ## SUD dx
 val_labels(PEPP2_df$secdx1) %>% as.data.frame
@@ -323,7 +356,7 @@ PEPP2_df$SUD <- factor(PEPP2_df$SUD, levels = c(0, 1, 2), labels = c("no SUD dx"
 
 ## Age
 PEPP2_df <- PEPP2_df %>% 
-  mutate(age = as.numeric(difftime(Sys.Date(), dob, 'days') / 365.25))
+  mutate(age = as.numeric(difftime(Sys.Date(), DOB, 'days') / 365.25))
 
 ## Previous episode, treatment duration & antipsychotic duration
 PEPP2_df <- PEPP2_df %>% 
@@ -338,17 +371,52 @@ PEPP2_df <- PEPP2_df %>%
   mutate(prevAP_dur = case_when(prevTx_dur == 0 ~ 0, 
                                 ever_ap == 0 | evercont !=1 | txiscm == 1 ~ 0,
                                 evercont == 1 ~ prevTx_dur))
+
+## Mode of onset
+PEPP2_df <- PEPP2_df %>% 
+  mutate(conv = as.numeric(difftime(onset, date_pr, units = 'days'))) %>% 
+  mutate(mode = case_when(conv <= 30 ~ "acute",
+                          conv > 30 ~ "insidious"))
   
 ## Mean folLow-up 
 SD_df <- SD_df %>% 
   mutate(FU = as.numeric(difftime(ymd('2023-01-01'), doe, 'days') / 365.25))
   
-
 ## Compute missings count per outcome 
   PEPP2_df <- PEPP2_df %>% # could use rowwise() and sum()
   mutate(miss_SOFAS = rowSums(is.na(across(all_of(SOFAS))))) %>%
-  mutate(miss_SAPS =rowSums(is.na(across(all_of(SAPS))))) %>%
-  mutate(miss_SANS =rowSums(is.na(across(all_of(SANS)))))
+  mutate(miss_SAPS = rowSums(is.na(across(all_of(SAPS))))) %>%
+  mutate(miss_SANS = rowSums(is.na(across(all_of(SANS)))))
+
+## Individually varying time of observation 
+### Replace missing in date of assessment with due date 
+DMY_df <- PEPP2_df %>% 
+  {list(select(., starts_with('dsfs')), select(., all_of(SAPS)), select(., 'dsfs_0', starts_with('datedue')), c(0, 1, 2, 3, 6, 9, 12, 18, 24))} %>% 
+  pmap_dfc(
+    \(x, y, z, n) {mutate(PEPP2_df, "dmy_{n}" := case_when(!is.na(y) ~ coalesce(x, z))) %>% 
+        select(starts_with('dmy'))})
+
+### Compute individually varying time of observation t0:t24 
+T_df <- PEPP2_df %>%
+  select(., starts_with('dsfs')) %>% 
+  {map2_dfc(., 
+            c(0, 1, 2, 3, 6, 9, 12, 18, 24),
+            \(x, y) {mutate(., "t{y}" := as.numeric(difftime(x, dsfs_0, 'days'))) %>%
+                select(glue("t{y}"))})}
+
+### Replace missing with mean timescores 
+# subset(df, n == 1 & pin <= 857)
+TSCORES_df <- T_df %>% 
+  {pmap_dfc(list(., 
+                 select(PEPP2_df, all_of(SAPS)),
+                 c(0, 1, 2, 3, 6, 9, 12, 18, 24)), 
+            \(x, y, z) {mutate(., "tscores_{z}" := case_when(!is.na(y) ~ replace_na(x, mean(x, na.rm = TRUE)))) %>% 
+                select(glue("tscores_{z}"))
+            })}
+
+PEPP2_df <- PEPP2_df %>% 
+  bind_cols(T_df)
+# merge(PEPP2_df, TSCORES_df, by = 'pin', all.x = TRUE)
 
 # SUBSET DATASET ----------------------------------------------------------
 ## SD 
@@ -360,23 +428,21 @@ SD_df <- PEPP2_df %>%
   filter(prev_EP == 0 | is.na(prev_EP)) %>% 
   filter(prevAP_dur < 30 | is.na(prevAP_dur)) %>% 
   filter(case_when(prevTx_dur >= 30 & is.na(prevAP_dur) ~ FALSE, .default = TRUE)) %>% 
-  filter(is.na(Txsitn)) %>% 
-  select('pin', all_of(c(SD_num, SD_cat, 'doe', SAPS, SANS, SOFAS, HAS, CDS, YMRS)))
+  filter(is.na(Txsitn)) %>%
+  select('pin', all_of(c(SD, 'doe', SX, SR, )))
 
 val_labels(labelled_df$dx_spect) %>% as.data.frame
 val_labels(labelled_df$Txsitn) %>% as.data.frame
 
 ## Traj 
-SAPNS_df <- SD_df %>%
-  filter(miss_SAPS <= 4)
-
 SOFAS_df <- SD_df %>%
   filter(miss_SOFAS <= 1)
 
-
+SAPNS_df <- SD_df %>%
+  filter(miss_SAPS <= 4)
 
 # RESHAPE DATASET ---------------------------------------------------------
-SAPNS_Ldf <- pivot_longer(SAPNS_df,
+long_df <- pivot_longer(SAPNS_df,
             cols =c(SAPS, SANS, PSR, NSR, HAS, CDS, YMRS), 
             names_to = c('.value', 'time'),
             names_pattern = '(.+)_(\\d+)'
@@ -514,47 +580,11 @@ imput_df <- mice(
   print =  FALSE
 )
 
-## Compute passive imputation 
-library(glue)
-for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
-#meth[str_c('SAPS_', i)] <- str_c(''~I(rowSums(across(all_of(', str_c(c('sap7_', 'sap20_', 'sap25_', 'sap34_'), i), ')))))'')
 # Work in progress
-  }
-
-
-imput_df <- mice.impute.passive(
-  df2imput,
-  m = 1, #m: number of multiple imputations = average percentage of missing data to impute (up to 50%)
-  maxit = 0, #m: number of iterations = 5-20
-  predictorMatrix = pred, #should remove ageonset and dx_spect (colinerarity)
-  method = meth,
-  seed = 22,
-  print =  FALSE
-)
-
-for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
-  imput_df <- imput_df %>%
-    mutate(!!str_c('SAPS_', i) :=
-             rowSums(across(all_of(str_c(
-               c('sap7_', 'sap20_', 'sap25_', 'sap34_'), i
-             ))))) %>%
-    mutate(!!str_c('SANS_', i) :=
-             rowSums(across(all_of(str_c(
-               c('sap8_', 'sap13_', 'sap17_', 'sap22_'), i
-             ))))) %>%
-    mutate(!!str_c('HAS_', i) :=
-             rowSums(across(all_of(str_c(
-               'ha', c(1:13), '_', i)
-             )))) %>%
-    mutate(!!str_c('CDS_', i) :=
-             rowSums(across(all_of(str_c(
-               'cd', c(1:9), '_', i)
-             )))) %>%
-    mutate(!!str_c('YMRS_', i) :=
-             rowSums(across(all_of(str_c(
-               'ymrs', c(1:11), '_', i)
-             ))))
-}
+## Compute passive imputation 
+# for (i in c(0, 1, 2, 3, 6, 9, 12, 18, 24)) {
+# meth[str_c('SAPS_', i)] <- str_c(''~I(rowSums(across(all_of(', str_c(c('sap7_', 'sap20_', 'sap25_', 'sap34_'), i), ')))))
+#   }
 
 ## Check Imputation 
 warnings <- imput_df$loggedEvents
@@ -602,7 +632,6 @@ summ(pool(posthoc_p))
 age_anova <- mi.anova(imput_df,'ageentry ~ K_SANS')
 FIQ_anova <- mi.anova(imput_df, 'FIQ ~ K_SANS')
 
-
 # SAVE DATASET -----------------------------------------------------------
 ## CSV file
   write_csv(PEPP2_df, paste0('/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets/PEPP2_', today(), '.csv'))
@@ -612,75 +641,3 @@ FIQ_anova <- mi.anova(imput_df, 'FIQ ~ K_SANS')
 
 # SAVE IMAGE --------------------------------------------------------------
 save.image(glue(getwd(), 'PEPP2', 'PEPP2_{today()}.RData', .sep = '/'))
-
-
-  
-# JUNK #### 
-### Linear models 
-library(lavaan) #SEM
-library(brms)
-library(lme4)
-library(car)
-
-lmer(SAPS ~ CP1_SAPS*time +  (1|pin), SAPNS_Ldf, REML=FALSE) %>% summary  
-lmer(SAPS ~ CP2_SAPS*time +  (1|pin), SAPNS_Ldf, REML=FALSE) %>% summary  
-lmer(SAPS ~ K_SAPS + (1|pin), SAPNS_Ldf, REML=FALSE) %>% summary #%>% Anova
-
-gls(FIQ ~ CP1_SAPS, SAPNS_df, method='ML', na.action=na.omit) %>% summary #GLS method?
-
-lm(FIQ ~ CP1_SAPS, SAPNS_df) %>% summary
-lm(FIQ ~ CP2_SAPS, SAPNS_df) %>% summary
-
-lm(FIQ ~ K_SAPS, SAPScov_df) %>% summary
-glm(K_SAPS ~ FIQ, binomial, SAPScov_df) %>% summary
-
-library(nlme)
-lme(SAPS_0 ~ CP1_SAPS + CP2_SAPS, data=SAPNS_df, method = 'ML', na.action= 'na.pass' )
-
-### Mixed models 
-lme(
-  fixed = SANS ~ CP1_SAPS + time + CP1_SAPS:time, 
-  random = ~1|pin,
-  #correlation = corAR1(), #0, form = ~time|pin
-  data = SAPNS_Ldf, 
-  method = 'ML', 
-  na.action = na.pass(SAPNS_Ldf)
-) %>% summary
-
-### Prepare dataset for Mplus 
-# remove characters from variables names > 8 characters 
-names(PEPP2_df) <- str_sub(names(PEPP2_df), 1, 8) 
-namesx2(PEPP2_df) # Function to check if column names are unique 
-namesx2 <- function(df) { 
-  
-  length1 <- length(colnames(df))
-  length2 <- length(unique(colnames(df)))        
-  if (length1 - length2 > 0 ) {
-    print(paste('There are', length1 - length2, ' duplicates', sep=' '))
-  }     
-}
-anyDuplicated(colnames(PEPP2_df)) # locate column of the first duplicate)
-data.frame(colnames(PEPP2_df))
-
-# Create tab-delimited file and Mplus input syntax from R data.frame 
-prepareMplusData(
-  SAPScov_df,
-  filename = str_c(getwd(),'/MplusfromR/cov.dat'),
-  inpfile = FALSE,
-  writeData = 'always'
-)
-
-# Create the Mplus input text for an mplusObject 
-inp <- createSyntax(
-  object = m, 
-  filename = str_c(getwd(),'/MplusfromR/GBTM.inp'),
-  check = FALSE,
-  add = FALSE) %>% 
-  writeLines(str_c(getwd(),'/MplusfromR/GBTM.inp'))
-
-# Run Mplus Models 
-runModels('/Users/olivierpercie/Desktop/MplusLGM/MplusfromR/GMM1_i s-cub@0.inp')
-
-
-
-
