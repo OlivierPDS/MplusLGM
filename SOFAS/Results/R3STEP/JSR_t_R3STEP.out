@@ -1,0 +1,75 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+05/18/2023   3:42 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  GBTM_P2_K2_S1000;
+   - R3STEP_JSR_t;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/JSR_t_R3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N JSR_t;
+   MISSING=.;
+   USEVAR = N JSR_t1 JSR_t2 JSR_t3 JSR_t4 JSR_t5 JSR_t6 JSR_t7 JSR_t8;
+  NOMINAL = N;
+  CLASSES = c(2);
+  DEFINE:
+  JSR_t1 = JSR_t == 1;
+  JSR_t2 = JSR_t == 2;
+  JSR_t3 = JSR_t == 3;
+  JSR_t4 = JSR_t == 4;
+  JSR_t5 = JSR_t == 5;
+  JSR_t6 = JSR_t == 6;
+  JSR_t7 = JSR_t == 7;
+  JSR_t8 = JSR_t == 8;
+  ANALYSIS:
+  TYPE = MIXTURE;
+  ALGORITHM = INTEGRATION;
+  INTEGRATION = MONTECARLO;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  C ON JSR_t1 JSR_t2 JSR_t3 JSR_t4 JSR_t5 JSR_t6 JSR_t7 JSR_t8;
+  JSR_t1 JSR_t2 JSR_t3 JSR_t4 JSR_t5 JSR_t6 JSR_t7 JSR_t8;
+  %C#1%
+  [N#1@2.378];
+  %C#2%
+  [N#1@-1.949];
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+*** ERROR
+  One or more variables have a variance of zero.
+  Check your data and format statement.
+
+    Continuous    Number of
+     Variable   Observations    Variance
+
+      N              369        N/A
+    **JSR_T1         226           0.000
+      JSR_T2         226           0.088
+      JSR_T3         226           0.151
+      JSR_T4         226           0.146
+      JSR_T5         226           0.122
+      JSR_T6         226           0.095
+      JSR_T7         226           0.115
+      JSR_T8         226           0.077
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

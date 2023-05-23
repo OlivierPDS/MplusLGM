@@ -1,0 +1,66 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+05/18/2023   3:40 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  GBTM_P2_K2_S1000;
+   - R3STEP_CAYRconv;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/CAYRconv_R3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N CAYRconv;
+   MISSING=.;
+   USEVAR = N CAYRconv1 CAYRconv0;
+  NOMINAL = N;
+  CLASSES = c(2);
+  DEFINE:
+  CAYRconv1 = CAYRconv == 1;
+  CAYRconv0 = CAYRconv == 0;
+  ANALYSIS:
+  TYPE = MIXTURE;
+  ALGORITHM = INTEGRATION;
+  INTEGRATION = MONTECARLO;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  C ON CAYRconv1 CAYRconv0;
+  CAYRconv1 CAYRconv0;
+  %C#1%
+  [N#1@2.378];
+  %C#2%
+  [N#1@-1.949];
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+*** WARNING in VARIABLE command
+  Note that only the first 8 characters of variable names are used in the output.
+  Shorten variable names to avoid any confusion.
+*** ERROR
+  One or more variables have a variance of zero.
+  Check your data and format statement.
+
+    Continuous    Number of
+     Variable   Observations    Variance
+
+      N              369        N/A
+    **CAYRCONV        19           0.000
+    **CAYRCONV        19           0.000
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

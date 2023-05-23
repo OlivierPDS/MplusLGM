@@ -1,0 +1,849 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+05/08/2023   4:20 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   FINAL_311; - MixREG_SANS;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/SANS_MixREG.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N;
+   MISSING=.;
+   USEVAR = N S SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24;
+  NOMINAL = N;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  iw sw | SANS_0@0 SANS_1@1 SANS_2@2 SANS_3@3 SANS_6@6 SANS_9@9 SANS_12@12 SANS_18@18
+  SANS_24@24;
+  S ON iw sw;
+  %C#1%
+  [N#1@3.075];
+  [N#2@1.083];
+  S ON iw sw (S1 - S2);
+  [iw] (iw1);
+  [sw] (sw1);
+  iw sw;
+  iw WITH sw;
+  SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24;
+  %C#2%
+  [N#1@1.199];
+  [N#2@2.945];
+  S ON iw sw (S3 - S4);
+  [iw] (iw2);
+  [sw] (sw2);
+  iw sw;
+  iw WITH sw;
+  SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24;
+  %C#3%
+  [N#1@-1.281];
+  [N#2@-1.148];
+  S ON iw sw (S5 - S6);
+  [iw] (iw3);
+  [sw] (sw3);
+  iw sw;
+  iw WITH sw;
+  SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24;
+  MODEL TEST:
+  S1 = S3;
+  OUTPUT:
+  SAMPSTAT;
+  CINTERVAL;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+FINAL_311; - MixREG_SANS;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         405
+
+Number of dependent variables                                   11
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   S           SANS_0      SANS_1      SANS_2      SANS_3      SANS_6
+   SANS_9      SANS_12     SANS_18     SANS_24
+
+  Unordered categorical (nominal)
+   N
+
+Continuous latent variables
+   IW          SW
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/SANS_MixREG.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            63
+     Number of y missing data patterns          63
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              S             SANS_0        SANS_1        SANS_2        SANS_3
+              ________      ________      ________      ________      ________
+ S              1.000
+ SANS_0         1.000         1.000
+ SANS_1         0.674         0.674         0.674
+ SANS_2         0.852         0.852         0.602         0.852
+ SANS_3         0.941         0.941         0.627         0.822         0.941
+ SANS_6         0.911         0.911         0.605         0.785         0.872
+ SANS_9         0.862         0.862         0.578         0.756         0.807
+ SANS_12        0.872         0.872         0.573         0.733         0.815
+ SANS_18        0.820         0.820         0.538         0.686         0.765
+ SANS_24        0.793         0.793         0.519         0.694         0.743
+
+
+           Covariance Coverage
+              SANS_6        SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________      ________
+ SANS_6         0.911
+ SANS_9         0.795         0.862
+ SANS_12        0.793         0.775         0.872
+ SANS_18        0.746         0.719         0.746         0.820
+ SANS_24        0.723         0.721         0.723         0.709         0.793
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.437          177.000
+      Category 2    0.402          163.000
+      Category 3    0.160           65.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              S             SANS_0        SANS_1        SANS_2        SANS_3
+              ________      ________      ________      ________      ________
+               -0.593        10.062         8.618         7.908         7.831
+
+
+           Means
+              SANS_6        SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________      ________
+                7.166         6.830         6.634         6.296         5.872
+
+
+           Covariances
+              S             SANS_0        SANS_1        SANS_2        SANS_3
+              ________      ________      ________      ________      ________
+ S              0.226
+ SANS_0        -0.248        14.384
+ SANS_1         0.008         8.059        13.892
+ SANS_2         0.271         7.806        11.548        15.256
+ SANS_3         0.483         7.450        10.139        12.050        15.411
+ SANS_6         1.017         6.587         8.827         9.895        10.345
+ SANS_9         1.261         6.709         7.553         8.801         9.717
+ SANS_12        1.323         6.131         7.323         8.094         8.534
+ SANS_18        1.100         5.913         7.511         7.907         7.782
+ SANS_24        0.968         5.311         6.353         6.498         7.432
+
+
+           Covariances
+              SANS_6        SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________      ________
+ SANS_6        16.353
+ SANS_9        11.471        17.436
+ SANS_12       10.397        12.595        18.325
+ SANS_18        9.615        11.044        12.682        18.445
+ SANS_24        9.005        10.452        10.999        13.084        19.233
+
+
+           Correlations
+              S             SANS_0        SANS_1        SANS_2        SANS_3
+              ________      ________      ________      ________      ________
+ S              1.000
+ SANS_0        -0.138         1.000
+ SANS_1         0.005         0.570         1.000
+ SANS_2         0.146         0.527         0.793         1.000
+ SANS_3         0.259         0.500         0.693         0.786         1.000
+ SANS_6         0.529         0.429         0.586         0.626         0.652
+ SANS_9         0.635         0.424         0.485         0.540         0.593
+ SANS_12        0.651         0.378         0.459         0.484         0.508
+ SANS_18        0.539         0.363         0.469         0.471         0.462
+ SANS_24        0.465         0.319         0.389         0.379         0.432
+
+
+           Correlations
+              SANS_6        SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________      ________
+ SANS_6         1.000
+ SANS_9         0.679         1.000
+ SANS_12        0.601         0.705         1.000
+ SANS_18        0.554         0.616         0.690         1.000
+ SANS_24        0.508         0.571         0.586         0.695         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -7785.809
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     S                    -0.593      -0.232      -1.446    0.25%      -1.126     -0.719     -0.494
+             405.000       0.226      -1.309       0.321    0.25%      -0.321     -0.144
+     SANS_0               10.062      -0.101       0.000    0.49%       7.000      9.000     10.000
+             405.000      14.384      -0.412      19.000    0.25%      11.000     14.000
+     SANS_1                8.758       0.109       0.000    0.73%       6.000      7.000      9.000
+             273.000      13.846      -0.295      19.000    0.37%      10.000     12.000
+     SANS_2                7.933       0.117       0.000    2.32%       4.000      7.000      8.000
+             345.000      15.001      -0.539      19.000    0.29%       9.000     12.000
+     SANS_3                7.837       0.134       0.000    2.62%       4.000      7.000      8.000
+             381.000      15.428      -0.399      19.000    0.26%       9.000     11.000
+     SANS_6                7.100       0.258       0.000    4.34%       3.000      6.000      7.000
+             369.000      16.204      -0.467      19.000    0.27%       8.000     11.000
+     SANS_9                6.708       0.326       0.000    6.88%       3.000      5.000      6.000
+             349.000      17.445      -0.621      17.000    0.86%       7.000     10.000
+     SANS_12               6.544       0.382       0.000    7.37%       2.000      5.000      6.000
+             353.000      18.180      -0.603      19.000    0.28%       7.000     10.000
+     SANS_18               6.250       0.506       0.000    8.13%       2.000      4.000      6.000
+             332.000      18.591      -0.491      19.000    0.30%       7.000     10.000
+     SANS_24               5.866       0.677       0.000   10.90%       2.000      4.000      5.000
+             321.000      18.745      -0.108      20.000    0.31%       6.000     10.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     WARNING:  THE LATENT VARIABLE COVARIANCE MATRIX (PSI) IN CLASS 1
+     IS NOT POSITIVE DEFINITE.  THIS COULD INDICATE A NEGATIVE VARIANCE/
+     RESIDUAL VARIANCE FOR A LATENT VARIABLE, A CORRELATION GREATER OR EQUAL
+     TO ONE BETWEEN TWO LATENT VARIABLES, OR A LINEAR DEPENDENCY AMONG MORE
+     THAN TWO LATENT VARIABLES.  CHECK THE TECH4 OUTPUT FOR MORE INFORMATION.
+     PROBLEM INVOLVING VARIABLE S.
+
+
+     WARNING:  THE LATENT VARIABLE COVARIANCE MATRIX (PSI) IN CLASS 2
+     IS NOT POSITIVE DEFINITE.  THIS COULD INDICATE A NEGATIVE VARIANCE/
+     RESIDUAL VARIANCE FOR A LATENT VARIABLE, A CORRELATION GREATER OR EQUAL
+     TO ONE BETWEEN TWO LATENT VARIABLES, OR A LINEAR DEPENDENCY AMONG MORE
+     THAN TWO LATENT VARIABLES.  CHECK THE TECH4 OUTPUT FOR MORE INFORMATION.
+     PROBLEM INVOLVING VARIABLE S.
+
+
+     WARNING:  THE LATENT VARIABLE COVARIANCE MATRIX (PSI) IN CLASS 3
+     IS NOT POSITIVE DEFINITE.  THIS COULD INDICATE A NEGATIVE VARIANCE/
+     RESIDUAL VARIANCE FOR A LATENT VARIABLE, A CORRELATION GREATER OR EQUAL
+     TO ONE BETWEEN TWO LATENT VARIABLES, OR A LINEAR DEPENDENCY AMONG MORE
+     THAN TWO LATENT VARIABLES.  CHECK THE TECH4 OUTPUT FOR MORE INFORMATION.
+     PROBLEM INVOLVING VARIABLE S.
+
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       54
+
+Loglikelihood
+
+          H0 Value                       -8037.660
+          H0 Scaling Correction Factor      1.1891
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   16183.320
+          Bayesian (BIC)                 16399.530
+          Sample-Size Adjusted BIC       16228.181
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                              9.721
+          Degrees of Freedom                     1
+          P-Value                           0.0018
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        185.21494          0.45732
+       2        150.86671          0.37251
+       3         68.91835          0.17017
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        185.21494          0.45732
+       2        150.86671          0.37251
+       3         68.91835          0.17017
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              184          0.45432
+       2              155          0.38272
+       3               66          0.16296
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.936
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.993    0.004    0.003
+    2   0.010    0.962    0.028
+    3   0.014    0.016    0.970
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.986    0.009    0.005
+    2   0.005    0.988    0.007
+    3   0.008    0.063    0.929
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      5.258    0.513    0.000
+    2     -0.304    4.970    0.000
+    3     -4.738   -2.690    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ IW       |
+    SANS_0             1.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             1.000      0.000    999.000    999.000
+    SANS_3             1.000      0.000    999.000    999.000
+    SANS_6             1.000      0.000    999.000    999.000
+    SANS_9             1.000      0.000    999.000    999.000
+    SANS_12            1.000      0.000    999.000    999.000
+    SANS_18            1.000      0.000    999.000    999.000
+    SANS_24            1.000      0.000    999.000    999.000
+
+ SW       |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             2.000      0.000    999.000    999.000
+    SANS_3             3.000      0.000    999.000    999.000
+    SANS_6             6.000      0.000    999.000    999.000
+    SANS_9             9.000      0.000    999.000    999.000
+    SANS_12           12.000      0.000    999.000    999.000
+    SANS_18           18.000      0.000    999.000    999.000
+    SANS_24           24.000      0.000    999.000    999.000
+
+ S          ON
+    IW                 0.074      0.014      5.461      0.000
+    SW                 2.898      0.653      4.438      0.000
+
+ SW       WITH
+    IW                -0.213      0.051     -4.157      0.000
+
+ Means
+    IW                 7.467      0.284     26.253      0.000
+    SW                -0.199      0.018    -11.229      0.000
+
+ Means
+    N#1                3.075      0.000    999.000    999.000
+    N#2                1.083      0.000    999.000    999.000
+
+ Intercepts
+    S                 -1.030      0.122     -8.443      0.000
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 8.457      0.996      8.495      0.000
+    SW                 0.014      0.003      3.947      0.000
+
+ Residual Variances
+    S                 -0.007      0.007     -0.967      0.333
+    SANS_0            16.198      2.660      6.089      0.000
+    SANS_1             4.207      0.754      5.581      0.000
+    SANS_2             3.068      0.467      6.564      0.000
+    SANS_3             4.137      0.553      7.486      0.000
+    SANS_6             6.117      0.816      7.501      0.000
+    SANS_9             5.518      0.706      7.814      0.000
+    SANS_12            4.774      0.632      7.555      0.000
+    SANS_18            6.826      0.889      7.678      0.000
+    SANS_24           12.894      2.423      5.321      0.000
+
+Latent Class 2
+
+ IW       |
+    SANS_0             1.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             1.000      0.000    999.000    999.000
+    SANS_3             1.000      0.000    999.000    999.000
+    SANS_6             1.000      0.000    999.000    999.000
+    SANS_9             1.000      0.000    999.000    999.000
+    SANS_12            1.000      0.000    999.000    999.000
+    SANS_18            1.000      0.000    999.000    999.000
+    SANS_24            1.000      0.000    999.000    999.000
+
+ SW       |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             2.000      0.000    999.000    999.000
+    SANS_3             3.000      0.000    999.000    999.000
+    SANS_6             6.000      0.000    999.000    999.000
+    SANS_9             9.000      0.000    999.000    999.000
+    SANS_12           12.000      0.000    999.000    999.000
+    SANS_18           18.000      0.000    999.000    999.000
+    SANS_24           24.000      0.000    999.000    999.000
+
+ S          ON
+    IW                 0.020      0.006      3.460      0.001
+    SW                 1.491      0.146     10.219      0.000
+
+ SW       WITH
+    IW                -0.161      0.070     -2.305      0.021
+
+ Means
+    IW                 9.401      0.421     22.315      0.000
+    SW                -0.075      0.016     -4.838      0.000
+
+ Means
+    N#1                1.199      0.000    999.000    999.000
+    N#2                2.945      0.000    999.000    999.000
+
+ Intercepts
+    S                 -0.281      0.078     -3.602      0.000
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    IW                13.476      1.781      7.567      0.000
+    SW                 0.024      0.005      4.938      0.000
+
+ Residual Variances
+    S                 -0.007      0.007     -0.967      0.333
+    SANS_0             2.365      0.360      6.565      0.000
+    SANS_1             2.430      0.423      5.752      0.000
+    SANS_2             2.974      0.532      5.588      0.000
+    SANS_3             3.125      0.470      6.653      0.000
+    SANS_6             3.137      0.456      6.882      0.000
+    SANS_9             2.289      0.563      4.068      0.000
+    SANS_12            3.582      0.583      6.143      0.000
+    SANS_18            5.115      0.916      5.585      0.000
+    SANS_24            7.555      1.426      5.298      0.000
+
+Latent Class 3
+
+ IW       |
+    SANS_0             1.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             1.000      0.000    999.000    999.000
+    SANS_3             1.000      0.000    999.000    999.000
+    SANS_6             1.000      0.000    999.000    999.000
+    SANS_9             1.000      0.000    999.000    999.000
+    SANS_12            1.000      0.000    999.000    999.000
+    SANS_18            1.000      0.000    999.000    999.000
+    SANS_24            1.000      0.000    999.000    999.000
+
+ SW       |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             2.000      0.000    999.000    999.000
+    SANS_3             3.000      0.000    999.000    999.000
+    SANS_6             6.000      0.000    999.000    999.000
+    SANS_9             9.000      0.000    999.000    999.000
+    SANS_12           12.000      0.000    999.000    999.000
+    SANS_18           18.000      0.000    999.000    999.000
+    SANS_24           24.000      0.000    999.000    999.000
+
+ S          ON
+    IW                 0.057      0.037      1.551      0.121
+    SW                 1.868      0.749      2.493      0.013
+
+ SW       WITH
+    IW                -0.336      0.139     -2.425      0.015
+
+ Means
+    IW                 8.601      0.548     15.709      0.000
+    SW                -0.071      0.043     -1.642      0.101
+
+ Means
+    N#1               -1.281      0.000    999.000    999.000
+    N#2               -1.148      0.000    999.000    999.000
+
+ Intercepts
+    S                 -0.583      0.310     -1.881      0.060
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 6.534      2.252      2.901      0.004
+    SW                 0.025      0.010      2.466      0.014
+
+ Residual Variances
+    S                 -0.007      0.007     -0.967      0.333
+    SANS_0            15.961      5.757      2.772      0.006
+    SANS_1             6.964      2.287      3.045      0.002
+    SANS_2             9.457      2.439      3.877      0.000
+    SANS_3            10.013      1.813      5.522      0.000
+    SANS_6            13.248      2.863      4.628      0.000
+    SANS_9            15.586      2.894      5.386      0.000
+    SANS_12           14.685      2.471      5.944      0.000
+    SANS_18           18.211      2.566      7.097      0.000
+    SANS_24           16.362      3.387      4.830      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.989      0.157      6.302      0.000
+    C#2                0.783      0.253      3.099      0.002
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.559E-06
+       (ratio of smallest to largest eigenvalue)
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ IW       |
+    SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ SW       |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           2.000       2.000       2.000       2.000       2.000       2.000       2.000
+    SANS_3           3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SANS_6           6.000       6.000       6.000       6.000       6.000       6.000       6.000
+    SANS_9           9.000       9.000       9.000       9.000       9.000       9.000       9.000
+    SANS_12         12.000      12.000      12.000      12.000      12.000      12.000      12.000
+    SANS_18         18.000      18.000      18.000      18.000      18.000      18.000      18.000
+    SANS_24         24.000      24.000      24.000      24.000      24.000      24.000      24.000
+
+ S        ON
+    IW               0.039       0.048       0.052       0.074       0.097       0.101       0.110
+    SW               1.216       1.618       1.824       2.898       3.973       4.178       4.581
+
+ SW       WITH
+    IW              -0.344      -0.313      -0.297      -0.213      -0.128      -0.112      -0.081
+
+ Means
+    IW               6.734       6.909       6.999       7.467       7.935       8.024       8.199
+    SW              -0.244      -0.233      -0.228      -0.199      -0.170      -0.164      -0.153
+
+ Means
+    N#1              3.075       3.075       3.075       3.075       3.075       3.075       3.075
+    N#2              1.083       1.083       1.083       1.083       1.083       1.083       1.083
+
+ Intercepts
+    S               -1.344      -1.268      -1.230      -1.030      -0.829      -0.791      -0.715
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               5.893       6.506       6.820       8.457      10.095      10.408      11.021
+    SW               0.005       0.007       0.008       0.014       0.019       0.020       0.022
+
+ Residual Variances
+    S               -0.024      -0.020      -0.018      -0.007       0.005       0.007       0.011
+    SANS_0           9.346      10.984      11.822      16.198      20.573      21.411      23.049
+    SANS_1           2.265       2.729       2.967       4.207       5.447       5.684       6.148
+    SANS_2           1.864       2.152       2.299       3.068       3.837       3.984       4.272
+    SANS_3           2.714       3.054       3.228       4.137       5.046       5.220       5.561
+    SANS_6           4.017       4.519       4.776       6.117       7.459       7.716       8.218
+    SANS_9           3.699       4.134       4.357       5.518       6.680       6.902       7.337
+    SANS_12          3.147       3.536       3.735       4.774       5.814       6.013       6.402
+    SANS_18          4.536       5.084       5.364       6.826       8.289       8.569       9.116
+    SANS_24          6.652       8.144       8.908      12.894      16.880      17.644      19.136
+
+Latent Class 2
+
+ IW       |
+    SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ SW       |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           2.000       2.000       2.000       2.000       2.000       2.000       2.000
+    SANS_3           3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SANS_6           6.000       6.000       6.000       6.000       6.000       6.000       6.000
+    SANS_9           9.000       9.000       9.000       9.000       9.000       9.000       9.000
+    SANS_12         12.000      12.000      12.000      12.000      12.000      12.000      12.000
+    SANS_18         18.000      18.000      18.000      18.000      18.000      18.000      18.000
+    SANS_24         24.000      24.000      24.000      24.000      24.000      24.000      24.000
+
+ S        ON
+    IW               0.005       0.009       0.011       0.020       0.030       0.032       0.035
+    SW               1.115       1.205       1.251       1.491       1.731       1.777       1.867
+
+ SW       WITH
+    IW              -0.341      -0.298      -0.276      -0.161      -0.046      -0.024       0.019
+
+ Means
+    IW               8.316       8.576       8.708       9.401      10.094      10.227      10.486
+    SW              -0.115      -0.106      -0.101      -0.075      -0.050      -0.045      -0.035
+
+ Means
+    N#1              1.199       1.199       1.199       1.199       1.199       1.199       1.199
+    N#2              2.945       2.945       2.945       2.945       2.945       2.945       2.945
+
+ Intercepts
+    S               -0.481      -0.433      -0.409      -0.281      -0.153      -0.128      -0.080
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               8.889       9.985      10.546      13.476      16.405      16.966      18.063
+    SW               0.012       0.015       0.016       0.024       0.033       0.034       0.037
+
+ Residual Variances
+    S               -0.024      -0.020      -0.018      -0.007       0.005       0.007       0.011
+    SANS_0           1.437       1.659       1.772       2.365       2.958       3.071       3.293
+    SANS_1           1.342       1.602       1.735       2.430       3.125       3.259       3.519
+    SANS_2           1.603       1.931       2.098       2.974       3.849       4.017       4.344
+    SANS_3           1.915       2.204       2.352       3.125       3.897       4.045       4.335
+    SANS_6           1.963       2.243       2.387       3.137       3.886       4.030       4.311
+    SANS_9           0.840       1.186       1.363       2.289       3.214       3.392       3.738
+    SANS_12          2.080       2.439       2.623       3.582       4.541       4.725       5.084
+    SANS_18          2.756       3.320       3.608       5.115       6.621       6.910       7.474
+    SANS_24          3.881       4.760       5.209       7.555       9.901      10.350      11.228
+
+Latent Class 3
+
+ IW       |
+    SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ SW       |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           2.000       2.000       2.000       2.000       2.000       2.000       2.000
+    SANS_3           3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SANS_6           6.000       6.000       6.000       6.000       6.000       6.000       6.000
+    SANS_9           9.000       9.000       9.000       9.000       9.000       9.000       9.000
+    SANS_12         12.000      12.000      12.000      12.000      12.000      12.000      12.000
+    SANS_18         18.000      18.000      18.000      18.000      18.000      18.000      18.000
+    SANS_24         24.000      24.000      24.000      24.000      24.000      24.000      24.000
+
+ S        ON
+    IW              -0.038      -0.015      -0.003       0.057       0.118       0.130       0.153
+    SW              -0.062       0.399       0.635       1.868       3.101       3.337       3.798
+
+ SW       WITH
+    IW              -0.694      -0.608      -0.565      -0.336      -0.108      -0.065       0.021
+
+ Means
+    IW               7.191       7.528       7.700       8.601       9.502       9.674      10.011
+    SW              -0.183      -0.156      -0.143      -0.071       0.000       0.014       0.041
+
+ Means
+    N#1             -1.281      -1.281      -1.281      -1.281      -1.281      -1.281      -1.281
+    N#2             -1.148      -1.148      -1.148      -1.148      -1.148      -1.148      -1.148
+
+ Intercepts
+    S               -1.382      -1.191      -1.093      -0.583      -0.073       0.025       0.215
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               0.733       2.120       2.830       6.534      10.239      10.948      12.335
+    SW              -0.001       0.005       0.008       0.025       0.042       0.045       0.051
+
+ Residual Variances
+    S               -0.024      -0.020      -0.018      -0.007       0.005       0.007       0.011
+    SANS_0           1.132       4.677       6.491      15.961      25.431      27.245      30.790
+    SANS_1           1.073       2.482       3.202       6.964      10.726      11.447      12.855
+    SANS_2           3.174       4.676       5.444       9.457      13.470      14.238      15.740
+    SANS_3           5.343       6.459       7.030      10.013      12.995      13.567      14.683
+    SANS_6           5.874       7.637       8.539      13.248      17.957      18.859      20.622
+    SANS_9           8.132       9.914      10.826      15.586      20.346      21.258      23.040
+    SANS_12          8.321       9.842      10.621      14.685      18.749      19.527      21.048
+    SANS_18         11.601      13.181      13.990      18.211      22.433      23.241      24.821
+    SANS_24          7.636       9.722      10.789      16.362      21.934      23.001      25.087
+
+Categorical Latent Variables
+
+ Means
+    C#1              0.585       0.681       0.731       0.989       1.247       1.296       1.393
+    C#2              0.132       0.288       0.368       0.783       1.199       1.279       1.435
+
+
+     Beginning Time:  16:20:07
+        Ending Time:  16:20:08
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

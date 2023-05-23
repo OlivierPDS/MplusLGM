@@ -1,0 +1,63 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+05/18/2023   3:42 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  GBTM_P2_K2_S1000;
+   - R3STEP_txm0co;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/txm0co_R3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N txm0co;
+   MISSING=.;
+   USEVAR = N txm0co1 txm0co0;
+  NOMINAL = N;
+  CLASSES = c(2);
+  DEFINE:
+  txm0co1 = txm0co == 1;
+  txm0co0 = txm0co == 0;
+  ANALYSIS:
+  TYPE = MIXTURE;
+  ALGORITHM = INTEGRATION;
+  INTEGRATION = MONTECARLO;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  C ON txm0co1 txm0co0;
+  txm0co1 txm0co0;
+  %C#1%
+  [N#1@2.378];
+  %C#2%
+  [N#1@-1.949];
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+*** ERROR
+  One or more variables have a variance of zero.
+  Check your data and format statement.
+
+    Continuous    Number of
+     Variable   Observations    Variance
+
+      N              369        N/A
+    **TXM0CO1          4           0.000
+    **TXM0CO0          4           0.000
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

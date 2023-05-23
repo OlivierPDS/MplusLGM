@@ -7,11 +7,12 @@ FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/R3STEP/dx_spect_R3ST
 VARIABLE:
 NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N dx_spect; 
  MISSING=.;
- USEVAR = N dx_spect1;
+ USEVAR = N dx_spect1 dx_spect2;
 NOMINAL = N;
 CLASSES = c(2);
 DEFINE:
 dx_spect1 = dx_spect == 1;
+dx_spect2 = dx_spect == 2;
 ANALYSIS:
 TYPE = MIXTURE;
 ALGORITHM = INTEGRATION;
@@ -20,8 +21,8 @@ STARTS = 0;
 PROCESSORS = 8;
 MODEL:
 %OVERALL%
-C ON dx_spect1;
-dx_spect1;
+C ON dx_spect1 dx_spect2;
+dx_spect1 dx_spect2;
 %C#1%
 [N#1@2.378];
 %C#2%
