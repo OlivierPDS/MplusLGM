@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-03/03/2023   3:53 PM
+06/29/2023   3:01 PM
 
 INPUT INSTRUCTIONS
 
@@ -18,7 +18,7 @@ INPUT INSTRUCTIONS
   CLASSES = c(3);
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 8000;
+  STARTS = 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
@@ -35,9 +35,10 @@ INPUT INSTRUCTIONS
   [N#2@-1.148];
   [CDS_24](M3); CDS_24;
   MODEL CONSTRAINT:
-  New (diff12 diff13);
-  diff12  = M1 - M2;
-  diff13  = M1 - M3;
+  New (diff12 diff13 diff23);
+  diff12 = M1 - M2;
+  diff13 = M1 - M3;
+  diff23 = M2 - M3;
   MODEL TEST:
   M1 = M2;
   M2 = M3;
@@ -109,13 +110,6 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
-Random Starts Specifications
-  Number of initial stage random starts                       8000
-  Number of final stage optimizations                         8000
-  Number of initial stage iterations                             1
-  Initial stage convergence criterion                    0.100D+01
-  Random starts scale                                    0.500D+01
-  Random seed for generating random starts                       0
 
 Input data file(s)
   /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/D3STEP/CDS_24_D3STEP.dat
@@ -140,7 +134,7 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               CDS_24
               ________
- CDS_24         0.694
+ CDS_24         0.691
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
@@ -154,30 +148,6 @@ UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 SAMPLE STATISTICS
 
 
-     ESTIMATED SAMPLE STATISTICS
-
-
-           Means
-              CDS_24
-              ________
-                1.192
-
-
-           Covariances
-              CDS_24
-              ________
- CDS_24         5.508
-
-
-           Correlations
-              CDS_24
-              ________
- CDS_24         1.000
-
-
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -638.432
-
-
 UNIVARIATE SAMPLE STATISTICS
 
 
@@ -186,95 +156,22 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     CDS_24                1.192       2.919       0.000   62.99%       0.000      0.000      0.000
-             281.000       5.508      10.708      17.000    0.36%       0.000      2.000
+     CDS_24                1.196       2.913       0.000   62.86%       0.000      0.000      0.000
+             280.000       5.522      10.663      17.000    0.36%       0.000      2.000
 
-RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
-
-Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
-
-
-Unperturbed starting value run did not converge or was rejected in the third stage.
-
-7999 perturbed starting value run(s) did not converge or were rejected in the third stage.
+     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 1 COULD NOT
+     BE INVERTED.  PROBLEM INVOLVING VARIABLE CDS_24.  COMPUTATION COULD
+     NOT BE COMPLETED IN ITERATION 7.  CHANGE YOUR MODEL AND/OR STARTING
+     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
+     VARIATION FOR THE VARIABLE.
 
 
-     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY.  ESTIMATES CANNOT
-     BE TRUSTED.
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
+     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
 
 
 
 
-
-
-FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
-BASED ON THE ESTIMATED MODEL
-
-    Latent
-   Classes
-
-       1        144.06490          0.35572
-       2        156.54650          0.38653
-       3        104.38860          0.25775
-
-
-FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
-BASED ON ESTIMATED POSTERIOR PROBABILITIES
-
-    Latent
-   Classes
-
-       1         70.21743          0.17338
-       2        179.00245          0.44198
-       3        155.78012          0.38464
-
-
-FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
-BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
-
-Class Counts and Proportions
-
-    Latent
-   Classes
-
-       1              167          0.41235
-       2              151          0.37284
-       3               87          0.21481
-
-
-CLASSIFICATION QUALITY
-
-     Entropy                         0.451
-
-
-Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
-by Latent Class (Column)
-
-           1        2        3
-
-    1   0.747    0.164    0.089
-    2   0.098    0.793    0.110
-    3   0.072    0.115    0.814
-
-
-Classification Probabilities for the Most Likely Latent Class Membership (Column)
-by Latent Class (Row)
-
-           1        2        3
-
-    1   0.856    0.101    0.043
-    2   0.174    0.762    0.063
-    3   0.146    0.162    0.692
-
-
-Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
-by Latent Class (Row)
-
-              1        2        3
-
-    1      2.994    0.859    0.000
-    2      1.009    2.486    0.000
-    3     -1.558   -1.452    0.000
 
 
 MODEL RESULTS
@@ -284,91 +181,93 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    CDS_24            -1.155
+    CDS_24             0.000
 
  Means
     N#1                3.075
     N#2                1.083
 
  Variances
-    CDS_24             2.754
+    CDS_24             0.000
 
 Latent Class 2
 
  Means
-    CDS_24             1.192
+    CDS_24             0.237
 
  Means
     N#1                1.199
     N#2                2.945
 
  Variances
-    CDS_24             2.754
+    CDS_24             0.820
 
 Latent Class 3
 
  Means
-    CDS_24             3.539
+    CDS_24             7.504
 
  Means
     N#1               -1.281
     N#2               -1.148
 
  Variances
-    CDS_24             2.754
+    CDS_24            23.756
 
 Categorical Latent Variables
 
  Means
-    C#1                0.322
-    C#2                0.405
+    C#1                0.813
+    C#2                0.110
 
 New/Additional Parameters
-    DIFF12            -2.347
-    DIFF13            -4.694
+    DIFF12            -0.237
+    DIFF13            -7.504
+    DIFF23            -7.267
 
 
 MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
 
      %OVERALL%
 
-     [ c#1*0.32214 ];
-     [ c#2*0.40523 ];
+     [ c#1*0.81327 ];
+     [ c#2*0.11022 ];
 
      %C#1%
 
-     [ cds_24*-1.15465 ] (m1);
+     [ cds_24*-0.00001 ] (m1);
      [ n#1@3.07500 ];
      [ n#2@1.08300 ];
 
-     cds_24*2.75378;
+     cds_24*0.00000;
 
      %C#2%
 
-     [ cds_24*1.19217 ] (m2);
+     [ cds_24*0.23663 ] (m2);
      [ n#1@1.19900 ];
      [ n#2@2.94500 ];
 
-     cds_24*2.75378;
+     cds_24*0.82038;
 
      %C#3%
 
-     [ cds_24*3.53899 ] (m3);
+     [ cds_24*7.50353 ] (m3);
      [ n#1@-1.28100 ];
      [ n#2@-1.14800 ];
 
-     cds_24*2.75378;
+     cds_24*23.75611;
 
      ! NEW statements in MODEL CONSTRAINT
-     NEW(diff12*-2.34682);
-     NEW(diff13*-4.69364);
+     NEW(diff12*-0.23664);
+     NEW(diff13*-7.50354);
+     NEW(diff23*-7.26690);
 
 
 
 
-     Beginning Time:  15:53:24
-        Ending Time:  15:53:31
-       Elapsed Time:  00:00:07
+     Beginning Time:  15:01:58
+        Ending Time:  15:01:58
+       Elapsed Time:  00:00:00
 
 
 

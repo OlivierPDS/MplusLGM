@@ -1,0 +1,580 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+06/29/2023   2:56 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   FINAL_311; - MixREG_SUMD2;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/SUMD2_MixREG.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N SUMD2_0 SUMD2_1 SUMD2_2 SUMD2_3
+       SUMD2_6 SUMD2_9 SUMD2_12 SUMD2_18 SUMD2_24;
+   MISSING=.;
+   USEVAR = N S SUMD2_0 SUMD2_1 SUMD2_2 SUMD2_3 SUMD2_6 SUMD2_9 SUMD2_12 SUMD2_18 SUMD2_24;
+  NOMINAL = N;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  iw sw | SUMD2_0@2 SUMD2_1@2 SUMD2_2@2 SUMD2_3@2 SUMD2_6@2 SUMD2_9@2 SUMD2_12@2 SUMD2_18@2
+  SUMD2_24@2;
+  S ON iw sw;
+  %C#1%
+  [N#1@3.075];
+  [N#2@1.083];
+  S ON iw sw (S1 - S2);
+  [iw] (iw1);
+  [sw] (sw1);
+  iw sw;
+  iw WITH sw;
+  SUMD2_0 SUMD2_1 SUMD2_2 SUMD2_3 SUMD2_6 SUMD2_9 SUMD2_12 SUMD2_18 SUMD2_24;
+  %C#2%
+  [N#1@1.199];
+  [N#2@2.945];
+  S ON iw sw (S3 - S4);
+  [iw] (iw2);
+  [sw] (sw2);
+  iw sw;
+  iw WITH sw;
+  SUMD2_0 SUMD2_1 SUMD2_2 SUMD2_3 SUMD2_6 SUMD2_9 SUMD2_12 SUMD2_18 SUMD2_24;
+  %C#3%
+  [N#1@-1.281];
+  [N#2@-1.148];
+  S ON iw sw (S5 - S6);
+  [iw] (iw3);
+  [sw] (sw3);
+  iw sw;
+  iw WITH sw;
+  SUMD2_0 SUMD2_1 SUMD2_2 SUMD2_3 SUMD2_6 SUMD2_9 SUMD2_12 SUMD2_18 SUMD2_24;
+  MODEL TEST:
+  S2 = S4;
+  S4 = S6;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+FINAL_311; - MixREG_SUMD2;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         405
+
+Number of dependent variables                                   11
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   S           SUMD2_0     SUMD2_1     SUMD2_2     SUMD2_3     SUMD2_6
+   SUMD2_9     SUMD2_12    SUMD2_18    SUMD2_24
+
+  Unordered categorical (nominal)
+   N
+
+Continuous latent variables
+   IW          SW
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/SUMD2_MixREG.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            94
+     Number of y missing data patterns          94
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              S             SUMD2_0       SUMD2_1       SUMD2_2       SUMD2_3
+              ________      ________      ________      ________      ________
+ S              1.000
+ SUMD2_0        0.464         0.464
+ SUMD2_1        0.141         0.119         0.141
+ SUMD2_2        0.146         0.114         0.052         0.146
+ SUMD2_3        0.133         0.094         0.054         0.079         0.133
+ SUMD2_6        0.126         0.086         0.042         0.064         0.059
+ SUMD2_9        0.131         0.081         0.032         0.064         0.052
+ SUMD2_12       0.131         0.089         0.032         0.047         0.040
+ SUMD2_18       0.096         0.059         0.015         0.030         0.027
+ SUMD2_24       0.094         0.062         0.010         0.020         0.017
+
+
+           Covariance Coverage
+              SUMD2_6       SUMD2_9       SUMD2_12      SUMD2_18      SUMD2_24
+              ________      ________      ________      ________      ________
+ SUMD2_6        0.126
+ SUMD2_9        0.069         0.131
+ SUMD2_12       0.059         0.069         0.131
+ SUMD2_18       0.027         0.042         0.049         0.096
+ SUMD2_24       0.032         0.035         0.044         0.040         0.094
+
+     THE COVARIANCE COVERAGE FALLS BELOW THE SPECIFIED LIMIT.  THE MISSING
+     DATA EM ALGORITHM WILL NOT BE INITIATED.  CHECK YOUR DATA OR LOWER THE
+     COVARIANCE COVERAGE LIMIT.
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.437          177.000
+      Category 2    0.402          163.000
+      Category 3    0.160           65.000
+
+
+SAMPLE STATISTICS
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     S                    -0.593      -0.232      -1.446    0.25%      -1.126     -0.719     -0.494
+             405.000       0.226      -1.309       0.321    0.25%      -0.321     -0.144
+     SUMD2_0               3.544      -0.423       1.000    5.32%       2.250      3.250      3.500
+             188.000       1.602      -0.967       5.000   26.60%       4.000      5.000
+     SUMD2_1               3.118      -0.089       1.000    8.77%       2.000      2.750      3.000
+              57.000       1.527      -1.055       5.000   10.53%       3.250      4.500
+     SUMD2_2               3.284      -0.297       1.000   11.86%       1.500      3.000      3.500
+              59.000       1.916      -1.188       5.000   22.03%       3.750      5.000
+     SUMD2_3               2.926       0.156       1.000   11.11%       1.500      2.500      3.000
+              54.000       1.826      -1.244       5.000   16.67%       3.000      4.000
+     SUMD2_6               3.025       0.088       1.000   17.65%       1.250      2.750      3.000
+              51.000       1.991      -1.202       5.000   23.53%       3.000      5.000
+     SUMD2_9               2.868       0.335       1.000   13.21%       1.500      2.000      2.500
+              53.000       1.917      -1.217       5.000   16.98%       3.000      4.750
+     SUMD2_12              2.901       0.154       1.000   16.98%       1.500      2.250      3.000
+              53.000       1.881      -1.170       5.000   18.87%       3.000      4.000
+     SUMD2_18              2.526       0.442       1.000   33.33%       1.000      1.500      2.250
+              39.000       2.211      -1.267       5.000   12.82%       2.750      3.750
+     SUMD2_24              2.599       0.407       1.000   21.05%       1.000      2.000      2.500
+              38.000       1.617      -0.896       5.000   10.53%       2.750      3.750
+
+     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 3 COULD NOT
+     BE INVERTED.  PROBLEM INVOLVING VARIABLE SUMD2_24.  COMPUTATION COULD
+     NOT BE COMPLETED IN ITERATION 9.  CHANGE YOUR MODEL AND/OR STARTING
+     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
+     VARIATION FOR THE VARIABLE.
+
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
+     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+
+
+
+
+
+
+MODEL RESULTS
+
+                    Estimate
+
+Latent Class 1
+
+ IW       |
+    SUMD2_0            1.000
+    SUMD2_1            1.000
+    SUMD2_2            1.000
+    SUMD2_3            1.000
+    SUMD2_6            1.000
+    SUMD2_9            1.000
+    SUMD2_12           1.000
+    SUMD2_18           1.000
+    SUMD2_24           1.000
+
+ SW       |
+    SUMD2_0            2.000
+    SUMD2_1            2.000
+    SUMD2_2            2.000
+    SUMD2_3            2.000
+    SUMD2_6            2.000
+    SUMD2_9            2.000
+    SUMD2_12           2.000
+    SUMD2_18           2.000
+    SUMD2_24           2.000
+
+ S          ON
+    IW                -0.026
+    SW                 0.087
+
+ SW       WITH
+    IW                 0.057
+
+ Means
+    IW                 0.506
+    SW                 1.126
+
+ Means
+    N#1                3.075
+    N#2                1.083
+
+ Intercepts
+    S                 -1.156
+    SUMD2_0            0.000
+    SUMD2_1            0.000
+    SUMD2_2            0.000
+    SUMD2_3            0.000
+    SUMD2_6            0.000
+    SUMD2_9            0.000
+    SUMD2_12           0.000
+    SUMD2_18           0.000
+    SUMD2_24           0.000
+
+ Variances
+    IW                 0.076
+    SW                 0.196
+
+ Residual Variances
+    S                  0.053
+    SUMD2_0            1.775
+    SUMD2_1            1.490
+    SUMD2_2            0.942
+    SUMD2_3            0.023
+    SUMD2_6            0.391
+    SUMD2_9            1.064
+    SUMD2_12           0.577
+    SUMD2_18           1.555
+    SUMD2_24           0.669
+
+Latent Class 2
+
+ IW       |
+    SUMD2_0            1.000
+    SUMD2_1            1.000
+    SUMD2_2            1.000
+    SUMD2_3            1.000
+    SUMD2_6            1.000
+    SUMD2_9            1.000
+    SUMD2_12           1.000
+    SUMD2_18           1.000
+    SUMD2_24           1.000
+
+ SW       |
+    SUMD2_0            2.000
+    SUMD2_1            2.000
+    SUMD2_2            2.000
+    SUMD2_3            2.000
+    SUMD2_6            2.000
+    SUMD2_9            2.000
+    SUMD2_12           2.000
+    SUMD2_18           2.000
+    SUMD2_24           2.000
+
+ S          ON
+    IW                 0.057
+    SW                 0.208
+
+ SW       WITH
+    IW                 0.295
+
+ Means
+    IW                 0.471
+    SW                 1.504
+
+ Means
+    N#1                1.199
+    N#2                2.945
+
+ Intercepts
+    S                 -0.584
+    SUMD2_0            0.000
+    SUMD2_1            0.000
+    SUMD2_2            0.000
+    SUMD2_3            0.000
+    SUMD2_6            0.000
+    SUMD2_9            0.000
+    SUMD2_12           0.000
+    SUMD2_18           0.000
+    SUMD2_24           0.000
+
+ Variances
+    IW                 0.274
+    SW                -0.158
+
+ Residual Variances
+    S                  0.053
+    SUMD2_0            0.676
+    SUMD2_1            0.368
+    SUMD2_2            0.475
+    SUMD2_3            0.904
+    SUMD2_6            0.193
+    SUMD2_9            0.725
+    SUMD2_12           0.391
+    SUMD2_18           1.225
+    SUMD2_24           1.668
+
+Latent Class 3
+
+ IW       |
+    SUMD2_0            1.000
+    SUMD2_1            1.000
+    SUMD2_2            1.000
+    SUMD2_3            1.000
+    SUMD2_6            1.000
+    SUMD2_9            1.000
+    SUMD2_12           1.000
+    SUMD2_18           1.000
+    SUMD2_24           1.000
+
+ SW       |
+    SUMD2_0            2.000
+    SUMD2_1            2.000
+    SUMD2_2            2.000
+    SUMD2_3            2.000
+    SUMD2_6            2.000
+    SUMD2_9            2.000
+    SUMD2_12           2.000
+    SUMD2_18           2.000
+    SUMD2_24           2.000
+
+ S          ON
+    IW                 0.121
+    SW                -0.212
+
+ SW       WITH
+    IW                 0.510
+
+ Means
+    IW                 0.638
+    SW                 1.137
+
+ Means
+    N#1               -1.281
+    N#2               -1.148
+
+ Intercepts
+    S                 -0.012
+    SUMD2_0            0.000
+    SUMD2_1            0.000
+    SUMD2_2            0.000
+    SUMD2_3            0.000
+    SUMD2_6            0.000
+    SUMD2_9            0.000
+    SUMD2_12           0.000
+    SUMD2_18           0.000
+    SUMD2_24           0.000
+
+ Variances
+    IW                -0.047
+    SW                -0.202
+
+ Residual Variances
+    S                  0.053
+    SUMD2_0            1.353
+    SUMD2_1            1.941
+    SUMD2_2            4.166
+    SUMD2_3            0.217
+    SUMD2_6            1.971
+    SUMD2_9            0.163
+    SUMD2_12           0.737
+    SUMD2_18          -0.045
+    SUMD2_24           0.156
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.890
+    C#2                0.757
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     %OVERALL%
+
+     iw sw | sumd2_0@2 sumd2_1@2 sumd2_2@2 sumd2_3@2 sumd2_6@2 sumd2_9@2 sumd2_12@2 sumd2_18@2
+     sumd2_24@2;
+
+     s ON iw;
+     s ON sw;
+
+     [ c#1*0.88966 ];
+     [ c#2*0.75693 ];
+
+     %C#1%
+
+     s ON iw*-0.02623 (s1);
+     s ON sw*0.08676 (s2);
+
+     sw WITH iw*0.05659;
+
+     [ s*-1.15578 ];
+     [ sumd2_0@0 ];
+     [ sumd2_1@0 ];
+     [ sumd2_2@0 ];
+     [ sumd2_3@0 ];
+     [ sumd2_6@0 ];
+     [ sumd2_9@0 ];
+     [ sumd2_12@0 ];
+     [ sumd2_18@0 ];
+     [ sumd2_24@0 ];
+     [ iw*0.50570 ] (iw1);
+     [ sw*1.12599 ] (sw1);
+     [ n#1@3.07500 ];
+     [ n#2@1.08300 ];
+
+     s*0.05301 (18);
+     sumd2_0*1.77480;
+     sumd2_1*1.49003;
+     sumd2_2*0.94189;
+     sumd2_3*0.02273;
+     sumd2_6*0.39063;
+     sumd2_9*1.06353;
+     sumd2_12*0.57703;
+     sumd2_18*1.55538;
+     sumd2_24*0.66853;
+     iw*0.07601;
+     sw*0.19647;
+
+     %C#2%
+
+     s ON iw*0.05731 (s3);
+     s ON sw*0.20830 (s4);
+
+     sw WITH iw*0.29531;
+
+     [ s*-0.58354 ];
+     [ sumd2_0@0 ];
+     [ sumd2_1@0 ];
+     [ sumd2_2@0 ];
+     [ sumd2_3@0 ];
+     [ sumd2_6@0 ];
+     [ sumd2_9@0 ];
+     [ sumd2_12@0 ];
+     [ sumd2_18@0 ];
+     [ sumd2_24@0 ];
+     [ iw*0.47067 ] (iw2);
+     [ sw*1.50416 ] (sw2);
+     [ n#1@1.19900 ];
+     [ n#2@2.94500 ];
+
+     s*0.05301 (18);
+     sumd2_0*0.67621;
+     sumd2_1*0.36845;
+     sumd2_2*0.47539;
+     sumd2_3*0.90420;
+     sumd2_6*0.19280;
+     sumd2_9*0.72512;
+     sumd2_12*0.39130;
+     sumd2_18*1.22531;
+     sumd2_24*1.66805;
+     iw*0.27429;
+     sw*-0.15761;
+
+     %C#3%
+
+     s ON iw*0.12111 (s5);
+     s ON sw*-0.21182 (s6);
+
+     sw WITH iw*0.51032;
+
+     [ s*-0.01239 ];
+     [ sumd2_0@0 ];
+     [ sumd2_1@0 ];
+     [ sumd2_2@0 ];
+     [ sumd2_3@0 ];
+     [ sumd2_6@0 ];
+     [ sumd2_9@0 ];
+     [ sumd2_12@0 ];
+     [ sumd2_18@0 ];
+     [ sumd2_24@0 ];
+     [ iw*0.63847 ] (iw3);
+     [ sw*1.13704 ] (sw3);
+     [ n#1@-1.28100 ];
+     [ n#2@-1.14800 ];
+
+     s*0.05301 (18);
+     sumd2_0*1.35324;
+     sumd2_1*1.94113;
+     sumd2_2*4.16569;
+     sumd2_3*0.21704;
+     sumd2_6*1.97149;
+     sumd2_9*0.16314;
+     sumd2_12*0.73710;
+     sumd2_18*-0.04541;
+     sumd2_24*0.15622;
+     iw*-0.04716;
+     sw*-0.20186;
+
+
+
+     Beginning Time:  14:56:45
+        Ending Time:  14:56:45
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

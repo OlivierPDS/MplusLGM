@@ -1,0 +1,59 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+06/29/2023   1:01 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   GMM4v_i s q cub@0; - R3STEP_conv;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/conv_R3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N conv;
+   MISSING=.;
+   USEVAR = N conv;
+  NOMINAL = N;
+  CLASSES = c(2);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  ALGORITHM = INTEGRATION;
+  INTEGRATION = MONTECARLO;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  C ON conv;
+  conv;
+  %C#1%
+  [N#1@3.513];
+  %C#2%
+  [N#1@-3.952];
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+*** ERROR
+  One or more variables have a variance greater than the maximum allowed of 1000000.
+  Check your data and format statement or rescale the variable(s) using the DEFINE command.
+
+    Continuous    Number of
+     Variable   Observations    Variance
+
+      N              405        N/A
+    **CONV           391      **********
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

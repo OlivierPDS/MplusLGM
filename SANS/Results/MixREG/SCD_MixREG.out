@@ -1,0 +1,574 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+06/29/2023   2:56 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   FINAL_311; - MixREG_SCD;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/SCD_MixREG.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N cd8_0 cd8_1 cd8_2 cd8_3 cd8_6
+       cd8_9 cd8_12 cd8_18 cd8_24;
+   MISSING=.;
+   USEVAR = N S cd8_0 cd8_1 cd8_2 cd8_3 cd8_6 cd8_9 cd8_12 cd8_18 cd8_24;
+  NOMINAL = N;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  iw sw | cd8_0@8 cd8_1@8 cd8_2@8 cd8_3@8 cd8_6@8 cd8_9@8 cd8_12@8 cd8_18@8 cd8_24@8;
+  S ON iw sw;
+  %C#1%
+  [N#1@3.075];
+  [N#2@1.083];
+  S ON iw sw (S1 - S2);
+  [iw] (iw1);
+  [sw] (sw1);
+  iw sw;
+  iw WITH sw;
+  cd8_0 cd8_1 cd8_2 cd8_3 cd8_6 cd8_9 cd8_12 cd8_18 cd8_24;
+  %C#2%
+  [N#1@1.199];
+  [N#2@2.945];
+  S ON iw sw (S3 - S4);
+  [iw] (iw2);
+  [sw] (sw2);
+  iw sw;
+  iw WITH sw;
+  cd8_0 cd8_1 cd8_2 cd8_3 cd8_6 cd8_9 cd8_12 cd8_18 cd8_24;
+  %C#3%
+  [N#1@-1.281];
+  [N#2@-1.148];
+  S ON iw sw (S5 - S6);
+  [iw] (iw3);
+  [sw] (sw3);
+  iw sw;
+  iw WITH sw;
+  cd8_0 cd8_1 cd8_2 cd8_3 cd8_6 cd8_9 cd8_12 cd8_18 cd8_24;
+  MODEL TEST:
+  S2 = S4;
+  S4 = S6;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+FINAL_311; - MixREG_SCD;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         405
+
+Number of dependent variables                                   11
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   S           CD8_0       CD8_1       CD8_2       CD8_3       CD8_6
+   CD8_9       CD8_12      CD8_18      CD8_24
+
+  Unordered categorical (nominal)
+   N
+
+Continuous latent variables
+   IW          SW
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/SCD_MixREG.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            68
+     Number of y missing data patterns          68
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              S             CD8_0         CD8_1         CD8_2         CD8_3
+              ________      ________      ________      ________      ________
+ S              1.000
+ CD8_0          0.980         0.980
+ CD8_1          0.662         0.657         0.662
+ CD8_2          0.849         0.837         0.593         0.849
+ CD8_3          0.938         0.926         0.625         0.820         0.938
+ CD8_6          0.904         0.896         0.598         0.780         0.867
+ CD8_9          0.867         0.849         0.570         0.758         0.812
+ CD8_12         0.867         0.849         0.558         0.726         0.810
+ CD8_18         0.820         0.807         0.526         0.689         0.765
+ CD8_24         0.694         0.677         0.430         0.612         0.652
+
+
+           Covariance Coverage
+              CD8_6         CD8_9         CD8_12        CD8_18        CD8_24
+              ________      ________      ________      ________      ________
+ CD8_6          0.904
+ CD8_9          0.793         0.867
+ CD8_12         0.785         0.775         0.867
+ CD8_18         0.743         0.723         0.743         0.820
+ CD8_24         0.632         0.637         0.627         0.617         0.694
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.437          177.000
+      Category 2    0.402          163.000
+      Category 3    0.160           65.000
+
+
+SAMPLE STATISTICS
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     S                    -0.593      -0.232      -1.446    0.25%      -1.126     -0.719     -0.494
+             405.000       0.226      -1.309       0.321    0.25%      -0.321     -0.144
+     CD8_0                 0.670       1.220       0.000   54.91%       0.000      0.000      0.000
+             397.000       0.780       0.619       3.000    6.05%       1.000      1.000
+     CD8_1                 0.257       2.481       0.000   81.34%       0.000      0.000      0.000
+             268.000       0.355       5.890       3.000    1.12%       0.000      0.000
+     CD8_2                 0.218       2.488       0.000   83.14%       0.000      0.000      0.000
+             344.000       0.275       5.736       3.000    0.29%       0.000      0.000
+     CD8_3                 0.226       2.478       0.000   81.58%       0.000      0.000      0.000
+             380.000       0.270       6.326       3.000    0.53%       0.000      0.000
+     CD8_6                 0.194       2.589       0.000   83.61%       0.000      0.000      0.000
+             366.000       0.222       6.945       3.000    0.27%       0.000      0.000
+     CD8_9                 0.174       3.261       0.000   86.32%       0.000      0.000      0.000
+             351.000       0.235      11.849       3.000    0.85%       0.000      0.000
+     CD8_12                0.160       3.164       0.000   88.32%       0.000      0.000      0.000
+             351.000       0.225       9.798       3.000    0.28%       0.000      0.000
+     CD8_18                0.172       3.324       0.000   87.35%       0.000      0.000      0.000
+             332.000       0.251      11.715       3.000    0.90%       0.000      0.000
+     CD8_24                0.117       3.975       0.000   92.17%       0.000      0.000      0.000
+             281.000       0.189      15.859       3.000    0.36%       0.000      0.000
+
+     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 1 COULD NOT
+     BE INVERTED.  PROBLEM INVOLVING VARIABLE CD8_12.  COMPUTATION COULD
+     NOT BE COMPLETED IN ITERATION 6.  CHANGE YOUR MODEL AND/OR STARTING
+     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
+     VARIATION FOR THE VARIABLE.
+
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
+     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+
+
+
+
+
+
+MODEL RESULTS
+
+                    Estimate
+
+Latent Class 1
+
+ IW       |
+    CD8_0              1.000
+    CD8_1              1.000
+    CD8_2              1.000
+    CD8_3              1.000
+    CD8_6              1.000
+    CD8_9              1.000
+    CD8_12             1.000
+    CD8_18             1.000
+    CD8_24             1.000
+
+ SW       |
+    CD8_0              8.000
+    CD8_1              8.000
+    CD8_2              8.000
+    CD8_3              8.000
+    CD8_6              8.000
+    CD8_9              8.000
+    CD8_12             8.000
+    CD8_18             8.000
+    CD8_24             8.000
+
+ S          ON
+    IW                 1.351
+    SW                10.810
+
+ SW       WITH
+    IW                 0.021
+
+ Means
+    IW                -0.145
+    SW                 0.018
+
+ Means
+    N#1                3.075
+    N#2                1.083
+
+ Intercepts
+    S                 -1.034
+    CD8_0              0.000
+    CD8_1              0.000
+    CD8_2              0.000
+    CD8_3              0.000
+    CD8_6              0.000
+    CD8_9              0.000
+    CD8_12             0.000
+    CD8_18             0.000
+    CD8_24             0.000
+
+ Variances
+    IW                 0.618
+    SW                -0.015
+
+ Residual Variances
+    S                  0.097
+    CD8_0              1.057
+    CD8_1              0.306
+    CD8_2              0.102
+    CD8_3              0.131
+    CD8_6              0.030
+    CD8_9              0.001
+    CD8_12             0.000
+    CD8_18             0.111
+    CD8_24             0.011
+
+Latent Class 2
+
+ IW       |
+    CD8_0              1.000
+    CD8_1              1.000
+    CD8_2              1.000
+    CD8_3              1.000
+    CD8_6              1.000
+    CD8_9              1.000
+    CD8_12             1.000
+    CD8_18             1.000
+    CD8_24             1.000
+
+ SW       |
+    CD8_0              8.000
+    CD8_1              8.000
+    CD8_2              8.000
+    CD8_3              8.000
+    CD8_6              8.000
+    CD8_9              8.000
+    CD8_12             8.000
+    CD8_18             8.000
+    CD8_24             8.000
+
+ S          ON
+    IW                 0.075
+    SW                 0.090
+
+ SW       WITH
+    IW                -0.021
+
+ Means
+    IW                -0.027
+    SW                 0.013
+
+ Means
+    N#1                1.199
+    N#2                2.945
+
+ Intercepts
+    S                 -0.271
+    CD8_0              0.000
+    CD8_1              0.000
+    CD8_2              0.000
+    CD8_3              0.000
+    CD8_6              0.000
+    CD8_9              0.000
+    CD8_12             0.000
+    CD8_18             0.000
+    CD8_24             0.000
+
+ Variances
+    IW                -0.057
+    SW                 0.006
+
+ Residual Variances
+    S                  0.097
+    CD8_0              0.727
+    CD8_1              0.068
+    CD8_2              0.123
+    CD8_3              0.082
+    CD8_6              0.096
+    CD8_9              0.116
+    CD8_12             0.073
+    CD8_18             0.114
+    CD8_24             0.016
+
+Latent Class 3
+
+ IW       |
+    CD8_0              1.000
+    CD8_1              1.000
+    CD8_2              1.000
+    CD8_3              1.000
+    CD8_6              1.000
+    CD8_9              1.000
+    CD8_12             1.000
+    CD8_18             1.000
+    CD8_24             1.000
+
+ SW       |
+    CD8_0              8.000
+    CD8_1              8.000
+    CD8_2              8.000
+    CD8_3              8.000
+    CD8_6              8.000
+    CD8_9              8.000
+    CD8_12             8.000
+    CD8_18             8.000
+    CD8_24             8.000
+
+ S          ON
+    IW                -0.306
+    SW                -2.463
+
+ SW       WITH
+    IW                -0.367
+
+ Means
+    IW                 0.010
+    SW                 0.078
+
+ Means
+    N#1               -1.281
+    N#2               -1.148
+
+ Intercepts
+    S                 -0.161
+    CD8_0              0.000
+    CD8_1              0.000
+    CD8_2              0.000
+    CD8_3              0.000
+    CD8_6              0.000
+    CD8_9              0.000
+    CD8_12             0.000
+    CD8_18             0.000
+    CD8_24             0.000
+
+ Variances
+    IW                -0.042
+    SW                 0.094
+
+ Residual Variances
+    S                  0.097
+    CD8_0              1.116
+    CD8_1              0.383
+    CD8_2              0.535
+    CD8_3              0.481
+    CD8_6              0.413
+    CD8_9              0.635
+    CD8_12             0.634
+    CD8_18             0.712
+    CD8_24             0.813
+
+Categorical Latent Variables
+
+ Means
+    C#1                1.039
+    C#2               -0.540
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     %OVERALL%
+
+     iw sw | cd8_0@8 cd8_1@8 cd8_2@8 cd8_3@8 cd8_6@8 cd8_9@8 cd8_12@8 cd8_18@8 cd8_24@8;
+
+     s ON iw;
+     s ON sw;
+
+     [ c#1*1.03885 ];
+     [ c#2*-0.53987 ];
+
+     %C#1%
+
+     s ON iw*1.35124 (s1);
+     s ON sw*10.80994 (s2);
+
+     sw WITH iw*0.02110;
+
+     [ s*-1.03366 ];
+     [ cd8_0@0 ];
+     [ cd8_1@0 ];
+     [ cd8_2@0 ];
+     [ cd8_3@0 ];
+     [ cd8_6@0 ];
+     [ cd8_9@0 ];
+     [ cd8_12@0 ];
+     [ cd8_18@0 ];
+     [ cd8_24@0 ];
+     [ iw*-0.14462 ] (iw1);
+     [ sw*0.01808 ] (sw1);
+     [ n#1@3.07500 ];
+     [ n#2@1.08300 ];
+
+     s*0.09726 (18);
+     cd8_0*1.05715;
+     cd8_1*0.30594;
+     cd8_2*0.10154;
+     cd8_3*0.13094;
+     cd8_6*0.03025;
+     cd8_9*0.00062;
+     cd8_12*0.00000;
+     cd8_18*0.11080;
+     cd8_24*0.01060;
+     iw*0.61816;
+     sw*-0.01493;
+
+     %C#2%
+
+     s ON iw*0.07454 (s3);
+     s ON sw*0.08954 (s4);
+
+     sw WITH iw*-0.02134;
+
+     [ s*-0.27051 ];
+     [ cd8_0@0 ];
+     [ cd8_1@0 ];
+     [ cd8_2@0 ];
+     [ cd8_3@0 ];
+     [ cd8_6@0 ];
+     [ cd8_9@0 ];
+     [ cd8_12@0 ];
+     [ cd8_18@0 ];
+     [ cd8_24@0 ];
+     [ iw*-0.02694 ] (iw2);
+     [ sw*0.01293 ] (sw2);
+     [ n#1@1.19900 ];
+     [ n#2@2.94500 ];
+
+     s*0.09726 (18);
+     cd8_0*0.72700;
+     cd8_1*0.06802;
+     cd8_2*0.12309;
+     cd8_3*0.08188;
+     cd8_6*0.09606;
+     cd8_9*0.11581;
+     cd8_12*0.07255;
+     cd8_18*0.11411;
+     cd8_24*0.01629;
+     iw*-0.05723;
+     sw*0.00631;
+
+     %C#3%
+
+     s ON iw*-0.30597 (s5);
+     s ON sw*-2.46308 (s6);
+
+     sw WITH iw*-0.36742;
+
+     [ s*-0.16065 ];
+     [ cd8_0@0 ];
+     [ cd8_1@0 ];
+     [ cd8_2@0 ];
+     [ cd8_3@0 ];
+     [ cd8_6@0 ];
+     [ cd8_9@0 ];
+     [ cd8_12@0 ];
+     [ cd8_18@0 ];
+     [ cd8_24@0 ];
+     [ iw*0.00955 ] (iw3);
+     [ sw*0.07755 ] (sw3);
+     [ n#1@-1.28100 ];
+     [ n#2@-1.14800 ];
+
+     s*0.09726 (18);
+     cd8_0*1.11567;
+     cd8_1*0.38342;
+     cd8_2*0.53528;
+     cd8_3*0.48070;
+     cd8_6*0.41296;
+     cd8_9*0.63536;
+     cd8_12*0.63416;
+     cd8_18*0.71169;
+     cd8_24*0.81250;
+     iw*-0.04151;
+     sw*0.09387;
+
+
+
+     Beginning Time:  14:56:42
+        Ending Time:  14:56:42
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

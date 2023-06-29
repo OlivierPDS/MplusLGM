@@ -1,0 +1,1435 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+06/29/2023   2:17 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   GMM4v_i s q cub@0; - MixREG_EDUC;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/MixREG/EDUC_MixREG.dat";
+
+  VARIABLE:
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N EDUC_0 EDUC_1 EDUC_2 EDUC_3 EDUC_6 EDUC_9
+       EDUC_12 EDUC_18 EDUC_24;
+   MISSING=.;
+   USEVAR = N S EDUC_0 EDUC_1 EDUC_2 EDUC_3 EDUC_6 EDUC_9 EDUC_12 EDUC_18 EDUC_24;
+  NOMINAL = N;
+  CLASSES = c(2);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  iw sw | EDUC_0@0 EDUC_1@1 EDUC_2@2 EDUC_3@3 EDUC_6@6 EDUC_9@9 EDUC_12@12 EDUC_18@18
+  EDUC_24@24;
+  S ON iw sw;
+  %C#1%
+  [N#1@3.513];
+  S ON iw sw (S1 - S2);
+  [iw] (iw1);
+  [sw] (sw1);
+  iw sw;
+  iw WITH sw;
+  EDUC_0 EDUC_1 EDUC_2 EDUC_3 EDUC_6 EDUC_9 EDUC_12 EDUC_18 EDUC_24;
+  %C#2%
+  [N#1@-3.952];
+  S ON iw sw (S3 - S4);
+  [iw] (iw2);
+  [sw] (sw2);
+  iw sw;
+  iw WITH sw;
+  EDUC_0 EDUC_1 EDUC_2 EDUC_3 EDUC_6 EDUC_9 EDUC_12 EDUC_18 EDUC_24;
+  MODEL TEST:
+  S2 = S4;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+GMM4v_i s q cub@0; - MixREG_EDUC;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         405
+
+Number of dependent variables                                   11
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   S           EDUC_0      EDUC_1      EDUC_2      EDUC_3      EDUC_6
+   EDUC_9      EDUC_12     EDUC_18     EDUC_24
+
+  Unordered categorical (nominal)
+   N
+
+Continuous latent variables
+   IW          SW
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/MixREG/EDUC_MixREG.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns           159
+     Number of y missing data patterns         159
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              S             EDUC_0        EDUC_1        EDUC_2        EDUC_3
+              ________      ________      ________      ________      ________
+ S              1.000
+ EDUC_0         0.511         0.511
+ EDUC_1         0.240         0.207         0.240
+ EDUC_2         0.388         0.323         0.160         0.388
+ EDUC_3         0.457         0.383         0.188         0.323         0.457
+ EDUC_6         0.435         0.363         0.156         0.286         0.326
+ EDUC_9         0.417         0.321         0.138         0.274         0.296
+ EDUC_12        0.427         0.328         0.143         0.254         0.296
+ EDUC_18        0.383         0.291         0.128         0.220         0.247
+ EDUC_24        0.264         0.188         0.072         0.153         0.175
+
+
+           Covariance Coverage
+              EDUC_6        EDUC_9        EDUC_12       EDUC_18       EDUC_24
+              ________      ________      ________      ________      ________
+ EDUC_6         0.435
+ EDUC_9         0.306         0.417
+ EDUC_12        0.304         0.301         0.427
+ EDUC_18        0.262         0.257         0.274         0.383
+ EDUC_24        0.183         0.193         0.198         0.190         0.264
+
+     THE COVARIANCE COVERAGE FALLS BELOW THE SPECIFIED LIMIT.  THE MISSING
+     DATA EM ALGORITHM WILL NOT BE INITIATED.  CHECK YOUR DATA OR LOWER THE
+     COVARIANCE COVERAGE LIMIT.
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.341          138.000
+      Category 2    0.659          267.000
+
+
+SAMPLE STATISTICS
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     S                    -1.071       0.642      -1.721    0.25%      -1.403     -1.298     -1.255
+             405.000       0.149      -1.102      -0.217    0.49%      -1.156     -0.592
+     EDUC_0               12.034       0.375       5.000    0.48%       9.000     11.000     12.000
+             207.000       7.936      -0.441      19.000    0.97%      13.000     14.000
+     EDUC_1               11.423       0.447       5.000    1.03%       9.000     11.000     11.000
+              97.000       6.842      -0.088      18.000    2.06%      11.000     14.000
+     EDUC_2               11.822       0.240       5.000    0.64%       9.000     11.000     12.000
+             157.000       7.382      -0.427      19.000    0.64%      12.000     14.000
+     EDUC_3               11.968       0.263       5.000    0.54%       9.000     11.000     12.000
+             185.000       7.880      -0.623      18.000    3.24%      12.000     14.000
+     EDUC_6               12.210       0.293       5.000    0.57%      10.000     11.000     12.000
+             176.000       7.552      -0.491      20.000    0.57%      13.000     15.000
+     EDUC_9               13.201      12.050       5.000    0.59%      10.000     11.000     12.000
+             169.000     164.894     149.871     176.000    0.59%      13.000     14.000
+     EDUC_12              12.202       0.386       6.000    0.58%      10.000     11.000     12.000
+             173.000       6.739      -0.101      20.000    0.58%      13.000     14.000
+     EDUC_18              12.310       0.193       4.000    0.65%      10.000     11.000     12.000
+             155.000       7.517      -0.259      19.000    0.65%      13.000     15.000
+     EDUC_24              12.346       0.150       7.000    1.87%      10.000     11.000     12.000
+             107.000       6.768      -0.796      18.000    1.87%      13.000     15.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       36
+
+Loglikelihood
+
+          H0 Value                       -2493.970
+          H0 Scaling Correction Factor      3.5129
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    5059.940
+          Bayesian (BIC)                  5204.080
+          Sample-Size Adjusted BIC        5089.847
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                              1.404
+          Degrees of Freedom                     1
+          P-Value                           0.2360
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        140.53270          0.34699
+       2        264.46730          0.65301
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        140.53270          0.34699
+       2        264.46730          0.65301
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              140          0.34568
+       2              265          0.65432
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.993
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   1.000    0.000
+    2   0.002    0.998
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.996    0.004
+    2   0.000    1.000
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      5.466    0.000
+    2     -8.410    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ IW       |
+    EDUC_0             1.000      0.000    999.000    999.000
+    EDUC_1             1.000      0.000    999.000    999.000
+    EDUC_2             1.000      0.000    999.000    999.000
+    EDUC_3             1.000      0.000    999.000    999.000
+    EDUC_6             1.000      0.000    999.000    999.000
+    EDUC_9             1.000      0.000    999.000    999.000
+    EDUC_12            1.000      0.000    999.000    999.000
+    EDUC_18            1.000      0.000    999.000    999.000
+    EDUC_24            1.000      0.000    999.000    999.000
+
+ SW       |
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             1.000      0.000    999.000    999.000
+    EDUC_2             2.000      0.000    999.000    999.000
+    EDUC_3             3.000      0.000    999.000    999.000
+    EDUC_6             6.000      0.000    999.000    999.000
+    EDUC_9             9.000      0.000    999.000    999.000
+    EDUC_12           12.000      0.000    999.000    999.000
+    EDUC_18           18.000      0.000    999.000    999.000
+    EDUC_24           24.000      0.000    999.000    999.000
+
+ S          ON
+    IW                 0.023      0.024      0.942      0.346
+    SW                 6.399      5.337      1.199      0.231
+
+ SW       WITH
+    IW                -0.026      0.025     -1.025      0.305
+
+ Means
+    IW                12.947      0.278     46.592      0.000
+    SW                 0.022      0.008      2.700      0.007
+
+ Means
+    N#1                3.513      0.000    999.000    999.000
+
+ Intercepts
+    S                 -1.012      0.368     -2.753      0.006
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.000      0.000    999.000    999.000
+    EDUC_2             0.000      0.000    999.000    999.000
+    EDUC_3             0.000      0.000    999.000    999.000
+    EDUC_6             0.000      0.000    999.000    999.000
+    EDUC_9             0.000      0.000    999.000    999.000
+    EDUC_12            0.000      0.000    999.000    999.000
+    EDUC_18            0.000      0.000    999.000    999.000
+    EDUC_24            0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 7.372      0.871      8.462      0.000
+    SW                 0.000      0.001      0.697      0.486
+
+ Residual Variances
+    S                  0.014      0.002      9.193      0.000
+    EDUC_0             0.435      0.164      2.647      0.008
+    EDUC_1             0.292      0.115      2.539      0.011
+    EDUC_2             0.572      0.336      1.702      0.089
+    EDUC_3             0.789      0.407      1.940      0.052
+    EDUC_6             0.634      0.163      3.886      0.000
+    EDUC_9             1.078      0.498      2.167      0.030
+    EDUC_12            1.066      0.313      3.403      0.001
+    EDUC_18            0.746      0.233      3.201      0.001
+    EDUC_24            1.619      0.513      3.157      0.002
+
+Latent Class 2
+
+ IW       |
+    EDUC_0             1.000      0.000    999.000    999.000
+    EDUC_1             1.000      0.000    999.000    999.000
+    EDUC_2             1.000      0.000    999.000    999.000
+    EDUC_3             1.000      0.000    999.000    999.000
+    EDUC_6             1.000      0.000    999.000    999.000
+    EDUC_9             1.000      0.000    999.000    999.000
+    EDUC_12            1.000      0.000    999.000    999.000
+    EDUC_18            1.000      0.000    999.000    999.000
+    EDUC_24            1.000      0.000    999.000    999.000
+
+ SW       |
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             1.000      0.000    999.000    999.000
+    EDUC_2             2.000      0.000    999.000    999.000
+    EDUC_3             3.000      0.000    999.000    999.000
+    EDUC_6             6.000      0.000    999.000    999.000
+    EDUC_9             9.000      0.000    999.000    999.000
+    EDUC_12           12.000      0.000    999.000    999.000
+    EDUC_18           18.000      0.000    999.000    999.000
+    EDUC_24           24.000      0.000    999.000    999.000
+
+ S          ON
+    IW                 0.009      0.004      1.950      0.051
+    SW                 0.071      0.313      0.228      0.820
+
+ SW       WITH
+    IW                -0.040      0.016     -2.517      0.012
+
+ Means
+    IW                11.276      0.182     61.803      0.000
+    SW                 0.018      0.005      3.223      0.001
+
+ Means
+    N#1               -3.952      0.000    999.000    999.000
+
+ Intercepts
+    S                 -1.432      0.053    -27.129      0.000
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.000      0.000    999.000    999.000
+    EDUC_2             0.000      0.000    999.000    999.000
+    EDUC_3             0.000      0.000    999.000    999.000
+    EDUC_6             0.000      0.000    999.000    999.000
+    EDUC_9             0.000      0.000    999.000    999.000
+    EDUC_12            0.000      0.000    999.000    999.000
+    EDUC_18            0.000      0.000    999.000    999.000
+    EDUC_24            0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 5.621      0.623      9.029      0.000
+    SW                 0.003      0.001      2.710      0.007
+
+ Residual Variances
+    S                  0.014      0.002      9.193      0.000
+    EDUC_0             0.297      0.094      3.157      0.002
+    EDUC_1             0.396      0.287      1.379      0.168
+    EDUC_2             0.074      0.033      2.272      0.023
+    EDUC_3             0.334      0.117      2.845      0.004
+    EDUC_6             0.476      0.093      5.112      0.000
+    EDUC_9           241.146    239.078      1.009      0.313
+    EDUC_12            0.670      0.145      4.607      0.000
+    EDUC_18            0.483      0.134      3.610      0.000
+    EDUC_24            0.230      0.173      1.327      0.184
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.632      0.105     -6.035      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.878E-06
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ IW       |
+    EDUC_0             0.972      0.011     86.393      0.000
+    EDUC_1             0.984      0.009    114.584      0.000
+    EDUC_2             0.970      0.021     46.964      0.000
+    EDUC_3             0.959      0.030     31.795      0.000
+    EDUC_6             0.978      0.018     52.943      0.000
+    EDUC_9             0.959      0.041     23.403      0.000
+    EDUC_12            0.967      0.028     34.406      0.000
+    EDUC_18            1.003      0.048     20.706      0.000
+    EDUC_24            0.960      0.072     13.246      0.000
+
+ SW       |
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.008      0.006      1.404      0.160
+    EDUC_2             0.015      0.011      1.404      0.160
+    EDUC_3             0.023      0.016      1.388      0.165
+    EDUC_6             0.046      0.033      1.388      0.165
+    EDUC_9             0.068      0.050      1.373      0.170
+    EDUC_12            0.092      0.066      1.385      0.166
+    EDUC_18            0.143      0.105      1.362      0.173
+    EDUC_24            0.182      0.135      1.351      0.177
+
+ S          ON
+    IW                 0.360      0.379      0.951      0.342
+    SW                 0.799      0.183      4.361      0.000
+
+ SW       WITH
+    IW                -0.447      0.343     -1.305      0.192
+
+ Means
+    IW                 4.769      0.301     15.817      0.000
+    SW                 1.014      0.631      1.607      0.108
+
+ Intercepts
+    S                 -5.889      2.033     -2.898      0.004
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.000      0.000    999.000    999.000
+    EDUC_2             0.000      0.000    999.000    999.000
+    EDUC_3             0.000      0.000    999.000    999.000
+    EDUC_6             0.000      0.000    999.000    999.000
+    EDUC_9             0.000      0.000    999.000    999.000
+    EDUC_12            0.000      0.000    999.000    999.000
+    EDUC_18            0.000      0.000    999.000    999.000
+    EDUC_24            0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 1.000      0.000    999.000    999.000
+    SW                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.489      0.091      5.397      0.000
+    EDUC_0             0.056      0.022      2.547      0.011
+    EDUC_1             0.038      0.014      2.672      0.008
+    EDUC_2             0.073      0.040      1.845      0.065
+    EDUC_3             0.099      0.048      2.045      0.041
+    EDUC_6             0.082      0.022      3.691      0.000
+    EDUC_9             0.134      0.055      2.433      0.015
+    EDUC_12            0.135      0.040      3.397      0.001
+    EDUC_18            0.102      0.035      2.867      0.004
+    EDUC_24            0.202      0.059      3.453      0.001
+
+Latent Class 2
+
+ IW       |
+    EDUC_0             0.975      0.008    118.618      0.000
+    EDUC_1             0.973      0.024     40.865      0.000
+    EDUC_2             1.007      0.006    156.354      0.000
+    EDUC_3             0.990      0.014     72.645      0.000
+    EDUC_6             0.992      0.017     59.815      0.000
+    EDUC_9             0.151      0.072      2.090      0.037
+    EDUC_12            0.992      0.026     38.311      0.000
+    EDUC_18            1.008      0.041     24.793      0.000
+    EDUC_24            1.014      0.051     20.028      0.000
+
+ SW       |
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.021      0.004      5.424      0.000
+    EDUC_2             0.044      0.008      5.368      0.000
+    EDUC_3             0.064      0.012      5.332      0.000
+    EDUC_6             0.129      0.025      5.264      0.000
+    EDUC_9             0.030      0.015      1.933      0.053
+    EDUC_12            0.259      0.049      5.229      0.000
+    EDUC_18            0.394      0.075      5.251      0.000
+    EDUC_24            0.529      0.098      5.376      0.000
+
+ S          ON
+    IW                 0.169      0.086      1.957      0.050
+    SW                 0.030      0.130      0.231      0.817
+
+ SW       WITH
+    IW                -0.327      0.094     -3.467      0.001
+
+ Means
+    IW                 4.756      0.245     19.383      0.000
+    SW                 0.344      0.102      3.385      0.001
+
+ Intercepts
+    S                -11.752      0.722    -16.283      0.000
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.000      0.000    999.000    999.000
+    EDUC_2             0.000      0.000    999.000    999.000
+    EDUC_3             0.000      0.000    999.000    999.000
+    EDUC_6             0.000      0.000    999.000    999.000
+    EDUC_9             0.000      0.000    999.000    999.000
+    EDUC_12            0.000      0.000    999.000    999.000
+    EDUC_18            0.000      0.000    999.000    999.000
+    EDUC_24            0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 1.000      0.000    999.000    999.000
+    SW                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.974      0.026     37.093      0.000
+    EDUC_0             0.050      0.016      3.132      0.002
+    EDUC_1             0.067      0.046      1.464      0.143
+    EDUC_2             0.013      0.006      2.182      0.029
+    EDUC_3             0.058      0.021      2.806      0.005
+    EDUC_6             0.083      0.017      4.844      0.000
+    EDUC_9             0.979      0.020     49.162      0.000
+    EDUC_12            0.117      0.025      4.729      0.000
+    EDUC_18            0.087      0.023      3.819      0.000
+    EDUC_24            0.042      0.032      1.307      0.191
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ IW       |
+    EDUC_0             0.972      0.011     86.393      0.000
+    EDUC_1             0.984      0.009    114.584      0.000
+    EDUC_2             0.970      0.021     46.964      0.000
+    EDUC_3             0.959      0.030     31.795      0.000
+    EDUC_6             0.978      0.018     52.943      0.000
+    EDUC_9             0.959      0.041     23.403      0.000
+    EDUC_12            0.967      0.028     34.406      0.000
+    EDUC_18            1.003      0.048     20.706      0.000
+    EDUC_24            0.960      0.072     13.246      0.000
+
+ SW       |
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.008      0.006      1.404      0.160
+    EDUC_2             0.015      0.011      1.404      0.160
+    EDUC_3             0.023      0.016      1.388      0.165
+    EDUC_6             0.046      0.033      1.388      0.165
+    EDUC_9             0.068      0.050      1.373      0.170
+    EDUC_12            0.092      0.066      1.385      0.166
+    EDUC_18            0.143      0.105      1.362      0.173
+    EDUC_24            0.182      0.135      1.351      0.177
+
+ S          ON
+    IW                 0.360      0.379      0.951      0.342
+    SW                 0.799      0.183      4.361      0.000
+
+ SW       WITH
+    IW                -0.447      0.343     -1.305      0.192
+
+ Means
+    IW                 4.769      0.301     15.817      0.000
+    SW                 1.014      0.631      1.607      0.108
+
+ Intercepts
+    S                 -5.889      2.033     -2.898      0.004
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.000      0.000    999.000    999.000
+    EDUC_2             0.000      0.000    999.000    999.000
+    EDUC_3             0.000      0.000    999.000    999.000
+    EDUC_6             0.000      0.000    999.000    999.000
+    EDUC_9             0.000      0.000    999.000    999.000
+    EDUC_12            0.000      0.000    999.000    999.000
+    EDUC_18            0.000      0.000    999.000    999.000
+    EDUC_24            0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 1.000      0.000    999.000    999.000
+    SW                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.489      0.091      5.397      0.000
+    EDUC_0             0.056      0.022      2.547      0.011
+    EDUC_1             0.038      0.014      2.672      0.008
+    EDUC_2             0.073      0.040      1.845      0.065
+    EDUC_3             0.099      0.048      2.045      0.041
+    EDUC_6             0.082      0.022      3.691      0.000
+    EDUC_9             0.134      0.055      2.433      0.015
+    EDUC_12            0.135      0.040      3.397      0.001
+    EDUC_18            0.102      0.035      2.867      0.004
+    EDUC_24            0.202      0.059      3.453      0.001
+
+Latent Class 2
+
+ IW       |
+    EDUC_0             0.975      0.008    118.618      0.000
+    EDUC_1             0.973      0.024     40.865      0.000
+    EDUC_2             1.007      0.006    156.354      0.000
+    EDUC_3             0.990      0.014     72.645      0.000
+    EDUC_6             0.992      0.017     59.815      0.000
+    EDUC_9             0.151      0.072      2.090      0.037
+    EDUC_12            0.992      0.026     38.311      0.000
+    EDUC_18            1.008      0.041     24.793      0.000
+    EDUC_24            1.014      0.051     20.028      0.000
+
+ SW       |
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.021      0.004      5.424      0.000
+    EDUC_2             0.044      0.008      5.368      0.000
+    EDUC_3             0.064      0.012      5.332      0.000
+    EDUC_6             0.129      0.025      5.264      0.000
+    EDUC_9             0.030      0.015      1.933      0.053
+    EDUC_12            0.259      0.049      5.229      0.000
+    EDUC_18            0.394      0.075      5.251      0.000
+    EDUC_24            0.529      0.098      5.376      0.000
+
+ S          ON
+    IW                 0.169      0.086      1.957      0.050
+    SW                 0.030      0.130      0.231      0.817
+
+ SW       WITH
+    IW                -0.327      0.094     -3.467      0.001
+
+ Means
+    IW                 4.756      0.245     19.383      0.000
+    SW                 0.344      0.102      3.385      0.001
+
+ Intercepts
+    S                -11.752      0.722    -16.283      0.000
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.000      0.000    999.000    999.000
+    EDUC_2             0.000      0.000    999.000    999.000
+    EDUC_3             0.000      0.000    999.000    999.000
+    EDUC_6             0.000      0.000    999.000    999.000
+    EDUC_9             0.000      0.000    999.000    999.000
+    EDUC_12            0.000      0.000    999.000    999.000
+    EDUC_18            0.000      0.000    999.000    999.000
+    EDUC_24            0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 1.000      0.000    999.000    999.000
+    SW                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.974      0.026     37.093      0.000
+    EDUC_0             0.050      0.016      3.132      0.002
+    EDUC_1             0.067      0.046      1.464      0.143
+    EDUC_2             0.013      0.006      2.182      0.029
+    EDUC_3             0.058      0.021      2.806      0.005
+    EDUC_6             0.083      0.017      4.844      0.000
+    EDUC_9             0.979      0.020     49.162      0.000
+    EDUC_12            0.117      0.025      4.729      0.000
+    EDUC_18            0.087      0.023      3.819      0.000
+    EDUC_24            0.042      0.032      1.307      0.191
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ IW       |
+    EDUC_0             2.715      0.160     16.924      0.000
+    EDUC_1             2.715      0.160     16.924      0.000
+    EDUC_2             2.715      0.160     16.924      0.000
+    EDUC_3             2.715      0.160     16.924      0.000
+    EDUC_6             2.715      0.160     16.924      0.000
+    EDUC_9             2.715      0.160     16.924      0.000
+    EDUC_12            2.715      0.160     16.924      0.000
+    EDUC_18            2.715      0.160     16.924      0.000
+    EDUC_24            2.715      0.160     16.924      0.000
+
+ SW       |
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.021      0.015      1.395      0.163
+    EDUC_2             0.043      0.031      1.395      0.163
+    EDUC_3             0.064      0.046      1.395      0.163
+    EDUC_6             0.129      0.092      1.395      0.163
+    EDUC_9             0.193      0.138      1.395      0.163
+    EDUC_12            0.257      0.185      1.395      0.163
+    EDUC_18            0.386      0.277      1.395      0.163
+    EDUC_24            0.515      0.369      1.395      0.163
+
+ S          ON
+    IW                 0.062      0.066      0.937      0.349
+    SW                 0.137      0.036      3.777      0.000
+
+ SW       WITH
+    IW                -0.447      0.343     -1.305      0.192
+
+ Means
+    IW                 4.769      0.301     15.817      0.000
+    SW                 1.014      0.631      1.607      0.108
+
+ Intercepts
+    S                 -1.012      0.368     -2.753      0.006
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.000      0.000    999.000    999.000
+    EDUC_2             0.000      0.000    999.000    999.000
+    EDUC_3             0.000      0.000    999.000    999.000
+    EDUC_6             0.000      0.000    999.000    999.000
+    EDUC_9             0.000      0.000    999.000    999.000
+    EDUC_12            0.000      0.000    999.000    999.000
+    EDUC_18            0.000      0.000    999.000    999.000
+    EDUC_24            0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 1.000      0.000    999.000    999.000
+    SW                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.014      0.002      9.193      0.000
+    EDUC_0             0.435      0.164      2.647      0.008
+    EDUC_1             0.292      0.115      2.539      0.011
+    EDUC_2             0.572      0.336      1.702      0.089
+    EDUC_3             0.789      0.407      1.940      0.052
+    EDUC_6             0.634      0.163      3.886      0.000
+    EDUC_9             1.078      0.498      2.167      0.030
+    EDUC_12            1.066      0.313      3.403      0.001
+    EDUC_18            0.746      0.233      3.201      0.001
+    EDUC_24            1.619      0.513      3.157      0.002
+
+Latent Class 2
+
+ IW       |
+    EDUC_0             2.371      0.131     18.057      0.000
+    EDUC_1             2.371      0.131     18.057      0.000
+    EDUC_2             2.371      0.131     18.057      0.000
+    EDUC_3             2.371      0.131     18.057      0.000
+    EDUC_6             2.371      0.131     18.057      0.000
+    EDUC_9             2.371      0.131     18.057      0.000
+    EDUC_12            2.371      0.131     18.057      0.000
+    EDUC_18            2.371      0.131     18.057      0.000
+    EDUC_24            2.371      0.131     18.057      0.000
+
+ SW       |
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.052      0.010      5.419      0.000
+    EDUC_2             0.103      0.019      5.419      0.000
+    EDUC_3             0.155      0.029      5.419      0.000
+    EDUC_6             0.309      0.057      5.419      0.000
+    EDUC_9             0.464      0.086      5.419      0.000
+    EDUC_12            0.618      0.114      5.419      0.000
+    EDUC_18            0.927      0.171      5.419      0.000
+    EDUC_24            1.236      0.228      5.419      0.000
+
+ S          ON
+    IW                 0.021      0.011      1.940      0.052
+    SW                 0.004      0.016      0.231      0.817
+
+ SW       WITH
+    IW                -0.327      0.094     -3.467      0.001
+
+ Means
+    IW                 4.756      0.245     19.383      0.000
+    SW                 0.344      0.102      3.385      0.001
+
+ Intercepts
+    S                 -1.432      0.053    -27.129      0.000
+    EDUC_0             0.000      0.000    999.000    999.000
+    EDUC_1             0.000      0.000    999.000    999.000
+    EDUC_2             0.000      0.000    999.000    999.000
+    EDUC_3             0.000      0.000    999.000    999.000
+    EDUC_6             0.000      0.000    999.000    999.000
+    EDUC_9             0.000      0.000    999.000    999.000
+    EDUC_12            0.000      0.000    999.000    999.000
+    EDUC_18            0.000      0.000    999.000    999.000
+    EDUC_24            0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 1.000      0.000    999.000    999.000
+    SW                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.014      0.002      9.193      0.000
+    EDUC_0             0.297      0.094      3.157      0.002
+    EDUC_1             0.396      0.287      1.379      0.168
+    EDUC_2             0.074      0.033      2.272      0.023
+    EDUC_3             0.334      0.117      2.845      0.004
+    EDUC_6             0.476      0.093      5.112      0.000
+    EDUC_9           241.146    239.078      1.009      0.313
+    EDUC_12            0.670      0.145      4.607      0.000
+    EDUC_18            0.483      0.134      3.610      0.000
+    EDUC_24            0.230      0.173      1.327      0.184
+
+
+R-SQUARE
+
+Class 1
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    S                  0.511      0.091      5.630      0.000
+    EDUC_0             0.944      0.022     43.197      0.000
+    EDUC_1             0.962      0.014     67.054      0.000
+    EDUC_2             0.927      0.040     23.431      0.000
+    EDUC_3             0.901      0.048     18.707      0.000
+    EDUC_6             0.918      0.022     41.212      0.000
+    EDUC_9             0.866      0.055     15.660      0.000
+    EDUC_12            0.865      0.040     21.703      0.000
+    EDUC_18            0.898      0.035     25.318      0.000
+    EDUC_24            0.798      0.059     13.624      0.000
+
+Class 2
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    S                  0.026      0.026      0.995      0.320
+    EDUC_0             0.950      0.016     59.309      0.000
+    EDUC_1             0.933      0.046     20.503      0.000
+    EDUC_2             0.987      0.006    160.355      0.000
+    EDUC_3             0.942      0.021     45.375      0.000
+    EDUC_6             0.917      0.017     53.330      0.000
+    EDUC_9             0.021      0.020      1.043      0.297
+    EDUC_12            0.883      0.025     35.635      0.000
+    EDUC_18            0.913      0.023     39.854      0.000
+    EDUC_24            0.958      0.032     29.724      0.000
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ IW       |
+    EDUC_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ SW       |
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_2           2.000       2.000       2.000       2.000       2.000       2.000       2.000
+    EDUC_3           3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    EDUC_6           6.000       6.000       6.000       6.000       6.000       6.000       6.000
+    EDUC_9           9.000       9.000       9.000       9.000       9.000       9.000       9.000
+    EDUC_12         12.000      12.000      12.000      12.000      12.000      12.000      12.000
+    EDUC_18         18.000      18.000      18.000      18.000      18.000      18.000      18.000
+    EDUC_24         24.000      24.000      24.000      24.000      24.000      24.000      24.000
+
+ S        ON
+    IW              -0.040      -0.025      -0.017       0.023       0.063       0.070       0.085
+    SW              -7.348      -4.062      -2.381       6.399      15.178      16.859      20.146
+
+ SW       WITH
+    IW              -0.092      -0.076      -0.068      -0.026       0.016       0.024       0.039
+
+ Means
+    IW              12.232      12.403      12.490      12.947      13.404      13.492      13.663
+    SW               0.001       0.006       0.008       0.022       0.035       0.038       0.043
+
+ Means
+    N#1              3.513       3.513       3.513       3.513       3.513       3.513       3.513
+
+ Intercepts
+    S               -1.959      -1.733      -1.617      -1.012      -0.407      -0.292      -0.065
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               5.128       5.664       5.939       7.372       8.805       9.079       9.616
+    SW              -0.001      -0.001      -0.001       0.000       0.002       0.002       0.002
+
+ Residual Variances
+    S                0.010       0.011       0.012       0.014       0.017       0.018       0.019
+    EDUC_0           0.012       0.113       0.165       0.435       0.705       0.756       0.858
+    EDUC_1          -0.004       0.067       0.103       0.292       0.481       0.517       0.588
+    EDUC_2          -0.294      -0.087       0.019       0.572       1.125       1.231       1.438
+    EDUC_3          -0.259      -0.008       0.120       0.789       1.459       1.587       1.838
+    EDUC_6           0.214       0.314       0.365       0.634       0.902       0.953       1.054
+    EDUC_9          -0.204       0.103       0.260       1.078       1.897       2.054       2.361
+    EDUC_12          0.259       0.452       0.551       1.066       1.582       1.680       1.873
+    EDUC_18          0.146       0.289       0.362       0.746       1.129       1.202       1.346
+    EDUC_24          0.298       0.614       0.775       1.619       2.462       2.624       2.940
+
+Latent Class 2
+
+ IW       |
+    EDUC_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ SW       |
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    EDUC_2           2.000       2.000       2.000       2.000       2.000       2.000       2.000
+    EDUC_3           3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    EDUC_6           6.000       6.000       6.000       6.000       6.000       6.000       6.000
+    EDUC_9           9.000       9.000       9.000       9.000       9.000       9.000       9.000
+    EDUC_12         12.000      12.000      12.000      12.000      12.000      12.000      12.000
+    EDUC_18         18.000      18.000      18.000      18.000      18.000      18.000      18.000
+    EDUC_24         24.000      24.000      24.000      24.000      24.000      24.000      24.000
+
+ S        ON
+    IW              -0.003       0.000       0.001       0.009       0.016       0.017       0.020
+    SW              -0.735      -0.542      -0.444       0.071       0.586       0.685       0.878
+
+ SW       WITH
+    IW              -0.081      -0.071      -0.066      -0.040      -0.014      -0.009       0.001
+
+ Means
+    IW              10.806      10.918      10.976      11.276      11.576      11.633      11.746
+    SW               0.004       0.007       0.009       0.018       0.027       0.029       0.032
+
+ Means
+    N#1             -3.952      -3.952      -3.952      -3.952      -3.952      -3.952      -3.952
+
+ Intercepts
+    S               -1.568      -1.535      -1.519      -1.432      -1.345      -1.328      -1.296
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               4.017       4.401       4.597       5.621       6.645       6.841       7.225
+    SW               0.000       0.001       0.001       0.003       0.004       0.005       0.005
+
+ Residual Variances
+    S                0.010       0.011       0.012       0.014       0.017       0.018       0.019
+    EDUC_0           0.055       0.113       0.142       0.297       0.451       0.481       0.539
+    EDUC_1          -0.344      -0.167      -0.076       0.396       0.868       0.959       1.135
+    EDUC_2          -0.010       0.010       0.021       0.074       0.128       0.139       0.159
+    EDUC_3           0.032       0.104       0.141       0.334       0.528       0.565       0.637
+    EDUC_6           0.236       0.293       0.323       0.476       0.629       0.658       0.715
+    EDUC_9        -374.672    -227.447    -152.138     241.146     634.430     709.740     856.964
+    EDUC_12          0.295       0.385       0.431       0.670       0.909       0.954       1.044
+    EDUC_18          0.138       0.221       0.263       0.483       0.704       0.746       0.828
+    EDUC_24         -0.216      -0.110      -0.055       0.230       0.515       0.570       0.677
+
+Categorical Latent Variables
+
+ Means
+    C#1             -0.902      -0.838      -0.805      -0.632      -0.460      -0.427      -0.362
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ IW       |
+    EDUC_0           0.943       0.950       0.953       0.972       0.990       0.994       1.001
+    EDUC_1           0.962       0.967       0.970       0.984       0.998       1.001       1.006
+    EDUC_2           0.916       0.929       0.936       0.970       1.004       1.010       1.023
+    EDUC_3           0.882       0.900       0.910       0.959       1.009       1.019       1.037
+    EDUC_6           0.930       0.942       0.947       0.978       1.008       1.014       1.025
+    EDUC_9           0.853       0.879       0.891       0.959       1.026       1.039       1.064
+    EDUC_12          0.895       0.912       0.921       0.967       1.014       1.022       1.040
+    EDUC_18          0.878       0.908       0.923       1.003       1.083       1.098       1.128
+    EDUC_24          0.773       0.818       0.840       0.960       1.079       1.102       1.146
+
+ SW       |
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1          -0.006      -0.003      -0.001       0.008       0.017       0.019       0.022
+    EDUC_2          -0.013      -0.006      -0.003       0.015       0.033       0.037       0.043
+    EDUC_3          -0.019      -0.009      -0.004       0.023       0.050       0.055       0.065
+    EDUC_6          -0.040      -0.019      -0.009       0.046       0.101       0.112       0.132
+    EDUC_9          -0.060      -0.029      -0.014       0.068       0.150       0.166       0.196
+    EDUC_12         -0.079      -0.038      -0.017       0.092       0.201       0.222       0.262
+    EDUC_18         -0.127      -0.063      -0.030       0.143       0.315       0.348       0.412
+    EDUC_24         -0.165      -0.082      -0.040       0.182       0.404       0.446       0.529
+
+ S        ON
+    IW              -0.615      -0.382      -0.263       0.360       0.983       1.102       1.335
+    SW               0.327       0.440       0.497       0.799       1.100       1.158       1.271
+
+ SW       WITH
+    IW              -1.329      -1.119      -1.011      -0.447       0.116       0.224       0.435
+
+ Means
+    IW               3.992       4.178       4.273       4.769       5.265       5.360       5.545
+    SW              -0.611      -0.223      -0.024       1.014       2.052       2.251       2.639
+
+ Intercepts
+    S              -11.125      -9.873      -9.233      -5.889      -2.546      -1.906      -0.654
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    S                0.256       0.312       0.340       0.489       0.639       0.667       0.723
+    EDUC_0          -0.001       0.013       0.020       0.056       0.092       0.099       0.112
+    EDUC_1           0.001       0.010       0.015       0.038       0.062       0.066       0.075
+    EDUC_2          -0.029      -0.005       0.008       0.073       0.138       0.151       0.175
+    EDUC_3          -0.026       0.004       0.019       0.099       0.178       0.193       0.223
+    EDUC_6           0.025       0.039       0.046       0.082       0.119       0.126       0.140
+    EDUC_9          -0.008       0.026       0.044       0.134       0.225       0.243       0.277
+    EDUC_12          0.033       0.057       0.070       0.135       0.201       0.213       0.238
+    EDUC_18          0.010       0.032       0.043       0.102       0.160       0.171       0.193
+    EDUC_24          0.051       0.087       0.106       0.202       0.299       0.317       0.353
+
+Latent Class 2
+
+ IW       |
+    EDUC_0           0.953       0.958       0.961       0.975       0.988       0.991       0.996
+    EDUC_1           0.911       0.926       0.934       0.973       1.012       1.019       1.034
+    EDUC_2           0.990       0.994       0.996       1.007       1.017       1.019       1.023
+    EDUC_3           0.955       0.963       0.967       0.990       1.012       1.016       1.025
+    EDUC_6           0.949       0.959       0.965       0.992       1.019       1.024       1.035
+    EDUC_9          -0.035       0.009       0.032       0.151       0.270       0.293       0.337
+    EDUC_12          0.925       0.941       0.949       0.992       1.034       1.042       1.058
+    EDUC_18          0.904       0.929       0.941       1.008       1.075       1.088       1.113
+    EDUC_24          0.884       0.915       0.931       1.014       1.097       1.113       1.145
+
+ SW       |
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           0.011       0.013       0.015       0.021       0.028       0.029       0.031
+    EDUC_2           0.023       0.028       0.030       0.044       0.057       0.060       0.065
+    EDUC_3           0.033       0.041       0.045       0.064       0.084       0.088       0.096
+    EDUC_6           0.066       0.081       0.089       0.129       0.170       0.177       0.193
+    EDUC_9          -0.010       0.000       0.004       0.030       0.055       0.059       0.069
+    EDUC_12          0.131       0.162       0.177       0.259       0.340       0.355       0.386
+    EDUC_18          0.201       0.247       0.271       0.394       0.518       0.541       0.588
+    EDUC_24          0.275       0.336       0.367       0.529       0.691       0.722       0.782
+
+ S        ON
+    IW              -0.053       0.000       0.027       0.169       0.311       0.338       0.391
+    SW              -0.306      -0.226      -0.184       0.030       0.245       0.286       0.366
+
+ SW       WITH
+    IW              -0.569      -0.511      -0.482      -0.327      -0.172      -0.142      -0.084
+
+ Means
+    IW               4.124       4.275       4.352       4.756       5.160       5.237       5.388
+    SW               0.082       0.145       0.177       0.344       0.511       0.543       0.606
+
+ Intercepts
+    S              -13.611     -13.167     -12.939     -11.752     -10.565     -10.338      -9.893
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    S                0.906       0.922       0.931       0.974       1.017       1.025       1.042
+    EDUC_0           0.009       0.019       0.024       0.050       0.077       0.082       0.091
+    EDUC_1          -0.051      -0.023      -0.008       0.067       0.142       0.156       0.184
+    EDUC_2          -0.002       0.001       0.003       0.013       0.024       0.025       0.029
+    EDUC_3           0.005       0.018       0.024       0.058       0.092       0.099       0.112
+    EDUC_6           0.039       0.050       0.055       0.083       0.112       0.117       0.128
+    EDUC_9           0.928       0.940       0.946       0.979       1.012       1.018       1.031
+    EDUC_12          0.053       0.069       0.076       0.117       0.158       0.166       0.181
+    EDUC_18          0.028       0.043       0.050       0.087       0.125       0.132       0.146
+    EDUC_24         -0.041      -0.021      -0.011       0.042       0.095       0.105       0.125
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ IW       |
+    EDUC_0           0.943       0.950       0.953       0.972       0.990       0.994       1.001
+    EDUC_1           0.962       0.967       0.970       0.984       0.998       1.001       1.006
+    EDUC_2           0.916       0.929       0.936       0.970       1.004       1.010       1.023
+    EDUC_3           0.882       0.900       0.910       0.959       1.009       1.019       1.037
+    EDUC_6           0.930       0.942       0.947       0.978       1.008       1.014       1.025
+    EDUC_9           0.853       0.879       0.891       0.959       1.026       1.039       1.064
+    EDUC_12          0.895       0.912       0.921       0.967       1.014       1.022       1.040
+    EDUC_18          0.878       0.908       0.923       1.003       1.083       1.098       1.128
+    EDUC_24          0.773       0.818       0.840       0.960       1.079       1.102       1.146
+
+ SW       |
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1          -0.006      -0.003      -0.001       0.008       0.017       0.019       0.022
+    EDUC_2          -0.013      -0.006      -0.003       0.015       0.033       0.037       0.043
+    EDUC_3          -0.019      -0.009      -0.004       0.023       0.050       0.055       0.065
+    EDUC_6          -0.040      -0.019      -0.009       0.046       0.101       0.112       0.132
+    EDUC_9          -0.060      -0.029      -0.014       0.068       0.150       0.166       0.196
+    EDUC_12         -0.079      -0.038      -0.017       0.092       0.201       0.222       0.262
+    EDUC_18         -0.127      -0.063      -0.030       0.143       0.315       0.348       0.412
+    EDUC_24         -0.165      -0.082      -0.040       0.182       0.404       0.446       0.529
+
+ S        ON
+    IW              -0.615      -0.382      -0.263       0.360       0.983       1.102       1.335
+    SW               0.327       0.440       0.497       0.799       1.100       1.158       1.271
+
+ SW       WITH
+    IW              -1.329      -1.119      -1.011      -0.447       0.116       0.224       0.435
+
+ Means
+    IW               3.992       4.178       4.273       4.769       5.265       5.360       5.545
+    SW              -0.611      -0.223      -0.024       1.014       2.052       2.251       2.639
+
+ Intercepts
+    S              -11.125      -9.873      -9.233      -5.889      -2.546      -1.906      -0.654
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    S                0.256       0.312       0.340       0.489       0.639       0.667       0.723
+    EDUC_0          -0.001       0.013       0.020       0.056       0.092       0.099       0.112
+    EDUC_1           0.001       0.010       0.015       0.038       0.062       0.066       0.075
+    EDUC_2          -0.029      -0.005       0.008       0.073       0.138       0.151       0.175
+    EDUC_3          -0.026       0.004       0.019       0.099       0.178       0.193       0.223
+    EDUC_6           0.025       0.039       0.046       0.082       0.119       0.126       0.140
+    EDUC_9          -0.008       0.026       0.044       0.134       0.225       0.243       0.277
+    EDUC_12          0.033       0.057       0.070       0.135       0.201       0.213       0.238
+    EDUC_18          0.010       0.032       0.043       0.102       0.160       0.171       0.193
+    EDUC_24          0.051       0.087       0.106       0.202       0.299       0.317       0.353
+
+Latent Class 2
+
+ IW       |
+    EDUC_0           0.953       0.958       0.961       0.975       0.988       0.991       0.996
+    EDUC_1           0.911       0.926       0.934       0.973       1.012       1.019       1.034
+    EDUC_2           0.990       0.994       0.996       1.007       1.017       1.019       1.023
+    EDUC_3           0.955       0.963       0.967       0.990       1.012       1.016       1.025
+    EDUC_6           0.949       0.959       0.965       0.992       1.019       1.024       1.035
+    EDUC_9          -0.035       0.009       0.032       0.151       0.270       0.293       0.337
+    EDUC_12          0.925       0.941       0.949       0.992       1.034       1.042       1.058
+    EDUC_18          0.904       0.929       0.941       1.008       1.075       1.088       1.113
+    EDUC_24          0.884       0.915       0.931       1.014       1.097       1.113       1.145
+
+ SW       |
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           0.011       0.013       0.015       0.021       0.028       0.029       0.031
+    EDUC_2           0.023       0.028       0.030       0.044       0.057       0.060       0.065
+    EDUC_3           0.033       0.041       0.045       0.064       0.084       0.088       0.096
+    EDUC_6           0.066       0.081       0.089       0.129       0.170       0.177       0.193
+    EDUC_9          -0.010       0.000       0.004       0.030       0.055       0.059       0.069
+    EDUC_12          0.131       0.162       0.177       0.259       0.340       0.355       0.386
+    EDUC_18          0.201       0.247       0.271       0.394       0.518       0.541       0.588
+    EDUC_24          0.275       0.336       0.367       0.529       0.691       0.722       0.782
+
+ S        ON
+    IW              -0.053       0.000       0.027       0.169       0.311       0.338       0.391
+    SW              -0.306      -0.226      -0.184       0.030       0.245       0.286       0.366
+
+ SW       WITH
+    IW              -0.569      -0.511      -0.482      -0.327      -0.172      -0.142      -0.084
+
+ Means
+    IW               4.124       4.275       4.352       4.756       5.160       5.237       5.388
+    SW               0.082       0.145       0.177       0.344       0.511       0.543       0.606
+
+ Intercepts
+    S              -13.611     -13.167     -12.939     -11.752     -10.565     -10.338      -9.893
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    S                0.906       0.922       0.931       0.974       1.017       1.025       1.042
+    EDUC_0           0.009       0.019       0.024       0.050       0.077       0.082       0.091
+    EDUC_1          -0.051      -0.023      -0.008       0.067       0.142       0.156       0.184
+    EDUC_2          -0.002       0.001       0.003       0.013       0.024       0.025       0.029
+    EDUC_3           0.005       0.018       0.024       0.058       0.092       0.099       0.112
+    EDUC_6           0.039       0.050       0.055       0.083       0.112       0.117       0.128
+    EDUC_9           0.928       0.940       0.946       0.979       1.012       1.018       1.031
+    EDUC_12          0.053       0.069       0.076       0.117       0.158       0.166       0.181
+    EDUC_18          0.028       0.043       0.050       0.087       0.125       0.132       0.146
+    EDUC_24         -0.041      -0.021      -0.011       0.042       0.095       0.105       0.125
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ IW       |
+    EDUC_0           2.302       2.401       2.451       2.715       2.979       3.030       3.128
+    EDUC_1           2.302       2.401       2.451       2.715       2.979       3.030       3.128
+    EDUC_2           2.302       2.401       2.451       2.715       2.979       3.030       3.128
+    EDUC_3           2.302       2.401       2.451       2.715       2.979       3.030       3.128
+    EDUC_6           2.302       2.401       2.451       2.715       2.979       3.030       3.128
+    EDUC_9           2.302       2.401       2.451       2.715       2.979       3.030       3.128
+    EDUC_12          2.302       2.401       2.451       2.715       2.979       3.030       3.128
+    EDUC_18          2.302       2.401       2.451       2.715       2.979       3.030       3.128
+    EDUC_24          2.302       2.401       2.451       2.715       2.979       3.030       3.128
+
+ SW       |
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1          -0.018      -0.009      -0.004       0.021       0.047       0.052       0.061
+    EDUC_2          -0.036      -0.017      -0.008       0.043       0.094       0.103       0.122
+    EDUC_3          -0.054      -0.026      -0.012       0.064       0.140       0.155       0.183
+    EDUC_6          -0.109      -0.052      -0.023       0.129       0.281       0.310       0.366
+    EDUC_9          -0.163      -0.078      -0.035       0.193       0.421       0.464       0.550
+    EDUC_12         -0.218      -0.104      -0.046       0.257       0.561       0.619       0.733
+    EDUC_18         -0.327      -0.156      -0.069       0.386       0.842       0.929       1.099
+    EDUC_24         -0.436      -0.209      -0.092       0.515       1.122       1.239       1.466
+
+ S        ON
+    IW              -0.108      -0.068      -0.047       0.062       0.171       0.191       0.232
+    SW               0.044       0.066       0.077       0.137       0.197       0.209       0.231
+
+ SW       WITH
+    IW              -1.329      -1.119      -1.011      -0.447       0.116       0.224       0.435
+
+ Means
+    IW               3.992       4.178       4.273       4.769       5.265       5.360       5.545
+    SW              -0.611      -0.223      -0.024       1.014       2.052       2.251       2.639
+
+ Intercepts
+    S               -1.959      -1.733      -1.617      -1.012      -0.407      -0.292      -0.065
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    S                0.010       0.011       0.012       0.014       0.017       0.018       0.019
+    EDUC_0           0.012       0.113       0.165       0.435       0.705       0.756       0.858
+    EDUC_1          -0.004       0.067       0.103       0.292       0.481       0.517       0.588
+    EDUC_2          -0.294      -0.087       0.019       0.572       1.125       1.231       1.438
+    EDUC_3          -0.259      -0.008       0.120       0.789       1.459       1.587       1.838
+    EDUC_6           0.214       0.314       0.365       0.634       0.902       0.953       1.054
+    EDUC_9          -0.204       0.103       0.260       1.078       1.897       2.054       2.361
+    EDUC_12          0.259       0.452       0.551       1.066       1.582       1.680       1.873
+    EDUC_18          0.146       0.289       0.362       0.746       1.129       1.202       1.346
+    EDUC_24          0.298       0.614       0.775       1.619       2.462       2.624       2.940
+
+Latent Class 2
+
+ IW       |
+    EDUC_0           2.033       2.114       2.155       2.371       2.587       2.628       2.709
+    EDUC_1           2.033       2.114       2.155       2.371       2.587       2.628       2.709
+    EDUC_2           2.033       2.114       2.155       2.371       2.587       2.628       2.709
+    EDUC_3           2.033       2.114       2.155       2.371       2.587       2.628       2.709
+    EDUC_6           2.033       2.114       2.155       2.371       2.587       2.628       2.709
+    EDUC_9           2.033       2.114       2.155       2.371       2.587       2.628       2.709
+    EDUC_12          2.033       2.114       2.155       2.371       2.587       2.628       2.709
+    EDUC_18          2.033       2.114       2.155       2.371       2.587       2.628       2.709
+    EDUC_24          2.033       2.114       2.155       2.371       2.587       2.628       2.709
+
+ SW       |
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           0.027       0.033       0.036       0.052       0.067       0.070       0.076
+    EDUC_2           0.054       0.066       0.072       0.103       0.134       0.140       0.152
+    EDUC_3           0.081       0.099       0.108       0.155       0.201       0.210       0.228
+    EDUC_6           0.162       0.197       0.215       0.309       0.403       0.421       0.456
+    EDUC_9           0.243       0.296       0.323       0.464       0.604       0.631       0.684
+    EDUC_12          0.324       0.395       0.430       0.618       0.806       0.842       0.912
+    EDUC_18          0.486       0.592       0.646       0.927       1.209       1.262       1.368
+    EDUC_24          0.649       0.789       0.861       1.236       1.611       1.683       1.824
+
+ S        ON
+    IW              -0.007       0.000       0.003       0.021       0.038       0.041       0.048
+    SW              -0.037      -0.027      -0.022       0.004       0.030       0.035       0.045
+
+ SW       WITH
+    IW              -0.569      -0.511      -0.482      -0.327      -0.172      -0.142      -0.084
+
+ Means
+    IW               4.124       4.275       4.352       4.756       5.160       5.237       5.388
+    SW               0.082       0.145       0.177       0.344       0.511       0.543       0.606
+
+ Intercepts
+    S               -1.568      -1.535      -1.519      -1.432      -1.345      -1.328      -1.296
+    EDUC_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    EDUC_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    S                0.010       0.011       0.012       0.014       0.017       0.018       0.019
+    EDUC_0           0.055       0.113       0.142       0.297       0.451       0.481       0.539
+    EDUC_1          -0.344      -0.167      -0.076       0.396       0.868       0.959       1.135
+    EDUC_2          -0.010       0.010       0.021       0.074       0.128       0.139       0.159
+    EDUC_3           0.032       0.104       0.141       0.334       0.528       0.565       0.637
+    EDUC_6           0.236       0.293       0.323       0.476       0.629       0.658       0.715
+    EDUC_9        -374.672    -227.447    -152.138     241.146     634.430     709.740     856.964
+    EDUC_12          0.295       0.385       0.431       0.670       0.909       0.954       1.044
+    EDUC_18          0.138       0.221       0.263       0.483       0.704       0.746       0.828
+    EDUC_24         -0.216      -0.110      -0.055       0.230       0.515       0.570       0.677
+
+
+     Beginning Time:  14:17:10
+        Ending Time:  14:17:11
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

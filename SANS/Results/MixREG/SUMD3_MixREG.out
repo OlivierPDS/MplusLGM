@@ -1,0 +1,2012 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+06/29/2023   2:56 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   FINAL_311; - MixREG_SUMD3;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/SUMD3_MixREG.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N SUMD3_0 SUMD3_1 SUMD3_2 SUMD3_3
+       SUMD3_6 SUMD3_9 SUMD3_12 SUMD3_18 SUMD3_24;
+   MISSING=.;
+   USEVAR = N S SUMD3_0 SUMD3_1 SUMD3_2 SUMD3_3 SUMD3_6 SUMD3_9 SUMD3_12 SUMD3_18 SUMD3_24;
+  NOMINAL = N;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  iw sw | SUMD3_0@3 SUMD3_1@3 SUMD3_2@3 SUMD3_3@3 SUMD3_6@3 SUMD3_9@3 SUMD3_12@3 SUMD3_18@3
+  SUMD3_24@3;
+  S ON iw sw;
+  %C#1%
+  [N#1@3.075];
+  [N#2@1.083];
+  S ON iw sw (S1 - S2);
+  [iw] (iw1);
+  [sw] (sw1);
+  iw sw;
+  iw WITH sw;
+  SUMD3_0 SUMD3_1 SUMD3_2 SUMD3_3 SUMD3_6 SUMD3_9 SUMD3_12 SUMD3_18 SUMD3_24;
+  %C#2%
+  [N#1@1.199];
+  [N#2@2.945];
+  S ON iw sw (S3 - S4);
+  [iw] (iw2);
+  [sw] (sw2);
+  iw sw;
+  iw WITH sw;
+  SUMD3_0 SUMD3_1 SUMD3_2 SUMD3_3 SUMD3_6 SUMD3_9 SUMD3_12 SUMD3_18 SUMD3_24;
+  %C#3%
+  [N#1@-1.281];
+  [N#2@-1.148];
+  S ON iw sw (S5 - S6);
+  [iw] (iw3);
+  [sw] (sw3);
+  iw sw;
+  iw WITH sw;
+  SUMD3_0 SUMD3_1 SUMD3_2 SUMD3_3 SUMD3_6 SUMD3_9 SUMD3_12 SUMD3_18 SUMD3_24;
+  MODEL TEST:
+  S2 = S4;
+  S4 = S6;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+FINAL_311; - MixREG_SUMD3;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         405
+
+Number of dependent variables                                   11
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   S           SUMD3_0     SUMD3_1     SUMD3_2     SUMD3_3     SUMD3_6
+   SUMD3_9     SUMD3_12    SUMD3_18    SUMD3_24
+
+  Unordered categorical (nominal)
+   N
+
+Continuous latent variables
+   IW          SW
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/SUMD3_MixREG.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns           100
+     Number of y missing data patterns         100
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              S             SUMD3_0       SUMD3_1       SUMD3_2       SUMD3_3
+              ________      ________      ________      ________      ________
+ S              1.000
+ SUMD3_0        0.262         0.262
+ SUMD3_1        0.158         0.101         0.158
+ SUMD3_2        0.188         0.111         0.096         0.188
+ SUMD3_3        0.205         0.114         0.081         0.106         0.205
+ SUMD3_6        0.168         0.089         0.067         0.074         0.089
+ SUMD3_9        0.151         0.064         0.054         0.047         0.072
+ SUMD3_12       0.138         0.069         0.044         0.052         0.067
+ SUMD3_18       0.101         0.040         0.037         0.044         0.044
+ SUMD3_24       0.084         0.027         0.032         0.037         0.032
+
+
+           Covariance Coverage
+              SUMD3_6       SUMD3_9       SUMD3_12      SUMD3_18      SUMD3_24
+              ________      ________      ________      ________      ________
+ SUMD3_6        0.168
+ SUMD3_9        0.074         0.151
+ SUMD3_12       0.072         0.064         0.138
+ SUMD3_18       0.032         0.042         0.035         0.101
+ SUMD3_24       0.035         0.037         0.042         0.044         0.084
+
+     THE COVARIANCE COVERAGE FALLS BELOW THE SPECIFIED LIMIT.  THE MISSING
+     DATA EM ALGORITHM WILL NOT BE INITIATED.  CHECK YOUR DATA OR LOWER THE
+     COVARIANCE COVERAGE LIMIT.
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.437          177.000
+      Category 2    0.402          163.000
+      Category 3    0.160           65.000
+
+
+SAMPLE STATISTICS
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     S                    -0.593      -0.232      -1.446    0.25%      -1.126     -0.719     -0.494
+             405.000       0.226      -1.309       0.321    0.25%      -0.321     -0.144
+     SUMD3_0               3.748      -0.659       1.000    0.94%       2.750      3.500      4.000
+             106.000       1.149      -0.476       5.000   20.75%       4.250      5.000
+     SUMD3_1               3.598      -0.425       1.000    1.56%       2.500      3.500      3.750
+              64.000       1.013      -0.593       5.000   14.06%       4.000      4.500
+     SUMD3_2               3.391      -0.459       1.000    5.26%       2.500      3.000      3.500
+              76.000       1.093      -0.265       5.000   10.53%       3.750      4.250
+     SUMD3_3               3.473      -0.279       1.000    1.20%       2.750      3.250      3.500
+              83.000       0.989      -0.657       5.000   12.05%       3.750      4.250
+     SUMD3_6               3.254      -0.269       1.000    7.35%       2.250      3.000      3.250
+              68.000       1.223      -0.657       5.000    8.82%       3.500      4.250
+     SUMD3_9               3.246      -0.356       1.000    8.20%       2.500      3.000      3.250
+              61.000       1.257      -0.506       5.000    8.20%       3.500      4.250
+     SUMD3_12              3.531      -0.355       1.000    5.36%       2.750      3.250      3.500
+              56.000       1.261      -0.594       5.000   21.43%       3.750      5.000
+     SUMD3_18              3.341      -0.269       1.000    2.44%       2.250      3.000      3.500
+              41.000       1.002      -0.713       5.000    4.88%       3.500      4.250
+     SUMD3_24              3.691       0.168       2.250    2.94%       3.000      3.500      3.750
+              34.000       0.566      -0.883       5.000   11.76%       4.000      4.500
+
+     ONE OR MORE PARAMETERS WERE FIXED TO AVOID SINGULARITY OF THE
+     INFORMATION MATRIX. THE SINGULARITY IS MOST LIKELY BECAUSE THE
+     MODEL IS NOT IDENTIFIED, OR BECAUSE OF EMPTY CELLS IN THE JOINT
+     DISTRIBUTION OF THE CATEGORICAL VARIABLES IN THE MODEL.
+     THE FOLLOWING PARAMETERS WERE FIXED:
+     Parameter 12, %C#1%: [ S ]
+     Parameter 16, %C#1%: SW WITH IW
+     Parameter 17, %C#1%: SW
+     Parameter 30, %C#2%: [ S ]
+     Parameter 34, %C#2%: SW WITH IW
+     Parameter 35, %C#2%: SW
+     Parameter 47, %C#3%: [ S ]
+     Parameter 49, %C#3%: S ON SW (equality/label)
+     Parameter 52, %C#3%: SW
+     Parameter 51, %C#3%: SW WITH IW
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+     WARNING:  THE LATENT VARIABLE COVARIANCE MATRIX (PSI) IN CLASS 3
+     IS NOT POSITIVE DEFINITE.  THIS COULD INDICATE A NEGATIVE VARIANCE/
+     RESIDUAL VARIANCE FOR A LATENT VARIABLE, A CORRELATION GREATER OR EQUAL
+     TO ONE BETWEEN TWO LATENT VARIABLES, OR A LINEAR DEPENDENCY AMONG MORE
+     THAN TWO LATENT VARIABLES.  CHECK THE TECH4 OUTPUT FOR MORE INFORMATION.
+     PROBLEM INVOLVING VARIABLE IW.
+
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       54
+
+Loglikelihood
+
+          H0 Value                       -1209.512
+          H0 Scaling Correction Factor      0.7023
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    2527.024
+          Bayesian (BIC)                  2743.234
+          Sample-Size Adjusted BIC        2571.885
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                              1.934
+          Degrees of Freedom                     2
+          P-Value                           0.3802
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        177.42252          0.43808
+       2        147.90269          0.36519
+       3         79.67479          0.19673
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        177.42252          0.43808
+       2        147.90269          0.36519
+       3         79.67479          0.19673
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              178          0.43951
+       2              157          0.38765
+       3               70          0.17284
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.821
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.980    0.019    0.001
+    2   0.019    0.882    0.100
+    3   0.000    0.089    0.911
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.983    0.017    0.000
+    2   0.022    0.936    0.042
+    3   0.003    0.197    0.800
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      8.571    4.488    0.000
+    2     -0.630    3.105    0.000
+    3     -5.557   -1.404    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ IW       |
+    SUMD3_0            1.000      0.000    999.000    999.000
+    SUMD3_1            1.000      0.000    999.000    999.000
+    SUMD3_2            1.000      0.000    999.000    999.000
+    SUMD3_3            1.000      0.000    999.000    999.000
+    SUMD3_6            1.000      0.000    999.000    999.000
+    SUMD3_9            1.000      0.000    999.000    999.000
+    SUMD3_12           1.000      0.000    999.000    999.000
+    SUMD3_18           1.000      0.000    999.000    999.000
+    SUMD3_24           1.000      0.000    999.000    999.000
+
+ SW       |
+    SUMD3_0            3.000      0.000    999.000    999.000
+    SUMD3_1            3.000      0.000    999.000    999.000
+    SUMD3_2            3.000      0.000    999.000    999.000
+    SUMD3_3            3.000      0.000    999.000    999.000
+    SUMD3_6            3.000      0.000    999.000    999.000
+    SUMD3_9            3.000      0.000    999.000    999.000
+    SUMD3_12           3.000      0.000    999.000    999.000
+    SUMD3_18           3.000      0.000    999.000    999.000
+    SUMD3_24           3.000      0.000    999.000    999.000
+
+ S          ON
+    IW                 0.338      0.545      0.621      0.535
+    SW                 0.213      0.333      0.641      0.522
+
+ SW       WITH
+    IW                -0.073      0.000    999.000    999.000
+
+ Means
+    IW                 0.350      1.740      0.201      0.841
+    SW                 1.001      0.592      1.691      0.091
+
+ Means
+    N#1                3.075      0.000    999.000    999.000
+    N#2                1.083      0.000    999.000    999.000
+
+ Intercepts
+    S                 -1.402      0.000    999.000    999.000
+    SUMD3_0            0.000      0.000    999.000    999.000
+    SUMD3_1            0.000      0.000    999.000    999.000
+    SUMD3_2            0.000      0.000    999.000    999.000
+    SUMD3_3            0.000      0.000    999.000    999.000
+    SUMD3_6            0.000      0.000    999.000    999.000
+    SUMD3_9            0.000      0.000    999.000    999.000
+    SUMD3_12           0.000      0.000    999.000    999.000
+    SUMD3_18           0.000      0.000    999.000    999.000
+    SUMD3_24           0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 0.197      0.163      1.211      0.226
+    SW                 0.087      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.039      0.050      0.779      0.436
+    SUMD3_0            0.887      0.202      4.383      0.000
+    SUMD3_1            0.780      0.216      3.612      0.000
+    SUMD3_2            0.822      0.387      2.124      0.034
+    SUMD3_3            0.215      0.122      1.767      0.077
+    SUMD3_6            0.457      0.242      1.885      0.059
+    SUMD3_9            1.183      0.436      2.712      0.007
+    SUMD3_12           1.441      0.431      3.346      0.001
+    SUMD3_18           1.121      0.235      4.777      0.000
+    SUMD3_24           0.354      0.204      1.733      0.083
+
+Latent Class 2
+
+ IW       |
+    SUMD3_0            1.000      0.000    999.000    999.000
+    SUMD3_1            1.000      0.000    999.000    999.000
+    SUMD3_2            1.000      0.000    999.000    999.000
+    SUMD3_3            1.000      0.000    999.000    999.000
+    SUMD3_6            1.000      0.000    999.000    999.000
+    SUMD3_9            1.000      0.000    999.000    999.000
+    SUMD3_12           1.000      0.000    999.000    999.000
+    SUMD3_18           1.000      0.000    999.000    999.000
+    SUMD3_24           1.000      0.000    999.000    999.000
+
+ SW       |
+    SUMD3_0            3.000      0.000    999.000    999.000
+    SUMD3_1            3.000      0.000    999.000    999.000
+    SUMD3_2            3.000      0.000    999.000    999.000
+    SUMD3_3            3.000      0.000    999.000    999.000
+    SUMD3_6            3.000      0.000    999.000    999.000
+    SUMD3_9            3.000      0.000    999.000    999.000
+    SUMD3_12           3.000      0.000    999.000    999.000
+    SUMD3_18           3.000      0.000    999.000    999.000
+    SUMD3_24           3.000      0.000    999.000    999.000
+
+ S          ON
+    IW                 0.316      0.403      0.785      0.433
+    SW                 0.251      0.535      0.470      0.638
+
+ SW       WITH
+    IW                -0.057      0.000    999.000    999.000
+
+ Means
+    IW                 0.393      2.366      0.166      0.868
+    SW                 1.122      0.808      1.388      0.165
+
+ Means
+    N#1                1.199      0.000    999.000    999.000
+    N#2                2.945      0.000    999.000    999.000
+
+ Intercepts
+    S                 -0.644      0.000    999.000    999.000
+    SUMD3_0            0.000      0.000    999.000    999.000
+    SUMD3_1            0.000      0.000    999.000    999.000
+    SUMD3_2            0.000      0.000    999.000    999.000
+    SUMD3_3            0.000      0.000    999.000    999.000
+    SUMD3_6            0.000      0.000    999.000    999.000
+    SUMD3_9            0.000      0.000    999.000    999.000
+    SUMD3_12           0.000      0.000    999.000    999.000
+    SUMD3_18           0.000      0.000    999.000    999.000
+    SUMD3_24           0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 0.221      0.091      2.429      0.015
+    SW                 0.042      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.039      0.050      0.779      0.436
+    SUMD3_0            0.392      0.135      2.909      0.004
+    SUMD3_1            0.178      0.115      1.545      0.122
+    SUMD3_2            0.283      0.120      2.366      0.018
+    SUMD3_3            0.310      0.091      3.394      0.001
+    SUMD3_6            0.245      0.116      2.101      0.036
+    SUMD3_9            0.387      0.137      2.819      0.005
+    SUMD3_12           0.603      0.214      2.813      0.005
+    SUMD3_18           0.128      0.052      2.460      0.014
+    SUMD3_24           0.296      0.109      2.708      0.007
+
+Latent Class 3
+
+ IW       |
+    SUMD3_0            1.000      0.000    999.000    999.000
+    SUMD3_1            1.000      0.000    999.000    999.000
+    SUMD3_2            1.000      0.000    999.000    999.000
+    SUMD3_3            1.000      0.000    999.000    999.000
+    SUMD3_6            1.000      0.000    999.000    999.000
+    SUMD3_9            1.000      0.000    999.000    999.000
+    SUMD3_12           1.000      0.000    999.000    999.000
+    SUMD3_18           1.000      0.000    999.000    999.000
+    SUMD3_24           1.000      0.000    999.000    999.000
+
+ SW       |
+    SUMD3_0            3.000      0.000    999.000    999.000
+    SUMD3_1            3.000      0.000    999.000    999.000
+    SUMD3_2            3.000      0.000    999.000    999.000
+    SUMD3_3            3.000      0.000    999.000    999.000
+    SUMD3_6            3.000      0.000    999.000    999.000
+    SUMD3_9            3.000      0.000    999.000    999.000
+    SUMD3_12           3.000      0.000    999.000    999.000
+    SUMD3_18           3.000      0.000    999.000    999.000
+    SUMD3_24           3.000      0.000    999.000    999.000
+
+ S          ON
+    IW                 0.228      0.288      0.792      0.428
+    SW                -0.142      0.000    999.000    999.000
+
+ SW       WITH
+    IW                 0.132      0.000    999.000    999.000
+
+ Means
+    IW                 0.309      0.364      0.850      0.396
+    SW                 0.889      0.109      8.162      0.000
+
+ Means
+    N#1               -1.281      0.000    999.000    999.000
+    N#2               -1.148      0.000    999.000    999.000
+
+ Intercepts
+    S                 -0.135      0.000    999.000    999.000
+    SUMD3_0            0.000      0.000    999.000    999.000
+    SUMD3_1            0.000      0.000    999.000    999.000
+    SUMD3_2            0.000      0.000    999.000    999.000
+    SUMD3_3            0.000      0.000    999.000    999.000
+    SUMD3_6            0.000      0.000    999.000    999.000
+    SUMD3_9            0.000      0.000    999.000    999.000
+    SUMD3_12           0.000      0.000    999.000    999.000
+    SUMD3_18           0.000      0.000    999.000    999.000
+    SUMD3_24           0.000      0.000    999.000    999.000
+
+ Variances
+    IW                -0.175      0.268     -0.650      0.516
+    SW                -0.011      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.039      0.050      0.779      0.436
+    SUMD3_0            1.282      0.477      2.688      0.007
+    SUMD3_1            1.109      0.621      1.784      0.074
+    SUMD3_2            0.801      0.332      2.415      0.016
+    SUMD3_3            1.205      0.572      2.108      0.035
+    SUMD3_6            1.198      0.325      3.691      0.000
+    SUMD3_9            0.916      0.234      3.916      0.000
+    SUMD3_12           0.737      0.376      1.959      0.050
+    SUMD3_18           0.952      0.461      2.066      0.039
+    SUMD3_24           0.317      0.365      0.868      0.385
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.801      0.156      5.142      0.000
+    C#2                0.619      0.181      3.424      0.001
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.167E-05
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ IW       |
+    SUMD3_0            0.371      0.145      2.567      0.010
+    SUMD3_1            0.386      0.151      2.553      0.011
+    SUMD3_2            0.380      0.158      2.407      0.016
+    SUMD3_3            0.510      0.182      2.797      0.005
+    SUMD3_6            0.444      0.166      2.676      0.007
+    SUMD3_9            0.338      0.124      2.722      0.006
+    SUMD3_12           0.315      0.131      2.411      0.016
+    SUMD3_18           0.344      0.132      2.617      0.009
+    SUMD3_24           0.469      0.159      2.940      0.003
+
+ SW       |
+    SUMD3_0            0.741      0.053     14.087      0.000
+    SUMD3_1            0.771      0.061     12.541      0.000
+    SUMD3_2            0.759      0.104      7.269      0.000
+    SUMD3_3            1.018      0.092     11.100      0.000
+    SUMD3_6            0.886      0.117      7.544      0.000
+    SUMD3_9            0.675      0.096      7.057      0.000
+    SUMD3_12           0.629      0.066      9.528      0.000
+    SUMD3_18           0.687      0.054     12.694      0.000
+    SUMD3_24           0.936      0.137      6.827      0.000
+
+ S          ON
+    IW                 0.643      0.954      0.674      0.500
+    SW                 0.270      0.421      0.640      0.522
+
+ SW       WITH
+    IW                -0.558      0.230     -2.422      0.015
+
+ Means
+    IW                 0.787      3.658      0.215      0.830
+    SW                 3.386      2.002      1.691      0.091
+
+ Intercepts
+    S                 -5.998      0.272    -22.051      0.000
+    SUMD3_0            0.000      0.000    999.000    999.000
+    SUMD3_1            0.000      0.000    999.000    999.000
+    SUMD3_2            0.000      0.000    999.000    999.000
+    SUMD3_3            0.000      0.000    999.000    999.000
+    SUMD3_6            0.000      0.000    999.000    999.000
+    SUMD3_9            0.000      0.000    999.000    999.000
+    SUMD3_12           0.000      0.000    999.000    999.000
+    SUMD3_18           0.000      0.000    999.000    999.000
+    SUMD3_24           0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 1.000      0.000    999.000    999.000
+    SW                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.707      0.913      0.775      0.438
+    SUMD3_0            0.620      0.104      5.938      0.000
+    SUMD3_1            0.589      0.117      5.030      0.000
+    SUMD3_2            0.602      0.150      4.019      0.000
+    SUMD3_3            0.284      0.158      1.796      0.072
+    SUMD3_6            0.456      0.163      2.801      0.005
+    SUMD3_9            0.685      0.094      7.273      0.000
+    SUMD3_12           0.726      0.095      7.640      0.000
+    SUMD3_18           0.673      0.087      7.781      0.000
+    SUMD3_24           0.394      0.154      2.553      0.011
+
+Latent Class 2
+
+ IW       |
+    SUMD3_0            0.585      0.100      5.857      0.000
+    SUMD3_1            0.716      0.113      6.328      0.000
+    SUMD3_2            0.642      0.116      5.541      0.000
+    SUMD3_3            0.627      0.090      6.999      0.000
+    SUMD3_6            0.666      0.116      5.723      0.000
+    SUMD3_9            0.588      0.112      5.228      0.000
+    SUMD3_12           0.508      0.107      4.749      0.000
+    SUMD3_18           0.762      0.102      7.482      0.000
+    SUMD3_24           0.634      0.119      5.319      0.000
+
+ SW       |
+    SUMD3_0            0.761      0.096      7.929      0.000
+    SUMD3_1            0.931      0.167      5.585      0.000
+    SUMD3_2            0.835      0.105      7.968      0.000
+    SUMD3_3            0.815      0.097      8.376      0.000
+    SUMD3_6            0.866      0.119      7.256      0.000
+    SUMD3_9            0.764      0.087      8.812      0.000
+    SUMD3_12           0.661      0.085      7.757      0.000
+    SUMD3_18           0.990      0.104      9.559      0.000
+    SUMD3_24           0.825      0.082     10.102      0.000
+
+ S          ON
+    IW                 0.637      0.809      0.788      0.431
+    SW                 0.220      0.468      0.470      0.638
+
+ SW       WITH
+    IW                -0.594      0.122     -4.858      0.000
+
+ Means
+    IW                 0.835      4.894      0.171      0.865
+    SW                 5.502      3.964      1.388      0.165
+
+ Intercepts
+    S                 -2.761      0.153    -18.074      0.000
+    SUMD3_0            0.000      0.000    999.000    999.000
+    SUMD3_1            0.000      0.000    999.000    999.000
+    SUMD3_2            0.000      0.000    999.000    999.000
+    SUMD3_3            0.000      0.000    999.000    999.000
+    SUMD3_6            0.000      0.000    999.000    999.000
+    SUMD3_9            0.000      0.000    999.000    999.000
+    SUMD3_12           0.000      0.000    999.000    999.000
+    SUMD3_18           0.000      0.000    999.000    999.000
+    SUMD3_24           0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 1.000      0.000    999.000    999.000
+    SW                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.712      0.925      0.770      0.441
+    SUMD3_0            0.607      0.118      5.130      0.000
+    SUMD3_1            0.413      0.171      2.415      0.016
+    SUMD3_2            0.527      0.152      3.480      0.001
+    SUMD3_3            0.550      0.110      5.005      0.000
+    SUMD3_6            0.491      0.159      3.093      0.002
+    SUMD3_9            0.604      0.134      4.496      0.000
+    SUMD3_12           0.704      0.112      6.263      0.000
+    SUMD3_18           0.335      0.147      2.275      0.023
+    SUMD3_24           0.539      0.153      3.529      0.000
+
+Latent Class 3
+
+ IW       |
+    SUMD3_0          999.000    999.000    999.000    999.000
+    SUMD3_1          999.000    999.000    999.000    999.000
+    SUMD3_2          999.000    999.000    999.000    999.000
+    SUMD3_3          999.000    999.000    999.000    999.000
+    SUMD3_6          999.000    999.000    999.000    999.000
+    SUMD3_9          999.000    999.000    999.000    999.000
+    SUMD3_12         999.000    999.000    999.000    999.000
+    SUMD3_18         999.000    999.000    999.000    999.000
+    SUMD3_24         999.000    999.000    999.000    999.000
+
+ SW       |
+    SUMD3_0          999.000    999.000    999.000    999.000
+    SUMD3_1          999.000    999.000    999.000    999.000
+    SUMD3_2          999.000    999.000    999.000    999.000
+    SUMD3_3          999.000    999.000    999.000    999.000
+    SUMD3_6          999.000    999.000    999.000    999.000
+    SUMD3_9          999.000    999.000    999.000    999.000
+    SUMD3_12         999.000    999.000    999.000    999.000
+    SUMD3_18         999.000    999.000    999.000    999.000
+    SUMD3_24         999.000    999.000    999.000    999.000
+
+ S          ON
+    IW               999.000    999.000    999.000    999.000
+    SW               999.000    999.000    999.000    999.000
+
+ SW       WITH
+    IW               999.000    999.000    999.000    999.000
+
+ Means
+    IW               999.000    999.000    999.000    999.000
+    SW               999.000    999.000    999.000    999.000
+
+ Intercepts
+    S                 -0.936      0.144     -6.492      0.000
+    SUMD3_0            0.000      0.000    999.000    999.000
+    SUMD3_1            0.000      0.000    999.000    999.000
+    SUMD3_2            0.000      0.000    999.000    999.000
+    SUMD3_3            0.000      0.000    999.000    999.000
+    SUMD3_6            0.000      0.000    999.000    999.000
+    SUMD3_9            0.000      0.000    999.000    999.000
+    SUMD3_12           0.000      0.000    999.000    999.000
+    SUMD3_18           0.000      0.000    999.000    999.000
+    SUMD3_24           0.000      0.000    999.000    999.000
+
+ Variances
+    IW               999.000    999.000    999.000    999.000
+    SW               999.000    999.000    999.000    999.000
+
+ Residual Variances
+    S                  1.855      2.197      0.844      0.399
+    SUMD3_0            0.711      0.157      4.517      0.000
+    SUMD3_1            0.680      0.214      3.176      0.001
+    SUMD3_2            0.606      0.210      2.887      0.004
+    SUMD3_3            0.698      0.184      3.800      0.000
+    SUMD3_6            0.697      0.115      6.045      0.000
+    SUMD3_9            0.638      0.144      4.420      0.000
+    SUMD3_12           0.586      0.207      2.831      0.005
+    SUMD3_18           0.646      0.140      4.609      0.000
+    SUMD3_24           0.378      0.174      2.169      0.030
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ IW       |
+    SUMD3_0            0.371      0.145      2.567      0.010
+    SUMD3_1            0.386      0.151      2.553      0.011
+    SUMD3_2            0.380      0.158      2.407      0.016
+    SUMD3_3            0.510      0.182      2.797      0.005
+    SUMD3_6            0.444      0.166      2.676      0.007
+    SUMD3_9            0.338      0.124      2.722      0.006
+    SUMD3_12           0.315      0.131      2.411      0.016
+    SUMD3_18           0.344      0.132      2.617      0.009
+    SUMD3_24           0.469      0.159      2.940      0.003
+
+ SW       |
+    SUMD3_0            0.741      0.053     14.087      0.000
+    SUMD3_1            0.771      0.061     12.541      0.000
+    SUMD3_2            0.759      0.104      7.269      0.000
+    SUMD3_3            1.018      0.092     11.100      0.000
+    SUMD3_6            0.886      0.117      7.544      0.000
+    SUMD3_9            0.675      0.096      7.057      0.000
+    SUMD3_12           0.629      0.066      9.528      0.000
+    SUMD3_18           0.687      0.054     12.694      0.000
+    SUMD3_24           0.936      0.137      6.827      0.000
+
+ S          ON
+    IW                 0.643      0.954      0.674      0.500
+    SW                 0.270      0.421      0.640      0.522
+
+ SW       WITH
+    IW                -0.558      0.230     -2.422      0.015
+
+ Means
+    IW                 0.787      3.658      0.215      0.830
+    SW                 3.386      2.002      1.691      0.091
+
+ Intercepts
+    S                 -5.998      0.272    -22.051      0.000
+    SUMD3_0            0.000      0.000    999.000    999.000
+    SUMD3_1            0.000      0.000    999.000    999.000
+    SUMD3_2            0.000      0.000    999.000    999.000
+    SUMD3_3            0.000      0.000    999.000    999.000
+    SUMD3_6            0.000      0.000    999.000    999.000
+    SUMD3_9            0.000      0.000    999.000    999.000
+    SUMD3_12           0.000      0.000    999.000    999.000
+    SUMD3_18           0.000      0.000    999.000    999.000
+    SUMD3_24           0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 1.000      0.000    999.000    999.000
+    SW                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.707      0.913      0.775      0.438
+    SUMD3_0            0.620      0.104      5.938      0.000
+    SUMD3_1            0.589      0.117      5.030      0.000
+    SUMD3_2            0.602      0.150      4.019      0.000
+    SUMD3_3            0.284      0.158      1.796      0.072
+    SUMD3_6            0.456      0.163      2.801      0.005
+    SUMD3_9            0.685      0.094      7.273      0.000
+    SUMD3_12           0.726      0.095      7.640      0.000
+    SUMD3_18           0.673      0.087      7.781      0.000
+    SUMD3_24           0.394      0.154      2.553      0.011
+
+Latent Class 2
+
+ IW       |
+    SUMD3_0            0.585      0.100      5.857      0.000
+    SUMD3_1            0.716      0.113      6.328      0.000
+    SUMD3_2            0.642      0.116      5.541      0.000
+    SUMD3_3            0.627      0.090      6.999      0.000
+    SUMD3_6            0.666      0.116      5.723      0.000
+    SUMD3_9            0.588      0.112      5.228      0.000
+    SUMD3_12           0.508      0.107      4.749      0.000
+    SUMD3_18           0.762      0.102      7.482      0.000
+    SUMD3_24           0.634      0.119      5.319      0.000
+
+ SW       |
+    SUMD3_0            0.761      0.096      7.929      0.000
+    SUMD3_1            0.931      0.167      5.585      0.000
+    SUMD3_2            0.835      0.105      7.968      0.000
+    SUMD3_3            0.815      0.097      8.376      0.000
+    SUMD3_6            0.866      0.119      7.256      0.000
+    SUMD3_9            0.764      0.087      8.812      0.000
+    SUMD3_12           0.661      0.085      7.757      0.000
+    SUMD3_18           0.990      0.104      9.559      0.000
+    SUMD3_24           0.825      0.082     10.102      0.000
+
+ S          ON
+    IW                 0.637      0.809      0.788      0.431
+    SW                 0.220      0.468      0.470      0.638
+
+ SW       WITH
+    IW                -0.594      0.122     -4.858      0.000
+
+ Means
+    IW                 0.835      4.894      0.171      0.865
+    SW                 5.502      3.964      1.388      0.165
+
+ Intercepts
+    S                 -2.761      0.153    -18.074      0.000
+    SUMD3_0            0.000      0.000    999.000    999.000
+    SUMD3_1            0.000      0.000    999.000    999.000
+    SUMD3_2            0.000      0.000    999.000    999.000
+    SUMD3_3            0.000      0.000    999.000    999.000
+    SUMD3_6            0.000      0.000    999.000    999.000
+    SUMD3_9            0.000      0.000    999.000    999.000
+    SUMD3_12           0.000      0.000    999.000    999.000
+    SUMD3_18           0.000      0.000    999.000    999.000
+    SUMD3_24           0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 1.000      0.000    999.000    999.000
+    SW                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.712      0.925      0.770      0.441
+    SUMD3_0            0.607      0.118      5.130      0.000
+    SUMD3_1            0.413      0.171      2.415      0.016
+    SUMD3_2            0.527      0.152      3.480      0.001
+    SUMD3_3            0.550      0.110      5.005      0.000
+    SUMD3_6            0.491      0.159      3.093      0.002
+    SUMD3_9            0.604      0.134      4.496      0.000
+    SUMD3_12           0.704      0.112      6.263      0.000
+    SUMD3_18           0.335      0.147      2.275      0.023
+    SUMD3_24           0.539      0.153      3.529      0.000
+
+Latent Class 3
+
+ IW       |
+    SUMD3_0          999.000    999.000    999.000    999.000
+    SUMD3_1          999.000    999.000    999.000    999.000
+    SUMD3_2          999.000    999.000    999.000    999.000
+    SUMD3_3          999.000    999.000    999.000    999.000
+    SUMD3_6          999.000    999.000    999.000    999.000
+    SUMD3_9          999.000    999.000    999.000    999.000
+    SUMD3_12         999.000    999.000    999.000    999.000
+    SUMD3_18         999.000    999.000    999.000    999.000
+    SUMD3_24         999.000    999.000    999.000    999.000
+
+ SW       |
+    SUMD3_0          999.000    999.000    999.000    999.000
+    SUMD3_1          999.000    999.000    999.000    999.000
+    SUMD3_2          999.000    999.000    999.000    999.000
+    SUMD3_3          999.000    999.000    999.000    999.000
+    SUMD3_6          999.000    999.000    999.000    999.000
+    SUMD3_9          999.000    999.000    999.000    999.000
+    SUMD3_12         999.000    999.000    999.000    999.000
+    SUMD3_18         999.000    999.000    999.000    999.000
+    SUMD3_24         999.000    999.000    999.000    999.000
+
+ S          ON
+    IW               999.000    999.000    999.000    999.000
+    SW               999.000    999.000    999.000    999.000
+
+ SW       WITH
+    IW               999.000    999.000    999.000    999.000
+
+ Means
+    IW               999.000    999.000    999.000    999.000
+    SW               999.000    999.000    999.000    999.000
+
+ Intercepts
+    S                 -0.936      0.144     -6.492      0.000
+    SUMD3_0            0.000      0.000    999.000    999.000
+    SUMD3_1            0.000      0.000    999.000    999.000
+    SUMD3_2            0.000      0.000    999.000    999.000
+    SUMD3_3            0.000      0.000    999.000    999.000
+    SUMD3_6            0.000      0.000    999.000    999.000
+    SUMD3_9            0.000      0.000    999.000    999.000
+    SUMD3_12           0.000      0.000    999.000    999.000
+    SUMD3_18           0.000      0.000    999.000    999.000
+    SUMD3_24           0.000      0.000    999.000    999.000
+
+ Variances
+    IW               999.000    999.000    999.000    999.000
+    SW               999.000    999.000    999.000    999.000
+
+ Residual Variances
+    S                  1.855      2.197      0.844      0.399
+    SUMD3_0            0.711      0.157      4.517      0.000
+    SUMD3_1            0.680      0.214      3.176      0.001
+    SUMD3_2            0.606      0.210      2.887      0.004
+    SUMD3_3            0.698      0.184      3.800      0.000
+    SUMD3_6            0.697      0.115      6.045      0.000
+    SUMD3_9            0.638      0.144      4.420      0.000
+    SUMD3_12           0.586      0.207      2.831      0.005
+    SUMD3_18           0.646      0.140      4.609      0.000
+    SUMD3_24           0.378      0.174      2.169      0.030
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ IW       |
+    SUMD3_0            0.444      0.183      2.422      0.015
+    SUMD3_1            0.444      0.183      2.422      0.015
+    SUMD3_2            0.444      0.183      2.422      0.015
+    SUMD3_3            0.444      0.183      2.422      0.015
+    SUMD3_6            0.444      0.183      2.422      0.015
+    SUMD3_9            0.444      0.183      2.422      0.015
+    SUMD3_12           0.444      0.183      2.422      0.015
+    SUMD3_18           0.444      0.183      2.422      0.015
+    SUMD3_24           0.444      0.183      2.422      0.015
+
+ SW       |
+    SUMD3_0            0.887      0.000    999.000    999.000
+    SUMD3_1            0.887      0.000    999.000    999.000
+    SUMD3_2            0.887      0.000    999.000    999.000
+    SUMD3_3            0.887      0.000    999.000    999.000
+    SUMD3_6            0.887      0.000    999.000    999.000
+    SUMD3_9            0.887      0.000    999.000    999.000
+    SUMD3_12           0.887      0.000    999.000    999.000
+    SUMD3_18           0.887      0.000    999.000    999.000
+    SUMD3_24           0.887      0.000    999.000    999.000
+
+ S          ON
+    IW                 0.150      0.224      0.672      0.502
+    SW                 0.063      0.098      0.641      0.522
+
+ SW       WITH
+    IW                -0.558      0.230     -2.422      0.015
+
+ Means
+    IW                 0.787      3.658      0.215      0.830
+    SW                 3.386      2.002      1.691      0.091
+
+ Intercepts
+    S                 -1.402      0.000    999.000    999.000
+    SUMD3_0            0.000      0.000    999.000    999.000
+    SUMD3_1            0.000      0.000    999.000    999.000
+    SUMD3_2            0.000      0.000    999.000    999.000
+    SUMD3_3            0.000      0.000    999.000    999.000
+    SUMD3_6            0.000      0.000    999.000    999.000
+    SUMD3_9            0.000      0.000    999.000    999.000
+    SUMD3_12           0.000      0.000    999.000    999.000
+    SUMD3_18           0.000      0.000    999.000    999.000
+    SUMD3_24           0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 1.000      0.000    999.000    999.000
+    SW                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.039      0.050      0.779      0.436
+    SUMD3_0            0.887      0.202      4.383      0.000
+    SUMD3_1            0.780      0.216      3.612      0.000
+    SUMD3_2            0.822      0.387      2.124      0.034
+    SUMD3_3            0.215      0.122      1.767      0.077
+    SUMD3_6            0.457      0.242      1.885      0.059
+    SUMD3_9            1.183      0.436      2.712      0.007
+    SUMD3_12           1.441      0.431      3.346      0.001
+    SUMD3_18           1.121      0.235      4.777      0.000
+    SUMD3_24           0.354      0.204      1.733      0.083
+
+Latent Class 2
+
+ IW       |
+    SUMD3_0            0.470      0.097      4.858      0.000
+    SUMD3_1            0.470      0.097      4.858      0.000
+    SUMD3_2            0.470      0.097      4.858      0.000
+    SUMD3_3            0.470      0.097      4.858      0.000
+    SUMD3_6            0.470      0.097      4.858      0.000
+    SUMD3_9            0.470      0.097      4.858      0.000
+    SUMD3_12           0.470      0.097      4.858      0.000
+    SUMD3_18           0.470      0.097      4.858      0.000
+    SUMD3_24           0.470      0.097      4.858      0.000
+
+ SW       |
+    SUMD3_0            0.611      0.000    999.000    999.000
+    SUMD3_1            0.611      0.000    999.000    999.000
+    SUMD3_2            0.611      0.000    999.000    999.000
+    SUMD3_3            0.611      0.000    999.000    999.000
+    SUMD3_6            0.611      0.000    999.000    999.000
+    SUMD3_9            0.611      0.000    999.000    999.000
+    SUMD3_12           0.611      0.000    999.000    999.000
+    SUMD3_18           0.611      0.000    999.000    999.000
+    SUMD3_24           0.611      0.000    999.000    999.000
+
+ S          ON
+    IW                 0.149      0.190      0.781      0.435
+    SW                 0.051      0.109      0.470      0.638
+
+ SW       WITH
+    IW                -0.594      0.122     -4.858      0.000
+
+ Means
+    IW                 0.835      4.894      0.171      0.865
+    SW                 5.502      3.964      1.388      0.165
+
+ Intercepts
+    S                 -0.644      0.000    999.000    999.000
+    SUMD3_0            0.000      0.000    999.000    999.000
+    SUMD3_1            0.000      0.000    999.000    999.000
+    SUMD3_2            0.000      0.000    999.000    999.000
+    SUMD3_3            0.000      0.000    999.000    999.000
+    SUMD3_6            0.000      0.000    999.000    999.000
+    SUMD3_9            0.000      0.000    999.000    999.000
+    SUMD3_12           0.000      0.000    999.000    999.000
+    SUMD3_18           0.000      0.000    999.000    999.000
+    SUMD3_24           0.000      0.000    999.000    999.000
+
+ Variances
+    IW                 1.000      0.000    999.000    999.000
+    SW                 1.000      0.000    999.000    999.000
+
+ Residual Variances
+    S                  0.039      0.050      0.779      0.436
+    SUMD3_0            0.392      0.135      2.909      0.004
+    SUMD3_1            0.178      0.115      1.545      0.122
+    SUMD3_2            0.283      0.120      2.366      0.018
+    SUMD3_3            0.310      0.091      3.394      0.001
+    SUMD3_6            0.245      0.116      2.101      0.036
+    SUMD3_9            0.387      0.137      2.819      0.005
+    SUMD3_12           0.603      0.214      2.813      0.005
+    SUMD3_18           0.128      0.052      2.460      0.014
+    SUMD3_24           0.296      0.109      2.708      0.007
+
+Latent Class 3
+
+ IW       |
+    SUMD3_0          999.000    999.000    999.000    999.000
+    SUMD3_1          999.000    999.000    999.000    999.000
+    SUMD3_2          999.000    999.000    999.000    999.000
+    SUMD3_3          999.000    999.000    999.000    999.000
+    SUMD3_6          999.000    999.000    999.000    999.000
+    SUMD3_9          999.000    999.000    999.000    999.000
+    SUMD3_12         999.000    999.000    999.000    999.000
+    SUMD3_18         999.000    999.000    999.000    999.000
+    SUMD3_24         999.000    999.000    999.000    999.000
+
+ SW       |
+    SUMD3_0          999.000    999.000    999.000    999.000
+    SUMD3_1          999.000    999.000    999.000    999.000
+    SUMD3_2          999.000    999.000    999.000    999.000
+    SUMD3_3          999.000    999.000    999.000    999.000
+    SUMD3_6          999.000    999.000    999.000    999.000
+    SUMD3_9          999.000    999.000    999.000    999.000
+    SUMD3_12         999.000    999.000    999.000    999.000
+    SUMD3_18         999.000    999.000    999.000    999.000
+    SUMD3_24         999.000    999.000    999.000    999.000
+
+ S          ON
+    IW               999.000    999.000    999.000    999.000
+    SW               999.000    999.000    999.000    999.000
+
+ SW       WITH
+    IW               999.000    999.000    999.000    999.000
+
+ Means
+    IW               999.000    999.000    999.000    999.000
+    SW               999.000    999.000    999.000    999.000
+
+ Intercepts
+    S                 -0.135      0.000    999.000    999.000
+    SUMD3_0            0.000      0.000    999.000    999.000
+    SUMD3_1            0.000      0.000    999.000    999.000
+    SUMD3_2            0.000      0.000    999.000    999.000
+    SUMD3_3            0.000      0.000    999.000    999.000
+    SUMD3_6            0.000      0.000    999.000    999.000
+    SUMD3_9            0.000      0.000    999.000    999.000
+    SUMD3_12           0.000      0.000    999.000    999.000
+    SUMD3_18           0.000      0.000    999.000    999.000
+    SUMD3_24           0.000      0.000    999.000    999.000
+
+ Variances
+    IW               999.000    999.000    999.000    999.000
+    SW               999.000    999.000    999.000    999.000
+
+ Residual Variances
+    S                  0.039      0.050      0.779      0.436
+    SUMD3_0            1.282      0.477      2.688      0.007
+    SUMD3_1            1.109      0.621      1.784      0.074
+    SUMD3_2            0.801      0.332      2.415      0.016
+    SUMD3_3            1.205      0.572      2.108      0.035
+    SUMD3_6            1.198      0.325      3.691      0.000
+    SUMD3_9            0.916      0.234      3.916      0.000
+    SUMD3_12           0.737      0.376      1.959      0.050
+    SUMD3_18           0.952      0.461      2.066      0.039
+    SUMD3_24           0.317      0.365      0.868      0.385
+
+
+R-SQUARE
+
+Class 1
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    S                  0.293      0.913      0.321      0.749
+    SUMD3_0            0.380      0.104      3.641      0.000
+    SUMD3_1            0.411      0.117      3.511      0.000
+    SUMD3_2            0.398      0.150      2.662      0.008
+    SUMD3_3            0.716      0.158      4.537      0.000
+    SUMD3_6            0.544      0.163      3.336      0.001
+    SUMD3_9            0.315      0.094      3.345      0.001
+    SUMD3_12           0.274      0.095      2.885      0.004
+    SUMD3_18           0.327      0.087      3.777      0.000
+    SUMD3_24           0.606      0.154      3.925      0.000
+
+Class 2
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    S                  0.288      0.925      0.312      0.755
+    SUMD3_0            0.393      0.118      3.315      0.001
+    SUMD3_1            0.587      0.171      3.437      0.001
+    SUMD3_2            0.473      0.152      3.118      0.002
+    SUMD3_3            0.450      0.110      4.095      0.000
+    SUMD3_6            0.509      0.159      3.204      0.001
+    SUMD3_9            0.396      0.134      2.944      0.003
+    SUMD3_12           0.296      0.112      2.632      0.008
+    SUMD3_18           0.665      0.147      4.515      0.000
+    SUMD3_24           0.461      0.153      3.022      0.003
+
+Class 3
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    S               Undefined  -0.85458E+00
+    SUMD3_0            0.289      0.157      1.834      0.067
+    SUMD3_1            0.320      0.214      1.491      0.136
+    SUMD3_2            0.394      0.210      1.878      0.060
+    SUMD3_3            0.302      0.184      1.642      0.101
+    SUMD3_6            0.303      0.115      2.628      0.009
+    SUMD3_9            0.362      0.144      2.511      0.012
+    SUMD3_12           0.414      0.207      1.999      0.046
+    SUMD3_18           0.354      0.140      2.522      0.012
+    SUMD3_24           0.622      0.174      3.567      0.000
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ IW       |
+    SUMD3_0          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_1          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_2          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_3          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_6          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_9          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_12         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_18         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ SW       |
+    SUMD3_0          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_1          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_2          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_3          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_6          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_9          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_12         3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_18         3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_24         3.000       3.000       3.000       3.000       3.000       3.000       3.000
+
+ S        ON
+    IW              -1.065      -0.729      -0.558       0.338       1.234       1.406       1.742
+    SW              -0.644      -0.439      -0.334       0.213       0.761       0.866       1.071
+
+ SW       WITH
+    IW              -0.073      -0.073      -0.073      -0.073      -0.073      -0.073      -0.073
+
+ Means
+    IW              -4.133      -3.061      -2.513       0.350       3.213       3.761       4.833
+    SW              -0.524      -0.159       0.027       1.001       1.975       2.161       2.525
+
+ Means
+    N#1              3.075       3.075       3.075       3.075       3.075       3.075       3.075
+    N#2              1.083       1.083       1.083       1.083       1.083       1.083       1.083
+
+ Intercepts
+    S               -1.402      -1.402      -1.402      -1.402      -1.402      -1.402      -1.402
+    SUMD3_0          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_1          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_2          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_3          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_6          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_9          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_12         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_18         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_24         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW              -0.223      -0.122      -0.071       0.197       0.466       0.517       0.617
+    SW               0.087       0.087       0.087       0.087       0.087       0.087       0.087
+
+ Residual Variances
+    S               -0.089      -0.059      -0.043       0.039       0.120       0.136       0.167
+    SUMD3_0          0.366       0.491       0.554       0.887       1.220       1.284       1.409
+    SUMD3_1          0.224       0.357       0.425       0.780       1.135       1.203       1.335
+    SUMD3_2         -0.175       0.063       0.185       0.822       1.458       1.580       1.818
+    SUMD3_3         -0.099      -0.024       0.015       0.215       0.416       0.454       0.529
+    SUMD3_6         -0.167      -0.018       0.058       0.457       0.855       0.932       1.081
+    SUMD3_9          0.059       0.328       0.465       1.183       1.901       2.038       2.307
+    SUMD3_12         0.332       0.597       0.733       1.441       2.149       2.285       2.550
+    SUMD3_18         0.516       0.661       0.735       1.121       1.507       1.581       1.725
+    SUMD3_24        -0.172      -0.046       0.018       0.354       0.690       0.754       0.880
+
+Latent Class 2
+
+ IW       |
+    SUMD3_0          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_1          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_2          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_3          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_6          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_9          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_12         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_18         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ SW       |
+    SUMD3_0          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_1          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_2          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_3          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_6          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_9          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_12         3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_18         3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_24         3.000       3.000       3.000       3.000       3.000       3.000       3.000
+
+ S        ON
+    IW              -0.721      -0.473      -0.346       0.316       0.978       1.105       1.353
+    SW              -1.126      -0.797      -0.628       0.251       1.131       1.300       1.629
+
+ SW       WITH
+    IW              -0.057      -0.057      -0.057      -0.057      -0.057      -0.057      -0.057
+
+ Means
+    IW              -5.701      -4.244      -3.499       0.393       4.284       5.029       6.486
+    SW              -0.960      -0.462      -0.208       1.122       2.451       2.705       3.203
+
+ Means
+    N#1              1.199       1.199       1.199       1.199       1.199       1.199       1.199
+    N#2              2.945       2.945       2.945       2.945       2.945       2.945       2.945
+
+ Intercepts
+    S               -0.644      -0.644      -0.644      -0.644      -0.644      -0.644      -0.644
+    SUMD3_0          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_1          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_2          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_3          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_6          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_9          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_12         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_18         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_24         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW              -0.013       0.043       0.071       0.221       0.371       0.400       0.456
+    SW               0.042       0.042       0.042       0.042       0.042       0.042       0.042
+
+ Residual Variances
+    S               -0.089      -0.059      -0.043       0.039       0.120       0.136       0.167
+    SUMD3_0          0.045       0.128       0.170       0.392       0.614       0.657       0.740
+    SUMD3_1         -0.119      -0.048      -0.012       0.178       0.368       0.404       0.475
+    SUMD3_2         -0.025       0.049       0.086       0.283       0.480       0.517       0.591
+    SUMD3_3          0.075       0.131       0.160       0.310       0.460       0.489       0.545
+    SUMD3_6         -0.055       0.016       0.053       0.245       0.436       0.473       0.545
+    SUMD3_9          0.033       0.118       0.161       0.387       0.613       0.656       0.741
+    SUMD3_12         0.051       0.183       0.250       0.603       0.956       1.023       1.155
+    SUMD3_18        -0.006       0.026       0.042       0.128       0.213       0.230       0.261
+    SUMD3_24         0.014       0.082       0.116       0.296       0.476       0.510       0.578
+
+Latent Class 3
+
+ IW       |
+    SUMD3_0          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_1          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_2          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_3          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_6          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_9          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_12         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_18         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SUMD3_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ SW       |
+    SUMD3_0          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_1          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_2          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_3          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_6          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_9          3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_12         3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_18         3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SUMD3_24         3.000       3.000       3.000       3.000       3.000       3.000       3.000
+
+ S        ON
+    IW              -0.513      -0.336      -0.245       0.228       0.701       0.792       0.969
+    SW              -0.142      -0.142      -0.142      -0.142      -0.142      -0.142      -0.142
+
+ SW       WITH
+    IW               0.132       0.132       0.132       0.132       0.132       0.132       0.132
+
+ Means
+    IW              -0.628      -0.404      -0.290       0.309       0.908       1.023       1.247
+    SW               0.609       0.676       0.710       0.889       1.069       1.103       1.170
+
+ Means
+    N#1             -1.281      -1.281      -1.281      -1.281      -1.281      -1.281      -1.281
+    N#2             -1.148      -1.148      -1.148      -1.148      -1.148      -1.148      -1.148
+
+ Intercepts
+    S               -0.135      -0.135      -0.135      -0.135      -0.135      -0.135      -0.135
+    SUMD3_0          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_1          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_2          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_3          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_6          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_9          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_12         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_18         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_24         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW              -0.866      -0.701      -0.616      -0.175       0.267       0.352       0.517
+    SW              -0.011      -0.011      -0.011      -0.011      -0.011      -0.011      -0.011
+
+ Residual Variances
+    S               -0.089      -0.059      -0.043       0.039       0.120       0.136       0.167
+    SUMD3_0          0.053       0.347       0.497       1.282       2.067       2.217       2.511
+    SUMD3_1         -0.492      -0.109       0.086       1.109       2.131       2.327       2.709
+    SUMD3_2         -0.053       0.151       0.255       0.801       1.346       1.450       1.655
+    SUMD3_3         -0.268       0.084       0.265       1.205       2.146       2.326       2.678
+    SUMD3_6          0.362       0.562       0.664       1.198       1.732       1.834       2.034
+    SUMD3_9          0.314       0.458       0.531       0.916       1.301       1.375       1.519
+    SUMD3_12        -0.232       0.000       0.118       0.737       1.357       1.475       1.707
+    SUMD3_18        -0.235       0.049       0.194       0.952       1.709       1.854       2.138
+    SUMD3_24        -0.623      -0.398      -0.283       0.317       0.916       1.031       1.256
+
+Categorical Latent Variables
+
+ Means
+    C#1              0.400       0.495       0.544       0.801       1.057       1.106       1.202
+    C#2              0.153       0.264       0.321       0.619       0.916       0.973       1.084
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ IW       |
+    SUMD3_0         -0.001       0.088       0.133       0.371       0.609       0.655       0.744
+    SUMD3_1         -0.003       0.090       0.137       0.386       0.635       0.683       0.776
+    SUMD3_2         -0.027       0.071       0.120       0.380       0.640       0.690       0.787
+    SUMD3_3          0.040       0.153       0.210       0.510       0.810       0.867       0.979
+    SUMD3_6          0.017       0.119       0.171       0.444       0.717       0.770       0.872
+    SUMD3_9          0.018       0.095       0.134       0.338       0.542       0.582       0.658
+    SUMD3_12        -0.022       0.059       0.100       0.315       0.531       0.572       0.652
+    SUMD3_18         0.005       0.086       0.128       0.344       0.561       0.602       0.683
+    SUMD3_24         0.058       0.156       0.207       0.469       0.731       0.782       0.880
+
+ SW       |
+    SUMD3_0          0.606       0.638       0.655       0.741       0.828       0.844       0.877
+    SUMD3_1          0.613       0.650       0.670       0.771       0.872       0.891       0.929
+    SUMD3_2          0.490       0.554       0.587       0.759       0.931       0.964       1.028
+    SUMD3_3          0.781       0.838       0.867       1.018       1.168       1.197       1.254
+    SUMD3_6          0.584       0.656       0.693       0.886       1.080       1.117       1.189
+    SUMD3_9          0.428       0.487       0.517       0.675       0.832       0.862       0.921
+    SUMD3_12         0.459       0.500       0.521       0.629       0.738       0.759       0.800
+    SUMD3_18         0.548       0.581       0.598       0.687       0.776       0.793       0.827
+    SUMD3_24         0.583       0.667       0.710       0.936       1.161       1.205       1.289
+
+ S        ON
+    IW              -1.814      -1.227      -0.926       0.643       2.212       2.513       3.100
+    SW              -0.816      -0.556      -0.423       0.270       0.963       1.096       1.355
+
+ SW       WITH
+    IW              -1.152      -1.010      -0.937      -0.558      -0.179      -0.106       0.036
+
+ Means
+    IW              -8.635      -6.382      -5.230       0.787       6.804       7.957      10.209
+    SW              -1.772      -0.539       0.092       3.386       6.679       7.310       8.543
+
+ Intercepts
+    S               -6.698      -6.531      -6.445      -5.998      -5.550      -5.465      -5.297
+    SUMD3_0          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_1          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_2          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_3          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_6          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_9          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_12         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_18         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_24         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    S               -1.644      -1.082      -0.794       0.707       2.209       2.496       3.059
+    SUMD3_0          0.351       0.415       0.448       0.620       0.792       0.825       0.889
+    SUMD3_1          0.287       0.359       0.396       0.589       0.782       0.818       0.891
+    SUMD3_2          0.216       0.308       0.355       0.602       0.848       0.895       0.987
+    SUMD3_3         -0.123      -0.026       0.024       0.284       0.543       0.593       0.690
+    SUMD3_6          0.037       0.137       0.188       0.456       0.724       0.776       0.876
+    SUMD3_9          0.442       0.500       0.530       0.685       0.840       0.870       0.928
+    SUMD3_12         0.481       0.540       0.570       0.726       0.882       0.912       0.971
+    SUMD3_18         0.450       0.504       0.531       0.673       0.816       0.843       0.896
+    SUMD3_24        -0.004       0.091       0.140       0.394       0.648       0.697       0.792
+
+Latent Class 2
+
+ IW       |
+    SUMD3_0          0.328       0.389       0.421       0.585       0.750       0.781       0.843
+    SUMD3_1          0.424       0.494       0.530       0.716       0.902       0.938       1.007
+    SUMD3_2          0.344       0.415       0.451       0.642       0.833       0.869       0.941
+    SUMD3_3          0.396       0.451       0.479       0.627       0.774       0.802       0.857
+    SUMD3_6          0.366       0.438       0.475       0.666       0.858       0.894       0.966
+    SUMD3_9          0.298       0.367       0.403       0.588       0.772       0.808       0.877
+    SUMD3_12         0.233       0.298       0.332       0.508       0.684       0.718       0.784
+    SUMD3_18         0.499       0.562       0.594       0.762       0.929       0.961       1.024
+    SUMD3_24         0.327       0.401       0.438       0.634       0.831       0.868       0.942
+
+ SW       |
+    SUMD3_0          0.514       0.573       0.603       0.761       0.919       0.949       1.008
+    SUMD3_1          0.501       0.604       0.657       0.931       1.205       1.257       1.360
+    SUMD3_2          0.565       0.630       0.663       0.835       1.007       1.040       1.105
+    SUMD3_3          0.564       0.624       0.655       0.815       0.975       1.005       1.065
+    SUMD3_6          0.559       0.632       0.670       0.866       1.063       1.100       1.174
+    SUMD3_9          0.541       0.594       0.621       0.764       0.907       0.934       0.987
+    SUMD3_12         0.441       0.494       0.521       0.661       0.801       0.828       0.880
+    SUMD3_18         0.723       0.787       0.820       0.990       1.161       1.193       1.257
+    SUMD3_24         0.615       0.665       0.691       0.825       0.959       0.985       1.035
+
+ S        ON
+    IW              -1.446      -0.948      -0.693       0.637       1.968       2.223       2.721
+    SW              -0.985      -0.697      -0.550       0.220       0.990       1.137       1.425
+
+ SW       WITH
+    IW              -0.909      -0.834      -0.795      -0.594      -0.393      -0.354      -0.279
+
+ Means
+    IW             -11.772      -8.758      -7.216       0.835       8.885      10.427      13.441
+    SW              -4.708      -2.267      -1.018       5.502      12.023      13.271      15.712
+
+ Intercepts
+    S               -3.155      -3.060      -3.012      -2.761      -2.510      -2.462      -2.368
+    SUMD3_0          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_1          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_2          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_3          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_6          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_9          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_12         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_18         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_24         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    S               -1.670      -1.100      -0.809       0.712       2.233       2.524       3.093
+    SUMD3_0          0.302       0.375       0.413       0.607       0.802       0.840       0.912
+    SUMD3_1         -0.028       0.078       0.132       0.413       0.694       0.748       0.853
+    SUMD3_2          0.137       0.230       0.278       0.527       0.777       0.824       0.918
+    SUMD3_3          0.267       0.335       0.369       0.550       0.731       0.765       0.833
+    SUMD3_6          0.082       0.180       0.230       0.491       0.752       0.802       0.900
+    SUMD3_9          0.258       0.341       0.383       0.604       0.825       0.868       0.951
+    SUMD3_12         0.414       0.484       0.519       0.704       0.889       0.924       0.994
+    SUMD3_18        -0.044       0.046       0.093       0.335       0.577       0.624       0.714
+    SUMD3_24         0.146       0.240       0.288       0.539       0.790       0.838       0.932
+
+Latent Class 3
+
+ IW       |
+    SUMD3_0        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_1        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_2        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_3        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_6        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_9        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_12       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_18       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_24       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ SW       |
+    SUMD3_0        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_1        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_2        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_3        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_6        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_9        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_12       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_18       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_24       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ S        ON
+    IW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ SW       WITH
+    IW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Means
+    IW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Intercepts
+    S               -1.307      -1.218      -1.173      -0.936      -0.699      -0.653      -0.565
+    SUMD3_0          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_1          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_2          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_3          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_6          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_9          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_12         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_18         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_24         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Residual Variances
+    S               -3.804      -2.451      -1.759       1.855       5.468       6.160       7.513
+    SUMD3_0          0.306       0.403       0.452       0.711       0.970       1.020       1.117
+    SUMD3_1          0.129       0.260       0.328       0.680       1.033       1.100       1.232
+    SUMD3_2          0.065       0.195       0.261       0.606       0.951       1.017       1.146
+    SUMD3_3          0.225       0.338       0.396       0.698       1.001       1.058       1.172
+    SUMD3_6          0.400       0.471       0.507       0.697       0.887       0.923       0.994
+    SUMD3_9          0.266       0.355       0.400       0.638       0.875       0.920       1.009
+    SUMD3_12         0.053       0.180       0.246       0.586       0.927       0.992       1.119
+    SUMD3_18         0.285       0.371       0.416       0.646       0.877       0.921       1.008
+    SUMD3_24        -0.071       0.036       0.091       0.378       0.665       0.720       0.827
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ IW       |
+    SUMD3_0         -0.001       0.088       0.133       0.371       0.609       0.655       0.744
+    SUMD3_1         -0.003       0.090       0.137       0.386       0.635       0.683       0.776
+    SUMD3_2         -0.027       0.071       0.120       0.380       0.640       0.690       0.787
+    SUMD3_3          0.040       0.153       0.210       0.510       0.810       0.867       0.979
+    SUMD3_6          0.017       0.119       0.171       0.444       0.717       0.770       0.872
+    SUMD3_9          0.018       0.095       0.134       0.338       0.542       0.582       0.658
+    SUMD3_12        -0.022       0.059       0.100       0.315       0.531       0.572       0.652
+    SUMD3_18         0.005       0.086       0.128       0.344       0.561       0.602       0.683
+    SUMD3_24         0.058       0.156       0.207       0.469       0.731       0.782       0.880
+
+ SW       |
+    SUMD3_0          0.606       0.638       0.655       0.741       0.828       0.844       0.877
+    SUMD3_1          0.613       0.650       0.670       0.771       0.872       0.891       0.929
+    SUMD3_2          0.490       0.554       0.587       0.759       0.931       0.964       1.028
+    SUMD3_3          0.781       0.838       0.867       1.018       1.168       1.197       1.254
+    SUMD3_6          0.584       0.656       0.693       0.886       1.080       1.117       1.189
+    SUMD3_9          0.428       0.487       0.517       0.675       0.832       0.862       0.921
+    SUMD3_12         0.459       0.500       0.521       0.629       0.738       0.759       0.800
+    SUMD3_18         0.548       0.581       0.598       0.687       0.776       0.793       0.827
+    SUMD3_24         0.583       0.667       0.710       0.936       1.161       1.205       1.289
+
+ S        ON
+    IW              -1.814      -1.227      -0.926       0.643       2.212       2.513       3.100
+    SW              -0.816      -0.556      -0.423       0.270       0.963       1.096       1.355
+
+ SW       WITH
+    IW              -1.152      -1.010      -0.937      -0.558      -0.179      -0.106       0.036
+
+ Means
+    IW              -8.635      -6.382      -5.230       0.787       6.804       7.957      10.209
+    SW              -1.772      -0.539       0.092       3.386       6.679       7.310       8.543
+
+ Intercepts
+    S               -6.698      -6.531      -6.445      -5.998      -5.550      -5.465      -5.297
+    SUMD3_0          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_1          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_2          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_3          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_6          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_9          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_12         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_18         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_24         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    S               -1.644      -1.082      -0.794       0.707       2.209       2.496       3.059
+    SUMD3_0          0.351       0.415       0.448       0.620       0.792       0.825       0.889
+    SUMD3_1          0.287       0.359       0.396       0.589       0.782       0.818       0.891
+    SUMD3_2          0.216       0.308       0.355       0.602       0.848       0.895       0.987
+    SUMD3_3         -0.123      -0.026       0.024       0.284       0.543       0.593       0.690
+    SUMD3_6          0.037       0.137       0.188       0.456       0.724       0.776       0.876
+    SUMD3_9          0.442       0.500       0.530       0.685       0.840       0.870       0.928
+    SUMD3_12         0.481       0.540       0.570       0.726       0.882       0.912       0.971
+    SUMD3_18         0.450       0.504       0.531       0.673       0.816       0.843       0.896
+    SUMD3_24        -0.004       0.091       0.140       0.394       0.648       0.697       0.792
+
+Latent Class 2
+
+ IW       |
+    SUMD3_0          0.328       0.389       0.421       0.585       0.750       0.781       0.843
+    SUMD3_1          0.424       0.494       0.530       0.716       0.902       0.938       1.007
+    SUMD3_2          0.344       0.415       0.451       0.642       0.833       0.869       0.941
+    SUMD3_3          0.396       0.451       0.479       0.627       0.774       0.802       0.857
+    SUMD3_6          0.366       0.438       0.475       0.666       0.858       0.894       0.966
+    SUMD3_9          0.298       0.367       0.403       0.588       0.772       0.808       0.877
+    SUMD3_12         0.233       0.298       0.332       0.508       0.684       0.718       0.784
+    SUMD3_18         0.499       0.562       0.594       0.762       0.929       0.961       1.024
+    SUMD3_24         0.327       0.401       0.438       0.634       0.831       0.868       0.942
+
+ SW       |
+    SUMD3_0          0.514       0.573       0.603       0.761       0.919       0.949       1.008
+    SUMD3_1          0.501       0.604       0.657       0.931       1.205       1.257       1.360
+    SUMD3_2          0.565       0.630       0.663       0.835       1.007       1.040       1.105
+    SUMD3_3          0.564       0.624       0.655       0.815       0.975       1.005       1.065
+    SUMD3_6          0.559       0.632       0.670       0.866       1.063       1.100       1.174
+    SUMD3_9          0.541       0.594       0.621       0.764       0.907       0.934       0.987
+    SUMD3_12         0.441       0.494       0.521       0.661       0.801       0.828       0.880
+    SUMD3_18         0.723       0.787       0.820       0.990       1.161       1.193       1.257
+    SUMD3_24         0.615       0.665       0.691       0.825       0.959       0.985       1.035
+
+ S        ON
+    IW              -1.446      -0.948      -0.693       0.637       1.968       2.223       2.721
+    SW              -0.985      -0.697      -0.550       0.220       0.990       1.137       1.425
+
+ SW       WITH
+    IW              -0.909      -0.834      -0.795      -0.594      -0.393      -0.354      -0.279
+
+ Means
+    IW             -11.772      -8.758      -7.216       0.835       8.885      10.427      13.441
+    SW              -4.708      -2.267      -1.018       5.502      12.023      13.271      15.712
+
+ Intercepts
+    S               -3.155      -3.060      -3.012      -2.761      -2.510      -2.462      -2.368
+    SUMD3_0          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_1          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_2          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_3          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_6          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_9          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_12         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_18         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_24         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    S               -1.670      -1.100      -0.809       0.712       2.233       2.524       3.093
+    SUMD3_0          0.302       0.375       0.413       0.607       0.802       0.840       0.912
+    SUMD3_1         -0.028       0.078       0.132       0.413       0.694       0.748       0.853
+    SUMD3_2          0.137       0.230       0.278       0.527       0.777       0.824       0.918
+    SUMD3_3          0.267       0.335       0.369       0.550       0.731       0.765       0.833
+    SUMD3_6          0.082       0.180       0.230       0.491       0.752       0.802       0.900
+    SUMD3_9          0.258       0.341       0.383       0.604       0.825       0.868       0.951
+    SUMD3_12         0.414       0.484       0.519       0.704       0.889       0.924       0.994
+    SUMD3_18        -0.044       0.046       0.093       0.335       0.577       0.624       0.714
+    SUMD3_24         0.146       0.240       0.288       0.539       0.790       0.838       0.932
+
+Latent Class 3
+
+ IW       |
+    SUMD3_0        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_1        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_2        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_3        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_6        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_9        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_12       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_18       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_24       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ SW       |
+    SUMD3_0        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_1        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_2        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_3        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_6        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_9        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_12       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_18       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_24       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ S        ON
+    IW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ SW       WITH
+    IW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Means
+    IW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Intercepts
+    S               -1.307      -1.218      -1.173      -0.936      -0.699      -0.653      -0.565
+    SUMD3_0          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_1          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_2          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_3          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_6          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_9          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_12         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_18         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_24         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Residual Variances
+    S               -3.804      -2.451      -1.759       1.855       5.468       6.160       7.513
+    SUMD3_0          0.306       0.403       0.452       0.711       0.970       1.020       1.117
+    SUMD3_1          0.129       0.260       0.328       0.680       1.033       1.100       1.232
+    SUMD3_2          0.065       0.195       0.261       0.606       0.951       1.017       1.146
+    SUMD3_3          0.225       0.338       0.396       0.698       1.001       1.058       1.172
+    SUMD3_6          0.400       0.471       0.507       0.697       0.887       0.923       0.994
+    SUMD3_9          0.266       0.355       0.400       0.638       0.875       0.920       1.009
+    SUMD3_12         0.053       0.180       0.246       0.586       0.927       0.992       1.119
+    SUMD3_18         0.285       0.371       0.416       0.646       0.877       0.921       1.008
+    SUMD3_24        -0.071       0.036       0.091       0.378       0.665       0.720       0.827
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ IW       |
+    SUMD3_0         -0.028       0.085       0.143       0.444       0.746       0.804       0.917
+    SUMD3_1         -0.028       0.085       0.143       0.444       0.746       0.804       0.917
+    SUMD3_2         -0.028       0.085       0.143       0.444       0.746       0.804       0.917
+    SUMD3_3         -0.028       0.085       0.143       0.444       0.746       0.804       0.917
+    SUMD3_6         -0.028       0.085       0.143       0.444       0.746       0.804       0.917
+    SUMD3_9         -0.028       0.085       0.143       0.444       0.746       0.804       0.917
+    SUMD3_12        -0.028       0.085       0.143       0.444       0.746       0.804       0.917
+    SUMD3_18        -0.028       0.085       0.143       0.444       0.746       0.804       0.917
+    SUMD3_24        -0.028       0.085       0.143       0.444       0.746       0.804       0.917
+
+ SW       |
+    SUMD3_0          0.887       0.887       0.887       0.887       0.887       0.887       0.887
+    SUMD3_1          0.887       0.887       0.887       0.887       0.887       0.887       0.887
+    SUMD3_2          0.887       0.887       0.887       0.887       0.887       0.887       0.887
+    SUMD3_3          0.887       0.887       0.887       0.887       0.887       0.887       0.887
+    SUMD3_6          0.887       0.887       0.887       0.887       0.887       0.887       0.887
+    SUMD3_9          0.887       0.887       0.887       0.887       0.887       0.887       0.887
+    SUMD3_12         0.887       0.887       0.887       0.887       0.887       0.887       0.887
+    SUMD3_18         0.887       0.887       0.887       0.887       0.887       0.887       0.887
+    SUMD3_24         0.887       0.887       0.887       0.887       0.887       0.887       0.887
+
+ S        ON
+    IW              -0.426      -0.288      -0.218       0.150       0.518       0.589       0.727
+    SW              -0.190      -0.130      -0.099       0.063       0.225       0.256       0.317
+
+ SW       WITH
+    IW              -1.152      -1.010      -0.937      -0.558      -0.179      -0.106       0.036
+
+ Means
+    IW              -8.635      -6.382      -5.230       0.787       6.804       7.957      10.209
+    SW              -1.772      -0.539       0.092       3.386       6.679       7.310       8.543
+
+ Intercepts
+    S               -1.402      -1.402      -1.402      -1.402      -1.402      -1.402      -1.402
+    SUMD3_0          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_1          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_2          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_3          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_6          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_9          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_12         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_18         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_24         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    S               -0.089      -0.059      -0.043       0.039       0.120       0.136       0.167
+    SUMD3_0          0.366       0.491       0.554       0.887       1.220       1.284       1.409
+    SUMD3_1          0.224       0.357       0.425       0.780       1.135       1.203       1.335
+    SUMD3_2         -0.175       0.063       0.185       0.822       1.458       1.580       1.818
+    SUMD3_3         -0.099      -0.024       0.015       0.215       0.416       0.454       0.529
+    SUMD3_6         -0.167      -0.018       0.058       0.457       0.855       0.932       1.081
+    SUMD3_9          0.059       0.328       0.465       1.183       1.901       2.038       2.307
+    SUMD3_12         0.332       0.597       0.733       1.441       2.149       2.285       2.550
+    SUMD3_18         0.516       0.661       0.735       1.121       1.507       1.581       1.725
+    SUMD3_24        -0.172      -0.046       0.018       0.354       0.690       0.754       0.880
+
+Latent Class 2
+
+ IW       |
+    SUMD3_0          0.221       0.281       0.311       0.470       0.630       0.660       0.720
+    SUMD3_1          0.221       0.281       0.311       0.470       0.630       0.660       0.720
+    SUMD3_2          0.221       0.281       0.311       0.470       0.630       0.660       0.720
+    SUMD3_3          0.221       0.281       0.311       0.470       0.630       0.660       0.720
+    SUMD3_6          0.221       0.281       0.311       0.470       0.630       0.660       0.720
+    SUMD3_9          0.221       0.281       0.311       0.470       0.630       0.660       0.720
+    SUMD3_12         0.221       0.281       0.311       0.470       0.630       0.660       0.720
+    SUMD3_18         0.221       0.281       0.311       0.470       0.630       0.660       0.720
+    SUMD3_24         0.221       0.281       0.311       0.470       0.630       0.660       0.720
+
+ SW       |
+    SUMD3_0          0.611       0.611       0.611       0.611       0.611       0.611       0.611
+    SUMD3_1          0.611       0.611       0.611       0.611       0.611       0.611       0.611
+    SUMD3_2          0.611       0.611       0.611       0.611       0.611       0.611       0.611
+    SUMD3_3          0.611       0.611       0.611       0.611       0.611       0.611       0.611
+    SUMD3_6          0.611       0.611       0.611       0.611       0.611       0.611       0.611
+    SUMD3_9          0.611       0.611       0.611       0.611       0.611       0.611       0.611
+    SUMD3_12         0.611       0.611       0.611       0.611       0.611       0.611       0.611
+    SUMD3_18         0.611       0.611       0.611       0.611       0.611       0.611       0.611
+    SUMD3_24         0.611       0.611       0.611       0.611       0.611       0.611       0.611
+
+ S        ON
+    IW              -0.342      -0.224      -0.164       0.149       0.462       0.522       0.639
+    SW              -0.230      -0.162      -0.128       0.051       0.231       0.265       0.332
+
+ SW       WITH
+    IW              -0.909      -0.834      -0.795      -0.594      -0.393      -0.354      -0.279
+
+ Means
+    IW             -11.772      -8.758      -7.216       0.835       8.885      10.427      13.441
+    SW              -4.708      -2.267      -1.018       5.502      12.023      13.271      15.712
+
+ Intercepts
+    S               -0.644      -0.644      -0.644      -0.644      -0.644      -0.644      -0.644
+    SUMD3_0          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_1          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_2          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_3          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_6          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_9          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_12         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_18         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_24         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ Residual Variances
+    S               -0.089      -0.059      -0.043       0.039       0.120       0.136       0.167
+    SUMD3_0          0.045       0.128       0.170       0.392       0.614       0.657       0.740
+    SUMD3_1         -0.119      -0.048      -0.012       0.178       0.368       0.404       0.475
+    SUMD3_2         -0.025       0.049       0.086       0.283       0.480       0.517       0.591
+    SUMD3_3          0.075       0.131       0.160       0.310       0.460       0.489       0.545
+    SUMD3_6         -0.055       0.016       0.053       0.245       0.436       0.473       0.545
+    SUMD3_9          0.033       0.118       0.161       0.387       0.613       0.656       0.741
+    SUMD3_12         0.051       0.183       0.250       0.603       0.956       1.023       1.155
+    SUMD3_18        -0.006       0.026       0.042       0.128       0.213       0.230       0.261
+    SUMD3_24         0.014       0.082       0.116       0.296       0.476       0.510       0.578
+
+Latent Class 3
+
+ IW       |
+    SUMD3_0        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_1        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_2        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_3        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_6        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_9        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_12       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_18       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_24       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ SW       |
+    SUMD3_0        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_1        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_2        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_3        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_6        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_9        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_12       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_18       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SUMD3_24       999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ S        ON
+    IW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ SW       WITH
+    IW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Means
+    IW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Intercepts
+    S               -0.135      -0.135      -0.135      -0.135      -0.135      -0.135      -0.135
+    SUMD3_0          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_1          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_2          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_3          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_6          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_9          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_12         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_18         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SUMD3_24         0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    IW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SW             999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Residual Variances
+    S               -0.089      -0.059      -0.043       0.039       0.120       0.136       0.167
+    SUMD3_0          0.053       0.347       0.497       1.282       2.067       2.217       2.511
+    SUMD3_1         -0.492      -0.109       0.086       1.109       2.131       2.327       2.709
+    SUMD3_2         -0.053       0.151       0.255       0.801       1.346       1.450       1.655
+    SUMD3_3         -0.268       0.084       0.265       1.205       2.146       2.326       2.678
+    SUMD3_6          0.362       0.562       0.664       1.198       1.732       1.834       2.034
+    SUMD3_9          0.314       0.458       0.531       0.916       1.301       1.375       1.519
+    SUMD3_12        -0.232       0.000       0.118       0.737       1.357       1.475       1.707
+    SUMD3_18        -0.235       0.049       0.194       0.952       1.709       1.854       2.138
+    SUMD3_24        -0.623      -0.398      -0.283       0.317       0.916       1.031       1.256
+
+
+     Beginning Time:  14:56:45
+        Ending Time:  14:56:46
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

@@ -1,0 +1,580 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+06/29/2023   2:56 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+   FINAL_311; - MixREG_EDUC;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/EDUC_MixREG.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N EDUC_0 EDUC_1 EDUC_2 EDUC_3 EDUC_6
+       EDUC_9 EDUC_12 EDUC_18 EDUC_24;
+   MISSING=.;
+   USEVAR = N S EDUC_0 EDUC_1 EDUC_2 EDUC_3 EDUC_6 EDUC_9 EDUC_12 EDUC_18 EDUC_24;
+  NOMINAL = N;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  iw sw | EDUC_0@0 EDUC_1@1 EDUC_2@2 EDUC_3@3 EDUC_6@6 EDUC_9@9 EDUC_12@12 EDUC_18@18
+  EDUC_24@24;
+  S ON iw sw;
+  %C#1%
+  [N#1@3.075];
+  [N#2@1.083];
+  S ON iw sw (S1 - S2);
+  [iw] (iw1);
+  [sw] (sw1);
+  iw sw;
+  iw WITH sw;
+  EDUC_0 EDUC_1 EDUC_2 EDUC_3 EDUC_6 EDUC_9 EDUC_12 EDUC_18 EDUC_24;
+  %C#2%
+  [N#1@1.199];
+  [N#2@2.945];
+  S ON iw sw (S3 - S4);
+  [iw] (iw2);
+  [sw] (sw2);
+  iw sw;
+  iw WITH sw;
+  EDUC_0 EDUC_1 EDUC_2 EDUC_3 EDUC_6 EDUC_9 EDUC_12 EDUC_18 EDUC_24;
+  %C#3%
+  [N#1@-1.281];
+  [N#2@-1.148];
+  S ON iw sw (S5 - S6);
+  [iw] (iw3);
+  [sw] (sw3);
+  iw sw;
+  iw WITH sw;
+  EDUC_0 EDUC_1 EDUC_2 EDUC_3 EDUC_6 EDUC_9 EDUC_12 EDUC_18 EDUC_24;
+  MODEL TEST:
+  S2 = S4;
+  S4 = S6;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+FINAL_311; - MixREG_EDUC;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         405
+
+Number of dependent variables                                   11
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   S           EDUC_0      EDUC_1      EDUC_2      EDUC_3      EDUC_6
+   EDUC_9      EDUC_12     EDUC_18     EDUC_24
+
+  Unordered categorical (nominal)
+   N
+
+Continuous latent variables
+   IW          SW
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/EDUC_MixREG.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns           159
+     Number of y missing data patterns         159
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              S             EDUC_0        EDUC_1        EDUC_2        EDUC_3
+              ________      ________      ________      ________      ________
+ S              1.000
+ EDUC_0         0.511         0.511
+ EDUC_1         0.240         0.207         0.240
+ EDUC_2         0.388         0.323         0.160         0.388
+ EDUC_3         0.457         0.383         0.188         0.323         0.457
+ EDUC_6         0.435         0.363         0.156         0.286         0.326
+ EDUC_9         0.417         0.321         0.138         0.274         0.296
+ EDUC_12        0.427         0.328         0.143         0.254         0.296
+ EDUC_18        0.383         0.291         0.128         0.220         0.247
+ EDUC_24        0.264         0.188         0.072         0.153         0.175
+
+
+           Covariance Coverage
+              EDUC_6        EDUC_9        EDUC_12       EDUC_18       EDUC_24
+              ________      ________      ________      ________      ________
+ EDUC_6         0.435
+ EDUC_9         0.306         0.417
+ EDUC_12        0.304         0.301         0.427
+ EDUC_18        0.262         0.257         0.274         0.383
+ EDUC_24        0.183         0.193         0.198         0.190         0.264
+
+     THE COVARIANCE COVERAGE FALLS BELOW THE SPECIFIED LIMIT.  THE MISSING
+     DATA EM ALGORITHM WILL NOT BE INITIATED.  CHECK YOUR DATA OR LOWER THE
+     COVARIANCE COVERAGE LIMIT.
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.437          177.000
+      Category 2    0.402          163.000
+      Category 3    0.160           65.000
+
+
+SAMPLE STATISTICS
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     S                    -0.593      -0.232      -1.446    0.25%      -1.126     -0.719     -0.494
+             405.000       0.226      -1.309       0.321    0.25%      -0.321     -0.144
+     EDUC_0               12.034       0.375       5.000    0.48%       9.000     11.000     12.000
+             207.000       7.936      -0.441      19.000    0.97%      13.000     14.000
+     EDUC_1               11.423       0.447       5.000    1.03%       9.000     11.000     11.000
+              97.000       6.842      -0.088      18.000    2.06%      11.000     14.000
+     EDUC_2               11.822       0.240       5.000    0.64%       9.000     11.000     12.000
+             157.000       7.382      -0.427      19.000    0.64%      12.000     14.000
+     EDUC_3               11.968       0.263       5.000    0.54%       9.000     11.000     12.000
+             185.000       7.880      -0.623      18.000    3.24%      12.000     14.000
+     EDUC_6               12.210       0.293       5.000    0.57%      10.000     11.000     12.000
+             176.000       7.552      -0.491      20.000    0.57%      13.000     15.000
+     EDUC_9               13.201      12.050       5.000    0.59%      10.000     11.000     12.000
+             169.000     164.894     149.871     176.000    0.59%      13.000     14.000
+     EDUC_12              12.202       0.386       6.000    0.58%      10.000     11.000     12.000
+             173.000       6.739      -0.101      20.000    0.58%      13.000     14.000
+     EDUC_18              12.310       0.193       4.000    0.65%      10.000     11.000     12.000
+             155.000       7.517      -0.259      19.000    0.65%      13.000     15.000
+     EDUC_24              12.346       0.150       7.000    1.87%      10.000     11.000     12.000
+             107.000       6.768      -0.796      18.000    1.87%      13.000     15.000
+
+     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 2 COULD NOT
+     BE INVERTED.  PROBLEM INVOLVING VARIABLE S.  COMPUTATION COULD
+     NOT BE COMPLETED IN ITERATION 31.  CHANGE YOUR MODEL AND/OR STARTING
+     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
+     VARIATION FOR THE VARIABLE.
+
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
+     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+
+
+
+
+
+
+MODEL RESULTS
+
+                    Estimate
+
+Latent Class 1
+
+ IW       |
+    EDUC_0             1.000
+    EDUC_1             1.000
+    EDUC_2             1.000
+    EDUC_3             1.000
+    EDUC_6             1.000
+    EDUC_9             1.000
+    EDUC_12            1.000
+    EDUC_18            1.000
+    EDUC_24            1.000
+
+ SW       |
+    EDUC_0             0.000
+    EDUC_1             1.000
+    EDUC_2             2.000
+    EDUC_3             3.000
+    EDUC_6             6.000
+    EDUC_9             9.000
+    EDUC_12           12.000
+    EDUC_18           18.000
+    EDUC_24           24.000
+
+ S          ON
+    IW                -0.009
+    SW                 0.066
+
+ SW       WITH
+    IW                -0.040
+
+ Means
+    IW                12.422
+    SW                 0.020
+
+ Means
+    N#1                3.075
+    N#2                1.083
+
+ Intercepts
+    S                 -0.955
+    EDUC_0             0.000
+    EDUC_1             0.000
+    EDUC_2             0.000
+    EDUC_3             0.000
+    EDUC_6             0.000
+    EDUC_9             0.000
+    EDUC_12            0.000
+    EDUC_18            0.000
+    EDUC_24            0.000
+
+ Variances
+    IW                 6.747
+    SW                 0.002
+
+ Residual Variances
+    S                  0.051
+    EDUC_0             0.297
+    EDUC_1             0.219
+    EDUC_2             0.365
+    EDUC_3             0.686
+    EDUC_6             0.458
+    EDUC_9             0.723
+    EDUC_12            0.649
+    EDUC_18            0.661
+    EDUC_24            0.252
+
+Latent Class 2
+
+ IW       |
+    EDUC_0             1.000
+    EDUC_1             1.000
+    EDUC_2             1.000
+    EDUC_3             1.000
+    EDUC_6             1.000
+    EDUC_9             1.000
+    EDUC_12            1.000
+    EDUC_18            1.000
+    EDUC_24            1.000
+
+ SW       |
+    EDUC_0             0.000
+    EDUC_1             1.000
+    EDUC_2             2.000
+    EDUC_3             3.000
+    EDUC_6             6.000
+    EDUC_9             9.000
+    EDUC_12           12.000
+    EDUC_18           18.000
+    EDUC_24           24.000
+
+ S          ON
+    IW              -380.438
+    SW             *********
+
+ SW       WITH
+    IW                 0.007
+
+ Means
+    IW                12.066
+    SW                -0.013
+
+ Means
+    N#1                1.199
+    N#2                2.945
+
+ Intercepts
+    S               8997.226
+    EDUC_0             0.000
+    EDUC_1             0.000
+    EDUC_2             0.000
+    EDUC_3             0.000
+    EDUC_6             0.000
+    EDUC_9             0.000
+    EDUC_12            0.000
+    EDUC_18            0.000
+    EDUC_24            0.000
+
+ Variances
+    IW                 6.486
+    SW                 0.000
+
+ Residual Variances
+    S                  0.051
+    EDUC_0             0.540
+    EDUC_1             1.062
+    EDUC_2             0.025
+    EDUC_3             0.026
+    EDUC_6             0.726
+    EDUC_9          2143.162
+    EDUC_12            1.207
+    EDUC_18            0.296
+    EDUC_24            4.774
+
+Latent Class 3
+
+ IW       |
+    EDUC_0             1.000
+    EDUC_1             1.000
+    EDUC_2             1.000
+    EDUC_3             1.000
+    EDUC_6             1.000
+    EDUC_9             1.000
+    EDUC_12            1.000
+    EDUC_18            1.000
+    EDUC_24            1.000
+
+ SW       |
+    EDUC_0             0.000
+    EDUC_1             1.000
+    EDUC_2             2.000
+    EDUC_3             3.000
+    EDUC_6             6.000
+    EDUC_9             9.000
+    EDUC_12           12.000
+    EDUC_18           18.000
+    EDUC_24           24.000
+
+ S          ON
+    IW                -0.007
+    SW                -0.006
+
+ SW       WITH
+    IW                -0.051
+
+ Means
+    IW                11.090
+    SW                 0.017
+
+ Means
+    N#1               -1.281
+    N#2               -1.148
+
+ Intercepts
+    S                 -0.165
+    EDUC_0             0.000
+    EDUC_1             0.000
+    EDUC_2             0.000
+    EDUC_3             0.000
+    EDUC_6             0.000
+    EDUC_9             0.000
+    EDUC_12            0.000
+    EDUC_18            0.000
+    EDUC_24            0.000
+
+ Variances
+    IW                 6.567
+    SW                 0.003
+
+ Residual Variances
+    S                  0.051
+    EDUC_0             0.223
+    EDUC_1            -0.040
+    EDUC_2             0.414
+    EDUC_3             0.390
+    EDUC_6             0.642
+    EDUC_9             0.491
+    EDUC_12            0.734
+    EDUC_18            0.082
+    EDUC_24            0.334
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.238
+    C#2               -0.462
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     %OVERALL%
+
+     iw sw | educ_0@0 educ_1@1 educ_2@2 educ_3@3 educ_6@6 educ_9@9 educ_12@12 educ_18@18
+     educ_24@24;
+
+     s ON iw;
+     s ON sw;
+
+     [ c#1*0.23824 ];
+     [ c#2*-0.46247 ];
+
+     %C#1%
+
+     s ON iw*-0.00934 (s1);
+     s ON sw*0.06566 (s2);
+
+     sw WITH iw*-0.04019;
+
+     [ s*-0.95522 ];
+     [ educ_0@0 ];
+     [ educ_1@0 ];
+     [ educ_2@0 ];
+     [ educ_3@0 ];
+     [ educ_6@0 ];
+     [ educ_9@0 ];
+     [ educ_12@0 ];
+     [ educ_18@0 ];
+     [ educ_24@0 ];
+     [ iw*12.42233 ] (iw1);
+     [ sw*0.01976 ] (sw1);
+     [ n#1@3.07500 ];
+     [ n#2@1.08300 ];
+
+     s*0.05142 (18);
+     educ_0*0.29737;
+     educ_1*0.21880;
+     educ_2*0.36470;
+     educ_3*0.68643;
+     educ_6*0.45816;
+     educ_9*0.72337;
+     educ_12*0.64885;
+     educ_18*0.66123;
+     educ_24*0.25174;
+     iw*6.74699;
+     sw*0.00224;
+
+     %C#2%
+
+     s ON iw*-380.43762 (s3);
+     s ON sw*339180.78125 (s4);
+
+     sw WITH iw*0.00728;
+
+     [ s*8997.22559 ];
+     [ educ_0@0 ];
+     [ educ_1@0 ];
+     [ educ_2@0 ];
+     [ educ_3@0 ];
+     [ educ_6@0 ];
+     [ educ_9@0 ];
+     [ educ_12@0 ];
+     [ educ_18@0 ];
+     [ educ_24@0 ];
+     [ iw*12.06582 ] (iw2);
+     [ sw*-0.01299 ] (sw2);
+     [ n#1@1.19900 ];
+     [ n#2@2.94500 ];
+
+     s*0.05142 (18);
+     educ_0*0.53977;
+     educ_1*1.06212;
+     educ_2*0.02532;
+     educ_3*0.02607;
+     educ_6*0.72588;
+     educ_9*2143.16235;
+     educ_12*1.20715;
+     educ_18*0.29606;
+     educ_24*4.77360;
+     iw*6.48619;
+     sw*-0.00028;
+
+     %C#3%
+
+     s ON iw*-0.00719 (s5);
+     s ON sw*-0.00624 (s6);
+
+     sw WITH iw*-0.05061;
+
+     [ s*-0.16544 ];
+     [ educ_0@0 ];
+     [ educ_1@0 ];
+     [ educ_2@0 ];
+     [ educ_3@0 ];
+     [ educ_6@0 ];
+     [ educ_9@0 ];
+     [ educ_12@0 ];
+     [ educ_18@0 ];
+     [ educ_24@0 ];
+     [ iw*11.09044 ] (iw3);
+     [ sw*0.01668 ] (sw3);
+     [ n#1@-1.28100 ];
+     [ n#2@-1.14800 ];
+
+     s*0.05142 (18);
+     educ_0*0.22324;
+     educ_1*-0.03992;
+     educ_2*0.41431;
+     educ_3*0.38994;
+     educ_6*0.64229;
+     educ_9*0.49069;
+     educ_12*0.73447;
+     educ_18*0.08152;
+     educ_24*0.33378;
+     iw*6.56739;
+     sw*0.00320;
+
+
+
+     Beginning Time:  14:56:33
+        Ending Time:  14:56:37
+       Elapsed Time:  00:00:04
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

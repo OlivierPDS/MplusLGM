@@ -1,0 +1,542 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+06/29/2023  12:35 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_RECOV_24 - GBTM_P2_K2_S1000;
+
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/D3STEP/RECOV_24_D3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N RECOV_24;
+   MISSING=.;
+   USEVAR = RECOV_24 N;
+  NOMINAL = N;
+  CATEGORICAL = RECOV_24;
+  CLASSES = c(2);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  ALGORITHM = INTEGRATION;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  %C#1%
+  [N#1@2.378];
+  [RECOV_24$1](M1);
+  %C#2%
+  [N#1@-1.949];
+  [RECOV_24$1](M2);
+  MODEL CONSTRAINT:
+  New (diff12);
+  diff12 = M1 - M2;
+  MODEL TEST:
+  M1 = M2;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+*** WARNING in OUTPUT command
+  SAMPSTAT option is not available when all outcomes are censored, ordered
+  categorical, unordered categorical (nominal), count or continuous-time
+  survival variables.  Request for SAMPSTAT is ignored.
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_RECOV_24 - GBTM_P2_K2_S1000;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         369
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   RECOV_24
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            0
+  Adaptive quadrature                                           ON
+Link                                                         LOGIT
+Cholesky                                                       OFF
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/D3STEP/RECOV_24_D3STEP.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           0
+     Number of u missing data patterns           2
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR U
+
+
+           Covariance Coverage
+              RECOV_24
+              ________
+ RECOV_24       0.710
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    RECOV_24
+      Category 1    0.611          160.000
+      Category 2    0.389          102.000
+    N
+      Category 1    0.564          208.000
+      Category 2    0.436          161.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        3
+
+Loglikelihood
+
+          H0 Value                        -377.373
+          H0 Scaling Correction Factor      0.9063
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                     760.747
+          Bayesian (BIC)                   772.479
+          Sample-Size Adjusted BIC         762.961
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit for the Binary and Ordered Categorical
+(Ordinal) Outcomes
+
+          Pearson Chi-Square
+
+          Value                              0.313
+          Degrees of freedom cannot be computed for this model part.
+
+          Likelihood Ratio Chi-Square
+
+          Value                              0.315
+          Degrees of freedom cannot be computed for this model part.
+
+Chi-Square Test for MCAR under the Unrestricted Latent Class Indicator Model
+
+          Pearson Chi-Square
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+          Likelihood Ratio Chi-Square
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+Wald Test of Parameter Constraints
+
+          Value                              2.646
+          Degrees of Freedom                     1
+          P-Value                           0.1038
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        204.65734          0.55463
+       2        164.34266          0.44537
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        204.65734          0.55463
+       2        164.34266          0.44537
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              218          0.59079
+       2              151          0.40921
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.676
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.903    0.097
+    2   0.052    0.948
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.962    0.038
+    2   0.129    0.871
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      3.230    0.000
+    2     -1.914    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                2.378      0.000    999.000    999.000
+
+ Thresholds
+    RECOV_24$1        -0.983      0.230     -4.266      0.000
+
+Latent Class 2
+
+ Means
+    N#1               -1.949      0.000    999.000    999.000
+
+ Thresholds
+    RECOV_24$1         5.111      3.708      1.378      0.168
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.219      0.129      1.701      0.089
+
+New/Additional Parameters
+    DIFF12            -6.094      3.746     -1.627      0.104
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.354E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+RESULTS IN PROBABILITY SCALE
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ RECOV_24
+    Category 1         0.272      0.046      5.963      0.000
+    Category 2         0.728      0.046     15.938      0.000
+
+Latent Class 2
+
+ RECOV_24
+    Category 1         0.994      0.022     44.976      0.000
+    Category 2         0.006      0.022      0.271      0.786
+
+
+LATENT CLASS INDICATOR ODDS RATIOS FOR THE LATENT CLASSES
+
+                                                95% C.I.
+                    Estimate       S.E.  Lower 2.5% Upper 2.5%
+
+Latent Class 1 Compared to Latent Class 2
+
+ RECOV_24
+    Category > 1     443.122   1660.034      0.287  *********
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                2.378      0.000    999.000    999.000
+
+ Thresholds
+    RECOV_24$1        -0.542      0.127     -4.266      0.000
+
+Latent Class 2
+
+ Means
+    N#1               -1.949      0.000    999.000    999.000
+
+ Thresholds
+    RECOV_24$1         2.818      2.045      1.378      0.168
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                2.378      0.000    999.000    999.000
+
+ Thresholds
+    RECOV_24$1        -0.542      0.127     -4.266      0.000
+
+Latent Class 2
+
+ Means
+    N#1               -1.949      0.000    999.000    999.000
+
+ Thresholds
+    RECOV_24$1         2.818      2.045      1.378      0.168
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                2.378      0.000    999.000    999.000
+
+ Thresholds
+    RECOV_24$1        -0.983      0.230     -4.266      0.000
+
+Latent Class 2
+
+ Means
+    N#1               -1.949      0.000    999.000    999.000
+
+ Thresholds
+    RECOV_24$1         5.111      3.708      1.378      0.168
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              2.378       2.378       2.378       2.378       2.378       2.378       2.378
+
+ Thresholds
+    RECOV_24$1      -1.577      -1.435      -1.362      -0.983      -0.604      -0.531      -0.390
+
+Latent Class 2
+
+ Means
+    N#1             -1.949      -1.949      -1.949      -1.949      -1.949      -1.949      -1.949
+
+ Thresholds
+    RECOV_24$1      -4.441      -2.158      -0.990       5.111      11.211      12.379      14.663
+
+Categorical Latent Variables
+
+ Means
+    C#1             -0.113      -0.033       0.007       0.219       0.432       0.472       0.552
+
+New/Additional Parameters
+    DIFF12         -15.743     -13.436     -12.256      -6.094       0.069       1.249       3.556
+
+
+CONFIDENCE INTERVALS IN PROBABILITY SCALE
+
+Latent Class 1
+
+ RECOV_24
+    Category 1       0.155       0.183       0.197       0.272       0.347       0.362       0.390
+    Category 2       0.610       0.638       0.653       0.728       0.803       0.817       0.845
+
+Latent Class 2
+
+ RECOV_24
+    Category 1       0.937       0.951       0.958       0.994       1.030       1.037       1.051
+    Category 2      -0.051      -0.037      -0.030       0.006       0.042       0.049       0.063
+
+
+CONFIDENCE INTERVALS FOR THE LATENT CLASS ODDS RATIO RESULTS
+
+Latent Class 1 Compared to Latent Class 2
+
+ RECOV_24
+    Category > 1     0.029       0.287       0.934     443.122  210318.469  684495.688  **********
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              2.378       2.378       2.378       2.378       2.378       2.378       2.378
+
+ Thresholds
+    RECOV_24$1      -0.869      -0.791      -0.751      -0.542      -0.333      -0.293      -0.215
+
+Latent Class 2
+
+ Means
+    N#1             -1.949      -1.949      -1.949      -1.949      -1.949      -1.949      -1.949
+
+ Thresholds
+    RECOV_24$1      -2.449      -1.190      -0.546       2.818       6.181       6.825       8.084
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              2.378       2.378       2.378       2.378       2.378       2.378       2.378
+
+ Thresholds
+    RECOV_24$1      -0.869      -0.791      -0.751      -0.542      -0.333      -0.293      -0.215
+
+Latent Class 2
+
+ Means
+    N#1             -1.949      -1.949      -1.949      -1.949      -1.949      -1.949      -1.949
+
+ Thresholds
+    RECOV_24$1      -2.449      -1.190      -0.546       2.818       6.181       6.825       8.084
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              2.378       2.378       2.378       2.378       2.378       2.378       2.378
+
+ Thresholds
+    RECOV_24$1      -1.577      -1.435      -1.362      -0.983      -0.604      -0.531      -0.390
+
+Latent Class 2
+
+ Means
+    N#1             -1.949      -1.949      -1.949      -1.949      -1.949      -1.949      -1.949
+
+ Thresholds
+    RECOV_24$1      -4.441      -2.158      -0.990       5.111      11.211      12.379      14.663
+
+
+     Beginning Time:  12:35:46
+        Ending Time:  12:35:46
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-03/04/2023   4:17 AM
+06/29/2023   2:57 PM
 
 INPUT INSTRUCTIONS
 
@@ -14,47 +14,47 @@ INPUT INSTRUCTIONS
        CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N NSR_0 NSR_1 NSR_2 NSR_3 NSR_6
        NSR_9 NSR_12 NSR_18 NSR_24;
    MISSING=.;
-   USEVAR = N I S NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241;
+   USEVAR = N S NSR_0 NSR_1 NSR_2 NSR_3 NSR_6 NSR_9 NSR_12 NSR_18 NSR_24;
+  CATEGORICAL = NSR_0 NSR_1 NSR_2 NSR_3 NSR_6 NSR_9 NSR_12 NSR_18 NSR_24;
   NOMINAL = N;
   CLASSES = c(3);
-  DEFINE:
-  NSR_01 = NSR_0 == 1;
-   NSR_11 = NSR_1 == 1;
-   NSR_21 = NSR_2 == 1;
-   NSR_31 = NSR_3 == 1;
-   NSR_61 = NSR_6 == 1;
-   NSR_91 = NSR_9 == 1;
-   NSR_121 = NSR_12 == 1;
-   NSR_181 = NSR_18 == 1;
-   NSR_241 = NSR_24 == 1;
-
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 4000;
+  ALGORITHM = INTEGRATION;
+  LINK = LOGIT;
+  STARTS = 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
-  I ON NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241;
-  S ON NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241;
-  NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241;
+  iw sw | NSR_0@0 NSR_1@1 NSR_2@2 NSR_3@3 NSR_6@6 NSR_9@9 NSR_12@12 NSR_18@18 NSR_24@24;
+  S ON iw sw;
   %C#1%
   [N#1@3.075];
   [N#2@1.083];
-  I ON NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241 (I1 - I9);
-  S ON NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241 (S1 - S9);
-  NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241;
+  S ON iw sw (S1 - S2);
+  [iw] (iw1);
+  [sw] (sw1);
+  iw sw;
+  iw WITH sw;
   %C#2%
   [N#1@1.199];
   [N#2@2.945];
-  I ON NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241 (I10 - I18);
-  S ON NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241 (S10 - S18);
-  NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241;
+  S ON iw sw (S3 - S4);
+  [iw] (iw2);
+  [sw] (sw2);
+  iw sw;
+  iw WITH sw;
   %C#3%
   [N#1@-1.281];
   [N#2@-1.148];
-  I ON NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241 (I19 - I27);
-  S ON NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241 (S19 - S27);
-  NSR_01 NSR_11 NSR_21 NSR_31 NSR_61 NSR_91 NSR_121 NSR_181 NSR_241;
+  S ON iw sw (S5 - S6);
+  [iw] (iw3);
+  [sw] (sw3);
+  iw sw;
+  iw WITH sw;
+  MODEL TEST:
+  S2 = S4;
+  S4 = S6;
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
@@ -74,22 +74,25 @@ SUMMARY OF ANALYSIS
 Number of groups                                                 1
 Number of observations                                         405
 
-Number of dependent variables                                    3
-Number of independent variables                                  9
-Number of continuous latent variables                            0
+Number of dependent variables                                   11
+Number of independent variables                                  0
+Number of continuous latent variables                            2
 Number of categorical latent variables                           1
 
 Observed dependent variables
 
   Continuous
-   I           S
+   S
+
+  Binary and ordered categorical (ordinal)
+   NSR_0       NSR_1       NSR_2       NSR_3       NSR_6       NSR_9
+   NSR_12      NSR_18      NSR_24
 
   Unordered categorical (nominal)
    N
 
-Observed independent variables
-   NSR_01      NSR_11      NSR_21      NSR_31      NSR_61      NSR_91
-   NSR_121     NSR_181     NSR_241
+Continuous latent variables
+   IW          SW
 
 Categorical latent variables
    C
@@ -104,19 +107,19 @@ Continuous Outcomes
 Optimization Specifications for the EM Algorithm
   Maximum number of iterations                                 500
   Convergence criteria
-    Loglikelihood change                                 0.100D-06
-    Relative loglikelihood change                        0.100D-06
-    Derivative                                           0.100D-05
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
 Optimization Specifications for the M step of the EM Algorithm for
 Categorical Latent variables
   Number of M step iterations                                    1
-  M step convergence criterion                           0.100D-05
+  M step convergence criterion                           0.100D-02
   Basis for M step termination                           ITERATION
 Optimization Specifications for the M step of the EM Algorithm for
 Censored, Binary or Ordered Categorical (Ordinal), Unordered
 Categorical (Nominal) and Count Outcomes
   Number of M step iterations                                    1
-  M step convergence criterion                           0.100D-05
+  M step convergence criterion                           0.100D-02
   Basis for M step termination                           ITERATION
   Maximum value for logit thresholds                            15
   Minimum value for logit thresholds                           -15
@@ -124,13 +127,13 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
-Random Starts Specifications
-  Number of initial stage random starts                       4000
-  Number of final stage optimizations                         4000
-  Number of initial stage iterations                             1
-  Initial stage convergence criterion                    0.100D+01
-  Random starts scale                                    0.500D+01
-  Random seed for generating random starts                       0
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            2
+  Adaptive quadrature                                           ON
+Link                                                         LOGIT
+Cholesky                                                       OFF
 
 Input data file(s)
   /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/NSR_MixREG.dat
@@ -140,8 +143,8 @@ Input data format  FREE
 SUMMARY OF DATA
 
      Number of missing data patterns            63
-     Number of y missing data patterns          63
-     Number of u missing data patterns           0
+     Number of y missing data patterns           1
+     Number of u missing data patterns          63
 
 
 COVARIANCE COVERAGE OF DATA
@@ -149,44 +152,98 @@ COVARIANCE COVERAGE OF DATA
 Minimum covariance coverage value   0.100
 
 
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              NSR_0         NSR_1         NSR_2         NSR_3         NSR_6
+              ________      ________      ________      ________      ________
+ NSR_0          0.998
+ NSR_1          0.674         0.674
+ NSR_2          0.852         0.602         0.852
+ NSR_3          0.941         0.630         0.825         0.941
+ NSR_6          0.911         0.607         0.788         0.874         0.911
+ NSR_9          0.859         0.578         0.756         0.807         0.795
+ NSR_12         0.869         0.573         0.731         0.815         0.793
+ NSR_18         0.820         0.538         0.689         0.768         0.748
+ NSR_24         0.790         0.519         0.694         0.743         0.723
+ S              0.998         0.674         0.852         0.941         0.911
+
+
+           Covariance Coverage
+              NSR_9         NSR_12        NSR_18        NSR_24        S
+              ________      ________      ________      ________      ________
+ NSR_9          0.859
+ NSR_12         0.773         0.869
+ NSR_18         0.719         0.746         0.820
+ NSR_24         0.719         0.721         0.709         0.790
+ S              0.859         0.869         0.820         0.790         1.000
+
+
+     PROPORTION OF DATA PRESENT FOR U
+
+
+           Covariance Coverage
+              NSR_0         NSR_1         NSR_2         NSR_3         NSR_6
+              ________      ________      ________      ________      ________
+ NSR_0          0.998
+ NSR_1          0.674         0.674
+ NSR_2          0.852         0.602         0.852
+ NSR_3          0.941         0.630         0.825         0.941
+ NSR_6          0.911         0.607         0.788         0.874         0.911
+ NSR_9          0.859         0.578         0.756         0.807         0.795
+ NSR_12         0.869         0.573         0.731         0.815         0.793
+ NSR_18         0.820         0.538         0.689         0.768         0.748
+ NSR_24         0.790         0.519         0.694         0.743         0.723
+
+
+           Covariance Coverage
+              NSR_9         NSR_12        NSR_18        NSR_24
+              ________      ________      ________      ________
+ NSR_9          0.859
+ NSR_12         0.773         0.869
+ NSR_18         0.719         0.746         0.820
+ NSR_24         0.719         0.721         0.709         0.790
+
+
      PROPORTION OF DATA PRESENT FOR Y
 
 
            Covariance Coverage
-              I             S             NSR_01        NSR_11        NSR_21
-              ________      ________      ________      ________      ________
- I              1.000
- S              1.000         1.000
- NSR_01         1.000         1.000         1.000
- NSR_11         0.674         0.674         0.674         0.674
- NSR_21         0.852         0.852         0.852         0.602         0.852
- NSR_31         0.941         0.941         0.941         0.627         0.822
- NSR_61         0.911         0.911         0.911         0.605         0.785
- NSR_91         0.862         0.862         0.862         0.578         0.756
- NSR_121        0.872         0.872         0.872         0.573         0.733
- NSR_181        0.820         0.820         0.820         0.538         0.686
- NSR_241        0.793         0.793         0.793         0.519         0.694
-
-
-           Covariance Coverage
-              NSR_31        NSR_61        NSR_91        NSR_121       NSR_181
-              ________      ________      ________      ________      ________
- NSR_31         0.941
- NSR_61         0.872         0.911
- NSR_91         0.807         0.795         0.862
- NSR_121        0.815         0.793         0.775         0.872
- NSR_181        0.765         0.746         0.719         0.746         0.820
- NSR_241        0.743         0.723         0.721         0.723         0.709
-
-
-           Covariance Coverage
-              NSR_241
+              S
               ________
- NSR_241        0.793
+ S              1.000
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
+    NSR_0
+      Category 1    0.891          360.000
+      Category 2    0.109           44.000
+    NSR_1
+      Category 1    0.824          225.000
+      Category 2    0.176           48.000
+    NSR_2
+      Category 1    0.751          259.000
+      Category 2    0.249           86.000
+    NSR_3
+      Category 1    0.722          275.000
+      Category 2    0.278          106.000
+    NSR_6
+      Category 1    0.650          240.000
+      Category 2    0.350          129.000
+    NSR_9
+      Category 1    0.612          213.000
+      Category 2    0.388          135.000
+    NSR_12
+      Category 1    0.574          202.000
+      Category 2    0.426          150.000
+    NSR_18
+      Category 1    0.554          184.000
+      Category 2    0.446          148.000
+    NSR_24
+      Category 1    0.484          155.000
+      Category 2    0.516          165.000
     N
       Category 1    0.437          177.000
       Category 2    0.402          163.000
@@ -194,6 +251,30 @@ UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
 
 SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              S
+              ________
+               -0.593
+
+
+           Covariances
+              S
+              ________
+ S              0.226
+
+
+           Correlations
+              S
+              ________
+ S              1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -273.246
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -204,55 +285,91 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     I                     9.488       0.126       1.568    0.25%       7.100      8.669      9.567
-             405.000       7.465       0.122      18.030    0.25%      10.057     11.759
      S                    -0.593      -0.232      -1.446    0.25%      -1.126     -0.719     -0.494
              405.000       0.226      -1.309       0.321    0.25%      -0.321     -0.144
-     NSR_01                0.891      -2.515       0.000   10.86%       1.000      1.000      1.000
-             405.000       0.097       4.326       1.000   89.14%       1.000      1.000
-     NSR_11                0.824      -1.703       0.000   17.58%       1.000      1.000      1.000
-             273.000       0.145       0.901       1.000   82.42%       1.000      1.000
-     NSR_21                0.748      -1.141       0.000   25.22%       0.000      1.000      1.000
-             345.000       0.189      -0.697       1.000   74.78%       1.000      1.000
-     NSR_31                0.719      -0.975       0.000   28.08%       0.000      1.000      1.000
-             381.000       0.202      -1.049       1.000   71.92%       1.000      1.000
-     NSR_61                0.648      -0.618       0.000   35.23%       0.000      1.000      1.000
-             369.000       0.228      -1.618       1.000   64.77%       1.000      1.000
-     NSR_91                0.613      -0.465       0.000   38.68%       0.000      1.000      1.000
-             349.000       0.237      -1.784       1.000   61.32%       1.000      1.000
-     NSR_121               0.575      -0.304       0.000   42.49%       0.000      0.000      1.000
-             353.000       0.244      -1.908       1.000   57.51%       1.000      1.000
-     NSR_181               0.554      -0.218       0.000   44.58%       0.000      0.000      1.000
-             332.000       0.247      -1.952       1.000   55.42%       1.000      1.000
-     NSR_241               0.483       0.069       0.000   51.71%       0.000      0.000      0.000
-             321.000       0.250      -1.995       1.000   48.29%       1.000      1.000
 
-RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO A NON-ZERO
+     DERIVATIVE OF THE OBSERVED-DATA LOGLIKELIHOOD.
 
-Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
-
-
-Unperturbed starting value run did not converge or was rejected in the third stage.
-
-3999 perturbed starting value run(s) did not converge or were rejected in the third stage.
-
-
-     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 3 COULD NOT
-     BE INVERTED.  PROBLEM INVOLVING VARIABLE NSR_01.  COMPUTATION COULD
-     NOT BE COMPLETED IN ITERATION 3.  CHANGE YOUR MODEL AND/OR STARTING
-     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
-     VARIATION FOR THE VARIABLE.
-     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY.  ESTIMATES CANNOT
-     BE TRUSTED.
-
-
-
-     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
-     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+     THE MCONVERGENCE CRITERION OF THE EM ALGORITHM IS NOT FULFILLED.
+     CHECK YOUR STARTING VALUES OR INCREASE THE NUMBER OF MITERATIONS.
+     ESTIMATES CANNOT BE TRUSTED.  THE LOGLIKELIHOOD DERIVATIVE
+     FOR THE FOLLOWING PARAMETER IS  0.65298241D-02:
+     Parameter 25, %C#3%: SW
 
 
 
 
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        177.09279          0.43727
+       2        157.02241          0.38771
+       3         70.88481          0.17502
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        177.09279          0.43727
+       2        157.02241          0.38771
+       3         70.88481          0.17502
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              179          0.44198
+       2              162          0.40000
+       3               64          0.15802
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.829
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.978    0.016    0.006
+    2   0.007    0.904    0.089
+    3   0.014    0.120    0.866
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.989    0.006    0.005
+    2   0.018    0.933    0.049
+    3   0.015    0.203    0.782
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      5.273    0.213    0.000
+    2     -0.997    2.948    0.000
+    3     -3.935   -1.349    0.000
 
 
 MODEL RESULTS
@@ -261,636 +378,283 @@ MODEL RESULTS
 
 Latent Class 1
 
- I          ON
-    NSR_01             2.420
-    NSR_11             1.174
-    NSR_21             1.203
-    NSR_31             0.911
-    NSR_61             0.294
-    NSR_91             0.090
-    NSR_121            0.249
-    NSR_181            0.511
-    NSR_241           -0.541
+ IW       |
+    NSR_0              1.000
+    NSR_1              1.000
+    NSR_2              1.000
+    NSR_3              1.000
+    NSR_6              1.000
+    NSR_9              1.000
+    NSR_12             1.000
+    NSR_18             1.000
+    NSR_24             1.000
+
+ SW       |
+    NSR_0              0.000
+    NSR_1              1.000
+    NSR_2              2.000
+    NSR_3              3.000
+    NSR_6              6.000
+    NSR_9              9.000
+    NSR_12            12.000
+    NSR_18            18.000
+    NSR_24            24.000
 
  S          ON
-    NSR_01            -0.453
-    NSR_11            -0.226
-    NSR_21            -0.126
-    NSR_31            -0.071
-    NSR_61             0.186
-    NSR_91             0.244
-    NSR_121            0.021
-    NSR_181            0.097
-    NSR_241            0.049
+    IW                -0.016
+    SW                -1.101
 
- S        WITH
-    I                 -0.169
-
- NSR_11   WITH
-    NSR_01             0.000
-
- NSR_21   WITH
-    NSR_01             0.000
-    NSR_11             0.000
-
- NSR_31   WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-
- NSR_61   WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-
- NSR_91   WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-
- NSR_121  WITH
-    NSR_01             0.000
-    NSR_11             0.001
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-    NSR_91             0.000
-
- NSR_181  WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-    NSR_91             0.000
-    NSR_121            0.000
-
- NSR_241  WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-    NSR_91             0.000
-    NSR_121            0.000
-    NSR_181            0.000
+ SW       WITH
+    IW                -0.050
 
  Means
-    NSR_01             0.688
-    NSR_11             0.537
-    NSR_21             0.307
-    NSR_31             0.221
-    NSR_61             0.139
-    NSR_91             0.119
-    NSR_121            0.127
-    NSR_181            0.231
-    NSR_241            0.164
-
- Means
+    IW                 6.341
+    SW                 0.168
     N#1                3.075
     N#2                1.083
 
  Intercepts
-    I                  4.071
-    S                 -0.509
+    S                 -0.785
+
+ Thresholds
+    NSR_0$1            7.915
+    NSR_1$1            7.915
+    NSR_2$1            7.915
+    NSR_3$1            7.915
+    NSR_6$1            7.915
+    NSR_9$1            7.915
+    NSR_12$1           7.915
+    NSR_18$1           7.915
+    NSR_24$1           7.915
 
  Variances
-    NSR_01             0.215
-    NSR_11             0.243
-    NSR_21             0.210
-    NSR_31             0.172
-    NSR_61             0.118
-    NSR_91             0.102
-    NSR_121            0.110
-    NSR_181            0.173
-    NSR_241            0.135
+    IW                 2.461
+    SW                 0.024
 
  Residual Variances
-    I                  3.294
-    S                  0.112
+    S                  0.024
 
 Latent Class 2
 
- I          ON
-    NSR_01             1.997
-    NSR_11             1.031
-    NSR_21             1.203
-    NSR_31             1.680
-    NSR_61             0.815
-    NSR_91            -0.169
-    NSR_121            0.019
-    NSR_181            0.080
-    NSR_241            0.250
+ IW       |
+    NSR_0              1.000
+    NSR_1              1.000
+    NSR_2              1.000
+    NSR_3              1.000
+    NSR_6              1.000
+    NSR_9              1.000
+    NSR_12             1.000
+    NSR_18             1.000
+    NSR_24             1.000
+
+ SW       |
+    NSR_0              0.000
+    NSR_1              1.000
+    NSR_2              2.000
+    NSR_3              3.000
+    NSR_6              6.000
+    NSR_9              9.000
+    NSR_12            12.000
+    NSR_18            18.000
+    NSR_24            24.000
 
  S          ON
-    NSR_01            -0.341
-    NSR_11            -0.279
-    NSR_21            -0.120
-    NSR_31            -0.254
-    NSR_61             0.058
-    NSR_91             0.171
-    NSR_121            0.246
-    NSR_181            0.026
-    NSR_241            0.058
+    IW                -0.010
+    SW                -0.723
 
- S        WITH
-    I                 -0.169
-
- NSR_11   WITH
-    NSR_01             0.000
-
- NSR_21   WITH
-    NSR_01             0.000
-    NSR_11             0.000
-
- NSR_31   WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-
- NSR_61   WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-
- NSR_91   WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-
- NSR_121  WITH
-    NSR_01             0.000
-    NSR_11             0.001
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-    NSR_91             0.000
-
- NSR_181  WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-    NSR_91             0.000
-    NSR_121            0.000
-
- NSR_241  WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-    NSR_91             0.000
-    NSR_121            0.000
-    NSR_181            0.000
+ SW       WITH
+    IW                -0.393
 
  Means
-    NSR_01             0.937
-    NSR_11             0.846
-    NSR_21             0.832
-    NSR_31             0.816
-    NSR_61             0.708
-    NSR_91             0.658
-    NSR_121            0.559
-    NSR_181            0.430
-    NSR_241            0.432
-
- Means
+    IW                 3.516
+    SW                 0.087
     N#1                1.199
     N#2                2.945
 
  Intercepts
-    I                  3.750
-    S                 -0.079
+    S                 -0.118
+
+ Thresholds
+    NSR_0$1            7.915
+    NSR_1$1            7.915
+    NSR_2$1            7.915
+    NSR_3$1            7.915
+    NSR_6$1            7.915
+    NSR_9$1            7.915
+    NSR_12$1           7.915
+    NSR_18$1           7.915
+    NSR_24$1           7.915
 
  Variances
-    NSR_01             0.059
-    NSR_11             0.132
-    NSR_21             0.138
-    NSR_31             0.148
-    NSR_61             0.206
-    NSR_91             0.225
-    NSR_121            0.246
-    NSR_181            0.242
-    NSR_241            0.243
+    IW                15.718
+    SW                 0.060
 
  Residual Variances
-    I                  3.294
-    S                  0.112
+    S                  0.024
 
 Latent Class 3
 
- I          ON
-    NSR_01         -5597.714
-    NSR_11            -3.032
-    NSR_21           -13.484
-    NSR_31           962.686
-    NSR_61          -157.704
-    NSR_91             2.962
-    NSR_121            0.634
-    NSR_181           -4.475
-    NSR_241            0.994
+ IW       |
+    NSR_0              1.000
+    NSR_1              1.000
+    NSR_2              1.000
+    NSR_3              1.000
+    NSR_6              1.000
+    NSR_9              1.000
+    NSR_12             1.000
+    NSR_18             1.000
+    NSR_24             1.000
+
+ SW       |
+    NSR_0              0.000
+    NSR_1              1.000
+    NSR_2              2.000
+    NSR_3              3.000
+    NSR_6              6.000
+    NSR_9              9.000
+    NSR_12            12.000
+    NSR_18            18.000
+    NSR_24            24.000
 
  S          ON
-    NSR_01          4990.585
-    NSR_11             1.203
-    NSR_21             9.686
-    NSR_31          -789.110
-    NSR_61             8.982
-    NSR_91            -0.350
-    NSR_121            0.261
-    NSR_181            0.601
-    NSR_241            0.245
+    IW                -0.012
+    SW                -1.243
 
- S        WITH
-    I                 -0.169
-
- NSR_11   WITH
-    NSR_01             0.000
-
- NSR_21   WITH
-    NSR_01             0.000
-    NSR_11             0.000
-
- NSR_31   WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-
- NSR_61   WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-
- NSR_91   WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-
- NSR_121  WITH
-    NSR_01             0.000
-    NSR_11             0.001
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-    NSR_91             0.000
-
- NSR_181  WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-    NSR_91             0.000
-    NSR_121            0.000
-
- NSR_241  WITH
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-    NSR_91             0.000
-    NSR_121            0.000
-    NSR_181            0.000
+ SW       WITH
+    IW                -0.028
 
  Means
-    NSR_01             1.000
-    NSR_11             0.999
-    NSR_21             1.000
-    NSR_31             1.000
-    NSR_61             1.000
-    NSR_91             1.000
-    NSR_121            0.998
-    NSR_181            1.000
-    NSR_241            0.840
-
- Means
+    IW                 6.368
+    SW                 0.061
     N#1               -1.281
     N#2               -1.148
 
  Intercepts
-    I               4820.844
-    S              -4222.360
+    S                 -0.080
+
+ Thresholds
+    NSR_0$1            7.915
+    NSR_1$1            7.915
+    NSR_2$1            7.915
+    NSR_3$1            7.915
+    NSR_6$1            7.915
+    NSR_9$1            7.915
+    NSR_12$1           7.915
+    NSR_18$1           7.915
+    NSR_24$1           7.915
 
  Variances
-    NSR_01             0.000
-    NSR_11             0.000
-    NSR_21             0.000
-    NSR_31             0.000
-    NSR_61             0.000
-    NSR_91             0.000
-    NSR_121            0.002
-    NSR_181            0.000
-    NSR_241            0.122
+    IW                 0.651
+    SW                 0.006
 
  Residual Variances
-    I                  3.294
-    S                  0.112
+    S                  0.024
 
 Categorical Latent Variables
 
  Means
-    C#1               -0.168
-    C#2                0.337
+    C#1                0.916
+    C#2                0.795
 
 
 MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
 
      %OVERALL%
 
-     i ON nsr_01;
-     i ON nsr_11;
-     i ON nsr_21;
-     i ON nsr_31;
-     i ON nsr_61;
-     i ON nsr_91;
-     i ON nsr_121;
-     i ON nsr_181;
-     i ON nsr_241;
-     s ON nsr_01;
-     s ON nsr_11;
-     s ON nsr_21;
-     s ON nsr_31;
-     s ON nsr_61;
-     s ON nsr_91;
-     s ON nsr_121;
-     s ON nsr_181;
-     s ON nsr_241;
+     iw sw | nsr_0@0 nsr_1@1 nsr_2@2 nsr_3@3 nsr_6@6 nsr_9@9 nsr_12@12 nsr_18@18 nsr_24@24;
 
-     [ c#1*-0.16803 ];
-     [ c#2*0.33742 ];
+     s ON iw;
+     s ON sw;
+
+     [ c#1*0.91562 ];
+     [ c#2*0.79533 ];
 
      %C#1%
 
-     i ON nsr_01*2.41958 (i1);
-     i ON nsr_11*1.17410 (i2);
-     i ON nsr_21*1.20339 (i3);
-     i ON nsr_31*0.91135 (i4);
-     i ON nsr_61*0.29365 (i5);
-     i ON nsr_91*0.09027 (i6);
-     i ON nsr_121*0.24910 (i7);
-     i ON nsr_181*0.51100 (i8);
-     i ON nsr_241*-0.54145 (i9);
-     s ON nsr_01*-0.45334 (s1);
-     s ON nsr_11*-0.22572 (s2);
-     s ON nsr_21*-0.12555 (s3);
-     s ON nsr_31*-0.07080 (s4);
-     s ON nsr_61*0.18629 (s5);
-     s ON nsr_91*0.24404 (s6);
-     s ON nsr_121*0.02106 (s7);
-     s ON nsr_181*0.09705 (s8);
-     s ON nsr_241*0.04942 (s9);
+     s ON iw*-0.01580 (s1);
+     s ON sw*-1.10078 (s2);
 
-     s WITH i*-0.16902 (31);
-     nsr_11 WITH nsr_01*0.00000 (34);
-     nsr_21 WITH nsr_01*0.00000 (36);
-     nsr_21 WITH nsr_11*0.00000 (37);
-     nsr_31 WITH nsr_01*0.00000 (39);
-     nsr_31 WITH nsr_11*0.00000 (40);
-     nsr_31 WITH nsr_21*0.00000 (41);
-     nsr_61 WITH nsr_01*0.00000 (43);
-     nsr_61 WITH nsr_11*0.00000 (44);
-     nsr_61 WITH nsr_21*0.00000 (45);
-     nsr_61 WITH nsr_31*0.00000 (46);
-     nsr_91 WITH nsr_01*0.00000 (48);
-     nsr_91 WITH nsr_11*0.00000 (49);
-     nsr_91 WITH nsr_21*0.00000 (50);
-     nsr_91 WITH nsr_31*0.00000 (51);
-     nsr_91 WITH nsr_61*0.00000 (52);
-     nsr_121 WITH nsr_01*0.00000 (54);
-     nsr_121 WITH nsr_11*0.00074 (55);
-     nsr_121 WITH nsr_21*0.00000 (56);
-     nsr_121 WITH nsr_31*0.00000 (57);
-     nsr_121 WITH nsr_61*0.00000 (58);
-     nsr_121 WITH nsr_91*0.00001 (59);
-     nsr_181 WITH nsr_01*0.00000 (61);
-     nsr_181 WITH nsr_11*0.00000 (62);
-     nsr_181 WITH nsr_21*0.00000 (63);
-     nsr_181 WITH nsr_31*0.00000 (64);
-     nsr_181 WITH nsr_61*0.00000 (65);
-     nsr_181 WITH nsr_91*0.00000 (66);
-     nsr_181 WITH nsr_121*0.00000 (67);
-     nsr_241 WITH nsr_01*0.00000 (69);
-     nsr_241 WITH nsr_11*-0.00018 (70);
-     nsr_241 WITH nsr_21*-0.00006 (71);
-     nsr_241 WITH nsr_31*0.00000 (72);
-     nsr_241 WITH nsr_61*0.00000 (73);
-     nsr_241 WITH nsr_91*-0.00001 (74);
-     nsr_241 WITH nsr_121*-0.00043 (75);
-     nsr_241 WITH nsr_181*0.00001 (76);
+     sw WITH iw*-0.05026;
 
-     [ i*4.07112 ];
-     [ s*-0.50890 ];
-     [ nsr_01*0.68795 ];
-     [ nsr_11*0.53695 ];
-     [ nsr_21*0.30676 ];
-     [ nsr_31*0.22050 ];
-     [ nsr_61*0.13874 ];
-     [ nsr_91*0.11935 ];
-     [ nsr_121*0.12717 ];
-     [ nsr_181*0.23103 ];
-     [ nsr_241*0.16378 ];
+     [ s*-0.78521 ];
+     [ iw*6.34076 ] (iw1);
+     [ sw*0.16835 ] (sw1);
      [ n#1@3.07500 ];
      [ n#2@1.08300 ];
 
-     i*3.29445 (30);
-     s*0.11165 (32);
-     nsr_01*0.21458;
-     nsr_11*0.24320;
-     nsr_21*0.20960;
-     nsr_31*0.17214;
-     nsr_61*0.11788;
-     nsr_91*0.10203;
-     nsr_121*0.10993;
-     nsr_181*0.17298;
-     nsr_241*0.13454;
+     [ nsr_0$1*7.91544 ] (26);
+     [ nsr_1$1*7.91544 ] (26);
+     [ nsr_2$1*7.91544 ] (26);
+     [ nsr_3$1*7.91544 ] (26);
+     [ nsr_6$1*7.91544 ] (26);
+     [ nsr_9$1*7.91544 ] (26);
+     [ nsr_12$1*7.91544 ] (26);
+     [ nsr_18$1*7.91544 ] (26);
+     [ nsr_24$1*7.91544 ] (26);
+
+     s*0.02437 (9);
+     iw*2.46081;
+     sw*0.02393;
 
      %C#2%
 
-     i ON nsr_01*1.99673 (i10);
-     i ON nsr_11*1.03094 (i11);
-     i ON nsr_21*1.20308 (i12);
-     i ON nsr_31*1.68034 (i13);
-     i ON nsr_61*0.81549 (i14);
-     i ON nsr_91*-0.16889 (i15);
-     i ON nsr_121*0.01896 (i16);
-     i ON nsr_181*0.08029 (i17);
-     i ON nsr_241*0.24965 (i18);
-     s ON nsr_01*-0.34109 (s10);
-     s ON nsr_11*-0.27869 (s11);
-     s ON nsr_21*-0.11960 (s12);
-     s ON nsr_31*-0.25443 (s13);
-     s ON nsr_61*0.05760 (s14);
-     s ON nsr_91*0.17096 (s15);
-     s ON nsr_121*0.24630 (s16);
-     s ON nsr_181*0.02559 (s17);
-     s ON nsr_241*0.05755 (s18);
+     s ON iw*-0.01025 (s3);
+     s ON sw*-0.72299 (s4);
 
-     s WITH i*-0.16902 (31);
-     nsr_11 WITH nsr_01*0.00000 (34);
-     nsr_21 WITH nsr_01*0.00000 (36);
-     nsr_21 WITH nsr_11*0.00000 (37);
-     nsr_31 WITH nsr_01*0.00000 (39);
-     nsr_31 WITH nsr_11*0.00000 (40);
-     nsr_31 WITH nsr_21*0.00000 (41);
-     nsr_61 WITH nsr_01*0.00000 (43);
-     nsr_61 WITH nsr_11*0.00000 (44);
-     nsr_61 WITH nsr_21*0.00000 (45);
-     nsr_61 WITH nsr_31*0.00000 (46);
-     nsr_91 WITH nsr_01*0.00000 (48);
-     nsr_91 WITH nsr_11*0.00000 (49);
-     nsr_91 WITH nsr_21*0.00000 (50);
-     nsr_91 WITH nsr_31*0.00000 (51);
-     nsr_91 WITH nsr_61*0.00000 (52);
-     nsr_121 WITH nsr_01*0.00000 (54);
-     nsr_121 WITH nsr_11*0.00074 (55);
-     nsr_121 WITH nsr_21*0.00000 (56);
-     nsr_121 WITH nsr_31*0.00000 (57);
-     nsr_121 WITH nsr_61*0.00000 (58);
-     nsr_121 WITH nsr_91*0.00001 (59);
-     nsr_181 WITH nsr_01*0.00000 (61);
-     nsr_181 WITH nsr_11*0.00000 (62);
-     nsr_181 WITH nsr_21*0.00000 (63);
-     nsr_181 WITH nsr_31*0.00000 (64);
-     nsr_181 WITH nsr_61*0.00000 (65);
-     nsr_181 WITH nsr_91*0.00000 (66);
-     nsr_181 WITH nsr_121*0.00000 (67);
-     nsr_241 WITH nsr_01*0.00000 (69);
-     nsr_241 WITH nsr_11*-0.00018 (70);
-     nsr_241 WITH nsr_21*-0.00006 (71);
-     nsr_241 WITH nsr_31*0.00000 (72);
-     nsr_241 WITH nsr_61*0.00000 (73);
-     nsr_241 WITH nsr_91*-0.00001 (74);
-     nsr_241 WITH nsr_121*-0.00043 (75);
-     nsr_241 WITH nsr_181*0.00001 (76);
+     sw WITH iw*-0.39321;
 
-     [ i*3.75003 ];
-     [ s*-0.07866 ];
-     [ nsr_01*0.93653 ];
-     [ nsr_11*0.84637 ];
-     [ nsr_21*0.83242 ];
-     [ nsr_31*0.81585 ];
-     [ nsr_61*0.70813 ];
-     [ nsr_91*0.65825 ];
-     [ nsr_121*0.55898 ];
-     [ nsr_181*0.43026 ];
-     [ nsr_241*0.43152 ];
+     [ s*-0.11752 ];
+     [ iw*3.51601 ] (iw2);
+     [ sw*0.08713 ] (sw2);
      [ n#1@1.19900 ];
      [ n#2@2.94500 ];
 
-     i*3.29445 (30);
-     s*0.11165 (32);
-     nsr_01*0.05942;
-     nsr_11*0.13188;
-     nsr_21*0.13766;
-     nsr_31*0.14809;
-     nsr_61*0.20633;
-     nsr_91*0.22471;
-     nsr_121*0.24615;
-     nsr_181*0.24229;
-     nsr_241*0.24260;
+     [ nsr_0$1*7.91544 ] (26);
+     [ nsr_1$1*7.91544 ] (26);
+     [ nsr_2$1*7.91544 ] (26);
+     [ nsr_3$1*7.91544 ] (26);
+     [ nsr_6$1*7.91544 ] (26);
+     [ nsr_9$1*7.91544 ] (26);
+     [ nsr_12$1*7.91544 ] (26);
+     [ nsr_18$1*7.91544 ] (26);
+     [ nsr_24$1*7.91544 ] (26);
+
+     s*0.02437 (9);
+     iw*15.71823;
+     sw*0.06025;
 
      %C#3%
 
-     i ON nsr_01*-5597.71436 (i19);
-     i ON nsr_11*-3.03209 (i20);
-     i ON nsr_21*-13.48355 (i21);
-     i ON nsr_31*962.68634 (i22);
-     i ON nsr_61*-157.70448 (i23);
-     i ON nsr_91*2.96182 (i24);
-     i ON nsr_121*0.63369 (i25);
-     i ON nsr_181*-4.47499 (i26);
-     i ON nsr_241*0.99449 (i27);
-     s ON nsr_01*4990.58496 (s19);
-     s ON nsr_11*1.20327 (s20);
-     s ON nsr_21*9.68648 (s21);
-     s ON nsr_31*-789.10956 (s22);
-     s ON nsr_61*8.98207 (s23);
-     s ON nsr_91*-0.35037 (s24);
-     s ON nsr_121*0.26066 (s25);
-     s ON nsr_181*0.60123 (s26);
-     s ON nsr_241*0.24470 (s27);
+     s ON iw*-0.01231 (s5);
+     s ON sw*-1.24285 (s6);
 
-     s WITH i*-0.16902 (31);
-     nsr_11 WITH nsr_01*0.00000 (34);
-     nsr_21 WITH nsr_01*0.00000 (36);
-     nsr_21 WITH nsr_11*0.00000 (37);
-     nsr_31 WITH nsr_01*0.00000 (39);
-     nsr_31 WITH nsr_11*0.00000 (40);
-     nsr_31 WITH nsr_21*0.00000 (41);
-     nsr_61 WITH nsr_01*0.00000 (43);
-     nsr_61 WITH nsr_11*0.00000 (44);
-     nsr_61 WITH nsr_21*0.00000 (45);
-     nsr_61 WITH nsr_31*0.00000 (46);
-     nsr_91 WITH nsr_01*0.00000 (48);
-     nsr_91 WITH nsr_11*0.00000 (49);
-     nsr_91 WITH nsr_21*0.00000 (50);
-     nsr_91 WITH nsr_31*0.00000 (51);
-     nsr_91 WITH nsr_61*0.00000 (52);
-     nsr_121 WITH nsr_01*0.00000 (54);
-     nsr_121 WITH nsr_11*0.00074 (55);
-     nsr_121 WITH nsr_21*0.00000 (56);
-     nsr_121 WITH nsr_31*0.00000 (57);
-     nsr_121 WITH nsr_61*0.00000 (58);
-     nsr_121 WITH nsr_91*0.00001 (59);
-     nsr_181 WITH nsr_01*0.00000 (61);
-     nsr_181 WITH nsr_11*0.00000 (62);
-     nsr_181 WITH nsr_21*0.00000 (63);
-     nsr_181 WITH nsr_31*0.00000 (64);
-     nsr_181 WITH nsr_61*0.00000 (65);
-     nsr_181 WITH nsr_91*0.00000 (66);
-     nsr_181 WITH nsr_121*0.00000 (67);
-     nsr_241 WITH nsr_01*0.00000 (69);
-     nsr_241 WITH nsr_11*-0.00018 (70);
-     nsr_241 WITH nsr_21*-0.00006 (71);
-     nsr_241 WITH nsr_31*0.00000 (72);
-     nsr_241 WITH nsr_61*0.00000 (73);
-     nsr_241 WITH nsr_91*-0.00001 (74);
-     nsr_241 WITH nsr_121*-0.00043 (75);
-     nsr_241 WITH nsr_181*0.00001 (76);
+     sw WITH iw*-0.02850;
 
-     [ i*4820.84424 ];
-     [ s*-4222.36035 ];
-     [ nsr_01*1.00000 ];
-     [ nsr_11*0.99919 ];
-     [ nsr_21*0.99985 ];
-     [ nsr_31*1.00000 ];
-     [ nsr_61*1.00000 ];
-     [ nsr_91*0.99994 ];
-     [ nsr_121*0.99794 ];
-     [ nsr_181*0.99998 ];
-     [ nsr_241*0.83970 ];
+     [ s*-0.08021 ];
+     [ iw*6.36802 ] (iw3);
+     [ sw*0.06126 ] (sw3);
      [ n#1@-1.28100 ];
      [ n#2@-1.14800 ];
 
-     i*3.29445 (30);
-     s*0.11165 (32);
-     nsr_01*0.00000;
-     nsr_11*0.00031;
-     nsr_21*0.00015;
-     nsr_31*0.00000;
-     nsr_61*0.00000;
-     nsr_91*0.00003;
-     nsr_121*0.00205;
-     nsr_181*0.00001;
-     nsr_241*0.12243;
+     [ nsr_0$1*7.91544 ] (26);
+     [ nsr_1$1*7.91544 ] (26);
+     [ nsr_2$1*7.91544 ] (26);
+     [ nsr_3$1*7.91544 ] (26);
+     [ nsr_6$1*7.91544 ] (26);
+     [ nsr_9$1*7.91544 ] (26);
+     [ nsr_12$1*7.91544 ] (26);
+     [ nsr_18$1*7.91544 ] (26);
+     [ nsr_24$1*7.91544 ] (26);
+
+     s*0.02437 (9);
+     iw*0.65090;
+     sw*0.00557;
 
 
 
-     Beginning Time:  04:17:50
-        Ending Time:  04:30:07
-       Elapsed Time:  00:12:17
+     Beginning Time:  14:57:29
+        Ending Time:  14:58:15
+       Elapsed Time:  00:00:46
 
 
 

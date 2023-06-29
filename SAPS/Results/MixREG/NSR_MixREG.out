@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-04/07/2023  10:35 PM
+06/29/2023   2:20 PM
 
 INPUT INSTRUCTIONS
 
@@ -15,10 +15,13 @@ INPUT INSTRUCTIONS
        NSR_12 NSR_18 NSR_24;
    MISSING=.;
    USEVAR = N S NSR_0 NSR_1 NSR_2 NSR_3 NSR_6 NSR_9 NSR_12 NSR_18 NSR_24;
+  CATEGORICAL = NSR_0 NSR_1 NSR_2 NSR_3 NSR_6 NSR_9 NSR_12 NSR_18 NSR_24;
   NOMINAL = N;
   CLASSES = c(2);
   ANALYSIS:
   TYPE = MIXTURE;
+  ALGORITHM = INTEGRATION;
+  LINK = LOGIT;
   STARTS = 0;
   PROCESSORS = 8;
   MODEL:
@@ -32,7 +35,6 @@ INPUT INSTRUCTIONS
   [sw] (sw1);
   iw sw;
   iw WITH sw;
-  NSR_0 NSR_1 NSR_2 NSR_3 NSR_6 NSR_9 NSR_12 NSR_18 NSR_24;
   %C#2%
   [N#1@-3.952];
   S ON iw sw (S3 - S4);
@@ -40,9 +42,8 @@ INPUT INSTRUCTIONS
   [sw] (sw2);
   iw sw;
   iw WITH sw;
-  NSR_0 NSR_1 NSR_2 NSR_3 NSR_6 NSR_9 NSR_12 NSR_18 NSR_24;
   MODEL TEST:
-  sw1 = sw2;
+  S2 = S4;
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
@@ -70,8 +71,11 @@ Number of categorical latent variables                           1
 Observed dependent variables
 
   Continuous
-   S           NSR_0       NSR_1       NSR_2       NSR_3       NSR_6
-   NSR_9       NSR_12      NSR_18      NSR_24
+   S
+
+  Binary and ordered categorical (ordinal)
+   NSR_0       NSR_1       NSR_2       NSR_3       NSR_6       NSR_9
+   NSR_12      NSR_18      NSR_24
 
   Unordered categorical (nominal)
    N
@@ -92,19 +96,19 @@ Continuous Outcomes
 Optimization Specifications for the EM Algorithm
   Maximum number of iterations                                 500
   Convergence criteria
-    Loglikelihood change                                 0.100D-06
-    Relative loglikelihood change                        0.100D-06
-    Derivative                                           0.100D-05
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
 Optimization Specifications for the M step of the EM Algorithm for
 Categorical Latent variables
   Number of M step iterations                                    1
-  M step convergence criterion                           0.100D-05
+  M step convergence criterion                           0.100D-02
   Basis for M step termination                           ITERATION
 Optimization Specifications for the M step of the EM Algorithm for
 Censored, Binary or Ordered Categorical (Ordinal), Unordered
 Categorical (Nominal) and Count Outcomes
   Number of M step iterations                                    1
-  M step convergence criterion                           0.100D-05
+  M step convergence criterion                           0.100D-02
   Basis for M step termination                           ITERATION
   Maximum value for logit thresholds                            15
   Minimum value for logit thresholds                           -15
@@ -112,6 +116,13 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            2
+  Adaptive quadrature                                           ON
+Link                                                         LOGIT
+Cholesky                                                       OFF
 
 Input data file(s)
   /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/MixREG/NSR_MixREG.dat
@@ -121,8 +132,8 @@ Input data format  FREE
 SUMMARY OF DATA
 
      Number of missing data patterns            63
-     Number of y missing data patterns          63
-     Number of u missing data patterns           0
+     Number of y missing data patterns           1
+     Number of u missing data patterns          63
 
 
 COVARIANCE COVERAGE OF DATA
@@ -130,36 +141,98 @@ COVARIANCE COVERAGE OF DATA
 Minimum covariance coverage value   0.100
 
 
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              NSR_0         NSR_1         NSR_2         NSR_3         NSR_6
+              ________      ________      ________      ________      ________
+ NSR_0          0.998
+ NSR_1          0.674         0.674
+ NSR_2          0.852         0.602         0.852
+ NSR_3          0.941         0.630         0.825         0.941
+ NSR_6          0.911         0.607         0.788         0.874         0.911
+ NSR_9          0.859         0.578         0.756         0.807         0.795
+ NSR_12         0.869         0.573         0.731         0.815         0.793
+ NSR_18         0.820         0.538         0.689         0.768         0.748
+ NSR_24         0.790         0.519         0.694         0.743         0.723
+ S              0.998         0.674         0.852         0.941         0.911
+
+
+           Covariance Coverage
+              NSR_9         NSR_12        NSR_18        NSR_24        S
+              ________      ________      ________      ________      ________
+ NSR_9          0.859
+ NSR_12         0.773         0.869
+ NSR_18         0.719         0.746         0.820
+ NSR_24         0.719         0.721         0.709         0.790
+ S              0.859         0.869         0.820         0.790         1.000
+
+
+     PROPORTION OF DATA PRESENT FOR U
+
+
+           Covariance Coverage
+              NSR_0         NSR_1         NSR_2         NSR_3         NSR_6
+              ________      ________      ________      ________      ________
+ NSR_0          0.998
+ NSR_1          0.674         0.674
+ NSR_2          0.852         0.602         0.852
+ NSR_3          0.941         0.630         0.825         0.941
+ NSR_6          0.911         0.607         0.788         0.874         0.911
+ NSR_9          0.859         0.578         0.756         0.807         0.795
+ NSR_12         0.869         0.573         0.731         0.815         0.793
+ NSR_18         0.820         0.538         0.689         0.768         0.748
+ NSR_24         0.790         0.519         0.694         0.743         0.723
+
+
+           Covariance Coverage
+              NSR_9         NSR_12        NSR_18        NSR_24
+              ________      ________      ________      ________
+ NSR_9          0.859
+ NSR_12         0.773         0.869
+ NSR_18         0.719         0.746         0.820
+ NSR_24         0.719         0.721         0.709         0.790
+
+
      PROPORTION OF DATA PRESENT FOR Y
 
 
            Covariance Coverage
-              S             NSR_0         NSR_1         NSR_2         NSR_3
-              ________      ________      ________      ________      ________
+              S
+              ________
  S              1.000
- NSR_0          1.000         1.000
- NSR_1          0.674         0.674         0.674
- NSR_2          0.852         0.852         0.602         0.852
- NSR_3          0.941         0.941         0.627         0.822         0.941
- NSR_6          0.911         0.911         0.605         0.785         0.872
- NSR_9          0.862         0.862         0.578         0.756         0.807
- NSR_12         0.872         0.872         0.573         0.733         0.815
- NSR_18         0.820         0.820         0.538         0.686         0.765
- NSR_24         0.793         0.793         0.519         0.694         0.743
-
-
-           Covariance Coverage
-              NSR_6         NSR_9         NSR_12        NSR_18        NSR_24
-              ________      ________      ________      ________      ________
- NSR_6          0.911
- NSR_9          0.795         0.862
- NSR_12         0.793         0.775         0.872
- NSR_18         0.746         0.719         0.746         0.820
- NSR_24         0.723         0.721         0.723         0.709         0.793
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
+    NSR_0
+      Category 1    0.891          360.000
+      Category 2    0.109           44.000
+    NSR_1
+      Category 1    0.824          225.000
+      Category 2    0.176           48.000
+    NSR_2
+      Category 1    0.751          259.000
+      Category 2    0.249           86.000
+    NSR_3
+      Category 1    0.722          275.000
+      Category 2    0.278          106.000
+    NSR_6
+      Category 1    0.650          240.000
+      Category 2    0.350          129.000
+    NSR_9
+      Category 1    0.612          213.000
+      Category 2    0.388          135.000
+    NSR_12
+      Category 1    0.574          202.000
+      Category 2    0.426          150.000
+    NSR_18
+      Category 1    0.554          184.000
+      Category 2    0.446          148.000
+    NSR_24
+      Category 1    0.484          155.000
+      Category 2    0.516          165.000
     N
       Category 1    0.341          138.000
       Category 2    0.659          267.000
@@ -172,68 +245,24 @@ SAMPLE STATISTICS
 
 
            Means
-              S             NSR_0         NSR_1         NSR_2         NSR_3
-              ________      ________      ________      ________      ________
-               -1.071         1.109         1.185         1.251         1.282
-
-
-           Means
-              NSR_6         NSR_9         NSR_12        NSR_18        NSR_24
-              ________      ________      ________      ________      ________
-                1.350         1.380         1.424         1.450         1.518
+              S
+              ________
+               -1.071
 
 
            Covariances
-              S             NSR_0         NSR_1         NSR_2         NSR_3
-              ________      ________      ________      ________      ________
+              S
+              ________
  S              0.149
- NSR_0          0.017         0.097
- NSR_1          0.038         0.058         0.149
- NSR_2          0.041         0.028         0.077         0.190
- NSR_3          0.045         0.037         0.077         0.121         0.202
- NSR_6          0.050         0.031         0.059         0.090         0.105
- NSR_9          0.047         0.038         0.041         0.069         0.081
- NSR_12         0.049         0.023         0.033         0.058         0.066
- NSR_18         0.045         0.017         0.014         0.051         0.052
- NSR_24         0.069         0.023         0.012         0.047         0.065
-
-
-           Covariances
-              NSR_6         NSR_9         NSR_12        NSR_18        NSR_24
-              ________      ________      ________      ________      ________
- NSR_6          0.226
- NSR_9          0.113         0.237
- NSR_12         0.112         0.111         0.243
- NSR_18         0.068         0.089         0.136         0.246
- NSR_24         0.062         0.089         0.083         0.130         0.251
 
 
            Correlations
-              S             NSR_0         NSR_1         NSR_2         NSR_3
-              ________      ________      ________      ________      ________
+              S
+              ________
  S              1.000
- NSR_0          0.143         1.000
- NSR_1          0.256         0.478         1.000
- NSR_2          0.246         0.205         0.454         1.000
- NSR_3          0.260         0.265         0.441         0.615         1.000
- NSR_6          0.271         0.213         0.319         0.432         0.493
- NSR_9          0.249         0.250         0.218         0.325         0.371
- NSR_12         0.257         0.150         0.174         0.270         0.299
- NSR_18         0.235         0.113         0.071         0.237         0.232
- NSR_24         0.356         0.151         0.061         0.215         0.289
 
 
-           Correlations
-              NSR_6         NSR_9         NSR_12        NSR_18        NSR_24
-              ________      ________      ________      ________      ________
- NSR_6          1.000
- NSR_9          0.488         1.000
- NSR_12         0.480         0.463         1.000
- NSR_18         0.289         0.370         0.556         1.000
- NSR_24         0.260         0.365         0.337         0.523         1.000
-
-
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1579.297
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -189.228
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -246,24 +275,13 @@ UNIVARIATE SAMPLE STATISTICS
 
      S                    -1.071       0.642      -1.721    0.25%      -1.403     -1.298     -1.255
              405.000       0.149      -1.102      -0.217    0.49%      -1.156     -0.592
-     NSR_0                 1.109       2.515       1.000   89.14%       1.000      1.000      1.000
-             405.000       0.097       4.326       2.000   10.86%       1.000      1.000
-     NSR_1                 1.176       1.703       1.000   82.42%       1.000      1.000      1.000
-             273.000       0.145       0.901       2.000   17.58%       1.000      1.000
-     NSR_2                 1.252       1.141       1.000   74.78%       1.000      1.000      1.000
-             345.000       0.189      -0.697       2.000   25.22%       1.000      2.000
-     NSR_3                 1.281       0.975       1.000   71.92%       1.000      1.000      1.000
-             381.000       0.202      -1.049       2.000   28.08%       1.000      2.000
-     NSR_6                 1.352       0.618       1.000   64.77%       1.000      1.000      1.000
-             369.000       0.228      -1.618       2.000   35.23%       1.000      2.000
-     NSR_9                 1.387       0.465       1.000   61.32%       1.000      1.000      1.000
-             349.000       0.237      -1.784       2.000   38.68%       1.000      2.000
-     NSR_12                1.425       0.304       1.000   57.51%       1.000      1.000      1.000
-             353.000       0.244      -1.908       2.000   42.49%       2.000      2.000
-     NSR_18                1.446       0.218       1.000   55.42%       1.000      1.000      1.000
-             332.000       0.247      -1.952       2.000   44.58%       2.000      2.000
-     NSR_24                1.517      -0.069       1.000   48.29%       1.000      1.000      2.000
-             321.000       0.250      -1.995       2.000   51.71%       2.000      2.000
+
+     ONE OR MORE PARAMETERS WERE FIXED TO AVOID SINGULARITY OF THE
+     INFORMATION MATRIX. THE SINGULARITY IS MOST LIKELY BECAUSE THE
+     MODEL IS NOT IDENTIFIED, OR BECAUSE OF EMPTY CELLS IN THE JOINT
+     DISTRIBUTION OF THE CATEGORICAL VARIABLES IN THE MODEL.
+     THE FOLLOWING PARAMETERS WERE FIXED:
+     Parameter 18, %C#1%: [ NSR_0$1 ] (equality/label)
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -272,26 +290,58 @@ THE MODEL ESTIMATION TERMINATED NORMALLY
 
 MODEL FIT INFORMATION
 
-Number of Free Parameters                       36
+Number of Free Parameters                       19
 
 Loglikelihood
 
-          H0 Value                       -1574.889
-          H0 Scaling Correction Factor      1.1439
+          H0 Value                       -1563.485
+          H0 Scaling Correction Factor      1.0887
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    3221.778
-          Bayesian (BIC)                  3365.918
-          Sample-Size Adjusted BIC        3251.685
+          Akaike (AIC)                    3164.970
+          Bayesian (BIC)                  3241.044
+          Sample-Size Adjusted BIC        3180.755
             (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit for the Binary and Ordered Categorical
+(Ordinal) Outcomes**
+
+          Pearson Chi-Square
+
+          Value                           1629.208
+          Degrees of Freedom                   481
+          P-Value                           0.0000
+
+          Likelihood Ratio Chi-Square
+
+          Value                            314.946
+          Degrees of Freedom                   481
+          P-Value                           1.0000
+
+** Of the 6785 cells in the latent class indicator table, 18
+   were deleted in the calculation of chi-square due to extreme values.
+
+Chi-Square Test for MCAR under the Unrestricted Latent Class Indicator Model
+
+          Pearson Chi-Square
+
+          Value                           1848.363
+          Degrees of Freedom                  6211
+          P-Value                           1.0000
+
+          Likelihood Ratio Chi-Square
+
+          Value                            733.449
+          Degrees of Freedom                  6211
+          P-Value                           1.0000
 
 Wald Test of Parameter Constraints
 
-          Value                              9.329
+          Value                              0.153
           Degrees of Freedom                     1
-          P-Value                           0.0023
+          P-Value                           0.6960
 
 
 
@@ -301,8 +351,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        139.35274          0.34408
-       2        265.64726          0.65592
+       1        139.89118          0.34541
+       2        265.10882          0.65459
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -311,8 +361,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        139.35274          0.34408
-       2        265.64726          0.65592
+       1        139.89118          0.34541
+       2        265.10882          0.65459
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -329,7 +379,7 @@ Class Counts and Proportions
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.993
+     Entropy                         0.996
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -337,7 +387,7 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.995    0.005
+    1   0.999    0.001
     2   0.000    1.000
 
 
@@ -346,8 +396,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   1.000    0.000
-    2   0.003    0.997
+    1   0.999    0.001
+    2   0.001    0.999
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -355,8 +405,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      8.410    0.000
-    2     -5.968    0.000
+    1      7.519    0.000
+    2     -7.268    0.000
 
 
 MODEL RESULTS
@@ -389,46 +439,37 @@ Latent Class 1
     NSR_24            24.000      0.000    999.000    999.000
 
  S          ON
-    IW                 0.093      0.059      1.577      0.115
-    SW                -1.313      2.693     -0.488      0.626
+    IW                 0.029      0.016      1.826      0.068
+    SW                -0.235      0.226     -1.036      0.300
 
  SW       WITH
-    IW                -0.003      0.001     -2.605      0.009
+    IW                -0.053      0.091     -0.588      0.557
 
  Means
-    IW                 1.309      0.038     34.380      0.000
-    SW                 0.021      0.002      9.711      0.000
-
- Means
+    IW                 0.039      0.266      0.145      0.885
+    SW                 0.222      0.035      6.410      0.000
     N#1                3.513      0.000    999.000    999.000
 
  Intercepts
-    S                 -0.669      0.108     -6.165      0.000
-    NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.000      0.000    999.000    999.000
-    NSR_2              0.000      0.000    999.000    999.000
-    NSR_3              0.000      0.000    999.000    999.000
-    NSR_6              0.000      0.000    999.000    999.000
-    NSR_9              0.000      0.000    999.000    999.000
-    NSR_12             0.000      0.000    999.000    999.000
-    NSR_18             0.000      0.000    999.000    999.000
-    NSR_24             0.000      0.000    999.000    999.000
+    S                 -0.525      0.043    -12.156      0.000
+
+ Thresholds
+    NSR_0$1            1.738      0.000    999.000    999.000
+    NSR_1$1            1.738      0.000    999.000    999.000
+    NSR_2$1            1.738      0.000    999.000    999.000
+    NSR_3$1            1.738      0.000    999.000    999.000
+    NSR_6$1            1.738      0.000    999.000    999.000
+    NSR_9$1            1.738      0.000    999.000    999.000
+    NSR_12$1           1.738      0.000    999.000    999.000
+    NSR_18$1           1.738      0.000    999.000    999.000
+    NSR_24$1           1.738      0.000    999.000    999.000
 
  Variances
-    IW                 0.101      0.018      5.611      0.000
-    SW                 0.000      0.000      3.626      0.000
+    IW                 4.257      1.342      3.171      0.002
+    SW                 0.038      0.019      2.053      0.040
 
  Residual Variances
-    S                  0.019      0.002     10.244      0.000
-    NSR_0              0.152      0.027      5.675      0.000
-    NSR_1              0.134      0.025      5.422      0.000
-    NSR_2              0.122      0.019      6.487      0.000
-    NSR_3              0.118      0.017      7.107      0.000
-    NSR_6              0.145      0.017      8.283      0.000
-    NSR_9              0.144      0.015      9.411      0.000
-    NSR_12             0.128      0.015      8.551      0.000
-    NSR_18             0.153      0.024      6.466      0.000
-    NSR_24             0.078      0.029      2.635      0.008
+    S                  0.017      0.002      6.741      0.000
 
 Latent Class 2
 
@@ -455,57 +496,140 @@ Latent Class 2
     NSR_24            24.000      0.000    999.000    999.000
 
  S          ON
-    IW                 0.130      0.044      2.951      0.003
-    SW                -0.740      0.515     -1.436      0.151
+    IW                 0.015      0.005      2.748      0.006
+    SW                -0.148      0.074     -1.998      0.046
 
  SW       WITH
-    IW                -0.001      0.001     -1.817      0.069
+    IW                -0.069      0.038     -1.819      0.069
 
  Means
-    IW                 1.132      0.019     60.294      0.000
-    SW                 0.013      0.002      7.923      0.000
-
- Means
+    IW                -0.729      0.188     -3.880      0.000
+    SW                 0.078      0.013      5.787      0.000
     N#1               -3.952      0.000    999.000    999.000
 
  Intercepts
-    S                 -1.469      0.053    -27.646      0.000
-    NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.000      0.000    999.000    999.000
-    NSR_2              0.000      0.000    999.000    999.000
-    NSR_3              0.000      0.000    999.000    999.000
-    NSR_6              0.000      0.000    999.000    999.000
-    NSR_9              0.000      0.000    999.000    999.000
-    NSR_12             0.000      0.000    999.000    999.000
-    NSR_18             0.000      0.000    999.000    999.000
-    NSR_24             0.000      0.000    999.000    999.000
+    S                 -1.310      0.009   -139.448      0.000
+
+ Thresholds
+    NSR_0$1            1.738      0.000    999.000    999.000
+    NSR_1$1            1.738      0.000    999.000    999.000
+    NSR_2$1            1.738      0.000    999.000    999.000
+    NSR_3$1            1.738      0.000    999.000    999.000
+    NSR_6$1            1.738      0.000    999.000    999.000
+    NSR_9$1            1.738      0.000    999.000    999.000
+    NSR_12$1           1.738      0.000    999.000    999.000
+    NSR_18$1           1.738      0.000    999.000    999.000
+    NSR_24$1           1.738      0.000    999.000    999.000
 
  Variances
-    IW                 0.040      0.009      4.181      0.000
-    SW                 0.000      0.000      6.220      0.000
+    IW                 3.292      0.712      4.622      0.000
+    SW                 0.017      0.005      3.458      0.001
 
  Residual Variances
-    S                  0.019      0.002     10.244      0.000
-    NSR_0              0.057      0.011      5.036      0.000
-    NSR_1              0.067      0.014      4.909      0.000
-    NSR_2              0.108      0.016      6.855      0.000
-    NSR_3              0.113      0.015      7.341      0.000
-    NSR_6              0.143      0.015      9.307      0.000
-    NSR_9              0.158      0.015     10.603      0.000
-    NSR_12             0.159      0.015     10.825      0.000
-    NSR_18             0.111      0.013      8.703      0.000
-    NSR_24             0.131      0.020      6.464      0.000
+    S                  0.017      0.002      6.741      0.000
 
 Categorical Latent Variables
 
  Means
-    C#1               -0.645      0.105     -6.168      0.000
+    C#1               -0.639      0.104     -6.127      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.234E-06
+     Condition Number for the Information Matrix              0.445E-06
        (ratio of smallest to largest eigenvalue)
+
+
+RESULTS IN PROBABILITY SCALE
+
+                    Estimate
+
+Latent Class 1
+
+ NSR_0
+    Category 1         0.736
+    Category 2         0.264
+ NSR_1
+    Category 1         0.709
+    Category 2         0.291
+ NSR_2
+    Category 1         0.680
+    Category 2         0.320
+ NSR_3
+    Category 1         0.649
+    Category 2         0.351
+ NSR_6
+    Category 1         0.552
+    Category 2         0.448
+ NSR_9
+    Category 1         0.461
+    Category 2         0.539
+ NSR_12
+    Category 1         0.388
+    Category 2         0.612
+ NSR_18
+    Category 1         0.293
+    Category 2         0.707
+ NSR_24
+    Category 1         0.241
+    Category 2         0.759
+
+Latent Class 2
+
+ NSR_0
+    Category 1         0.837
+    Category 2         0.163
+ NSR_1
+    Category 1         0.832
+    Category 2         0.168
+ NSR_2
+    Category 1         0.826
+    Category 2         0.174
+ NSR_3
+    Category 1         0.819
+    Category 2         0.181
+ NSR_6
+    Category 1         0.792
+    Category 2         0.208
+ NSR_9
+    Category 1         0.757
+    Category 2         0.243
+ NSR_12
+    Category 1         0.717
+    Category 2         0.283
+ NSR_18
+    Category 1         0.636
+    Category 2         0.364
+ NSR_24
+    Category 1         0.566
+    Category 2         0.434
+
+
+LATENT CLASS INDICATOR ODDS RATIOS FOR THE LATENT CLASSES
+
+                                                95% C.I.
+                    Estimate       S.E.  Lower 2.5% Upper 2.5%
+
+Latent Class 1 Compared to Latent Class 2
+
+ NSR_0
+    Category > 1       1.000      0.000      1.000      1.000
+ NSR_1
+    Category > 1       1.000      0.000      1.000      1.000
+ NSR_2
+    Category > 1       1.000      0.000      1.000      1.000
+ NSR_3
+    Category > 1       1.000      0.000      1.000      1.000
+ NSR_6
+    Category > 1       1.000      0.000      1.000      1.000
+ NSR_9
+    Category > 1       1.000      0.000      1.000      1.000
+ NSR_12
+    Category > 1       1.000      0.000      1.000      1.000
+ NSR_18
+    Category > 1       1.000      0.000      1.000      1.000
+ NSR_24
+    Category > 1       1.000      0.000      1.000      1.000
 
 
 STANDARDIZED MODEL RESULTS
@@ -519,128 +643,116 @@ STDYX Standardization
 Latent Class 1
 
  IW       |
-    NSR_0              0.633      0.031     20.522      0.000
-    NSR_1              0.663      0.056     11.903      0.000
-    NSR_2              0.688      0.062     11.161      0.000
-    NSR_3              0.701      0.064     11.041      0.000
-    NSR_6              0.672      0.063     10.622      0.000
-    NSR_9              0.678      0.062     10.862      0.000
-    NSR_12             0.701      0.063     11.055      0.000
-    NSR_18             0.637      0.056     11.355      0.000
-    NSR_24             0.688      0.093      7.421      0.000
+    NSR_0              0.751      0.052     14.551      0.000
+    NSR_1              0.755      0.058     13.051      0.000
+    NSR_2              0.754      0.064     11.708      0.000
+    NSR_3              0.750      0.071     10.555      0.000
+    NSR_6              0.717      0.089      8.076      0.000
+    NSR_9              0.664      0.101      6.593      0.000
+    NSR_12             0.602      0.106      5.691      0.000
+    NSR_18             0.487      0.102      4.775      0.000
+    NSR_24             0.398      0.091      4.383      0.000
 
  SW       |
     NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.035      0.005      6.398      0.000
-    NSR_2              0.073      0.010      6.924      0.000
-    NSR_3              0.111      0.016      7.106      0.000
-    NSR_6              0.213      0.029      7.326      0.000
-    NSR_9              0.322      0.044      7.232      0.000
-    NSR_12             0.444      0.060      7.383      0.000
-    NSR_18             0.605      0.086      6.997      0.000
-    NSR_24             0.871      0.140      6.235      0.000
+    NSR_1              0.071      0.017      4.299      0.000
+    NSR_2              0.143      0.033      4.330      0.000
+    NSR_3              0.213      0.048      4.396      0.000
+    NSR_6              0.407      0.085      4.791      0.000
+    NSR_9              0.565      0.103      5.460      0.000
+    NSR_12             0.683      0.108      6.352      0.000
+    NSR_18             0.829      0.097      8.576      0.000
+    NSR_24             0.903      0.081     11.098      0.000
 
  S          ON
-    IW                 0.206      0.127      1.621      0.105
-    SW                -0.153      0.299     -0.514      0.607
+    IW                 0.398      0.147      2.713      0.007
+    SW                -0.300      0.216     -1.387      0.166
 
  SW       WITH
-    IW                -0.497      0.110     -4.509      0.000
+    IW                -0.133      0.203     -0.653      0.514
 
  Means
-    IW                 4.112      0.316     13.032      0.000
-    SW                 1.254      0.252      4.983      0.000
+    IW                 0.019      0.130      0.143      0.886
+    SW                 1.139      0.201      5.672      0.000
+    N#1                3.513      0.000    999.000    999.000
 
  Intercepts
-    S                 -4.652      0.863     -5.393      0.000
-    NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.000      0.000    999.000    999.000
-    NSR_2              0.000      0.000    999.000    999.000
-    NSR_3              0.000      0.000    999.000    999.000
-    NSR_6              0.000      0.000    999.000    999.000
-    NSR_9              0.000      0.000    999.000    999.000
-    NSR_12             0.000      0.000    999.000    999.000
-    NSR_18             0.000      0.000    999.000    999.000
-    NSR_24             0.000      0.000    999.000    999.000
+    S                 -3.443      0.548     -6.282      0.000
+
+ Thresholds
+    NSR_0$1            0.633      0.056     11.244      0.000
+    NSR_1$1            0.636      0.052     12.205      0.000
+    NSR_2$1            0.635      0.048     13.186      0.000
+    NSR_3$1            0.632      0.045     14.037      0.000
+    NSR_6$1            0.604      0.043     13.912      0.000
+    NSR_9$1            0.559      0.052     10.816      0.000
+    NSR_12$1           0.507      0.060      8.406      0.000
+    NSR_18$1           0.410      0.067      6.150      0.000
+    NSR_24$1           0.335      0.064      5.275      0.000
 
  Variances
     IW                 1.000      0.000    999.000    999.000
     SW                 1.000      0.000    999.000    999.000
 
  Residual Variances
-    S                  0.903      0.133      6.772      0.000
-    NSR_0              0.600      0.039     15.378      0.000
-    NSR_1              0.582      0.067      8.692      0.000
-    NSR_2              0.571      0.072      7.979      0.000
-    NSR_3              0.573      0.069      8.270      0.000
-    NSR_6              0.645      0.057     11.383      0.000
-    NSR_9              0.654      0.051     12.768      0.000
-    NSR_12             0.621      0.055     11.384      0.000
-    NSR_18             0.611      0.063      9.636      0.000
-    NSR_24             0.363      0.106      3.416      0.001
+    S                  0.720      0.208      3.468      0.001
 
 Latent Class 2
 
  IW       |
-    NSR_0              0.640      0.042     15.296      0.000
-    NSR_1              0.615      0.066      9.328      0.000
-    NSR_2              0.522      0.062      8.430      0.000
-    NSR_3              0.516      0.063      8.135      0.000
-    NSR_6              0.468      0.057      8.265      0.000
-    NSR_9              0.442      0.052      8.449      0.000
-    NSR_12             0.428      0.049      8.730      0.000
-    NSR_18             0.438      0.053      8.303      0.000
-    NSR_24             0.372      0.049      7.670      0.000
+    NSR_0              0.707      0.038     18.493      0.000
+    NSR_1              0.714      0.041     17.462      0.000
+    NSR_2              0.719      0.044     16.415      0.000
+    NSR_3              0.721      0.047     15.398      0.000
+    NSR_6              0.718      0.056     12.735      0.000
+    NSR_9              0.699      0.065     10.734      0.000
+    NSR_12             0.666      0.072      9.299      0.000
+    NSR_18             0.583      0.077      7.586      0.000
+    NSR_24             0.499      0.074      6.749      0.000
 
  SW       |
     NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.052      0.006      9.373      0.000
-    NSR_2              0.088      0.009     10.189      0.000
-    NSR_3              0.130      0.012     10.743      0.000
-    NSR_6              0.236      0.021     11.128      0.000
-    NSR_9              0.335      0.029     11.710      0.000
-    NSR_12             0.432      0.037     11.677      0.000
-    NSR_18             0.663      0.054     12.185      0.000
-    NSR_24             0.752      0.063     11.943      0.000
+    NSR_1              0.052      0.007      6.964      0.000
+    NSR_2              0.104      0.015      6.971      0.000
+    NSR_3              0.157      0.022      7.008      0.000
+    NSR_6              0.312      0.043      7.297      0.000
+    NSR_9              0.455      0.058      7.855      0.000
+    NSR_12             0.579      0.067      8.664      0.000
+    NSR_18             0.759      0.070     10.882      0.000
+    NSR_24             0.867      0.064     13.576      0.000
 
  S          ON
-    IW                 0.184      0.056      3.318      0.001
-    SW                -0.088      0.061     -1.455      0.146
+    IW                 0.199      0.067      2.949      0.003
+    SW                -0.144      0.070     -2.061      0.039
 
  SW       WITH
-    IW                -0.288      0.118     -2.437      0.015
+    IW                -0.288      0.129     -2.231      0.026
 
  Means
-    IW                 5.684      0.615      9.246      0.000
-    SW                 0.762      0.111      6.900      0.000
+    IW                -0.402      0.089     -4.507      0.000
+    SW                 0.592      0.129      4.589      0.000
+    N#1               -3.952      0.000    999.000    999.000
 
  Intercepts
-    S                -10.473      0.583    -17.952      0.000
-    NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.000      0.000    999.000    999.000
-    NSR_2              0.000      0.000    999.000    999.000
-    NSR_3              0.000      0.000    999.000    999.000
-    NSR_6              0.000      0.000    999.000    999.000
-    NSR_9              0.000      0.000    999.000    999.000
-    NSR_12             0.000      0.000    999.000    999.000
-    NSR_18             0.000      0.000    999.000    999.000
-    NSR_24             0.000      0.000    999.000    999.000
+    S                 -9.721      0.610    -15.932      0.000
+
+ Thresholds
+    NSR_0$1            0.678      0.037     18.482      0.000
+    NSR_1$1            0.684      0.035     19.526      0.000
+    NSR_2$1            0.688      0.033     20.633      0.000
+    NSR_3$1            0.691      0.032     21.747      0.000
+    NSR_6$1            0.688      0.029     23.931      0.000
+    NSR_9$1            0.669      0.030     22.048      0.000
+    NSR_12$1           0.638      0.036     17.913      0.000
+    NSR_18$1           0.558      0.046     12.201      0.000
+    NSR_24$1           0.478      0.049      9.722      0.000
 
  Variances
     IW                 1.000      0.000    999.000    999.000
     SW                 1.000      0.000    999.000    999.000
 
  Residual Variances
-    S                  0.949      0.023     40.515      0.000
-    NSR_0              0.591      0.053     11.045      0.000
-    NSR_1              0.637      0.074      8.590      0.000
-    NSR_2              0.746      0.055     13.618      0.000
-    NSR_3              0.756      0.052     14.668      0.000
-    NSR_6              0.789      0.035     22.441      0.000
-    NSR_9              0.778      0.030     25.842      0.000
-    NSR_12             0.736      0.031     23.658      0.000
-    NSR_18             0.536      0.051     10.484      0.000
-    NSR_24             0.457      0.058      7.850      0.000
+    S                  0.923      0.038     24.190      0.000
 
 
 STDY Standardization
@@ -651,128 +763,116 @@ STDY Standardization
 Latent Class 1
 
  IW       |
-    NSR_0              0.633      0.031     20.522      0.000
-    NSR_1              0.663      0.056     11.903      0.000
-    NSR_2              0.688      0.062     11.161      0.000
-    NSR_3              0.701      0.064     11.041      0.000
-    NSR_6              0.672      0.063     10.622      0.000
-    NSR_9              0.678      0.062     10.862      0.000
-    NSR_12             0.701      0.063     11.055      0.000
-    NSR_18             0.637      0.056     11.355      0.000
-    NSR_24             0.688      0.093      7.421      0.000
+    NSR_0              0.751      0.052     14.551      0.000
+    NSR_1              0.755      0.058     13.051      0.000
+    NSR_2              0.754      0.064     11.708      0.000
+    NSR_3              0.750      0.071     10.555      0.000
+    NSR_6              0.717      0.089      8.076      0.000
+    NSR_9              0.664      0.101      6.593      0.000
+    NSR_12             0.602      0.106      5.691      0.000
+    NSR_18             0.487      0.102      4.775      0.000
+    NSR_24             0.398      0.091      4.383      0.000
 
  SW       |
     NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.035      0.005      6.398      0.000
-    NSR_2              0.073      0.010      6.924      0.000
-    NSR_3              0.111      0.016      7.106      0.000
-    NSR_6              0.213      0.029      7.326      0.000
-    NSR_9              0.322      0.044      7.232      0.000
-    NSR_12             0.444      0.060      7.383      0.000
-    NSR_18             0.605      0.086      6.997      0.000
-    NSR_24             0.871      0.140      6.235      0.000
+    NSR_1              0.071      0.017      4.299      0.000
+    NSR_2              0.143      0.033      4.330      0.000
+    NSR_3              0.213      0.048      4.396      0.000
+    NSR_6              0.407      0.085      4.791      0.000
+    NSR_9              0.565      0.103      5.460      0.000
+    NSR_12             0.683      0.108      6.352      0.000
+    NSR_18             0.829      0.097      8.576      0.000
+    NSR_24             0.903      0.081     11.098      0.000
 
  S          ON
-    IW                 0.206      0.127      1.621      0.105
-    SW                -0.153      0.299     -0.514      0.607
+    IW                 0.398      0.147      2.713      0.007
+    SW                -0.300      0.216     -1.387      0.166
 
  SW       WITH
-    IW                -0.497      0.110     -4.509      0.000
+    IW                -0.133      0.203     -0.653      0.514
 
  Means
-    IW                 4.112      0.316     13.032      0.000
-    SW                 1.254      0.252      4.983      0.000
+    IW                 0.019      0.130      0.143      0.886
+    SW                 1.139      0.201      5.672      0.000
+    N#1                3.513      0.000    999.000    999.000
 
  Intercepts
-    S                 -4.652      0.863     -5.393      0.000
-    NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.000      0.000    999.000    999.000
-    NSR_2              0.000      0.000    999.000    999.000
-    NSR_3              0.000      0.000    999.000    999.000
-    NSR_6              0.000      0.000    999.000    999.000
-    NSR_9              0.000      0.000    999.000    999.000
-    NSR_12             0.000      0.000    999.000    999.000
-    NSR_18             0.000      0.000    999.000    999.000
-    NSR_24             0.000      0.000    999.000    999.000
+    S                 -3.443      0.548     -6.282      0.000
+
+ Thresholds
+    NSR_0$1            0.633      0.056     11.244      0.000
+    NSR_1$1            0.636      0.052     12.205      0.000
+    NSR_2$1            0.635      0.048     13.186      0.000
+    NSR_3$1            0.632      0.045     14.037      0.000
+    NSR_6$1            0.604      0.043     13.912      0.000
+    NSR_9$1            0.559      0.052     10.816      0.000
+    NSR_12$1           0.507      0.060      8.406      0.000
+    NSR_18$1           0.410      0.067      6.150      0.000
+    NSR_24$1           0.335      0.064      5.275      0.000
 
  Variances
     IW                 1.000      0.000    999.000    999.000
     SW                 1.000      0.000    999.000    999.000
 
  Residual Variances
-    S                  0.903      0.133      6.772      0.000
-    NSR_0              0.600      0.039     15.378      0.000
-    NSR_1              0.582      0.067      8.692      0.000
-    NSR_2              0.571      0.072      7.979      0.000
-    NSR_3              0.573      0.069      8.270      0.000
-    NSR_6              0.645      0.057     11.383      0.000
-    NSR_9              0.654      0.051     12.768      0.000
-    NSR_12             0.621      0.055     11.384      0.000
-    NSR_18             0.611      0.063      9.636      0.000
-    NSR_24             0.363      0.106      3.416      0.001
+    S                  0.720      0.208      3.468      0.001
 
 Latent Class 2
 
  IW       |
-    NSR_0              0.640      0.042     15.296      0.000
-    NSR_1              0.615      0.066      9.328      0.000
-    NSR_2              0.522      0.062      8.430      0.000
-    NSR_3              0.516      0.063      8.135      0.000
-    NSR_6              0.468      0.057      8.265      0.000
-    NSR_9              0.442      0.052      8.449      0.000
-    NSR_12             0.428      0.049      8.730      0.000
-    NSR_18             0.438      0.053      8.303      0.000
-    NSR_24             0.372      0.049      7.670      0.000
+    NSR_0              0.707      0.038     18.493      0.000
+    NSR_1              0.714      0.041     17.462      0.000
+    NSR_2              0.719      0.044     16.415      0.000
+    NSR_3              0.721      0.047     15.398      0.000
+    NSR_6              0.718      0.056     12.735      0.000
+    NSR_9              0.699      0.065     10.734      0.000
+    NSR_12             0.666      0.072      9.299      0.000
+    NSR_18             0.583      0.077      7.586      0.000
+    NSR_24             0.499      0.074      6.749      0.000
 
  SW       |
     NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.052      0.006      9.373      0.000
-    NSR_2              0.088      0.009     10.189      0.000
-    NSR_3              0.130      0.012     10.743      0.000
-    NSR_6              0.236      0.021     11.128      0.000
-    NSR_9              0.335      0.029     11.710      0.000
-    NSR_12             0.432      0.037     11.677      0.000
-    NSR_18             0.663      0.054     12.185      0.000
-    NSR_24             0.752      0.063     11.943      0.000
+    NSR_1              0.052      0.007      6.964      0.000
+    NSR_2              0.104      0.015      6.971      0.000
+    NSR_3              0.157      0.022      7.008      0.000
+    NSR_6              0.312      0.043      7.297      0.000
+    NSR_9              0.455      0.058      7.855      0.000
+    NSR_12             0.579      0.067      8.664      0.000
+    NSR_18             0.759      0.070     10.882      0.000
+    NSR_24             0.867      0.064     13.576      0.000
 
  S          ON
-    IW                 0.184      0.056      3.318      0.001
-    SW                -0.088      0.061     -1.455      0.146
+    IW                 0.199      0.067      2.949      0.003
+    SW                -0.144      0.070     -2.061      0.039
 
  SW       WITH
-    IW                -0.288      0.118     -2.437      0.015
+    IW                -0.288      0.129     -2.231      0.026
 
  Means
-    IW                 5.684      0.615      9.246      0.000
-    SW                 0.762      0.111      6.900      0.000
+    IW                -0.402      0.089     -4.507      0.000
+    SW                 0.592      0.129      4.589      0.000
+    N#1               -3.952      0.000    999.000    999.000
 
  Intercepts
-    S                -10.473      0.583    -17.952      0.000
-    NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.000      0.000    999.000    999.000
-    NSR_2              0.000      0.000    999.000    999.000
-    NSR_3              0.000      0.000    999.000    999.000
-    NSR_6              0.000      0.000    999.000    999.000
-    NSR_9              0.000      0.000    999.000    999.000
-    NSR_12             0.000      0.000    999.000    999.000
-    NSR_18             0.000      0.000    999.000    999.000
-    NSR_24             0.000      0.000    999.000    999.000
+    S                 -9.721      0.610    -15.932      0.000
+
+ Thresholds
+    NSR_0$1            0.678      0.037     18.482      0.000
+    NSR_1$1            0.684      0.035     19.526      0.000
+    NSR_2$1            0.688      0.033     20.633      0.000
+    NSR_3$1            0.691      0.032     21.747      0.000
+    NSR_6$1            0.688      0.029     23.931      0.000
+    NSR_9$1            0.669      0.030     22.048      0.000
+    NSR_12$1           0.638      0.036     17.913      0.000
+    NSR_18$1           0.558      0.046     12.201      0.000
+    NSR_24$1           0.478      0.049      9.722      0.000
 
  Variances
     IW                 1.000      0.000    999.000    999.000
     SW                 1.000      0.000    999.000    999.000
 
  Residual Variances
-    S                  0.949      0.023     40.515      0.000
-    NSR_0              0.591      0.053     11.045      0.000
-    NSR_1              0.637      0.074      8.590      0.000
-    NSR_2              0.746      0.055     13.618      0.000
-    NSR_3              0.756      0.052     14.668      0.000
-    NSR_6              0.789      0.035     22.441      0.000
-    NSR_9              0.778      0.030     25.842      0.000
-    NSR_12             0.736      0.031     23.658      0.000
-    NSR_18             0.536      0.051     10.484      0.000
-    NSR_24             0.457      0.058      7.850      0.000
+    S                  0.923      0.038     24.190      0.000
 
 
 STD Standardization
@@ -783,128 +883,116 @@ STD Standardization
 Latent Class 1
 
  IW       |
-    NSR_0              0.318      0.028     11.222      0.000
-    NSR_1              0.318      0.028     11.222      0.000
-    NSR_2              0.318      0.028     11.222      0.000
-    NSR_3              0.318      0.028     11.222      0.000
-    NSR_6              0.318      0.028     11.222      0.000
-    NSR_9              0.318      0.028     11.222      0.000
-    NSR_12             0.318      0.028     11.222      0.000
-    NSR_18             0.318      0.028     11.222      0.000
-    NSR_24             0.318      0.028     11.222      0.000
+    NSR_0              2.063      0.325      6.343      0.000
+    NSR_1              2.063      0.325      6.343      0.000
+    NSR_2              2.063      0.325      6.343      0.000
+    NSR_3              2.063      0.325      6.343      0.000
+    NSR_6              2.063      0.325      6.343      0.000
+    NSR_9              2.063      0.325      6.343      0.000
+    NSR_12             2.063      0.325      6.343      0.000
+    NSR_18             2.063      0.325      6.343      0.000
+    NSR_24             2.063      0.325      6.343      0.000
 
  SW       |
     NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.017      0.002      7.252      0.000
-    NSR_2              0.034      0.005      7.252      0.000
-    NSR_3              0.050      0.007      7.252      0.000
-    NSR_6              0.101      0.014      7.252      0.000
-    NSR_9              0.151      0.021      7.252      0.000
-    NSR_12             0.201      0.028      7.252      0.000
-    NSR_18             0.302      0.042      7.252      0.000
-    NSR_24             0.403      0.056      7.252      0.000
+    NSR_1              0.195      0.048      4.106      0.000
+    NSR_2              0.390      0.095      4.106      0.000
+    NSR_3              0.585      0.143      4.106      0.000
+    NSR_6              1.170      0.285      4.106      0.000
+    NSR_9              1.756      0.428      4.106      0.000
+    NSR_12             2.341      0.570      4.106      0.000
+    NSR_18             3.511      0.855      4.106      0.000
+    NSR_24             4.682      1.140      4.106      0.000
 
  S          ON
-    IW                 0.030      0.018      1.614      0.107
-    SW                -0.022      0.044     -0.503      0.615
+    IW                 0.061      0.026      2.298      0.022
+    SW                -0.046      0.036     -1.258      0.208
 
  SW       WITH
-    IW                -0.497      0.110     -4.509      0.000
+    IW                -0.133      0.203     -0.653      0.514
 
  Means
-    IW                 4.112      0.316     13.032      0.000
-    SW                 1.254      0.252      4.983      0.000
+    IW                 0.019      0.130      0.143      0.886
+    SW                 1.139      0.201      5.672      0.000
+    N#1                3.513      0.000    999.000    999.000
 
  Intercepts
-    S                 -0.669      0.108     -6.165      0.000
-    NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.000      0.000    999.000    999.000
-    NSR_2              0.000      0.000    999.000    999.000
-    NSR_3              0.000      0.000    999.000    999.000
-    NSR_6              0.000      0.000    999.000    999.000
-    NSR_9              0.000      0.000    999.000    999.000
-    NSR_12             0.000      0.000    999.000    999.000
-    NSR_18             0.000      0.000    999.000    999.000
-    NSR_24             0.000      0.000    999.000    999.000
+    S                 -0.525      0.043    -12.156      0.000
+
+ Thresholds
+    NSR_0$1            1.738      0.000    999.000    999.000
+    NSR_1$1            1.738      0.000    999.000    999.000
+    NSR_2$1            1.738      0.000    999.000    999.000
+    NSR_3$1            1.738      0.000    999.000    999.000
+    NSR_6$1            1.738      0.000    999.000    999.000
+    NSR_9$1            1.738      0.000    999.000    999.000
+    NSR_12$1           1.738      0.000    999.000    999.000
+    NSR_18$1           1.738      0.000    999.000    999.000
+    NSR_24$1           1.738      0.000    999.000    999.000
 
  Variances
     IW                 1.000      0.000    999.000    999.000
     SW                 1.000      0.000    999.000    999.000
 
  Residual Variances
-    S                  0.019      0.002     10.244      0.000
-    NSR_0              0.152      0.027      5.675      0.000
-    NSR_1              0.134      0.025      5.422      0.000
-    NSR_2              0.122      0.019      6.487      0.000
-    NSR_3              0.118      0.017      7.107      0.000
-    NSR_6              0.145      0.017      8.283      0.000
-    NSR_9              0.144      0.015      9.411      0.000
-    NSR_12             0.128      0.015      8.551      0.000
-    NSR_18             0.153      0.024      6.466      0.000
-    NSR_24             0.078      0.029      2.635      0.008
+    S                  0.017      0.002      6.741      0.000
 
 Latent Class 2
 
  IW       |
-    NSR_0              0.199      0.024      8.363      0.000
-    NSR_1              0.199      0.024      8.363      0.000
-    NSR_2              0.199      0.024      8.363      0.000
-    NSR_3              0.199      0.024      8.363      0.000
-    NSR_6              0.199      0.024      8.363      0.000
-    NSR_9              0.199      0.024      8.363      0.000
-    NSR_12             0.199      0.024      8.363      0.000
-    NSR_18             0.199      0.024      8.363      0.000
-    NSR_24             0.199      0.024      8.363      0.000
+    NSR_0              1.814      0.196      9.244      0.000
+    NSR_1              1.814      0.196      9.244      0.000
+    NSR_2              1.814      0.196      9.244      0.000
+    NSR_3              1.814      0.196      9.244      0.000
+    NSR_6              1.814      0.196      9.244      0.000
+    NSR_9              1.814      0.196      9.244      0.000
+    NSR_12             1.814      0.196      9.244      0.000
+    NSR_18             1.814      0.196      9.244      0.000
+    NSR_24             1.814      0.196      9.244      0.000
 
  SW       |
     NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.017      0.001     12.440      0.000
-    NSR_2              0.033      0.003     12.440      0.000
-    NSR_3              0.050      0.004     12.440      0.000
-    NSR_6              0.100      0.008     12.440      0.000
-    NSR_9              0.151      0.012     12.440      0.000
-    NSR_12             0.201      0.016     12.440      0.000
-    NSR_18             0.301      0.024     12.440      0.000
-    NSR_24             0.402      0.032     12.440      0.000
+    NSR_1              0.131      0.019      6.916      0.000
+    NSR_2              0.263      0.038      6.916      0.000
+    NSR_3              0.394      0.057      6.916      0.000
+    NSR_6              0.788      0.114      6.916      0.000
+    NSR_9              1.182      0.171      6.916      0.000
+    NSR_12             1.576      0.228      6.916      0.000
+    NSR_18             2.365      0.342      6.916      0.000
+    NSR_24             3.153      0.456      6.916      0.000
 
  S          ON
-    IW                 0.026      0.008      3.302      0.001
-    SW                -0.012      0.008     -1.463      0.144
+    IW                 0.027      0.009      3.024      0.002
+    SW                -0.019      0.009     -2.134      0.033
 
  SW       WITH
-    IW                -0.288      0.118     -2.437      0.015
+    IW                -0.288      0.129     -2.231      0.026
 
  Means
-    IW                 5.684      0.615      9.246      0.000
-    SW                 0.762      0.111      6.900      0.000
+    IW                -0.402      0.089     -4.507      0.000
+    SW                 0.592      0.129      4.589      0.000
+    N#1               -3.952      0.000    999.000    999.000
 
  Intercepts
-    S                 -1.469      0.053    -27.646      0.000
-    NSR_0              0.000      0.000    999.000    999.000
-    NSR_1              0.000      0.000    999.000    999.000
-    NSR_2              0.000      0.000    999.000    999.000
-    NSR_3              0.000      0.000    999.000    999.000
-    NSR_6              0.000      0.000    999.000    999.000
-    NSR_9              0.000      0.000    999.000    999.000
-    NSR_12             0.000      0.000    999.000    999.000
-    NSR_18             0.000      0.000    999.000    999.000
-    NSR_24             0.000      0.000    999.000    999.000
+    S                 -1.310      0.009   -139.448      0.000
+
+ Thresholds
+    NSR_0$1            1.738      0.000    999.000    999.000
+    NSR_1$1            1.738      0.000    999.000    999.000
+    NSR_2$1            1.738      0.000    999.000    999.000
+    NSR_3$1            1.738      0.000    999.000    999.000
+    NSR_6$1            1.738      0.000    999.000    999.000
+    NSR_9$1            1.738      0.000    999.000    999.000
+    NSR_12$1           1.738      0.000    999.000    999.000
+    NSR_18$1           1.738      0.000    999.000    999.000
+    NSR_24$1           1.738      0.000    999.000    999.000
 
  Variances
     IW                 1.000      0.000    999.000    999.000
     SW                 1.000      0.000    999.000    999.000
 
  Residual Variances
-    S                  0.019      0.002     10.244      0.000
-    NSR_0              0.057      0.011      5.036      0.000
-    NSR_1              0.067      0.014      4.909      0.000
-    NSR_2              0.108      0.016      6.855      0.000
-    NSR_3              0.113      0.015      7.341      0.000
-    NSR_6              0.143      0.015      9.307      0.000
-    NSR_9              0.158      0.015     10.603      0.000
-    NSR_12             0.159      0.015     10.825      0.000
-    NSR_18             0.111      0.013      8.703      0.000
-    NSR_24             0.131      0.020      6.464      0.000
+    S                  0.017      0.002      6.741      0.000
 
 
 R-SQUARE
@@ -914,32 +1002,32 @@ Class 1
     Observed                                        Two-Tailed
     Variable        Estimate       S.E.  Est./S.E.    P-Value
 
-    S                  0.097      0.133      0.730      0.465
-    NSR_0              0.400      0.039     10.261      0.000
-    NSR_1              0.418      0.067      6.251      0.000
-    NSR_2              0.429      0.072      6.000      0.000
-    NSR_3              0.427      0.069      6.153      0.000
-    NSR_6              0.355      0.057      6.260      0.000
-    NSR_9              0.346      0.051      6.763      0.000
-    NSR_12             0.379      0.055      6.949      0.000
-    NSR_18             0.389      0.063      6.124      0.000
-    NSR_24             0.637      0.106      5.988      0.000
+    NSR_0              0.564      0.078      7.276      0.000
+    NSR_1              0.560      0.072      7.770      0.000
+    NSR_2              0.561      0.067      8.409      0.000
+    NSR_3              0.565      0.062      9.130      0.000
+    NSR_6              0.603      0.057     10.544      0.000
+    NSR_9              0.660      0.063     10.486      0.000
+    NSR_12             0.720      0.067     10.802      0.000
+    NSR_18             0.817      0.060     13.706      0.000
+    NSR_24             0.878      0.046     18.929      0.000
+    S                  0.280      0.208      1.347      0.178
 
 Class 2
 
     Observed                                        Two-Tailed
     Variable        Estimate       S.E.  Est./S.E.    P-Value
 
-    S                  0.051      0.023      2.188      0.029
-    NSR_0              0.409      0.053      7.648      0.000
-    NSR_1              0.363      0.074      4.888      0.000
-    NSR_2              0.254      0.055      4.643      0.000
-    NSR_3              0.244      0.052      4.740      0.000
-    NSR_6              0.211      0.035      5.997      0.000
-    NSR_9              0.222      0.030      7.388      0.000
-    NSR_12             0.264      0.031      8.481      0.000
-    NSR_18             0.464      0.051      9.073      0.000
-    NSR_24             0.543      0.058      9.312      0.000
+    NSR_0              0.500      0.054      9.247      0.000
+    NSR_1              0.491      0.052      9.413      0.000
+    NSR_2              0.484      0.050      9.679      0.000
+    NSR_3              0.480      0.048     10.032      0.000
+    NSR_6              0.484      0.043     11.236      0.000
+    NSR_9              0.512      0.044     11.574      0.000
+    NSR_12             0.557      0.050     11.241      0.000
+    NSR_18             0.661      0.056     11.889      0.000
+    NSR_24             0.751      0.051     14.682      0.000
+    S                  0.077      0.038      2.013      0.044
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -971,46 +1059,37 @@ Latent Class 1
     NSR_24          24.000      24.000      24.000      24.000      24.000      24.000      24.000
 
  S        ON
-    IW              -0.059      -0.023      -0.004       0.093       0.190       0.208       0.245
-    SW              -8.249      -6.591      -5.743      -1.313       3.116       3.964       5.622
+    IW              -0.012      -0.002       0.003       0.029       0.056       0.061       0.071
+    SW              -0.818      -0.678      -0.607      -0.235       0.138       0.209       0.349
 
  SW       WITH
-    IW              -0.005      -0.005      -0.004      -0.003      -0.001      -0.001       0.000
+    IW              -0.287      -0.231      -0.203      -0.053       0.096       0.125       0.181
 
  Means
-    IW               1.211       1.235       1.247       1.309       1.372       1.384       1.407
-    SW               0.015       0.017       0.017       0.021       0.025       0.025       0.027
-
- Means
+    IW              -0.647      -0.483      -0.399       0.039       0.477       0.561       0.725
+    SW               0.133       0.154       0.165       0.222       0.279       0.290       0.312
     N#1              3.513       3.513       3.513       3.513       3.513       3.513       3.513
 
  Intercepts
-    S               -0.948      -0.881      -0.847      -0.669      -0.490      -0.456      -0.389
-    NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_2            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_3            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_6            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_9            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_12           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_18           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_24           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    S               -0.636      -0.610      -0.596      -0.525      -0.454      -0.440      -0.414
+
+ Thresholds
+    NSR_0$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_1$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_2$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_3$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_6$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_9$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_12$1         1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_18$1         1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_24$1         1.738       1.738       1.738       1.738       1.738       1.738       1.738
 
  Variances
-    IW               0.055       0.066       0.072       0.101       0.131       0.137       0.148
-    SW               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    IW               0.800       1.626       2.049       4.257       6.466       6.889       7.715
+    SW              -0.010       0.002       0.008       0.038       0.069       0.074       0.086
 
  Residual Variances
-    S                0.014       0.015       0.016       0.019       0.022       0.022       0.023
-    NSR_0            0.083       0.099       0.108       0.152       0.196       0.204       0.221
-    NSR_1            0.070       0.086       0.093       0.134       0.175       0.182       0.198
-    NSR_2            0.074       0.085       0.091       0.122       0.153       0.159       0.171
-    NSR_3            0.075       0.086       0.091       0.118       0.146       0.151       0.161
-    NSR_6            0.100       0.111       0.116       0.145       0.174       0.179       0.190
-    NSR_9            0.105       0.114       0.119       0.144       0.169       0.174       0.184
-    NSR_12           0.090       0.099       0.103       0.128       0.153       0.158       0.167
-    NSR_18           0.092       0.106       0.114       0.153       0.192       0.199       0.214
-    NSR_24           0.002       0.020       0.029       0.078       0.126       0.136       0.154
+    S                0.010       0.012       0.013       0.017       0.021       0.022       0.023
 
 Latent Class 2
 
@@ -1037,51 +1116,66 @@ Latent Class 2
     NSR_24          24.000      24.000      24.000      24.000      24.000      24.000      24.000
 
  S        ON
-    IW               0.017       0.044       0.057       0.130       0.202       0.216       0.243
-    SW              -2.068      -1.750      -1.588      -0.740       0.108       0.270       0.587
+    IW               0.001       0.004       0.006       0.015       0.024       0.025       0.029
+    SW              -0.339      -0.293      -0.270      -0.148      -0.026      -0.003       0.043
 
  SW       WITH
-    IW              -0.002      -0.002      -0.002      -0.001       0.000       0.000       0.000
+    IW              -0.166      -0.143      -0.131      -0.069      -0.007       0.005       0.029
 
  Means
-    IW               1.084       1.096       1.101       1.132       1.163       1.169       1.181
-    SW               0.009       0.010       0.010       0.013       0.015       0.016       0.017
-
- Means
+    IW              -1.213      -1.097      -1.038      -0.729      -0.420      -0.361      -0.245
+    SW               0.043       0.051       0.056       0.078       0.100       0.104       0.112
     N#1             -3.952      -3.952      -3.952      -3.952      -3.952      -3.952      -3.952
 
  Intercepts
-    S               -1.605      -1.573      -1.556      -1.469      -1.381      -1.364      -1.332
-    NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_2            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_3            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_6            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_9            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_12           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_18           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_24           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    S               -1.334      -1.328      -1.325      -1.310      -1.294      -1.291      -1.285
+
+ Thresholds
+    NSR_0$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_1$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_2$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_3$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_6$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_9$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_12$1         1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_18$1         1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_24$1         1.738       1.738       1.738       1.738       1.738       1.738       1.738
 
  Variances
-    IW               0.015       0.021       0.024       0.040       0.055       0.058       0.064
-    SW               0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    IW               1.457       1.896       2.120       3.292       4.464       4.688       5.127
+    SW               0.004       0.007       0.009       0.017       0.025       0.027       0.030
 
  Residual Variances
-    S                0.014       0.015       0.016       0.019       0.022       0.022       0.023
-    NSR_0            0.028       0.035       0.039       0.057       0.076       0.080       0.087
-    NSR_1            0.032       0.040       0.044       0.067       0.089       0.094       0.102
-    NSR_2            0.068       0.077       0.082       0.108       0.134       0.139       0.149
-    NSR_3            0.073       0.083       0.088       0.113       0.138       0.143       0.152
-    NSR_6            0.104       0.113       0.118       0.143       0.168       0.173       0.183
-    NSR_9            0.120       0.129       0.133       0.158       0.182       0.187       0.196
-    NSR_12           0.121       0.130       0.135       0.159       0.183       0.188       0.197
-    NSR_18           0.078       0.086       0.090       0.111       0.132       0.136       0.144
-    NSR_24           0.079       0.091       0.098       0.131       0.164       0.171       0.183
+    S                0.010       0.012       0.013       0.017       0.021       0.022       0.023
 
 Categorical Latent Variables
 
  Means
-    C#1             -0.915      -0.850      -0.817      -0.645      -0.473      -0.440      -0.376
+    C#1             -0.908      -0.844      -0.811      -0.639      -0.468      -0.435      -0.371
+
+
+CONFIDENCE INTERVALS FOR THE LATENT CLASS ODDS RATIO RESULTS
+
+Latent Class 1 Compared to Latent Class 2
+
+ NSR_0
+    Category > 1     1.000       1.000       1.000       1.000       1.000       1.000       1.000
+ NSR_1
+    Category > 1     1.000       1.000       1.000       1.000       1.000       1.000       1.000
+ NSR_2
+    Category > 1     1.000       1.000       1.000       1.000       1.000       1.000       1.000
+ NSR_3
+    Category > 1     1.000       1.000       1.000       1.000       1.000       1.000       1.000
+ NSR_6
+    Category > 1     1.000       1.000       1.000       1.000       1.000       1.000       1.000
+ NSR_9
+    Category > 1     1.000       1.000       1.000       1.000       1.000       1.000       1.000
+ NSR_12
+    Category > 1     1.000       1.000       1.000       1.000       1.000       1.000       1.000
+ NSR_18
+    Category > 1     1.000       1.000       1.000       1.000       1.000       1.000       1.000
+ NSR_24
+    Category > 1     1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -1094,128 +1188,116 @@ STDYX Standardization
 Latent Class 1
 
  IW       |
-    NSR_0            0.553       0.572       0.582       0.633       0.683       0.693       0.712
-    NSR_1            0.520       0.554       0.572       0.663       0.755       0.773       0.807
-    NSR_2            0.529       0.567       0.587       0.688       0.790       0.809       0.847
-    NSR_3            0.538       0.577       0.597       0.701       0.806       0.826       0.865
-    NSR_6            0.509       0.548       0.568       0.672       0.776       0.796       0.835
-    NSR_9            0.517       0.556       0.575       0.678       0.781       0.800       0.839
-    NSR_12           0.538       0.577       0.597       0.701       0.805       0.825       0.864
-    NSR_18           0.493       0.527       0.545       0.637       0.729       0.747       0.782
-    NSR_24           0.449       0.507       0.536       0.688       0.841       0.870       0.927
+    NSR_0            0.618       0.650       0.666       0.751       0.836       0.852       0.884
+    NSR_1            0.606       0.641       0.659       0.755       0.850       0.868       0.903
+    NSR_2            0.588       0.628       0.648       0.754       0.860       0.880       0.920
+    NSR_3            0.567       0.611       0.633       0.750       0.867       0.889       0.933
+    NSR_6            0.488       0.543       0.571       0.717       0.863       0.891       0.946
+    NSR_9            0.404       0.466       0.498       0.664       0.829       0.861       0.923
+    NSR_12           0.330       0.395       0.428       0.602       0.776       0.809       0.875
+    NSR_18           0.224       0.287       0.319       0.487       0.655       0.687       0.750
+    NSR_24           0.164       0.220       0.249       0.398       0.547       0.576       0.632
 
  SW       |
     NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.021       0.024       0.026       0.035       0.044       0.046       0.049
-    NSR_2            0.046       0.052       0.055       0.073       0.090       0.093       0.100
-    NSR_3            0.071       0.080       0.085       0.111       0.137       0.142       0.151
-    NSR_6            0.138       0.156       0.165       0.213       0.260       0.270       0.287
-    NSR_9            0.207       0.235       0.249       0.322       0.395       0.409       0.436
-    NSR_12           0.289       0.326       0.345       0.444       0.542       0.561       0.598
-    NSR_18           0.382       0.435       0.463       0.605       0.747       0.774       0.827
-    NSR_24           0.511       0.597       0.641       0.871       1.101       1.145       1.231
+    NSR_1            0.029       0.039       0.044       0.071       0.099       0.104       0.114
+    NSR_2            0.058       0.078       0.088       0.143       0.197       0.207       0.227
+    NSR_3            0.088       0.118       0.133       0.213       0.292       0.308       0.337
+    NSR_6            0.188       0.240       0.267       0.407       0.547       0.573       0.626
+    NSR_9            0.298       0.362       0.395       0.565       0.735       0.767       0.831
+    NSR_12           0.406       0.472       0.506       0.683       0.860       0.894       0.960
+    NSR_18           0.580       0.639       0.670       0.829       0.988       1.018       1.078
+    NSR_24           0.693       0.743       0.769       0.903       1.036       1.062       1.112
 
  S        ON
-    IW              -0.121      -0.043      -0.003       0.206       0.415       0.455       0.533
-    SW              -0.922      -0.739      -0.645      -0.153       0.338       0.432       0.616
+    IW               0.020       0.110       0.157       0.398       0.639       0.685       0.775
+    SW              -0.857      -0.724      -0.656      -0.300       0.056       0.124       0.257
 
  SW       WITH
-    IW              -0.781      -0.713      -0.678      -0.497      -0.316      -0.281      -0.213
+    IW              -0.656      -0.531      -0.467      -0.133       0.202       0.266       0.391
 
  Means
-    IW               3.299       3.493       3.593       4.112       4.631       4.730       4.925
-    SW               0.606       0.761       0.840       1.254       1.668       1.748       1.903
+    IW              -0.317      -0.237      -0.196       0.019       0.233       0.274       0.355
+    SW               0.622       0.746       0.809       1.139       1.470       1.533       1.657
+    N#1              3.513       3.513       3.513       3.513       3.513       3.513       3.513
 
  Intercepts
-    S               -6.874      -6.343      -6.071      -4.652      -3.233      -2.961      -2.430
-    NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_2            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_3            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_6            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_9            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_12           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_18           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_24           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    S               -4.854      -4.517      -4.344      -3.443      -2.541      -2.369      -2.031
+
+ Thresholds
+    NSR_0$1          0.488       0.522       0.540       0.633       0.725       0.743       0.778
+    NSR_1$1          0.501       0.534       0.550       0.636       0.721       0.738       0.770
+    NSR_2$1          0.511       0.541       0.556       0.635       0.715       0.730       0.759
+    NSR_3$1          0.516       0.544       0.558       0.632       0.706       0.720       0.748
+    NSR_6$1          0.492       0.519       0.533       0.604       0.676       0.689       0.716
+    NSR_9$1          0.426       0.458       0.474       0.559       0.644       0.660       0.692
+    NSR_12$1         0.352       0.389       0.408       0.507       0.606       0.625       0.663
+    NSR_18$1         0.238       0.279       0.300       0.410       0.520       0.541       0.582
+    NSR_24$1         0.171       0.211       0.231       0.335       0.440       0.460       0.499
 
  Variances
     IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
     SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
  Residual Variances
-    S                0.559       0.641       0.683       0.903       1.122       1.164       1.246
-    NSR_0            0.499       0.523       0.536       0.600       0.664       0.676       0.700
-    NSR_1            0.409       0.451       0.472       0.582       0.692       0.713       0.754
-    NSR_2            0.387       0.431       0.453       0.571       0.688       0.711       0.755
-    NSR_3            0.395       0.438       0.459       0.573       0.687       0.709       0.752
-    NSR_6            0.499       0.534       0.552       0.645       0.738       0.756       0.791
-    NSR_9            0.522       0.553       0.570       0.654       0.738       0.754       0.786
-    NSR_12           0.480       0.514       0.531       0.621       0.711       0.728       0.761
-    NSR_18           0.448       0.487       0.507       0.611       0.716       0.736       0.775
-    NSR_24           0.089       0.155       0.188       0.363       0.538       0.572       0.637
+    S                0.185       0.313       0.379       0.720       1.062       1.127       1.255
 
 Latent Class 2
 
  IW       |
-    NSR_0            0.532       0.558       0.571       0.640       0.708       0.722       0.747
-    NSR_1            0.445       0.486       0.507       0.615       0.724       0.744       0.785
-    NSR_2            0.363       0.401       0.421       0.522       0.624       0.644       0.682
-    NSR_3            0.352       0.391       0.411       0.516       0.620       0.640       0.679
-    NSR_6            0.322       0.357       0.375       0.468       0.561       0.579       0.613
-    NSR_9            0.307       0.340       0.356       0.442       0.528       0.545       0.577
-    NSR_12           0.302       0.332       0.348       0.428       0.509       0.525       0.555
-    NSR_18           0.302       0.335       0.351       0.438       0.525       0.541       0.574
-    NSR_24           0.247       0.277       0.293       0.372       0.452       0.468       0.498
+    NSR_0            0.609       0.632       0.644       0.707       0.770       0.782       0.806
+    NSR_1            0.608       0.634       0.647       0.714       0.781       0.794       0.819
+    NSR_2            0.606       0.633       0.647       0.719       0.791       0.804       0.831
+    NSR_3            0.601       0.630       0.644       0.721       0.798       0.813       0.842
+    NSR_6            0.573       0.608       0.626       0.718       0.811       0.829       0.864
+    NSR_9            0.531       0.571       0.592       0.699       0.806       0.826       0.866
+    NSR_12           0.482       0.526       0.548       0.666       0.784       0.807       0.851
+    NSR_18           0.385       0.432       0.456       0.583       0.709       0.733       0.780
+    NSR_24           0.308       0.354       0.377       0.499       0.620       0.644       0.689
 
  SW       |
     NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.038       0.041       0.043       0.052       0.061       0.063       0.066
-    NSR_2            0.066       0.071       0.074       0.088       0.102       0.105       0.110
-    NSR_3            0.099       0.106       0.110       0.130       0.150       0.154       0.161
-    NSR_6            0.181       0.194       0.201       0.236       0.271       0.277       0.291
-    NSR_9            0.261       0.279       0.288       0.335       0.382       0.391       0.408
-    NSR_12           0.337       0.360       0.371       0.432       0.493       0.505       0.528
-    NSR_18           0.523       0.556       0.573       0.663       0.752       0.769       0.803
-    NSR_24           0.590       0.628       0.648       0.752       0.855       0.875       0.914
+    NSR_1            0.033       0.037       0.039       0.052       0.064       0.066       0.071
+    NSR_2            0.066       0.075       0.079       0.104       0.129       0.133       0.142
+    NSR_3            0.099       0.113       0.120       0.157       0.193       0.201       0.214
+    NSR_6            0.202       0.228       0.242       0.312       0.382       0.396       0.422
+    NSR_9            0.306       0.342       0.360       0.455       0.551       0.569       0.605
+    NSR_12           0.407       0.448       0.469       0.579       0.689       0.710       0.751
+    NSR_18           0.579       0.622       0.644       0.759       0.874       0.896       0.939
+    NSR_24           0.702       0.742       0.762       0.867       0.972       0.992       1.031
 
  S        ON
-    IW               0.041       0.075       0.093       0.184       0.276       0.293       0.328
-    SW              -0.245      -0.207      -0.188      -0.088       0.012       0.031       0.068
+    IW               0.025       0.067       0.088       0.199       0.310       0.331       0.372
+    SW              -0.325      -0.281      -0.259      -0.144      -0.029      -0.007       0.036
 
  SW       WITH
-    IW              -0.592      -0.519      -0.482      -0.288      -0.094      -0.056       0.016
+    IW              -0.621      -0.541      -0.500      -0.288      -0.076      -0.035       0.044
 
  Means
-    IW               4.100       4.479       4.673       5.684       6.695       6.889       7.267
-    SW               0.478       0.546       0.581       0.762       0.944       0.979       1.047
+    IW              -0.631      -0.576      -0.548      -0.402      -0.255      -0.227      -0.172
+    SW               0.260       0.339       0.380       0.592       0.804       0.845       0.925
+    N#1             -3.952      -3.952      -3.952      -3.952      -3.952      -3.952      -3.952
 
  Intercepts
-    S              -11.975     -11.616     -11.432     -10.473      -9.513      -9.329      -8.970
-    NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_2            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_3            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_6            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_9            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_12           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_18           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_24           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    S              -11.293     -10.917     -10.725      -9.721      -8.718      -8.525      -8.150
+
+ Thresholds
+    NSR_0$1          0.583       0.606       0.617       0.678       0.738       0.749       0.772
+    NSR_1$1          0.594       0.615       0.626       0.684       0.741       0.752       0.774
+    NSR_2$1          0.602       0.623       0.633       0.688       0.743       0.754       0.774
+    NSR_3$1          0.609       0.629       0.639       0.691       0.743       0.753       0.773
+    NSR_6$1          0.614       0.632       0.641       0.688       0.736       0.745       0.762
+    NSR_9$1          0.591       0.610       0.619       0.669       0.719       0.729       0.748
+    NSR_12$1         0.546       0.568       0.580       0.638       0.697       0.708       0.730
+    NSR_18$1         0.440       0.468       0.483       0.558       0.633       0.648       0.676
+    NSR_24$1         0.351       0.382       0.397       0.478       0.559       0.574       0.605
 
  Variances
     IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
     SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
  Residual Variances
-    S                0.888       0.903       0.910       0.949       0.987       0.995       1.009
-    NSR_0            0.453       0.486       0.503       0.591       0.679       0.696       0.729
-    NSR_1            0.446       0.492       0.515       0.637       0.759       0.783       0.828
-    NSR_2            0.605       0.638       0.656       0.746       0.836       0.853       0.887
-    NSR_3            0.623       0.655       0.671       0.756       0.841       0.857       0.888
-    NSR_6            0.699       0.720       0.731       0.789       0.847       0.858       0.880
-    NSR_9            0.700       0.719       0.728       0.778       0.827       0.837       0.855
-    NSR_12           0.656       0.675       0.685       0.736       0.787       0.797       0.816
-    NSR_18           0.404       0.436       0.452       0.536       0.620       0.636       0.668
-    NSR_24           0.307       0.343       0.362       0.457       0.553       0.572       0.608
+    S                0.825       0.848       0.860       0.923       0.986       0.998       1.021
 
 
 STDY Standardization
@@ -1225,128 +1307,116 @@ STDY Standardization
 Latent Class 1
 
  IW       |
-    NSR_0            0.553       0.572       0.582       0.633       0.683       0.693       0.712
-    NSR_1            0.520       0.554       0.572       0.663       0.755       0.773       0.807
-    NSR_2            0.529       0.567       0.587       0.688       0.790       0.809       0.847
-    NSR_3            0.538       0.577       0.597       0.701       0.806       0.826       0.865
-    NSR_6            0.509       0.548       0.568       0.672       0.776       0.796       0.835
-    NSR_9            0.517       0.556       0.575       0.678       0.781       0.800       0.839
-    NSR_12           0.538       0.577       0.597       0.701       0.805       0.825       0.864
-    NSR_18           0.493       0.527       0.545       0.637       0.729       0.747       0.782
-    NSR_24           0.449       0.507       0.536       0.688       0.841       0.870       0.927
+    NSR_0            0.618       0.650       0.666       0.751       0.836       0.852       0.884
+    NSR_1            0.606       0.641       0.659       0.755       0.850       0.868       0.903
+    NSR_2            0.588       0.628       0.648       0.754       0.860       0.880       0.920
+    NSR_3            0.567       0.611       0.633       0.750       0.867       0.889       0.933
+    NSR_6            0.488       0.543       0.571       0.717       0.863       0.891       0.946
+    NSR_9            0.404       0.466       0.498       0.664       0.829       0.861       0.923
+    NSR_12           0.330       0.395       0.428       0.602       0.776       0.809       0.875
+    NSR_18           0.224       0.287       0.319       0.487       0.655       0.687       0.750
+    NSR_24           0.164       0.220       0.249       0.398       0.547       0.576       0.632
 
  SW       |
     NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.021       0.024       0.026       0.035       0.044       0.046       0.049
-    NSR_2            0.046       0.052       0.055       0.073       0.090       0.093       0.100
-    NSR_3            0.071       0.080       0.085       0.111       0.137       0.142       0.151
-    NSR_6            0.138       0.156       0.165       0.213       0.260       0.270       0.287
-    NSR_9            0.207       0.235       0.249       0.322       0.395       0.409       0.436
-    NSR_12           0.289       0.326       0.345       0.444       0.542       0.561       0.598
-    NSR_18           0.382       0.435       0.463       0.605       0.747       0.774       0.827
-    NSR_24           0.511       0.597       0.641       0.871       1.101       1.145       1.231
+    NSR_1            0.029       0.039       0.044       0.071       0.099       0.104       0.114
+    NSR_2            0.058       0.078       0.088       0.143       0.197       0.207       0.227
+    NSR_3            0.088       0.118       0.133       0.213       0.292       0.308       0.337
+    NSR_6            0.188       0.240       0.267       0.407       0.547       0.573       0.626
+    NSR_9            0.298       0.362       0.395       0.565       0.735       0.767       0.831
+    NSR_12           0.406       0.472       0.506       0.683       0.860       0.894       0.960
+    NSR_18           0.580       0.639       0.670       0.829       0.988       1.018       1.078
+    NSR_24           0.693       0.743       0.769       0.903       1.036       1.062       1.112
 
  S        ON
-    IW              -0.121      -0.043      -0.003       0.206       0.415       0.455       0.533
-    SW              -0.922      -0.739      -0.645      -0.153       0.338       0.432       0.616
+    IW               0.020       0.110       0.157       0.398       0.639       0.685       0.775
+    SW              -0.857      -0.724      -0.656      -0.300       0.056       0.124       0.257
 
  SW       WITH
-    IW              -0.781      -0.713      -0.678      -0.497      -0.316      -0.281      -0.213
+    IW              -0.656      -0.531      -0.467      -0.133       0.202       0.266       0.391
 
  Means
-    IW               3.299       3.493       3.593       4.112       4.631       4.730       4.925
-    SW               0.606       0.761       0.840       1.254       1.668       1.748       1.903
+    IW              -0.317      -0.237      -0.196       0.019       0.233       0.274       0.355
+    SW               0.622       0.746       0.809       1.139       1.470       1.533       1.657
+    N#1              3.513       3.513       3.513       3.513       3.513       3.513       3.513
 
  Intercepts
-    S               -6.874      -6.343      -6.071      -4.652      -3.233      -2.961      -2.430
-    NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_2            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_3            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_6            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_9            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_12           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_18           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_24           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    S               -4.854      -4.517      -4.344      -3.443      -2.541      -2.369      -2.031
+
+ Thresholds
+    NSR_0$1          0.488       0.522       0.540       0.633       0.725       0.743       0.778
+    NSR_1$1          0.501       0.534       0.550       0.636       0.721       0.738       0.770
+    NSR_2$1          0.511       0.541       0.556       0.635       0.715       0.730       0.759
+    NSR_3$1          0.516       0.544       0.558       0.632       0.706       0.720       0.748
+    NSR_6$1          0.492       0.519       0.533       0.604       0.676       0.689       0.716
+    NSR_9$1          0.426       0.458       0.474       0.559       0.644       0.660       0.692
+    NSR_12$1         0.352       0.389       0.408       0.507       0.606       0.625       0.663
+    NSR_18$1         0.238       0.279       0.300       0.410       0.520       0.541       0.582
+    NSR_24$1         0.171       0.211       0.231       0.335       0.440       0.460       0.499
 
  Variances
     IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
     SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
  Residual Variances
-    S                0.559       0.641       0.683       0.903       1.122       1.164       1.246
-    NSR_0            0.499       0.523       0.536       0.600       0.664       0.676       0.700
-    NSR_1            0.409       0.451       0.472       0.582       0.692       0.713       0.754
-    NSR_2            0.387       0.431       0.453       0.571       0.688       0.711       0.755
-    NSR_3            0.395       0.438       0.459       0.573       0.687       0.709       0.752
-    NSR_6            0.499       0.534       0.552       0.645       0.738       0.756       0.791
-    NSR_9            0.522       0.553       0.570       0.654       0.738       0.754       0.786
-    NSR_12           0.480       0.514       0.531       0.621       0.711       0.728       0.761
-    NSR_18           0.448       0.487       0.507       0.611       0.716       0.736       0.775
-    NSR_24           0.089       0.155       0.188       0.363       0.538       0.572       0.637
+    S                0.185       0.313       0.379       0.720       1.062       1.127       1.255
 
 Latent Class 2
 
  IW       |
-    NSR_0            0.532       0.558       0.571       0.640       0.708       0.722       0.747
-    NSR_1            0.445       0.486       0.507       0.615       0.724       0.744       0.785
-    NSR_2            0.363       0.401       0.421       0.522       0.624       0.644       0.682
-    NSR_3            0.352       0.391       0.411       0.516       0.620       0.640       0.679
-    NSR_6            0.322       0.357       0.375       0.468       0.561       0.579       0.613
-    NSR_9            0.307       0.340       0.356       0.442       0.528       0.545       0.577
-    NSR_12           0.302       0.332       0.348       0.428       0.509       0.525       0.555
-    NSR_18           0.302       0.335       0.351       0.438       0.525       0.541       0.574
-    NSR_24           0.247       0.277       0.293       0.372       0.452       0.468       0.498
+    NSR_0            0.609       0.632       0.644       0.707       0.770       0.782       0.806
+    NSR_1            0.608       0.634       0.647       0.714       0.781       0.794       0.819
+    NSR_2            0.606       0.633       0.647       0.719       0.791       0.804       0.831
+    NSR_3            0.601       0.630       0.644       0.721       0.798       0.813       0.842
+    NSR_6            0.573       0.608       0.626       0.718       0.811       0.829       0.864
+    NSR_9            0.531       0.571       0.592       0.699       0.806       0.826       0.866
+    NSR_12           0.482       0.526       0.548       0.666       0.784       0.807       0.851
+    NSR_18           0.385       0.432       0.456       0.583       0.709       0.733       0.780
+    NSR_24           0.308       0.354       0.377       0.499       0.620       0.644       0.689
 
  SW       |
     NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.038       0.041       0.043       0.052       0.061       0.063       0.066
-    NSR_2            0.066       0.071       0.074       0.088       0.102       0.105       0.110
-    NSR_3            0.099       0.106       0.110       0.130       0.150       0.154       0.161
-    NSR_6            0.181       0.194       0.201       0.236       0.271       0.277       0.291
-    NSR_9            0.261       0.279       0.288       0.335       0.382       0.391       0.408
-    NSR_12           0.337       0.360       0.371       0.432       0.493       0.505       0.528
-    NSR_18           0.523       0.556       0.573       0.663       0.752       0.769       0.803
-    NSR_24           0.590       0.628       0.648       0.752       0.855       0.875       0.914
+    NSR_1            0.033       0.037       0.039       0.052       0.064       0.066       0.071
+    NSR_2            0.066       0.075       0.079       0.104       0.129       0.133       0.142
+    NSR_3            0.099       0.113       0.120       0.157       0.193       0.201       0.214
+    NSR_6            0.202       0.228       0.242       0.312       0.382       0.396       0.422
+    NSR_9            0.306       0.342       0.360       0.455       0.551       0.569       0.605
+    NSR_12           0.407       0.448       0.469       0.579       0.689       0.710       0.751
+    NSR_18           0.579       0.622       0.644       0.759       0.874       0.896       0.939
+    NSR_24           0.702       0.742       0.762       0.867       0.972       0.992       1.031
 
  S        ON
-    IW               0.041       0.075       0.093       0.184       0.276       0.293       0.328
-    SW              -0.245      -0.207      -0.188      -0.088       0.012       0.031       0.068
+    IW               0.025       0.067       0.088       0.199       0.310       0.331       0.372
+    SW              -0.325      -0.281      -0.259      -0.144      -0.029      -0.007       0.036
 
  SW       WITH
-    IW              -0.592      -0.519      -0.482      -0.288      -0.094      -0.056       0.016
+    IW              -0.621      -0.541      -0.500      -0.288      -0.076      -0.035       0.044
 
  Means
-    IW               4.100       4.479       4.673       5.684       6.695       6.889       7.267
-    SW               0.478       0.546       0.581       0.762       0.944       0.979       1.047
+    IW              -0.631      -0.576      -0.548      -0.402      -0.255      -0.227      -0.172
+    SW               0.260       0.339       0.380       0.592       0.804       0.845       0.925
+    N#1             -3.952      -3.952      -3.952      -3.952      -3.952      -3.952      -3.952
 
  Intercepts
-    S              -11.975     -11.616     -11.432     -10.473      -9.513      -9.329      -8.970
-    NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_2            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_3            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_6            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_9            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_12           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_18           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_24           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    S              -11.293     -10.917     -10.725      -9.721      -8.718      -8.525      -8.150
+
+ Thresholds
+    NSR_0$1          0.583       0.606       0.617       0.678       0.738       0.749       0.772
+    NSR_1$1          0.594       0.615       0.626       0.684       0.741       0.752       0.774
+    NSR_2$1          0.602       0.623       0.633       0.688       0.743       0.754       0.774
+    NSR_3$1          0.609       0.629       0.639       0.691       0.743       0.753       0.773
+    NSR_6$1          0.614       0.632       0.641       0.688       0.736       0.745       0.762
+    NSR_9$1          0.591       0.610       0.619       0.669       0.719       0.729       0.748
+    NSR_12$1         0.546       0.568       0.580       0.638       0.697       0.708       0.730
+    NSR_18$1         0.440       0.468       0.483       0.558       0.633       0.648       0.676
+    NSR_24$1         0.351       0.382       0.397       0.478       0.559       0.574       0.605
 
  Variances
     IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
     SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
  Residual Variances
-    S                0.888       0.903       0.910       0.949       0.987       0.995       1.009
-    NSR_0            0.453       0.486       0.503       0.591       0.679       0.696       0.729
-    NSR_1            0.446       0.492       0.515       0.637       0.759       0.783       0.828
-    NSR_2            0.605       0.638       0.656       0.746       0.836       0.853       0.887
-    NSR_3            0.623       0.655       0.671       0.756       0.841       0.857       0.888
-    NSR_6            0.699       0.720       0.731       0.789       0.847       0.858       0.880
-    NSR_9            0.700       0.719       0.728       0.778       0.827       0.837       0.855
-    NSR_12           0.656       0.675       0.685       0.736       0.787       0.797       0.816
-    NSR_18           0.404       0.436       0.452       0.536       0.620       0.636       0.668
-    NSR_24           0.307       0.343       0.362       0.457       0.553       0.572       0.608
+    S                0.825       0.848       0.860       0.923       0.986       0.998       1.021
 
 
 STD Standardization
@@ -1356,133 +1426,121 @@ STD Standardization
 Latent Class 1
 
  IW       |
-    NSR_0            0.245       0.263       0.272       0.318       0.365       0.374       0.392
-    NSR_1            0.245       0.263       0.272       0.318       0.365       0.374       0.392
-    NSR_2            0.245       0.263       0.272       0.318       0.365       0.374       0.392
-    NSR_3            0.245       0.263       0.272       0.318       0.365       0.374       0.392
-    NSR_6            0.245       0.263       0.272       0.318       0.365       0.374       0.392
-    NSR_9            0.245       0.263       0.272       0.318       0.365       0.374       0.392
-    NSR_12           0.245       0.263       0.272       0.318       0.365       0.374       0.392
-    NSR_18           0.245       0.263       0.272       0.318       0.365       0.374       0.392
-    NSR_24           0.245       0.263       0.272       0.318       0.365       0.374       0.392
+    NSR_0            1.225       1.426       1.528       2.063       2.598       2.701       2.901
+    NSR_1            1.225       1.426       1.528       2.063       2.598       2.701       2.901
+    NSR_2            1.225       1.426       1.528       2.063       2.598       2.701       2.901
+    NSR_3            1.225       1.426       1.528       2.063       2.598       2.701       2.901
+    NSR_6            1.225       1.426       1.528       2.063       2.598       2.701       2.901
+    NSR_9            1.225       1.426       1.528       2.063       2.598       2.701       2.901
+    NSR_12           1.225       1.426       1.528       2.063       2.598       2.701       2.901
+    NSR_18           1.225       1.426       1.528       2.063       2.598       2.701       2.901
+    NSR_24           1.225       1.426       1.528       2.063       2.598       2.701       2.901
 
  SW       |
     NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.011       0.012       0.013       0.017       0.021       0.021       0.023
-    NSR_2            0.022       0.025       0.026       0.034       0.041       0.043       0.046
-    NSR_3            0.032       0.037       0.039       0.050       0.062       0.064       0.068
-    NSR_6            0.065       0.074       0.078       0.101       0.124       0.128       0.137
-    NSR_9            0.097       0.110       0.117       0.151       0.185       0.192       0.205
-    NSR_12           0.130       0.147       0.156       0.201       0.247       0.256       0.273
-    NSR_18           0.195       0.221       0.234       0.302       0.371       0.384       0.410
-    NSR_24           0.260       0.294       0.312       0.403       0.494       0.512       0.546
+    NSR_1            0.073       0.102       0.117       0.195       0.273       0.288       0.317
+    NSR_2            0.145       0.204       0.234       0.390       0.546       0.576       0.635
+    NSR_3            0.218       0.306       0.351       0.585       0.820       0.865       0.952
+    NSR_6            0.436       0.612       0.701       1.170       1.639       1.729       1.905
+    NSR_9            0.654       0.918       1.052       1.756       2.459       2.594       2.857
+    NSR_12           0.872       1.223       1.403       2.341       3.279       3.458       3.809
+    NSR_18           1.309       1.835       2.104       3.511       4.918       5.187       5.714
+    NSR_24           1.745       2.447       2.806       4.682       6.557       6.916       7.618
 
  S        ON
-    IW              -0.018      -0.006      -0.001       0.030       0.060       0.066       0.077
-    SW              -0.135      -0.108      -0.094      -0.022       0.050       0.064       0.091
+    IW              -0.007       0.009       0.017       0.061       0.104       0.112       0.129
+    SW              -0.139      -0.117      -0.106      -0.046       0.014       0.026       0.048
 
  SW       WITH
-    IW              -0.781      -0.713      -0.678      -0.497      -0.316      -0.281      -0.213
+    IW              -0.656      -0.531      -0.467      -0.133       0.202       0.266       0.391
 
  Means
-    IW               3.299       3.493       3.593       4.112       4.631       4.730       4.925
-    SW               0.606       0.761       0.840       1.254       1.668       1.748       1.903
+    IW              -0.317      -0.237      -0.196       0.019       0.233       0.274       0.355
+    SW               0.622       0.746       0.809       1.139       1.470       1.533       1.657
+    N#1              3.513       3.513       3.513       3.513       3.513       3.513       3.513
 
  Intercepts
-    S               -0.948      -0.881      -0.847      -0.669      -0.490      -0.456      -0.389
-    NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_2            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_3            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_6            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_9            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_12           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_18           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_24           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    S               -0.636      -0.610      -0.596      -0.525      -0.454      -0.440      -0.414
+
+ Thresholds
+    NSR_0$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_1$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_2$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_3$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_6$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_9$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_12$1         1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_18$1         1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_24$1         1.738       1.738       1.738       1.738       1.738       1.738       1.738
 
  Variances
     IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
     SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
  Residual Variances
-    S                0.014       0.015       0.016       0.019       0.022       0.022       0.023
-    NSR_0            0.083       0.099       0.108       0.152       0.196       0.204       0.221
-    NSR_1            0.070       0.086       0.093       0.134       0.175       0.182       0.198
-    NSR_2            0.074       0.085       0.091       0.122       0.153       0.159       0.171
-    NSR_3            0.075       0.086       0.091       0.118       0.146       0.151       0.161
-    NSR_6            0.100       0.111       0.116       0.145       0.174       0.179       0.190
-    NSR_9            0.105       0.114       0.119       0.144       0.169       0.174       0.184
-    NSR_12           0.090       0.099       0.103       0.128       0.153       0.158       0.167
-    NSR_18           0.092       0.106       0.114       0.153       0.192       0.199       0.214
-    NSR_24           0.002       0.020       0.029       0.078       0.126       0.136       0.154
+    S                0.010       0.012       0.013       0.017       0.021       0.022       0.023
 
 Latent Class 2
 
  IW       |
-    NSR_0            0.138       0.153       0.160       0.199       0.238       0.246       0.261
-    NSR_1            0.138       0.153       0.160       0.199       0.238       0.246       0.261
-    NSR_2            0.138       0.153       0.160       0.199       0.238       0.246       0.261
-    NSR_3            0.138       0.153       0.160       0.199       0.238       0.246       0.261
-    NSR_6            0.138       0.153       0.160       0.199       0.238       0.246       0.261
-    NSR_9            0.138       0.153       0.160       0.199       0.238       0.246       0.261
-    NSR_12           0.138       0.153       0.160       0.199       0.238       0.246       0.261
-    NSR_18           0.138       0.153       0.160       0.199       0.238       0.246       0.261
-    NSR_24           0.138       0.153       0.160       0.199       0.238       0.246       0.261
+    NSR_0            1.309       1.430       1.491       1.814       2.137       2.199       2.320
+    NSR_1            1.309       1.430       1.491       1.814       2.137       2.199       2.320
+    NSR_2            1.309       1.430       1.491       1.814       2.137       2.199       2.320
+    NSR_3            1.309       1.430       1.491       1.814       2.137       2.199       2.320
+    NSR_6            1.309       1.430       1.491       1.814       2.137       2.199       2.320
+    NSR_9            1.309       1.430       1.491       1.814       2.137       2.199       2.320
+    NSR_12           1.309       1.430       1.491       1.814       2.137       2.199       2.320
+    NSR_18           1.309       1.430       1.491       1.814       2.137       2.199       2.320
+    NSR_24           1.309       1.430       1.491       1.814       2.137       2.199       2.320
 
  SW       |
     NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.013       0.014       0.015       0.017       0.019       0.019       0.020
-    NSR_2            0.027       0.028       0.029       0.033       0.038       0.039       0.040
-    NSR_3            0.040       0.042       0.044       0.050       0.057       0.058       0.061
-    NSR_6            0.080       0.085       0.087       0.100       0.114       0.116       0.121
-    NSR_9            0.120       0.127       0.131       0.151       0.171       0.174       0.182
-    NSR_12           0.159       0.169       0.174       0.201       0.228       0.233       0.243
-    NSR_18           0.239       0.254       0.262       0.301       0.341       0.349       0.364
-    NSR_24           0.319       0.339       0.349       0.402       0.455       0.465       0.485
+    NSR_1            0.082       0.094       0.100       0.131       0.163       0.169       0.180
+    NSR_2            0.165       0.188       0.200       0.263       0.325       0.337       0.361
+    NSR_3            0.247       0.282       0.300       0.394       0.488       0.506       0.541
+    NSR_6            0.495       0.565       0.601       0.788       0.976       1.012       1.082
+    NSR_9            0.742       0.847       0.901       1.182       1.463       1.517       1.623
+    NSR_12           0.989       1.130       1.201       1.576       1.951       2.023       2.163
+    NSR_18           1.484       1.694       1.802       2.365       2.927       3.035       3.245
+    NSR_24           1.978       2.259       2.403       3.153       3.903       4.046       4.327
 
  S        ON
-    IW               0.006       0.011       0.013       0.026       0.039       0.041       0.046
-    SW              -0.034      -0.029      -0.026      -0.012       0.002       0.004       0.009
+    IW               0.004       0.009       0.012       0.027       0.041       0.044       0.050
+    SW              -0.043      -0.037      -0.034      -0.019      -0.004      -0.002       0.004
 
  SW       WITH
-    IW              -0.592      -0.519      -0.482      -0.288      -0.094      -0.056       0.016
+    IW              -0.621      -0.541      -0.500      -0.288      -0.076      -0.035       0.044
 
  Means
-    IW               4.100       4.479       4.673       5.684       6.695       6.889       7.267
-    SW               0.478       0.546       0.581       0.762       0.944       0.979       1.047
+    IW              -0.631      -0.576      -0.548      -0.402      -0.255      -0.227      -0.172
+    SW               0.260       0.339       0.380       0.592       0.804       0.845       0.925
+    N#1             -3.952      -3.952      -3.952      -3.952      -3.952      -3.952      -3.952
 
  Intercepts
-    S               -1.605      -1.573      -1.556      -1.469      -1.381      -1.364      -1.332
-    NSR_0            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_1            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_2            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_3            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_6            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_9            0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_12           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_18           0.000       0.000       0.000       0.000       0.000       0.000       0.000
-    NSR_24           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    S               -1.334      -1.328      -1.325      -1.310      -1.294      -1.291      -1.285
+
+ Thresholds
+    NSR_0$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_1$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_2$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_3$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_6$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_9$1          1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_12$1         1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_18$1         1.738       1.738       1.738       1.738       1.738       1.738       1.738
+    NSR_24$1         1.738       1.738       1.738       1.738       1.738       1.738       1.738
 
  Variances
     IW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
     SW               1.000       1.000       1.000       1.000       1.000       1.000       1.000
 
  Residual Variances
-    S                0.014       0.015       0.016       0.019       0.022       0.022       0.023
-    NSR_0            0.028       0.035       0.039       0.057       0.076       0.080       0.087
-    NSR_1            0.032       0.040       0.044       0.067       0.089       0.094       0.102
-    NSR_2            0.068       0.077       0.082       0.108       0.134       0.139       0.149
-    NSR_3            0.073       0.083       0.088       0.113       0.138       0.143       0.152
-    NSR_6            0.104       0.113       0.118       0.143       0.168       0.173       0.183
-    NSR_9            0.120       0.129       0.133       0.158       0.182       0.187       0.196
-    NSR_12           0.121       0.130       0.135       0.159       0.183       0.188       0.197
-    NSR_18           0.078       0.086       0.090       0.111       0.132       0.136       0.144
-    NSR_24           0.079       0.091       0.098       0.131       0.164       0.171       0.183
+    S                0.010       0.012       0.013       0.017       0.021       0.022       0.023
 
 
-     Beginning Time:  22:35:58
-        Ending Time:  22:35:58
-       Elapsed Time:  00:00:00
+     Beginning Time:  14:20:57
+        Ending Time:  14:21:07
+       Elapsed Time:  00:00:10
 
 
 

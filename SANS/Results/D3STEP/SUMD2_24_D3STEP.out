@@ -1,0 +1,584 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+06/29/2023   3:01 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_SUMD2_24 -  FINAL_311;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/D3STEP/SUMD2_24_D3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N SUMD2_24;
+   MISSING=.;
+   USEVAR = SUMD2_24 N;
+  NOMINAL = N;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  %C#1%
+  [N#1@3.075];
+  [N#2@1.083];
+  [SUMD2_24](M1); SUMD2_24;
+  %C#2%
+  [N#1@1.199];
+  [N#2@2.945];
+  [SUMD2_24](M2); SUMD2_24;
+  %C#3%
+  [N#1@-1.281];
+  [N#2@-1.148];
+  [SUMD2_24](M3); SUMD2_24;
+  MODEL CONSTRAINT:
+  New (diff12 diff13 diff23);
+  diff12 = M1 - M2;
+  diff13 = M1 - M3;
+  diff23 = M2 - M3;
+  MODEL TEST:
+  M1 = M2;
+  M2 = M3;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_SUMD2_24 -  FINAL_311;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         405
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   SUMD2_24
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/D3STEP/SUMD2_24_D3STEP.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              SUMD2_24
+              ________
+ SUMD2_24       0.094
+
+     THE COVARIANCE COVERAGE FALLS BELOW THE SPECIFIED LIMIT.  THE MISSING
+     DATA EM ALGORITHM WILL NOT BE INITIATED.  CHECK YOUR DATA OR LOWER THE
+     COVARIANCE COVERAGE LIMIT.
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.437          177.000
+      Category 2    0.402          163.000
+      Category 3    0.160           65.000
+
+
+SAMPLE STATISTICS
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SUMD2_24              2.599       0.407       1.000   21.05%       1.000      2.000      2.500
+              38.000       1.617      -0.896       5.000   10.53%       2.750      3.750
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        8
+
+Loglikelihood
+
+          H0 Value                        -473.401
+          H0 Scaling Correction Factor      0.8378
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                     962.802
+          Bayesian (BIC)                   994.833
+          Sample-Size Adjusted BIC         969.448
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                              3.480
+          Degrees of Freedom                     2
+          P-Value                           0.1755
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        166.24013          0.41047
+       2        155.48569          0.38392
+       3         83.27418          0.20562
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        166.24013          0.41047
+       2        155.48569          0.38392
+       3         83.27418          0.20562
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              177          0.43704
+       2              163          0.40247
+       3               65          0.16049
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.408
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.794    0.124    0.082
+    2   0.118    0.779    0.103
+    3   0.099    0.101    0.800
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.845    0.116    0.039
+    2   0.142    0.816    0.042
+    3   0.174    0.202    0.624
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      3.080    1.094    0.000
+    2      1.210    2.962    0.000
+    3     -1.277   -1.129    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    SUMD2_24           2.101      0.374      5.613      0.000
+
+ Means
+    N#1                3.075      0.000    999.000    999.000
+    N#2                1.083      0.000    999.000    999.000
+
+ Variances
+    SUMD2_24           0.927      0.340      2.722      0.006
+
+Latent Class 2
+
+ Means
+    SUMD2_24           3.344      0.516      6.484      0.000
+
+ Means
+    N#1                1.199      0.000    999.000    999.000
+    N#2                2.945      0.000    999.000    999.000
+
+ Variances
+    SUMD2_24           1.731      0.596      2.903      0.004
+
+Latent Class 3
+
+ Means
+    SUMD2_24           1.880      0.671      2.804      0.005
+
+ Means
+    N#1               -1.281      0.000    999.000    999.000
+    N#2               -1.148      0.000    999.000    999.000
+
+ Variances
+    SUMD2_24           0.442      0.244      1.812      0.070
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.691      0.205      3.367      0.001
+    C#2                0.624      0.216      2.888      0.004
+
+New/Additional Parameters
+    DIFF12            -1.243      0.711     -1.749      0.080
+    DIFF13             0.221      0.844      0.262      0.794
+    DIFF23             1.464      0.980      1.493      0.135
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.766E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    SUMD2_24           2.183      0.272      8.022      0.000
+
+ Variances
+    SUMD2_24           1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    SUMD2_24           2.542      0.772      3.293      0.001
+
+ Variances
+    SUMD2_24           1.000      0.000    999.000    999.000
+
+Latent Class 3
+
+ Means
+    SUMD2_24           2.830      0.701      4.038      0.000
+
+ Variances
+    SUMD2_24           1.000      0.000    999.000    999.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    SUMD2_24           2.183      0.272      8.022      0.000
+
+ Variances
+    SUMD2_24           1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    SUMD2_24           2.542      0.772      3.293      0.001
+
+ Variances
+    SUMD2_24           1.000      0.000    999.000    999.000
+
+Latent Class 3
+
+ Means
+    SUMD2_24           2.830      0.701      4.038      0.000
+
+ Variances
+    SUMD2_24           1.000      0.000    999.000    999.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    SUMD2_24           2.101      0.374      5.613      0.000
+
+ Variances
+    SUMD2_24           0.927      0.340      2.722      0.006
+
+Latent Class 2
+
+ Means
+    SUMD2_24           3.344      0.516      6.484      0.000
+
+ Variances
+    SUMD2_24           1.731      0.596      2.903      0.004
+
+Latent Class 3
+
+ Means
+    SUMD2_24           1.880      0.671      2.804      0.005
+
+ Variances
+    SUMD2_24           0.442      0.244      1.812      0.070
+
+
+R-SQUARE
+
+Class 1
+
+Class 2
+
+Class 3
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    SUMD2_24         1.137       1.368       1.485       2.101       2.717       2.835       3.065
+
+ Means
+    N#1              3.075       3.075       3.075       3.075       3.075       3.075       3.075
+    N#2              1.083       1.083       1.083       1.083       1.083       1.083       1.083
+
+ Variances
+    SUMD2_24         0.050       0.259       0.367       0.927       1.486       1.594       1.803
+
+Latent Class 2
+
+ Means
+    SUMD2_24         2.016       2.333       2.496       3.344       4.193       4.355       4.673
+
+ Means
+    N#1              1.199       1.199       1.199       1.199       1.199       1.199       1.199
+    N#2              2.945       2.945       2.945       2.945       2.945       2.945       2.945
+
+ Variances
+    SUMD2_24         0.195       0.562       0.750       1.731       2.712       2.900       3.267
+
+Latent Class 3
+
+ Means
+    SUMD2_24         0.153       0.566       0.777       1.880       2.984       3.195       3.608
+
+ Means
+    N#1             -1.281      -1.281      -1.281      -1.281      -1.281      -1.281      -1.281
+    N#2             -1.148      -1.148      -1.148      -1.148      -1.148      -1.148      -1.148
+
+ Variances
+    SUMD2_24        -0.186      -0.036       0.041       0.442       0.842       0.919       1.069
+
+Categorical Latent Variables
+
+ Means
+    C#1              0.162       0.289       0.354       0.691       1.029       1.094       1.220
+    C#2              0.068       0.201       0.269       0.624       0.980       1.048       1.181
+
+New/Additional Parameters
+    DIFF12          -3.074      -2.636      -2.412      -1.243      -0.074       0.150       0.588
+    DIFF13          -1.952      -1.433      -1.167       0.221       1.608       1.874       2.394
+    DIFF23          -1.061      -0.458      -0.149       1.464       3.076       3.385       3.989
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    SUMD2_24         1.482       1.650       1.735       2.183       2.631       2.716       2.884
+
+ Variances
+    SUMD2_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    SUMD2_24         0.554       1.029       1.272       2.542       3.811       4.054       4.529
+
+ Variances
+    SUMD2_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 3
+
+ Means
+    SUMD2_24         1.025       1.456       1.677       2.830       3.983       4.204       4.635
+
+ Variances
+    SUMD2_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    SUMD2_24         1.482       1.650       1.735       2.183       2.631       2.716       2.884
+
+ Variances
+    SUMD2_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    SUMD2_24         0.554       1.029       1.272       2.542       3.811       4.054       4.529
+
+ Variances
+    SUMD2_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 3
+
+ Means
+    SUMD2_24         1.025       1.456       1.677       2.830       3.983       4.204       4.635
+
+ Variances
+    SUMD2_24         1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    SUMD2_24         1.137       1.368       1.485       2.101       2.717       2.835       3.065
+
+ Variances
+    SUMD2_24         0.050       0.259       0.367       0.927       1.486       1.594       1.803
+
+Latent Class 2
+
+ Means
+    SUMD2_24         2.016       2.333       2.496       3.344       4.193       4.355       4.673
+
+ Variances
+    SUMD2_24         0.195       0.562       0.750       1.731       2.712       2.900       3.267
+
+Latent Class 3
+
+ Means
+    SUMD2_24         0.153       0.566       0.777       1.880       2.984       3.195       3.608
+
+ Variances
+    SUMD2_24        -0.186      -0.036       0.041       0.442       0.842       0.919       1.069
+
+
+     Beginning Time:  15:01:59
+        Ending Time:  15:01:59
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

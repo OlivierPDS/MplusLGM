@@ -1,0 +1,55 @@
+TITLE:
+ FINAL_311; - MixREG_SCD;
+DATA:
+FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/SCD_MixREG.dat";
+ 
+VARIABLE:
+NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+     CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N cd8_0 cd8_1 cd8_2 cd8_3 cd8_6
+     cd8_9 cd8_12 cd8_18 cd8_24; 
+ MISSING=.;
+ USEVAR = N S cd8_0 cd8_1 cd8_2 cd8_3 cd8_6 cd8_9 cd8_12 cd8_18 cd8_24;
+NOMINAL = N;
+CLASSES = c(3);
+ANALYSIS:
+TYPE = MIXTURE;
+STARTS = 0;
+PROCESSORS = 8;
+MODEL:
+%OVERALL%
+iw sw | cd8_0@8 cd8_1@8 cd8_2@8 cd8_3@8 cd8_6@8 cd8_9@8 cd8_12@8 cd8_18@8 cd8_24@8;
+S ON iw sw;
+%C#1%
+[N#1@3.075];
+[N#2@1.083];
+S ON iw sw (S1 - S2);
+[iw] (iw1);
+[sw] (sw1);
+iw sw;
+iw WITH sw;
+cd8_0 cd8_1 cd8_2 cd8_3 cd8_6 cd8_9 cd8_12 cd8_18 cd8_24;
+%C#2%
+[N#1@1.199];
+[N#2@2.945];
+S ON iw sw (S3 - S4);
+[iw] (iw2);
+[sw] (sw2);
+iw sw;
+iw WITH sw;
+cd8_0 cd8_1 cd8_2 cd8_3 cd8_6 cd8_9 cd8_12 cd8_18 cd8_24;
+%C#3%
+[N#1@-1.281];
+[N#2@-1.148];
+S ON iw sw (S5 - S6);
+[iw] (iw3);
+[sw] (sw3);
+iw sw;
+iw WITH sw;
+cd8_0 cd8_1 cd8_2 cd8_3 cd8_6 cd8_9 cd8_12 cd8_18 cd8_24;
+MODEL TEST:
+S2 = S4;
+S4 = S6;
+OUTPUT:
+SAMPSTAT;
+STANDARDIZED;
+CINTERVAL;
