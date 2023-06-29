@@ -5,21 +5,6 @@
 ## improve GMMi & GMMv functions to replicate best LL (using map functions)
 ## runModels(): do not always overwright models
 
-# Load packages & source functions ----------------------------------------------------------------
-library(tidyverse)
-library(haven)
-library(magrittr)
-library(glue)
-library(lubridate) 
-library(data.table)
-library(metan)
-library(MplusAutomation)
-library(MplusLGM)
-library(rhdf5) #BiocManager::install('rhdf5')
-library(parallel)
-
-R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
-
 # Instructions ------------------------------------------------------------
 ## Some Mplus Language 
 ### vars: refers to variances and residual variances; ex: var1 var1-var9;
@@ -44,61 +29,89 @@ R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifi
 ### can use the manual R3step, including var of the covariates (instead of C on X; use C on X; X; )
 ### (see section 3;  http://statmodel.com/download/webnotes/webnote15.pdf)
 
+# Load packages & source functions ----------------------------------------------------------------
+library(tidyverse)
+library(magrittr)
+library(glue)
+library(haven)
+library(lubridate) 
+library(labelled)
+library(data.table)
+library(metan)
+library(MplusAutomation)  
+# library(usethis) library(devtools) install_github("michaelhallquist/MplusAutomation")
+library(MplusLGM)
+library(rhdf5) #BiocManager::install('rhdf5')
+library(parallel)
+
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
+
 # Installation ------------------------------------------------------------
 install.packages('devtools') # Install devtools 
 devtools::install_github('joshunrau/MplusLGM') # Install MplusLGM 
 
-# Vars of interest ---------------------------------------------------------
+# Vars of interest --------------------------------------------------------
 ## Sociodemographics
-SD_num <- c('ageentry', 'educ_num', 'FIQ', 'holltotp')
-SD_cat <- c('gender', 'minority', 'marital2', 'housing', 'work')
-MISC_cat <- c('Txsitn')
-SD <- c(SD_num, SD_cat, MISC_cat)
+SD_num <- c('ageentry', 'FIQ', 'holltotp', 'EDUC_num')
+SD_cat <- c('gender', 'Vmin', 'NEET', 'INDPT', 'REL')
+SD <- c('DOB', SD_num, SD_cat)
 
-## Clinical characteristics
-CLIN_num <- c('PAS_tot2', 'ageonset', 'duponset', 'conv')
-CLIN_cat <- c('CAYRconv', 'mode', 'referral', 'Transfcat', 'dx_spect', 'SUD')
-CLIN <- c(CLIN_num, CLIN_cat, 'doe')
+## Clinical information
+CHRONO <- c('date_pr','dt2stpsy', 'onset', 'datecont', 'doe', 'prevTX_dur', 'prevAP_dur')
+CLIN_num <- c('ageonset', 'duponset', 'dui', 'conv')
+CLIN_cat <-c('prev_EP', 'evercont', 'ever_ap', 'txiscm', 'mode', 'CAYRconv', 'ip_op', 'referral', 'Txsitn', 'transfR') #'inRCT', 'RCTgroup'
+CLIN <- c(CHRONO, CLIN_num, CLIN_cat)
+
+## Diagnosis
+DXII <- paste0('secdx', c(1, 3:6))
+DXIIpc <- paste0('secdx', c(1, 3:6), 'pc')
+DX <- c('dx_0', 'dx_b2', 'dx_1year', 'dx2', DXII, DXIIpc, 'SUD')
+
+## Cognition
+COGSTATE <- c('verbm_z', 'wm_z', 'ef_z', 'sop_z', 'vism_z', 'va_z', 'sc_z')
+COG <- c('Battery', COGSTATE)
+
+## Functioning
+PAS <- c('PAS_c', 'PAS_ea', 'PAS_la', 'PAS_a', 'PAS_tot2', 'PAS_tot3', 'PAS_tot4')
+FUNC_cat <- c('vismin', 'EDUC_cat', 'newwork', 'othwork', 'newliving', 'othliving', 'marital')
+EDUC <- paste('EDUC', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+WRK1 <- paste('WRK1', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+HOUS1 <- paste('HOUS1', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+HOUS2 <- paste('HOUS2', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SOFAS <- paste('SOFAS', c(0, 12, 24), sep = '_')
+FUNC <- c(PAS, FUNC_cat, 'Years_of_education', EDUC, WRK1, HOUS1, HOUS2, SOFAS)
 
 ## Psychopathology
-SAPS <- str_c('SAPS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-SANS <- str_c('SANS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-SOFAS <- str_c('SOFAS_', c(0, 12, 24))
-HAS <- str_c('HAS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-CDS <- str_c('CDS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-YMRS <- str_c('YMRS_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-INS8 <- str_c('G12_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+SAPS <- paste('SAPS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SANS <- paste('SANS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+HAS <- paste('HAS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+CDS <- paste('CDS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+YMRS <- paste('YMRS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
 
-## SUD
-SUDx <-  str_c('secdx', c(1:6))
-SUDpc <-  str_c('secdx', c(1:6), 'pc')
+## Insight 
+SUMD1 <- paste('SUMD1', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SUMD2 <- paste('SUMD2', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SUMD3 <- paste('SUMD3', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SUMD <- c(SUMD1, SUMD2, SUMD3)
 
 ## Suicide
-scd_CDS <- str_c('cd8_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-scd_BPRS <- str_c('bprs4_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-
-## Neurocognition
-COG <- c('verbm_z', 'wm_z', 'ef_z', 'sop_z', 'vism_z', 'va_z', 'sc_z')
-
-## Summary
-SX_0 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS', 'G12', 'cd8', 'bprs4'), '0', sep = '_')
-SX_24 <- paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS', 'G12', 'cd8', 'bprs4'), '24', sep = '_')
-SX <- c(SAPS, SANS, SOFAS, HAS, CDS, YMRS, INS8, scd_CDS, scd_BPRS)
+SCD <- paste('cd8', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
 
 ## Remission & Recovery
-PSR <- str_c('PSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-NSR <- str_c('NSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-JSR <- str_c('JSR_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-SR_0 <- paste(c('PSR', 'NSR', 'JSR'), '0', sep = '_')
+PSR <- paste('PSR', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+NSR <- paste('NSR', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+JSR <- paste('JSR', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SR_0 <- paste(c('PSR', 'NSR'), '0', sep = '_')
 SR_24 <- paste(c('PSR', 'NSR', 'JSR'), '24', sep = '_')
 SR_t <- paste(c('PSR', 'NSR', 'JSR'), 't', sep = '_')
 SR_1st <- paste(c('PSR', 'NSR', 'JSR'), '1st', sep = '_')
-SR <- c(PSR, NSR, JSR, SR_t, SR_1st, 'JSR_by3', 'JSR_24C', 'RECOV_24')
+SR_cat <- c(PSR, NSR, JSR, 'JSR_by3', 'RECOV_24')
+SR <- c(SR_cat, SR_t, SR_1st, 'JSR_24C')
 
-## Rx
-adh <- str_c('comp_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-ord <- str_c('txm', c(0, 1, 2, 3, 6, 9, 12, 18, 24), "co")
-CPZw <- str_c('CPZw_', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+## Medication
+adh <- paste('comp', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+ord <- paste0('txm', c(0, 1, 2, 3, 6, 9, 12, 18, 24), 'co')
+CPZw <- paste('CPZw', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
 RX_0 <- c('comp_0', 'txm0co', 'CPZw_0')
 RX_24 <- c('comp_24', 'txm24co', 'CPZw_24')
 RX <-  c(ord, adh, CPZw)
@@ -106,42 +119,52 @@ RX <-  c(ord, adh, CPZw)
 # AP_type <- starts_with('atype')
 
 ## Trajectory 
-C <- c('C_SAPS', 'C_SANS', 'C_SOFAS')
-CP <-  c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
+# C <- c('C_SOFAS', 'C_SAPS', 'C_SANS')
+# CP <- c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
+
+## Summary
+SX_0 <- paste(c('SAPS', 'SANS', 'HAS', 'CDS', 'cd8', 'YMRS','SUMD1', 'SUMD2', 'SUMD3'), '0', sep = '_')
+SX_24 <- paste(c('SAPS', 'SANS', 'HAS', 'CDS', 'cd8', 'YMRS','SUMD1', 'SUMD2', 'SUMD3'), '24', sep = '_')
+SX <- c(SAPS, SANS, HAS, CDS, SCD, YMRS, SUMD)
+
+## covariates
+cov_R3STEP <- c(SD_cat, SD_num, CLIN_num, 'mode', 'CAYRconv', 'ip_op', 'dx_b2', PAS, 'SOFAS_0', COGSTATE, SX_0, SR_0, SR_t, SR_1st, 'JSR_by3', RX_0)
+cov_MixReg <- c(EDUC, SOFAS, SX, PSR, NSR, JSR)
+cov_D3STEP <- c('EDUC_24', 'SOFAS_24', SX_24, SR_24, 'JSR_24C','RECOV_24', RX_24)
+
+## Miscellaneous
+t <- paste0('t', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+# items <- sap1_0:umd_6b_24
 
 ## Categorical variables to recode as factors
-cat <- c(SD_cat, MISC_cat, CLIN_cat, SUDx, SUDpc, PSR, NSR, JSR, 'JSR_by3', 'RECOV_24', ord, C)
+cat <- c(SD_cat, WRK1, HOUS1, HOUS2, CLIN_cat, FUNC_cat, DX, SR_cat, ord)
 
 # Load dataset ------------------------------------------------------------
-PEPP2_df <-
-  list.files(
-    '/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Data/Datasets',
+PEPP2_df <- list.files(
+    '/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/GitHub/PEPP_private/PEPP2/Data/SAV',
     full.names = TRUE) %>%
   file.info() %>%
   filter(isdir == FALSE) %>% 
   slice_max(mtime) %>% # get the most updated file
-  rownames() %>%
-  read_csv() %>% 
-  modify_at(cat, as.factor) # Recode variables as factor 
+  rownames() %>% 
+  read_sav()
 
 SD_df <- PEPP2_df %>%
   filter(pin <= 857) %>% 
   filter(ageentry >= 14 & ageentry < 36) %>%
   filter(FIQ >= 70 | is.na(FIQ)) %>% 
-  filter(dx_spect !=3 | is.na(dx_spect)) %>% 
+  filter(dx_0 !=3 | is.na(dx_0)) %>% 
   filter(prev_EP == 0 | is.na(prev_EP)) %>% 
   filter(prevAP_dur < 30 | is.na(prevAP_dur)) %>% 
-  filter(case_when(prevTx_dur >= 30 & is.na(prevAP_dur) ~ FALSE, .default = TRUE)) %>% 
+  filter(case_when(prevTX_dur >= 30 & is.na(prevAP_dur) ~ FALSE, .default = TRUE)) %>% 
   filter(is.na(Txsitn))
 
 SD_df <- SD_df %>% 
-  select('pin', all_of(c(SD, CLIN, SX, SR, COG, RX)), starts_with('miss'))
-
-### rename vars > 8 characters for Mplus
-SD_df <- names(SD_df) %>%
-  grep('.{9,}', ., value = TRUE) %>%
-#   setnames(SD_df, old = ., new = c('varname'))
-# names(SOFAS_df) <- str_sub(names(SOFAS_df), 1, 8) # remove characters from variables names > 8 characters 
+  select('pin', all_of(c(cov_R3STEP, cov_MixReg, cov_D3STEP)), starts_with('miss')) %>% 
+  mutate(across(any_of(cat), ~ to_factor(., levels = 'labels'))) %>% #Recode labelled variables as factor 
+  mutate(across(c(-any_of(cat), -where(is.Date)), ~ as.numeric(as.character(.)))) %>% #Recode labelled variables as numeric
+  mutate(dx_b2 = fct_drop(dx_b2)) %>% 
+  mutate(gender = fct_collapse(gender, male = 'Male', female = c('Female', 'other')))
 
 # SOFAS -------------------------------------------------------------------
 ## Load workingspace 
@@ -288,12 +311,11 @@ R3STEP_models <- R3STEP(
   df = SOFAS_df,
   idvar = 'pin',
   usevar = SOFAS,
-  cov = c(SD_num, SD_cat, CLIN_num, CLIN_cat, SX_0, SR_0, SR_t, SR_1st, RX_0),
+  cov = cov_R3STEP,
   model = FINAL_model
 )
 
 R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 2)
-R3STEP_stdyx <- R3STEPfit(R3STEP_models, std = 'stdyx', ref = 2)
 
 ## The 3-Step Procedure - mixture regressions with predictors of growth factors 
 # CANNOT BE COMPUTED BECAUSE FINAL_MODEL IS GBTM (NO WITHIN CLASS VARIANCE)
@@ -317,7 +339,8 @@ D3STEP_models <- D3STEP(
   df = SOFAS_df,
   idvar = 'pin',
   usevar = SOFAS,
-  cov = c(SX_24, 'PSR_24', 'NSR_24', SR_C, SR, RX_24),
+  cov = cov_D3STEP,
+  startval = list(cd8_24 = 500, CDS_24 = 1000, comp_24 = 500, JSR_24C = 2000),
   model = FINAL_model
 )
 
@@ -505,7 +528,7 @@ plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = 
    R3STEP_stdyx <- R3STEPfit(R3STEP_models, std = 'stdyx', ref = 2)
 
 # The 3-Step Procedure - mixture regressions with predictors of growth factors
-   MixREG2_models <- MixREG2(
+   MixREG_models <- MixREG(
      df = SAPS_df,
      idvar = 'pin',
      usevar = SAPS, 
@@ -513,7 +536,7 @@ plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = 
      #startval = list(PSR = 500, NSR = 500)
      gf = "S",
      gfw = c("iw", "sw"),
-     test = "sw1 = sw2",
+     test = "S_sw",
      model = FINAL_model
    )
   
@@ -538,7 +561,7 @@ plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = 
      df = SAPS_df,
      idvar = 'pin',
      usevar = SAPS,
-     cov = c(SX_24, 'PSR_24', 'NSR_24', SR, SR_C),
+     cov = cov_D3STEP,
      model = FINAL_model
    )
    
@@ -710,12 +733,11 @@ R3STEP_models <- R3STEP(
   df = SANS_df,
   idvar = 'pin',
   usevar = SANS,
-  cov = c(SD_num, SD_cat, SX_0),
+  cov = cov_R3STEP,
   model = FINAL_model
 )
 
 R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 1)
-R3STEP_stdyx <- R3STEPfit(R3STEP_models, std = 'stdyx', ref = 1)
 
 # The 3-Step Procedure - mixture regressions with predictors of growth factors
 MixREG_models <- MixREG(
@@ -748,8 +770,8 @@ D3STEP_models <- D3STEP(
   df = SANS_df,
   idvar = 'pin',
   usevar = SANS,
-  cov = c(SX_24, 'PSR_24', 'NSR_24', SR, SR_C),
-  startval = list(SAPS_24 = 8000, CDS_24 = 8000),
+  cov = cov_D3STEP,
+  # startval = list(SAPS_24 = 8000, CDS_24 = 8000),
   model = FINAL_model
 )
 
@@ -804,8 +826,8 @@ save.image(glue(getwd(), 'SANS', 'SANS_{today()}.RData', .sep = '/'))
 
 # Work in Progress --------------------------------------------------------
 WIP <- runModels(
-  target = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/MixREG/HAS_MixREG.inp",
-  showOutput = FALSE,
+  target = "~/Desktop/MplusLGM/SAPS/Results/MixREG/NSR_MixREG.inp",
+  showOutput = TRUE,
   logFile = NULL,
 )
 
@@ -863,4 +885,5 @@ data.frame(colnames(PEPP2_df))
 ## Write xlsx file
 list(R3STEP_unstd, TVCreg_stdyx, MixREG_stdyx, D3STEP_stdyx) %>% 
   write.xlsx(file = glue(getwd(), 'SANS', 'results', 'SANS_{today()}.xlsx', .sep = '/'))
+
 
