@@ -3,7 +3,7 @@ R3STEP <- function(df,
                    usevar,
                    cov,
                    starts = 0,
-                   output = c("SAMPSTAT", "STANDARDIZED", "CINTERVAL"),
+                   output = c("SAMPSTAT", "STANDARDIZED", "CINTERVAL", "TECH7"),
                    model) {
   # To do -------------------------------------------------------------------
   ## select cov-specific starts values
@@ -11,18 +11,18 @@ R3STEP <- function(df,
   ## silence warning message from MplusAutomation::parseMplus
 
   # Test arguments ----------------------------------------------------------
-  # df <-  SOFAS_df
+  # df <-  SANS_df
   # idvar  <-  'pin'
-  # usevar <-  SOFAS
+  # usevar <-  SANS
   # cov <-  c(SD_num, SD_cat)
   # starts <-  0
   # output <-  c("SAMPSTAT", "STANDARDIZED", "CINTERVAL")
   # model  <-  FINAL_model
 
   # Extract model parameters and data ---------------------------------------
-  logits_df <- model[["results"]][["class_counts"]][["logitProbs.mostLikely"]] # logits
-  k <- model[["results"]][["summaries"]][["NLatentClasses"]] # classes
-  lgmm <- model[["TITLE"]] # title
+  logits_df <- purrr::pluck(model, "results", "class_counts", "logitProbs.mostLikely") # logits
+  k <- purrr::pluck(model, "results", "summaries", "NLatentClasses") # classes
+  lgmm <- model$TITLE # title
 
   savedata <-
     purrr::map(
