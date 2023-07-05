@@ -93,7 +93,7 @@ D3STEPfit <- function(list_mpobj, std = "unstd") {
   table <- list(OR_SMD, warn_err) %>%
     purrr::reduce(full_join, by = "name") %>%
     dplyr::mutate(param = dplyr::coalesce(param, name)) %>%
-    dplyr::filter(!is.na(errors) | paramHeader == "New.Additional.Parameters" | (paramHeader == "Means" & stringr::str_detect(param, "[:alpha:]#\\d", negate = TRUE))) %>%
+    dplyr::filter(!is.na(errors) | paramHeader == "New.Additional.Parameters" | (paramHeader == "Means" & stringr::str_detect(param, "[:alpha:]#\\d", negate = TRUE)) | paramHeader == "Thresholds") %>%
     dplyr::mutate(sig = dplyr::case_when(
       WaldChiSq_PValue < 0.001 ~ "***",
       WaldChiSq_PValue < 0.01 ~ "**",
