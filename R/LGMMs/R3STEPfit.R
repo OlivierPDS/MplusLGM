@@ -16,10 +16,13 @@ R3STEPfit <- function(list_mpobj,
     "std" = "std.standardized"
   )
 
+  k <- purrr::pluck(list_mpobj, 1, "results", "summaries", "NLatentClasses")
+  
   if (is.null(ref)) {
-    ref <- purrr::pluck(list_mpobj, 1, "results", "summaries", "NLatentClasses")
+    ref <- k
   }
-  stopifnot(ref %in% seq(ref))
+  
+  stopifnot(ref %in% seq(k))
 
   # Extract warnings and errors ---------------------------------------------
   warnings <- list_mpobj %>%
@@ -38,12 +41,20 @@ R3STEPfit <- function(list_mpobj,
   sublist_mpobj <- list_mpobj %>%
     purrr::discard(purrr::map_vec(errors, ~ length(.x) > 0))
 
-  if (ref == last(seq(ref))) {
+  if (ref == last(seq(k))) {
     param <- purrr::map(sublist_mpobj, ~ purrr::pluck(.x, "results", "parameters", std, .default = NULL))
   } else {
     param <- purrr::map(sublist_mpobj, ~ purrr::pluck(.x, "results", "parameters", "unstandardized.alt", glue::glue("ref.cat.{ref}"), .default = NULL))
   }
-
+  
+  class_mean <- sublist_mpobj %>% 
+    purrr::map(~ pluck(.x, "results", "tech7")) %>% 
+    purrr::map_depth(2, ~ pluck(.x, "classSampMeans")) %>%
+    purrr::map(~ as.data.frame(.x)) %>% 
+    purrr::map(~ rename_with(.x, ~ paste0(c('mean_c#'), seq_along(.x)))) %>% 
+    purrr::imap(\(x, idx) dplyr::mutate(x, name = stringr::str_to_upper(idx))) %>% 
+    purrr::reduce(merge, all = TRUE)
+  
   param <- param %>%
     purrr::imap(\(x, idx) dplyr::mutate(x, name = stringr::str_to_upper(idx))) %>%
     purrr::reduce(merge, all = TRUE) %>% # Error with bind_rows and list_rbind: "Can't combine `est_se` <double> and `est_se` <character>."
@@ -63,8 +74,8 @@ R3STEPfit <- function(list_mpobj,
     ))
 
   # Merge parameters, confidence intervals, warnings and errors  ------------
-  table <- list(or_ci, warn_err) %>%
-    purrr::reduce(full_join, by = "name") %>%
+  table <- list(or_ci,class_mean, warn_err) %>%
+    purrr::reduce(~ full_join(.x, .y, by = "name")) %>%
     dplyr::mutate(param = dplyr::coalesce(param, name)) %>%
     dplyr::filter(stringr::str_detect(paramHeader, "C#\\d") | !is.na(errors)) %>% # filter out irrelevant parameters
     dplyr::mutate(sig = dplyr::case_when(
@@ -73,7 +84,7 @@ R3STEPfit <- function(list_mpobj,
       pval < 0.05 ~ "*"
     )) %>% # add significativity
     dplyr::mutate(dplyr::across(c(tidyselect::where(is.numeric), -pval), ~ round(.x, digits = 2))) %>%
-    dplyr::select(paramHeader, param, est, se, pval, sig, tidyselect::starts_with("OR"), warnings, errors) %>%
+    dplyr::select(paramHeader, param, est, se, pval, sig, tidyselect::starts_with("mean_c#"), tidyselect::starts_with("OR"), warnings, errors) %>%
     dplyr::arrange(paramHeader, -est, param)
 
   return(table)
