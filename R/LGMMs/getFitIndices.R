@@ -7,91 +7,61 @@
 
 
 # Test arguments/function -------------------------------------------------
-# list_models <- GMMi_models
+# list_models <- list(GBTM_best, LCGA_best, GMMci_best, GMMcv_best)
+# list_models <- GMMcv_models[[4]]
 
 
 getFitIndices <- function(list_models) {
-  
-  list_depth <- list_models %>% purrr::pluck_depth()
 
-  # While loop until 1-level depth list of Mplus Object  
-  while (list_depth != 7) {
-    if (list_depth > 7) {
-      list_models <- list_models %>% purrr::flatten()
-    } else {
-      list_models <- list(list_models)
-    }
-    list_depth <- list_models %>% purrr::pluck_depth()
-  }
-
-  # Get model parameters
-  n <- list_models %>%  
-    purrr::map(purrr::pluck, "results", "summaries", "Observations") %>%
-    plyr::ldply(rbind) %>%
-    dplyr::select("1") %>% 
-    data.table::setnames("n")
-  
-  k <- list_models %>% 
-    purrr::map(purrr::pluck, "results", "summaries", "NLatentClasses") %>%
-    plyr::ldply(rbind) %>%
-    dplyr::select("1") %>% 
-    max()
+  title <- list_models %>% 
+    map(~pluck(.x, "TITLE"))
   
   # Get model errors & warnings
-  models_err <- list_models %>% 
-    purrr::map(purrr::pluck, 'results', 'errors') %>%
-    purrr::map_depth(2, purrr::keep, stringr::str_detect, "THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY") %>% 
-    purrr::map_depth(1, purrr::flatten_chr) %>% 
-    purrr::modify_if(~ length(.) == 0, ~ NA_character_) %>% 
-    plyr::ldply(rbind) %>% 
-    dplyr::select("1") %>% 
-    data.table::setnames("errors")
+  warnings <- list_models %>%
+    purrr::map(pluck, "results", "warnings", .default = NULL) %>% 
+    purrr::map_depth(2, ~ paste(.x, collapse = " ")) %>% 
+    purrr::map_depth(2, ~ purrr::keep(.x, stringr::str_detect(.x,  "WARNING:"))) %>% 
+    purrr::map(~ compact(.x))
   
-  models_warn <- list_models %>% 
-    purrr::map(purrr::pluck, 'results', 'warnings') %>%
-    purrr::map_depth(2, purrr::keep, stringr::str_detect, "WARNING:") %>% 
-    purrr::map_depth(1, purrr::flatten_chr) %>% 
-    purrr::modify_if(~ length(.) == 0, ~ NA_character_) %>% 
-    plyr::ldply(rbind) %>%
-    dplyr::select("1") %>% 
-    data.table::setnames("warnings")
+  errors <- list_models %>%
+    purrr::map(pluck, "results", "errors", .default = NULL)
+  
+  warn_err <-list(title, warnings, errors) %>% 
+    purrr::pmap(\(title, warnings, errors) dplyr::tibble( Title = trimws(title), Warnings = paste(warnings, collapse = " "), Errors = paste(errors, collapse = " "))) %>%
+    purrr::map(~ dplyr::mutate(.x, dplyr::across(c('Warnings', 'Errors'), ~ stringr::str_remove_all(.x, "[[:punct:]]")))) %>%
+    purrr::map_dfr(~ dplyr::mutate(.x, dplyr::across(c('Warnings', 'Errors'), ~ dplyr::na_if(.x, "")))) 
+    # purrr::imap_dfr(\(x, idx) dplyr::mutate(x, Title = stringr::str_to_upper(idx)))
+  
+  sublist_models <- list_models %>%
+    purrr::discard(purrr::map_vec(errors, ~ length(.x) > 0))
   
   # Get Average posterior probabilities
-  APPA <- list_models %>% 
-    purrr::map(purrr::pluck, 'results', 'class_counts', 'avgProbs.mostLikely') %>% #.default = NULL/NA
-    purrr::modify_if(~!is.null(.x), ~ diag(.x)) %>% 
-    purrr::modify_if(~is.null(.x), ~NA) %>% 
-    plyr::ldply(rbind) %>% 
-    dplyr::select(stringr::str_c(seq(k))) %>% 
-    data.table::setnames(stringr::str_c('APPA', seq(k)))
+  APPA <- sublist_models %>% 
+    purrr::map(purrr::pluck, 'results', 'class_counts', 'avgProbs.mostLikely', .default = NULL) %>%
+    purrr::map_if(~ !is.null(.x), ~ diag(.x), .else = ~ NA_character_) %>%
+    purrr::map(\(x) as.data.frame(matrix(x, nrow = 1, byrow = FALSE))) %>% 
+    purrr::map(\(x) rename_with(x, ~ paste0('APPA', seq_along(.x))))
   
   # Get class counts & proportions
-  models_cc <- list_models %>% 
-    purrr::map(purrr::pluck, 'results', 'class_counts', 'mostLikely', .default = NA) %>% 
-    purrr::modify_if(~!anyNA(.x), ~ tidyr::pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion'))) %>% 
-    tryCatch(expr = reduce(., rbind), error=function(e) reduce(., rbind.fill)) %>%  # because rbind returns error when df have different ncol 
-    dplyr::mutate(dplyr::across(where(is.numeric) & dplyr::starts_with("proportion_"), ~ round(.x * 100, digits = 2)))
+  cc <- sublist_models %>% 
+    purrr::map(purrr::pluck, 'results', 'class_counts', 'mostLikely', .default = NULL) %>% 
+    purrr::map_if(~ !is.null(.x), ~ tidyr::pivot_wider(.x, names_from = 'class', values_from = c('count', 'proportion')))
   
-    
   # Create table of model summaries and bind tables together
-  models_sum <- MplusAutomation::SummaryTable(
-    list_models,
-    keepCols = c(
-      "Title",
-      "Parameters",
-      "LL",
-      "AIC",
-      "AICC",
-      "BIC",
-      "Entropy",
-      "T11_LMR_Value",
-      "T11_LMR_PValue"
-    )
-  ) %>%
-    dplyr::mutate(CAIC = -2 * LL + Parameters * (log(n) + 1)) %>%
-    cbind(models_warn, models_err, n, APPA, models_cc) %>% 
-    dplyr::select("Title", "n", "Parameters", "LL", "AIC", "AICC", "CAIC", "BIC", starts_with("APPA"), everything())
+  summary <- sublist_models %>%  
+    purrr::map(purrr::pluck, "results", "summaries")
   
-  return(models_sum)
+  results <- list(summary, APPA, cc) %>% 
+    purrr::pmap_dfr(\(x, y, z) purrr::reduce(list(x, y, z), ~ merge(.x, .y, all = TRUE))) %>% 
+    dplyr::mutate(Title = trimws(Title))
+    
+  # Merge each data frame into one table ------------------------------------
+  table <- list(results, warn_err) %>%
+    purrr::reduce(merge, all = TRUE, by = 'Title') %>% 
+    dplyr::mutate(dplyr::across(dplyr::starts_with("proportion"), ~ round(.x * 100, digits = 2))) %>% 
+    dplyr::mutate(CAIC = -2 * LL + Parameters * (log(Observations) + 1)) %>%
+    dplyr::select("Title", "Observations", "Parameters", "NLatentClasses", "LL", "AIC", "AICC", "CAIC", "BIC", starts_with(c("T11_LMR", "count", "proportion", "APPA")), "Entropy", "Warnings", "Errors")
+  
+  return(table)
   
 }
