@@ -15,104 +15,76 @@ poly <- function(model,
                              df,
                              usevar,
                              p = c(1, 2, 3)) {
-  
+
+  # model = GMMcv_best
+  # df = SANS_df
+  # usevar = 'SANS'
+  # p = 3
   
   # Get necessary model information
   k <-  model %>%  purrr::pluck("results", "summaries", "NLatentClasses")
   
   # Initialize list of all current growth factors for classes
-  gf <-
-    if (p == 3) {
-      map(1:k, ~ c("I", "S", "Q", "CUB"))
-    } else if (p == 2) {
-      map(1:k, ~ c("I", "S", "Q"))
-    } else if (p == 1) {
-      return(model) # Cannot further refine if already linear
-    } else {
-      stop('invalid polynomial order of model')
-    }
-  
+  gf <- switch(p,
+  "1" = c("I", "S"),
+  "2" = c("I", "S", "Q"),
+  "3" = c("I", "S", "Q", "CUB")
+) %>% {map(seq(k), \(x) .)}
+    
   # Create a list of all current factors to be checked for all classes
-  gf_current <- gf %>%  map(tail, 1)
+  gf_current <- gf %>%  
+    map(tail, 1)
   
-  param_df <-
-    model[["results"]][["parameters"]][["unstandardized"]] %>%
-    filter(str_detect(paramHeader, 'Means')) %>%
-    filter(str_detect(param, "C#[:digit:]+", negate = TRUE)) %>%
+  param_df <- model %>% 
+    pluck("results", "parameters", "unstandardized") %>% 
+    filter(str_detect(paramHeader, 'Means') & param %in% c("I", "S", "Q", "CUB")) %>%
     select(LatentClass, param, pval)
   
   # Get the p values
-  pval_lst <- list()
-  for (n in 1:k) {
-    pval_lst[[n]] <- param_df %>%
-      filter(str_detect(param, gf_current[[n]]) &
-               LatentClass == n) %>%
-      pluck("pval")
-  }
+  pval_lst <- map2(seq(k), gf_current, \(k, gf_current) filter(param_df, param == gf_current & LatentClass == k)) %>%
+  map(~ pluck(.x, "pval"))
   
-  gf0 <- list()
-  for (n in 1:k) {
-    gf0[[n]] <- param_df %>%
-      filter(str_detect(param, gf_current[[n]]) &
-               LatentClass == n) %>%
-      mutate(gf0 = if_else(pval > 0.05,
-                           str_c(gf_current[[n]], "@0"),
-                           str_c(gf_current[[n]]))) %>%
-      pluck("gf0")
-  }
-  
+  gf0 <- map2(seq(k), gf_current, \(k, gf_current) filter(param_df, param == gf_current & LatentClass == k)) %>%
+    map(~ mutate(.x, gf0 = if_else(pval > 0.05,
+                                   paste0(param, '@0'), 
+                                   param))) %>% 
+    map(~ pluck(.x, "gf0"))
+
   # While any P value for a class growth factor is non-significant
   while (any(pval_lst > .05)) {
+    
     # Get current growth factor index and replace it with appropriate growth factor
-    for (n in 1:k) {
-      j <- grep(gf_current[[n]], gf[[n]])
-      gf[[n]] <- gf[[n]] %>% assign_in(j, gf0[[n]])
-    }
+    gf <- list(gf, gf0, gf_current) %>% 
+    pmap(\(gf, gf0, gf_current) map_chr(gf, \(gf) str_replace(gf, glue("{gf_current}$"), gf0)))
     
     # Get the growth factors for each class as a number
-    gf_n <- gf %>% map(~ str_ends(.x, "@0", TRUE)) %>%
+    gf_n <- gf %>% map(~ str_ends(.x, "@0", negate = TRUE)) %>%
       map(~ sum(.x) - 1) %>%
       str_c(collapse = "")
     
-    
     # If any growth factor is zero, break as cannot have an intercept only model
-    if (0 %in% gf_n) {
+    if (0 %in% str_split(gf_n, '')) {
       break
     }
     
+    gf_mean <- map_chr(gf, ~ glue("[{paste(str_to_lower(.x), collapse = ' ')}];"))
+    
     # Update Mplus Object with appropriate growth factors
-    mpobj <- update(
-      model,
-      TITLE = as.formula(glue(
-        "~ 'FINAL_{str_c(gf_n, collapse = '')};'"
-      )),
-      OUTPUT = as.formula(glue(
-        "~ 'TECH1 SAMPSTAT STANDARDIZED;'",
-      )),
-      SAVEDATA = as.formula(
-        glue(
-          "~ '
-        FILE = FINAL_{str_c(gf_n, collapse = '')}.dat;
-        SAVE = CPROBABILITIES;'"
-        )
-      ),
-      autov = FALSE,
-      rdata = df
-    )
+    mpobj <- model %>% 
+      modify_in('TITLE', ~ glue(.x, "_{gf_n}"))
     
     for (n in 1:k) {
       mpobj[["MODEL"]] <- mpobj[["MODEL"]] %>%
         str_replace(
-          glue("%c#{n}%([:space:]\\[.*\\];)?"),
-          glue("%c#{n}%
-                   [", "{str_c(gf[[n]], collapse=' ')}", "];")
+          glue("%C#{n}%([:space:]\\[.*\\];)?"), #error here "%C#{n}%([:space:]\\[.*\\])?") 
+          glue("%C#{n}%
+               {gf_mean[[n]]}")
         )
       
     }
     
     # Create directory for results if does not already exist
-    model_dir <-
-      glue::glue(getwd(), '{usevar}', 'Results', 'FINAL', .sep = "/")
+    model_dir <- glue::glue(getwd(), '{usevar}', 'Results', 'FINAL', .sep = "/")
     if (!dir.exists(model_dir)) {
       dir.create(model_dir, recursive = TRUE)
     }
@@ -120,8 +92,8 @@ poly <- function(model,
     # Run model
     model <- mplusModeler(
       object = mpobj,
-      dataout = glue(getwd(), "/{usevar}/Results/FINAL/{str_c(gf_n, collapse = '')}.dat"),
-      modelout = glue(getwd(), "/{usevar}/Results/FINAL/{str_c(gf_n, collapse = '')}.inp"),
+      dataout = glue(getwd(), "/{usevar}/Results/FINAL/{gf_n}.dat"),
+      modelout = glue(getwd(), "/{usevar}/Results/FINAL/{gf_n}.inp"),
       hashfilename = FALSE,
       run = 1,
       check = TRUE,
@@ -130,33 +102,25 @@ poly <- function(model,
     )
     
     # Update model's parameters
-    param_df <-
-      model[["results"]][["parameters"]][["unstandardized"]] %>%
-      filter(str_detect(paramHeader, 'Means')) %>%
-      filter(str_detect(param, "C#[:digit:]+", negate = TRUE)) %>%
+    param_df <- model %>% 
+      pluck("results", "parameters", "unstandardized") %>% 
+      filter(str_detect(paramHeader, 'Means') & param %in% c("I", "S", "Q", "CUB")) %>%
       select(LatentClass, param, pval)
     
     # Update current growth factor
-    j <- j - 1
-    gf_current <- map(gf, pluck, j)
-    
+    gf_current <- map2(gf, gf_current, \(gf, gf_current)
+        head_while(gf, ~ str_starts(.x, gf_current, negate = TRUE))) %>% 
+        map(tail, 1)
+  
     # Update the p values
-    for (n in 1:k) {
-      gf0[[n]] <- param_df %>%
-        filter(str_detect(param, gf_current[[n]]) &
-                 LatentClass == n) %>%
-        mutate(gf0 = if_else(pval > 0.05,
-                             str_c(gf_current[[n]], "@0"),
-                             str_c(gf_current[[n]]))) %>%
-        pluck("gf0")
-    }
+    pval_lst <- map2(seq(k), gf_current, \(k, gf_current) filter(param_df, param == gf_current & LatentClass == k)) %>%
+      map(~ pluck(.x, "pval"))
     
-    for (n in 1:k) {
-      pval_lst[[n]] <- param_df %>%
-        filter(str_detect(param, gf_current[[n]]) &
-                 LatentClass == n) %>%
-        pluck("pval")
-    }
+    gf0 <- map2(seq(k), gf_current, \(k, gf_current) filter(param_df, param == gf_current & LatentClass == k)) %>%
+      map(~ mutate(.x, gf0 = if_else(pval > 0.05,
+                                     paste0(param, '@0'), 
+                                     param))) %>% 
+      map(~ pluck(.x, "gf0"))
     
   }
   return(model)
