@@ -2,11 +2,13 @@ GMM <- function(df,
                 idvar,
                 usevar,
                 k,
-                startval = 500,
                 overall_polynomial,
                 random_effect,
+                startval = 500,
+                dist = c("NORMAL", "SKEWNORMAL", "TDISTRIBUTION", "SKEWT"),
                 output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL"),
                 working_dir = getwd()) {
+  
   # Test Arguments ----------------------------------------------------------
   # df <- SOFAS_df
   # idvar <- "pin"
@@ -57,8 +59,9 @@ GMM <- function(df,
   starts <- paste("STARTS =", startval, startval / 4)
   k1starts <- paste("K-1STARTS =", startval / 2, startval / 8)
   processors <- paste("PROCESSORS =", parallel::detectCores())
+  dist <- glue("DISTRIBUTION = {match.arg(dist)}")
 
-  analysis <- c(type, starts, k1starts, processors) %>%
+  analysis <- c(type, starts, k1starts, dist, processors) %>%
     MplusAutomation::parseMplus(add = TRUE)
 
   ## MODEL = --------------------------------------------------------------
@@ -147,8 +150,8 @@ GMM <- function(df,
   output <- MplusAutomation::parseMplus(output, add = TRUE)
 
   ## SAVEDATA = --------------------------------------------------------------
-  file <- purrr::map(title, \(title) glue::glue("FILE = {title}_CP.dat"))
-  save <- "SAVE = CPROBABILITIES"
+  file <- purrr::map(title, \(title) glue::glue("FILE = {title}_est.dat"))
+  save <- "SAVE = CPROBABILITIES FSCORES"
 
   savedata <- purrr::map(file, \(file) c(file, save)) %>%
     purrr::map(~ MplusAutomation::parseMplus(.x, add = TRUE))
