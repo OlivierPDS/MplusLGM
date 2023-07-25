@@ -5,8 +5,8 @@ SKTEST <- function(mpobj, usevar) {
            OUTPUT = ~ . + "TECH13;") %>% 
     mplusModeler(
       object = .,
-      dataout = glue(getwd(), '/{usevar}/Results/FINALm_SKTEST.dat'),
-      modelout = glue(getwd(), '/{usevar}/Results/FINALm_SKTEST.inp'),
+      dataout = glue(getwd(), '/{usevar}/Results/FINAL/SKTEST.dat'),
+      modelout = glue(getwd(), '/{usevar}/Results/FINAL/SKTEST.inp'),
       hashfilename = FALSE,
       run = 1,
       check = TRUE,
