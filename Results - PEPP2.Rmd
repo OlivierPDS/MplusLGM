@@ -5,34 +5,44 @@ date: "`r Sys.Date()`"
 output: html_document
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo=FALSE)
+```{r setup, include=FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE)
 ```
 
-```{r packages}
+```{r packages} 
 library(tidyverse)
 library(magrittr)
+library(flextable)
+library(metafor)
+library(kableExtra)
 ```
 
-```{r working session, include=FALSE}
-ws <- c("SOFAS", "SAPS", "SANS") %>% 
+```{r working session, include=FALSE} 
+ws <- c("SOFAS", "SAPS", "SANS") %>%
   map_chr(\(x)
-          str_c(getwd(), x, sep = "/") %>%
-            list.files(full.names = T) %>% 
-            file.info() %>%
-            filter(isdir==FALSE) %>% 
-            slice_max(mtime) %>% # get the most updated workspace
-            rownames())
+  str_c(getwd(), x, sep = "/") %>%
+    list.files(full.names = TRUE) %>%
+    file.info() %>%
+    filter(isdir == FALSE) %>%
+    slice_max(mtime) %>% # get the most updated workspace
+    rownames())
 
-env <- map(1:3, new.env) %>% 
-  set_names(c('SOFAS.env', 'SAPS.env', 'SANS.env'))
-  map2(ws, env, \(x, y) load(x, envir = y))
-  list2env(env, globalenv())
+ws <- list.files("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/GitHub/PEPP_private/PEPP2/Rproj", full.names = TRUE) %>%
+  file.info() %>%
+  filter(isdir == FALSE) %>%
+  slice_max(mtime) %>% # get the most updated workspace
+  rownames() %>% 
+  c(ws)
+
+env <- map(1:4, new.env) %>%
+  set_names(c("PEPP2.env", "SOFAS.env", "SAPS.env", "SANS.env"))
+map2(ws, env, \(x, y) load(x, envir = y))
+list2env(env, globalenv())
 ```
 
 <!-- To add: R3STEP, Missing data, Assumptions -->
 
-# Analyses
+# Analyses 
 ## Sample
 ![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/Sample.png)
 
@@ -72,7 +82,7 @@ $\pi_{1i}^k = \mu_{10}^k + \zeta_{1i}$ (slope)\
 \
 \
 
-#### LCGA
+#### LCGA 
 ![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/LCGA.png)
 
 $$Y_{it}^k = \pi_{0i}^k + \pi_{1i}^kt + \varepsilon_{i(t)}^{(k)}$$\
@@ -89,7 +99,7 @@ $\pi_{1i}^k = \mu_{10}^k + \zeta_{1i}$ (slope)\
 #### GMM
 ![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/GMM.png)
 
-##### GMMi (class-invariant)
+##### GMMi (class-invariant) 
 $$Y_{it}^k = \pi_{0i}^k + \pi_{1i}^kt + \varepsilon_{i(t)}^{(k)}$$\
 $\pi_{0i}^k = \mu_{00}^k + \zeta_{0i}$ (intercept)\
 $\pi_{1i} = \mu_{10}^k + \zeta_{1i}$ (slope)\
@@ -101,7 +111,7 @@ $\pi_{1i} = \mu_{10}^k + \zeta_{1i}$ (slope)\
 \
 \
 
-##### GMMv (class-variant)\
+##### GMMv (class-variant)\ 
 $$Y_{it}^k = \pi_{0i}^k + \pi_{1i}^kt + \varepsilon_{i(t)}^{(k)}$$\
 $\pi_{0i}^k = \mu_{00}^k + \zeta_{0i}^k$ (intercept)\
 $\pi_{1i}^k = \mu_{10}^k + \zeta_{1i}^k$ (slope)\
@@ -139,7 +149,7 @@ $Y$| **Class membership:** $C_{i=k}$
 $X$| **Sociodemographics:** age, education, FIQ, SES, onset, DUP, PAS\
      **Baseline predictors:** `r paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '0', sep = '_')`
 
-### Mixture regressions:
+### Mixture regressions: 
 $$\pi_{0i}^{(k)} = \mu_{00}^{(k)} + \gamma_{01}^{(k)}X_i + \zeta_{_{0i}}^{(k)}$$
 $$\pi_{1i}^{(k)} = \mu_{10}^{(k)} + \gamma_{11}^{(k)}X_i + \zeta_{_{1i}}^{(k)}$$
    
@@ -156,7 +166,7 @@ $X$| **Time-varying covariates:** SOFAS, SAPS, SANS, CDA, HAS, YMRS
 <!-- $Y$: **Primary outcome** (SOFAS, SAPS, SANS)\ -->
 <!-- $X$: **Time-varying covariates** (SOFAS, SAPS, SANS, CDA, HAS, YMRS)\ -->
 
-### Linear regressions:
+### Linear regressions: 
 $$
 Y_i=(b_0 + b_1C_{i=k}) + \varepsilon_i
 $$
@@ -168,180 +178,296 @@ $Y$| **Distal outcomes:** `r paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMR
 **variable to add/consider:** clozapine-use, recovery, mortality, suicide, self-harm
 $X$| **Class membership:** $C_{i=k}$
 
-## Sensitivity analyses
+## Sensitivity analyses: 
 - individually varying timescores\
 - intent-to-treat analysis\
 
-# Results
-## SOFAS
+# Results 
+## Descriptives stats 
+```{r}
+pluck(env, "PEPP2.env", "desc_tb") %>% 
+  autofit()
+# print(preview = 'pdf')
+```
+
+```{r}
+models <- map_dfr(env, ~ pluck(.x, "FINAL_fit")) %>% 
+  mutate(Outcome = c("SOFAS", "SAPS", "SANS")) %>% 
+  mutate(Model = c(" Quadratic GBTM", "Cubic class-variant GMM  ", "Cubic class-variant GMM")) %>% 
+  mutate(across(c(where(is.numeric), -'T11_LMR_PValue'), ~ round(.x, 2))) %>% 
+  mutate("Class 1" = glue("{count_1} ({proportion_1}%)")) %>% 
+  mutate("Class 2" = glue("{count_2} ({proportion_2}%)")) %>% 
+  mutate("Class 3" = case_when(!is.na(count_3) ~ glue("{count_3} ({proportion_3}%)"))) %>% 
+  select("Outcome", "n", "Model", "Parameters", "BIC", "T11_LMR_PValue", starts_with("Class"), "Entropy")
+  
+kable(format = "html", 
+        col.names = 
+        align = "l", 
+        table.attr = "style='width:90%;'")
+  
+```
+
+
+## Model summary 
+```{r}
+  map_dfr(env, ~ pluck(.x, "FINAL_fit")) %>% 
+  mutate(Outcome = c("SOFAS", "SAPS", "SANS")) %>% 
+  mutate(Model = c(" Quadratic GBTM", "Cubic class-variant GMM  ", "Cubic class-variant GMM")) %>% 
+  mutate(across(c(where(is.numeric), -'T11_LMR_PValue'), ~ round(.x, 2))) %>% 
+  mutate("Class 1" = glue("{count_1} ({proportion_1}%)")) %>% 
+  mutate("Class 2" = glue("{count_2} ({proportion_2}%)")) %>% 
+  mutate("Class 3" = case_when(!is.na(count_3) ~ glue("{count_3} ({proportion_3}%)"))) %>% 
+  select("Outcome", "n", "Model", "Parameters", "BIC", "T11_LMR_PValue", starts_with("Class"), "Entropy") %>% 
+  kable(format = "html", 
+        col.names = c("Outcome", "n", "Model", "Parameters", "BIC", "aLMR-p", "Class 1", "Class 2", "Class 3", "Entropy"),
+        align = "c", 
+        table.attr = "style='width:90%;'") %>% 
+  kableExtra::kable_styling()
+  
+```
+
+## Forest plots 
+```{r}
+SOFAS_R3STEP <- pluck(env, "SOFAS.env", "R3STEP_unstd")
+SOFAS_D3STEP <- pluck(env, "SOFAS.env", "D3STEP_unstd")
+
+SAPS_R3STEP <- pluck(env, "SAPS.env", "R3STEP_unstd")
+SAPS_MixREG <- pluck(env, "SAPS.env", "MixREG_stdyx")
+SAPS_D3STEP <- pluck(env, "SAPS.env", "D3STEP_unstd")
+
+SANS_R3STEP <- pluck(env, "SANS.env", "R3STEP_unstd")
+SANS_MixREG <- pluck(env, "SANS.env", "MixREG_stdyx")
+SANS_D3STEP <- pluck(env, "SANS.env", "D3STEP_unstd")
+```
+
+## R3STEP 
+```{r}
+forest1_df <- list(SANS_R3STEP, SAPS_R3STEP, SOFAS_R3STEP) %>% 
+  map(\(x) var_to_lbl(x, param)) %>% 
+  map2(c("SANS", "SAPS", "SOFAS"), \(x, y) mutate(x, outcome = y)) %>%
+  reduce(~ merge(.x, .y, all = TRUE)) %>% 
+  mutate(across(where(is.numeric), ~ round(.x, digits = 2))) %>% 
+  group_by(outcome) %>%
+  arrange(outcome, OR_est, .by_group = TRUE)
+
+n_R3STEP <- forest1_df %>% 
+    count(outcome) %>% 
+    pivot_wider(names_from = outcome, values_from = n)
+  
+i <- 3
+
+forest1 <- forest.default(
+  slab = forest1_df$lbl,
+  ilab = cbind(forest1_df$`mean_c#1`, forest1_df$`mean_c#2`, forest1_df$`mean_c#3`),
+  x = forest1_df$OR_est,
+  ci.lb = forest1_df$OR_low2.5,
+  ci.ub = forest1_df$OR_up2.5,
+  rows = c(
+    seq(n_R3STEP$SANS),
+    seq(from = n_R3STEP$SANS + i, length.out = n_R3STEP$SAPS),
+    seq(from = n_R3STEP$SANS + n_R3STEP$SAPS + 2 * i - 1, length.out = n_R3STEP$SOFAS)
+  ),
+  alim = c(0, 2),
+  ylim = c(0, n_R3STEP$SANS + n_R3STEP$SAPS + n_R3STEP$SOFAS + 2 * i),
+  refline = 1,
+  psize = 1,
+  cex = 1,
+  top = 1,
+  header = c("Baseline predictors", "OR [95% CI]")
+)
+
+par(font = 2)
+text(x = median(forest1$ilab.xpos), y = forest1$ylim[[2]], labels = 'Class mean', cex = forest1$cex, pos = 3)
+
+par(font = 4)
+text(x = forest1$xlim[[1]], y = max(forest1$rows) + 1, labels = c("SOFAS"), cex = forest1$cex, pos = 4)
+text(x = forest1$xlim[[1]], y = n_R3STEP$SAPS + n_R3STEP$SANS + i, labels = c("SAPS"), cex = forest1$cex,  pos = 4)
+text(x = forest1$xlim[[1]], y = n_R3STEP$SANS + 1, labels = c("SANS"), cex = forest1$cex, pos = 4)
+
+par(font = 2)
+text(x = head(forest1$ilab.xpos, -1), y = max(forest1$rows) + 1, labels = c("1", "2"), cex = forest1$cex)
+text(x = head(forest1$ilab.xpos, -1), y = n_R3STEP$SAPS + n_R3STEP$SANS + i, labels = c("1", "2"), cex = forest1$cex)
+text(x = forest1$ilab.xpos, y = n_R3STEP$SANS + 1, labels = c("1", "2", "3"), cex = forest1$cex)
+```
+
+## D3STEP 
+```{r}
+  forest3_df <- list(SANS_D3STEP, SAPS_D3STEP, SOFAS_D3STEP) %>%
+    map(\(x) var_to_lbl(x, param)) %>%
+    map(\(x) mutate(x, across(c("OR_est", "OR_low2.5", "OR_up2.5"), ~ transf.lnortod.logis(log(.x))))) %>%
+    map(\(x) mutate(x, x = coalesce(SMD_est, OR_est))) %>%
+    map(\(x) mutate(x, ci.lb = coalesce(SMD_low2.5, OR_low2.5))) %>%
+    map(\(x) mutate(x, ci.ub = coalesce(SMD_up2.5, OR_up2.5))) %>%
+    map(\(x) pivot_wider(x, names_from = LatentClass, names_glue = "m{LatentClass}", values_from = est)) %>%
+    map(\(x) reframe(x, .by = lbl, across(c(x, ci.lb, ci.ub, matches("m\\d")), ~ na.omit(unique(.))))) %>%
+    map(\(x) summarise(x, .by = lbl, across(everything(), ~ first(.)))) %>%
+    map2(c("SANS", "SAPS", "SOFAS"), \(x, y) mutate(x, outcome = y)) %>%
+    reduce(~ merge(.x, .y, all = TRUE)) %>%
+    mutate(across(c(m1, m2, m3), ~ as.numeric(.x))) %>%
+    mutate(across(where(is.numeric), ~ round(.x, digits = 2))) %>% 
+    group_by(outcome) %>%
+    arrange(outcome, x, .by_group = TRUE)
+  
+  n_D3STEP <- forest3_df %>% 
+    count(outcome) %>% 
+    pivot_wider(names_from = outcome, values_from = n)
+  
+  i <- 4 
+  
+  forest3 <- forest.default(
+    slab = forest3_df$lbl,
+    ilab = cbind(forest3_df$m1, forest3_df$m2, forest3_df$m3),
+    x = forest3_df$x,
+    ci.lb = forest3_df$ci.lb,
+    ci.ub = forest3_df$ci.ub,
+    rows = c(
+      seq(n_D3STEP$SANS),
+      seq(from = n_D3STEP$SANS + i, length.out = n_D3STEP$SAPS),
+      seq(from = n_D3STEP$SANS + n_D3STEP$SAPS + 2 * i - 1, length.out = n_D3STEP$SOFAS)
+    ),
+    alim = c(-5, 5),
+    ylim = c(0, n_D3STEP$SANS + n_D3STEP$SAPS + n_D3STEP$SOFAS + 2 * i),
+    refline = 0,
+    psize = 1,
+    cex = 1,
+    top = 1,
+    header = c("Distal outcomes", "SMD [95% CI]")
+  )
+  
+par(font = 2)
+text(x = median(forest3$ilab.xpos), y = forest3$ylim[[2]], labels = "Class mean", cex = forest3$cex, pos = 3)
+
+par(font = 4)
+text(x = forest3$xlim[[1]], y = max(forest3$rows) + 1, labels = c("SOFAS"), cex = forest3$cex, pos = 4)
+text(x = forest3$xlim[[1]], y = n_D3STEP$SAPS + n_D3STEP$SANS + i, labels = c("SAPS"), cex = forest3$cex, pos = 4)
+text(x = forest3$xlim[[1]], y = n_D3STEP$SANS + 1, labels = c("SANS"), cex = forest3$cex, pos = 4)
+
+par(font = 2)
+text(x = head(forest3$ilab.xpos, -1), y = max(forest3$rows) + 1, labels = c("1", "2"), cex = forest3$cex)
+text(x = head(forest3$ilab.xpos, -1), y = n_D3STEP$SAPS + n_D3STEP$SANS + i, labels = c("1", "2"), cex = forest3$cex)
+text(x = forest3$ilab.xpos, y = n_D3STEP$SANS + 1, labels = c("1", "2", "3"), cex = forest3$cex)
+```
+
+## SOFAS 
 ```{r}
 pluck(env, "SOFAS.env", "plot")
 ```
 
 Quadratic GBTM\
 ```{r}
-pluck(env, "SOFAS.env", "FINAL_fit") %>% 
-select(n, starts_with(c("count", "proportion"))) %>% 
-knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
-kableExtra::kable_styling()
-```
-
-### Predictors of class membership
-```{r}
-  pluck(env, "SOFAS.env", "R3STEP_unstd") %>%  
-  filter(str_detect(paramHeader, "C#\\d.ON")) %>%
-  filter(pval < (0.05 / nrow(.))) %>% 
-  select(-warnings, -errors) %>% 
-  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+pluck(env, "SOFAS.env", "FINAL_fit") %>%
+  select(n, starts_with(c("count", "proportion"))) %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
 ```
 
-### Time-varying predictors of primary outome
+### Predictors of class membership 
 ```{r}
-  pluck(env, "SOFAS.env", "TVCreg_stdyx") %>%  
+SOFAS_R3SETP %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+<!-- ### Time-varying predictors of primary outome -->
+```{r, eval = FALSE}
+pluck(env, "SOFAS.env", "TVCreg_stdyx") %>%
   filter(str_detect(param, "^PSR", negate = TRUE)) %>%
-  filter(pval < (0.05 / length(env$SOFAS.env$TVCreg_models))) %>% 
-  select(-warnings, -errors, -sig) %>% 
-  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+  filter(pval < (0.05 / length(env$SOFAS.env$TVCreg_models))) %>%
+  select(-warnings, -errors, -sig) %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
 ```
 
-### Distal outcomes of latent classes
+### Distal outcomes of latent classes 
 ```{r}
-  pluck(env, "SOFAS.env", "D3STEP_unstd") %>%  
-  filter(str_detect(param, "^CDS", negate = TRUE)) %>%
-  mutate(LatentClass = ifelse(LatentClass == "Categorical.Latent.Variables", "C", LatentClass)) %>% 
-  mutate(paramHeader = ifelse(paramHeader == "New.Additional.Parameters", "Pairwise", paramHeader)) %>% 
-  filter(WaldChiSq_PValue < (0.05 / sum(.$paramHeader == "Pairwise"))) %>% 
-  filter(pval < 0.05) %>% 
-  select(-warnings, -errors) %>% 
-  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+SOFAS_D3STEP %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
 ```
 
 
-## SAPS
+## SAPS 
 ```{r}
-plot1 <- pluck(env, "SAPS.env", "plot")
+pluck(env, "SAPS.env", "plot")
 ```
 
 
 Cubic class-variant GMM\
 ```{r}
-pluck(env, "SAPS.env", "FINAL_fit") %>% 
-select(n, starts_with(c("count", "proportion"))) %>% 
-knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
-kableExtra::kable_styling()
+pluck(env, "SAPS.env", "FINAL_fit") %>%
+  select(n, starts_with(c("count", "proportion"))) %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
 ```
 
 ### Predictors of class membership
 ```{r}
-  pluck(env, "SAPS.env", "R3STEP_unstd") %>%  
-  filter(str_detect(paramHeader, "C#\\d.ON")) %>%
-  filter(pval < (0.05 / nrow(.))) %>% 
-  select(-warnings, -errors) %>% 
-  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+SAPS_R3STEP %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
 ```
 
-### Time-varying predictors of primary outome
-```{r}
-  pluck(env, "SAPS.env", "TVCreg_stdyx") %>%  
+<!-- ### Time-varying predictors of primary outome -->
+```{r, eval = FALSE}
+pluck(env, "SAPS.env", "TVCreg_stdyx") %>%
   filter(str_detect(param, "^(NSR|CDS)", negate = TRUE)) %>%
-  filter(pval < (0.05 / length(env$SAPS.env$TVCreg_models))) %>% 
-  select(-warnings, -errors, -sig) %>% 
-  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+  filter(pval < (0.05 / length(env$SAPS.env$TVCreg_models))) %>%
+  select(-warnings, -errors, -sig) %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
 ```
 
 ### Time-varying predictors of growth factors wihtin latent classes
 ```{r}
-  pluck(env, "SAPS.env", "MixREG_stdyx") %>%  
-  filter(str_detect(param, "^(PSR|YMRS)", negate = TRUE)) %>%
-  filter(pval < (0.05/length(env$SAPS.env$MixREG_models))) %>% 
-  select(-warnings, -errors, -sig) %>% 
-  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+SAPS_MixREG %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
 ```
 
 ### Distal outcomes of latent classes
 ```{r}
-  pluck(env, "SAPS.env", "D3STEP_unstd") %>%  
-  mutate(LatentClass = ifelse(LatentClass == "Categorical.Latent.Variables", "C", LatentClass)) %>% 
-  mutate(paramHeader = ifelse(paramHeader == "New.Additional.Parameters", "Pairwise", paramHeader)) %>% 
-  filter(WaldChiSq_PValue < (0.05 / sum(.$paramHeader == "Pairwise"))) %>% 
-  filter(pval<0.05) %>% 
-  select(-warnings, -errors) %>% 
-  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+SAPS_D3STEP %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
-
 ```
 
-## SANS
+## SANS 
 ```{r}
-plot <- pluck(env, "SANS.env", "plot")
+pluck(env, "SANS.env", "plot")
 ```
 
 Cubic ($C_1$) / linear($C_2$, $C_3$) class-variant GMM\
 ```{r}
-pluck(env, "SANS.env", "FINAL_fit") %>% 
-select(n, starts_with(c("count", "proportion"))) %>% 
-knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
-kableExtra::kable_styling()
+pluck(env, "SANS.env", "FINAL_fit") %>%
+  select(n, starts_with(c("count", "proportion"))) %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
 ```
 
 ### Predictors of class membership
 ```{r}
-  pluck(env, "SANS.env", "R3STEP_unstd") %>%  
-  filter(str_detect(paramHeader, "C#\\d.ON")) %>%
-  filter(pval < (0.05 / (nrow(.) / 2))) %>% 
-  select(-warnings, -errors) %>% 
-  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+SANS_R3STEP %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
 ```
 
-### Time-varying predictors of primary outome
-```{r}
-  pluck(env, "SANS.env", "TVCreg_stdyx") %>%  
-  filter(str_detect(param, "^(PSR|NSR|CDS|YMRS)", negate = TRUE)) %>%
-  filter(pval < (0.05 / length(env$SANS.env$TVCreg_models))) %>% 
-  select(-warnings, -errors, -sig) %>% 
-  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+<!-- ### Time-varying predictors of primary outome -->
+```{r, eval = FALSE}
+SANS_TVCreg %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
 ```
 
 ### Time-varying predictors of growth factors wihtin latent classes
 ```{r}
-  pluck(env, "SANS.env", "MixREG_stdyx") %>%  
-  filter(str_detect(param, "^(YMRS|PSR|NSR)", negate = TRUE)) %>%
-  filter(pval < (0.05 / length(env$SANS.env$MixREG_models))) %>% 
-  select(-warnings, -errors, -sig) %>% 
-  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>% 
+SANS_MixREG %>% 
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
 ```
 
 ### Distal outcomes of latent classes
 ```{r}
-  pluck(env, "SANS.env", "D3STEP_unstd") %>%  
-  mutate(LatentClass = ifelse(LatentClass == "Categorical.Latent.Variables", "C", LatentClass)) %>% 
-  mutate(paramHeader = ifelse(paramHeader == "New.Additional.Parameters", "Pairwise", paramHeader)) %>% 
-  filter(WaldChiSq_PValue < (0.05 / (sum(.$paramHeader == "Pairwise")/2))) %>% 
-  filter(pval < 0.05) %>% 
-  select(-warnings, -errors) %>% 
-  knitr::kable(format = "html", digits = c(2, 2, 2, 2, 2, 3), align = "l", table.attr = "style='width:90%;'") %>% 
+SANS_D3STEP %>% 
+  knitr::kable(format = "html", digits = c(2, 2, 2, 2, 2, 3), align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
 ```
-
-
-<!-- JUNK -->
-<!-- Add alternative parameterization (when k=2)-->
-<!-- add_row(., -->
-<!--           paramHeader = str_replace(.$paramHeader, "l", "2"), -->
-<!--           param = .$param, -->
-<!--           se = .$se, -->
-<!--           sig = .$sig, -->
-<!--           est = - .$est, -->
-<!--           ORs_low2.5 = 1/.$ORs_up2.5, -->
-<!--           ORs_est = round(exp(- .$est),2), -->
-<!--           ORs_up2.5 = 1/.$ORs_low2.5 -->
-<!--           ) -->

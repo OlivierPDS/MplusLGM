@@ -1,0 +1,117 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+07/25/2023   3:20 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  GMM_CI_isqcub@0_FIX
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/GMM/CI/isqcub@0/GMM9.dat";
+
+  VARIABLE:
+  NAMES = pin SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24;
+   MISSING=.;
+   USEVAR = SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24;
+  IDVAR = pin;
+  CLASSES = c(2);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 1000 250;
+  K-1STARTS = 500 125;
+  DISTRIBUTION = SKEWNORMAL;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  i s q cub | SAPS_0@0 SAPS_1@1 SAPS_2@2 SAPS_3@3 SAPS_6@6 SAPS_9@9 SAPS_12@12 SAPS_18@18
+  SAPS_24@24;
+  i s q cub@0;
+  i WITH s q cub;
+  s WITH q cub;
+  q WITH cub;
+  SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24;
+  %C#1%
+  SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 (1);
+  %C#2%
+  SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 (1);
+  OUTPUT:
+  TECH7;
+  TECH11;
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+  SAVEDATA:
+  FILE = GMM_CI_isqcub@0_FIX_est.dat;
+  SAVE = CPROBABILITIES FSCORES;
+
+
+
+*** WARNING in MODEL command
+  All continuous latent variable covariances involving CUB have been fixed to 0
+  because the variance of CUB is fixed at 0.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+GMM_CI_isqcub@0_FIX
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+
+898 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+           -8445.596  902278           21
+           -8446.949  626208           698
+           -8460.602  813779           92
+           -8460.602  278661           674
+           -8460.867  782200           84
+           -8472.365  484687           306
+           -8472.365  604861           800
+           -8472.365  605565           404
+           -8472.365  779820           877
+           -8472.365  49910            829
+           -8472.365  391949           295
+           -8487.636  609185           181
+           -8507.757  804104           566
+           -8507.757  467561           819
+           -8507.757  850112           922
+           -8507.757  264521           929
+           -8507.757  809240           543
+           -8507.757  241197           747
+           -8507.757  153053           378
+           -8507.757  408713           450
+           -8507.757  294811           637
+           -8507.757  689529           516
+           -8507.757  643311           888
+           -8544.120  86651            993
+
+226 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+
+     WARNING:  THE BEST LOGLIKELIHOOD VALUE WAS NOT REPLICATED.  THE
+     SOLUTION MAY NOT BE TRUSTWORTHY DUE TO LOCAL MAXIMA.  INCREASE THE
+     NUMBER OF RANDOM STARTS.
+
+     ONE OR MORE PARAMETERS WERE FIXED TO AVOID SINGULARITY OF THE
+     INFORMATION MATRIX. THE SINGULARITY IS MOST LIKELY BECAUSE THE
+     MODEL IS NOT IDENTIFIED, OR BECAUSE OF EMPTY CELLS IN THE JOINT
+     DISTRIBUTION OF THE CATEGORICAL VARIABLES IN THE MODEL.
+     THE FOLLOWING PARAMETERS WERE FIXED:
+     Parameter 6, %C#1%: I (equality/label)
+     Parameter 7, %C#1%: S WITH I (equality/label)
+     Parameter 8, %C#1%: S (equality/label)
+     Parameter 9, %C#1%: Q WITH I (equality/label)
+     Parameter 10, %C#1%: Q WITH S (equality/label)
+     Parameter 11, %C#1%: Q (equality/label)
+
+     THIS MAY ALSO BE DUE TO RESIDUAL VARIANCES CONVERGING TO 0.
+     THESE RESIDUAL VARIANCES AND CORRESPONDING COVARIANCES ARE FIXED TO 0.
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+*** FATAL ERROR
+An error has occurred while opening internal files.  Please contact us
+about the error, providing both the input and data files if possible.
