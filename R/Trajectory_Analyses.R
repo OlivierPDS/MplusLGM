@@ -477,49 +477,45 @@ LCGA_best <- BEST(LCGA_models, LCGA_fit)
 
 ## Step 4: Growth Mixture Models ------------------------------------------
 ### Add class-invariant random effect variances stepwise 
-GMMci_models <- map(
-  c(500, 1000),
-  \(startval) GMM(
+GMMci_models <- GMM(
     df = SAPS_df,
     idvar = "pin",
     usevar = SAPS,
     k = 2,
-    startval = startval,
+    startval = 1000,
+    dist = "SKEWNORMAL",
     overall_polynomial = 3,
     random_effect = "CI",
     output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL")
   )
-)
 
 #### Get Fit indices 
-GMMci_fit <- map(GMMci_models, ~ getFitIndices(.x))
+GMMci_fit <- getFitIndices(GMMci_models)
 
 ### Select best GMMci model 
-GMMci_best <- BEST(GMMci_models[[2]], GMMci_fit[[2]])
+GMMci_best <- BEST(GMMci_models, GMMci_fit)
 
 ### Alternative model
-BF10 <- exp((GMMci_fit[[2]][14,'BIC'] - GMMci_fit[[2]][6,'BIC'])/2)
+BF10 <- exp((GMMci_fit[14,'BIC'] - GMMci_fit[6,'BIC'])/2)
 
 ### Add class-variant random effect variances stepwise 
-GMMcv_models <- map(
-  c(500, 1000, 2000, 4000),
-  \(startval) GMM(
+GMMcv_models <- GMM(
     df = SAPS_df,
     idvar = "pin",
     usevar = SAPS,
     k = 2,
-    startval = startval,
+    startval = 4000,
+    dist = "SKEWNORMAL",
     overall_polynomial = 3,
     random_effect = "CV",
     output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL")
   )
-)
 
 #### Get Fit Indices 
-GMMcv_fit <- map(GMMcv_models, ~ getFitIndices(.x))
+GMMcv_fit <- getFitIndices(GMMcv_models)
 
 ### Select best GMMcv model 
-GMMcv_best <- BEST(GMMcv_models[[4]], GMMcv_fit[[4]])
+GMMcv_best <- BEST(GMMcv_models, GMMcv_fit)
 
 ## Step 5: Select Best Model -------------------------------------------------------
 ### Get fit indices of all selected models
@@ -734,37 +730,33 @@ LCGA_best <- BEST(LCGA_models, LCGA_fit)
 
 ## Step 4: Growth Mixture Models ------------------------------------------
 ### Add class-invariant random effect variances stepwise 
-GMMci_models <- map(
-  c(500, 1000),
-  \(startval) GMM(
+GMMci_models <- GMM(
     df = SANS_df,
     idvar = "pin",
     usevar = SANS,
     k = 3,
-    startval = startval,
+    startval = 1000,
     overall_polynomial = 3,
     random_effect = "CI",
     output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL")
   )
-)
+
 
 #### Get Fit indices 
-GMMci_fit <- map(GMMci_models, ~ getFitIndices(.x))
+GMMci_fit <- getFitIndices(GMMci_models)
 
 ### Select best GMMci model 
-GMMci_best <- BEST(GMMci_models[[2]], GMMci_fit[[2]])
+GMMci_best <- BEST(GMMci_models, GMMci_fit)
 
-BF10 <- exp((GMMci_fit[[2]][9,'BIC'] - GMMci_fit[[2]][6,'BIC'])/2)
+BF10 <- exp((GMMci_fit[9,'BIC'] - GMMci_fit[6,'BIC'])/2)
 
 ### Add class-variant random effect variances stepwise 
-GMMcv_models <- map(
-  c(500, 1000, 2000, 4000),
-  \(startval) GMM(
+GMMcv_models <- GMM(
     df = SANS_df,
     idvar = "pin",
     usevar = SANS,
     k = 3,
-    startval = startval,
+    startval = 4000,
     overall_polynomial = 3,
     random_effect = "CV",
     output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL")
@@ -772,10 +764,10 @@ GMMcv_models <- map(
 )
 
 #### Get Fit Indices 
-GMMcv_fit <- map(GMMcv_models, ~ getFitIndices(.x))
+GMMcv_fit <- getFitIndices(GMMcv_models)
 
 ### Select best GMMcv model 
-GMMcv_best <- BEST(GMMcv_models[[4]], GMMcv_fit[[4]])
+GMMcv_best <- BEST(GMMcv_models, GMMcv_fit)
 
 ## Step 5: Select Best Model -------------------------------------------------------
 ### Get fit indices of all selected models
@@ -844,7 +836,7 @@ MixREG_models <- MixREG(
   df = SANS_df,
   idvar = 'pin',
   usevar = SANS,
-  cov = list(EDUC, SOFAS, SANS, HAS, CDS, SCD, YMRS, SUMD1, SUMD2, SUMD3, PSR, NSR, JSR),
+  cov = list(SOFAS, SAPS, HAS, CDS, SCD, YMRS, SUMD1, SUMD2, PSR, JSR),
   # startval = list(EDUC = 500, SOFAS = 500, SANS = 500, HAS = 500, CDS = 500, SCD = 500, SUMD1 = 500, SUMD2 = 500, SUMD3 = 500, NSR = 500),
   gf = "S",
   gfw = c("iw", "sw"),
