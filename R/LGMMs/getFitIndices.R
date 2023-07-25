@@ -8,13 +8,15 @@
 
 # Test arguments/function -------------------------------------------------
 # list_models <- list(GBTM_best, LCGA_best, GMMci_best, GMMcv_best)
-# list_models <- GMMcv_models[[4]]
+# list_models <- list(FINAL_dist)
+
+
 
 
 getFitIndices <- function(list_models) {
 
   title <- list_models %>% 
-    map(~pluck(.x, "TITLE"))
+    map(~ pluck(.x, "TITLE"))
   
   # Get model errors & warnings
   warnings <- list_models %>%
@@ -56,8 +58,7 @@ getFitIndices <- function(list_models) {
     dplyr::mutate(Title = trimws(Title))
     
   # Merge each data frame into one table ------------------------------------
-  table <- list(results, warn_err) %>%
-    purrr::reduce(merge, all = TRUE, by = 'Title') %>% 
+  table <- full_join(results, warn_err, by = 'Title', multiple = "any") %>% 
     dplyr::mutate(dplyr::across(dplyr::starts_with("proportion"), ~ round(.x * 100, digits = 2))) %>% 
     dplyr::mutate(CAIC = -2 * LL + Parameters * (log(Observations) + 1)) %>%
     dplyr::select("Title", "Observations", "Parameters", "NLatentClasses", "LL", "AIC", "AICC", "CAIC", "BIC", starts_with(c("T11_LMR", "count", "proportion", "APPA")), "Entropy", "Warnings", "Errors")
