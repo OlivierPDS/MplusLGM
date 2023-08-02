@@ -5,19 +5,24 @@ date: "`r Sys.Date()`"
 output: html_document
 ---
 
-```{r setup, include=FALSE} 
+```{r setup, include = FALSE} 
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE)
+options(scipen = 999)
+options(digits = 3)
+
 ```
 
 ```{r packages} 
 library(tidyverse)
 library(magrittr)
-library(flextable)
 library(metafor)
+library(flextable)
+library(vtable)
+library(gtsummary)
 library(kableExtra)
 ```
 
-```{r working session, include=FALSE} 
+```{r working session, include = FALSE} 
 ws <- c("SOFAS", "SAPS", "SANS") %>%
   map_chr(\(x)
   str_c(getwd(), x, sep = "/") %>%
@@ -38,6 +43,94 @@ env <- map(1:4, new.env) %>%
   set_names(c("PEPP2.env", "SOFAS.env", "SAPS.env", "SANS.env"))
 map2(ws, env, \(x, y) load(x, envir = y))
 list2env(env, globalenv())
+```
+
+```{r vars of interest, include = FALSE} 
+## Sociodemographics
+SD_num <- c('ageentry', 'FIQ', 'holltotp', 'EDUC_num')
+SD_cat <- c('gender', 'Vmin', 'NEET', 'INDPT', 'REL')
+SD <- c('DOB', SD_num, SD_cat)
+
+## Clinical information
+CHRONO <- c('date_pr','dt2stpsy', 'onset', 'datecont', 'doe', 'prevTX_dur', 'prevAP_dur')
+CLIN_num <- c('ageonset', 'duponset', 'dui', 'conv')
+CLIN_cat <-c('prev_EP', 'evercont', 'ever_ap', 'txiscm', 'mode', 'CAYRconv', 'ip_op', 'referral', 'Txsitn', 'transfR') #'inRCT', 'RCTgroup'
+CLIN <- c(CHRONO, CLIN_num, CLIN_cat)
+
+## Diagnosis
+DXII <- paste0('secdx', c(1, 3:6))
+DXIIpc <- paste0('secdx', c(1, 3:6), 'pc')
+DX <- c('dx_0', 'dx_b2', 'dx_1year', 'dx2', DXII, DXIIpc, 'SUD')
+
+## Cognition
+COGSTATE <- c('verbm_z', 'wm_z', 'ef_z', 'sop_z', 'vism_z', 'va_z', 'sc_z')
+COG <- c('Battery', COGSTATE)
+
+## Functioning
+PAS <- c('PAS_c', 'PAS_ea', 'PAS_la', 'PAS_a', 'PAS_tot2', 'PAS_tot3', 'PAS_tot4')
+FUNC_cat <- c('vismin', 'EDUC_cat', 'newwork', 'othwork', 'newliving', 'othliving', 'marital')
+EDUC <- paste('EDUC', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+WRK1 <- paste('WRK1', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+HOUS1 <- paste('HOUS1', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+HOUS2 <- paste('HOUS2', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SOFAS <- paste('SOFAS', c(0, 12, 24), sep = '_')
+FUNC <- c(PAS, FUNC_cat, 'Years_of_education', EDUC, WRK1, HOUS1, HOUS2, SOFAS)
+
+## Psychopathology
+SAPS <- paste('SAPS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SANS <- paste('SANS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+HAS <- paste('HAS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+CDS <- paste('CDS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+YMRS <- paste('YMRS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+
+## Insight 
+SUMD1 <- paste('SUMD1', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SUMD2 <- paste('SUMD2', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SUMD3 <- paste('SUMD3', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SUMD <- c(SUMD1, SUMD2, SUMD3)
+
+## Suicide
+SCD <- paste('cd8', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+
+## Remission & Recovery
+PSR <- paste('PSR', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+NSR <- paste('NSR', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+JSR <- paste('JSR', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SR_0 <- paste(c('PSR', 'NSR', 'JSR'), '0', sep = '_')
+SR_24 <- paste(c('PSR', 'NSR', 'JSR'), '24', sep = '_')
+SR_t <- paste(c('PSR', 'NSR', 'JSR'), 't', sep = '_')
+SR_1st <- paste(c('PSR', 'NSR', 'JSR'), '1st', sep = '_')
+SR_cat <- c(PSR, NSR, JSR, 'JSR_by3', 'RECOV_24')
+SR <- c(SR_cat, SR_t, SR_1st, 'JSR_24C')
+
+## Medication
+ord <- paste0('txm', c(0, 1, 2, 3, 6, 9, 12, 18, 24), 'co')
+adh <- paste('comp', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+# ADH <- paste('ADH', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+CPZ <- paste('CPZ', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+CPZw <- paste('CPZw', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+RX_0 <- c('comp_0', 'txm0co', 'CPZ_0', 'CPZw_0')
+RX_24 <- c('comp_24', 'txm24co', 'CPZ_24', 'CPZw_24')
+RX <-  c(ord, adh, CPZ, CPZw)
+# AP_yn <- starts_with('anti')
+# AP_type <- starts_with('atype')
+
+## Trajectory 
+C <- c('C_SOFAS', 'C_SAPS', 'C_SANS')
+CP <- c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
+
+## Summary
+SX_0 <- paste(c('SAPS', 'SANS', 'HAS', 'CDS', 'YMRS','SUMD1', 'SUMD2', 'SUMD3'), '0', sep = '_')
+SX_24 <- paste(c('SAPS', 'SANS', 'HAS', 'CDS', 'YMRS','SUMD1', 'SUMD2', 'SUMD3'), '24', sep = '_')
+SX <- c(SAPS, SANS, HAS, CDS, YMRS, SUMD)
+
+## Miscellaneous
+t <- paste0('t', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+# items <- sap1_0:umd_6b_24
+
+## Categorical variables to recode as factors
+cat <- c(SD_cat, WRK1, HOUS1, HOUS2, CLIN_cat, FUNC_cat, DX, SR_cat, ord)
+
 ```
 
 <!-- To add: R3STEP, Missing data, Assumptions -->
@@ -190,41 +283,47 @@ pluck(env, "PEPP2.env", "desc_tb") %>%
 # print(preview = 'pdf')
 ```
 
+## Model summary 
 ```{r}
 models <- map_dfr(env, ~ pluck(.x, "FINAL_fit")) %>% 
   mutate(Outcome = c("SOFAS", "SAPS", "SANS")) %>% 
   mutate(Model = c(" Quadratic GBTM", "Cubic class-variant GMM  ", "Cubic class-variant GMM")) %>% 
+  rename("C" = "NLatentClasses") %>% 
+  mutate("aLMRT pval" = round(T11_LMR_PValue, 3)) %>%
   mutate(across(c(where(is.numeric), -'T11_LMR_PValue'), ~ round(.x, 2))) %>% 
-  mutate("Class 1" = glue("{count_1} ({proportion_1}%)")) %>% 
-  mutate("Class 2" = glue("{count_2} ({proportion_2}%)")) %>% 
-  mutate("Class 3" = case_when(!is.na(count_3) ~ glue("{count_3} ({proportion_3}%)"))) %>% 
-  select("Outcome", "n", "Model", "Parameters", "BIC", "T11_LMR_PValue", starts_with("Class"), "Entropy")
-  
-kable(format = "html", 
-        col.names = 
-        align = "l", 
-        table.attr = "style='width:90%;'")
-  
-```
-
-
-## Model summary 
-```{r}
-  map_dfr(env, ~ pluck(.x, "FINAL_fit")) %>% 
-  mutate(Outcome = c("SOFAS", "SAPS", "SANS")) %>% 
-  mutate(Model = c(" Quadratic GBTM", "Cubic class-variant GMM  ", "Cubic class-variant GMM")) %>% 
-  mutate(across(c(where(is.numeric), -'T11_LMR_PValue'), ~ round(.x, 2))) %>% 
-  mutate("Class 1" = glue("{count_1} ({proportion_1}%)")) %>% 
-  mutate("Class 2" = glue("{count_2} ({proportion_2}%)")) %>% 
-  mutate("Class 3" = case_when(!is.na(count_3) ~ glue("{count_3} ({proportion_3}%)"))) %>% 
-  select("Outcome", "n", "Model", "Parameters", "BIC", "T11_LMR_PValue", starts_with("Class"), "Entropy") %>% 
+  mutate("Class 1" = glue("{count_1} ({round(proportion_1, 0)}%)")) %>% 
+  mutate("Class 2" = glue("{count_2} ({round(proportion_2, 0)}%)")) %>% 
+  mutate("Class 3" = case_when(!is.na(count_3) ~ glue("{count_3} ({round(proportion_3, 0)}%)"))) %>% 
+  select("Outcome", "Observations", "C", "Model", "Parameters", "BIC", "aLMRT pval", starts_with("Class"), "Entropy") %>%
   kable(format = "html", 
-        col.names = c("Outcome", "n", "Model", "Parameters", "BIC", "aLMR-p", "Class 1", "Class 2", "Class 3", "Entropy"),
-        align = "c", 
+        align = "l", 
         table.attr = "style='width:90%;'") %>% 
   kableExtra::kable_styling()
-  
 ```
+
+## Traj descritpives
+```{r}
+traj_df <- env %>% 
+  map(~ pluck(.x, "PEPP2_df")) %>% 
+  reduce(full_join, by = 'pin', suffix = c('', '.y')) %>% #use full_join to keep all observations
+  select(-ends_with('.y'))
+
+traj_desc <- traj_df %>%
+  mutate(across(any_of(cat), ~ to_factor(., levels = "labels"))) %>%
+  mutate(gender = fct_collapse(gender, male = "Male", female = c("Female", "other"))) %>%
+  mutate(dx_b2 = fct_drop(dx_b2)) %>% 
+  sumtable(
+    vars = c(cov_R3STEP, cov_D3STEP),
+    group = "C_SANS",
+    summ = c("mean(x)", "sd(x)"),
+    factor.percent = TRUE,
+    factor.counts = TRUE,
+    group.test = TRUE,
+    out = "return"
+  )
+
+```
+
 
 ## Forest plots 
 ```{r}
@@ -356,7 +455,7 @@ pluck(env, "SOFAS.env", "plot")
 Quadratic GBTM\
 ```{r}
 pluck(env, "SOFAS.env", "FINAL_fit") %>%
-  select(n, starts_with(c("count", "proportion"))) %>%
+  select("NLatentClasses", starts_with(c("count", "proportion"))) %>%
   knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
 ```
