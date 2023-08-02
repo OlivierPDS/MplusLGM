@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/25/2023  12:46 PM
+07/31/2023  11:44 AM
 
 INPUT INSTRUCTIONS
 
@@ -10,8 +10,9 @@ INPUT INSTRUCTIONS
   FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/PSR_MixREG.dat";
 
   VARIABLE:
-  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 CPROB1
-       CPROB2 CPROB3 N PSR_0 PSR_1 PSR_2 PSR_3 PSR_6 PSR_9 PSR_12 PSR_18 PSR_24;
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N PSR_0 PSR_1 PSR_2 PSR_3 PSR_6
+       PSR_9 PSR_12 PSR_18 PSR_24;
    MISSING=.;
    USEVAR = N S PSR_0 PSR_1 PSR_2 PSR_3 PSR_6 PSR_9 PSR_12 PSR_18 PSR_24;
   CATEGORICAL = PSR_0 PSR_1 PSR_2 PSR_3 PSR_6 PSR_9 PSR_12 PSR_18 PSR_24;
@@ -21,7 +22,7 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   LINK = LOGIT;
-  STARTS = 0;
+  STARTS = 500;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
@@ -59,10 +60,614 @@ INPUT INSTRUCTIONS
   STANDARDIZED;
   CINTERVAL;
 
-*** ERROR in VARIABLE command
-  On the USEVARIABLES list, variables from the NAMES list must come before
-  all new variables created using the DEFINE command.  The variables(s)
-  violating this order are:  S
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+GMM_CI_isq@0cub@0_C_223_113 - MixREG_PSR;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         404
+
+Number of dependent variables                                   11
+Number of independent variables                                  0
+Number of continuous latent variables                            2
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   S
+
+  Binary and ordered categorical (ordinal)
+   PSR_0       PSR_1       PSR_2       PSR_3       PSR_6       PSR_9
+   PSR_12      PSR_18      PSR_24
+
+  Unordered categorical (nominal)
+   N
+
+Continuous latent variables
+   IW          SW
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            2
+  Adaptive quadrature                                           ON
+Random Starts Specifications
+  Number of initial stage random starts                        500
+  Number of final stage optimizations                          500
+  Number of initial stage iterations                             1
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+Link                                                         LOGIT
+Cholesky                                                       OFF
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/MixREG/PSR_MixREG.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            62
+     Number of y missing data patterns           1
+     Number of u missing data patterns          62
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT
+
+
+           Covariance Coverage
+              PSR_0         PSR_1         PSR_2         PSR_3         PSR_6
+              ________      ________      ________      ________      ________
+ PSR_0          1.000
+ PSR_1          0.676         0.676
+ PSR_2          0.851         0.601         0.851
+ PSR_3          0.946         0.634         0.827         0.946
+ PSR_6          0.908         0.606         0.782         0.871         0.908
+ PSR_9          0.864         0.579         0.755         0.812         0.795
+ PSR_12         0.871         0.574         0.730         0.819         0.792
+ PSR_18         0.822         0.540         0.688         0.772         0.745
+ PSR_24         0.792         0.520         0.693         0.748         0.720
+ S              1.000         0.676         0.851         0.946         0.908
+
+
+           Covariance Coverage
+              PSR_9         PSR_12        PSR_18        PSR_24        S
+              ________      ________      ________      ________      ________
+ PSR_9          0.864
+ PSR_12         0.775         0.871
+ PSR_18         0.725         0.748         0.822
+ PSR_24         0.723         0.723         0.708         0.792
+ S              0.864         0.871         0.822         0.792         1.000
+
+
+     PROPORTION OF DATA PRESENT FOR U
+
+
+           Covariance Coverage
+              PSR_0         PSR_1         PSR_2         PSR_3         PSR_6
+              ________      ________      ________      ________      ________
+ PSR_0          1.000
+ PSR_1          0.676         0.676
+ PSR_2          0.851         0.601         0.851
+ PSR_3          0.946         0.634         0.827         0.946
+ PSR_6          0.908         0.606         0.782         0.871         0.908
+ PSR_9          0.864         0.579         0.755         0.812         0.795
+ PSR_12         0.871         0.574         0.730         0.819         0.792
+ PSR_18         0.822         0.540         0.688         0.772         0.745
+ PSR_24         0.792         0.520         0.693         0.748         0.720
+
+
+           Covariance Coverage
+              PSR_9         PSR_12        PSR_18        PSR_24
+              ________      ________      ________      ________
+ PSR_9          0.864
+ PSR_12         0.775         0.871
+ PSR_18         0.725         0.748         0.822
+ PSR_24         0.723         0.723         0.708         0.792
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              S
+              ________
+ S              1.000
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    PSR_0
+      Category 1    0.980          396.000
+      Category 2    0.020            8.000
+    PSR_1
+      Category 1    0.604          165.000
+      Category 2    0.396          108.000
+    PSR_2
+      Category 1    0.398          137.000
+      Category 2    0.602          207.000
+    PSR_3
+      Category 1    0.319          122.000
+      Category 2    0.681          260.000
+    PSR_6
+      Category 1    0.316          116.000
+      Category 2    0.684          251.000
+    PSR_9
+      Category 1    0.309          108.000
+      Category 2    0.691          241.000
+    PSR_12
+      Category 1    0.301          106.000
+      Category 2    0.699          246.000
+    PSR_18
+      Category 1    0.265           88.000
+      Category 2    0.735          244.000
+    PSR_24
+      Category 1    0.275           88.000
+      Category 2    0.725          232.000
+    N
+      Category 1    0.411          166.000
+      Category 2    0.163           66.000
+      Category 3    0.426          172.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              S
+              ________
+               -0.603
+
+
+           Covariances
+              S
+              ________
+ S              0.218
+
+
+           Correlations
+              S
+              ________
+ S              1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -265.480
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     S                    -0.603      -0.267      -1.478    0.25%      -1.125     -0.733     -0.495
+             404.000       0.218      -1.290       0.294    0.25%      -0.343     -0.164
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+
+Unperturbed starting value run did not converge or was rejected in the third stage.
+
+499 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN INSUFFICIENT
+     NUMBER OF E STEPS.  INCREASE THE NUMBER OF MITERATIONS.  ESTIMATES
+     CANNOT BE TRUSTED.
+
+
+
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        155.51496          0.38494
+       2         75.58107          0.18708
+       3        172.90397          0.42798
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        188.92440          0.46763
+       2         45.00637          0.11140
+       3        170.06922          0.42096
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              167          0.41337
+       2               65          0.16089
+       3              172          0.42574
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.771
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.863    0.121    0.016
+    2   0.140    0.844    0.016
+    3   0.013    0.003    0.984
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.927    0.059    0.015
+    2   0.267    0.725    0.007
+    3   0.016    0.006    0.978
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      4.143    1.384    0.000
+    2      3.608    4.607    0.000
+    3     -4.140   -5.087    0.000
+
+
+MODEL RESULTS
+
+                    Estimate
+
+Latent Class 1
+
+ IW       |
+    PSR_0              1.000
+    PSR_1              1.000
+    PSR_2              1.000
+    PSR_3              1.000
+    PSR_6              1.000
+    PSR_9              1.000
+    PSR_12             1.000
+    PSR_18             1.000
+    PSR_24             1.000
+
+ SW       |
+    PSR_0              0.000
+    PSR_1              1.000
+    PSR_2              2.000
+    PSR_3              3.000
+    PSR_6              6.000
+    PSR_9              9.000
+    PSR_12            12.000
+    PSR_18            18.000
+    PSR_24            24.000
+
+ S          ON
+    IW                 0.407
+    SW                -0.805
+
+ SW       WITH
+    IW                 0.039
+
+ Means
+    IW                 0.215
+    SW                 0.149
+    N#1                1.778
+    N#2               -1.142
+
+ Intercepts
+    S                 -0.217
+
+ Thresholds
+    PSR_0$1            0.999
+    PSR_1$1            0.999
+    PSR_2$1            0.999
+    PSR_3$1            0.999
+    PSR_6$1            0.999
+    PSR_9$1            0.999
+    PSR_12$1           0.999
+    PSR_18$1           0.999
+    PSR_24$1           0.999
+
+ Variances
+    IW                 0.080
+    SW                 0.038
+
+ Residual Variances
+    S                  0.033
+
+Latent Class 2
+
+ IW       |
+    PSR_0              1.000
+    PSR_1              1.000
+    PSR_2              1.000
+    PSR_3              1.000
+    PSR_6              1.000
+    PSR_9              1.000
+    PSR_12             1.000
+    PSR_18             1.000
+    PSR_24             1.000
+
+ SW       |
+    PSR_0              0.000
+    PSR_1              1.000
+    PSR_2              2.000
+    PSR_3              3.000
+    PSR_6              6.000
+    PSR_9              9.000
+    PSR_12            12.000
+    PSR_18            18.000
+    PSR_24            24.000
+
+ S          ON
+    IW                -0.032
+    SW                -0.143
+
+ SW       WITH
+    IW                 0.039
+
+ Means
+    IW                 0.182
+    SW                 0.286
+    N#1                0.278
+    N#2                1.326
+
+ Intercepts
+    S                 -0.183
+
+ Thresholds
+    PSR_0$1            0.999
+    PSR_1$1            0.999
+    PSR_2$1            0.999
+    PSR_3$1            0.999
+    PSR_6$1            0.999
+    PSR_9$1            0.999
+    PSR_12$1           0.999
+    PSR_18$1           0.999
+    PSR_24$1           0.999
+
+ Variances
+    IW                 0.021
+    SW                 0.099
+
+ Residual Variances
+    S                  0.033
+
+Latent Class 3
+
+ IW       |
+    PSR_0              1.000
+    PSR_1              1.000
+    PSR_2              1.000
+    PSR_3              1.000
+    PSR_6              1.000
+    PSR_9              1.000
+    PSR_12             1.000
+    PSR_18             1.000
+    PSR_24             1.000
+
+ SW       |
+    PSR_0              0.000
+    PSR_1              1.000
+    PSR_2              2.000
+    PSR_3              3.000
+    PSR_6              6.000
+    PSR_9              9.000
+    PSR_12            12.000
+    PSR_18            18.000
+    PSR_24            24.000
+
+ S          ON
+    IW                 0.241
+    SW                -0.275
+
+ SW       WITH
+    IW                 0.001
+
+ Means
+    IW                 0.360
+    SW                 0.353
+    N#1               -1.822
+    N#2               -2.898
+
+ Intercepts
+    S                 -1.073
+
+ Thresholds
+    PSR_0$1            0.999
+    PSR_1$1            0.999
+    PSR_2$1            0.999
+    PSR_3$1            0.999
+    PSR_6$1            0.999
+    PSR_9$1            0.999
+    PSR_12$1           0.999
+    PSR_18$1           0.999
+    PSR_24$1           0.999
+
+ Variances
+    IW                 0.115
+    SW                 0.123
+
+ Residual Variances
+    S                  0.033
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.106
+    C#2               -0.828
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     %OVERALL%
+
+     iw sw | psr_0@0 psr_1@1 psr_2@2 psr_3@3 psr_6@6 psr_9@9 psr_12@12 psr_18@18 psr_24@24;
+
+     s ON iw;
+     s ON sw;
+
+     [ c#1*-0.10599 ];
+     [ c#2*-0.82753 ];
+
+     %C#1%
+
+     s ON iw*0.40672 (s1);
+     s ON sw*-0.80489 (s2);
+
+     sw WITH iw*0.03924;
+
+     [ s*-0.21743 ];
+     [ iw*0.21486 ] (iw1);
+     [ sw*0.14947 ] (sw1);
+     [ n#1@1.77800 ];
+     [ n#2@-1.14200 ];
+
+     [ psr_0$1*0.99884 ] (26);
+     [ psr_1$1*0.99884 ] (26);
+     [ psr_2$1*0.99884 ] (26);
+     [ psr_3$1*0.99884 ] (26);
+     [ psr_6$1*0.99884 ] (26);
+     [ psr_9$1*0.99884 ] (26);
+     [ psr_12$1*0.99884 ] (26);
+     [ psr_18$1*0.99884 ] (26);
+     [ psr_24$1*0.99884 ] (26);
+
+     s*0.03334 (9);
+     iw*0.08021;
+     sw*0.03754;
+
+     %C#2%
+
+     s ON iw*-0.03205 (s3);
+     s ON sw*-0.14325 (s4);
+
+     sw WITH iw*0.03876;
+
+     [ s*-0.18299 ];
+     [ iw*0.18156 ] (iw2);
+     [ sw*0.28580 ] (sw2);
+     [ n#1@0.27800 ];
+     [ n#2@1.32600 ];
+
+     [ psr_0$1*0.99884 ] (26);
+     [ psr_1$1*0.99884 ] (26);
+     [ psr_2$1*0.99884 ] (26);
+     [ psr_3$1*0.99884 ] (26);
+     [ psr_6$1*0.99884 ] (26);
+     [ psr_9$1*0.99884 ] (26);
+     [ psr_12$1*0.99884 ] (26);
+     [ psr_18$1*0.99884 ] (26);
+     [ psr_24$1*0.99884 ] (26);
+
+     s*0.03334 (9);
+     iw*0.02073;
+     sw*0.09900;
+
+     %C#3%
+
+     s ON iw*0.24113 (s5);
+     s ON sw*-0.27482 (s6);
+
+     sw WITH iw*0.00134;
+
+     [ s*-1.07343 ];
+     [ iw*0.35961 ] (iw3);
+     [ sw*0.35253 ] (sw3);
+     [ n#1@-1.82200 ];
+     [ n#2@-2.89800 ];
+
+     [ psr_0$1*0.99884 ] (26);
+     [ psr_1$1*0.99884 ] (26);
+     [ psr_2$1*0.99884 ] (26);
+     [ psr_3$1*0.99884 ] (26);
+     [ psr_6$1*0.99884 ] (26);
+     [ psr_9$1*0.99884 ] (26);
+     [ psr_12$1*0.99884 ] (26);
+     [ psr_18$1*0.99884 ] (26);
+     [ psr_24$1*0.99884 ] (26);
+
+     s*0.03334 (9);
+     iw*0.11485;
+     sw*0.12341;
+
+
+
+     Beginning Time:  11:44:23
+        Ending Time:  12:35:06
+       Elapsed Time:  00:50:43
+
 
 
 MUTHEN & MUTHEN

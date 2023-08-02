@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023  10:05 AM
+07/27/2023   7:39 PM
 
 INPUT INSTRUCTIONS
 
@@ -19,6 +19,7 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   STARTS = 1000 250;
   K-1STARTS = 500 125;
+  DISTRIBUTION = NORMAL;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
@@ -66,8 +67,8 @@ INPUT INSTRUCTIONS
   STANDARDIZED;
   CINTERVAL;
   SAVEDATA:
-  FILE = GMM_CI_isqcub@0_T_CP.dat;
-  SAVE = CPROBABILITIES;
+  FILE = GMM_CI_isqcub@0_T_est.dat;
+  SAVE = CPROBABILITIES FSCORES;
 
 
 
@@ -308,13 +309,16 @@ Final stage loglikelihood values at local maxima, seeds, and initial stage start
            -7855.837  602032           648
            -7855.837  829540           324
            -7855.837  913639           162
+           -7855.837  961454           665
            -7855.837  266340           683
            -7855.837  411615           171
            -7855.837  193847           354
            -7855.837  284716           713
            -7855.837  512403           719
+           -7855.837  699834           723
            -7855.837  185071           370
            -7855.837  792389           746
+           -7855.837  800454           751
            -7855.837  146900           391
            -7855.837  246794           801
            -7855.837  746978           410
@@ -338,6 +342,7 @@ Final stage loglikelihood values at local maxima, seeds, and initial stage start
            -7855.837  995875           547
            -7855.837  370957           554
            -7855.837  192071           142
+           -7855.837  824126           287
            -7855.837  92564            583
            -7855.837  937588           293
            -7855.837  822698           621
@@ -347,12 +352,10 @@ Final stage loglikelihood values at local maxima, seeds, and initial stage start
            -7855.837  266008           656
            -7855.837  392766           331
            -7855.837  197223           332
-           -7855.837  961454           665
            -7855.837  278661           674
            -7855.837  327140           678
            -7855.837  72866            692
            -7855.837  273992           349
-           -7855.837  699834           723
            -7855.837  91231            727
            -7855.837  682718           733
            -7855.837  830570           369
@@ -364,7 +367,6 @@ Final stage loglikelihood values at local maxima, seeds, and initial stage start
            -7855.837  762461           425
            -7855.837  177175           851
            -7855.837  287107           864
-           -7855.837  66276            217
            -7855.837  3607             873
            -7855.837  631413           439
            -7855.837  506113           895
@@ -394,7 +396,7 @@ Final stage loglikelihood values at local maxima, seeds, and initial stage start
            -7896.618  928287           197
            -7896.680  67009            564
 
-142 perturbed starting value run(s) did not converge or were rejected in the third stage.
+141 perturbed starting value run(s) did not converge or were rejected in the third stage.
 
 
 
@@ -2959,11 +2961,71 @@ TECHNICAL 11 OUTPUT
           P-Value                                          0.0225
 
 
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+                9.375        -0.620         0.043        -0.001         9.345
+
+
+           Means
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+               -0.597         0.041        -0.001
+
+
+           Covariances
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+ I              8.182
+ S              0.028         0.236
+ Q             -0.018        -0.021         0.002
+ CUB            0.000         0.001         0.000         0.000
+ C_I            8.247         0.009        -0.015         0.000         8.356
+ C_S           -0.025         0.252        -0.023         0.001        -0.080
+ C_Q           -0.011        -0.023         0.003         0.000        -0.005
+ C_CUB          0.000         0.001         0.000         0.000         0.000
+
+
+           Covariances
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+ C_S            0.299
+ C_Q           -0.028         0.003
+ C_CUB          0.001         0.000         0.000
+
+
+           Correlations
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+ I              1.000
+ S              0.020         1.000
+ Q             -0.125        -0.861         1.000
+ CUB            0.119         0.745        -0.975         1.000
+ C_I            0.997         0.007        -0.107         0.101         1.000
+ C_S           -0.016         0.949        -0.840         0.735        -0.051
+ C_Q           -0.067        -0.802         0.934        -0.911        -0.027
+ C_CUB          0.065         0.706        -0.913         0.933         0.026
+
+
+           Correlations
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+ C_S            1.000
+ C_Q           -0.893         1.000
+ C_CUB          0.804        -0.981         1.000
+
+
 SAVEDATA INFORMATION
 
 
   Save file
-    GMM_CI_isqcub@0_T_CP.dat
+    GMM_CI_isqcub@0_T_est.dat
 
   Order and format of variables
 
@@ -2976,6 +3038,14 @@ SAVEDATA INFORMATION
     SANS_12        F10.3
     SANS_18        F10.3
     SANS_24        F10.3
+    I              F10.3
+    S              F10.3
+    Q              F10.3
+    CUB            F10.3
+    C_I            F10.3
+    C_S            F10.3
+    C_Q            F10.3
+    C_CUB          F10.3
     CPROB1         F10.3
     CPROB2         F10.3
     CPROB3         F10.3
@@ -2983,16 +3053,16 @@ SAVEDATA INFORMATION
     PIN            I4
 
   Save file format
-    13F10.3 I4
+    21F10.3 I4
 
   Save file record length    10000
 
   Save missing symbol        *
 
 
-     Beginning Time:  10:05:45
-        Ending Time:  10:10:42
-       Elapsed Time:  00:04:57
+     Beginning Time:  19:39:13
+        Ending Time:  19:46:06
+       Elapsed Time:  00:06:53
 
 
 

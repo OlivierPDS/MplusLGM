@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   2:37 AM
+07/27/2023  10:34 PM
 
 INPUT INSTRUCTIONS
 
@@ -19,6 +19,7 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   STARTS = 4000 1000;
   K-1STARTS = 2000 500;
+  DISTRIBUTION = NORMAL;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
@@ -54,8 +55,8 @@ INPUT INSTRUCTIONS
   STANDARDIZED;
   CINTERVAL;
   SAVEDATA:
-  FILE = GMM_CV_isqcub@0_C_CP.dat;
-  SAVE = CPROBABILITIES;
+  FILE = GMM_CV_isqcub@0_C_est.dat;
+  SAVE = CPROBABILITIES FSCORES;
 
 
 
@@ -307,7 +308,6 @@ Final stage loglikelihood values at local maxima, seeds, and initial stage start
            -7839.681  663090           906
            -7839.681  256197           1923
            -7839.805  953205           2247
-           -7839.805  379033           2253
            -7839.805  269586           2647
            -7839.805  708042           1444
            -7839.805  216091           1670
@@ -327,14 +327,13 @@ Final stage loglikelihood values at local maxima, seeds, and initial stage start
            -7839.805  561664           392
            -7845.632  417002           1499
            -7845.632  708047           1519
-           -7845.632  423661           875
            -7845.632  386235           3950
            -7845.632  798839           312
            -7845.632  232559           136
            -7845.632  603842           61
            -7845.632  883576           3118
 
-951 perturbed starting value run(s) did not converge or were rejected in the third stage.
+953 perturbed starting value run(s) did not converge or were rejected in the third stage.
 
 
 
@@ -2915,11 +2914,71 @@ TECHNICAL 11 OUTPUT
           P-Value                                          0.1741
 
 
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+                9.597        -0.693         0.050        -0.001         9.582
+
+
+           Means
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+               -0.676         0.048        -0.001
+
+
+           Covariances
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+ I              7.800
+ S             -0.033         0.161
+ Q             -0.008        -0.009         0.001
+ CUB            0.000         0.000         0.000         0.000
+ C_I            7.809        -0.060        -0.006         0.000         7.886
+ C_S           -0.005         0.180        -0.010         0.000        -0.068
+ C_Q           -0.011        -0.011         0.001         0.000        -0.007
+ C_CUB          0.000         0.000         0.000         0.000         0.000
+
+
+           Covariances
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+ C_S            0.221
+ C_Q           -0.014         0.001
+ C_CUB          0.000         0.000         0.000
+
+
+           Correlations
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+ I              1.000
+ S             -0.029         1.000
+ Q             -0.103        -0.837         1.000
+ CUB            0.097         0.583        -0.917         1.000
+ C_I            0.996        -0.054        -0.083         0.084         1.000
+ C_S           -0.004         0.953        -0.806         0.561        -0.051
+ C_Q           -0.119        -0.787         0.917        -0.824        -0.074
+ C_CUB          0.120         0.584        -0.854         0.901         0.083
+
+
+           Correlations
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+ C_S            1.000
+ C_Q           -0.869         1.000
+ C_CUB          0.670        -0.936         1.000
+
+
 SAVEDATA INFORMATION
 
 
   Save file
-    GMM_CV_isqcub@0_C_CP.dat
+    GMM_CV_isqcub@0_C_est.dat
 
   Order and format of variables
 
@@ -2932,6 +2991,14 @@ SAVEDATA INFORMATION
     SANS_12        F10.3
     SANS_18        F10.3
     SANS_24        F10.3
+    I              F10.3
+    S              F10.3
+    Q              F10.3
+    CUB            F10.3
+    C_I            F10.3
+    C_S            F10.3
+    C_Q            F10.3
+    C_CUB          F10.3
     CPROB1         F10.3
     CPROB2         F10.3
     CPROB3         F10.3
@@ -2939,16 +3006,16 @@ SAVEDATA INFORMATION
     PIN            I4
 
   Save file format
-    13F10.3 I4
+    21F10.3 I4
 
   Save file record length    10000
 
   Save missing symbol        *
 
 
-     Beginning Time:  02:37:20
-        Ending Time:  02:56:25
-       Elapsed Time:  00:19:05
+     Beginning Time:  22:34:46
+        Ending Time:  22:54:34
+       Elapsed Time:  00:19:48
 
 
 

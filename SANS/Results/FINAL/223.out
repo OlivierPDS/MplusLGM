@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:04 PM
+07/28/2023   1:27 AM
 
 INPUT INSTRUCTIONS
 
@@ -19,6 +19,7 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   STARTS = 1000 250;
   K-1STARTS = 500 125;
+  DISTRIBUTION = NORMAL;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
@@ -45,8 +46,8 @@ INPUT INSTRUCTIONS
   STANDARDIZED;
   CINTERVAL;
   SAVEDATA:
-  FILE = GMM_CI_isq@0cub@0_C_CP.dat;
-  SAVE = CPROBABILITIES;
+  FILE = GMM_CI_isq@0cub@0_C_est.dat;
+  SAVE = CPROBABILITIES FSCORES;
 
 
 
@@ -267,9 +268,8 @@ RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
 
 Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
 
-           -7887.317  848331           137
            -7887.317  679832           302
-           -7887.317  539389           544
+           -7887.317  371737           532
            -7887.317  276696           676
            -7887.317  443442           380
            -7887.317  301717           823
@@ -278,20 +278,18 @@ Final stage loglikelihood values at local maxima, seeds, and initial stage start
            -7887.317  379729           512
            -7887.317  188498           258
            -7887.317  616917           261
+           -7887.317  539389           544
            -7887.317  211281           292
-           -7887.317  369602           146
            -7887.317  881886           608
            -7887.317  166851           638
            -7887.317  548673           732
            -7887.317  14262            781
            -7887.317  784664           75
            -7887.317  804561           59
-           -7887.317  992389           77
            -7887.317  607072           717
            -7887.317  436806           883
-           -7887.791  769907           457
 
-227 perturbed starting value run(s) did not converge or were rejected in the third stage.
+230 perturbed starting value run(s) did not converge or were rejected in the third stage.
 
 
 
@@ -2856,11 +2854,71 @@ TECHNICAL 11 OUTPUT
           P-Value                                          0.0337
 
 
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+                9.487        -0.594         0.038        -0.001         9.545
+
+
+           Means
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+               -0.624         0.040        -0.001
+
+
+           Covariances
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+ I              7.462
+ S              0.031         0.195
+ Q             -0.010        -0.013         0.001
+ CUB            0.000         0.000         0.000         0.000
+ C_I            7.586        -0.051        -0.004         0.000         7.918
+ C_S           -0.005         0.237        -0.016         0.000        -0.189
+ C_Q           -0.007        -0.016         0.001         0.000         0.006
+ C_CUB          0.000         0.000         0.000         0.000         0.000
+
+
+           Covariances
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+ C_S            0.330
+ C_Q           -0.023         0.002
+ C_CUB          0.000         0.000         0.000
+
+
+           Correlations
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+ I              1.000
+ S              0.026         1.000
+ Q             -0.122        -0.962         1.000
+ CUB            0.111         0.954        -0.998         1.000
+ C_I            0.987        -0.041        -0.051         0.041         1.000
+ C_S           -0.003         0.932        -0.910         0.903        -0.117
+ C_Q           -0.064        -0.883         0.920        -0.918         0.055
+ C_CUB          0.055         0.876        -0.918         0.920        -0.063
+
+
+           Correlations
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+ C_S            1.000
+ C_Q           -0.975         1.000
+ C_CUB          0.968        -0.998         1.000
+
+
 SAVEDATA INFORMATION
 
 
   Save file
-    GMM_CI_isq@0cub@0_C_CP.dat
+    GMM_CI_isq@0cub@0_C_est.dat
 
   Order and format of variables
 
@@ -2873,6 +2931,14 @@ SAVEDATA INFORMATION
     SANS_12        F10.3
     SANS_18        F10.3
     SANS_24        F10.3
+    I              F10.3
+    S              F10.3
+    Q              F10.3
+    CUB            F10.3
+    C_I            F10.3
+    C_S            F10.3
+    C_Q            F10.3
+    C_CUB          F10.3
     CPROB1         F10.3
     CPROB2         F10.3
     CPROB3         F10.3
@@ -2880,16 +2946,16 @@ SAVEDATA INFORMATION
     PIN            I4
 
   Save file format
-    13F10.3 I4
+    21F10.3 I4
 
   Save file record length    10000
 
   Save missing symbol        *
 
 
-     Beginning Time:  19:04:18
-        Ending Time:  19:06:32
-       Elapsed Time:  00:02:14
+     Beginning Time:  01:27:31
+        Ending Time:  01:29:22
+       Elapsed Time:  00:01:51
 
 
 
