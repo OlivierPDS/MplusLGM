@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:14 PM
+09/08/2023   3:20 PM
 
 INPUT INSTRUCTIONS
 
@@ -8,7 +8,7 @@ INPUT INSTRUCTIONS
   D3STEP_cd8_24 - GBTM_P2_K2_S1000;
 
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/D3STEP/cd8_24_D3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SOFAS/Results/D3STEP/cd8_24_D3STEP.dat";
 
   VARIABLE:
   NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N cd8_24;
@@ -18,15 +18,15 @@ INPUT INSTRUCTIONS
   CLASSES = c(2);
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 500;
+  STARTS = 1000 250;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   %C#1%
-  [N#1@2.417];
+  [N#1@1.35];
   [cd8_24](M1); cd8_24;
   %C#2%
-  [N#1@-1.957];
+  [N#1@-1.788];
   [cd8_24](M2); cd8_24;
   MODEL CONSTRAINT:
   New (diff12);
@@ -34,17 +34,22 @@ INPUT INSTRUCTIONS
   MODEL TEST:
   M1 = M2;
   OUTPUT:
-  TECH7;
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
+  TECH7;
+  TECH12;
 
 
 
 *** WARNING in MODEL command
   All variables are uncorrelated with all other variables within class.
   Check that this is what is intended.
-   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  30
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -54,7 +59,7 @@ D3STEP_cd8_24 - GBTM_P2_K2_S1000;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         368
+Number of observations                                         659
 
 Number of dependent variables                                    2
 Number of independent variables                                  0
@@ -103,15 +108,15 @@ Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
 Random Starts Specifications
-  Number of initial stage random starts                        500
-  Number of final stage optimizations                          500
-  Number of initial stage iterations                             1
+  Number of initial stage random starts                       1000
+  Number of final stage optimizations                          250
+  Number of initial stage iterations                            10
   Initial stage convergence criterion                    0.100D+01
   Random starts scale                                    0.500D+01
   Random seed for generating random starts                       0
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/D3STEP/cd8_24_D3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SOFAS/Results/D3STEP/cd8_24_D3STEP.dat
 Input data format  FREE
 
 
@@ -133,14 +138,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               CD8_24
               ________
- CD8_24         0.649
+ CD8_24         0.537
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.565          208.000
-      Category 2    0.435          160.000
+      Category 1    0.431          280.000
+      Category 2    0.569          370.000
 
 
 SAMPLE STATISTICS
@@ -152,13 +157,13 @@ SAMPLE STATISTICS
            Means
               CD8_24
               ________
-                0.096
+                0.105
 
 
            Covariances
               CD8_24
               ________
- CD8_24         0.154
+ CD8_24         0.167
 
 
            Correlations
@@ -167,7 +172,7 @@ SAMPLE STATISTICS
  CD8_24         1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -115.502
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -185.561
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -178,23 +183,23 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     CD8_24                0.096       4.585       0.000   93.31%       0.000      0.000      0.000
-             239.000       0.154      22.338       3.000    0.42%       0.000      0.000
+     CD8_24                0.105       4.223       0.000   92.94%       0.000      0.000      0.000
+             354.000       0.167      18.100       3.000    0.28%       0.000      0.000
 
 RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
 
+
+984 perturbed starting value run(s) did not converge or were rejected in the third stage.
 Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
 
-            -564.600  411615           171
-            -564.600  726035           191
-            -564.600  533738           11
-            -564.600  407168           44
-            -564.600  21345            199
-            -564.600  22089            143
+            -783.379  566739           575
+            -783.379  411615           171
+            -783.379  721392           768
+            -783.379  21345            199
+            -783.379  22089            143
+            -783.379  158612           581
 
-Unperturbed starting value run did not converge or was rejected in the third stage.
-
-493 perturbed starting value run(s) did not converge or were rejected in the third stage.
+244 perturbed starting value run(s) did not converge or were rejected in the third stage.
 
 
 
@@ -220,20 +225,20 @@ Number of Free Parameters                        5
 
 Loglikelihood
 
-          H0 Value                        -564.600
-          H0 Scaling Correction Factor      2.8338
+          H0 Value                        -783.379
+          H0 Scaling Correction Factor      2.4100
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    1139.201
-          Bayesian (BIC)                  1158.741
-          Sample-Size Adjusted BIC        1142.878
+          Akaike (AIC)                    1576.758
+          Bayesian (BIC)                  1599.212
+          Sample-Size Adjusted BIC        1583.337
             (n* = (n + 2) / 24)
 
 Wald Test of Parameter Constraints
 
-          Value                           5189.607
+          Value                           7147.793
           Degrees of Freedom                     1
           P-Value                           0.0000
 
@@ -245,8 +250,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1         29.48879          0.08013
-       2        338.51121          0.91987
+       1         33.42248          0.05072
+       2        625.57752          0.94928
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -255,8 +260,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1         29.48879          0.08013
-       2        338.51121          0.91987
+       1         33.42248          0.05072
+       2        625.57752          0.94928
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -268,12 +273,12 @@ Class Counts and Proportions
    Classes
 
        1                0          0.00000
-       2              368          1.00000
+       2              659          1.00000
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.796
+     Entropy                         0.814
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -282,7 +287,7 @@ by Latent Class (Column)
            1        2
 
     1   0.000    0.000
-    2   0.080    0.920
+    2   0.051    0.949
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -314,34 +319,34 @@ Latent Class 1
     CD8_24            -1.732      0.000    999.000    999.000
 
  Means
-    N#1                2.417      0.000    999.000    999.000
+    N#1                1.350      0.000    999.000    999.000
 
  Variances
-    CD8_24             0.077      0.000    999.000    999.000
+    CD8_24             0.084      0.000    999.000    999.000
 
 Latent Class 2
 
  Means
-    CD8_24             0.096      0.025      3.792      0.000
+    CD8_24             0.105      0.022      4.812      0.000
 
  Means
-    N#1               -1.957      0.000    999.000    999.000
+    N#1               -1.788      0.000    999.000    999.000
 
  Variances
-    CD8_24             0.154      0.049      3.134      0.002
+    CD8_24             0.167      0.040      4.197      0.000
 
 Categorical Latent Variables
 
  Means
-    C#1               -2.441      0.333     -7.338      0.000
+    C#1               -2.929      0.427     -6.857      0.000
 
 New/Additional Parameters
-    DIFF12            -1.828      0.025    -72.039      0.000
+    DIFF12            -1.837      0.022    -84.545      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.496E-04
+     Condition Number for the Information Matrix              0.394E-04
        (ratio of smallest to largest eigenvalue)
 
 
@@ -356,7 +361,7 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    CD8_24            -6.243      0.000    999.000    999.000
+    CD8_24            -5.993      0.000    999.000    999.000
 
  Variances
     CD8_24             1.000      0.000    999.000    999.000
@@ -364,7 +369,7 @@ Latent Class 1
 Latent Class 2
 
  Means
-    CD8_24             0.245      0.032      7.716      0.000
+    CD8_24             0.256      0.027      9.647      0.000
 
  Variances
     CD8_24             1.000      0.000    999.000    999.000
@@ -378,7 +383,7 @@ STDY Standardization
 Latent Class 1
 
  Means
-    CD8_24            -6.243      0.000    999.000    999.000
+    CD8_24            -5.993      0.000    999.000    999.000
 
  Variances
     CD8_24             1.000      0.000    999.000    999.000
@@ -386,7 +391,7 @@ Latent Class 1
 Latent Class 2
 
  Means
-    CD8_24             0.245      0.032      7.716      0.000
+    CD8_24             0.256      0.027      9.647      0.000
 
  Variances
     CD8_24             1.000      0.000    999.000    999.000
@@ -403,15 +408,15 @@ Latent Class 1
     CD8_24            -1.732      0.000    999.000    999.000
 
  Variances
-    CD8_24             0.077      0.000    999.000    999.000
+    CD8_24             0.084      0.000    999.000    999.000
 
 Latent Class 2
 
  Means
-    CD8_24             0.096      0.025      3.792      0.000
+    CD8_24             0.105      0.022      4.812      0.000
 
  Variances
-    CD8_24             0.154      0.049      3.134      0.002
+    CD8_24             0.167      0.040      4.197      0.000
 
 
 R-SQUARE
@@ -431,29 +436,29 @@ Latent Class 1
     CD8_24          -1.732      -1.732      -1.732      -1.732      -1.732      -1.732      -1.732
 
  Means
-    N#1              2.417       2.417       2.417       2.417       2.417       2.417       2.417
+    N#1              1.350       1.350       1.350       1.350       1.350       1.350       1.350
 
  Variances
-    CD8_24           0.077       0.077       0.077       0.077       0.077       0.077       0.077
+    CD8_24           0.084       0.084       0.084       0.084       0.084       0.084       0.084
 
 Latent Class 2
 
  Means
-    CD8_24           0.031       0.046       0.054       0.096       0.138       0.146       0.162
+    CD8_24           0.049       0.062       0.069       0.105       0.140       0.147       0.160
 
  Means
-    N#1             -1.957      -1.957      -1.957      -1.957      -1.957      -1.957      -1.957
+    N#1             -1.788      -1.788      -1.788      -1.788      -1.788      -1.788      -1.788
 
  Variances
-    CD8_24           0.027       0.058       0.073       0.154       0.235       0.250       0.280
+    CD8_24           0.065       0.089       0.102       0.167       0.233       0.245       0.270
 
 Categorical Latent Variables
 
  Means
-    C#1             -3.297      -3.092      -2.988      -2.441      -1.893      -1.789      -1.584
+    C#1             -4.030      -3.767      -3.632      -2.929      -2.227      -2.092      -1.829
 
 New/Additional Parameters
-    DIFF12          -1.894      -1.878      -1.870      -1.828      -1.786      -1.778      -1.763
+    DIFF12          -1.892      -1.879      -1.872      -1.837      -1.801      -1.794      -1.781
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -466,7 +471,7 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    CD8_24          -6.243      -6.243      -6.243      -6.243      -6.243      -6.243      -6.243
+    CD8_24          -5.993      -5.993      -5.993      -5.993      -5.993      -5.993      -5.993
 
  Variances
     CD8_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -474,7 +479,7 @@ Latent Class 1
 Latent Class 2
 
  Means
-    CD8_24           0.163       0.183       0.193       0.245       0.298       0.308       0.327
+    CD8_24           0.187       0.204       0.212       0.256       0.299       0.308       0.324
 
  Variances
     CD8_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -487,7 +492,7 @@ STDY Standardization
 Latent Class 1
 
  Means
-    CD8_24          -6.243      -6.243      -6.243      -6.243      -6.243      -6.243      -6.243
+    CD8_24          -5.993      -5.993      -5.993      -5.993      -5.993      -5.993      -5.993
 
  Variances
     CD8_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -495,7 +500,7 @@ Latent Class 1
 Latent Class 2
 
  Means
-    CD8_24           0.163       0.183       0.193       0.245       0.298       0.308       0.327
+    CD8_24           0.187       0.204       0.212       0.256       0.299       0.308       0.324
 
  Variances
     CD8_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -511,15 +516,15 @@ Latent Class 1
     CD8_24          -1.732      -1.732      -1.732      -1.732      -1.732      -1.732      -1.732
 
  Variances
-    CD8_24           0.077       0.077       0.077       0.077       0.077       0.077       0.077
+    CD8_24           0.084       0.084       0.084       0.084       0.084       0.084       0.084
 
 Latent Class 2
 
  Means
-    CD8_24           0.031       0.046       0.054       0.096       0.138       0.146       0.162
+    CD8_24           0.049       0.062       0.069       0.105       0.140       0.147       0.160
 
  Variances
-    CD8_24           0.027       0.058       0.073       0.154       0.235       0.250       0.280
+    CD8_24           0.065       0.089       0.102       0.167       0.233       0.245       0.270
 
 
 TECHNICAL 7 OUTPUT
@@ -546,34 +551,112 @@ TECHNICAL 7 OUTPUT
            Means
               CD8_24
               ________
-                0.096
+                0.105
 
 
            Covariances
               CD8_24
               ________
- CD8_24         0.154
+ CD8_24         0.167
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.985
-       Category 2        0.015
+       Category 1        0.936
+       Category 2        0.064
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.529
-       Category 2        0.471
+       Category 1        0.403
+       Category 2        0.597
 
 
-     Beginning Time:  19:14:11
-        Ending Time:  19:14:12
-       Elapsed Time:  00:00:01
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              CD8_24
+              ________
+                0.105
+
+
+           Estimated Mixed Means
+              CD8_24
+              ________
+                0.011
+
+
+           Residuals for Mixed Means
+              CD8_24
+              ________
+                0.093
+
+
+           Observed Covariances
+              CD8_24
+              ________
+ CD8_24         0.167
+
+
+           Estimated Mixed Covariances
+              CD8_24
+              ________
+ CD8_24         0.325
+
+
+           Residuals for Mixed Covariances
+              CD8_24
+              ________
+ CD8_24        -0.158
+
+
+           Observed Skewness
+              CD8_24
+              ________
+                4.223
+
+
+           Estimated Mixed Skewness
+              CD8_24
+              ________
+               -1.326
+
+
+           Residuals for Mixed Skewness
+              CD8_24
+              ________
+                5.548
+
+
+           Observed Kurtosis
+              CD8_24
+              ________
+               18.100
+
+
+           Estimated Mixed Kurtosis
+              CD8_24
+              ________
+                3.001
+
+
+           Residuals for Mixed Kurtosis
+              CD8_24
+              ________
+               15.099
+
+
+     Beginning Time:  15:20:12
+        Ending Time:  15:20:14
+       Elapsed Time:  00:00:02
 
 
 

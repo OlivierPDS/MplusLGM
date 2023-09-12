@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_SANS_0;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/SANS_0_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/SANS_0_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N SANS_0;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N SANS_0;
    MISSING=.;
    USEVAR = N SANS_0;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON SANS_0;
   SANS_0;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_SANS_0;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         679
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -98,21 +103,21 @@ Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
 Integration Specifications
   Type                                                  MONTECARLO
-  Number of integration points                                   1
-  Dimensions of numerical integration                            0
+  Number of integration points                                 250
+  Dimensions of numerical integration                            1
   Adaptive quadrature                                           ON
   Monte Carlo integration seed                                   0
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/SANS_0_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/SANS_0_R3STEP.dat
 Input data format  FREE
 
 
 SUMMARY OF DATA
 
-     Number of missing data patterns             1
-     Number of y missing data patterns           1
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
      Number of u missing data patterns           0
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               SANS_0
               ________
- SANS_0         1.000
+ SANS_0         0.993
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               SANS_0
               ________
-               10.067
+                9.908
 
 
            Covariances
               SANS_0
               ________
- SANS_0        14.384
+ SANS_0        14.677
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  SANS_0         1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1111.809
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1861.641
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     SANS_0               10.067      -0.100       0.000    0.50%       7.000      9.000     10.000
-             404.000      14.384      -0.419      19.000    0.25%      11.000     14.000
+     SANS_0                9.908      -0.071       0.000    0.59%       6.000      9.000     10.000
+             674.000      14.677      -0.475      19.000    0.15%      11.000     13.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                       -1369.525
-          H0 Scaling Correction Factor      0.9799
+          H0 Value                       -2287.488
+          H0 Scaling Correction Factor      0.9640
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    2747.049
-          Bayesian (BIC)                  2763.055
-          Sample-Size Adjusted BIC        2750.363
+          Akaike (AIC)                    4582.975
+          Bayesian (BIC)                  4601.058
+          Sample-Size Adjusted BIC        4588.357
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        132.99243          0.32919
-       2        271.00757          0.67081
+       1        461.10107          0.67909
+       2        217.89893          0.32091
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        132.99243          0.32919
-       2        271.00757          0.67081
+       1        461.09549          0.67908
+       2        217.90451          0.32092
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              460          0.67747
+       2              219          0.32253
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.838
+     Entropy                         0.694
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.947    0.053
-    2   0.012    0.988
+    1   0.960    0.040
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.957    0.043
+    2   0.085    0.915
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.702    0.000
-    2     -3.600    0.000
+    1      3.108    0.000
+    2     -2.370    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    SANS_0            10.067      0.189     53.351      0.000
-    N#1                3.700      0.000    999.000    999.000
+    SANS_0             9.906      0.148     67.048      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    SANS_0            14.384      0.900     15.984      0.000
+    SANS_0            14.687      0.700     20.992      0.000
 
 Latent Class 2
 
  Means
-    SANS_0            10.067      0.189     53.351      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    SANS_0             9.906      0.148     67.048      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    SANS_0            14.384      0.900     15.984      0.000
+    SANS_0            14.687      0.700     20.992      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    SANS_0            -0.043      0.032     -1.341      0.180
+    SANS_0             0.037      0.026      1.403      0.161
 
  Intercepts
-    C#1               -0.285      0.330     -0.866      0.387
+    C#1                0.389      0.269      1.445      0.148
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.111E-02
+     Condition Number for the Information Matrix              0.121E-02
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    SANS_0             0.958      0.031      0.900      1.020
+    SANS_0             1.037      0.027      0.986      1.092
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    SANS_0             0.043      0.032      1.341      0.180
+    SANS_0            -0.037      0.026     -1.403      0.161
 
  Intercepts
-    C#2                0.285      0.330      0.866      0.387
+    C#2               -0.389      0.269     -1.445      0.148
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    SANS_0             1.044      0.033      0.980      1.111
+    SANS_0             0.964      0.025      0.916      1.015
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    SANS_0             2.654      0.100     26.513      0.000
-    N#1                3.700      0.000    999.000    999.000
+    SANS_0             2.585      0.075     34.672      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     SANS_0             1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SANS_0             2.654      0.100     26.513      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    SANS_0             2.585      0.075     34.672      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     SANS_0             1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    SANS_0             2.654      0.100     26.513      0.000
-    N#1                3.700      0.000    999.000    999.000
+    SANS_0             2.585      0.075     34.672      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     SANS_0             1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SANS_0             2.654      0.100     26.513      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    SANS_0             2.585      0.075     34.672      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     SANS_0             1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    SANS_0            10.067      0.189     53.351      0.000
-    N#1                3.700      0.000    999.000    999.000
+    SANS_0             9.906      0.148     67.048      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    SANS_0            14.384      0.900     15.984      0.000
+    SANS_0            14.687      0.700     20.992      0.000
 
 Latent Class 2
 
  Means
-    SANS_0            10.067      0.189     53.351      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    SANS_0             9.906      0.148     67.048      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    SANS_0            14.384      0.900     15.984      0.000
+    SANS_0            14.687      0.700     20.992      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    SANS_0           9.581       9.697       9.756      10.067      10.377      10.437      10.553
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    SANS_0           9.526       9.617       9.663       9.906      10.149      10.196      10.287
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    SANS_0          12.066      12.620      12.904      14.384      15.864      16.148      16.702
+    SANS_0          12.885      13.315      13.536      14.687      15.838      16.058      16.489
 
 Latent Class 2
 
  Means
-    SANS_0           9.581       9.697       9.756      10.067      10.377      10.437      10.553
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    SANS_0           9.526       9.617       9.663       9.906      10.149      10.196      10.287
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    SANS_0          12.066      12.620      12.904      14.384      15.864      16.148      16.702
+    SANS_0          12.885      13.315      13.536      14.687      15.838      16.058      16.489
 
 Categorical Latent Variables
 
  C#1      ON
-    SANS_0          -0.125      -0.105      -0.095      -0.043       0.010       0.020       0.039
+    SANS_0          -0.031      -0.015      -0.006       0.037       0.080       0.088       0.104
 
  Intercepts
-    C#1             -1.135      -0.932      -0.828      -0.285       0.257       0.361       0.564
+    C#1             -0.304      -0.138      -0.054       0.389       0.831       0.916       1.082
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    SANS_0           0.882       0.900       0.909       0.958       1.010       1.020       1.040
+    SANS_0           0.970       0.986       0.994       1.037       1.083       1.092       1.110
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    SANS_0          -0.039      -0.020      -0.010       0.043       0.095       0.105       0.125
+    SANS_0          -0.104      -0.088      -0.080      -0.037       0.006       0.015       0.031
 
  Intercepts
-    C#2             -0.564      -0.361      -0.257       0.285       0.828       0.932       1.135
+    C#2             -1.082      -0.916      -0.831      -0.389       0.054       0.138       0.304
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    SANS_0           0.961       0.980       0.990       1.044       1.100       1.111       1.133
+    SANS_0           0.901       0.916       0.923       0.964       1.006       1.015       1.031
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    SANS_0           2.396       2.458       2.490       2.654       2.819       2.851       2.912
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    SANS_0           2.393       2.439       2.462       2.585       2.708       2.731       2.777
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SANS_0           2.396       2.458       2.490       2.654       2.819       2.851       2.912
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    SANS_0           2.393       2.439       2.462       2.585       2.708       2.731       2.777
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    SANS_0           2.396       2.458       2.490       2.654       2.819       2.851       2.912
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    SANS_0           2.393       2.439       2.462       2.585       2.708       2.731       2.777
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SANS_0           2.396       2.458       2.490       2.654       2.819       2.851       2.912
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    SANS_0           2.393       2.439       2.462       2.585       2.708       2.731       2.777
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    SANS_0           9.581       9.697       9.756      10.067      10.377      10.437      10.553
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    SANS_0           9.526       9.617       9.663       9.906      10.149      10.196      10.287
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    SANS_0          12.066      12.620      12.904      14.384      15.864      16.148      16.702
+    SANS_0          12.885      13.315      13.536      14.687      15.838      16.058      16.489
 
 Latent Class 2
 
  Means
-    SANS_0           9.581       9.697       9.756      10.067      10.377      10.437      10.553
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    SANS_0           9.526       9.617       9.663       9.906      10.149      10.196      10.287
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    SANS_0          12.066      12.620      12.904      14.384      15.864      16.148      16.702
+    SANS_0          12.885      13.315      13.536      14.687      15.838      16.058      16.489
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               SANS_0
               ________
-                9.655
+               10.080
 
 
            Covariances
               SANS_0
               ________
- SANS_0        18.284
+ SANS_0        13.569
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,34 +572,112 @@ TECHNICAL 7 OUTPUT
            Means
               SANS_0
               ________
-               10.269
+                9.540
 
 
            Covariances
               SANS_0
               ________
- SANS_0        12.346
+ SANS_0        16.843
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.085
+       Category 2        0.915
 
 
-     Beginning Time:  19:15:18
-        Ending Time:  19:15:19
-       Elapsed Time:  00:00:01
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              SANS_0
+              ________
+                9.908
+
+
+           Estimated Mixed Means
+              SANS_0
+              ________
+                9.906
+
+
+           Residuals for Mixed Means
+              SANS_0
+              ________
+                0.002
+
+
+           Observed Covariances
+              SANS_0
+              ________
+ SANS_0        14.677
+
+
+           Estimated Mixed Covariances
+              SANS_0
+              ________
+ SANS_0        14.687
+
+
+           Residuals for Mixed Covariances
+              SANS_0
+              ________
+ SANS_0        -0.010
+
+
+           Observed Skewness
+              SANS_0
+              ________
+               -0.071
+
+
+           Estimated Mixed Skewness
+              SANS_0
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              SANS_0
+              ________
+               -0.071
+
+
+           Observed Kurtosis
+              SANS_0
+              ________
+               -0.475
+
+
+           Estimated Mixed Kurtosis
+              SANS_0
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              SANS_0
+              ________
+               -0.475
+
+
+     Beginning Time:  18:21:55
+        Ending Time:  18:21:55
+       Elapsed Time:  00:00:00
 
 
 

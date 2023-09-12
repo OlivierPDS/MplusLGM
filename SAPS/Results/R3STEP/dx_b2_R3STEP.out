@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_dx_b2;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/dx_b2_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/dx_b2_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N dx_b2;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N dx_b2;
    MISSING=.;
    USEVAR = N dx_b2;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON dx_b2;
   dx_b2;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  6
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_dx_b2;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         683
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +110,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/dx_b2_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/dx_b2_R3STEP.dat
 Input data format  FREE
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               DX_B2
               ________
- DX_B2          0.998
+ DX_B2          0.903
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               DX_B2
               ________
-                1.320
+                1.708
 
 
            Covariances
               DX_B2
               ________
- DX_B2          0.218
+ DX_B2          0.207
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  DX_B2          1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -264.558
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -389.027
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     DX_B2                 1.320       0.771       1.000   67.99%       1.000      1.000      1.000
-             403.000       0.218      -1.405       2.000   32.01%       1.000      2.000
+     DX_B2                 1.708      -0.916       1.000   29.17%       1.000      2.000      2.000
+             617.000       0.207      -1.160       2.000   70.83%       2.000      2.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                        -518.308
-          H0 Scaling Correction Factor      0.8242
+          H0 Value                        -810.566
+          H0 Scaling Correction Factor      0.8545
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    1044.616
-          Bayesian (BIC)                  1060.622
-          Sample-Size Adjusted BIC        1047.929
+          Akaike (AIC)                    1629.132
+          Bayesian (BIC)                  1647.238
+          Sample-Size Adjusted BIC        1634.537
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.03547          0.32930
-       2        270.96453          0.67070
+       1        463.83078          0.67911
+       2        219.16922          0.32089
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.02591          0.32927
-       2        270.97409          0.67073
+       1        463.96966          0.67931
+       2        219.03034          0.32069
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              464          0.67936
+       2              219          0.32064
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.840
+     Entropy                         0.694
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.957    0.043
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.958    0.042
+    2   0.090    0.910
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.700    0.000
-    2     -3.603    0.000
+    1      3.116    0.000
+    2     -2.313    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    DX_B2              1.320      0.023     56.800      0.000
-    N#1                3.700      0.000    999.000    999.000
+    DX_B2              1.710      0.018     93.636      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    DX_B2              0.218      0.008     26.008      0.000
+    DX_B2              0.207      0.008     27.011      0.000
 
 Latent Class 2
 
  Means
-    DX_B2              1.320      0.023     56.800      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    DX_B2              1.710      0.018     93.636      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    DX_B2              0.218      0.008     26.008      0.000
+    DX_B2              0.207      0.008     27.011      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    DX_B2              0.747      0.236      3.167      0.002
+    DX_B2              0.693      0.210      3.305      0.001
 
  Intercepts
-    C#1               -1.717      0.344     -4.995      0.000
+    C#1               -0.418      0.361     -1.159      0.246
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.995E-04
+     Condition Number for the Information Matrix              0.486E-03
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    DX_B2              2.111      0.498      1.330      3.353
+    DX_B2              2.000      0.419      1.326      3.017
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    DX_B2             -0.747      0.236     -3.167      0.002
+    DX_B2             -0.693      0.210     -3.305      0.001
 
  Intercepts
-    C#2                1.717      0.344      4.995      0.000
+    C#2                0.418      0.361      1.159      0.246
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    DX_B2              0.474      0.112      0.298      0.752
+    DX_B2              0.500      0.105      0.331      0.754
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    DX_B2              2.829      0.005    601.530      0.000
-    N#1                3.700      0.000    999.000    999.000
+    DX_B2              3.760      0.110     34.268      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     DX_B2              1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    DX_B2              2.829      0.005    601.530      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    DX_B2              3.760      0.110     34.268      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     DX_B2              1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    DX_B2              2.829      0.005    601.530      0.000
-    N#1                3.700      0.000    999.000    999.000
+    DX_B2              3.760      0.110     34.268      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     DX_B2              1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    DX_B2              2.829      0.005    601.530      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    DX_B2              3.760      0.110     34.268      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     DX_B2              1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    DX_B2              1.320      0.023     56.800      0.000
-    N#1                3.700      0.000    999.000    999.000
+    DX_B2              1.710      0.018     93.636      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    DX_B2              0.218      0.008     26.008      0.000
+    DX_B2              0.207      0.008     27.011      0.000
 
 Latent Class 2
 
  Means
-    DX_B2              1.320      0.023     56.800      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    DX_B2              1.710      0.018     93.636      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    DX_B2              0.218      0.008     26.008      0.000
+    DX_B2              0.207      0.008     27.011      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    DX_B2            1.260       1.274       1.282       1.320       1.358       1.365       1.380
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    DX_B2            1.663       1.674       1.680       1.710       1.740       1.746       1.757
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    DX_B2            0.196       0.201       0.204       0.218       0.232       0.234       0.239
+    DX_B2            0.187       0.192       0.194       0.207       0.219       0.222       0.226
 
 Latent Class 2
 
  Means
-    DX_B2            1.260       1.274       1.282       1.320       1.358       1.365       1.380
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    DX_B2            1.663       1.674       1.680       1.710       1.740       1.746       1.757
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    DX_B2            0.196       0.201       0.204       0.218       0.232       0.234       0.239
+    DX_B2            0.187       0.192       0.194       0.207       0.219       0.222       0.226
 
 Categorical Latent Variables
 
  C#1      ON
-    DX_B2            0.140       0.285       0.359       0.747       1.135       1.210       1.355
+    DX_B2            0.153       0.282       0.348       0.693       1.038       1.104       1.233
 
  Intercepts
-    C#1             -2.602      -2.390      -2.282      -1.717      -1.151      -1.043      -0.832
+    C#1             -1.348      -1.125      -1.012      -0.418       0.175       0.289       0.511
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    DX_B2            1.150       1.330       1.432       2.111       3.113       3.353       3.877
+    DX_B2            1.165       1.326       1.416       2.000       2.824       3.017       3.432
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    DX_B2           -1.355      -1.210      -1.135      -0.747      -0.359      -0.285      -0.140
+    DX_B2           -1.233      -1.104      -1.038      -0.693      -0.348      -0.282      -0.153
 
  Intercepts
-    C#2              0.832       1.043       1.151       1.717       2.282       2.390       2.602
+    C#2             -0.511      -0.289      -0.175       0.418       1.012       1.125       1.348
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    DX_B2            0.258       0.298       0.321       0.474       0.698       0.752       0.870
+    DX_B2            0.291       0.331       0.354       0.500       0.706       0.754       0.858
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    DX_B2            2.817       2.819       2.821       2.829       2.836       2.838       2.841
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    DX_B2            3.478       3.545       3.580       3.760       3.941       3.976       4.043
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     DX_B2            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    DX_B2            2.817       2.819       2.821       2.829       2.836       2.838       2.841
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    DX_B2            3.478       3.545       3.580       3.760       3.941       3.976       4.043
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     DX_B2            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    DX_B2            2.817       2.819       2.821       2.829       2.836       2.838       2.841
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    DX_B2            3.478       3.545       3.580       3.760       3.941       3.976       4.043
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     DX_B2            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    DX_B2            2.817       2.819       2.821       2.829       2.836       2.838       2.841
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    DX_B2            3.478       3.545       3.580       3.760       3.941       3.976       4.043
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     DX_B2            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    DX_B2            1.260       1.274       1.282       1.320       1.358       1.365       1.380
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    DX_B2            1.663       1.674       1.680       1.710       1.740       1.746       1.757
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    DX_B2            0.196       0.201       0.204       0.218       0.232       0.234       0.239
+    DX_B2            0.187       0.192       0.194       0.207       0.219       0.222       0.226
 
 Latent Class 2
 
  Means
-    DX_B2            1.260       1.274       1.282       1.320       1.358       1.365       1.380
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    DX_B2            1.663       1.674       1.680       1.710       1.740       1.746       1.757
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    DX_B2            0.196       0.201       0.204       0.218       0.232       0.234       0.239
+    DX_B2            0.187       0.192       0.194       0.207       0.219       0.222       0.226
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               DX_B2
               ________
-                1.432
+                1.757
 
 
            Covariances
               DX_B2
               ________
- DX_B2          0.245
+ DX_B2          0.184
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,33 +572,111 @@ TECHNICAL 7 OUTPUT
            Means
               DX_B2
               ________
-                1.265
+                1.610
 
 
            Covariances
               DX_B2
               ________
- DX_B2          0.195
+ DX_B2          0.238
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.085
+       Category 2        0.915
 
 
-     Beginning Time:  19:15:11
-        Ending Time:  19:15:11
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              DX_B2
+              ________
+                1.708
+
+
+           Estimated Mixed Means
+              DX_B2
+              ________
+                1.710
+
+
+           Residuals for Mixed Means
+              DX_B2
+              ________
+               -0.002
+
+
+           Observed Covariances
+              DX_B2
+              ________
+ DX_B2          0.207
+
+
+           Estimated Mixed Covariances
+              DX_B2
+              ________
+ DX_B2          0.207
+
+
+           Residuals for Mixed Covariances
+              DX_B2
+              ________
+ DX_B2          0.000
+
+
+           Observed Skewness
+              DX_B2
+              ________
+               -0.916
+
+
+           Estimated Mixed Skewness
+              DX_B2
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              DX_B2
+              ________
+               -0.916
+
+
+           Observed Kurtosis
+              DX_B2
+              ________
+               -1.160
+
+
+           Estimated Mixed Kurtosis
+              DX_B2
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              DX_B2
+              ________
+               -1.160
+
+
+     Beginning Time:  18:21:43
+        Ending Time:  18:21:43
        Elapsed Time:  00:00:00
 
 

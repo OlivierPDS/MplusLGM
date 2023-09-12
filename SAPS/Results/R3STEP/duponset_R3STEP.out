@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_duponset;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/duponset_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/duponset_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N duponset;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N duponset;
    MISSING=.;
    USEVAR = N duponset;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON duponset;
   duponset;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  6
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_duponset;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         683
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +110,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/duponset_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/duponset_R3STEP.dat
 Input data format  FREE
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               DUPONSET
               ________
- DUPONSET       0.941
+ DUPONSET       0.836
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               DUPONSET
               ________
-               42.659
+               52.092
 
 
            Covariances
               DUPONSET
               ________
- DUPONSET    6951.676
+ DUPONSET   12007.270
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  DUPONSET       1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -2220.077
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -3491.992
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     DUPONSET             42.659       4.034       0.000    2.37%       3.429      9.429     13.357
-             380.000    6951.676      20.259     684.286    0.26%      18.429     52.000
+     DUPONSET             52.092       4.650      -9.000    0.18%       3.000      9.857     14.571
+             571.000   12007.270      28.861    1049.429    0.18%      19.857     59.857
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                       -2475.164
-          H0 Scaling Correction Factor      3.6622
+          H0 Value                       -3914.282
+          H0 Scaling Correction Factor      4.8869
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    4958.329
-          Bayesian (BIC)                  4974.334
-          Sample-Size Adjusted BIC        4961.642
+          Akaike (AIC)                    7836.563
+          Bayesian (BIC)                  7854.669
+          Sample-Size Adjusted BIC        7841.968
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        132.91326          0.32899
-       2        271.08674          0.67101
+       1        463.69240          0.67891
+       2        219.30760          0.32109
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        132.87170          0.32889
-       2        271.12830          0.67111
+       1        464.45850          0.68003
+       2        218.54150          0.31997
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              466          0.68228
+       2              217          0.31772
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.839
+     Entropy                         0.694
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.947    0.053
-    2   0.012    0.988
+    1   0.956    0.044
+    2   0.088    0.912
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.959    0.041
+    2   0.095    0.905
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.703    0.000
-    2     -3.584    0.000
+    1      3.146    0.000
+    2     -2.257    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    DUPONSET          42.747      4.292      9.961      0.000
-    N#1                3.700      0.000    999.000    999.000
+    DUPONSET          53.645      4.783     11.215      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    DUPONSET        6969.295   1690.098      4.124      0.000
+    DUPONSET       11990.921   2776.518      4.319      0.000
 
 Latent Class 2
 
  Means
-    DUPONSET          42.747      4.292      9.961      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    DUPONSET          53.645      4.783     11.215      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    DUPONSET        6969.295   1690.098      4.124      0.000
+    DUPONSET       11990.921   2776.518      4.319      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    DUPONSET          -0.005      0.003     -1.659      0.097
+    DUPONSET           0.005      0.004      1.321      0.187
 
  Intercepts
-    C#1               -0.525      0.142     -3.693      0.000
+    C#1                0.552      0.151      3.655      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.820E-02
+     Condition Number for the Information Matrix              0.734E-02
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    DUPONSET           0.995      0.003      0.989      1.001
+    DUPONSET           1.005      0.004      0.998      1.012
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    DUPONSET           0.005      0.003      1.659      0.097
+    DUPONSET          -0.005      0.004     -1.321      0.187
 
  Intercepts
-    C#2                0.525      0.142      3.693      0.000
+    C#2               -0.552      0.151     -3.655      0.000
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    DUPONSET           1.005      0.003      0.999      1.012
+    DUPONSET           0.995      0.004      0.989      1.002
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    DUPONSET           0.512      0.032     15.888      0.000
-    N#1                3.700      0.000    999.000    999.000
+    DUPONSET           0.490      0.032     15.543      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     DUPONSET           1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    DUPONSET           0.512      0.032     15.888      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    DUPONSET           0.490      0.032     15.543      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     DUPONSET           1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    DUPONSET           0.512      0.032     15.888      0.000
-    N#1                3.700      0.000    999.000    999.000
+    DUPONSET           0.490      0.032     15.543      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     DUPONSET           1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    DUPONSET           0.512      0.032     15.888      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    DUPONSET           0.490      0.032     15.543      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     DUPONSET           1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    DUPONSET          42.747      4.292      9.961      0.000
-    N#1                3.700      0.000    999.000    999.000
+    DUPONSET          53.645      4.783     11.215      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    DUPONSET        6969.295   1690.098      4.124      0.000
+    DUPONSET       11990.921   2776.518      4.319      0.000
 
 Latent Class 2
 
  Means
-    DUPONSET          42.747      4.292      9.961      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    DUPONSET          53.645      4.783     11.215      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    DUPONSET        6969.295   1690.098      4.124      0.000
+    DUPONSET       11990.921   2776.518      4.319      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    DUPONSET        31.693      34.336      35.688      42.747      49.807      51.159      53.802
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    DUPONSET        41.324      44.270      45.776      53.645      61.513      63.020      65.965
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    DUPONSET      2615.939    3656.702    4189.083    6969.295    9749.507   10281.888   11322.650
+    DUPONSET      4839.166    6548.945    7423.549   11990.921   16558.293   17432.896   19142.676
 
 Latent Class 2
 
  Means
-    DUPONSET        31.693      34.336      35.688      42.747      49.807      51.159      53.802
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    DUPONSET        41.324      44.270      45.776      53.645      61.513      63.020      65.965
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    DUPONSET      2615.939    3656.702    4189.083    6969.295    9749.507   10281.888   11322.650
+    DUPONSET      4839.166    6548.945    7423.549   11990.921   16558.293   17432.896   19142.676
 
 Categorical Latent Variables
 
  C#1      ON
-    DUPONSET        -0.013      -0.011      -0.010      -0.005       0.000       0.001       0.003
+    DUPONSET        -0.004      -0.002      -0.001       0.005       0.010       0.012       0.014
 
  Intercepts
-    C#1             -0.891      -0.803      -0.758      -0.525      -0.291      -0.246      -0.159
+    C#1              0.163       0.256       0.303       0.552       0.800       0.847       0.940
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    DUPONSET         0.987       0.989       0.990       0.995       1.000       1.001       1.003
+    DUPONSET         0.996       0.998       0.999       1.005       1.011       1.012       1.014
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    DUPONSET        -0.003      -0.001       0.000       0.005       0.010       0.011       0.013
+    DUPONSET        -0.014      -0.012      -0.010      -0.005       0.001       0.002       0.004
 
  Intercepts
-    C#2              0.159       0.246       0.291       0.525       0.758       0.803       0.891
+    C#2             -0.940      -0.847      -0.800      -0.552      -0.303      -0.256      -0.163
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    DUPONSET         0.997       0.999       1.000       1.005       1.011       1.012       1.014
+    DUPONSET         0.986       0.989       0.990       0.995       1.001       1.002       1.004
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    DUPONSET         0.429       0.449       0.459       0.512       0.565       0.575       0.595
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    DUPONSET         0.409       0.428       0.438       0.490       0.542       0.552       0.571
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     DUPONSET         1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    DUPONSET         0.429       0.449       0.459       0.512       0.565       0.575       0.595
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    DUPONSET         0.409       0.428       0.438       0.490       0.542       0.552       0.571
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     DUPONSET         1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    DUPONSET         0.429       0.449       0.459       0.512       0.565       0.575       0.595
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    DUPONSET         0.409       0.428       0.438       0.490       0.542       0.552       0.571
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     DUPONSET         1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    DUPONSET         0.429       0.449       0.459       0.512       0.565       0.575       0.595
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    DUPONSET         0.409       0.428       0.438       0.490       0.542       0.552       0.571
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     DUPONSET         1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    DUPONSET        31.693      34.336      35.688      42.747      49.807      51.159      53.802
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    DUPONSET        41.324      44.270      45.776      53.645      61.513      63.020      65.965
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    DUPONSET      2615.939    3656.702    4189.083    6969.295    9749.507   10281.888   11322.650
+    DUPONSET      4839.166    6548.945    7423.549   11990.921   16558.293   17432.896   19142.676
 
 Latent Class 2
 
  Means
-    DUPONSET        31.693      34.336      35.688      42.747      49.807      51.159      53.802
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    DUPONSET        41.324      44.270      45.776      53.645      61.513      63.020      65.965
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    DUPONSET      2615.939    3656.702    4189.083    6969.295    9749.507   10281.888   11322.650
+    DUPONSET      4839.166    6548.945    7423.549   11990.921   16558.293   17432.896   19142.676
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               DUPONSET
               ________
-               26.589
+               63.497
 
 
            Covariances
               DUPONSET
               ________
- DUPONSET    2950.227
+ DUPONSET   15716.615
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,34 +572,112 @@ TECHNICAL 7 OUTPUT
            Means
               DUPONSET
               ________
-               50.635
+               30.530
 
 
            Covariances
               DUPONSET
               ________
- DUPONSET    8745.722
+ DUPONSET    4283.656
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.956
+       Category 2        0.044
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.085
+       Category 2        0.915
 
 
-     Beginning Time:  19:15:10
-        Ending Time:  19:15:10
-       Elapsed Time:  00:00:00
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              DUPONSET
+              ________
+               52.092
+
+
+           Estimated Mixed Means
+              DUPONSET
+              ________
+               53.645
+
+
+           Residuals for Mixed Means
+              DUPONSET
+              ________
+               -1.553
+
+
+           Observed Covariances
+              DUPONSET
+              ________
+ DUPONSET   12007.270
+
+
+           Estimated Mixed Covariances
+              DUPONSET
+              ________
+ DUPONSET   11990.920
+
+
+           Residuals for Mixed Covariances
+              DUPONSET
+              ________
+ DUPONSET      16.349
+
+
+           Observed Skewness
+              DUPONSET
+              ________
+                4.650
+
+
+           Estimated Mixed Skewness
+              DUPONSET
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              DUPONSET
+              ________
+                4.650
+
+
+           Observed Kurtosis
+              DUPONSET
+              ________
+               28.861
+
+
+           Estimated Mixed Kurtosis
+              DUPONSET
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              DUPONSET
+              ________
+               28.861
+
+
+     Beginning Time:  18:21:40
+        Ending Time:  18:21:41
+       Elapsed Time:  00:00:01
 
 
 

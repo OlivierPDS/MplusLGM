@@ -1,0 +1,932 @@
+---
+title: "PEPP2 - results"
+author: "Olivier Percie du Sert"
+date: "`r Sys.Date()`"
+output: html_document
+---
+# Setup 
+```{r setup, include = FALSE} 
+knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE)
+options(scipen = 999)
+options(digits = 3)
+```
+
+```{r packages} 
+library(tidyverse)
+library(magrittr)
+library(glue)
+library(metafor)
+library(flextable)
+library(vtable)
+library(gtsummary)
+library(kableExtra)
+library(DataEditR)
+library(webshot)
+library(patchwork)
+library(officer)
+```
+
+```{r Results} 
+rm(list = ls())
+ws_res <- list.files(
+  file.path(getwd(), "Results"),
+  full.names = TRUE) %>%
+  file.info() %>%
+  filter(isdir == FALSE) %>%
+  slice_max(mtime) %>% # get the most updated workspace
+  rownames()
+
+  load(ws_res)
+```
+
+```{r Outcome} 
+ws <- c("SOFAS", "SAPS", "SANS") %>%
+  map_chr(\(x)
+  file.path(getwd(), x, '689') %>%
+    list.files(full.names = TRUE) %>%
+    file.info() %>%
+    filter(isdir == FALSE) %>%
+    slice_max(mtime) %>% # get the most updated workspace
+    rownames())
+
+ws <- list.files("/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/GitHub/PEPP_private/PEPP2/Rproj", full.names = TRUE) %>%
+  file.info() %>%
+  filter(isdir == FALSE) %>%
+  slice_max(mtime) %>% # get the most updated workspace
+  rownames() %>%
+  c(ws)
+
+env <- map(1:4, new.env) %>%
+  set_names(c("PEPP2.env", "SOFAS.env", "SAPS.env", "SANS.env"))
+map2(ws, env, \(x, y) load(x, envir = y))
+list2env(env, globalenv())
+
+source("/Users/olivierpercie/Desktop/LGM/R/LGMMs/var_to_lbl.R")
+```
+
+```{r vars of interest} 
+## Sociodemographics
+SD_num <- c('ageentry', 'FIQ', 'holltotp', 'EDUC_num')
+SD_cat <- c('gender', 'Vmin', 'NEET', 'INDPT', 'REL')
+SD <- c('DOB', SD_num, SD_cat)
+
+## Clinical information
+CHRONO <- c('date_pr','dt2stpsy', 'onset', 'datecont', 'doe', 'prevTX_dur', 'prevAP_dur')
+CLIN_num <- c('ageonset', 'duponset', 'dui', 'conv')
+CLIN_cat <-c('prev_EP', 'evercont', 'ever_ap', 'txiscm', 'mode', 'CAYRconv', 'ip_op', 'referral', 'Txsitn', 'transfR') #'inRCT', 'RCTgroup'
+CLIN <- c(CHRONO, CLIN_num, CLIN_cat)
+
+## Diagnosis
+DXII <- paste0('secdx', c(1, 3:6))
+DXIIpc <- paste0('secdx', c(1, 3:6), 'pc')
+DX <- c('dx_0', 'dx_b2', 'dx_1year', 'dx2', DXII, DXIIpc, 'SUD')
+
+## Cognition
+COGSTATE <- c('verbm_z', 'wm_z', 'ef_z', 'sop_z', 'vism_z', 'va_z', 'sc_z')
+COG <- c('Battery', COGSTATE)
+
+## Functioning
+PAS <- c('PAS_c', 'PAS_ea', 'PAS_la', 'PAS_a', 'PAS_tot2', 'PAS_tot3', 'PAS_tot4')
+FUNC_cat <- c('vismin', 'EDUC_cat', 'newwork', 'othwork', 'newliving', 'othliving', 'marital')
+EDUC <- paste('EDUC', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+WRK1 <- paste('WRK1', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+HOUS1 <- paste('HOUS1', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+HOUS2 <- paste('HOUS2', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SOFAS <- paste('SOFAS', c(0, 12, 24), sep = '_')
+FUNC <- c(PAS, FUNC_cat, 'Years_of_education', EDUC, WRK1, HOUS1, HOUS2, SOFAS)
+
+## Psychopathology
+SAPS <- paste('SAPS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SANS <- paste('SANS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+HAS <- paste('HAS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+CDS <- paste('CDS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+YMRS <- paste('YMRS', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+
+## Insight 
+SUMD1 <- paste('SUMD1', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SUMD2 <- paste('SUMD2', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SUMD3 <- paste('SUMD3', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SUMD <- c(SUMD1, SUMD2, SUMD3)
+
+## Suicide
+SCD <- paste('cd8', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+
+## Remission & Recovery
+PSR <- paste('PSR', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+NSR <- paste('NSR', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+JSR <- paste('JSR', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+SR_0 <- paste(c('PSR', 'NSR'), '0', sep = '_')
+SR_24 <- paste(c('PSR', 'NSR', 'JSR'), '24', sep = '_')
+SR_t <- paste(c('PSR', 'NSR', 'JSR'), 't', sep = '_')
+SR_1st <- paste(c('PSR', 'NSR', 'JSR'), '1st', sep = '_')
+SR_cat <- c(PSR, NSR, JSR, 'JSR_by3', 'RECOV_24')
+SR <- c(SR_cat, SR_t, SR_1st, 'JSR_24C')
+
+## Medication
+adh <- paste('comp', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+ord <- paste0('txm', c(0, 1, 2, 3, 6, 9, 12, 18, 24), 'co')
+CPZ <- paste('CPZ', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+CPZw <- paste('CPZw', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
+RX_0 <- c('comp_0', 'txm0co', 'CPZw_0')
+RX_24 <- c('comp_24', 'txm24co', 'CPZw_24')
+RX <-  c(ord, adh, CPZ)
+# AP_yn <- starts_with('anti')
+# AP_type <- starts_with('atype')
+
+## Trajectory 
+# C <- c('C_SOFAS', 'C_SAPS', 'C_SANS')
+# CP <- c('CP1_SOFAS', 'CP2_SOFAS', 'CP1_SAPS', 'CP2_SAPS', 'CP1_SANS', 'CP2_SANS', 'CP3_SANS')
+
+## Summary
+SX_0 <- paste(c('SAPS', 'SANS', 'HAS', 'CDS', 'cd8', 'YMRS','SUMD1'), '0', sep = '_')
+SX_24 <- paste(c('SAPS', 'SANS', 'HAS', 'CDS', 'cd8', 'YMRS','SUMD1'), '24', sep = '_')
+SX <- c(SAPS, SANS, HAS, CDS, SCD, YMRS, SUMD)
+
+## covariates
+cov_R3STEP <- c(SD_cat, SD_num, 'ageonset', 'duponset', 'mode', 'ip_op', 'dx_b2', 'SUD', 'PAS_tot2', 'SOFAS_0', COGSTATE, SX_0, SR_0, SR_1st, 'JSR_by3', "comp_0", "CPZ_0") %>% setdiff(c('cd8_0')) #CAYRconv, txm0co, SUMD2_0, SUMD3_0
+cov_MixReg <- c(SOFAS, SX, PSR, NSR, JSR)
+cov_D3STEP <- c('SOFAS_24', SX_24, SR_24, 'JSR_24C','RECOV_24', "comp_24", "CPZ_24") %>% setdiff(c('cd8_24')) #txm24co
+
+## Miscellaneous
+# t <- paste0('t', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+# items <- sap1_0:umd_6b_24
+
+## Categorical variables to recode as factors
+cat <- c(SD_cat, WRK1, HOUS1, HOUS2, CLIN_cat, FUNC_cat, DX, SR_cat, ord)
+```
+
+<!-- To add: R3STEP, Missing data, Assumptions -->
+
+# Analyses 
+## Sample 
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/Sample.png)
+
+## Trajectory analyses
+Primary outcomes:\
+- SOFAS | 0, 12, 24 months\
+- SAPS | 0, 1, 2, 3, 6, 9, 12, 18, 24-month\
+- SANS | 0, 1, 2, 3, 6, 9, 12, 18, 24-month\
+
+### Models
+#### GCM
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/GCM.png)
+
+$$Y_{it} = \pi_{0i} + \pi_{1i}t + \varepsilon_{it} $$\
+$\pi_{0i} = \mu_{00} + \zeta_{0i}$ (intercept)\
+$\pi_{1i} = \mu_{10} + \zeta_{1i}$ (slope)\
+\
+
+**Assumptions:**\
+- class = $C_{i=1}$\
+- growth factors variance $\zeta_{ji} \text{ ~ } N(0, \Psi_{jj}) \text{, } j = 0, 1$ <span style="color:red">= freely estimated</span>\
+- residual variance $\varepsilon_{it} \text{ ~ } N(0, \sigma_t^2)$ <span style="color:red"> = freely estimated across $t$</span>\
+\
+\
+
+#### GBTM
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/GBTM.png)
+
+$$Y_{it}^k = \pi_{0i}^k + \pi_{1i}^kt + \varepsilon_{i}$$\
+$\pi_{0i}^k = \mu_{00}^k + \zeta_{0i}$ (intercept)\
+$\pi_{1i}^k = \mu_{10}^k + \zeta_{1i}$ (slope)\
+
+**Assumptions:**\
+- class = $C_{i=1:6}$\
+- growth factors variance $\zeta_{ji} \text{, } j = 0, 1$ <span style="color:red">= 0</span>\
+- residual variance $\varepsilon_{i} \text{ ~ } N(0, \sigma^2)$ <span style="color:red">= fixed across $t$ & $C_{i=1:k}$</span>\
+\
+\
+
+#### LCGA 
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/LCGA.png)
+
+$$Y_{it}^k = \pi_{0i}^k + \pi_{1i}^kt + \varepsilon_{i(t)}^{(k)}$$\
+$\pi_{0i}^k = \mu_{00}^k + \zeta_{0i}$ (intercept)\
+$\pi_{1i}^k = \mu_{10}^k + \zeta_{1i}$ (slope)\
+\
+**Assumptions:**\
+- class = $C_{i=k}$\
+- growth factors variance $\zeta_{ji}\text{, } j = 0, 1$ <span style="color:red">= 0</span>\
+- residual variance $\varepsilon_{i(t)}^{(k)} \text{ ~ } N(0, \sigma_{(k)(t)}^2)$ <span style="color:red">= relaxed across $C_{i=k}$, across $t$,  across $t$ & $C_{i=k}$</span>\
+\
+\
+
+#### GMM
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/GMM.png)
+
+##### GMMi (class-invariant) 
+$$Y_{it}^k = \pi_{0i}^k + \pi_{1i}^kt + \varepsilon_{i(t)}^{(k)}$$\
+$\pi_{0i}^k = \mu_{00}^k + \zeta_{0i}$ (intercept)\
+$\pi_{1i} = \mu_{10}^k + \zeta_{1i}$ (slope)\
+\
+**Assumptions:**\
+- class = $C_{i=k}$\
+- growth factors variance $\zeta_{ji} \text{ ~ } N(0, \Psi_{jj}) \text{, } j = 0, 1$ <span style="color:red"> = relaxed stepwise</span>\
+- residual variance $\varepsilon_{i(t)}^{(k)} \text{ ~ } N(0, \sigma_{((k)(t))}^2)$ <span style="color:red"> = fixed across $t$ & $C_{i=k}$, relaxed across $C_{i=k}$, across $t$, across $t$ & $C_{i=k}$</span>\
+\
+\
+
+##### GMMv (class-variant)\ 
+$$Y_{it}^k = \pi_{0i}^k + \pi_{1i}^kt + \varepsilon_{i(t)}^{(k)}$$\
+$\pi_{0i}^k = \mu_{00}^k + \zeta_{0i}^k$ (intercept)\
+$\pi_{1i}^k = \mu_{10}^k + \zeta_{1i}^k$ (slope)\
+\
+**Assumptions:**\
+- class = $C_{i=k}$\
+- growth factors variance $\zeta_{ji}^k \text{ ~ } N(0, \Psi_{jj}^k) \text{, } j = 0, 1$ <span style="color:red"> = relaxed stepwise across $C_{i=k}$</span>\
+- residual variance $\varepsilon_{i(t)}^{(k)} \text{ ~ } N(0, \sigma_{((k)(t))}^2)$ <span style="color:red"> = fixed across $t$ & $C_{i=k}$, relaxed across $C_{i=k}$, across $t$, across $t$ & $C_{i=k}$</span>\
+
+### Model selection strategy
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/LGMMs.png)
+
+Missing data: FIML
+
+## Regression analyses
+**Manual 3-step approach:**\
+- Estimate the unconditional (covariates excluded) LGM model (class enumeration, optimal model selection)\
+- Extract misclassification error rates (logit)\
+- Estimate the conditional (covariates included) LGM model using class variables and logits\
+
+The three-step approach preserves the class classification from the unconditional LGM and allows for the estimation of the effects of covariates after taking into account class uncertainty rates.\
+
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/Regression models.png)
+![](/Users/olivierpercie/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/1. PEPP2/Statistics/TVCreg.png)
+
+Missing data: FIML\
+$\alpha$: Bonferroni correction\
+
+### Multinomial logistic regressions: 
+$$P(C_i = k |X_i) = \frac{e^{(b_{k0} +b_{k1}X_i)}}{\sum_{s=1}^K e^{(b_{s0} +b_{s1}X_i)}}$$
+
+   |
+---|-------------------------------------------------------------------
+$Y$| **Class membership:** $C_{i=k}$
+$X$| **Sociodemographics:** age, education, FIQ, SES, onset, DUP, PAS\
+     **Baseline predictors:** `r paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '0', sep = '_')`
+
+### Mixture regressions: 
+$$\pi_{0i}^{(k)} = \mu_{00}^{(k)} + \gamma_{01}^{(k)}X_i + \zeta_{_{0i}}^{(k)}$$
+$$\pi_{1i}^{(k)} = \mu_{10}^{(k)} + \gamma_{11}^{(k)}X_i + \zeta_{_{1i}}^{(k)}$$
+   
+   | 
+---|-----------------------------------------------------------
+$Y$| **Growth factors** $\pi_{0i}^{(k)}$ (intercept), $\pi_{1i}^{(k)}(slope)$\
+**Primary outcome:** SOFAS, SAPS, SANS
+$X$| **Time-varying covariates:** SOFAS, SAPS, SANS, CDA, HAS, YMRS
+
+<!-- ### Multiple linear regressions -->
+<!-- $$ -->
+<!-- Y_i=(b_0 + b_1X_1 + b_2X_2 + ... + b_nX_{ni}) + \varepsilon_i -->
+<!-- $$ -->
+<!-- $Y$: **Primary outcome** (SOFAS, SAPS, SANS)\ -->
+<!-- $X$: **Time-varying covariates** (SOFAS, SAPS, SANS, CDA, HAS, YMRS)\ -->
+
+### Linear regressions: 
+$$
+Y_i=(b_0 + b_1C_{i=k}) + \varepsilon_i
+$$
+   
+   
+   | 
+---|-----------------------------------------------
+$Y$| **Distal outcomes:** `r paste(c('SAPS', 'SANS', 'SOFAS', 'HAS', 'CDS', 'YMRS'), '24', sep = '_')`, remission ( -early, -endpoint, -cumulative)\
+**variable to add/consider:** clozapine-use, recovery, mortality, suicide, self-harm
+$X$| **Class membership:** $C_{i=k}$
+
+## Sensitivity analyses: 
+- individually varying timescores\
+- intent-to-treat analysis\
+
+# Results 
+## SOFAS 
+```{r}
+pluck(env, "SOFAS.env", "plot")
+```
+
+Quadratic GBTM\
+```{r}
+pluck(env, "SOFAS.env", "FINAL_fit") %>%
+  select("NLatentClasses", starts_with(c("count", "proportion"))) %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+### Predictors of class membership 
+```{r}
+SOFAS_R3SETP %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+<!-- ### Time-varying predictors of primary outome -->
+```{r, eval = FALSE}
+pluck(env, "SOFAS.env", "TVCreg_stdyx") %>%
+  filter(str_detect(param, "^PSR", negate = TRUE)) %>%
+  filter(pval < (0.05 / length(env$SOFAS.env$TVCreg_models))) %>%
+  select(-warnings, -errors, -sig) %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+### Distal outcomes of latent classes 
+```{r}
+SOFAS_D3STEP %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+
+## SAPS 
+```{r}
+pluck(env, "SAPS.env", "plot")
+```
+
+
+Cubic class-variant GMM\
+```{r}
+pluck(env, "SAPS.env", "FINAL_fit") %>%
+  select(n, starts_with(c("count", "proportion"))) %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+### Predictors of class membership
+```{r}
+SAPS_R3STEP %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+<!-- ### Time-varying predictors of primary outome -->
+```{r, eval = FALSE}
+pluck(env, "SAPS.env", "TVCreg_stdyx") %>%
+  filter(str_detect(param, "^(NSR|CDS)", negate = TRUE)) %>%
+  filter(pval < (0.05 / length(env$SAPS.env$TVCreg_models))) %>%
+  select(-warnings, -errors, -sig) %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+### Time-varying predictors of growth factors wihtin latent classes
+```{r}
+SAPS_MixREG %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+### Distal outcomes of latent classes
+```{r}
+SAPS_D3STEP %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+## SANS 
+```{r}
+pluck(env, "SANS.env", "plot")
+```
+
+Cubic ($C_1$) / linear($C_2$, $C_3$) class-variant GMM\
+```{r}
+pluck(env, "SANS.env", "FINAL_fit") %>%
+  select(n, starts_with(c("count", "proportion"))) %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+### Predictors of class membership 
+```{r}
+SANS_R3STEP %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+<!-- ### Time-varying predictors of primary outome -->
+```{r, eval = FALSE}
+SANS_TVCreg %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+### Time-varying predictors of growth factors wihtin latent classes
+```{r}
+SANS_MixREG %>%
+  knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+### Distal outcomes of latent classes
+```{r}
+SANS_D3STEP %>%
+  knitr::kable(format = "html", digits = c(2, 2, 2, 2, 2, 3), align = "l", table.attr = "style='width:90%;'") %>%
+  kableExtra::kable_styling()
+```
+
+
+# Manuscript 
+## Table 1. Descriptives stats 
+```{r} 
+desc_tbl <- pluck(env, "PEPP2.env", "desc_tbl")
+
+set_flextable_defaults(font.family = "Times New Roman")
+
+desc_tbl %>%
+  as_flex_table() %>%
+  set_caption(caption = as_paragraph(as_b("Table 1. "), "Baseline sociodemographic and clinical characteristics of PEPP-Montreal cohort (N = 689)."), align_with_table = FALSE, fp_p = fp_par(text.align = "left")) %>%
+  add_footer_lines(values = "CDS: Calgary depression scale, CPZeq: Chlorpromazine equivalent, DUP: Duration of untreated psychosis, HAS: Hamilton anxiety scale, NEET: Not in employment, education or training, PAS: Premorbid adjustment scale, SANS: Scale for the assessment of negative symptoms, SAPS: Scale for the assessment of positive symptoms, SES: Socioeconomic status, SOFAS: Social occupational functioning scale, SUD: Substance use disorder, SSD: Schizophrenia spectrum disorder, SUMD: Scale to assess awareness in mental disorder, YMRS: Young mania rating scale") %>%
+  width(width = 3) %>%
+  line_spacing(space = 0.30) %>% 
+  # font(fontname = "Times New Roman", part = "all") %>%
+  save_as_docx(path = file.path(getwd(), "Results", "Table1_SD.docx"))
+```
+
+## Table 2. Models summary 
+```{r} 
+summary_tbl <- map_dfr(env, ~ pluck(.x, "FINAL_fit")) %>%
+  mutate(Outcome = c("SOFAS", "SAPS", "SANS")) %>%
+  mutate(Model = c("GBTM", "GMM (class-variant)", "GMM (class-invariant)")) %>%
+  mutate("Polynomial order" = c("Quadratic", "Cubic", "Cubic (2) & linear (1)")) %>%
+  mutate("Random effect" = c(NA, "Intercept & linear slope", "Intercept & linear slope")) %>%
+  mutate(Residuals = c("Fixed across classes & time", "Freed across classes & time", "Freed across classes")) %>%
+  rename("Latent classes" = "NLatentClasses") %>%
+  # mutate("aLMRT pval" = round(T11_LMR_PValue, 3)) %>%
+  mutate("aLMRT pval" = "< 0.001") %>%
+  mutate(across(c(where(is.numeric), -"T11_LMR_PValue"), ~ round(.x, 2))) %>%
+  mutate("Class 1" = glue("{count_1} ({round(proportion_1, 0)}%)")) %>%
+  mutate("Class 2" = glue("{count_2} ({round(proportion_2, 0)}%)")) %>%
+  mutate("Class 3" = case_when(!is.na(count_3) ~ glue("{count_3} ({round(proportion_3, 0)}%)"))) %>%
+  select("Outcome", "Observations", "Latent classes", "Model", "Parameters", "Polynomial order", "Random effect", "Residuals", "BIC", "aLMRT pval", starts_with("Class"), "Entropy")
+  # data_edit(code = TRUE, viewer = "dialog")
+
+summary_tbl %>% 
+  kable(caption = "<font size = 2><b>Table 2.</b> Summary of optimal models.</font>") %>%
+  kable_classic(full_width = FALSE, html_font = "Times New Roman", font_size = 10) %>%  
+  row_spec(0, bold = TRUE) %>% 
+  footnote(general_title = "", general = "aLMRT: Adjusted Lo-Mendell-Rubin bootstrap likelihood ratio test, BIC: Baeysian information criterion, GBTM: Group-based trajectory model, GMM: Growth mixture model, SANS: Scale for the assessment of negative symptoms, SAPS: Scale for the assessment of positive symptoms, SOFAS: Social occupational functioning scale") %>% 
+  save_kable(file.path(getwd(), "Results", "Table2_summary.pdf"), vwidth = 1000 , vheight = 100)
+```
+
+## Supplementary Table X. Descritpives stats by traj 
+```{r} 
+traj_df <- env %>%
+  tail(-1) %>%
+  map2(c("SOFAS_df", "SAPS_df", "SANS_df"), \(env, df) pluck(env, df))
+# reduce(full_join, by = 'pin', suffix = c('', '.y')) %>% #use full_join to keep all observations
+# select(-ends_with('.y'))
+
+desc_R3STEP <- traj_df %>%
+  map2(c("C_SOFAS", "C_SAPS", "C_SANS"), \(df, C)
+  tbl_summary(df,
+    include = c(all_of(c(cov_R3STEP))),
+    by = C,
+    # label = lbl,
+    type = list(c(ends_with("1st"), starts_with("comp")) ~ "continuous"),
+    statistic = list(
+      all_continuous() ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} ({p}%)"
+    ),
+    digits = list(
+      all_continuous() ~ 1,
+      all_categorical() ~ 0
+    ),
+    missing = "no"
+  ))
+
+desc_D3STEP <- traj_df %>%
+  map2(c("C_SOFAS", "C_SAPS", "C_SANS"), \(df, C)
+  tbl_summary(df,
+    include = c(all_of(c(cov_D3STEP))),
+    by = C,
+    # label = lbl,
+    type = list(c(ends_with("1st"), starts_with("comp"), JSR_24C) ~ "continuous"),
+    statistic = list(
+      all_continuous() ~ "{mean} ({sd})",
+      all_categorical() ~ "{n} ({p}%)"
+    ),
+    digits = list(
+      all_continuous() ~ 1,
+      all_categorical() ~ 0
+    ),
+    missing = "no"
+  ))
+
+desc_merged <- list(desc_R3STEP, desc_D3STEP) %>% 
+  map_depth(2, ~ add_n(.x)) %>% 
+  map_depth(2, ~ italicize_levels(.x)) %>% 
+  map(~ tbl_merge(.x, tab_spanner = c("SOFAS", "SAPS", "SANS"))) %>% 
+  tbl_stack(group_header = c('Predictors of class membership','Distal outcomes')) 
+  
+# map(~ add_p(.x, pvalue_fun = ~ style_pvalue(.x, digits = 3))) %>%
+# map(~ bold_p(.x)) %>%
+
+show_header_names(traj_desc)
+
+traj_desc <- desc_merged %>%
+modify_header(
+    stat_1_1 = "**Partial Improvement** ({n}; {style_percent(p)}%)",
+    stat_2_1 = "**Improvement** ({n}; {style_percent(p)}%)",
+    stat_1_2 = "**2-Step decrease** ({n}; {style_percent(p)}%)",
+    stat_2_2 = "**Early decrease** ({n}; {style_percent(p)}%)",
+    stat_1_3 = "**Fluctuating** ({n}; {style_percent(p)}%)",
+    stat_2_3 = "**Slow decrease** ({n}; {style_percent(p)}%)",
+    stat_3_3 = "**Persistant** ({n}; {style_percent(p)}%)"
+  ) %>% 
+  modify_caption("**Supplementary Table X.** Descriptive statistics by trajectory")
+  
+
+traj_desc %>% 
+  as_flex_table()
+```
+
+
+## Figure 1. Traj plots 
+```{r} 
+plots <- map(env, \(env) pluck(env, "plot")) %>% compact()
+
+plots$SOFAS.env <- plots$SOFAS.env +
+  scale_linetype_discrete(name = "Class", labels = c("Partial improvement (43%)", "Improvement (57%)")) +
+  scale_shape_discrete(name = "Class", labels = c("Partial improvement (43%)", "Improvement (57%)")) +
+  labs(title = bquote(bold("A.") ~ "Trajectories of social and occupational functioning"), x = "Time (mth)", y = "SOFAS")
+
+plots$SAPS.env <- plots$SAPS.env +
+  scale_linetype_discrete(name = "Class", labels = c("2-Step decrease (68%)", "Early decrease (32%)")) +
+  scale_shape_discrete(name = "Class", labels = c("2-Step decrease (68%)", "Early decrease (32%)")) +
+  labs(title = bquote(bold("B.") ~ "Trajectories of positive symptoms"), x = "Time (mth)", y = "SAPS")
+
+plots$SANS.env <- plots$SANS.env +
+  scale_linetype_discrete(name = "Class", labels = c("Fluctuating (15%)", "Slow decrease (41%)", "Persistent (44%)")) +
+  scale_shape_discrete(name = "Class", labels = c("Fluctuating (15%)", "Slow decrease (41%)", "Persistent (44%)")) +
+  labs(title = bquote(bold("C.") ~ "Trajectories of negative symptoms"), x = "Time (mth)", y = "SANS")
+
+traj_plot <- (plots$SOFAS.env / plots$SAPS.env / plots$SANS.env) &
+  theme(text = element_text(size = 13, family = "Times New Roman"), 
+        legend.text = element_text(size = 13))
+
+traj_plot <- traj_plot + 
+  plot_annotation(
+    title = bquote(bold("Figure 1.") ~ "Estimated latent trajectories of outcome over 2-year early intervention services."),
+    caption = "Observed individuals trajectories are plotted in the background.",
+    theme = theme(text = element_text(size = 13, family = "Times New Roman"),
+                  plot.caption = element_text(hjust = 0, size = 13)
+                  )
+    )
+
+# extrafont::loadfonts()
+ggsave(traj_plot, filename = file.path(getwd(), "Results", "Manuscript", "Figure1_traj.jpeg"), height = 45, width = 40, units = "cm", dpi = 600)
+```
+
+## Figure 2/3. Forest plots 
+```{r Dataframes} 
+R3STEP <- map(env, \(env) pluck(env, "R3STEP_unstd")) %>% compact()
+MixREG <- map(env, \(env) pluck(env, "MixREG_stdyx")) %>% compact()
+D3STEP <- map(env, \(env) pluck(env, "D3STEP_unstd")) %>% compact()
+```
+
+### R3STEP 
+```{r, include = FALSE} 
+#### Data
+R3STEP_df <- R3STEP %>%
+  map(\(df) filter(df, str_detect(paramHeader, "C#\\d.ON"))) %>%
+  map(\(df) filter(df, pval < (0.05 / (length(cov_R3STEP) - 1)))) %>%
+  map(\(df) filter(df, is.na(errors))) %>%
+  map(\(df) select(df, -warnings, -errors)) %>%
+  map(\(x) var_to_lbl(x, param)) %>%
+  imap(\(x, idx) mutate(x, outcome = str_remove(idx, ".env"))) %>%
+  # modify_in("SOFAS.env", ~ rename(.x, mean_est1 = "mean_est2", mean_est2 = "mean_est1")) %>%
+  # modify_in("SAPS.env", ~ rename(.x, mean_est1 = "mean_est2", mean_est2 = "mean_est1")) %>%
+  # modify_in("SANS.env", ~ rename(.x, mean_est1 = "mean_est2", mean_est2 = "mean_est1")) %>%
+  reduce(~ merge(.x, .y, all = TRUE)) %>%
+  mutate(across(where(is.numeric), ~ round(.x, digits = 2))) %>%
+  group_by(outcome) %>%
+  arrange(desc(outcome), OR_est, .by_group = TRUE) %>%
+  relocate(starts_with("mean"), .after = "param") %>% 
+  ungroup()
+
+R3STEP_n <- R3STEP_df %>%
+  count(outcome) %>%
+  pivot_wider(names_from = outcome, values_from = n)
+
+i <- 3
+
+# R3STEP_df <- R3STEP_df %>% data_edit(code = TRUE, viewer = "dialog")
+```
+
+```{r, include = FALSE} 
+#### Plot
+jpeg(file.path(getwd(), "Results", "Manuscript", "R3STEP_ForestPlot.jpeg"), pointsize = 11, height = 15, width = 30, units = "cm", res = 600)
+par(mar = c(bottom = 9, left = 0, top = 0, right = 0))
+
+R3STEP_forest <- forest.default(
+  slab = R3STEP_df$param,
+  ilab = cbind(R3STEP_df$`mean_est2`, R3STEP_df$`mean_est1`, R3STEP_df$`mean_est3`),
+  ilab.xpos = seq(from = -2, to = -0.5, length.out = 3),
+  x = R3STEP_df$OR_est,
+  ci.lb = R3STEP_df$OR_low2.5,
+  ci.ub = R3STEP_df$OR_up2.5,
+  rows = c(
+    seq(R3STEP_n$SANS),
+    seq(from = R3STEP_n$SANS + i, length.out = R3STEP_n$SAPS),
+    seq(from = R3STEP_n$SANS + R3STEP_n$SAPS + 2 * i - 1, length.out = R3STEP_n$SOFAS)
+  ),
+  xlim = c(-4, 3),
+  alim = c(0, 2),
+  ylim = c(0, R3STEP_n$SANS + R3STEP_n$SAPS + R3STEP_n$SOFAS + 3 * i),
+  refline = 1,
+  psize = 1,
+  cex = 1,
+  top = 4,
+  xlab = expression(italic('Favours "worse" trajectory'), bold("Class Membership"), italic('Favours "better" trajectory')),
+  header = c("Baseline predictors", "OR [95% CI]"), 
+  fonts = "Times New Roman"
+)
+
+#### Title & Header
+par(font = 2)
+text(
+  labels = expression(paste(bold("Figure 2. "), "Forest plot for baseline predictors of class membership.")),
+  x = R3STEP_forest$xlim[[1]],
+  y = R3STEP_forest$ylim[[2]] - 1,
+  pos = 4
+)
+
+text(
+  labels = "Estimated mean",
+  x = median(R3STEP_forest$ilab.xpos),
+  y = R3STEP_forest$ylim[[2]] - 2,
+  cex = R3STEP_forest$cex
+)
+
+#### Subtitle & subheader
+par(font = 4)
+text(
+  labels = c("SOFAS", "SAPS", "SANS"),
+  x = R3STEP_forest$xlim[[1]],
+  y = c(
+    max(R3STEP_forest$rows) + 1,
+    R3STEP_n$SAPS + R3STEP_n$SANS + i,
+    R3STEP_n$SANS + 1
+  ),
+  pos = 4,
+  cex = R3STEP_forest$cex
+)
+
+par()
+text(
+  labels = expression(italic("Improvement"), italic("Partial improvement"^1)),
+  x = head(R3STEP_forest$ilab.xpos, -1),
+  y = max(R3STEP_forest$rows) + 1,
+  cex = R3STEP_forest$cex
+)
+
+par()
+text(
+  labels = expression(italic("Early decrease"), italic("2-Step decrease"^1)),
+  x = head(R3STEP_forest$ilab.xpos, -1),
+  y = (R3STEP_n$SAPS + R3STEP_n$SANS + i),
+  cex = R3STEP_forest$cex
+)
+
+text(
+  labels = expression(italic("Slow decrease"), italic("Fluctuating"), italic("Persistent"^1)),
+  x = R3STEP_forest$ilab.xpos,
+  y = R3STEP_n$SANS + 1,
+  cex = R3STEP_forest$cex
+)
+
+#### Footnote
+mtext(
+  text = expression(""^1 ~ "Reference trajectory"),
+  side = 1,
+  line = 4,
+  at = R3STEP_forest$xlim[[1]],
+  adj = 0,
+  cex = R3STEP_forest$cex
+)
+
+par(font = 1)
+mtext(
+  text = expression(""^2 ~ "All results are statistically significant with a Bonferroni-corrected threshold (p < 0.001)."),
+  side = 1,
+  line = 5,
+  at = R3STEP_forest$xlim[[1]],
+  adj = 0,
+  cex = R3STEP_forest$cex
+)
+
+mtext(
+  text = expression(""^3 ~ "Binary categorical variable [0 = no, 1 = yes], the mean represents the proportion of cases coded as yes."),
+  side = 1,
+  line = 6,
+  at = R3STEP_forest$xlim[[1]],
+  adj = 0,
+  cex = R3STEP_forest$cex
+)
+
+
+mtext(
+  text = paste(strwrap(
+    "CI: Confidence interval, OR: Odd ratio, SANS: Scale for the assessment of negative symptoms, SAPS: Scale for the assessment of positive symptoms, SOFAS: Social occupational functioning scale.",
+    width = 170
+  ), collapse = "\n"),
+  side = 1,
+  line = 8,
+  at = R3STEP_forest$xlim[[1]],
+  adj = 0,
+  cex = R3STEP_forest$cex
+)
+
+dev.off()
+```
+
+![](/Users/olivierpercie/Desktop/MplusLGM/Results/R3STEP_ForestPlot.pdf)
+
+### D3STEP 
+```{r, include = FALSE} 
+#### Data
+D3STEP_df <- D3STEP %>%
+  map(\(df) filter(df, WaldChiSq_PValue < (0.05 / (length(cov_D3STEP) - 1)))) %>%
+  map(\(df) filter(df, paramHeader == "Means" | pval < 0.05)) %>% # only for SANS
+  map(\(df) filter(df, is.na(errors))) %>%
+  map(\(df) select(df, -warnings, -errors)) %>%
+  map(\(x) separate_wider_delim(x, cols = param, delim = " ", names = c("param", "diff"), too_few = "align_start")) %>%
+  map(\(x) mutate(x, across(c("OR_est", "OR_low2.5", "OR_up2.5"), ~ transf.lnortod.logis(log(.x))))) %>%
+  map(\(x) mutate(x, x = coalesce(SMD_est, OR_est))) %>%
+  map(\(x) mutate(x, ci.lb = coalesce(SMD_low2.5, OR_low2.5))) %>%
+  map(\(x) mutate(x, ci.ub = coalesce(SMD_up2.5, OR_up2.5))) %>%
+  map(\(x) pivot_wider(x, names_from = LatentClass, names_glue = "mean_est{LatentClass}", values_from = est)) %>%
+  map(\(x) reframe(x, .by = param, across(c(diff, x, ci.lb, ci.ub, matches("mean_est\\d")), ~ na.omit(unique(.))))) %>%
+  # map(\(x) summarise(x, .by = param, across(everything(), ~ first(.)))) %>%
+  imap(\(x, idx) mutate(x, outcome = str_remove(idx, ".env"))) %>%
+  # modify_in("SOFAS.env", ~ rename(.x, mean_est1 = "mean_est2", mean_est2 = "mean_est1")) %>%
+  # modify_in("SAPS.env", ~ rename(.x, mean_est1 = "mean_est2", mean_est2 = "mean_est1")) %>%
+  # modify_in("SANS.env", ~ rename(.x, mean_est1 = "mean_est2", mean_est2 = "mean_est1")) %>%
+  modify_in('SOFAS.env', ~ mutate(.x, diff = case_when( # consistent ref class (best)
+    diff == "DIFF12" ~ "DIFF21",
+    diff == "DIFF13" ~ "DIFF31",
+    diff == "DIFF23" ~ "DIFF32"
+  ))) %>% 
+  modify_in('SAPS.env', ~ mutate(.x, diff = case_when( # consistent ref class (best)
+    diff == "DIFF12" ~ "DIFF21",
+    diff == "DIFF13" ~ "DIFF31",
+    diff == "DIFF23" ~ "DIFF32"
+  ))) %>% 
+  modify_in('SOFAS.env', ~ mutate(.x, across(c(x, ci.lb, ci.ub), ~ -.))) %>%
+  modify_in('SOFAS.env', ~ rename(.x,
+    ci.ub = ci.lb,
+    ci.lb = ci.ub
+  )) %>%
+    modify_in('SAPS.env', ~ mutate(.x, across(c(x, ci.lb, ci.ub), ~ -.))) %>%
+  modify_in('SAPS.env', ~ rename(.x,
+    ci.ub = ci.lb,
+    ci.lb = ci.ub
+  )) %>%
+  reduce(~ merge(.x, .y, all = TRUE)) %>%
+  mutate(across(starts_with("mean"), ~ as.numeric(.x))) %>%
+  mutate(across(where(is.numeric), ~ round(.x, digits = 2))) %>%
+  group_by(outcome) %>%
+  arrange(outcome, x, .by_group = TRUE) %>%
+  select(outcome, everything()) %>% 
+  var_to_lbl(param)
+
+D3STEP_n <- D3STEP_df %>%
+  count(outcome) %>%
+  pivot_wider(names_from = outcome, values_from = n)
+
+i <- 3
+
+# D3STEP_df <- D3STEP_df %>% data_edit(code = TRUE, viewer = "viewer")
+```
+
+```{r, include = FALSE} 
+#### Plot
+jpeg(file.path(getwd(), "Results", "Manuscript", "D3STEP_ForestPlot.jpeg"), pointsize = 11, height = 17.5, width = 32.5, units = "cm", res = 600)
+par(mar = c(bottom = 9, left = 0, top = 0, right = 0))
+
+D3STEP_forest <- forest.default(
+  slab = D3STEP_df$param,
+  ilab = cbind(D3STEP_df$mean_est2, D3STEP_df$mean_est1, D3STEP_df$mean_est3),
+  ilab.xpos = seq(from = -11, to = -6, length.out = 3),
+  x = D3STEP_df$x,
+  ci.lb = D3STEP_df$ci.lb,
+  ci.ub = D3STEP_df$ci.ub,
+  rows = c(
+    seq(D3STEP_n$SANS),
+    seq(from = D3STEP_n$SANS + i, length.out = D3STEP_n$SAPS),
+    seq(from = D3STEP_n$SANS + D3STEP_n$SAPS + 2 * i - 1, length.out = D3STEP_n$SOFAS)
+  ),
+  xlim = c(-16, 8),
+  alim = c(-5, 5),
+  ylim = c(0, D3STEP_n$SANS + D3STEP_n$SAPS + D3STEP_n$SOFAS + 3 * i - 1),
+  refline = 0,
+  psize = 1,
+  cex = 1,
+  top = 3,
+  xlab = expression(italic('Higher in "worse" trajectory'), bold("Difference at end of treatment"), italic('Higher in "better" trajectory')),
+  header = c("Distal outcomes", "SMD [95% CI]"), 
+  fonts = "Times New Roman"
+)
+
+#### Title & header
+par(font = 2)
+text(
+  labels = expression(paste(bold("Figure 3. "), "Forest plot for distal outcomes at end of treatment.")),
+  x = D3STEP_forest$xlim[[1]],
+  y = D3STEP_forest$ylim[[2]] + 0.5,
+  pos = 4,
+  cex = D3STEP_forest$cex
+)
+
+text(
+  labels = "Estimated mean",
+  x = median(D3STEP_forest$ilab.xpos),
+  y = D3STEP_forest$ylim[[2]] - 1,
+  cex = D3STEP_forest$cex
+)
+
+#### Subtitle & subheader
+par(font = 4)
+text(
+  labels = c("SOFAS", "SAPS", "SANS"),
+  x = D3STEP_forest$xlim[[1]],
+  y = c(
+    max(D3STEP_forest$rows) + 1,
+    D3STEP_n$SAPS + D3STEP_n$SANS + i,
+    D3STEP_n$SANS + 1
+  ),
+  pos = 4,
+  cex = D3STEP_forest$cex
+)
+
+text(
+  labels = expression(italic("Improvement"^"1"), italic("Partial improvement")),
+  x = head(D3STEP_forest$ilab.xpos, -1),
+  y = max(D3STEP_forest$rows) + 1,
+  cex = D3STEP_forest$cex
+)
+
+text(
+  labels = expression(italic("Early decrease"^"1"), italic("2-Step decrease")),
+  x = head(D3STEP_forest$ilab.xpos, -1),
+  y = D3STEP_n$SAPS + D3STEP_n$SANS + i,
+  cex = D3STEP_forest$cex
+)
+
+text(
+  labels = expression(italic("Slow decrease"), italic("Fluctuating"), italic("Persistent")),
+  x = D3STEP_forest$ilab.xpos,
+  y = D3STEP_n$SANS + 1,
+  cex = D3STEP_forest$cex
+)
+
+#### Footnote
+mtext(
+  text = expression(""^"1" ~ "Reference trajectory"),
+  side = 1,
+  line = 4,
+  at = D3STEP_forest$xlim[[1]],
+  adj = 0,
+  cex = D3STEP_forest$cex
+)
+
+par(font = 1)
+mtext(
+  text = expression(""^"2" ~ "All results are statistically significant with a Bonferroni-corrected threshold (p < 0.001)."),
+  side = 1,
+  line = 5,
+  at = D3STEP_forest$xlim[[1]],
+  adj = 0,
+  cex = R3STEP_forest$cex
+)
+
+mtext(
+  text = expression(""^"3" ~ "Binary categorical variable [0 = no, 1 = yes], a threshold value > 1 indicates a higher proportion of cases coded as yes."),
+  side = 1,
+  line = 6,
+  at = D3STEP_forest$xlim[[1]],
+  adj = 0,
+  cex = R3STEP_forest$cex
+)
+
+par(font = 1)
+mtext(
+  text = paste(strwrap(
+    "CI: Confidence interval, F: Fluctuating, P: Persistent, SANS: Scale for the assessment of negative symptoms, SAPS: Scale for the assessment of positive symptoms, SD: Slow decrease, SOFAS: Social occupational functioning scale, SMD: Standard mean difference.",
+    width = 170
+  ), collapse = "\n"),
+  side = 1,
+  line = 8,
+  at = D3STEP_forest$xlim[[1]],
+  adj = 0,
+  cex = D3STEP_forest$cex
+)
+
+dev.off()
+```
+![](/Users/olivierpercie/Desktop/MplusLGM/Results/D3STEP_ForestPlot.pdf)
+
+# Save  
+```{r}
+save.image(file.path(getwd(), 'Results', 'Results_689.RData'))
+```
+
+

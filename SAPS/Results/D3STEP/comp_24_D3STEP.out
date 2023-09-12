@@ -1,32 +1,32 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   5:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   D3STEP_comp_24 - GMM_CV_isq@0cub@0_CT;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/comp_24_D3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/D3STEP/comp_24_D3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N comp_24;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N comp_24;
    MISSING=.;
    USEVAR = comp_24 N;
   NOMINAL = N;
   CLASSES = c(2);
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 0;
+  STARTS = 1000 250;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   [comp_24](M1); comp_24;
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   [comp_24](M2); comp_24;
   MODEL CONSTRAINT:
   New (diff12);
@@ -37,13 +37,19 @@ INPUT INSTRUCTIONS
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
+  TECH7;
+  TECH12;
 
 
 
 *** WARNING in MODEL command
   All variables are uncorrelated with all other variables within class.
   Check that this is what is intended.
-   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -53,7 +59,7 @@ D3STEP_comp_24 - GMM_CV_isq@0cub@0_CT;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         679
 
 Number of dependent variables                                    2
 Number of independent variables                                  0
@@ -101,9 +107,16 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                       1000
+  Number of final stage optimizations                          250
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/comp_24_D3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/D3STEP/comp_24_D3STEP.dat
 Input data format  FREE
 
 
@@ -125,17 +138,41 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               COMP_24
               ________
- COMP_24        0.683
+ COMP_24        0.530
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              COMP_24
+              ________
+               81.458
+
+
+           Covariances
+              COMP_24
+              ________
+ COMP_24     1206.554
+
+
+           Correlations
+              COMP_24
+              ________
+ COMP_24        1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1788.012
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -146,88 +183,590 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     COMP_24              81.069      -1.612       0.000   13.04%      50.000    100.000    100.000
-             276.000    1233.550       0.934     100.000   72.46%     100.000    100.000
+     COMP_24              81.458      -1.642       0.000   12.50%      75.000    100.000    100.000
+             360.000    1206.554       1.044     100.000   72.78%     100.000    100.000
 
-     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 2 COULD NOT
-     BE INVERTED.  PROBLEM INVOLVING VARIABLE COMP_24.  COMPUTATION COULD
-     NOT BE COMPLETED IN ITERATION 10.  CHANGE YOUR MODEL AND/OR STARTING
-     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
-     VARIATION FOR THE VARIABLE.
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
 
 
-     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
-     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+770 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+           -2214.886  526324           178
+           -2214.886  570681           777
+           -2214.886  804616           868
+           -2214.886  802256           477
+           -2214.886  496762           870
+           -2214.886  175199           247
+           -2214.886  971693           470
+           -2214.886  699554           427
+           -2214.886  212934           568
+           -2214.886  321390           133
+           -2214.886  349263           263
+           -2214.886  857799           315
+           -2214.886  798839           312
+           -2214.886  907810           795
+           -2214.886  11984            934
+           -2214.886  745972           521
+           -2214.886  797594           234
+           -2214.886  440395           917
+           -2214.886  188640           451
+           -2214.886  339073           841
+           -2214.886  561664           392
+           -2214.886  30098            209
+           -2214.886  88437            761
+           -2214.886  662983           666
+           -2214.886  710154           831
+           -2214.886  691041           590
+           -2214.886  650354           577
+           -2214.886  915642           40
+           -2214.886  468036           131
+           -2214.886  278661           674
+           -2214.886  461866           722
+           -2214.886  945065           255
+           -2214.886  758647           951
+           -2214.886  576220           115
+           -2214.886  547702           767
+           -2214.886  801065           393
+           -2214.886  473942           574
+           -2214.886  535303           923
+           -2214.886  918558           412
+           -2214.886  931874           141
+           -2214.886  569131           26
+           -2214.886  100874           108
+           -2214.886  689529           516
+           -2214.886  856536           144
+           -2214.886  266340           683
+           -2214.886  499347           881
+           -2214.886  85734            411
+           -2214.886  643311           888
+           -2214.886  192071           142
+           -2214.886  393232           152
+           -2214.886  275475           413
+           -2214.886  109946           771
+           -2214.886  700349           401
+           -2214.886  814975           129
+           -2214.886  922042           492
+           -2214.886  609089           241
+           -2214.886  414284           158
+           -2214.886  518828           432
+           -2214.886  939870           655
+           -2214.886  903420           5
+           -2214.886  264081           186
+           -2214.886  70118            104
+           -2214.886  80438            246
+           -2214.886  737601           891
+           -2214.886  802644           874
+           -2214.886  579995           183
+           -2214.886  520177           262
+           -2214.886  889774           954
+           -2214.886  692169           308
+           -2214.886  264901           634
+           -2214.886  57226            208
+           -2214.886  853195           431
+           -2214.886  179022           687
+           -2214.886  590834           785
+           -2214.886  121425           511
+           -2214.886  344422           296
+           -2214.886  161421           519
+           -2214.886  118958           994
+           -2214.886  588699           828
+           -2214.886  131063           843
+           -2214.886  527050           948
+           -2214.886  581196           921
+           -2214.886  21132            351
+           -2214.886  405079           68
+           -2214.886  268896           124
+           -2214.886  466971           109
+           -2214.886  87586            871
+           -2214.886  850112           922
+           -2214.886  545108           667
+           -2214.886  105656           909
+           -2214.886  300697           820
+           -2214.886  563584           657
+           -2214.886  488125           368
+           -2214.886  995648           936
+           -2214.886  421731           886
+           -2214.886  941975           816
+           -2214.886  377504           294
+           -2214.886  780698           337
+           -2214.886  726744           939
+           -2214.886  848331           137
+           -2214.886  464179           106
+           -2214.886  354624           448
+           -2214.886  641794           591
+           -2214.886  301717           823
+           -2214.886  49293            707
+           -2214.886  314034           513
+           -2214.886  215353           164
+           -2214.886  875667           367
+           -2214.886  268217           83
+           -2214.886  963967           941
+           -2214.886  939709           112
+           -2214.886  284384           600
+           -2214.886  455617           242
+           -2214.886  50887            389
+           -2214.886  484501           163
+           -2214.886  978061           488
+           -2214.886  575700           100
+           -2214.886  392766           331
+           -2214.886  435506           988
+           -2214.886  879338           309
+           -2214.886  521575           313
+           -2214.886  283492           435
+           -2214.886  168762           200
+           -2214.886  349562           359
+
+126 perturbed starting value run(s) did not converge or were rejected in the third stage.
 
 
 
+THE BEST LOGLIKELIHOOD VALUE HAS BEEN REPLICATED.  RERUN WITH AT LEAST TWICE THE
+RANDOM STARTS TO CHECK THAT THE BEST LOGLIKELIHOOD IS STILL OBTAINED AND REPLICATED.
 
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        5
+
+Loglikelihood
+
+          H0 Value                       -2214.886
+          H0 Scaling Correction Factor      1.5688
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    4439.772
+          Bayesian (BIC)                  4462.375
+          Sample-Size Adjusted BIC        4446.499
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                              0.011
+          Degrees of Freedom                     1
+          P-Value                           0.9161
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        461.07460          0.67905
+       2        217.92540          0.32095
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        461.07460          0.67905
+       2        217.92540          0.32095
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              460          0.67747
+       2              219          0.32253
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.693
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.959    0.041
+    2   0.090    0.910
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.957    0.043
+    2   0.086    0.914
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      3.108    0.000
+    2     -2.369    0.000
 
 
 MODEL RESULTS
 
-                    Estimate
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
 
 Latent Class 1
 
  Means
-    COMP_24          -22.868
+    COMP_24           81.732      3.187     25.646      0.000
 
  Means
-    N#1                3.700
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    COMP_24          798.825
+    COMP_24         1177.468    196.593      5.989      0.000
 
 Latent Class 2
 
  Means
-    COMP_24          100.000
+    COMP_24           80.892      5.670     14.267      0.000
 
  Means
-    N#1               -3.603
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    COMP_24            0.000
+    COMP_24         1266.346    338.445      3.742      0.000
 
 Categorical Latent Variables
 
  Means
-    C#1               -0.827
+    C#1                0.749      0.094      7.936      0.000
 
 New/Additional Parameters
-    DIFF12          -122.868
+    DIFF12             0.840      7.975      0.105      0.916
 
 
-MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+QUALITY OF NUMERICAL RESULTS
 
-     %OVERALL%
-
-     [ c#1*-0.82652 ];
-
-     %C#1%
-
-     [ comp_24*-22.86814 ] (m1);
-     [ n#1@3.70000 ];
-
-     comp_24*798.82526;
-
-     %C#2%
-
-     [ comp_24*99.99999 ] (m2);
-     [ n#1@-3.60300 ];
-
-     comp_24*0.00000;
-
-     ! NEW statements in MODEL CONSTRAINT
-     NEW(diff12*-122.86813);
+     Condition Number for the Information Matrix              0.278E-02
+       (ratio of smallest to largest eigenvalue)
 
 
+STANDARDIZED MODEL RESULTS
 
 
-     Beginning Time:  19:15:26
-        Ending Time:  19:15:26
-       Elapsed Time:  00:00:00
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    COMP_24            2.382      0.290      8.212      0.000
+
+ Variances
+    COMP_24            1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    COMP_24            2.273      0.461      4.927      0.000
+
+ Variances
+    COMP_24            1.000      0.000    999.000    999.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    COMP_24            2.382      0.290      8.212      0.000
+
+ Variances
+    COMP_24            1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    COMP_24            2.273      0.461      4.927      0.000
+
+ Variances
+    COMP_24            1.000      0.000    999.000    999.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    COMP_24           81.732      3.187     25.646      0.000
+
+ Variances
+    COMP_24         1177.468    196.593      5.989      0.000
+
+Latent Class 2
+
+ Means
+    COMP_24           80.892      5.670     14.267      0.000
+
+ Variances
+    COMP_24         1266.346    338.445      3.742      0.000
+
+
+R-SQUARE
+
+Class 1
+
+Class 2
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    COMP_24         73.523      75.485      76.489      81.732      86.974      87.978      89.941
+
+ Means
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
+
+ Variances
+    COMP_24        671.084     792.146     854.073    1177.468    1500.863    1562.789    1683.851
+
+Latent Class 2
+
+ Means
+    COMP_24         66.287      69.779      71.565      80.892      90.219      92.005      95.496
+
+ Means
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
+
+ Variances
+    COMP_24        394.581     602.995     709.605    1266.346    1823.088    1929.698    2138.112
+
+Categorical Latent Variables
+
+ Means
+    C#1              0.506       0.564       0.594       0.749       0.905       0.934       0.993
+
+New/Additional Parameters
+    DIFF12         -19.702     -14.791     -12.279       0.840      13.959      16.471      21.382
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    COMP_24          1.635       1.813       1.905       2.382       2.859       2.950       3.129
+
+ Variances
+    COMP_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    COMP_24          1.085       1.369       1.514       2.273       3.032       3.178       3.462
+
+ Variances
+    COMP_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    COMP_24          1.635       1.813       1.905       2.382       2.859       2.950       3.129
+
+ Variances
+    COMP_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    COMP_24          1.085       1.369       1.514       2.273       3.032       3.178       3.462
+
+ Variances
+    COMP_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    COMP_24         73.523      75.485      76.489      81.732      86.974      87.978      89.941
+
+ Variances
+    COMP_24        671.084     792.146     854.073    1177.468    1500.863    1562.789    1683.851
+
+Latent Class 2
+
+ Means
+    COMP_24         66.287      69.779      71.565      80.892      90.219      92.005      95.496
+
+ Variances
+    COMP_24        394.581     602.995     709.605    1266.346    1823.088    1929.698    2138.112
+
+
+TECHNICAL 7 OUTPUT
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 1
+
+
+           Means
+              COMP_24
+              ________
+               81.730
+
+
+           Covariances
+              COMP_24
+              ________
+ COMP_24     1177.585
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
+
+
+           Means
+              COMP_24
+              ________
+               80.896
+
+
+           Covariances
+              COMP_24
+              ________
+ COMP_24     1266.111
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
+
+     Variable
+     N
+       Category 1        0.957
+       Category 2        0.043
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
+
+     Variable
+     N
+       Category 1        0.086
+       Category 2        0.914
+
+
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              COMP_24
+              ________
+               81.458
+
+
+           Estimated Mixed Means
+              COMP_24
+              ________
+               81.462
+
+
+           Residuals for Mixed Means
+              COMP_24
+              ________
+               -0.004
+
+
+           Observed Covariances
+              COMP_24
+              ________
+ COMP_24     1206.554
+
+
+           Estimated Mixed Covariances
+              COMP_24
+              ________
+ COMP_24     1206.147
+
+
+           Residuals for Mixed Covariances
+              COMP_24
+              ________
+ COMP_24        0.407
+
+
+           Observed Skewness
+              COMP_24
+              ________
+               -1.642
+
+
+           Estimated Mixed Skewness
+              COMP_24
+              ________
+               -0.001
+
+
+           Residuals for Mixed Skewness
+              COMP_24
+              ________
+               -1.641
+
+
+           Observed Kurtosis
+              COMP_24
+              ________
+                1.044
+
+
+           Estimated Mixed Kurtosis
+              COMP_24
+              ________
+                0.004
+
+
+           Residuals for Mixed Kurtosis
+              COMP_24
+              ________
+                1.041
+
+
+     Beginning Time:  17:21:02
+        Ending Time:  17:21:06
+       Elapsed Time:  00:00:04
 
 
 

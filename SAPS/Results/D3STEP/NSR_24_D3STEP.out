@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   5:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   D3STEP_NSR_24 - GMM_CV_isq@0cub@0_CT;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/NSR_24_D3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/D3STEP/NSR_24_D3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N NSR_24;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N NSR_24;
    MISSING=.;
    USEVAR = NSR_24 N;
   NOMINAL = N;
@@ -25,10 +25,10 @@ INPUT INSTRUCTIONS
   MODEL:
   %OVERALL%
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   [NSR_24$1](M1);
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   [NSR_24$1](M2);
   MODEL CONSTRAINT:
   New (diff12);
@@ -39,6 +39,8 @@ INPUT INSTRUCTIONS
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
+  TECH7;
+  TECH12;
 
 
 
@@ -49,7 +51,14 @@ INPUT INSTRUCTIONS
   SAMPSTAT option is not available when all outcomes are censored, ordered
   categorical, unordered categorical (nominal), count or continuous-time
   survival variables.  Request for SAMPSTAT is ignored.
-   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+*** WARNING in OUTPUT command
+  TECH12 option is not available when there are no continuous dependent variables
+  in the analysis.  Request for TECH12 is ignored.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   4 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -59,7 +68,7 @@ D3STEP_NSR_24 - GMM_CV_isq@0cub@0_CT;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         679
 
 Number of dependent variables                                    2
 Number of independent variables                                  0
@@ -116,7 +125,7 @@ Link                                                         LOGIT
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/NSR_24_D3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/D3STEP/NSR_24_D3STEP.dat
 Input data format  FREE
 
 
@@ -138,17 +147,17 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               NSR_24
               ________
- NSR_24         0.792
+ NSR_24         0.595
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     NSR_24
-      Category 1    0.484          155.000
-      Category 2    0.516          165.000
+      Category 1    0.485          196.000
+      Category 2    0.515          208.000
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 
@@ -162,15 +171,15 @@ Number of Free Parameters                        3
 
 Loglikelihood
 
-          H0 Value                        -457.803
-          H0 Scaling Correction Factor      0.9999
+          H0 Value                        -676.465
+          H0 Scaling Correction Factor      0.9997
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                     921.606
-          Bayesian (BIC)                   933.611
-          Sample-Size Adjusted BIC         924.091
+          Akaike (AIC)                    1358.930
+          Bayesian (BIC)                  1372.492
+          Sample-Size Adjusted BIC        1362.966
             (n* = (n + 2) / 24)
 
 Chi-Square Test of Model Fit for the Binary and Ordered Categorical
@@ -178,12 +187,12 @@ Chi-Square Test of Model Fit for the Binary and Ordered Categorical
 
           Pearson Chi-Square
 
-          Value                              0.056
+          Value                              0.381
           Degrees of freedom cannot be computed for this model part.
 
           Likelihood Ratio Chi-Square
 
-          Value                              0.056
+          Value                              0.381
           Degrees of freedom cannot be computed for this model part.
 
 Chi-Square Test for MCAR under the Unrestricted Latent Class Indicator Model
@@ -202,7 +211,7 @@ Chi-Square Test for MCAR under the Unrestricted Latent Class Indicator Model
 
 Wald Test of Parameter Constraints
 
-          Value                             37.220
+          Value                             45.885
           Degrees of Freedom                     1
           P-Value                           0.0000
 
@@ -214,8 +223,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.02654          0.32927
-       2        270.97346          0.67073
+       1        461.06100          0.67903
+       2        217.93900          0.32097
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -224,8 +233,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.02654          0.32927
-       2        270.97346          0.67073
+       1        461.06101          0.67903
+       2        217.93899          0.32097
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -236,13 +245,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              460          0.67747
+       2              219          0.32253
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.848
+     Entropy                         0.715
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -250,8 +259,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.959    0.041
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +268,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.957    0.043
+    2   0.086    0.914
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -268,8 +277,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.700    0.000
-    2     -3.603    0.000
+    1      3.110    0.000
+    2     -2.370    0.000
 
 
 MODEL RESULTS
@@ -280,31 +289,31 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    N#1                3.700      0.000    999.000    999.000
+    N#1                3.109      0.000    999.000    999.000
 
  Thresholds
-    NSR_24$1          -1.293      0.249     -5.182      0.000
+    NSR_24$1           0.603      0.138      4.363      0.000
 
 Latent Class 2
 
  Means
-    N#1               -3.603      0.000    999.000    999.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Thresholds
-    NSR_24$1           0.516      0.146      3.530      0.000
+    NSR_24$1          -1.436      0.250     -5.732      0.000
 
 Categorical Latent Variables
 
  Means
-    C#1               -0.711      0.112     -6.334      0.000
+    C#1                0.749      0.094      7.938      0.000
 
 New/Additional Parameters
-    DIFF12            -1.809      0.297     -6.101      0.000
+    DIFF12             2.038      0.301      6.774      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.126E-01
+     Condition Number for the Information Matrix              0.875E-02
        (ratio of smallest to largest eigenvalue)
 
 
@@ -316,14 +325,14 @@ RESULTS IN PROBABILITY SCALE
 Latent Class 1
 
  NSR_24
-    Category 1         0.215      0.042      5.109      0.000
-    Category 2         0.785      0.042     18.611      0.000
+    Category 1         0.646      0.032     20.466      0.000
+    Category 2         0.354      0.032     11.203      0.000
 
 Latent Class 2
 
  NSR_24
-    Category 1         0.626      0.034     18.293      0.000
-    Category 2         0.374      0.034     10.915      0.000
+    Category 1         0.192      0.039      4.942      0.000
+    Category 2         0.808      0.039     20.772      0.000
 
 
 LATENT CLASS INDICATOR ODDS RATIOS FOR THE LATENT CLASSES
@@ -334,7 +343,7 @@ LATENT CLASS INDICATOR ODDS RATIOS FOR THE LATENT CLASSES
 Latent Class 1 Compared to Latent Class 2
 
  NSR_24
-    Category > 1       6.105      1.810      3.414     10.918
+    Category > 1       0.130      0.039      0.072      0.235
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,18 +357,18 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    N#1                3.700      0.000    999.000    999.000
+    N#1                3.109      0.000    999.000    999.000
 
  Thresholds
-    NSR_24$1          -0.713      0.138     -5.182      0.000
+    NSR_24$1           0.332      0.076      4.363      0.000
 
 Latent Class 2
 
  Means
-    N#1               -3.603      0.000    999.000    999.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Thresholds
-    NSR_24$1           0.285      0.081      3.530      0.000
+    NSR_24$1          -0.792      0.138     -5.732      0.000
 
 
 STDY Standardization
@@ -370,18 +379,18 @@ STDY Standardization
 Latent Class 1
 
  Means
-    N#1                3.700      0.000    999.000    999.000
+    N#1                3.109      0.000    999.000    999.000
 
  Thresholds
-    NSR_24$1          -0.713      0.138     -5.182      0.000
+    NSR_24$1           0.332      0.076      4.363      0.000
 
 Latent Class 2
 
  Means
-    N#1               -3.603      0.000    999.000    999.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Thresholds
-    NSR_24$1           0.285      0.081      3.530      0.000
+    NSR_24$1          -0.792      0.138     -5.732      0.000
 
 
 STD Standardization
@@ -392,18 +401,18 @@ STD Standardization
 Latent Class 1
 
  Means
-    N#1                3.700      0.000    999.000    999.000
+    N#1                3.109      0.000    999.000    999.000
 
  Thresholds
-    NSR_24$1          -1.293      0.249     -5.182      0.000
+    NSR_24$1           0.603      0.138      4.363      0.000
 
 Latent Class 2
 
  Means
-    N#1               -3.603      0.000    999.000    999.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Thresholds
-    NSR_24$1           0.516      0.146      3.530      0.000
+    NSR_24$1          -1.436      0.250     -5.732      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -413,26 +422,26 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Thresholds
-    NSR_24$1        -1.935      -1.782      -1.703      -1.293      -0.882      -0.804      -0.650
+    NSR_24$1         0.247       0.332       0.375       0.603       0.830       0.873       0.958
 
 Latent Class 2
 
  Means
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Thresholds
-    NSR_24$1         0.140       0.230       0.276       0.516       0.757       0.803       0.893
+    NSR_24$1        -2.081      -1.927      -1.848      -1.436      -1.024      -0.945      -0.791
 
 Categorical Latent Variables
 
  Means
-    C#1             -1.001      -0.932      -0.896      -0.711      -0.527      -0.491      -0.422
+    C#1              0.506       0.564       0.594       0.749       0.905       0.934       0.992
 
 New/Additional Parameters
-    DIFF12          -2.573      -2.390      -2.297      -1.809      -1.321      -1.228      -1.045
+    DIFF12           1.263       1.449       1.543       2.038       2.533       2.628       2.813
 
 
 CONFIDENCE INTERVALS IN PROBABILITY SCALE
@@ -440,14 +449,14 @@ CONFIDENCE INTERVALS IN PROBABILITY SCALE
 Latent Class 1
 
  NSR_24
-    Category 1       0.107       0.133       0.146       0.215       0.285       0.298       0.324
-    Category 2       0.676       0.702       0.715       0.785       0.854       0.867       0.893
+    Category 1       0.565       0.584       0.594       0.646       0.698       0.708       0.728
+    Category 2       0.272       0.292       0.302       0.354       0.406       0.416       0.435
 
 Latent Class 2
 
  NSR_24
-    Category 1       0.538       0.559       0.570       0.626       0.683       0.693       0.714
-    Category 2       0.286       0.307       0.317       0.374       0.430       0.441       0.462
+    Category 1       0.092       0.116       0.128       0.192       0.256       0.268       0.292
+    Category 2       0.708       0.732       0.744       0.808       0.872       0.884       0.908
 
 
 CONFIDENCE INTERVALS FOR THE LATENT CLASS ODDS RATIO RESULTS
@@ -455,7 +464,7 @@ CONFIDENCE INTERVALS FOR THE LATENT CLASS ODDS RATIO RESULTS
 Latent Class 1 Compared to Latent Class 2
 
  NSR_24
-    Category > 1     2.844       3.414       3.748       6.105       9.944      10.918      13.105
+    Category > 1     0.060       0.072       0.079       0.130       0.214       0.235       0.283
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -468,18 +477,18 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Thresholds
-    NSR_24$1        -1.067      -0.982      -0.939      -0.713      -0.487      -0.443      -0.358
+    NSR_24$1         0.136       0.183       0.207       0.332       0.457       0.481       0.528
 
 Latent Class 2
 
  Means
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Thresholds
-    NSR_24$1         0.077       0.127       0.152       0.285       0.417       0.443       0.492
+    NSR_24$1        -1.147      -1.062      -1.019      -0.792      -0.564      -0.521      -0.436
 
 
 STDY Standardization
@@ -489,18 +498,18 @@ STDY Standardization
 Latent Class 1
 
  Means
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Thresholds
-    NSR_24$1        -1.067      -0.982      -0.939      -0.713      -0.487      -0.443      -0.358
+    NSR_24$1         0.136       0.183       0.207       0.332       0.457       0.481       0.528
 
 Latent Class 2
 
  Means
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Thresholds
-    NSR_24$1         0.077       0.127       0.152       0.285       0.417       0.443       0.492
+    NSR_24$1        -1.147      -1.062      -1.019      -0.792      -0.564      -0.521      -0.436
 
 
 STD Standardization
@@ -510,22 +519,47 @@ STD Standardization
 Latent Class 1
 
  Means
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Thresholds
-    NSR_24$1        -1.935      -1.782      -1.703      -1.293      -0.882      -0.804      -0.650
+    NSR_24$1         0.247       0.332       0.375       0.603       0.830       0.873       0.958
 
 Latent Class 2
 
  Means
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Thresholds
-    NSR_24$1         0.140       0.230       0.276       0.516       0.757       0.803       0.893
+    NSR_24$1        -2.081      -1.927      -1.848      -1.436      -1.024      -0.945      -0.791
 
 
-     Beginning Time:  19:15:26
-        Ending Time:  19:15:26
+TECHNICAL 7 OUTPUT
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
+
+     Variable
+     N
+       Category 1        0.957
+       Category 2        0.043
+     NSR_24
+       Category 1        0.646
+       Category 2        0.354
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
+
+     Variable
+     N
+       Category 1        0.086
+       Category 2        0.914
+     NSR_24
+       Category 1        0.192
+       Category 2        0.808
+
+
+     Beginning Time:  17:21:01
+        Ending Time:  17:21:01
        Elapsed Time:  00:00:00
 
 

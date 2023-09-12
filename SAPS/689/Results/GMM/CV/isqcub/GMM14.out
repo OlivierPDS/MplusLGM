@@ -1,0 +1,544 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+09/06/2023   5:20 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  GMM_CV_isqcub_C
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/689/SAPS/Results/GMM/CV/isqcub/GMM14.dat";
+
+  VARIABLE:
+  NAMES = pin SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24;
+   MISSING=.;
+   USEVAR = SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24;
+  IDVAR = pin;
+  CLASSES = c(2);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 4000 1000;
+  K-1STARTS = 2000 500;
+  DISTRIBUTION = NORMAL;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  i s q cub | SAPS_0@0 SAPS_1@1 SAPS_2@2 SAPS_3@3 SAPS_6@6 SAPS_9@9 SAPS_12@12 SAPS_18@18
+  SAPS_24@24;
+  i s q cub;
+  i WITH s q cub;
+  s WITH q cub;
+  q WITH cub;
+  SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24;
+  %C#1%
+  i s q cub;
+  i WITH s q cub;
+  s WITH q cub;
+  q WITH cub;
+  SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 (1);
+  %C#2%
+  i s q cub;
+  i WITH s q cub;
+  s WITH q cub;
+  q WITH cub;
+  SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 (2);
+  OUTPUT:
+  TECH7;
+  TECH11;
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+  SAVEDATA:
+  FILE = GMM_CV_isqcub_C_est.dat;
+  SAVE = CPROBABILITIES FSCORES;
+
+
+
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+GMM_CV_isqcub_C
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         679
+
+Number of dependent variables                                    9
+Number of independent variables                                  0
+Number of continuous latent variables                            4
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   SAPS_0      SAPS_1      SAPS_2      SAPS_3      SAPS_6      SAPS_9
+   SAPS_12     SAPS_18     SAPS_24
+
+Continuous latent variables
+   I           S           Q           CUB
+
+Categorical latent variables
+   C
+
+Variables with special functions
+
+  ID variable           PIN
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                       4000
+  Number of final stage optimizations                         1000
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/LGM/SAPS/689/SAPS/Results/GMM/CV/isqcub/GMM14.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns           111
+     Number of y missing data patterns         111
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0         0.991
+ SAPS_1         0.533         0.536
+ SAPS_2         0.672         0.454         0.673
+ SAPS_3         0.826         0.471         0.629         0.828
+ SAPS_6         0.760         0.445         0.586         0.722         0.764
+ SAPS_9         0.647         0.423         0.554         0.598         0.586
+ SAPS_12        0.673         0.417         0.533         0.619         0.610
+ SAPS_18        0.626         0.398         0.508         0.571         0.558
+ SAPS_24        0.588         0.381         0.502         0.541         0.529
+
+
+           Covariance Coverage
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9         0.651
+ SAPS_12        0.570         0.679
+ SAPS_18        0.536         0.557         0.632
+ SAPS_24        0.526         0.533         0.533         0.595
+
+
+SAMPLE STATISTICS
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SAPS_0               11.403      -0.174       2.000    0.45%       8.000     11.000     12.000
+             673.000      10.538      -0.293      20.000    0.15%      13.000     14.000
+     SAPS_1                5.440       0.457       0.000   10.16%       2.000      4.000      5.000
+             364.000      14.543      -0.491      17.000    0.27%       6.000      9.000
+     SAPS_2                4.046       0.922       0.000   19.26%       1.000      2.000      3.000
+             457.000      13.466       0.343      18.000    0.22%       4.000      7.000
+     SAPS_3                3.520       1.117       0.000   27.40%       0.000      2.000      2.000
+             562.000      13.139       0.783      17.000    0.18%       4.000      6.000
+     SAPS_6                3.572       0.963       0.000   30.25%       0.000      2.000      2.000
+             519.000      13.678       0.100      16.000    0.19%       4.000      7.000
+     SAPS_9                3.446       1.146       0.000   29.19%       0.000      1.000      2.000
+             442.000      13.310       0.862      16.000    0.45%       3.000      6.000
+     SAPS_12               3.577       1.257       0.000   28.63%       0.000      2.000      2.000
+             461.000      15.081       1.015      18.000    0.22%       3.000      6.000
+     SAPS_18               3.375       1.295       0.000   30.30%       0.000      1.000      2.000
+             429.000      14.206       1.176      17.000    0.47%       3.000      6.000
+     SAPS_24               3.297       1.336       0.000   33.91%       0.000      1.000      2.000
+             404.000      15.080       1.145      17.000    0.25%       3.000      6.000
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+
+3965 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+
+1000 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 2 COULD NOT
+     BE INVERTED.  PROBLEM INVOLVING VARIABLE SAPS_24.  COMPUTATION COULD
+     NOT BE COMPLETED IN ITERATION 3.  CHANGE YOUR MODEL AND/OR STARTING
+     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
+     VARIATION FOR THE VARIABLE.
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY.  ESTIMATES CANNOT
+     BE TRUSTED.
+
+
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
+     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+
+
+
+
+
+
+MODEL RESULTS
+
+                    Estimate
+
+Latent Class 1
+
+ I        |
+    SAPS_0             1.000
+    SAPS_1             1.000
+    SAPS_2             1.000
+    SAPS_3             1.000
+    SAPS_6             1.000
+    SAPS_9             1.000
+    SAPS_12            1.000
+    SAPS_18            1.000
+    SAPS_24            1.000
+
+ S        |
+    SAPS_0             0.000
+    SAPS_1             1.000
+    SAPS_2             2.000
+    SAPS_3             3.000
+    SAPS_6             6.000
+    SAPS_9             9.000
+    SAPS_12           12.000
+    SAPS_18           18.000
+    SAPS_24           24.000
+
+ Q        |
+    SAPS_0             0.000
+    SAPS_1             1.000
+    SAPS_2             4.000
+    SAPS_3             9.000
+    SAPS_6            36.000
+    SAPS_9            81.000
+    SAPS_12          144.000
+    SAPS_18          324.000
+    SAPS_24          576.000
+
+ CUB      |
+    SAPS_0             0.000
+    SAPS_1             1.000
+    SAPS_2             8.000
+    SAPS_3            27.000
+    SAPS_6           216.000
+    SAPS_9           729.000
+    SAPS_12         1728.000
+    SAPS_18         5832.000
+    SAPS_24        13824.000
+
+ I        WITH
+    S                  0.675
+    Q                 -0.082
+    CUB                0.002
+
+ S        WITH
+    Q                  0.005
+    CUB                0.000
+
+ Q        WITH
+    CUB                0.000
+
+ Means
+    I                  9.383
+    S                 -2.000
+    Q                  0.172
+    CUB               -0.004
+
+ Intercepts
+    SAPS_0             0.000
+    SAPS_1             0.000
+    SAPS_2             0.000
+    SAPS_3             0.000
+    SAPS_6             0.000
+    SAPS_9             0.000
+    SAPS_12            0.000
+    SAPS_18            0.000
+    SAPS_24            0.000
+
+ Variances
+    I                  2.336
+    S                  0.009
+    Q                 -0.001
+    CUB                0.000
+
+ Residual Variances
+    SAPS_0            10.811
+    SAPS_1            10.811
+    SAPS_2            10.811
+    SAPS_3            10.811
+    SAPS_6            10.811
+    SAPS_9            10.811
+    SAPS_12           10.811
+    SAPS_18           10.811
+    SAPS_24           10.811
+
+Latent Class 2
+
+ I        |
+    SAPS_0             1.000
+    SAPS_1             1.000
+    SAPS_2             1.000
+    SAPS_3             1.000
+    SAPS_6             1.000
+    SAPS_9             1.000
+    SAPS_12            1.000
+    SAPS_18            1.000
+    SAPS_24            1.000
+
+ S        |
+    SAPS_0             0.000
+    SAPS_1             1.000
+    SAPS_2             2.000
+    SAPS_3             3.000
+    SAPS_6             6.000
+    SAPS_9             9.000
+    SAPS_12           12.000
+    SAPS_18           18.000
+    SAPS_24           24.000
+
+ Q        |
+    SAPS_0             0.000
+    SAPS_1             1.000
+    SAPS_2             4.000
+    SAPS_3             9.000
+    SAPS_6            36.000
+    SAPS_9            81.000
+    SAPS_12          144.000
+    SAPS_18          324.000
+    SAPS_24          576.000
+
+ CUB      |
+    SAPS_0             0.000
+    SAPS_1             1.000
+    SAPS_2             8.000
+    SAPS_3            27.000
+    SAPS_6           216.000
+    SAPS_9           729.000
+    SAPS_12         1728.000
+    SAPS_18         5832.000
+    SAPS_24        13824.000
+
+ I        WITH
+    S                  0.675
+    Q                 -0.082
+    CUB                0.002
+
+ S        WITH
+    Q                  0.005
+    CUB                0.000
+
+ Q        WITH
+    CUB                0.000
+
+ Means
+    I                  9.383
+    S                 -2.000
+    Q                  0.172
+    CUB               -0.004
+
+ Intercepts
+    SAPS_0             0.000
+    SAPS_1             0.000
+    SAPS_2             0.000
+    SAPS_3             0.000
+    SAPS_6             0.000
+    SAPS_9             0.000
+    SAPS_12            0.000
+    SAPS_18            0.000
+    SAPS_24            0.000
+
+ Variances
+    I                  2.336
+    S                  0.009
+    Q                 -0.001
+    CUB                0.000
+
+ Residual Variances
+    SAPS_0            10.811
+    SAPS_1            10.811
+    SAPS_2            10.811
+    SAPS_3            10.811
+    SAPS_6            10.811
+    SAPS_9            10.811
+    SAPS_12           10.811
+    SAPS_18           10.811
+    SAPS_24           10.811
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.000
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     %OVERALL%
+
+     i s q cub | saps_0@0 saps_1@1 saps_2@2 saps_3@3 saps_6@6 saps_9@9 saps_12@12 saps_18@18
+     saps_24@24;
+
+     [ c#1*0.00000 ];
+
+     %C#1%
+
+     i WITH s*0.67529;
+     i WITH q*-0.08218;
+     i WITH cub*0.00219;
+     s WITH q*0.00494;
+     s WITH cub*-0.00023;
+     q WITH cub*0.00003;
+
+     [ saps_0@0 ];
+     [ saps_1@0 ];
+     [ saps_2@0 ];
+     [ saps_3@0 ];
+     [ saps_6@0 ];
+     [ saps_9@0 ];
+     [ saps_12@0 ];
+     [ saps_18@0 ];
+     [ saps_24@0 ];
+     [ i*9.38300 ];
+     [ s*-2.00029 ];
+     [ q*0.17238 ];
+     [ cub*-0.00418 ];
+
+     saps_0*10.81127 (1);
+     saps_1*10.81127 (1);
+     saps_2*10.81127 (1);
+     saps_3*10.81127 (1);
+     saps_6*10.81127 (1);
+     saps_9*10.81127 (1);
+     saps_12*10.81127 (1);
+     saps_18*10.81127 (1);
+     saps_24*10.81127 (1);
+     i*2.33555;
+     s*0.00931;
+     q*-0.00090;
+     cub*0.00000;
+
+     %C#2%
+
+     i WITH s*0.67529;
+     i WITH q*-0.08218;
+     i WITH cub*0.00219;
+     s WITH q*0.00494;
+     s WITH cub*-0.00023;
+     q WITH cub*0.00003;
+
+     [ saps_0@0 ];
+     [ saps_1@0 ];
+     [ saps_2@0 ];
+     [ saps_3@0 ];
+     [ saps_6@0 ];
+     [ saps_9@0 ];
+     [ saps_12@0 ];
+     [ saps_18@0 ];
+     [ saps_24@0 ];
+     [ i*9.38300 ];
+     [ s*-2.00029 ];
+     [ q*0.17238 ];
+     [ cub*-0.00418 ];
+
+     saps_0*10.81127 (16);
+     saps_1*10.81127 (16);
+     saps_2*10.81127 (16);
+     saps_3*10.81127 (16);
+     saps_6*10.81127 (16);
+     saps_9*10.81127 (16);
+     saps_12*10.81127 (16);
+     saps_18*10.81127 (16);
+     saps_24*10.81127 (16);
+     i*2.33555;
+     s*0.00931;
+     q*-0.00090;
+     cub*0.00000;
+
+
+
+TECHNICAL 7 OUTPUT
+
+
+TECHNICAL 11 OUTPUT
+
+     Random Starts Specifications for the k-1 Class Analysis Model
+        Number of initial stage random starts                2000
+        Number of final stage optimizations                   500
+
+
+
+SAVEDATA INFORMATION
+
+     Factor scores were not computed.
+     Class probabilities were not computed.
+     No data were saved.
+
+
+     Beginning Time:  17:20:26
+        Ending Time:  17:24:14
+       Elapsed Time:  00:03:48
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

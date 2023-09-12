@@ -1,13 +1,13 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/31/2023  11:21 AM
+09/11/2023   5:17 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
-  D3STEP_SAPS_24 - GMM_CI_isq@0cub@0_C_223_113;
+  D3STEP_SAPS_24 - GMM_CI_isq@0cub@0_C_332_331;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/D3STEP/SAPS_24_D3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/SAPS_24_D3STEP.dat";
 
   VARIABLE:
   NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
@@ -18,21 +18,21 @@ INPUT INSTRUCTIONS
   CLASSES = c(3);
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 0;
+  STARTS = 500 125;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   %C#1%
-  [N#1@1.778];
-  [N#2@-1.142];
+  [N#1@0.806];
+  [N#2@-0.173];
   [SAPS_24](M1); SAPS_24;
   %C#2%
-  [N#1@0.278];
-  [N#2@1.326];
+  [N#1@-1.455];
+  [N#2@1.406];
   [SAPS_24](M2); SAPS_24;
   %C#3%
-  [N#1@-1.822];
-  [N#2@-2.898];
+  [N#1@-2.938];
+  [N#2@-1.577];
   [SAPS_24](M3); SAPS_24;
   MODEL CONSTRAINT:
   New (diff12 diff13 diff23);
@@ -46,23 +46,29 @@ INPUT INSTRUCTIONS
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
+  TECH7;
+  TECH12;
 
 
 
 *** WARNING in MODEL command
   All variables are uncorrelated with all other variables within class.
   Check that this is what is intended.
-   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
 
-D3STEP_SAPS_24 - GMM_CI_isq@0cub@0_C_223_113;
+D3STEP_SAPS_24 - GMM_CI_isq@0cub@0_C_332_331;
 
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         679
 
 Number of dependent variables                                    2
 Number of independent variables                                  0
@@ -110,9 +116,16 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                        500
+  Number of final stage optimizations                          125
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/D3STEP/SAPS_24_D3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/SAPS_24_D3STEP.dat
 Input data format  FREE
 
 
@@ -134,18 +147,42 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               SAPS_24
               ________
- SAPS_24        0.792
+ SAPS_24        0.595
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.411          166.000
-      Category 2    0.163           66.000
-      Category 3    0.426          172.000
+      Category 1    0.153          104.000
+      Category 2    0.408          277.000
+      Category 3    0.439          298.000
 
 
 SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              SAPS_24
+              ________
+                3.297
+
+
+           Covariances
+              SAPS_24
+              ________
+ SAPS_24       15.080
+
+
+           Correlations
+              SAPS_24
+              ________
+ SAPS_24        1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1121.353
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -156,22 +193,97 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     SAPS_24               3.297       1.339       0.000   33.44%       0.000      1.000      2.000
-             320.000      15.040       1.095      17.000    0.31%       3.000      6.000
+     SAPS_24               3.297       1.336       0.000   33.91%       0.000      1.000      2.000
+             404.000      15.080       1.145      17.000    0.25%       3.000      6.000
 
-     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 1 COULD NOT
-     BE INVERTED.  PROBLEM INVOLVING VARIABLE SAPS_24.  COMPUTATION COULD
-     NOT BE COMPLETED IN ITERATION 20.  CHANGE YOUR MODEL AND/OR STARTING
-     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
-     VARIATION FOR THE VARIABLE.
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
 
 
-     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
-     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+217 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+
+Unperturbed starting value run did not converge or was rejected in the third stage.
+
+124 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY.  ESTIMATES CANNOT
+     BE TRUSTED.
 
 
 
 
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        194.52691          0.28649
+       2        231.05170          0.34028
+       3        253.42139          0.37323
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        159.58667          0.23503
+       2        230.56266          0.33956
+       3        288.85066          0.42541
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              181          0.26657
+       2              238          0.35052
+       3              260          0.38292
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.518
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.873    0.089    0.039
+    2   0.067    0.748    0.185
+    3   0.079    0.143    0.778
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.812    0.082    0.105
+    2   0.069    0.770    0.161
+    3   0.028    0.174    0.799
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      2.042   -0.246    0.000
+    2     -0.839    1.568    0.000
+    3     -3.367   -1.525    0.000
 
 
 MODEL RESULTS
@@ -181,93 +293,246 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    SAPS_24            0.000
+    SAPS_24            0.045
 
  Means
-    N#1                1.778
-    N#2               -1.142
+    N#1                0.806
+    N#2               -0.173
 
  Variances
-    SAPS_24            0.000
+    SAPS_24            0.043
 
 Latent Class 2
 
  Means
-    SAPS_24            2.579
+    SAPS_24            2.362
 
  Means
-    N#1                0.278
-    N#2                1.326
+    N#1               -1.455
+    N#2                1.406
 
  Variances
-    SAPS_24            2.243
+    SAPS_24            2.677
 
 Latent Class 3
 
  Means
-    SAPS_24           13.553
+    SAPS_24            6.859
 
  Means
-    N#1               -1.822
-    N#2               -2.898
+    N#1               -2.938
+    N#2               -1.577
 
  Variances
-    SAPS_24           25.468
+    SAPS_24           17.067
 
 Categorical Latent Variables
 
  Means
-    C#1               -0.304
-    C#2               -0.301
+    C#1               -0.264
+    C#2               -0.092
 
 New/Additional Parameters
-    DIFF12            -2.579
-    DIFF13           -13.553
-    DIFF23           -10.974
+    DIFF12            -2.318
+    DIFF13            -6.815
+    DIFF23            -4.497
 
 
 MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
 
      %OVERALL%
 
-     [ c#1*-0.30353 ];
-     [ c#2*-0.30053 ];
+     [ c#1*-0.26448 ];
+     [ c#2*-0.09241 ];
 
      %C#1%
 
-     [ saps_24*-0.00002 ] (m1);
-     [ n#1@1.77800 ];
-     [ n#2@-1.14200 ];
+     [ saps_24*0.04464 ] (m1);
+     [ n#1@0.80600 ];
+     [ n#2@-0.17300 ];
 
-     saps_24*0.00000;
+     saps_24*0.04265;
 
      %C#2%
 
-     [ saps_24*2.57850 ] (m2);
-     [ n#1@0.27800 ];
-     [ n#2@1.32600 ];
+     [ saps_24*2.36234 ] (m2);
+     [ n#1@-1.45500 ];
+     [ n#2@1.40600 ];
 
-     saps_24*2.24260;
+     saps_24*2.67694;
 
      %C#3%
 
-     [ saps_24*13.55258 ] (m3);
-     [ n#1@-1.82200 ];
-     [ n#2@-2.89800 ];
+     [ saps_24*6.85930 ] (m3);
+     [ n#1@-2.93800 ];
+     [ n#2@-1.57700 ];
 
-     saps_24*25.46836;
+     saps_24*17.06722;
 
      ! NEW statements in MODEL CONSTRAINT
-     NEW(diff12*-2.57852);
-     NEW(diff13*-13.55260);
-     NEW(diff23*-10.97408);
+     NEW(diff12*-2.31770);
+     NEW(diff13*-6.81467);
+     NEW(diff23*-4.49697);
 
 
 
 
-     Beginning Time:  11:21:24
-        Ending Time:  11:21:24
-       Elapsed Time:  00:00:00
+TECHNICAL 7 OUTPUT
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 1
+
+
+           Means
+              SAPS_24
+              ________
+                0.000
+
+
+           Covariances
+              SAPS_24
+              ________
+ SAPS_24        0.000
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
+
+
+           Means
+              SAPS_24
+              ________
+                2.397
+
+
+           Covariances
+              SAPS_24
+              ________
+ SAPS_24        2.437
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 3
+
+
+           Means
+              SAPS_24
+              ________
+                6.853
+
+
+           Covariances
+              SAPS_24
+              ________
+ SAPS_24       16.871
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
+
+     Variable
+     N
+       Category 1        0.307
+       Category 2        0.340
+       Category 3        0.354
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
+
+     Variable
+     N
+       Category 1        0.087
+       Category 2        0.684
+       Category 3        0.229
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 3
+
+     Variable
+     N
+       Category 1        0.096
+       Category 2        0.209
+       Category 3        0.696
+
+
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              SAPS_24
+              ________
+                3.297
+
+
+           Estimated Mixed Means
+              SAPS_24
+              ________
+                3.731
+
+
+           Residuals for Mixed Means
+              SAPS_24
+              ________
+               -0.434
+
+
+           Observed Covariances
+              SAPS_24
+              ________
+ SAPS_24       15.080
+
+
+           Estimated Mixed Covariances
+              SAPS_24
+              ________
+ SAPS_24       16.173
+
+
+           Residuals for Mixed Covariances
+              SAPS_24
+              ________
+ SAPS_24       -1.093
+
+
+           Observed Skewness
+              SAPS_24
+              ________
+                1.336
+
+
+           Estimated Mixed Skewness
+              SAPS_24
+              ________
+                0.995
+
+
+           Residuals for Mixed Skewness
+              SAPS_24
+              ________
+                0.342
+
+
+           Observed Kurtosis
+              SAPS_24
+              ________
+                1.145
+
+
+           Estimated Mixed Kurtosis
+              SAPS_24
+              ________
+                0.448
+
+
+           Residuals for Mixed Kurtosis
+              SAPS_24
+              ________
+                0.697
+
+
+     Beginning Time:  17:17:38
+        Ending Time:  17:17:40
+       Elapsed Time:  00:00:02
 
 
 

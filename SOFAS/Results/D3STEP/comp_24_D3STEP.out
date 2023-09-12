@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:14 PM
+09/11/2023   5:20 PM
 
 INPUT INSTRUCTIONS
 
@@ -8,7 +8,7 @@ INPUT INSTRUCTIONS
   D3STEP_comp_24 - GBTM_P2_K2_S1000;
 
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/D3STEP/comp_24_D3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SOFAS/Results/D3STEP/comp_24_D3STEP.dat";
 
   VARIABLE:
   NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N comp_24;
@@ -18,15 +18,15 @@ INPUT INSTRUCTIONS
   CLASSES = c(2);
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 500;
+  STARTS = 500 125;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   %C#1%
-  [N#1@2.417];
+  [N#1@1.35];
   [comp_24](M1); comp_24;
   %C#2%
-  [N#1@-1.957];
+  [N#1@-1.788];
   [comp_24](M2); comp_24;
   MODEL CONSTRAINT:
   New (diff12);
@@ -34,17 +34,22 @@ INPUT INSTRUCTIONS
   MODEL TEST:
   M1 = M2;
   OUTPUT:
-  TECH7;
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
+  TECH7;
+  TECH12;
 
 
 
 *** WARNING in MODEL command
   All variables are uncorrelated with all other variables within class.
   Check that this is what is intended.
-   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  28
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -54,7 +59,7 @@ D3STEP_comp_24 - GBTM_P2_K2_S1000;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         368
+Number of observations                                         661
 
 Number of dependent variables                                    2
 Number of independent variables                                  0
@@ -104,14 +109,14 @@ Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
 Random Starts Specifications
   Number of initial stage random starts                        500
-  Number of final stage optimizations                          500
-  Number of initial stage iterations                             1
+  Number of final stage optimizations                          125
+  Number of initial stage iterations                            10
   Initial stage convergence criterion                    0.100D+01
   Random starts scale                                    0.500D+01
   Random seed for generating random starts                       0
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SOFAS/Results/D3STEP/comp_24_D3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SOFAS/Results/D3STEP/comp_24_D3STEP.dat
 Input data format  FREE
 
 
@@ -133,14 +138,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               COMP_24
               ________
- COMP_24        0.630
+ COMP_24        0.545
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.565          208.000
-      Category 2    0.435          160.000
+      Category 1    0.431          280.000
+      Category 2    0.569          370.000
 
 
 SAMPLE STATISTICS
@@ -152,13 +157,13 @@ SAMPLE STATISTICS
            Means
               COMP_24
               ________
-               79.741
+               81.458
 
 
            Covariances
               COMP_24
               ________
- COMP_24     1286.787
+ COMP_24     1206.554
 
 
            Correlations
@@ -167,7 +172,7 @@ SAMPLE STATISTICS
  COMP_24        1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1159.743
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1788.012
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -178,41 +183,44 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     COMP_24              79.741      -1.508       0.000   13.79%      50.000    100.000    100.000
-             232.000    1286.787       0.602     100.000   70.26%     100.000    100.000
+     COMP_24              81.458      -1.642       0.000   12.50%      75.000    100.000    100.000
+             360.000    1206.554       1.044     100.000   72.78%     100.000    100.000
 
 RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
 
+
+432 perturbed starting value run(s) did not converge or were rejected in the third stage.
 Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
 
-           -1391.582  441191           361
-           -1391.582  217744           326
-           -1391.582  496881           192
-           -1391.582  621542           375
-           -1391.582  951709           348
-           -1391.582  545140           278
-           -1391.582  603842           61
-           -1391.582  714997           399
-           -1391.582  902278           21
-           -1391.582  614009           317
-           -1391.582  127215           9
-           -1391.582  317640           437
-           -1391.582  790059           469
-           -1391.582  195353           225
-           -1391.582  458181           189
-           -1391.582  349360           464
-           -1391.582  967902           52
-           -1391.582  253358           2
-           -1391.582  871851           257
-           -1391.582  835767           210
-           -1417.599  352277           42
-           -1417.599  68985            17
-           -1417.599  267983           228
-           -1417.599  263049           454
+           -2128.577  614009           317
+           -2128.577  835767           210
+           -2128.577  496881           192
+           -2128.577  441191           361
+           -2128.577  714997           399
+           -2128.577  317640           437
+           -2128.577  637095           207
+           -2128.577  862607           468
+           -2128.577  253358           2
+           -2128.577  902278           21
+           -2128.577  726035           191
+           -2128.577  217744           326
+           -2128.577  603842           61
+           -2128.577  967902           52
+           -2128.577  127215           9
+           -2128.577  621542           375
+           -2128.577  458181           189
+           -2128.577  349360           464
+           -2128.577  871851           257
+           -2128.577  341041           34
+           -2128.577  153942           31
+           -2137.290  635245           121
+           -2137.290  267983           228
+           -2137.290  761633           50
+           -2137.290  617243           237
+           -2137.290  352277           42
+           -2137.290  68985            17
 
-Unperturbed starting value run did not converge or was rejected in the third stage.
-
-475 perturbed starting value run(s) did not converge or were rejected in the third stage.
+98 perturbed starting value run(s) did not converge or were rejected in the third stage.
 
 
 
@@ -230,20 +238,20 @@ Number of Free Parameters                        5
 
 Loglikelihood
 
-          H0 Value                       -1391.582
-          H0 Scaling Correction Factor      1.7402
+          H0 Value                       -2128.577
+          H0 Scaling Correction Factor      1.7796
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    2793.164
-          Bayesian (BIC)                  2812.704
-          Sample-Size Adjusted BIC        2796.841
+          Akaike (AIC)                    4267.153
+          Bayesian (BIC)                  4289.622
+          Sample-Size Adjusted BIC        4273.747
             (n* = (n + 2) / 24)
 
 Wald Test of Parameter Constraints
 
-          Value                           2353.515
+          Value                           3467.404
           Degrees of Freedom                     1
           P-Value                           0.0000
 
@@ -255,8 +263,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        105.70656          0.28725
-       2        262.29344          0.71275
+       1        133.35653          0.20175
+       2        527.64347          0.79825
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -265,8 +273,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        105.70656          0.28725
-       2        262.29344          0.71275
+       1        133.35653          0.20175
+       2        527.64347          0.79825
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -277,13 +285,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              126          0.34239
-       2              242          0.65761
+       1              172          0.26021
+       2              489          0.73979
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.776
+     Entropy                         0.737
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -291,8 +299,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.825    0.175
-    2   0.007    0.993
+    1   0.714    0.286
+    2   0.022    0.978
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -300,8 +308,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.983    0.017
-    2   0.084    0.916
+    1   0.921    0.079
+    2   0.093    0.907
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -309,8 +317,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      4.074    0.000
-    2     -2.388    0.000
+    1      2.458    0.000
+    2     -2.276    0.000
 
 
 MODEL RESULTS
@@ -321,37 +329,37 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    COMP_24            3.979      1.657      2.401      0.016
+    COMP_24            4.197      1.396      3.006      0.003
 
  Means
-    N#1                2.417      0.000    999.000    999.000
+    N#1                1.350      0.000    999.000    999.000
 
  Variances
-    COMP_24           84.491     33.126      2.551      0.011
+    COMP_24           88.151     26.729      3.298      0.001
 
 Latent Class 2
 
  Means
-    COMP_24           94.593      0.963     98.191      0.000
+    COMP_24           95.103      0.738    128.868      0.000
 
  Means
-    N#1               -1.957      0.000    999.000    999.000
+    N#1               -1.788      0.000    999.000    999.000
 
  Variances
-    COMP_24          176.668     33.184      5.324      0.000
+    COMP_24          163.662     26.145      6.260      0.000
 
 Categorical Latent Variables
 
  Means
-    C#1               -0.909      0.132     -6.866      0.000
+    C#1               -1.375      0.121    -11.328      0.000
 
 New/Additional Parameters
-    DIFF12           -90.615      1.868    -48.513      0.000
+    DIFF12           -90.906      1.544    -58.885      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.574E-07
+     Condition Number for the Information Matrix              0.809E-07
        (ratio of smallest to largest eigenvalue)
 
 
@@ -366,7 +374,7 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    COMP_24            0.433      0.096      4.531      0.000
+    COMP_24            0.447      0.081      5.519      0.000
 
  Variances
     COMP_24            1.000      0.000    999.000    999.000
@@ -374,7 +382,7 @@ Latent Class 1
 Latent Class 2
 
  Means
-    COMP_24            7.117      0.737      9.662      0.000
+    COMP_24            7.434      0.648     11.467      0.000
 
  Variances
     COMP_24            1.000      0.000    999.000    999.000
@@ -388,7 +396,7 @@ STDY Standardization
 Latent Class 1
 
  Means
-    COMP_24            0.433      0.096      4.531      0.000
+    COMP_24            0.447      0.081      5.519      0.000
 
  Variances
     COMP_24            1.000      0.000    999.000    999.000
@@ -396,7 +404,7 @@ Latent Class 1
 Latent Class 2
 
  Means
-    COMP_24            7.117      0.737      9.662      0.000
+    COMP_24            7.434      0.648     11.467      0.000
 
  Variances
     COMP_24            1.000      0.000    999.000    999.000
@@ -410,18 +418,18 @@ STD Standardization
 Latent Class 1
 
  Means
-    COMP_24            3.979      1.657      2.401      0.016
+    COMP_24            4.197      1.396      3.006      0.003
 
  Variances
-    COMP_24           84.491     33.126      2.551      0.011
+    COMP_24           88.151     26.729      3.298      0.001
 
 Latent Class 2
 
  Means
-    COMP_24           94.593      0.963     98.191      0.000
+    COMP_24           95.103      0.738    128.868      0.000
 
  Variances
-    COMP_24          176.668     33.184      5.324      0.000
+    COMP_24          163.662     26.145      6.260      0.000
 
 
 R-SQUARE
@@ -438,32 +446,32 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    COMP_24         -0.290       0.730       1.252       3.979       6.705       7.227       8.247
+    COMP_24          0.601       1.461       1.901       4.197       6.494       6.934       7.793
 
  Means
-    N#1              2.417       2.417       2.417       2.417       2.417       2.417       2.417
+    N#1              1.350       1.350       1.350       1.350       1.350       1.350       1.350
 
  Variances
-    COMP_24         -0.834      19.565      30.000      84.491     138.983     149.418     169.816
+    COMP_24         19.304      35.763      44.182      88.151     132.119     140.539     156.998
 
 Latent Class 2
 
  Means
-    COMP_24         92.112      92.705      93.009      94.593      96.178      96.481      97.075
+    COMP_24         93.202      93.657      93.889      95.103      96.317      96.550      97.004
 
  Means
-    N#1             -1.957      -1.957      -1.957      -1.957      -1.957      -1.957      -1.957
+    N#1             -1.788      -1.788      -1.788      -1.788      -1.788      -1.788      -1.788
 
  Variances
-    COMP_24         91.192     111.627     122.080     176.668     231.257     241.710     262.144
+    COMP_24         96.317     112.417     120.653     163.662     206.671     214.906     231.006
 
 Categorical Latent Variables
 
  Means
-    C#1             -1.250      -1.168      -1.127      -0.909      -0.691      -0.649      -0.568
+    C#1             -1.688      -1.613      -1.575      -1.375      -1.176      -1.137      -1.063
 
 New/Additional Parameters
-    DIFF12         -95.426     -94.276     -93.687     -90.615     -87.542     -86.954     -85.804
+    DIFF12         -94.883     -93.932     -93.446     -90.906     -88.367     -87.880     -86.930
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -476,7 +484,7 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    COMP_24          0.187       0.246       0.276       0.433       0.590       0.620       0.679
+    COMP_24          0.238       0.288       0.314       0.447       0.580       0.606       0.656
 
  Variances
     COMP_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -484,7 +492,7 @@ Latent Class 1
 Latent Class 2
 
  Means
-    COMP_24          5.220       5.673       5.905       7.117       8.328       8.560       9.014
+    COMP_24          5.764       6.163       6.368       7.434       8.500       8.705       9.104
 
  Variances
     COMP_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -497,7 +505,7 @@ STDY Standardization
 Latent Class 1
 
  Means
-    COMP_24          0.187       0.246       0.276       0.433       0.590       0.620       0.679
+    COMP_24          0.238       0.288       0.314       0.447       0.580       0.606       0.656
 
  Variances
     COMP_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -505,7 +513,7 @@ Latent Class 1
 Latent Class 2
 
  Means
-    COMP_24          5.220       5.673       5.905       7.117       8.328       8.560       9.014
+    COMP_24          5.764       6.163       6.368       7.434       8.500       8.705       9.104
 
  Variances
     COMP_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -518,18 +526,18 @@ STD Standardization
 Latent Class 1
 
  Means
-    COMP_24         -0.290       0.730       1.252       3.979       6.705       7.227       8.247
+    COMP_24          0.601       1.461       1.901       4.197       6.494       6.934       7.793
 
  Variances
-    COMP_24         -0.834      19.565      30.000      84.491     138.983     149.418     169.816
+    COMP_24         19.304      35.763      44.182      88.151     132.119     140.539     156.998
 
 Latent Class 2
 
  Means
-    COMP_24         92.112      92.705      93.009      94.593      96.178      96.481      97.075
+    COMP_24         93.202      93.657      93.889      95.103      96.317      96.550      97.004
 
  Variances
-    COMP_24         91.192     111.627     122.080     176.668     231.257     241.710     262.144
+    COMP_24         96.317     112.417     120.653     163.662     206.671     214.906     231.006
 
 
 TECHNICAL 7 OUTPUT
@@ -541,13 +549,13 @@ TECHNICAL 7 OUTPUT
            Means
               COMP_24
               ________
-                3.979
+                4.197
 
 
            Covariances
               COMP_24
               ________
- COMP_24       84.495
+ COMP_24       88.152
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -556,33 +564,111 @@ TECHNICAL 7 OUTPUT
            Means
               COMP_24
               ________
-               94.593
+               95.103
 
 
            Covariances
               COMP_24
               ________
- COMP_24      176.668
+ COMP_24      163.661
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.851
-       Category 2        0.149
+       Category 1        0.689
+       Category 2        0.311
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.450
-       Category 2        0.550
+       Category 1        0.366
+       Category 2        0.634
 
 
-     Beginning Time:  19:14:16
-        Ending Time:  19:14:18
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              COMP_24
+              ________
+               81.458
+
+
+           Estimated Mixed Means
+              COMP_24
+              ________
+               76.763
+
+
+           Residuals for Mixed Means
+              COMP_24
+              ________
+                4.695
+
+
+           Observed Covariances
+              COMP_24
+              ________
+ COMP_24     1206.554
+
+
+           Estimated Mixed Covariances
+              COMP_24
+              ________
+ COMP_24     1479.304
+
+
+           Residuals for Mixed Covariances
+              COMP_24
+              ________
+ COMP_24     -272.750
+
+
+           Observed Skewness
+              COMP_24
+              ________
+               -1.642
+
+
+           Estimated Mixed Skewness
+              COMP_24
+              ________
+               -1.210
+
+
+           Residuals for Mixed Skewness
+              COMP_24
+              ________
+               -0.432
+
+
+           Observed Kurtosis
+              COMP_24
+              ________
+                1.044
+
+
+           Estimated Mixed Kurtosis
+              COMP_24
+              ________
+                0.006
+
+
+           Residuals for Mixed Kurtosis
+              COMP_24
+              ________
+                1.038
+
+
+     Beginning Time:  17:20:09
+        Ending Time:  17:20:11
        Elapsed Time:  00:00:02
 
 

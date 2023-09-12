@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_SUD;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/SUD_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/SUD_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N SUD;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N SUD;
    MISSING=.;
    USEVAR = N SUD;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON SUD;
   SUD;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  9
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_SUD;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         680
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +110,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/SUD_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/SUD_R3STEP.dat
 Input data format  FREE
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               SUD
               ________
- SUD            0.681
+ SUD            0.591
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               SUD
               ________
-                1.447
+                1.507
 
 
            Covariances
               SUD
               ________
- SUD            0.480
+ SUD            0.534
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  SUD            1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -289.272
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -444.136
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     SUD                   1.447       1.239       1.000   66.91%       1.000      1.000      1.000
-             275.000       0.480       0.140       3.000   11.64%       1.000      2.000
+     SUD                   1.507       1.066       1.000   63.43%       1.000      1.000      1.000
+             402.000       0.534      -0.334       3.000   14.18%       1.000      2.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                        -547.564
-          H0 Scaling Correction Factor      1.0198
+          H0 Value                        -870.436
+          H0 Scaling Correction Factor      0.9446
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    1103.128
-          Bayesian (BIC)                  1119.133
-          Sample-Size Adjusted BIC        1106.441
+          Akaike (AIC)                    1748.872
+          Bayesian (BIC)                  1766.960
+          Sample-Size Adjusted BIC        1754.260
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        132.99689          0.32920
-       2        271.00311          0.67080
+       1        461.81161          0.67913
+       2        218.18839          0.32087
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.02210          0.32926
-       2        270.97790          0.67074
+       1        461.80276          0.67912
+       2        218.19724          0.32088
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              461          0.67794
+       2              219          0.32206
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.838
+     Entropy                         0.693
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.959    0.041
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.957    0.043
+    2   0.087    0.913
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.700    0.000
-    2     -3.603    0.000
+    1      3.111    0.000
+    2     -2.356    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    SUD                1.448      0.042     34.670      0.000
-    N#1                3.700      0.000    999.000    999.000
+    SUD                1.510      0.036     41.524      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    SUD                0.480      0.042     11.409      0.000
+    SUD                0.533      0.034     15.706      0.000
 
 Latent Class 2
 
  Means
-    SUD                1.448      0.042     34.670      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    SUD                1.510      0.036     41.524      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    SUD                0.480      0.042     11.409      0.000
+    SUD                0.533      0.034     15.706      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    SUD               -0.193      0.211     -0.918      0.359
+    SUD                0.193      0.171      1.128      0.259
 
  Intercepts
-    C#1               -0.435      0.317     -1.369      0.171
+    C#1                0.461      0.269      1.714      0.087
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.655E-02
+     Condition Number for the Information Matrix              0.751E-02
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    SUD                0.824      0.174      0.545      1.246
+    SUD                1.213      0.208      0.867      1.698
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    SUD                0.193      0.211      0.918      0.359
+    SUD               -0.193      0.171     -1.128      0.259
 
  Intercepts
-    C#2                0.435      0.317      1.369      0.171
+    C#2               -0.461      0.269     -1.714      0.087
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    SUD                1.213      0.256      0.803      1.834
+    SUD                0.824      0.141      0.589      1.153
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    SUD                2.089      0.052     40.147      0.000
-    N#1                3.700      0.000    999.000    999.000
+    SUD                2.069      0.038     54.680      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     SUD                1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SUD                2.089      0.052     40.147      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    SUD                2.069      0.038     54.680      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     SUD                1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    SUD                2.089      0.052     40.147      0.000
-    N#1                3.700      0.000    999.000    999.000
+    SUD                2.069      0.038     54.680      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     SUD                1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SUD                2.089      0.052     40.147      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    SUD                2.069      0.038     54.680      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     SUD                1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    SUD                1.448      0.042     34.670      0.000
-    N#1                3.700      0.000    999.000    999.000
+    SUD                1.510      0.036     41.524      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    SUD                0.480      0.042     11.409      0.000
+    SUD                0.533      0.034     15.706      0.000
 
 Latent Class 2
 
  Means
-    SUD                1.448      0.042     34.670      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    SUD                1.510      0.036     41.524      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    SUD                0.480      0.042     11.409      0.000
+    SUD                0.533      0.034     15.706      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    SUD              1.340       1.366       1.379       1.448       1.517       1.530       1.556
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    SUD              1.416       1.439       1.450       1.510       1.570       1.581       1.604
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    SUD              0.372       0.398       0.411       0.480       0.550       0.563       0.589
+    SUD              0.445       0.466       0.477       0.533       0.589       0.599       0.620
 
 Latent Class 2
 
  Means
-    SUD              1.340       1.366       1.379       1.448       1.517       1.530       1.556
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    SUD              1.416       1.439       1.450       1.510       1.570       1.581       1.604
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    SUD              0.372       0.398       0.411       0.480       0.550       0.563       0.589
+    SUD              0.445       0.466       0.477       0.533       0.589       0.599       0.620
 
 Categorical Latent Variables
 
  C#1      ON
-    SUD             -0.736      -0.606      -0.540      -0.193       0.153       0.220       0.349
+    SUD             -0.248      -0.143      -0.089       0.193       0.475       0.529       0.635
 
  Intercepts
-    C#1             -1.252      -1.057      -0.957      -0.435       0.088       0.188       0.383
+    C#1             -0.232      -0.066       0.019       0.461       0.904       0.989       1.155
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    SUD              0.479       0.545       0.583       0.824       1.166       1.246       1.418
+    SUD              0.780       0.867       0.915       1.213       1.609       1.698       1.887
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    SUD             -0.349      -0.220      -0.153       0.193       0.540       0.606       0.736
+    SUD             -0.635      -0.529      -0.475      -0.193       0.089       0.143       0.248
 
  Intercepts
-    C#2             -0.383      -0.188      -0.088       0.435       0.957       1.057       1.252
+    C#2             -1.155      -0.989      -0.904      -0.461      -0.019       0.066       0.232
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    SUD              0.705       0.803       0.858       1.213       1.716       1.834       2.088
+    SUD              0.530       0.589       0.622       0.824       1.093       1.153       1.282
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    SUD              1.955       1.987       2.004       2.089       2.175       2.191       2.223
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    SUD              1.971       1.995       2.007       2.069       2.131       2.143       2.166
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     SUD              1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SUD              1.955       1.987       2.004       2.089       2.175       2.191       2.223
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    SUD              1.971       1.995       2.007       2.069       2.131       2.143       2.166
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     SUD              1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    SUD              1.955       1.987       2.004       2.089       2.175       2.191       2.223
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    SUD              1.971       1.995       2.007       2.069       2.131       2.143       2.166
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     SUD              1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SUD              1.955       1.987       2.004       2.089       2.175       2.191       2.223
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    SUD              1.971       1.995       2.007       2.069       2.131       2.143       2.166
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     SUD              1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    SUD              1.340       1.366       1.379       1.448       1.517       1.530       1.556
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    SUD              1.416       1.439       1.450       1.510       1.570       1.581       1.604
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    SUD              0.372       0.398       0.411       0.480       0.550       0.563       0.589
+    SUD              0.445       0.466       0.477       0.533       0.589       0.599       0.620
 
 Latent Class 2
 
  Means
-    SUD              1.340       1.366       1.379       1.448       1.517       1.530       1.556
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    SUD              1.416       1.439       1.450       1.510       1.570       1.581       1.604
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    SUD              0.372       0.398       0.411       0.480       0.550       0.563       0.589
+    SUD              0.445       0.466       0.477       0.533       0.589       0.599       0.620
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               SUD
               ________
-                1.383
+                1.539
 
 
            Covariances
               SUD
               ________
- SUD            0.444
+ SUD            0.569
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,34 +572,112 @@ TECHNICAL 7 OUTPUT
            Means
               SUD
               ________
-                1.475
+                1.440
 
 
            Covariances
               SUD
               ________
- SUD            0.493
+ SUD            0.451
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.085
+       Category 2        0.915
 
 
-     Beginning Time:  19:15:11
-        Ending Time:  19:15:11
-       Elapsed Time:  00:00:00
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              SUD
+              ________
+                1.507
+
+
+           Estimated Mixed Means
+              SUD
+              ________
+                1.510
+
+
+           Residuals for Mixed Means
+              SUD
+              ________
+               -0.003
+
+
+           Observed Covariances
+              SUD
+              ________
+ SUD            0.534
+
+
+           Estimated Mixed Covariances
+              SUD
+              ________
+ SUD            0.533
+
+
+           Residuals for Mixed Covariances
+              SUD
+              ________
+ SUD            0.001
+
+
+           Observed Skewness
+              SUD
+              ________
+                1.066
+
+
+           Estimated Mixed Skewness
+              SUD
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              SUD
+              ________
+                1.066
+
+
+           Observed Kurtosis
+              SUD
+              ________
+               -0.334
+
+
+           Estimated Mixed Kurtosis
+              SUD
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              SUD
+              ________
+               -0.334
+
+
+     Beginning Time:  18:21:43
+        Ending Time:  18:21:44
+       Elapsed Time:  00:00:01
 
 
 

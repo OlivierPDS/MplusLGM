@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   5:20 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   D3STEP_SANS_24 - GMM_CV_isq@0cub@0_CT;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/SANS_24_D3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/D3STEP/SANS_24_D3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N SANS_24;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N SANS_24;
    MISSING=.;
    USEVAR = SANS_24 N;
   NOMINAL = N;
@@ -23,10 +23,10 @@ INPUT INSTRUCTIONS
   MODEL:
   %OVERALL%
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   [SANS_24](M1); SANS_24;
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   [SANS_24](M2); SANS_24;
   MODEL CONSTRAINT:
   New (diff12);
@@ -37,13 +37,19 @@ INPUT INSTRUCTIONS
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
+  TECH7;
+  TECH12;
 
 
 
 *** WARNING in MODEL command
   All variables are uncorrelated with all other variables within class.
   Check that this is what is intended.
-   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -53,7 +59,7 @@ D3STEP_SANS_24 - GMM_CV_isq@0cub@0_CT;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         679
 
 Number of dependent variables                                    2
 Number of independent variables                                  0
@@ -103,7 +109,7 @@ Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/SANS_24_D3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/D3STEP/SANS_24_D3STEP.dat
 Input data format  FREE
 
 
@@ -125,14 +131,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               SANS_24
               ________
- SANS_24        0.792
+ SANS_24        0.595
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -144,13 +150,13 @@ SAMPLE STATISTICS
            Means
               SANS_24
               ________
-                5.884
+                5.894
 
 
            Covariances
               SANS_24
               ________
- SANS_24       18.696
+ SANS_24       18.669
 
 
            Correlations
@@ -159,7 +165,7 @@ SAMPLE STATISTICS
  SANS_24        1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -922.590
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1164.482
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -170,8 +176,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     SANS_24               5.884       0.677       0.000   10.62%       2.000      4.000      5.000
-             320.000      18.696      -0.106      20.000    0.31%       6.000     10.000
+     SANS_24               5.894       0.656       0.000   10.64%       2.000      4.000      5.000
+             404.000      18.669      -0.113      20.000    0.25%       6.000     10.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -184,20 +190,20 @@ Number of Free Parameters                        5
 
 Loglikelihood
 
-          H0 Value                       -1142.575
-          H0 Scaling Correction Factor      0.9933
+          H0 Value                       -1544.558
+          H0 Scaling Correction Factor      0.9827
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    2295.150
-          Bayesian (BIC)                  2315.157
-          Sample-Size Adjusted BIC        2299.292
+          Akaike (AIC)                    3099.116
+          Bayesian (BIC)                  3121.719
+          Sample-Size Adjusted BIC        3105.844
             (n* = (n + 2) / 24)
 
 Wald Test of Parameter Constraints
 
-          Value                             98.229
+          Value                            113.124
           Degrees of Freedom                     1
           P-Value                           0.0000
 
@@ -209,8 +215,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        127.85247          0.31647
-       2        276.14753          0.68353
+       1        466.31386          0.68677
+       2        212.68614          0.31323
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -219,8 +225,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        127.85247          0.31647
-       2        276.14753          0.68353
+       1        466.31386          0.68677
+       2        212.68614          0.31323
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -231,13 +237,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              129          0.31931
-       2              275          0.68069
+       1              474          0.69809
+       2              205          0.30191
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.861
+     Entropy                         0.730
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -245,8 +251,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.957    0.043
-    2   0.016    0.984
+    1   0.953    0.047
+    2   0.072    0.928
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -254,8 +260,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.966    0.034
-    2   0.020    0.980
+    1   0.968    0.032
+    2   0.105    0.895
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -263,8 +269,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.346    0.000
-    2     -3.897    0.000
+    1      3.422    0.000
+    2     -2.138    0.000
 
 
 MODEL RESULTS
@@ -275,37 +281,37 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    SANS_24            2.852      0.331      8.607      0.000
+    SANS_24            7.454      0.270     27.591      0.000
 
  Means
-    N#1                3.700      0.000    999.000    999.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    SANS_24            6.218      1.270      4.895      0.000
+    SANS_24           18.071      1.434     12.603      0.000
 
 Latent Class 2
 
  Means
-    SANS_24            7.374      0.294     25.042      0.000
+    SANS_24            2.905      0.312      9.304      0.000
 
  Means
-    N#1               -3.603      0.000    999.000    999.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    SANS_24           18.090      1.569     11.532      0.000
+    SANS_24            6.224      1.083      5.747      0.000
 
 Categorical Latent Variables
 
  Means
-    C#1               -0.770      0.115     -6.699      0.000
+    C#1                0.785      0.096      8.150      0.000
 
 New/Additional Parameters
-    DIFF12            -4.522      0.456     -9.911      0.000
+    DIFF12             4.548      0.428     10.636      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.625E-02
+     Condition Number for the Information Matrix              0.512E-02
        (ratio of smallest to largest eigenvalue)
 
 
@@ -320,7 +326,7 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    SANS_24            1.144      0.087     13.142      0.000
+    SANS_24            1.753      0.079     22.164      0.000
 
  Variances
     SANS_24            1.000      0.000    999.000    999.000
@@ -328,7 +334,7 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SANS_24            1.734      0.083     21.006      0.000
+    SANS_24            1.165      0.077     15.166      0.000
 
  Variances
     SANS_24            1.000      0.000    999.000    999.000
@@ -342,7 +348,7 @@ STDY Standardization
 Latent Class 1
 
  Means
-    SANS_24            1.144      0.087     13.142      0.000
+    SANS_24            1.753      0.079     22.164      0.000
 
  Variances
     SANS_24            1.000      0.000    999.000    999.000
@@ -350,7 +356,7 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SANS_24            1.734      0.083     21.006      0.000
+    SANS_24            1.165      0.077     15.166      0.000
 
  Variances
     SANS_24            1.000      0.000    999.000    999.000
@@ -364,18 +370,18 @@ STD Standardization
 Latent Class 1
 
  Means
-    SANS_24            2.852      0.331      8.607      0.000
+    SANS_24            7.454      0.270     27.591      0.000
 
  Variances
-    SANS_24            6.218      1.270      4.895      0.000
+    SANS_24           18.071      1.434     12.603      0.000
 
 Latent Class 2
 
  Means
-    SANS_24            7.374      0.294     25.042      0.000
+    SANS_24            2.905      0.312      9.304      0.000
 
  Variances
-    SANS_24           18.090      1.569     11.532      0.000
+    SANS_24            6.224      1.083      5.747      0.000
 
 
 R-SQUARE
@@ -392,32 +398,32 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    SANS_24          1.999       2.203       2.307       2.852       3.397       3.502       3.706
+    SANS_24          6.758       6.924       7.009       7.454       7.898       7.983       8.149
 
  Means
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    SANS_24          2.946       3.728       4.128       6.218       8.307       8.707       9.489
+    SANS_24         14.377      15.260      15.712      18.071      20.429      20.881      21.764
 
 Latent Class 2
 
  Means
-    SANS_24          6.616       6.797       6.890       7.374       7.859       7.952       8.133
+    SANS_24          2.101       2.293       2.391       2.905       3.419       3.517       3.709
 
  Means
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    SANS_24         14.049      15.015      15.510      18.090      20.671      21.165      22.131
+    SANS_24          3.434       4.101       4.442       6.224       8.005       8.346       9.013
 
 Categorical Latent Variables
 
  Means
-    C#1             -1.066      -0.995      -0.959      -0.770      -0.581      -0.545      -0.474
+    C#1              0.537       0.596       0.627       0.785       0.943       0.974       1.033
 
 New/Additional Parameters
-    DIFF12          -5.697      -5.416      -5.273      -4.522      -3.772      -3.628      -3.347
+    DIFF12           3.447       3.710       3.845       4.548       5.252       5.387       5.650
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -430,7 +436,7 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    SANS_24          0.920       0.973       1.001       1.144       1.287       1.314       1.368
+    SANS_24          1.550       1.598       1.623       1.753       1.884       1.908       1.957
 
  Variances
     SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -438,7 +444,7 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SANS_24          1.521       1.572       1.598       1.734       1.870       1.896       1.946
+    SANS_24          0.967       1.014       1.038       1.165       1.291       1.315       1.362
 
  Variances
     SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -451,7 +457,7 @@ STDY Standardization
 Latent Class 1
 
  Means
-    SANS_24          0.920       0.973       1.001       1.144       1.287       1.314       1.368
+    SANS_24          1.550       1.598       1.623       1.753       1.884       1.908       1.957
 
  Variances
     SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -459,7 +465,7 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SANS_24          1.521       1.572       1.598       1.734       1.870       1.896       1.946
+    SANS_24          0.967       1.014       1.038       1.165       1.291       1.315       1.362
 
  Variances
     SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -472,22 +478,149 @@ STD Standardization
 Latent Class 1
 
  Means
-    SANS_24          1.999       2.203       2.307       2.852       3.397       3.502       3.706
+    SANS_24          6.758       6.924       7.009       7.454       7.898       7.983       8.149
 
  Variances
-    SANS_24          2.946       3.728       4.128       6.218       8.307       8.707       9.489
+    SANS_24         14.377      15.260      15.712      18.071      20.429      20.881      21.764
 
 Latent Class 2
 
  Means
-    SANS_24          6.616       6.797       6.890       7.374       7.859       7.952       8.133
+    SANS_24          2.101       2.293       2.391       2.905       3.419       3.517       3.709
 
  Variances
-    SANS_24         14.049      15.015      15.510      18.090      20.671      21.165      22.131
+    SANS_24          3.434       4.101       4.442       6.224       8.005       8.346       9.013
 
 
-     Beginning Time:  19:15:25
-        Ending Time:  19:15:25
+TECHNICAL 7 OUTPUT
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 1
+
+
+           Means
+              SANS_24
+              ________
+                7.454
+
+
+           Covariances
+              SANS_24
+              ________
+ SANS_24       18.071
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
+
+
+           Means
+              SANS_24
+              ________
+                2.905
+
+
+           Covariances
+              SANS_24
+              ________
+ SANS_24        6.224
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
+
+     Variable
+     N
+       Category 1        0.945
+       Category 2        0.055
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
+
+     Variable
+     N
+       Category 1        0.091
+       Category 2        0.909
+
+
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              SANS_24
+              ________
+                5.894
+
+
+           Estimated Mixed Means
+              SANS_24
+              ________
+                6.029
+
+
+           Residuals for Mixed Means
+              SANS_24
+              ________
+               -0.135
+
+
+           Observed Covariances
+              SANS_24
+              ________
+ SANS_24       18.669
+
+
+           Estimated Mixed Covariances
+              SANS_24
+              ________
+ SANS_24       18.810
+
+
+           Residuals for Mixed Covariances
+              SANS_24
+              ________
+ SANS_24       -0.141
+
+
+           Observed Skewness
+              SANS_24
+              ________
+                0.656
+
+
+           Estimated Mixed Skewness
+              SANS_24
+              ________
+                0.334
+
+
+           Residuals for Mixed Skewness
+              SANS_24
+              ________
+                0.322
+
+
+           Observed Kurtosis
+              SANS_24
+              ________
+               -0.113
+
+
+           Estimated Mixed Kurtosis
+              SANS_24
+              ________
+               -0.154
+
+
+           Residuals for Mixed Kurtosis
+              SANS_24
+              ________
+                0.041
+
+
+     Beginning Time:  17:20:58
+        Ending Time:  17:20:58
        Elapsed Time:  00:00:00
 
 

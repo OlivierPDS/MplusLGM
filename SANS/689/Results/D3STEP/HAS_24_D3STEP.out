@@ -1,0 +1,879 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+09/07/2023  11:29 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_HAS_24 - GMM_CI_isq@0cub@0_C_332_331;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/HAS_24_D3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N HAS_24;
+   MISSING=.;
+   USEVAR = HAS_24 N;
+  NOMINAL = N;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 1000 250;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  %C#1%
+  [N#1@0.806];
+  [N#2@-0.173];
+  [HAS_24](M1); HAS_24;
+  %C#2%
+  [N#1@-1.455];
+  [N#2@1.406];
+  [HAS_24](M2); HAS_24;
+  %C#3%
+  [N#1@-2.938];
+  [N#2@-1.577];
+  [HAS_24](M3); HAS_24;
+  MODEL CONSTRAINT:
+  New (diff12 diff13 diff23);
+  diff12 = M1 - M2;
+  diff13 = M1 - M3;
+  diff23 = M2 - M3;
+  MODEL TEST:
+  M1 = M2;
+  M2 = M3;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+  TECH7;
+  TECH12;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_HAS_24 - GMM_CI_isq@0cub@0_C_332_331;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         679
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   HAS_24
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                       1000
+  Number of final stage optimizations                          250
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/HAS_24_D3STEP.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              HAS_24
+              ________
+ HAS_24         0.511
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.153          104.000
+      Category 2    0.408          277.000
+      Category 3    0.439          298.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              HAS_24
+              ________
+                2.899
+
+
+           Covariances
+              HAS_24
+              ________
+ HAS_24        18.120
+
+
+           Correlations
+              HAS_24
+              ________
+ HAS_24         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -994.999
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     HAS_24                2.899       3.095       0.000   32.85%       0.000      1.000      1.000
+             347.000      18.120      14.553      35.000    0.29%       2.000      5.000
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+
+205 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+           -1528.740  686384           690
+           -1528.740  484116           915
+           -1528.740  710154           831
+           -1528.740  288738           940
+           -1528.740  930872           277
+           -1528.740  93468            3
+           -1528.740  1548             384
+           -1528.740  306768           978
+           -1528.740  749453           33
+           -1528.740  596257           405
+           -1528.740  140849           515
+           -1528.740  878749           728
+           -1528.740  903633           553
+           -1528.740  425149           878
+           -1528.740  21345            199
+           -1528.740  214681           824
+           -1528.740  539389           544
+           -1528.740  699810           571
+           -1528.740  22075            659
+           -1528.740  486622           522
+           -1528.740  669634           335
+           -1528.740  582296           452
+           -1528.740  474357           789
+           -1528.740  730868           977
+           -1528.740  118438           601
+           -1528.740  194143           510
+           -1528.740  307843           664
+           -1528.740  92564            583
+           -1528.740  775884           639
+           -1528.740  549244           756
+           -1528.740  462662           872
+           -1528.740  641794           591
+           -1528.740  331681           549
+           -1528.740  243346           930
+           -1528.740  980970           894
+           -1528.740  132336           362
+           -1528.740  499150           216
+           -1528.740  852283           616
+           -1528.740  57226            208
+           -1528.740  830529           279
+           -1528.740  751054           117
+           -1528.740  751153           110
+           -1528.740  958107           790
+           -1528.740  483369           270
+           -1528.740  648035           836
+           -1528.740  281462           285
+           -1528.740  148918           682
+           -1528.740  11397            944
+           -1528.740  871722           355
+           -1528.740  723775           97
+           -1528.740  704798           530
+           -1528.740  485256           371
+           -1528.740  749635           420
+           -1528.740  86698            893
+           -1528.740  344422           296
+           -1528.740  917702           693
+           -1528.740  81951            907
+           -1528.740  490123           995
+           -1528.740  608849           224
+           -1528.740  979450           913
+           -1528.740  291149           536
+           -1528.740  685657           69
+           -1528.740  74518            927
+           -1528.740  781190           219
+           -1528.740  155749           960
+           -1528.740  40340            188
+           -1528.740  391368           802
+           -1528.740  298553           773
+           -1528.740  534864           307
+           -1528.740  225995           847
+           -1528.740  876943           650
+           -1528.740  319144           176
+           -1528.740  404510           442
+           -1528.740  109357           765
+           -1528.740  204959           695
+           -1528.740  147440           514
+           -1528.740  495366           964
+           -1528.740  416463           467
+           -1528.740  616917           261
+           -1528.740  22089            143
+           -1528.740  777492           972
+           -1528.740  865906           641
+           -1528.740  158612           581
+           -1528.740  247912           537
+           -1528.740  7886             804
+           -1528.740  266008           656
+           -1528.740  415502           194
+           -1528.740  15270            610
+           -1528.740  652266           490
+           -1528.740  686482           215
+           -1528.740  964570           701
+           -1528.740  17359            227
+           -1528.740  443442           380
+           -1528.740  900268           327
+           -1528.740  432513           803
+
+155 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+
+THE BEST LOGLIKELIHOOD VALUE HAS BEEN REPLICATED.  RERUN WITH AT LEAST TWICE THE
+RANDOM STARTS TO CHECK THAT THE BEST LOGLIKELIHOOD IS STILL OBTAINED AND REPLICATED.
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        8
+
+Loglikelihood
+
+          H0 Value                       -1528.740
+          H0 Scaling Correction Factor      1.3882
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    3073.481
+          Bayesian (BIC)                  3109.646
+          Sample-Size Adjusted BIC        3084.245
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                             94.924
+          Degrees of Freedom                     2
+          P-Value                           0.0000
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        157.53495          0.23201
+       2        241.39428          0.35551
+       3        280.07077          0.41248
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        157.53495          0.23201
+       2        241.39428          0.35551
+       3        280.07077          0.41248
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              119          0.17526
+       2              285          0.41973
+       3              275          0.40501
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.450
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.850    0.046    0.104
+    2   0.087    0.725    0.188
+    3   0.115    0.106    0.779
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.642    0.157    0.200
+    2   0.023    0.857    0.121
+    3   0.044    0.191    0.765
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      1.164   -0.242    0.000
+    2     -1.674    1.958    0.000
+    3     -2.852   -1.388    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    HAS_24             8.014      0.870      9.217      0.000
+
+ Means
+    N#1                0.806      0.000    999.000    999.000
+    N#2               -0.173      0.000    999.000    999.000
+
+ Variances
+    HAS_24            36.926     12.192      3.029      0.002
+
+Latent Class 2
+
+ Means
+    HAS_24             0.331      0.078      4.262      0.000
+
+ Means
+    N#1               -1.455      0.000    999.000    999.000
+    N#2                1.406      0.000    999.000    999.000
+
+ Variances
+    HAS_24             0.233      0.044      5.329      0.000
+
+Latent Class 3
+
+ Means
+    HAS_24             2.327      0.283      8.234      0.000
+
+ Means
+    N#1               -2.938      0.000    999.000    999.000
+    N#2               -1.577      0.000    999.000    999.000
+
+ Variances
+    HAS_24             2.982      0.599      4.976      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.575      0.172     -3.349      0.001
+    C#2               -0.149      0.139     -1.073      0.283
+
+New/Additional Parameters
+    DIFF12             7.683      0.866      8.870      0.000
+    DIFF13             5.687      0.805      7.069      0.000
+    DIFF23            -1.995      0.283     -7.050      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.123E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    HAS_24             1.319      0.131     10.091      0.000
+
+ Variances
+    HAS_24             1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    HAS_24             0.687      0.097      7.084      0.000
+
+ Variances
+    HAS_24             1.000      0.000    999.000    999.000
+
+Latent Class 3
+
+ Means
+    HAS_24             1.347      0.088     15.294      0.000
+
+ Variances
+    HAS_24             1.000      0.000    999.000    999.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    HAS_24             1.319      0.131     10.091      0.000
+
+ Variances
+    HAS_24             1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    HAS_24             0.687      0.097      7.084      0.000
+
+ Variances
+    HAS_24             1.000      0.000    999.000    999.000
+
+Latent Class 3
+
+ Means
+    HAS_24             1.347      0.088     15.294      0.000
+
+ Variances
+    HAS_24             1.000      0.000    999.000    999.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    HAS_24             8.014      0.870      9.217      0.000
+
+ Variances
+    HAS_24            36.926     12.192      3.029      0.002
+
+Latent Class 2
+
+ Means
+    HAS_24             0.331      0.078      4.262      0.000
+
+ Variances
+    HAS_24             0.233      0.044      5.329      0.000
+
+Latent Class 3
+
+ Means
+    HAS_24             2.327      0.283      8.234      0.000
+
+ Variances
+    HAS_24             2.982      0.599      4.976      0.000
+
+
+R-SQUARE
+
+Class 1
+
+Class 2
+
+Class 3
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    HAS_24           5.774       6.310       6.584       8.014       9.444       9.718      10.254
+
+ Means
+    N#1              0.806       0.806       0.806       0.806       0.806       0.806       0.806
+    N#2             -0.173      -0.173      -0.173      -0.173      -0.173      -0.173      -0.173
+
+ Variances
+    HAS_24           5.521      13.029      16.870      36.926      56.982      60.823      68.331
+
+Latent Class 2
+
+ Means
+    HAS_24           0.131       0.179       0.203       0.331       0.459       0.484       0.532
+
+ Means
+    N#1             -1.455      -1.455      -1.455      -1.455      -1.455      -1.455      -1.455
+    N#2              1.406       1.406       1.406       1.406       1.406       1.406       1.406
+
+ Variances
+    HAS_24           0.120       0.147       0.161       0.233       0.304       0.318       0.345
+
+Latent Class 3
+
+ Means
+    HAS_24           1.599       1.773       1.862       2.327       2.792       2.881       3.055
+
+ Means
+    N#1             -2.938      -2.938      -2.938      -2.938      -2.938      -2.938      -2.938
+    N#2             -1.577      -1.577      -1.577      -1.577      -1.577      -1.577      -1.577
+
+ Variances
+    HAS_24           1.439       1.808       1.997       2.982       3.968       4.157       4.526
+
+Categorical Latent Variables
+
+ Means
+    C#1             -1.018      -0.912      -0.858      -0.575      -0.293      -0.239      -0.133
+    C#2             -0.505      -0.420      -0.377      -0.149       0.079       0.123       0.208
+
+New/Additional Parameters
+    DIFF12           5.452       5.985       6.258       7.683       9.107       9.380       9.913
+    DIFF13           3.615       4.110       4.364       5.687       7.011       7.264       7.759
+    DIFF23          -2.724      -2.550      -2.461      -1.995      -1.530      -1.441      -1.266
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    HAS_24           0.982       1.063       1.104       1.319       1.534       1.575       1.655
+
+ Variances
+    HAS_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    HAS_24           0.437       0.497       0.528       0.687       0.847       0.877       0.937
+
+ Variances
+    HAS_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 3
+
+ Means
+    HAS_24           1.120       1.175       1.202       1.347       1.492       1.520       1.574
+
+ Variances
+    HAS_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    HAS_24           0.982       1.063       1.104       1.319       1.534       1.575       1.655
+
+ Variances
+    HAS_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    HAS_24           0.437       0.497       0.528       0.687       0.847       0.877       0.937
+
+ Variances
+    HAS_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 3
+
+ Means
+    HAS_24           1.120       1.175       1.202       1.347       1.492       1.520       1.574
+
+ Variances
+    HAS_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    HAS_24           5.774       6.310       6.584       8.014       9.444       9.718      10.254
+
+ Variances
+    HAS_24           5.521      13.029      16.870      36.926      56.982      60.823      68.331
+
+Latent Class 2
+
+ Means
+    HAS_24           0.131       0.179       0.203       0.331       0.459       0.484       0.532
+
+ Variances
+    HAS_24           0.120       0.147       0.161       0.233       0.304       0.318       0.345
+
+Latent Class 3
+
+ Means
+    HAS_24           1.599       1.773       1.862       2.327       2.792       2.881       3.055
+
+ Variances
+    HAS_24           1.439       1.808       1.997       2.982       3.968       4.157       4.526
+
+
+TECHNICAL 7 OUTPUT
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 1
+
+
+           Means
+              HAS_24
+              ________
+                8.014
+
+
+           Covariances
+              HAS_24
+              ________
+ HAS_24        36.926
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
+
+
+           Means
+              HAS_24
+              ________
+                0.331
+
+
+           Covariances
+              HAS_24
+              ________
+ HAS_24         0.233
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 3
+
+
+           Means
+              HAS_24
+              ________
+                2.327
+
+
+           Covariances
+              HAS_24
+              ________
+ HAS_24         2.983
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
+
+     Variable
+     N
+       Category 1        0.446
+       Category 2        0.307
+       Category 3        0.247
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
+
+     Variable
+     N
+       Category 1        0.084
+       Category 2        0.669
+       Category 3        0.247
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 3
+
+     Variable
+     N
+       Category 1        0.049
+       Category 2        0.239
+       Category 3        0.712
+
+
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              HAS_24
+              ________
+                2.899
+
+
+           Estimated Mixed Means
+              HAS_24
+              ________
+                2.937
+
+
+           Residuals for Mixed Means
+              HAS_24
+              ________
+               -0.038
+
+
+           Observed Covariances
+              HAS_24
+              ________
+ HAS_24        18.120
+
+
+           Estimated Mixed Covariances
+              HAS_24
+              ________
+ HAS_24        18.427
+
+
+           Residuals for Mixed Covariances
+              HAS_24
+              ________
+ HAS_24        -0.308
+
+
+           Observed Skewness
+              HAS_24
+              ________
+                3.095
+
+
+           Estimated Mixed Skewness
+              HAS_24
+              ________
+                1.916
+
+
+           Residuals for Mixed Skewness
+              HAS_24
+              ________
+                1.179
+
+
+           Observed Kurtosis
+              HAS_24
+              ________
+               14.553
+
+
+           Estimated Mixed Kurtosis
+              HAS_24
+              ________
+                4.250
+
+
+           Residuals for Mixed Kurtosis
+              HAS_24
+              ________
+               10.303
+
+
+     Beginning Time:  11:29:08
+        Ending Time:  11:29:10
+       Elapsed Time:  00:00:02
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

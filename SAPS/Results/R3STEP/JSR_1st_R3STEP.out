@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:22 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_JSR_1st;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/JSR_1st_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/JSR_1st_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N JSR_1st;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N JSR_1st;
    MISSING=.;
    USEVAR = N JSR_1st;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON JSR_1st;
   JSR_1st;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_JSR_1st;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         679
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +110,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/JSR_1st_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/JSR_1st_R3STEP.dat
 Input data format  FREE
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               JSR_1ST
               ________
- JSR_1ST        0.641
+ JSR_1ST        0.554
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               JSR_1ST
               ________
-              231.598
+              220.699
 
 
            Covariances
               JSR_1ST
               ________
- JSR_1ST    43998.758
+ JSR_1ST    42285.446
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  JSR_1ST        1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1752.108
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -2536.134
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     JSR_1ST             231.598       1.172       0.000    0.39%      61.000     96.000    183.000
-             259.000   43998.758       0.370     746.000    7.34%     183.000    368.000
+     JSR_1ST             220.699       1.284       0.000    1.06%      61.000     96.000    183.000
+             376.000   42285.439       0.690     746.000    6.91%     183.000    368.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                       -2006.695
-          H0 Scaling Correction Factor      1.1176
+          H0 Value                       -2957.518
+          H0 Scaling Correction Factor      1.1884
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    4021.391
-          Bayesian (BIC)                  4037.396
-          Sample-Size Adjusted BIC        4024.704
+          Akaike (AIC)                    5923.036
+          Bayesian (BIC)                  5941.119
+          Sample-Size Adjusted BIC        5928.418
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.93055          0.33151
-       2        270.06945          0.66849
+       1        459.42812          0.67662
+       2        219.57188          0.32338
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        132.89379          0.32895
-       2        271.10621          0.67105
+       1        461.45625          0.67961
+       2        217.54375          0.32039
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              460          0.67747
+       2              219          0.32253
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.839
+     Entropy                         0.698
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.947    0.053
-    2   0.012    0.988
+    1   0.960    0.040
+    2   0.091    0.909
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.957    0.043
+    2   0.085    0.915
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.703    0.000
-    2     -3.587    0.000
+    1      3.092    0.000
+    2     -2.371    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    JSR_1ST          241.548     13.562     17.810      0.000
-    N#1                3.700      0.000    999.000    999.000
+    JSR_1ST          232.968     11.410     20.418      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    JSR_1ST        43896.469   4169.917     10.527      0.000
+    JSR_1ST        41995.801   3492.361     12.025      0.000
 
 Latent Class 2
 
  Means
-    JSR_1ST          241.548     13.562     17.810      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    JSR_1ST          232.968     11.410     20.418      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    JSR_1ST        43896.469   4169.917     10.527      0.000
+    JSR_1ST        41995.801   3492.361     12.025      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    JSR_1ST           -0.002      0.001     -2.326      0.020
+    JSR_1ST            0.002      0.001      2.445      0.014
 
  Intercepts
-    C#1               -0.254      0.215     -1.179      0.238
+    C#1                0.270      0.207      1.308      0.191
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.863E-03
+     Condition Number for the Information Matrix              0.107E-02
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    JSR_1ST            0.998      0.001      0.996      1.000
+    JSR_1ST            1.002      0.001      1.000      1.004
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    JSR_1ST            0.002      0.001      2.326      0.020
+    JSR_1ST           -0.002      0.001     -2.445      0.014
 
  Intercepts
-    C#2                0.254      0.215      1.179      0.238
+    C#2               -0.270      0.207     -1.308      0.191
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    JSR_1ST            1.002      0.001      1.000      1.004
+    JSR_1ST            0.998      0.001      0.996      1.000
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    JSR_1ST            1.153      0.044     25.958      0.000
-    N#1                3.700      0.000    999.000    999.000
+    JSR_1ST            1.137      0.039     28.866      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     JSR_1ST            1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    JSR_1ST            1.153      0.044     25.958      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    JSR_1ST            1.137      0.039     28.866      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     JSR_1ST            1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    JSR_1ST            1.153      0.044     25.958      0.000
-    N#1                3.700      0.000    999.000    999.000
+    JSR_1ST            1.137      0.039     28.866      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     JSR_1ST            1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    JSR_1ST            1.153      0.044     25.958      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    JSR_1ST            1.137      0.039     28.866      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     JSR_1ST            1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    JSR_1ST          241.548     13.562     17.810      0.000
-    N#1                3.700      0.000    999.000    999.000
+    JSR_1ST          232.968     11.410     20.418      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    JSR_1ST        43896.469   4169.917     10.527      0.000
+    JSR_1ST        41995.801   3492.361     12.025      0.000
 
 Latent Class 2
 
  Means
-    JSR_1ST          241.548     13.562     17.810      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    JSR_1ST          232.968     11.410     20.418      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    JSR_1ST        43896.469   4169.917     10.527      0.000
+    JSR_1ST        41995.801   3492.361     12.025      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    JSR_1ST        206.614     214.966     219.238     241.548     263.858     268.130     276.482
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    JSR_1ST        203.578     210.604     214.198     232.968     251.737     255.332     262.358
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    JSR_1ST      33155.598   35723.430   37036.957   43896.469   50755.980   52069.508   54637.340
+    JSR_1ST      33000.180   35150.773   36250.867   41995.801   47740.734   48840.828   50991.422
 
 Latent Class 2
 
  Means
-    JSR_1ST        206.614     214.966     219.238     241.548     263.858     268.130     276.482
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    JSR_1ST        203.578     210.604     214.198     232.968     251.737     255.332     262.358
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    JSR_1ST      33155.598   35723.430   37036.957   43896.469   50755.980   52069.508   54637.340
+    JSR_1ST      33000.180   35150.773   36250.867   41995.801   47740.734   48840.828   50991.422
 
 Categorical Latent Variables
 
  C#1      ON
-    JSR_1ST         -0.004      -0.004      -0.003      -0.002      -0.001       0.000       0.000
+    JSR_1ST          0.000       0.000       0.001       0.002       0.004       0.004       0.005
 
  Intercepts
-    C#1             -0.809      -0.676      -0.609      -0.254       0.100       0.168       0.301
+    C#1             -0.262      -0.135      -0.070       0.270       0.610       0.675       0.802
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    JSR_1ST          0.996       0.996       0.997       0.998       0.999       1.000       1.000
+    JSR_1ST          1.000       1.000       1.001       1.002       1.004       1.004       1.005
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    JSR_1ST          0.000       0.000       0.001       0.002       0.003       0.004       0.004
+    JSR_1ST         -0.005      -0.004      -0.004      -0.002      -0.001       0.000       0.000
 
  Intercepts
-    C#2             -0.301      -0.168      -0.100       0.254       0.609       0.676       0.809
+    C#2             -0.802      -0.675      -0.610      -0.270       0.070       0.135       0.262
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    JSR_1ST          1.000       1.000       1.001       1.002       1.003       1.004       1.004
+    JSR_1ST          0.995       0.996       0.996       0.998       0.999       1.000       1.000
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    JSR_1ST          1.038       1.066       1.080       1.153       1.226       1.240       1.267
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    JSR_1ST          1.035       1.060       1.072       1.137       1.202       1.214       1.238
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     JSR_1ST          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    JSR_1ST          1.038       1.066       1.080       1.153       1.226       1.240       1.267
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    JSR_1ST          1.035       1.060       1.072       1.137       1.202       1.214       1.238
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     JSR_1ST          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    JSR_1ST          1.038       1.066       1.080       1.153       1.226       1.240       1.267
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    JSR_1ST          1.035       1.060       1.072       1.137       1.202       1.214       1.238
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     JSR_1ST          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    JSR_1ST          1.038       1.066       1.080       1.153       1.226       1.240       1.267
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    JSR_1ST          1.035       1.060       1.072       1.137       1.202       1.214       1.238
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     JSR_1ST          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    JSR_1ST        206.614     214.966     219.238     241.548     263.858     268.130     276.482
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    JSR_1ST        203.578     210.604     214.198     232.968     251.737     255.332     262.358
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    JSR_1ST      33155.598   35723.430   37036.957   43896.469   50755.980   52069.508   54637.340
+    JSR_1ST      33000.180   35150.773   36250.867   41995.801   47740.734   48840.828   50991.422
 
 Latent Class 2
 
  Means
-    JSR_1ST        206.614     214.966     219.238     241.548     263.858     268.130     276.482
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    JSR_1ST        203.578     210.604     214.198     232.968     251.737     255.332     262.358
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    JSR_1ST      33155.598   35723.430   37036.957   43896.469   50755.980   52069.508   54637.340
+    JSR_1ST      33000.180   35150.773   36250.867   41995.801   47740.734   48840.828   50991.422
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               JSR_1ST
               ________
-              188.303
+              257.354
 
 
            Covariances
               JSR_1ST
               ________
- JSR_1ST    37634.483
+ JSR_1ST    46528.594
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,33 +572,111 @@ TECHNICAL 7 OUTPUT
            Means
               JSR_1ST
               ________
-              265.312
+              175.740
 
 
            Covariances
               JSR_1ST
               ________
- JSR_1ST    46358.226
+ JSR_1ST    33411.465
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.085
+       Category 2        0.915
 
 
-     Beginning Time:  19:15:22
-        Ending Time:  19:15:23
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              JSR_1ST
+              ________
+              220.699
+
+
+           Estimated Mixed Means
+              JSR_1ST
+              ________
+              232.968
+
+
+           Residuals for Mixed Means
+              JSR_1ST
+              ________
+              -12.268
+
+
+           Observed Covariances
+              JSR_1ST
+              ________
+ JSR_1ST    42285.446
+
+
+           Estimated Mixed Covariances
+              JSR_1ST
+              ________
+ JSR_1ST    41995.799
+
+
+           Residuals for Mixed Covariances
+              JSR_1ST
+              ________
+ JSR_1ST      289.647
+
+
+           Observed Skewness
+              JSR_1ST
+              ________
+                1.284
+
+
+           Estimated Mixed Skewness
+              JSR_1ST
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              JSR_1ST
+              ________
+                1.284
+
+
+           Observed Kurtosis
+              JSR_1ST
+              ________
+                0.690
+
+
+           Estimated Mixed Kurtosis
+              JSR_1ST
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              JSR_1ST
+              ________
+                0.690
+
+
+     Beginning Time:  18:22:02
+        Ending Time:  18:22:03
        Elapsed Time:  00:00:01
 
 

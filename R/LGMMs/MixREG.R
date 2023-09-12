@@ -104,7 +104,7 @@ MixREG <- function(df,
   names(starts) <- cov_vec
 
   if (!is.null(startval)) {
-    SV <- purrr::map(startval, \(x) glue::glue("STARTS = {x}"))
+    SV <- purrr::map(startval, \(x) glue::glue("STARTS = {x} {x / 4}"))
     starts[names(SV)] <- SV
   }
 

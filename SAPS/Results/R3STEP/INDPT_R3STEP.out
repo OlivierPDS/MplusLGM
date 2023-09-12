@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_INDPT;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/INDPT_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/INDPT_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N INDPT;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N INDPT;
    MISSING=.;
    USEVAR = N INDPT;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON INDPT;
   INDPT;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  4
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_INDPT;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         685
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +110,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/INDPT_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/INDPT_R3STEP.dat
 Input data format  FREE
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               INDPT
               ________
- INDPT          0.973
+ INDPT          0.961
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               INDPT
               ________
-                1.425
+                1.541
 
 
            Covariances
               INDPT
               ________
- INDPT          0.244
+ INDPT          0.248
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  INDPT          1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -280.757
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -475.347
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     INDPT                 1.425       0.304       1.000   57.51%       1.000      1.000      1.000
-             393.000       0.244      -1.908       2.000   42.49%       2.000      2.000
+     INDPT                 1.541      -0.165       1.000   45.90%       1.000      1.000      2.000
+             658.000       0.248      -1.973       2.000   54.10%       2.000      2.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                        -538.303
-          H0 Scaling Correction Factor      0.7614
+          H0 Value                        -901.568
+          H0 Scaling Correction Factor      0.7534
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    1084.605
-          Bayesian (BIC)                  1100.611
-          Sample-Size Adjusted BIC        1087.919
+          Akaike (AIC)                    1811.137
+          Bayesian (BIC)                  1829.254
+          Sample-Size Adjusted BIC        1816.554
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.01588          0.32925
-       2        270.98412          0.67075
+       1        465.07642          0.67894
+       2        219.92358          0.32106
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.02505          0.32927
-       2        270.97495          0.67073
+       1        465.07777          0.67895
+       2        219.92223          0.32105
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              466          0.68029
+       2              219          0.31971
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.838
+     Entropy                         0.689
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.956    0.044
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.958    0.042
+    2   0.094    0.906
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.700    0.000
-    2     -3.603    0.000
+    1      3.119    0.000
+    2     -2.269    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    INDPT              1.424      0.025     57.050      0.000
-    N#1                3.700      0.000    999.000    999.000
+    INDPT              1.541      0.019     79.227      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    INDPT              0.245      0.004     65.174      0.000
+    INDPT              0.249      0.002    154.159      0.000
 
 Latent Class 2
 
  Means
-    INDPT              1.424      0.025     57.050      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    INDPT              1.541      0.019     79.227      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    INDPT              0.245      0.004     65.174      0.000
+    INDPT              0.249      0.002    154.159      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    INDPT             -0.360      0.235     -1.533      0.125
+    INDPT             -0.231      0.194     -1.187      0.235
 
  Intercepts
-    C#1               -0.204      0.345     -0.591      0.555
+    C#1                1.107      0.318      3.477      0.001
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.383E-03
+     Condition Number for the Information Matrix              0.253E-03
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    INDPT              0.698      0.164      0.440      1.105
+    INDPT              0.794      0.154      0.542      1.162
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    INDPT              0.360      0.235      1.533      0.125
+    INDPT              0.231      0.194      1.187      0.235
 
  Intercepts
-    C#2                0.204      0.345      0.591      0.555
+    C#2               -1.107      0.318     -3.477      0.001
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    INDPT              1.434      0.337      0.905      2.272
+    INDPT              1.260      0.245      0.860      1.844
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    INDPT              2.879      0.028    101.092      0.000
-    N#1                3.700      0.000    999.000    999.000
+    INDPT              3.090      0.049     63.080      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     INDPT              1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    INDPT              2.879      0.028    101.092      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    INDPT              3.090      0.049     63.080      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     INDPT              1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    INDPT              2.879      0.028    101.092      0.000
-    N#1                3.700      0.000    999.000    999.000
+    INDPT              3.090      0.049     63.080      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     INDPT              1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    INDPT              2.879      0.028    101.092      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    INDPT              3.090      0.049     63.080      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     INDPT              1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    INDPT              1.424      0.025     57.050      0.000
-    N#1                3.700      0.000    999.000    999.000
+    INDPT              1.541      0.019     79.227      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    INDPT              0.245      0.004     65.174      0.000
+    INDPT              0.249      0.002    154.159      0.000
 
 Latent Class 2
 
  Means
-    INDPT              1.424      0.025     57.050      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    INDPT              1.541      0.019     79.227      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    INDPT              0.245      0.004     65.174      0.000
+    INDPT              0.249      0.002    154.159      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    INDPT            1.360       1.376       1.383       1.424       1.466       1.473       1.489
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    INDPT            1.491       1.503       1.509       1.541       1.573       1.579       1.591
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    INDPT            0.235       0.237       0.239       0.245       0.251       0.252       0.255
+    INDPT            0.244       0.245       0.246       0.249       0.251       0.252       0.253
 
 Latent Class 2
 
  Means
-    INDPT            1.360       1.376       1.383       1.424       1.466       1.473       1.489
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    INDPT            1.491       1.503       1.509       1.541       1.573       1.579       1.591
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    INDPT            0.235       0.237       0.239       0.245       0.251       0.252       0.255
+    INDPT            0.244       0.245       0.246       0.249       0.251       0.252       0.253
 
 Categorical Latent Variables
 
  C#1      ON
-    INDPT           -0.965      -0.821      -0.747      -0.360       0.026       0.100       0.245
+    INDPT           -0.732      -0.612      -0.551      -0.231       0.089       0.150       0.270
 
  Intercepts
-    C#1             -1.093      -0.881      -0.772      -0.204       0.364       0.473       0.686
+    C#1              0.287       0.483       0.583       1.107       1.631       1.731       1.927
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    INDPT            0.381       0.440       0.474       0.698       1.027       1.105       1.277
+    INDPT            0.481       0.542       0.576       0.794       1.093       1.162       1.310
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    INDPT           -0.245      -0.100      -0.026       0.360       0.747       0.821       0.965
+    INDPT           -0.270      -0.150      -0.089       0.231       0.551       0.612       0.732
 
  Intercepts
-    C#2             -0.686      -0.473      -0.364       0.204       0.772       0.881       1.093
+    C#2             -1.927      -1.731      -1.631      -1.107      -0.583      -0.483      -0.287
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    INDPT            0.783       0.905       0.974       1.434       2.110       2.272       2.625
+    INDPT            0.763       0.860       0.915       1.260       1.735       1.844       2.079
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    INDPT            2.806       2.823       2.832       2.879       2.926       2.935       2.952
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    INDPT            2.964       2.994       3.010       3.090       3.171       3.186       3.217
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     INDPT            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    INDPT            2.806       2.823       2.832       2.879       2.926       2.935       2.952
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    INDPT            2.964       2.994       3.010       3.090       3.171       3.186       3.217
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     INDPT            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    INDPT            2.806       2.823       2.832       2.879       2.926       2.935       2.952
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    INDPT            2.964       2.994       3.010       3.090       3.171       3.186       3.217
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     INDPT            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    INDPT            2.806       2.823       2.832       2.879       2.926       2.935       2.952
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    INDPT            2.964       2.994       3.010       3.090       3.171       3.186       3.217
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     INDPT            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    INDPT            1.360       1.376       1.383       1.424       1.466       1.473       1.489
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    INDPT            1.491       1.503       1.509       1.541       1.573       1.579       1.591
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    INDPT            0.235       0.237       0.239       0.245       0.251       0.252       0.255
+    INDPT            0.244       0.245       0.246       0.249       0.251       0.252       0.253
 
 Latent Class 2
 
  Means
-    INDPT            1.360       1.376       1.383       1.424       1.466       1.473       1.489
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    INDPT            1.491       1.503       1.509       1.541       1.573       1.579       1.591
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    INDPT            0.235       0.237       0.239       0.245       0.251       0.252       0.255
+    INDPT            0.244       0.245       0.246       0.249       0.251       0.252       0.253
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               INDPT
               ________
-                1.367
+                1.523
 
 
            Covariances
               INDPT
               ________
- INDPT          0.232
+ INDPT          0.249
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,34 +572,112 @@ TECHNICAL 7 OUTPUT
            Means
               INDPT
               ________
-                1.453
+                1.580
 
 
            Covariances
               INDPT
               ________
- INDPT          0.248
+ INDPT          0.244
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.086
+       Category 2        0.914
 
 
-     Beginning Time:  19:15:07
-        Ending Time:  19:15:07
-       Elapsed Time:  00:00:00
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              INDPT
+              ________
+                1.541
+
+
+           Estimated Mixed Means
+              INDPT
+              ________
+                1.541
+
+
+           Residuals for Mixed Means
+              INDPT
+              ________
+                0.000
+
+
+           Observed Covariances
+              INDPT
+              ________
+ INDPT          0.248
+
+
+           Estimated Mixed Covariances
+              INDPT
+              ________
+ INDPT          0.249
+
+
+           Residuals for Mixed Covariances
+              INDPT
+              ________
+ INDPT          0.000
+
+
+           Observed Skewness
+              INDPT
+              ________
+               -0.165
+
+
+           Estimated Mixed Skewness
+              INDPT
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              INDPT
+              ________
+               -0.165
+
+
+           Observed Kurtosis
+              INDPT
+              ________
+               -1.973
+
+
+           Estimated Mixed Kurtosis
+              INDPT
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              INDPT
+              ________
+               -1.973
+
+
+     Beginning Time:  18:21:36
+        Ending Time:  18:21:37
+       Elapsed Time:  00:00:01
 
 
 

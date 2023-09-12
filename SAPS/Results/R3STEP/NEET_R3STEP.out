@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_NEET;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/NEET_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/NEET_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N NEET;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N NEET;
    MISSING=.;
    USEVAR = N NEET;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON NEET;
   NEET;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  5
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_NEET;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         684
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +110,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/NEET_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/NEET_R3STEP.dat
 Input data format  FREE
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               NEET
               ________
- NEET           0.941
+ NEET           0.921
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               NEET
               ________
-                1.637
+                1.338
 
 
            Covariances
               NEET
               ________
- NEET           0.231
+ NEET           0.224
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  NEET           1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -261.008
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -422.357
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     NEET                  1.637      -0.569       1.000   36.32%       1.000      2.000      2.000
-             380.000       0.231      -1.676       2.000   63.68%       2.000      2.000
+     NEET                  1.338       0.684       1.000   66.19%       1.000      1.000      1.000
+             630.000       0.224      -1.531       2.000   33.81%       1.000      2.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                        -516.664
-          H0 Scaling Correction Factor      0.7903
+          H0 Value                        -846.980
+          H0 Scaling Correction Factor      0.8081
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    1041.328
-          Bayesian (BIC)                  1057.334
-          Sample-Size Adjusted BIC        1044.641
+          Akaike (AIC)                    1701.959
+          Bayesian (BIC)                  1720.071
+          Sample-Size Adjusted BIC        1707.370
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.07515          0.32939
-       2        270.92485          0.67061
+       1        464.49242          0.67908
+       2        219.50758          0.32092
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.02552          0.32927
-       2        270.97448          0.67073
+       1        464.52891          0.67914
+       2        219.47109          0.32086
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              465          0.67982
+       2              219          0.32018
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.839
+     Entropy                         0.691
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.957    0.043
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.958    0.042
+    2   0.092    0.908
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.700    0.000
-    2     -3.603    0.000
+    1      3.117    0.000
+    2     -2.291    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    NEET               1.638      0.025     66.301      0.000
-    N#1                3.700      0.000    999.000    999.000
+    NEET               1.338      0.019     71.063      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    NEET               0.232      0.007     34.082      0.000
+    NEET               0.224      0.006     36.708      0.000
 
 Latent Class 2
 
  Means
-    NEET               1.638      0.025     66.301      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    NEET               1.338      0.019     71.063      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    NEET               0.232      0.007     34.082      0.000
+    NEET               0.224      0.006     36.708      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    NEET              -0.588      0.236     -2.489      0.013
+    NEET              -0.438      0.203     -2.158      0.031
 
  Intercepts
-    C#1                0.238      0.392      0.608      0.543
+    C#1                1.343      0.295      4.553      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.403E-03
+     Condition Number for the Information Matrix              0.459E-03
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    NEET               0.555      0.131      0.350      0.883
+    NEET               0.645      0.131      0.433      0.961
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    NEET               0.588      0.236      2.489      0.013
+    NEET               0.438      0.203      2.158      0.031
 
  Intercepts
-    C#2               -0.238      0.392     -0.608      0.543
+    C#2               -1.343      0.295     -4.553      0.000
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    NEET               1.800      0.425      1.133      2.860
+    NEET               1.550      0.315      1.041      2.308
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    NEET               3.401      0.101     33.620      0.000
-    N#1                3.700      0.000    999.000    999.000
+    NEET               2.827      0.002   1266.457      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     NEET               1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    NEET               3.401      0.101     33.620      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    NEET               2.827      0.002   1266.457      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     NEET               1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    NEET               3.401      0.101     33.620      0.000
-    N#1                3.700      0.000    999.000    999.000
+    NEET               2.827      0.002   1266.457      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     NEET               1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    NEET               3.401      0.101     33.620      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    NEET               2.827      0.002   1266.457      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     NEET               1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    NEET               1.638      0.025     66.301      0.000
-    N#1                3.700      0.000    999.000    999.000
+    NEET               1.338      0.019     71.063      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    NEET               0.232      0.007     34.082      0.000
+    NEET               0.224      0.006     36.708      0.000
 
 Latent Class 2
 
  Means
-    NEET               1.638      0.025     66.301      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    NEET               1.338      0.019     71.063      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    NEET               0.232      0.007     34.082      0.000
+    NEET               0.224      0.006     36.708      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    NEET             1.574       1.589       1.597       1.638       1.678       1.686       1.701
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    NEET             1.289       1.301       1.307       1.338       1.369       1.374       1.386
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    NEET             0.214       0.219       0.221       0.232       0.243       0.245       0.249
+    NEET             0.208       0.212       0.214       0.224       0.234       0.236       0.240
 
 Latent Class 2
 
  Means
-    NEET             1.574       1.589       1.597       1.638       1.678       1.686       1.701
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    NEET             1.289       1.301       1.307       1.338       1.369       1.374       1.386
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    NEET             0.214       0.219       0.221       0.232       0.243       0.245       0.249
+    NEET             0.208       0.212       0.214       0.224       0.234       0.236       0.240
 
 Categorical Latent Variables
 
  C#1      ON
-    NEET            -1.196      -1.051      -0.977      -0.588      -0.199      -0.125       0.020
+    NEET            -0.961      -0.836      -0.772      -0.438      -0.104      -0.040       0.085
 
  Intercepts
-    C#1             -0.772      -0.531      -0.407       0.238       0.884       1.008       1.249
+    C#1              0.583       0.765       0.858       1.343       1.829       1.922       2.103
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    NEET             0.302       0.350       0.377       0.555       0.819       0.883       1.021
+    NEET             0.382       0.433       0.462       0.645       0.901       0.961       1.089
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    NEET            -0.020       0.125       0.199       0.588       0.977       1.051       1.196
+    NEET            -0.085       0.040       0.104       0.438       0.772       0.836       0.961
 
  Intercepts
-    C#2             -1.249      -1.008      -0.884      -0.238       0.407       0.531       0.772
+    C#2             -2.103      -1.922      -1.829      -1.343      -0.858      -0.765      -0.583
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    NEET             0.980       1.133       1.221       1.800       2.655       2.860       3.308
+    NEET             0.919       1.041       1.110       1.550       2.165       2.308       2.615
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    NEET             3.141       3.203       3.235       3.401       3.568       3.600       3.662
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    NEET             2.822       2.823       2.824       2.827       2.831       2.832       2.833
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     NEET             1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    NEET             3.141       3.203       3.235       3.401       3.568       3.600       3.662
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    NEET             2.822       2.823       2.824       2.827       2.831       2.832       2.833
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     NEET             1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    NEET             3.141       3.203       3.235       3.401       3.568       3.600       3.662
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    NEET             2.822       2.823       2.824       2.827       2.831       2.832       2.833
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     NEET             1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    NEET             3.141       3.203       3.235       3.401       3.568       3.600       3.662
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    NEET             2.822       2.823       2.824       2.827       2.831       2.832       2.833
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     NEET             1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    NEET             1.574       1.589       1.597       1.638       1.678       1.686       1.701
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    NEET             1.289       1.301       1.307       1.338       1.369       1.374       1.386
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    NEET             0.214       0.219       0.221       0.232       0.243       0.245       0.249
+    NEET             0.208       0.212       0.214       0.224       0.234       0.236       0.240
 
 Latent Class 2
 
  Means
-    NEET             1.574       1.589       1.597       1.638       1.678       1.686       1.701
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    NEET             1.289       1.301       1.307       1.338       1.369       1.374       1.386
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    NEET             0.214       0.219       0.221       0.232       0.243       0.245       0.249
+    NEET             0.208       0.212       0.214       0.224       0.234       0.236       0.240
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               NEET
               ________
-                1.546
+                1.305
 
 
            Covariances
               NEET
               ________
- NEET           0.248
+ NEET           0.212
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,34 +572,112 @@ TECHNICAL 7 OUTPUT
            Means
               NEET
               ________
-                1.683
+                1.406
 
 
            Covariances
               NEET
               ________
- NEET           0.216
+ NEET           0.241
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.086
+       Category 2        0.914
 
 
-     Beginning Time:  19:15:07
-        Ending Time:  19:15:07
-       Elapsed Time:  00:00:00
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              NEET
+              ________
+                1.338
+
+
+           Estimated Mixed Means
+              NEET
+              ________
+                1.338
+
+
+           Residuals for Mixed Means
+              NEET
+              ________
+                0.001
+
+
+           Observed Covariances
+              NEET
+              ________
+ NEET           0.224
+
+
+           Estimated Mixed Covariances
+              NEET
+              ________
+ NEET           0.224
+
+
+           Residuals for Mixed Covariances
+              NEET
+              ________
+ NEET           0.000
+
+
+           Observed Skewness
+              NEET
+              ________
+                0.684
+
+
+           Estimated Mixed Skewness
+              NEET
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              NEET
+              ________
+                0.684
+
+
+           Observed Kurtosis
+              NEET
+              ________
+               -1.531
+
+
+           Estimated Mixed Kurtosis
+              NEET
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              NEET
+              ________
+               -1.531
+
+
+     Beginning Time:  18:21:35
+        Ending Time:  18:21:36
+       Elapsed Time:  00:00:01
 
 
 

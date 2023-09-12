@@ -1,0 +1,637 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+09/11/2023   5:20 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_CPZ_24 - GBTM_P2_K2_S1000;
+
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SOFAS/Results/D3STEP/CPZ_24_D3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SOFAS_0 SOFAS_12 SOFAS_24 I S Q C_I C_S C_Q CPROB1 CPROB2 N CPZ_24;
+   MISSING=.;
+   USEVAR = CPZ_24 N;
+  NOMINAL = N;
+  CLASSES = c(2);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  %C#1%
+  [N#1@1.35];
+  [CPZ_24](M1); CPZ_24;
+  %C#2%
+  [N#1@-1.788];
+  [CPZ_24](M2); CPZ_24;
+  MODEL CONSTRAINT:
+  New (diff12);
+  diff12 = M1 - M2;
+  MODEL TEST:
+  M1 = M2;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+  TECH7;
+  TECH12;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  24
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_CPZ_24 - GBTM_P2_K2_S1000;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         665
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   CPZ_24
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/LGM/SOFAS/Results/D3STEP/CPZ_24_D3STEP.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              CPZ_24
+              ________
+ CPZ_24         0.677
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.431          280.000
+      Category 2    0.569          370.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              CPZ_24
+              ________
+              206.181
+
+
+           Covariances
+              CPZ_24
+              ________
+ CPZ_24     64184.942
+
+
+           Correlations
+              CPZ_24
+              ________
+ CPZ_24         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -3129.165
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     CPZ_24              206.181       2.679       0.000   20.44%       0.000    100.000    133.000
+             450.000   64184.941      10.002    1953.161    0.22%     178.580    332.500
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        5
+
+Loglikelihood
+
+          H0 Value                       -3533.529
+          H0 Scaling Correction Factor      1.9913
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    7077.058
+          Bayesian (BIC)                  7099.557
+          Sample-Size Adjusted BIC        7083.682
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                             12.776
+          Degrees of Freedom                     1
+          P-Value                           0.0004
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        324.67905          0.48824
+       2        340.32095          0.51176
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        324.67905          0.48824
+       2        340.32095          0.51176
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              248          0.37293
+       2              417          0.62707
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.340
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.869    0.131
+    2   0.262    0.738
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.664    0.336
+    2   0.095    0.905
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      0.681    0.000
+    2     -2.252    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    CPZ_24           133.194     19.715      6.756      0.000
+
+ Means
+    N#1                1.350      0.000    999.000    999.000
+
+ Variances
+    CPZ_24         11482.662   3495.314      3.285      0.001
+
+Latent Class 2
+
+ Means
+    CPZ_24           277.895     30.030      9.254      0.000
+
+ Means
+    N#1               -1.788      0.000    999.000    999.000
+
+ Variances
+    CPZ_24         *********  22069.832      4.784      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.047      0.170     -0.277      0.781
+
+New/Additional Parameters
+    DIFF12          -144.701     40.484     -3.574      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.830E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    CPZ_24             1.243      0.063     19.775      0.000
+
+ Variances
+    CPZ_24             1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    CPZ_24             0.855      0.059     14.537      0.000
+
+ Variances
+    CPZ_24             1.000      0.000    999.000    999.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    CPZ_24             1.243      0.063     19.775      0.000
+
+ Variances
+    CPZ_24             1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    CPZ_24             0.855      0.059     14.537      0.000
+
+ Variances
+    CPZ_24             1.000      0.000    999.000    999.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    CPZ_24           133.194     19.715      6.756      0.000
+
+ Variances
+    CPZ_24         11482.662   3495.314      3.285      0.001
+
+Latent Class 2
+
+ Means
+    CPZ_24           277.895     30.030      9.254      0.000
+
+ Variances
+    CPZ_24         *********  22069.832      4.784      0.000
+
+
+R-SQUARE
+
+Class 1
+
+Class 2
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    CPZ_24          82.413      94.553     100.763     133.194     165.624     171.834     183.974
+
+ Means
+    N#1              1.350       1.350       1.350       1.350       1.350       1.350       1.350
+
+ Variances
+    CPZ_24        2479.433    4631.847    5732.871   11482.662   17232.453   18333.477   20485.891
+
+Latent Class 2
+
+ Means
+    CPZ_24         200.544     219.036     228.496     277.895     327.295     336.754     355.246
+
+ Means
+    N#1             -1.788      -1.788      -1.788      -1.788      -1.788      -1.788      -1.788
+
+ Variances
+    CPZ_24       48743.449   62334.051   69286.047  105590.922  141895.797  148847.797  162438.391
+
+Categorical Latent Variables
+
+ Means
+    C#1             -0.484      -0.379      -0.326      -0.047       0.232       0.285       0.390
+
+New/Additional Parameters
+    DIFF12        -248.980    -224.050    -211.298    -144.701     -78.105     -65.353     -40.423
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    CPZ_24           1.081       1.120       1.140       1.243       1.346       1.366       1.405
+
+ Variances
+    CPZ_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    CPZ_24           0.704       0.740       0.758       0.855       0.952       0.971       1.007
+
+ Variances
+    CPZ_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    CPZ_24           1.081       1.120       1.140       1.243       1.346       1.366       1.405
+
+ Variances
+    CPZ_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    CPZ_24           0.704       0.740       0.758       0.855       0.952       0.971       1.007
+
+ Variances
+    CPZ_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    CPZ_24          82.413      94.553     100.763     133.194     165.624     171.834     183.974
+
+ Variances
+    CPZ_24        2479.433    4631.847    5732.871   11482.662   17232.453   18333.477   20485.891
+
+Latent Class 2
+
+ Means
+    CPZ_24         200.544     219.036     228.496     277.895     327.295     336.754     355.246
+
+ Variances
+    CPZ_24       48743.449   62334.051   69286.047  105590.922  141895.797  148847.797  162438.391
+
+
+TECHNICAL 7 OUTPUT
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 1
+
+
+           Means
+              CPZ_24
+              ________
+              133.225
+
+
+           Covariances
+              CPZ_24
+              ________
+ CPZ_24     11489.307
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
+
+
+           Means
+              CPZ_24
+              ________
+              277.893
+
+
+           Covariances
+              CPZ_24
+              ________
+ CPZ_24    105607.521
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
+
+     Variable
+     N
+       Category 1        0.674
+       Category 2        0.326
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
+
+     Variable
+     N
+       Category 1        0.200
+       Category 2        0.800
+
+
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              CPZ_24
+              ________
+              206.181
+
+
+           Estimated Mixed Means
+              CPZ_24
+              ________
+              207.246
+
+
+           Residuals for Mixed Means
+              CPZ_24
+              ________
+               -1.065
+
+
+           Observed Covariances
+              CPZ_24
+              ________
+ CPZ_24     64184.942
+
+
+           Estimated Mixed Covariances
+              CPZ_24
+              ________
+ CPZ_24     64875.313
+
+
+           Residuals for Mixed Covariances
+              CPZ_24
+              ________
+ CPZ_24      -690.372
+
+
+           Observed Skewness
+              CPZ_24
+              ________
+                2.679
+
+
+           Estimated Mixed Skewness
+              CPZ_24
+              ________
+                0.617
+
+
+           Residuals for Mixed Skewness
+              CPZ_24
+              ________
+                2.063
+
+
+           Observed Kurtosis
+              CPZ_24
+              ________
+               10.002
+
+
+           Estimated Mixed Kurtosis
+              CPZ_24
+              ________
+                1.548
+
+
+           Residuals for Mixed Kurtosis
+              CPZ_24
+              ________
+                8.454
+
+
+     Beginning Time:  17:20:11
+        Ending Time:  17:20:12
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

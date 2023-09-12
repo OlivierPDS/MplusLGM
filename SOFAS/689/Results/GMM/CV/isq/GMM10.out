@@ -1,0 +1,1109 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+09/05/2023   7:54 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  GMM_CV_isq_C
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SOFAS/689/SOFAS/Results/GMM/CV/isq/GMM10.dat";
+
+  VARIABLE:
+  NAMES = pin SOFAS_0 SOFAS_12 SOFAS_24;
+   MISSING=.;
+   USEVAR = SOFAS_0 SOFAS_12 SOFAS_24;
+  IDVAR = pin;
+  CLASSES = c(2);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 4000 1000;
+  K-1STARTS = 2000 500;
+  DISTRIBUTION = NORMAL;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  i s q | SOFAS_0@0 SOFAS_12@12 SOFAS_24@24;
+  i s q;
+  i WITH s q;
+  s WITH q;
+  SOFAS_0 SOFAS_12 SOFAS_24;
+  %C#1%
+  i s q;
+  i WITH s q;
+  s WITH q;
+  SOFAS_0 SOFAS_12 SOFAS_24 (1);
+  %C#2%
+  i s q;
+  i WITH s q;
+  s WITH q;
+  SOFAS_0 SOFAS_12 SOFAS_24 (2);
+  OUTPUT:
+  TECH7;
+  TECH11;
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+  SAVEDATA:
+  FILE = GMM_CV_isq_C_est.dat;
+  SAVE = CPROBABILITIES FSCORES;
+
+
+
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  39
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+GMM_CV_isq_C
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         650
+
+Number of dependent variables                                    3
+Number of independent variables                                  0
+Number of continuous latent variables                            3
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   SOFAS_0     SOFAS_12    SOFAS_24
+
+Continuous latent variables
+   I           S           Q
+
+Categorical latent variables
+   C
+
+Variables with special functions
+
+  ID variable           PIN
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                       4000
+  Number of final stage optimizations                         1000
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/LGM/SOFAS/689/SOFAS/Results/GMM/CV/isq/GMM10.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             7
+     Number of y missing data patterns           7
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0        0.937
+ SOFAS_12       0.629         0.686
+ SOFAS_24       0.426         0.388         0.452
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+               40.586        61.623        64.583
+
+
+           Covariances
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0      167.781
+ SOFAS_12      63.815       298.753
+ SOFAS_24      51.633       178.934       325.325
+
+
+           Correlations
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0        1.000
+ SOFAS_12       0.285         1.000
+ SOFAS_24       0.221         0.574         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -5526.046
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SOFAS_0              40.558       0.732      15.000    0.16%      30.000     35.000     40.000
+             609.000     167.692       0.207      85.000    0.16%      41.000     51.000
+     SOFAS_12             61.531      -0.180      20.000    0.22%      45.000     55.000     61.000
+             446.000     297.581      -0.825     100.000    0.22%      68.000     80.000
+     SOFAS_24             63.724      -0.278       5.000    0.34%      50.000     60.000     65.000
+             294.000     327.914      -0.630     100.000    0.68%      70.000     80.000
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+
+547 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+           -5413.265  691251           2249
+           -5413.265  346749           3671
+           -5413.265  820977           776
+           -5413.265  777178           2530
+           -5413.265  95624            1605
+           -5413.265  244349           736
+           -5413.265  139881           3304
+           -5413.265  914505           838
+           -5413.265  669610           3525
+           -5478.749  647690           1232
+           -5478.749  7959             256
+           -5478.749  36579            2265
+           -5478.749  49633            2701
+           -5478.749  529627           1542
+           -5478.749  533267           3192
+           -5478.749  588056           3232
+           -5478.749  299730           1627
+           -5478.749  242621           1642
+           -5478.749  705020           3296
+           -5478.749  818852           1650
+           -5478.749  812408           1705
+           -5478.749  526265           1962
+           -5478.749  382611           1990
+           -5478.749  213532           503
+           -5478.749  992389           77
+           -5478.749  570908           98
+           -5478.749  393232           152
+           -5478.749  364676           27
+           -5478.749  314034           513
+           -5478.749  24045            2066
+           -5478.749  49959            1074
+           -5478.749  734100           2162
+           -5478.749  213704           2165
+           -5478.749  374433           2240
+           -5478.749  699748           1120
+           -5478.749  561281           2393
+           -5478.749  493718           2394
+           -5478.749  417035           149
+           -5478.749  925846           2405
+           -5478.749  697540           2448
+           -5478.749  404870           2452
+           -5478.749  940258           1242
+           -5478.749  656945           1255
+           -5478.749  879118           2519
+           -5478.749  871188           1261
+           -5478.749  234198           2548
+           -5478.749  294811           637
+           -5478.749  341519           653
+           -5478.749  660326           2639
+           -5478.749  269586           2647
+           -5478.749  925186           1332
+           -5478.749  289739           1348
+           -5478.749  934216           1369
+           -5478.749  700855           2761
+           -5478.749  686384           690
+           -5478.749  519524           2835
+           -5478.749  979084           2837
+           -5478.749  884081           2875
+           -5478.749  91231            727
+           -5478.749  334766           2929
+           -5478.749  713348           2976
+           -5478.749  599306           2979
+           -5478.749  258251           2982
+           -5478.749  88437            761
+           -5478.749  242966           1523
+           -5478.749  596170           3074
+           -5478.749  225561           3077
+           -5478.749  961908           3194
+           -5478.749  240994           1598
+           -5478.749  715260           3217
+           -5478.749  16220            3221
+           -5478.749  128045           1614
+           -5478.749  272764           3230
+           -5478.749  544077           809
+           -5478.749  118724           3250
+           -5478.749  55115            408
+           -5478.749  990504           827
+           -5478.749  588699           828
+           -5478.749  427979           3337
+           -5478.749  893448           3352
+           -5478.749  954354           840
+           -5478.749  552100           3396
+           -5478.749  622568           3402
+           -5478.749  700270           855
+           -5478.749  816796           1728
+           -5478.749  651352           3463
+           -5478.749  576783           866
+           -5478.749  582916           1747
+           -5478.749  349898           3516
+           -5478.749  116150           3570
+           -5478.749  560824           3578
+           -5478.749  980970           894
+           -5478.749  80798            3616
+           -5478.749  945083           1842
+           -5478.749  299996           1853
+           -5478.749  318596           3710
+           -5478.749  243346           930
+           -5478.749  410023           1864
+           -5478.749  568973           3758
+           -5478.749  853118           1906
+           -5478.749  442009           3848
+           -5478.749  608208           1931
+           -5478.749  467831           3896
+           -5478.749  487467           3932
+           -5478.749  776546           2027
+           -5478.749  485256           371
+           -5478.749  748692           204
+           -5478.749  263049           454
+           -5478.749  579995           183
+           -5478.749  608460           244
+           -5478.749  168762           200
+           -5478.749  268896           124
+           -5478.749  475420           71
+           -5478.749  514326           325
+           -5478.749  726035           191
+           -5478.749  146900           391
+           -5478.749  340112           126
+           -5478.749  281558           184
+           -5478.749  79945            395
+           -5478.749  432148           30
+           -5478.749  691234           250
+           -5478.749  414828           322
+           -5478.749  369602           146
+           -5478.749  415931           10
+           -5478.749  971853           402
+           -5478.749  81117            305
+           -5478.749  89970            223
+           -5478.749  603842           61
+           -5478.749  540678           2071
+           -5478.749  207299           1039
+           -5478.749  722206           2085
+           -5478.749  231581           1048
+           -5478.749  295033           1052
+           -5478.749  468036           131
+           -5478.749  545756           1056
+           -5478.749  139885           2128
+           -5478.749  104520           1065
+           -5478.749  84233            2134
+           -5478.749  282955           1073
+           -5478.749  561273           2149
+           -5478.749  36090            2158
+           -5478.749  808376           2161
+           -5478.749  124661           2172
+           -5478.749  752513           2174
+           -5478.749  312061           2184
+           -5478.749  312018           2209
+           -5478.749  434915           552
+           -5478.749  279850           555
+           -5478.749  211555           2243
+           -5478.749  21260            1125
+           -5478.749  745606           2260
+           -5478.749  271886           2268
+           -5478.749  84502            2288
+           -5478.749  367213           2313
+           -5478.749  216340           2334
+           -5478.749  92564            583
+           -5478.749  346838           1170
+           -5478.749  855696           2357
+           -5478.749  44340            1189
+           -5478.749  156034           2381
+           -5478.749  463949           2403
+           -5478.749  258359           1202
+           -5478.749  931896           2418
+           -5478.749  213189           605
+           -5478.749  481060           2424
+           -5478.749  309989           2428
+           -5478.749  610396           2429
+           -5478.749  493368           2483
+           -5478.749  821750           2498
+           -5478.749  863378           2556
+           -5478.749  225932           1285
+           -5478.749  145602           2578
+           -5478.749  633681           2580
+           -5478.749  881268           1299
+           -5478.749  242502           2615
+           -5478.749  463409           2648
+           -5478.749  426364           1325
+           -5478.749  608552           2654
+           -5478.749  993504           2658
+           -5478.749  163116           1329
+           -5478.749  577058           2673
+           -5478.749  2292             2715
+           -5478.749  424818           2756
+           -5478.749  847341           1398
+           -5478.749  444307           2809
+           -5478.749  877272           1406
+           -5478.749  35191            703
+           -5478.749  570388           2819
+           -5478.749  117391           710
+           -5478.749  769797           1429
+           -5478.749  209869           2861
+           -5478.749  912489           1436
+           -5478.749  135072           2915
+           -5478.749  879349           1459
+           -5478.749  24384            2932
+           -5478.749  540217           1477
+           -5478.749  151923           2983
+           -5478.749  508613           1494
+           -5478.749  398584           2989
+           -5478.749  318177           748
+           -5478.749  525406           3029
+           -5478.749  860029           760
+           -5478.749  585607           1537
+           -5478.749  979276           3085
+           -5478.749  726787           1550
+           -5478.749  40947            3116
+           -5478.749  416250           390
+           -5478.749  797493           1563
+           -5478.749  793768           3129
+           -5478.749  870609           3160
+           -5478.749  898058           1586
+           -5478.749  364895           1590
+           -5478.749  485590           3195
+           -5478.749  407732           3211
+           -5478.749  619752           3244
+           -5478.749  919335           3253
+           -5478.749  377751           3260
+           -5478.749  810241           1634
+           -5478.749  103240           3297
+           -5478.749  850071           3311
+           -5478.749  151775           3317
+           -5478.749  48057            3318
+           -5478.749  679391           3354
+           -5478.749  538470           1681
+           -5478.749  172133           1697
+           -5478.749  573574           1703
+           -5478.749  437936           1717
+           -5478.749  452792           1726
+           -5478.749  576960           3456
+           -5478.749  720663           3478
+           -5478.749  276468           1739
+           -5478.749  230385           3488
+           -5478.749  633122           3524
+           -5478.749  301428           885
+           -5478.749  398480           3596
+           -5478.749  188640           451
+           -5478.749  379823           905
+           -5478.749  165382           1816
+           -5478.749  370434           1832
+           -5478.749  530559           1845
+           -5478.749  428893           1859
+           -5478.749  374630           1869
+           -5478.749  347110           3761
+           -5478.749  692399           3763
+           -5478.749  401377           1889
+           -5478.749  527050           948
+           -5478.749  351474           3805
+           -5478.749  91710            1908
+           -5478.749  332331           1913
+           -5478.749  406118           3827
+           -5478.749  373370           3833
+           -5478.749  356068           1924
+           -5478.749  817298           967
+           -5478.749  760380           3885
+           -5478.749  389485           3888
+           -5478.749  215483           1952
+           -5478.749  79902            3971
+           -5478.749  426708           3987
+           -5478.749  830529           279
+           -5478.749  395754           388
+           -5478.749  840078           203
+           -5478.749  283492           435
+           -5478.749  741888           138
+           -5478.749  407108           366
+           -5478.749  193569           440
+           -5478.749  567165           319
+           -5478.749  875667           367
+           -5478.749  120506           45
+           -5478.749  17359            227
+           -5478.749  301180           236
+           -5478.749  175199           247
+           -5478.749  39136            226
+           -5478.749  814975           129
+           -5478.749  526324           178
+           -5478.749  842511           2070
+           -5478.749  441119           2104
+           -5478.749  995249           525
+           -5478.749  830416           2120
+           -5478.749  804990           2154
+           -5478.749  507885           2157
+           -5478.749  140987           1093
+           -5478.749  358074           560
+           -5478.749  920346           2377
+           -5478.749  474350           2384
+           -5478.749  848356           602
+           -5478.749  355253           1233
+           -5478.749  29591            633
+           -5478.749  290980           1284
+           -5478.749  38165            2716
+           -5478.749  947822           2797
+           -5478.749  619388           2871
+           -5478.749  536082           1539
+           -5478.749  580539           786
+           -5478.749  798446           1622
+           -5478.749  175767           3362
+           -5478.749  359053           3552
+           -5478.749  69526            3599
+           -5478.749  424223           900
+           -5478.749  881552           3664
+           -5478.749  291344           3756
+           -5478.749  108148           3981
+           -5478.749  92355            1997
+           -5478.749  518472           2020
+           -5478.749  933578           506
+           -5478.749  700349           401
+           -5478.749  957392           79
+           -5478.749  877722           1053
+           -5478.749  708709           2603
+           -5478.749  101894           2632
+           -5478.749  189515           1616
+           -5478.749  211879           3922
+           -5478.749  579124           3973
+           -5478.749  37506            3489
+           -5478.749  81367            2914
+           -5478.749  92056            3068
+           -5478.749  502157           799
+           -5478.749  273423           2711
+           -5481.510  860643           1844
+           -5481.510  394609           1366
+           -5482.203  707032           1229
+           -5482.203  443741           1236
+           -5482.203  896897           3919
+           -5482.203  703715           2171
+           -5482.203  283146           1126
+           -5482.203  646573           741
+           -5482.203  22170            3245
+           -5482.203  199051           3709
+           -5482.203  30166            1888
+           -5482.203  914096           3861
+           -5490.103  776063           3497
+           -5490.103  747551           1190
+           -5490.103  951352           2419
+           -5490.103  749756           3321
+           -5490.103  859380           1113
+           -5490.103  185071           370
+           -5490.103  270249           2001
+           -5490.103  236935           3873
+           -5490.103  491690           3688
+           -5490.103  732596           320
+           -5490.103  168166           2532
+           -5490.103  690012           2686
+           -5490.103  797594           234
+           -5490.103  477063           2116
+           -5490.103  58353            1723
+           -5490.103  442512           2468
+           -5490.103  83866            1034
+           -5490.103  344422           296
+           -5490.103  224806           3213
+           -5490.103  866961           1139
+           -5490.103  502974           1998
+           -5490.103  726025           1445
+           -5490.103  314551           3955
+           -5494.103  191267           1599
+           -5494.103  224410           1220
+           -5495.629  280227           1863
+           -5500.137  859041           2096
+           -5502.600  149777           1434
+           -5502.620  919098           2465
+           -5502.620  645664           39
+           -5502.620  74049            2269
+           -5502.620  556955           1141
+           -5502.620  407520           2854
+           -5502.620  329944           1506
+           -5502.620  294669           501
+           -5502.620  522936           2978
+           -5502.620  735928           916
+           -5502.620  563002           360
+           -5502.620  634888           3641
+           -5502.620  667170           1379
+           -5502.620  407168           44
+           -5502.620  124999           96
+           -5502.620  725670           3837
+           -5502.620  711233           3782
+           -5509.618  461866           722
+           -5509.618  168000           3882
+           -5510.917  262076           2015
+           -5510.917  33553            2098
+           -5510.917  889774           954
+           -5510.917  696575           3397
+           -5510.917  681992           2466
+           -5526.046  232654           3169
+
+619 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+
+THE BEST LOGLIKELIHOOD VALUE HAS BEEN REPLICATED.  RERUN WITH AT LEAST TWICE THE
+RANDOM STARTS TO CHECK THAT THE BEST LOGLIKELIHOOD IS STILL OBTAINED AND REPLICATED.
+
+     THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES MAY NOT BE
+     TRUSTWORTHY FOR SOME PARAMETERS DUE TO A NON-POSITIVE DEFINITE
+     FIRST-ORDER DERIVATIVE PRODUCT MATRIX.  THIS MAY BE DUE TO THE STARTING
+     VALUES BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE
+     CONDITION NUMBER IS       0.688D-18.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
+     Parameter 2, %C#1%: [ I ]
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ILL-CONDITIONED
+     FISHER INFORMATION MATRIX.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO A NON-POSITIVE
+     DEFINITE FISHER INFORMATION MATRIX.  THIS MAY BE DUE TO THE STARTING VALUES
+     BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE CONDITION
+     NUMBER IS      -0.141D-15.
+
+     THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES COULD NOT BE
+     COMPUTED.  THIS IS OFTEN DUE TO THE STARTING VALUES BUT MAY ALSO BE
+     AN INDICATION OF MODEL NONIDENTIFICATION.  CHANGE YOUR MODEL AND/OR
+     STARTING VALUES.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
+     Parameter 2, %C#1%: [ I ]
+
+
+
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        114.62450          0.17635
+       2        535.37550          0.82365
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        114.62450          0.17635
+       2        535.37550          0.82365
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              126          0.19385
+       2              524          0.80615
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.833
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.844    0.156
+    2   0.016    0.984
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.927    0.073
+    2   0.037    0.963
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      2.546    0.000
+    2     -3.264    0.000
+
+
+MODEL RESULTS
+
+                    Estimate
+
+Latent Class 1
+
+ I        |
+    SOFAS_0            1.000
+    SOFAS_12           1.000
+    SOFAS_24           1.000
+
+ S        |
+    SOFAS_0            0.000
+    SOFAS_12          12.000
+    SOFAS_24          24.000
+
+ Q        |
+    SOFAS_0            0.000
+    SOFAS_12         144.000
+    SOFAS_24         576.000
+
+ I        WITH
+    S              *********
+    Q              *********
+
+ S        WITH
+    Q              *********
+
+ Means
+    I                 30.491
+    S                  3.089
+    Q                 -0.071
+
+ Intercepts
+    SOFAS_0            0.000
+    SOFAS_12           0.000
+    SOFAS_24           0.000
+
+ Variances
+    I              *********
+    S              *********
+    Q               4992.487
+
+ Residual Variances
+    SOFAS_0        *********
+    SOFAS_12       *********
+    SOFAS_24       *********
+
+Latent Class 2
+
+ I        |
+    SOFAS_0            1.000
+    SOFAS_12           1.000
+    SOFAS_24           1.000
+
+ S        |
+    SOFAS_0            0.000
+    SOFAS_12          12.000
+    SOFAS_24          24.000
+
+ Q        |
+    SOFAS_0            0.000
+    SOFAS_12         144.000
+    SOFAS_24         576.000
+
+ I        WITH
+    S              *********
+    Q              -6120.932
+
+ S        WITH
+    Q               3060.411
+
+ Means
+    I                 42.747
+    S                  2.388
+    Q                 -0.061
+
+ Intercepts
+    SOFAS_0            0.000
+    SOFAS_12           0.000
+    SOFAS_24           0.000
+
+ Variances
+    I              *********
+    S              *********
+    Q               -127.518
+
+ Residual Variances
+    SOFAS_0        *********
+    SOFAS_12       *********
+    SOFAS_24       *********
+
+Categorical Latent Variables
+
+ Means
+    C#1               -1.541
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     %OVERALL%
+
+     i s q | sofas_0@0 sofas_12@12 sofas_24@24;
+
+     [ c#1*-1.54131 ];
+
+     %C#1%
+
+     i WITH s*-8626997;
+     i WITH q*239638.79688;
+     s WITH q*-119819.68750;
+
+     [ sofas_0@0 ];
+     [ sofas_12@0 ];
+     [ sofas_24@0 ];
+     [ i*30.49105 ];
+     [ s*3.08897 ];
+     [ q*-0.07110 ];
+
+     sofas_0*-69015976 (1);
+     sofas_12*-69015976 (1);
+     sofas_24*-69015976 (1);
+     i*69015976;
+     s*3115312;
+     q*4992.48730;
+
+     %C#2%
+
+     i WITH s*220353.07812;
+     i WITH q*-6120.93164;
+     s WITH q*3060.41138;
+
+     [ sofas_0@0 ];
+     [ sofas_12@0 ];
+     [ sofas_24@0 ];
+     [ i*42.74672 ];
+     [ s*2.38828 ];
+     [ q*-0.06110 ];
+
+     sofas_0*1762935.12500 (11);
+     sofas_12*1762935.12500 (11);
+     sofas_24*1762935.12500 (11);
+     i*-1762757.87500;
+     s*-79570.21875;
+     q*-127.51763;
+
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 1
+
+
+           NU
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+                    0             0             0
+
+
+           LAMBDA
+              I             S             Q
+              ________      ________      ________
+ SOFAS_0            0             0             0
+ SOFAS_12           0             0             0
+ SOFAS_24           0             0             0
+
+
+           THETA
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0            1
+ SOFAS_12           0             1
+ SOFAS_24           0             0             1
+
+
+           ALPHA
+              I             S             Q
+              ________      ________      ________
+                    2             3             4
+
+
+           BETA
+              I             S             Q
+              ________      ________      ________
+ I                  0             0             0
+ S                  0             0             0
+ Q                  0             0             0
+
+
+           PSI
+              I             S             Q
+              ________      ________      ________
+ I                  5
+ S                  6             7
+ Q                  8             9            10
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 2
+
+
+           NU
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+                    0             0             0
+
+
+           LAMBDA
+              I             S             Q
+              ________      ________      ________
+ SOFAS_0            0             0             0
+ SOFAS_12           0             0             0
+ SOFAS_24           0             0             0
+
+
+           THETA
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0           11
+ SOFAS_12           0            11
+ SOFAS_24           0             0            11
+
+
+           ALPHA
+              I             S             Q
+              ________      ________      ________
+                   12            13            14
+
+
+           BETA
+              I             S             Q
+              ________      ________      ________
+ I                  0             0             0
+ S                  0             0             0
+ Q                  0             0             0
+
+
+           PSI
+              I             S             Q
+              ________      ________      ________
+ I                 15
+ S                 16            17
+ Q                 18            19            20
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS REGRESSION MODEL PART
+
+
+           ALPHA(C)
+              C#1           C#2
+              ________      ________
+                   21             0
+
+
+     STARTING VALUES FOR LATENT CLASS 1
+
+
+           NU
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           LAMBDA
+              I             S             Q
+              ________      ________      ________
+ SOFAS_0        1.000         0.000         0.000
+ SOFAS_12       1.000        12.000       144.000
+ SOFAS_24       1.000        24.000       576.000
+
+
+           THETA
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0       83.846
+ SOFAS_12       0.000       148.790
+ SOFAS_24       0.000         0.000       163.957
+
+
+           ALPHA
+              I             S             Q
+              ________      ________      ________
+               39.556         2.459        -0.061
+
+
+           BETA
+              I             S             Q
+              ________      ________      ________
+ I              0.000         0.000         0.000
+ S              0.000         0.000         0.000
+ Q              0.000         0.000         0.000
+
+
+           PSI
+              I             S             Q
+              ________      ________      ________
+ I            138.423
+ S              0.000         7.127
+ Q              0.000         0.000         0.010
+
+
+     STARTING VALUES FOR LATENT CLASS 2
+
+
+           NU
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+                0.000         0.000         0.000
+
+
+           LAMBDA
+              I             S             Q
+              ________      ________      ________
+ SOFAS_0        1.000         0.000         0.000
+ SOFAS_12       1.000        12.000       144.000
+ SOFAS_24       1.000        24.000       576.000
+
+
+           THETA
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0       83.846
+ SOFAS_12       0.000       148.790
+ SOFAS_24       0.000         0.000       163.957
+
+
+           ALPHA
+              I             S             Q
+              ________      ________      ________
+               39.556         2.459        -0.061
+
+
+           BETA
+              I             S             Q
+              ________      ________      ________
+ I              0.000         0.000         0.000
+ S              0.000         0.000         0.000
+ Q              0.000         0.000         0.000
+
+
+           PSI
+              I             S             Q
+              ________      ________      ________
+ I            138.423
+ S              0.000         7.127
+ Q              0.000         0.000         0.010
+
+
+     STARTING VALUES FOR LATENT CLASS REGRESSION MODEL PART
+
+
+           ALPHA(C)
+              C#1           C#2
+              ________      ________
+                0.000         0.000
+
+
+TECHNICAL 7 OUTPUT
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 1
+
+
+           Means
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+               30.490        57.456        63.054
+
+
+           Covariances
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0        0.263
+ SOFAS_12      -5.000       326.900
+ SOFAS_24       1.552       165.713       294.507
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
+
+
+           Means
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+               42.716        62.399        63.866
+
+
+           Covariances
+              SOFAS_0       SOFAS_12      SOFAS_24
+              ________      ________      ________
+ SOFAS_0      177.193
+ SOFAS_12      31.194       287.052
+ SOFAS_24     -52.654        89.356       334.848
+
+
+TECHNICAL 11 OUTPUT
+
+     Random Starts Specifications for the k-1 Class Analysis Model
+        Number of initial stage random starts                2000
+        Number of final stage optimizations                   500
+
+
+
+SAVEDATA INFORMATION
+
+     Factor scores were not computed.
+     Class probabilities were not computed.
+     No data were saved.
+
+
+     Beginning Time:  19:54:05
+        Ending Time:  19:54:40
+       Elapsed Time:  00:00:35
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

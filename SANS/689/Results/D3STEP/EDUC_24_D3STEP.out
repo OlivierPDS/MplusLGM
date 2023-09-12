@@ -1,0 +1,604 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+08/23/2023   3:19 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_EDUC_24 - GMM_CI_isq@0cub@0_C_223_113;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/D3STEP/EDUC_24_D3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N EDUC_24;
+   MISSING=.;
+   USEVAR = EDUC_24 N;
+  NOMINAL = N;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  %C#1%
+  [N#1@1.778];
+  [N#2@-1.142];
+  [EDUC_24](M1); EDUC_24;
+  %C#2%
+  [N#1@0.278];
+  [N#2@1.326];
+  [EDUC_24](M2); EDUC_24;
+  %C#3%
+  [N#1@-1.822];
+  [N#2@-2.898];
+  [EDUC_24](M3); EDUC_24;
+  MODEL CONSTRAINT:
+  New (diff12 diff13 diff23);
+  diff12 = M1 - M2;
+  diff13 = M1 - M3;
+  diff23 = M2 - M3;
+  MODEL TEST:
+  M1 = M2;
+  M2 = M3;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_EDUC_24 - GMM_CI_isq@0cub@0_C_223_113;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         404
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   EDUC_24
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/D3STEP/EDUC_24_D3STEP.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              EDUC_24
+              ________
+ EDUC_24        0.265
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.411          166.000
+      Category 2    0.163           66.000
+      Category 3    0.426          172.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              EDUC_24
+              ________
+               12.346
+
+
+           Covariances
+              EDUC_24
+              ________
+ EDUC_24        6.769
+
+
+           Correlations
+              EDUC_24
+              ________
+ EDUC_24        1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -254.132
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     EDUC_24              12.346       0.150       7.000    1.87%      10.000     11.000     12.000
+             107.000       6.768      -0.796      18.000    1.87%      13.000     15.000
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        8
+
+Loglikelihood
+
+          H0 Value                        -660.916
+          H0 Scaling Correction Factor      0.8783
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    1337.832
+          Bayesian (BIC)                  1369.843
+          Sample-Size Adjusted BIC        1344.458
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                             49.187
+          Degrees of Freedom                     2
+          P-Value                           0.0000
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        149.53298          0.37013
+       2         85.98073          0.21282
+       3        168.48628          0.41705
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        149.53298          0.37013
+       2         85.98073          0.21282
+       3        168.48628          0.41705
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              164          0.40594
+       2               70          0.17327
+       3              170          0.42079
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.419
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.761    0.103    0.136
+    2   0.090    0.773    0.137
+    3   0.108    0.088    0.803
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.835    0.042    0.123
+    2   0.196    0.629    0.175
+    3   0.133    0.057    0.810
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      1.912   -1.075    0.000
+    2      0.112    1.281    0.000
+    3     -1.808   -2.656    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    EDUC_24           10.033      0.344     29.186      0.000
+
+ Means
+    N#1                1.778      0.000    999.000    999.000
+    N#2               -1.142      0.000    999.000    999.000
+
+ Variances
+    EDUC_24            2.232      0.686      3.255      0.001
+
+Latent Class 2
+
+ Means
+    EDUC_24           14.064      1.101     12.775      0.000
+
+ Means
+    N#1                0.278      0.000    999.000    999.000
+    N#2                1.326      0.000    999.000    999.000
+
+ Variances
+    EDUC_24            5.861      2.162      2.711      0.007
+
+Latent Class 3
+
+ Means
+    EDUC_24           13.295      0.430     30.923      0.000
+
+ Means
+    N#1               -1.822      0.000    999.000    999.000
+    N#2               -2.898      0.000    999.000    999.000
+
+ Variances
+    EDUC_24            4.643      0.863      5.384      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.119      0.167     -0.713      0.476
+    C#2               -0.673      0.206     -3.270      0.001
+
+New/Additional Parameters
+    DIFF12            -4.031      1.153     -3.497      0.000
+    DIFF13            -3.263      0.569     -5.733      0.000
+    DIFF23             0.769      1.332      0.577      0.564
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.124E-02
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    EDUC_24            6.715      0.952      7.057      0.000
+
+ Variances
+    EDUC_24            1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    EDUC_24            5.809      1.444      4.024      0.000
+
+ Variances
+    EDUC_24            1.000      0.000    999.000    999.000
+
+Latent Class 3
+
+ Means
+    EDUC_24            6.170      0.667      9.250      0.000
+
+ Variances
+    EDUC_24            1.000      0.000    999.000    999.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    EDUC_24            6.715      0.952      7.057      0.000
+
+ Variances
+    EDUC_24            1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    EDUC_24            5.809      1.444      4.024      0.000
+
+ Variances
+    EDUC_24            1.000      0.000    999.000    999.000
+
+Latent Class 3
+
+ Means
+    EDUC_24            6.170      0.667      9.250      0.000
+
+ Variances
+    EDUC_24            1.000      0.000    999.000    999.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    EDUC_24           10.033      0.344     29.186      0.000
+
+ Variances
+    EDUC_24            2.232      0.686      3.255      0.001
+
+Latent Class 2
+
+ Means
+    EDUC_24           14.064      1.101     12.775      0.000
+
+ Variances
+    EDUC_24            5.861      2.162      2.711      0.007
+
+Latent Class 3
+
+ Means
+    EDUC_24           13.295      0.430     30.923      0.000
+
+ Variances
+    EDUC_24            4.643      0.863      5.384      0.000
+
+
+R-SQUARE
+
+Class 1
+
+Class 2
+
+Class 3
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    EDUC_24          9.147       9.359       9.467      10.033      10.598      10.706      10.918
+
+ Means
+    N#1              1.778       1.778       1.778       1.778       1.778       1.778       1.778
+    N#2             -1.142      -1.142      -1.142      -1.142      -1.142      -1.142      -1.142
+
+ Variances
+    EDUC_24          0.466       0.888       1.104       2.232       3.360       3.576       3.999
+
+Latent Class 2
+
+ Means
+    EDUC_24         11.228      11.906      12.253      14.064      15.875      16.222      16.899
+
+ Means
+    N#1              0.278       0.278       0.278       0.278       0.278       0.278       0.278
+    N#2              1.326       1.326       1.326       1.326       1.326       1.326       1.326
+
+ Variances
+    EDUC_24          0.292       1.624       2.305       5.861       9.417      10.098      11.429
+
+Latent Class 3
+
+ Means
+    EDUC_24         12.188      12.453      12.588      13.295      14.002      14.138      14.403
+
+ Means
+    N#1             -1.822      -1.822      -1.822      -1.822      -1.822      -1.822      -1.822
+    N#2             -2.898      -2.898      -2.898      -2.898      -2.898      -2.898      -2.898
+
+ Variances
+    EDUC_24          2.422       2.953       3.225       4.643       6.062       6.334       6.865
+
+Categorical Latent Variables
+
+ Means
+    C#1             -0.551      -0.448      -0.395      -0.119       0.156       0.209       0.312
+    C#2             -1.203      -1.076      -1.011      -0.673      -0.334      -0.269      -0.143
+
+New/Additional Parameters
+    DIFF12          -7.000      -6.290      -5.927      -4.031      -2.135      -1.772      -1.062
+    DIFF13          -4.729      -4.378      -4.199      -3.263      -2.326      -2.147      -1.797
+    DIFF23          -2.661      -1.841      -1.422       0.769       2.959       3.378       4.198
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    EDUC_24          4.264       4.850       5.150       6.715       8.280       8.580       9.166
+
+ Variances
+    EDUC_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    EDUC_24          2.091       2.980       3.434       5.809       8.184       8.639       9.528
+
+ Variances
+    EDUC_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 3
+
+ Means
+    EDUC_24          4.452       4.863       5.073       6.170       7.267       7.477       7.888
+
+ Variances
+    EDUC_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    EDUC_24          4.264       4.850       5.150       6.715       8.280       8.580       9.166
+
+ Variances
+    EDUC_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    EDUC_24          2.091       2.980       3.434       5.809       8.184       8.639       9.528
+
+ Variances
+    EDUC_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 3
+
+ Means
+    EDUC_24          4.452       4.863       5.073       6.170       7.267       7.477       7.888
+
+ Variances
+    EDUC_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    EDUC_24          9.147       9.359       9.467      10.033      10.598      10.706      10.918
+
+ Variances
+    EDUC_24          0.466       0.888       1.104       2.232       3.360       3.576       3.999
+
+Latent Class 2
+
+ Means
+    EDUC_24         11.228      11.906      12.253      14.064      15.875      16.222      16.899
+
+ Variances
+    EDUC_24          0.292       1.624       2.305       5.861       9.417      10.098      11.429
+
+Latent Class 3
+
+ Means
+    EDUC_24         12.188      12.453      12.588      13.295      14.002      14.138      14.403
+
+ Variances
+    EDUC_24          2.422       2.953       3.225       4.643       6.062       6.334       6.865
+
+
+     Beginning Time:  15:19:17
+        Ending Time:  15:19:17
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

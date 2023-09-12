@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_ageentry;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/ageentry_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/ageentry_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N ageentry;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N ageentry;
    MISSING=.;
    USEVAR = N ageentry;
   NOMINAL = N;
@@ -20,21 +20,22 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON ageentry;
   ageentry;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
@@ -48,7 +49,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_ageentry;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         689
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +106,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/ageentry_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/ageentry_R3STEP.dat
 Input data format  FREE
 
 
@@ -133,8 +134,8 @@ Minimum covariance coverage value   0.100
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +147,13 @@ SAMPLE STATISTICS
            Means
               AGEENTRY
               ________
-               23.602
+               23.652
 
 
            Covariances
               AGEENTRY
               ________
- AGEENTRY      21.420
+ AGEENTRY      22.893
 
 
            Correlations
@@ -161,7 +162,7 @@ SAMPLE STATISTICS
  AGEENTRY       1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1192.246
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -2056.214
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +173,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     AGEENTRY             23.602       0.399      14.795    0.25%      19.430     21.625     23.033
-             404.000      21.420      -0.575      35.241    0.25%      24.688     27.704
+     AGEENTRY             23.652       0.508      14.071    0.15%      19.364     21.625     22.912
+             689.000      22.893      -0.416      36.181    0.15%      24.485     27.929
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +187,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                       -1438.634
-          H0 Scaling Correction Factor      0.9357
+          H0 Value                       -2476.168
+          H0 Scaling Correction Factor      0.9511
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    2885.268
-          Bayesian (BIC)                  2901.274
-          Sample-Size Adjusted BIC        2888.582
+          Akaike (AIC)                    4960.335
+          Bayesian (BIC)                  4978.476
+          Sample-Size Adjusted BIC        4965.776
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +206,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.06761          0.32938
-       2        270.93239          0.67062
+       1        467.86672          0.67905
+       2        221.13328          0.32095
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +216,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.06760          0.32938
-       2        270.93240          0.67062
+       1        467.86672          0.67905
+       2        221.13328          0.32095
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +228,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              470          0.68215
+       2              219          0.31785
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.843
+     Entropy                         0.690
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +242,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.954    0.046
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +251,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.026    0.974
+    1   0.958    0.042
+    2   0.098    0.902
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +260,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.694    0.000
-    2     -3.606    0.000
+    1      3.128    0.000
+    2     -2.214    0.000
 
 
 MODEL RESULTS
@@ -271,33 +272,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    AGEENTRY          23.602      0.230    102.500      0.000
-    N#1                3.700      0.000    999.000    999.000
+    AGEENTRY          23.652      0.182    129.754      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    AGEENTRY          21.421      1.272     16.836      0.000
+    AGEENTRY          22.893      1.098     20.859      0.000
 
 Latent Class 2
 
  Means
-    AGEENTRY          23.602      0.230    102.500      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    AGEENTRY          23.652      0.182    129.754      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    AGEENTRY          21.421      1.272     16.836      0.000
+    AGEENTRY          22.893      1.098     20.859      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    AGEENTRY           0.123      0.026      4.695      0.000
+    AGEENTRY          -0.074      0.020     -3.655      0.000
 
  Intercepts
-    C#1               -3.672      0.650     -5.647      0.000
+    C#1                2.516      0.497      5.061      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.178E-03
+     Condition Number for the Information Matrix              0.954E-04
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +310,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    AGEENTRY           1.131      0.030      1.075      1.191
+    AGEENTRY           0.929      0.019      0.893      0.966
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +321,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    AGEENTRY          -0.123      0.026     -4.695      0.000
+    AGEENTRY           0.074      0.020      3.655      0.000
 
  Intercepts
-    C#2                3.672      0.650      5.647      0.000
+    C#2               -2.516      0.497     -5.061      0.000
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +335,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    AGEENTRY           0.884      0.023      0.840      0.931
+    AGEENTRY           1.077      0.022      1.035      1.120
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +349,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    AGEENTRY           5.099      0.143     35.720      0.000
-    N#1                3.700      0.000    999.000    999.000
+    AGEENTRY           4.943      0.109     45.410      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     AGEENTRY           1.000      0.000    999.000    999.000
@@ -357,8 +358,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    AGEENTRY           5.099      0.143     35.720      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    AGEENTRY           4.943      0.109     45.410      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     AGEENTRY           1.000      0.000    999.000    999.000
@@ -372,8 +373,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    AGEENTRY           5.099      0.143     35.720      0.000
-    N#1                3.700      0.000    999.000    999.000
+    AGEENTRY           4.943      0.109     45.410      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     AGEENTRY           1.000      0.000    999.000    999.000
@@ -381,8 +382,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    AGEENTRY           5.099      0.143     35.720      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    AGEENTRY           4.943      0.109     45.410      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     AGEENTRY           1.000      0.000    999.000    999.000
@@ -396,20 +397,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    AGEENTRY          23.602      0.230    102.500      0.000
-    N#1                3.700      0.000    999.000    999.000
+    AGEENTRY          23.652      0.182    129.754      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    AGEENTRY          21.421      1.272     16.836      0.000
+    AGEENTRY          22.893      1.098     20.859      0.000
 
 Latent Class 2
 
  Means
-    AGEENTRY          23.602      0.230    102.500      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    AGEENTRY          23.652      0.182    129.754      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    AGEENTRY          21.421      1.272     16.836      0.000
+    AGEENTRY          22.893      1.098     20.859      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +420,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    AGEENTRY        23.009      23.150      23.223      23.602      23.980      24.053      24.195
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    AGEENTRY        23.182      23.294      23.352      23.652      23.951      24.009      24.121
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    AGEENTRY        18.144      18.927      19.328      21.421      23.514      23.915      24.698
+    AGEENTRY        20.066      20.742      21.088      22.893      24.699      25.044      25.720
 
 Latent Class 2
 
  Means
-    AGEENTRY        23.009      23.150      23.223      23.602      23.980      24.053      24.195
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    AGEENTRY        23.182      23.294      23.352      23.652      23.951      24.009      24.121
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    AGEENTRY        18.144      18.927      19.328      21.421      23.514      23.915      24.698
+    AGEENTRY        20.066      20.742      21.088      22.893      24.699      25.044      25.720
 
 Categorical Latent Variables
 
  C#1      ON
-    AGEENTRY         0.056       0.072       0.080       0.123       0.167       0.175       0.191
+    AGEENTRY        -0.126      -0.113      -0.107      -0.074      -0.041      -0.034      -0.022
 
  Intercepts
-    C#1             -5.347      -4.946      -4.742      -3.672      -2.602      -2.397      -1.997
+    C#1              1.235       1.542       1.698       2.516       3.334       3.490       3.797
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +449,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    AGEENTRY         1.057       1.075       1.083       1.131       1.181       1.191       1.210
+    AGEENTRY         0.882       0.893       0.898       0.929       0.960       0.966       0.978
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +457,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    AGEENTRY        -0.191      -0.175      -0.167      -0.123      -0.080      -0.072      -0.056
+    AGEENTRY         0.022       0.034       0.041       0.074       0.107       0.113       0.126
 
  Intercepts
-    C#2              1.997       2.397       2.602       3.672       4.742       4.946       5.347
+    C#2             -3.797      -3.490      -3.334      -2.516      -1.698      -1.542      -1.235
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +469,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    AGEENTRY         0.826       0.840       0.847       0.884       0.923       0.931       0.946
+    AGEENTRY         1.022       1.035       1.041       1.077       1.113       1.120       1.134
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +482,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    AGEENTRY         4.732       4.820       4.865       5.099       5.334       5.379       5.467
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    AGEENTRY         4.663       4.730       4.764       4.943       5.122       5.157       5.224
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     AGEENTRY         1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +491,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    AGEENTRY         4.732       4.820       4.865       5.099       5.334       5.379       5.467
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    AGEENTRY         4.663       4.730       4.764       4.943       5.122       5.157       5.224
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     AGEENTRY         1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +505,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    AGEENTRY         4.732       4.820       4.865       5.099       5.334       5.379       5.467
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    AGEENTRY         4.663       4.730       4.764       4.943       5.122       5.157       5.224
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     AGEENTRY         1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +514,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    AGEENTRY         4.732       4.820       4.865       5.099       5.334       5.379       5.467
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    AGEENTRY         4.663       4.730       4.764       4.943       5.122       5.157       5.224
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     AGEENTRY         1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +528,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    AGEENTRY        23.009      23.150      23.223      23.602      23.980      24.053      24.195
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    AGEENTRY        23.182      23.294      23.352      23.652      23.951      24.009      24.121
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    AGEENTRY        18.144      18.927      19.328      21.421      23.514      23.915      24.698
+    AGEENTRY        20.066      20.742      21.088      22.893      24.699      25.044      25.720
 
 Latent Class 2
 
  Means
-    AGEENTRY        23.009      23.150      23.223      23.602      23.980      24.053      24.195
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    AGEENTRY        23.182      23.294      23.352      23.652      23.951      24.009      24.121
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    AGEENTRY        18.144      18.927      19.328      21.421      23.514      23.915      24.698
+    AGEENTRY        20.066      20.742      21.088      22.893      24.699      25.044      25.720
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +553,13 @@ TECHNICAL 7 OUTPUT
            Means
               AGEENTRY
               ________
-               25.332
+               23.106
 
 
            Covariances
               AGEENTRY
               ________
- AGEENTRY      21.634
+ AGEENTRY      21.654
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,33 +568,111 @@ TECHNICAL 7 OUTPUT
            Means
               AGEENTRY
               ________
-               22.752
+               24.806
 
 
            Covariances
               AGEENTRY
               ________
- AGEENTRY      19.122
+ AGEENTRY      23.549
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.026
-       Category 2        0.974
+       Category 1        0.086
+       Category 2        0.914
 
 
-     Beginning Time:  19:15:08
-        Ending Time:  19:15:08
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              AGEENTRY
+              ________
+               23.652
+
+
+           Estimated Mixed Means
+              AGEENTRY
+              ________
+               23.652
+
+
+           Residuals for Mixed Means
+              AGEENTRY
+              ________
+                0.000
+
+
+           Observed Covariances
+              AGEENTRY
+              ________
+ AGEENTRY      22.893
+
+
+           Estimated Mixed Covariances
+              AGEENTRY
+              ________
+ AGEENTRY      22.893
+
+
+           Residuals for Mixed Covariances
+              AGEENTRY
+              ________
+ AGEENTRY      -0.001
+
+
+           Observed Skewness
+              AGEENTRY
+              ________
+                0.508
+
+
+           Estimated Mixed Skewness
+              AGEENTRY
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              AGEENTRY
+              ________
+                0.508
+
+
+           Observed Kurtosis
+              AGEENTRY
+              ________
+               -0.416
+
+
+           Estimated Mixed Kurtosis
+              AGEENTRY
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              AGEENTRY
+              ________
+               -0.416
+
+
+     Beginning Time:  18:21:37
+        Ending Time:  18:21:37
        Elapsed Time:  00:00:00
 
 

@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_vism_z;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/vism_z_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/vism_z_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N vism_z;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N vism_z;
    MISSING=.;
    USEVAR = N vism_z;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON vism_z;
   vism_z;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  7
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_vism_z;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         682
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +110,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/vism_z_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/vism_z_R3STEP.dat
 Input data format  FREE
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               VISM_Z
               ________
- VISM_Z         0.312
+ VISM_Z         0.327
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               VISM_Z
               ________
-               -0.599
+               -0.724
 
 
            Covariances
               VISM_Z
               ________
- VISM_Z         1.017
+ VISM_Z         0.992
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  VISM_Z         1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -179.835
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -315.533
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     VISM_Z               -0.599      -0.738      -4.300    0.79%      -1.359     -0.752     -0.534
-             126.000       1.017       1.092       1.417    0.79%      -0.300      0.200
+     VISM_Z               -0.724      -0.645      -4.300    0.45%      -1.570     -0.828     -0.611
+             223.000       0.992       0.741       1.417    0.45%      -0.400      0.100
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                        -438.342
-          H0 Scaling Correction Factor      1.1399
+          H0 Value                        -742.324
+          H0 Scaling Correction Factor      1.1015
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                     884.685
-          Bayesian (BIC)                   900.691
-          Sample-Size Adjusted BIC         887.998
+          Akaike (AIC)                    1492.649
+          Bayesian (BIC)                  1510.749
+          Sample-Size Adjusted BIC        1498.048
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.04489          0.32932
-       2        270.95511          0.67068
+       1        463.15289          0.67911
+       2        218.84711          0.32089
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.01739          0.32925
-       2        270.98261          0.67075
+       1        463.16731          0.67913
+       2        218.83269          0.32087
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              463          0.67889
+       2              219          0.32111
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.837
+     Entropy                         0.691
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.958    0.042
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.957    0.043
+    2   0.089    0.911
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.700    0.000
-    2     -3.602    0.000
+    1      3.114    0.000
+    2     -2.322    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    VISM_Z            -0.579      0.087     -6.629      0.000
-    N#1                3.700      0.000    999.000    999.000
+    VISM_Z            -0.713      0.066    -10.795      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    VISM_Z             1.010      0.154      6.570      0.000
+    VISM_Z             0.986      0.107      9.244      0.000
 
 Latent Class 2
 
  Means
-    VISM_Z            -0.579      0.087     -6.629      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    VISM_Z            -0.713      0.066    -10.795      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    VISM_Z             1.010      0.154      6.570      0.000
+    VISM_Z             0.986      0.107      9.244      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    VISM_Z            -0.137      0.196     -0.700      0.484
+    VISM_Z            -0.090      0.169     -0.534      0.593
 
  Intercepts
-    C#1               -0.794      0.168     -4.733      0.000
+    C#1                0.687      0.148      4.630      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.106E+00
+     Condition Number for the Information Matrix              0.857E-01
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    VISM_Z             0.872      0.171      0.595      1.279
+    VISM_Z             0.914      0.154      0.656      1.273
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    VISM_Z             0.137      0.196      0.700      0.484
+    VISM_Z             0.090      0.169      0.534      0.593
 
  Intercepts
-    C#2                0.794      0.168      4.733      0.000
+    C#2               -0.687      0.148     -4.630      0.000
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    VISM_Z             1.147      0.224      0.782      1.682
+    VISM_Z             1.095      0.185      0.786      1.525
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    VISM_Z            -0.576      0.081     -7.140      0.000
-    N#1                3.700      0.000    999.000    999.000
+    VISM_Z            -0.718      0.062    -11.495      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     VISM_Z             1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    VISM_Z            -0.576      0.081     -7.140      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    VISM_Z            -0.718      0.062    -11.495      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     VISM_Z             1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    VISM_Z            -0.576      0.081     -7.140      0.000
-    N#1                3.700      0.000    999.000    999.000
+    VISM_Z            -0.718      0.062    -11.495      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     VISM_Z             1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    VISM_Z            -0.576      0.081     -7.140      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    VISM_Z            -0.718      0.062    -11.495      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     VISM_Z             1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    VISM_Z            -0.579      0.087     -6.629      0.000
-    N#1                3.700      0.000    999.000    999.000
+    VISM_Z            -0.713      0.066    -10.795      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    VISM_Z             1.010      0.154      6.570      0.000
+    VISM_Z             0.986      0.107      9.244      0.000
 
 Latent Class 2
 
  Means
-    VISM_Z            -0.579      0.087     -6.629      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    VISM_Z            -0.713      0.066    -10.795      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    VISM_Z             1.010      0.154      6.570      0.000
+    VISM_Z             0.986      0.107      9.244      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    VISM_Z          -0.804      -0.750      -0.722      -0.579      -0.435      -0.408      -0.354
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    VISM_Z          -0.883      -0.842      -0.821      -0.713      -0.604      -0.583      -0.543
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    VISM_Z           0.614       0.709       0.757       1.010       1.263       1.312       1.407
+    VISM_Z           0.711       0.777       0.810       0.986       1.161       1.195       1.261
 
 Latent Class 2
 
  Means
-    VISM_Z          -0.804      -0.750      -0.722      -0.579      -0.435      -0.408      -0.354
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    VISM_Z          -0.883      -0.842      -0.821      -0.713      -0.604      -0.583      -0.543
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    VISM_Z           0.614       0.709       0.757       1.010       1.263       1.312       1.407
+    VISM_Z           0.711       0.777       0.810       0.986       1.161       1.195       1.261
 
 Categorical Latent Variables
 
  C#1      ON
-    VISM_Z          -0.640      -0.520      -0.458      -0.137       0.185       0.246       0.367
+    VISM_Z          -0.526      -0.422      -0.368      -0.090       0.188       0.241       0.345
 
  Intercepts
-    C#1             -1.226      -1.123      -1.070      -0.794      -0.518      -0.465      -0.362
+    C#1              0.305       0.396       0.443       0.687       0.931       0.978       1.069
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    VISM_Z           0.527       0.595       0.632       0.872       1.203       1.279       1.443
+    VISM_Z           0.591       0.656       0.692       0.914       1.207       1.273       1.412
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    VISM_Z          -0.367      -0.246      -0.185       0.137       0.458       0.520       0.640
+    VISM_Z          -0.345      -0.241      -0.188       0.090       0.368       0.422       0.526
 
  Intercepts
-    C#2              0.362       0.465       0.518       0.794       1.070       1.123       1.226
+    C#2             -1.069      -0.978      -0.931      -0.687      -0.443      -0.396      -0.305
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    VISM_Z           0.693       0.782       0.831       1.147       1.582       1.682       1.897
+    VISM_Z           0.708       0.786       0.829       1.095       1.446       1.525       1.692
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    VISM_Z          -0.783      -0.734      -0.708      -0.576      -0.443      -0.418      -0.368
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    VISM_Z          -0.879      -0.840      -0.821      -0.718      -0.615      -0.595      -0.557
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     VISM_Z           1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    VISM_Z          -0.783      -0.734      -0.708      -0.576      -0.443      -0.418      -0.368
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    VISM_Z          -0.879      -0.840      -0.821      -0.718      -0.615      -0.595      -0.557
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     VISM_Z           1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    VISM_Z          -0.783      -0.734      -0.708      -0.576      -0.443      -0.418      -0.368
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    VISM_Z          -0.879      -0.840      -0.821      -0.718      -0.615      -0.595      -0.557
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     VISM_Z           1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    VISM_Z          -0.783      -0.734      -0.708      -0.576      -0.443      -0.418      -0.368
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    VISM_Z          -0.879      -0.840      -0.821      -0.718      -0.615      -0.595      -0.557
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     VISM_Z           1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    VISM_Z          -0.804      -0.750      -0.722      -0.579      -0.435      -0.408      -0.354
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    VISM_Z          -0.883      -0.842      -0.821      -0.713      -0.604      -0.583      -0.543
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    VISM_Z           0.614       0.709       0.757       1.010       1.263       1.312       1.407
+    VISM_Z           0.711       0.777       0.810       0.986       1.161       1.195       1.261
 
 Latent Class 2
 
  Means
-    VISM_Z          -0.804      -0.750      -0.722      -0.579      -0.435      -0.408      -0.354
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    VISM_Z          -0.883      -0.842      -0.821      -0.713      -0.604      -0.583      -0.543
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    VISM_Z           0.614       0.709       0.757       1.010       1.263       1.312       1.407
+    VISM_Z           0.711       0.777       0.810       0.986       1.161       1.195       1.261
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               VISM_Z
               ________
-               -0.687
+               -0.752
 
 
            Covariances
               VISM_Z
               ________
- VISM_Z         1.260
+ VISM_Z         0.978
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,34 +572,112 @@ TECHNICAL 7 OUTPUT
            Means
               VISM_Z
               ________
-               -0.544
+               -0.673
 
 
            Covariances
               VISM_Z
               ________
- VISM_Z         0.858
+ VISM_Z         1.013
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.085
+       Category 2        0.915
 
 
-     Beginning Time:  19:15:16
-        Ending Time:  19:15:16
-       Elapsed Time:  00:00:00
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              VISM_Z
+              ________
+               -0.724
+
+
+           Estimated Mixed Means
+              VISM_Z
+              ________
+               -0.713
+
+
+           Residuals for Mixed Means
+              VISM_Z
+              ________
+               -0.011
+
+
+           Observed Covariances
+              VISM_Z
+              ________
+ VISM_Z         0.992
+
+
+           Estimated Mixed Covariances
+              VISM_Z
+              ________
+ VISM_Z         0.986
+
+
+           Residuals for Mixed Covariances
+              VISM_Z
+              ________
+ VISM_Z         0.006
+
+
+           Observed Skewness
+              VISM_Z
+              ________
+               -0.645
+
+
+           Estimated Mixed Skewness
+              VISM_Z
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              VISM_Z
+              ________
+               -0.645
+
+
+           Observed Kurtosis
+              VISM_Z
+              ________
+                0.741
+
+
+           Estimated Mixed Kurtosis
+              VISM_Z
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              VISM_Z
+              ________
+                0.741
+
+
+     Beginning Time:  18:21:51
+        Ending Time:  18:21:52
+       Elapsed Time:  00:00:01
 
 
 

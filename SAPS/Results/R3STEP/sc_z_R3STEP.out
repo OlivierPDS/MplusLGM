@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_sc_z;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/sc_z_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/sc_z_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N sc_z;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N sc_z;
    MISSING=.;
    USEVAR = N sc_z;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON sc_z;
   sc_z;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  7
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_sc_z;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         682
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +110,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/sc_z_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/sc_z_R3STEP.dat
 Input data format  FREE
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               SC_Z
               ________
- SC_Z           0.312
+ SC_Z           0.327
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               SC_Z
               ________
-               -0.645
+               -0.732
 
 
            Covariances
               SC_Z
               ________
- SC_Z           1.676
+ SC_Z           2.215
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  SC_Z           1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -211.333
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -405.093
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     SC_Z                 -0.645      -0.959      -5.035    0.79%      -1.600     -0.600     -0.342
-             126.000       1.676       1.090       1.783    1.59%      -0.103      0.416
+     SC_Z                 -0.732      -1.135      -6.035    0.45%      -1.800     -0.744     -0.342
+             223.000       2.215       1.360       1.800    0.90%      -0.103      0.416
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                        -469.534
-          H0 Scaling Correction Factor      1.1348
+          H0 Value                        -831.992
+          H0 Scaling Correction Factor      1.1405
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                     947.069
-          Bayesian (BIC)                   963.074
-          Sample-Size Adjusted BIC         950.382
+          Akaike (AIC)                    1671.984
+          Bayesian (BIC)                  1690.084
+          Sample-Size Adjusted BIC        1677.384
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.09953          0.32945
-       2        270.90047          0.67055
+       1        463.11965          0.67906
+       2        218.88035          0.32094
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.04047          0.32931
-       2        270.95953          0.67069
+       1        463.12440          0.67907
+       2        218.87560          0.32093
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              463          0.67889
+       2              219          0.32111
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.838
+     Entropy                         0.691
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.958    0.042
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.026    0.974
+    1   0.957    0.043
+    2   0.089    0.911
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.699    0.000
-    2     -3.605    0.000
+    1      3.114    0.000
+    2     -2.320    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    SC_Z              -0.615      0.116     -5.319      0.000
-    N#1                3.700      0.000    999.000    999.000
+    SC_Z              -0.714      0.100     -7.129      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    SC_Z               1.664      0.255      6.525      0.000
+    SC_Z               2.201      0.264      8.328      0.000
 
 Latent Class 2
 
  Means
-    SC_Z              -0.615      0.116     -5.319      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    SC_Z              -0.714      0.100     -7.129      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    SC_Z               1.664      0.255      6.525      0.000
+    SC_Z               2.201      0.264      8.328      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    SC_Z              -0.157      0.149     -1.052      0.293
+    SC_Z              -0.035      0.104     -0.333      0.739
 
  Intercepts
-    C#1               -0.814      0.149     -5.466      0.000
+    C#1                0.725      0.119      6.101      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.132E+00
+     Condition Number for the Information Matrix              0.117E+00
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    SC_Z               0.855      0.127      0.639      1.145
+    SC_Z               0.966      0.101      0.788      1.184
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    SC_Z               0.157      0.149      1.052      0.293
+    SC_Z               0.035      0.104      0.333      0.739
 
  Intercepts
-    C#2                0.814      0.149      5.466      0.000
+    C#2               -0.725      0.119     -6.101      0.000
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    SC_Z               1.170      0.174      0.873      1.566
+    SC_Z               1.035      0.108      0.844      1.269
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    SC_Z              -0.476      0.076     -6.292      0.000
-    N#1                3.700      0.000    999.000    999.000
+    SC_Z              -0.481      0.054     -8.873      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     SC_Z               1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SC_Z              -0.476      0.076     -6.292      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    SC_Z              -0.481      0.054     -8.873      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     SC_Z               1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    SC_Z              -0.476      0.076     -6.292      0.000
-    N#1                3.700      0.000    999.000    999.000
+    SC_Z              -0.481      0.054     -8.873      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     SC_Z               1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SC_Z              -0.476      0.076     -6.292      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    SC_Z              -0.481      0.054     -8.873      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     SC_Z               1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    SC_Z              -0.615      0.116     -5.319      0.000
-    N#1                3.700      0.000    999.000    999.000
+    SC_Z              -0.714      0.100     -7.129      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    SC_Z               1.664      0.255      6.525      0.000
+    SC_Z               2.201      0.264      8.328      0.000
 
 Latent Class 2
 
  Means
-    SC_Z              -0.615      0.116     -5.319      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    SC_Z              -0.714      0.100     -7.129      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    SC_Z               1.664      0.255      6.525      0.000
+    SC_Z               2.201      0.264      8.328      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    SC_Z            -0.912      -0.841      -0.805      -0.615      -0.425      -0.388      -0.317
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    SC_Z            -0.972      -0.910      -0.879      -0.714      -0.549      -0.518      -0.456
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    SC_Z             1.007       1.164       1.245       1.664       2.084       2.164       2.322
+    SC_Z             1.520       1.683       1.766       2.201       2.635       2.719       2.881
 
 Latent Class 2
 
  Means
-    SC_Z            -0.912      -0.841      -0.805      -0.615      -0.425      -0.388      -0.317
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    SC_Z            -0.972      -0.910      -0.879      -0.714      -0.549      -0.518      -0.456
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    SC_Z             1.007       1.164       1.245       1.664       2.084       2.164       2.322
+    SC_Z             1.520       1.683       1.766       2.201       2.635       2.719       2.881
 
 Categorical Latent Variables
 
  C#1      ON
-    SC_Z            -0.540      -0.449      -0.402      -0.157       0.088       0.135       0.227
+    SC_Z            -0.303      -0.239      -0.206      -0.035       0.137       0.169       0.233
 
  Intercepts
-    C#1             -1.198      -1.106      -1.059      -0.814      -0.569      -0.522      -0.431
+    C#1              0.419       0.492       0.530       0.725       0.921       0.958       1.031
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    SC_Z             0.583       0.639       0.669       0.855       1.092       1.145       1.255
+    SC_Z             0.739       0.788       0.814       0.966       1.146       1.184       1.263
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    SC_Z            -0.227      -0.135      -0.088       0.157       0.402       0.449       0.540
+    SC_Z            -0.233      -0.169      -0.137       0.035       0.206       0.239       0.303
 
  Intercepts
-    C#2              0.431       0.522       0.569       0.814       1.059       1.106       1.198
+    C#2             -1.031      -0.958      -0.921      -0.725      -0.530      -0.492      -0.419
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    SC_Z             0.797       0.873       0.915       1.170       1.494       1.566       1.717
+    SC_Z             0.792       0.844       0.872       1.035       1.228       1.269       1.353
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    SC_Z            -0.672      -0.625      -0.601      -0.476      -0.352      -0.328      -0.281
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    SC_Z            -0.621      -0.588      -0.571      -0.481      -0.392      -0.375      -0.342
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     SC_Z             1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SC_Z            -0.672      -0.625      -0.601      -0.476      -0.352      -0.328      -0.281
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    SC_Z            -0.621      -0.588      -0.571      -0.481      -0.392      -0.375      -0.342
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     SC_Z             1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    SC_Z            -0.672      -0.625      -0.601      -0.476      -0.352      -0.328      -0.281
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    SC_Z            -0.621      -0.588      -0.571      -0.481      -0.392      -0.375      -0.342
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     SC_Z             1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    SC_Z            -0.672      -0.625      -0.601      -0.476      -0.352      -0.328      -0.281
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    SC_Z            -0.621      -0.588      -0.571      -0.481      -0.392      -0.375      -0.342
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     SC_Z             1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    SC_Z            -0.912      -0.841      -0.805      -0.615      -0.425      -0.388      -0.317
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    SC_Z            -0.972      -0.910      -0.879      -0.714      -0.549      -0.518      -0.456
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    SC_Z             1.007       1.164       1.245       1.664       2.084       2.164       2.322
+    SC_Z             1.520       1.683       1.766       2.201       2.635       2.719       2.881
 
 Latent Class 2
 
  Means
-    SC_Z            -0.912      -0.841      -0.805      -0.615      -0.425      -0.388      -0.317
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    SC_Z            -0.972      -0.910      -0.879      -0.714      -0.549      -0.518      -0.456
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    SC_Z             1.007       1.164       1.245       1.664       2.084       2.164       2.322
+    SC_Z             1.520       1.683       1.766       2.201       2.635       2.719       2.881
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               SC_Z
               ________
-               -0.811
+               -0.754
 
 
            Covariances
               SC_Z
               ________
- SC_Z           1.405
+ SC_Z           2.461
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,33 +572,111 @@ TECHNICAL 7 OUTPUT
            Means
               SC_Z
               ________
-               -0.541
+               -0.694
 
 
            Covariances
               SC_Z
               ________
- SC_Z           1.817
+ SC_Z           1.775
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.026
-       Category 2        0.974
+       Category 1        0.085
+       Category 2        0.915
 
 
-     Beginning Time:  19:15:17
-        Ending Time:  19:15:18
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              SC_Z
+              ________
+               -0.732
+
+
+           Estimated Mixed Means
+              SC_Z
+              ________
+               -0.714
+
+
+           Residuals for Mixed Means
+              SC_Z
+              ________
+               -0.018
+
+
+           Observed Covariances
+              SC_Z
+              ________
+ SC_Z           2.215
+
+
+           Estimated Mixed Covariances
+              SC_Z
+              ________
+ SC_Z           2.201
+
+
+           Residuals for Mixed Covariances
+              SC_Z
+              ________
+ SC_Z           0.014
+
+
+           Observed Skewness
+              SC_Z
+              ________
+               -1.135
+
+
+           Estimated Mixed Skewness
+              SC_Z
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              SC_Z
+              ________
+               -1.135
+
+
+           Observed Kurtosis
+              SC_Z
+              ________
+                1.359
+
+
+           Estimated Mixed Kurtosis
+              SC_Z
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              SC_Z
+              ________
+                1.359
+
+
+     Beginning Time:  18:21:54
+        Ending Time:  18:21:55
        Elapsed Time:  00:00:01
 
 

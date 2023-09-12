@@ -1,13 +1,13 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/31/2023  11:21 AM
+09/11/2023   5:17 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
-  D3STEP_CDS_24 - GMM_CI_isq@0cub@0_C_223_113;
+  D3STEP_CDS_24 - GMM_CI_isq@0cub@0_C_332_331;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SANS/Results/D3STEP/CDS_24_D3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/CDS_24_D3STEP.dat";
 
   VARIABLE:
   NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
@@ -18,21 +18,21 @@ INPUT INSTRUCTIONS
   CLASSES = c(3);
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 0;
+  STARTS = 500 125;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   %C#1%
-  [N#1@1.778];
-  [N#2@-1.142];
+  [N#1@0.806];
+  [N#2@-0.173];
   [CDS_24](M1); CDS_24;
   %C#2%
-  [N#1@0.278];
-  [N#2@1.326];
+  [N#1@-1.455];
+  [N#2@1.406];
   [CDS_24](M2); CDS_24;
   %C#3%
-  [N#1@-1.822];
-  [N#2@-2.898];
+  [N#1@-2.938];
+  [N#2@-1.577];
   [CDS_24](M3); CDS_24;
   MODEL CONSTRAINT:
   New (diff12 diff13 diff23);
@@ -46,23 +46,29 @@ INPUT INSTRUCTIONS
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
+  TECH7;
+  TECH12;
 
 
 
 *** WARNING in MODEL command
   All variables are uncorrelated with all other variables within class.
   Check that this is what is intended.
-   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
 
-D3STEP_CDS_24 - GMM_CI_isq@0cub@0_C_223_113;
+D3STEP_CDS_24 - GMM_CI_isq@0cub@0_C_332_331;
 
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         679
 
 Number of dependent variables                                    2
 Number of independent variables                                  0
@@ -110,9 +116,16 @@ Categorical (Nominal) and Count Outcomes
 Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                        500
+  Number of final stage optimizations                          125
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SANS/Results/D3STEP/CDS_24_D3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/CDS_24_D3STEP.dat
 Input data format  FREE
 
 
@@ -134,15 +147,15 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               CDS_24
               ________
- CDS_24         0.693
+ CDS_24         0.518
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.411          166.000
-      Category 2    0.163           66.000
-      Category 3    0.426          172.000
+      Category 1    0.153          104.000
+      Category 2    0.408          277.000
+      Category 3    0.439          298.000
 
 
 SAMPLE STATISTICS
@@ -156,14 +169,29 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     CDS_24                1.196       2.913       0.000   62.86%       0.000      0.000      0.000
-             280.000       5.522      10.663      17.000    0.36%       0.000      2.000
+     CDS_24                1.222       2.821       0.000   63.07%       0.000      0.000      0.000
+             352.000       5.786       9.522      17.000    0.28%       0.000      2.000
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+
+487 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+
+Unperturbed starting value run did not converge or was rejected in the third stage.
+
+124 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
 
      THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 1 COULD NOT
      BE INVERTED.  PROBLEM INVOLVING VARIABLE CDS_24.  COMPUTATION COULD
-     NOT BE COMPLETED IN ITERATION 6.  CHANGE YOUR MODEL AND/OR STARTING
+     NOT BE COMPLETED IN ITERATION 5.  CHANGE YOUR MODEL AND/OR STARTING
      VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
      VARIATION FOR THE VARIABLE.
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY.  ESTIMATES CANNOT
+     BE TRUSTED.
+
 
 
      THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
@@ -184,8 +212,8 @@ Latent Class 1
     CDS_24             0.000
 
  Means
-    N#1                1.778
-    N#2               -1.142
+    N#1                0.806
+    N#2               -0.173
 
  Variances
     CDS_24             0.000
@@ -193,81 +221,87 @@ Latent Class 1
 Latent Class 2
 
  Means
-    CDS_24             0.106
+    CDS_24             0.872
 
  Means
-    N#1                0.278
-    N#2                1.326
+    N#1               -1.455
+    N#2                1.406
 
  Variances
-    CDS_24             2.289
+    CDS_24             0.605
 
 Latent Class 3
 
  Means
-    CDS_24             2.953
+    CDS_24             4.723
 
  Means
-    N#1               -1.822
-    N#2               -2.898
+    N#1               -2.938
+    N#2               -1.577
 
  Variances
-    CDS_24            13.148
+    CDS_24             9.923
 
 Categorical Latent Variables
 
  Means
-    C#1                0.851
-    C#2               -0.214
+    C#1                0.339
+    C#2                0.202
 
 New/Additional Parameters
-    DIFF12            -0.106
-    DIFF13            -2.953
-    DIFF23            -2.848
+    DIFF12            -0.872
+    DIFF13            -4.723
+    DIFF23            -3.850
 
 
 MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
 
      %OVERALL%
 
-     [ c#1*0.85121 ];
-     [ c#2*-0.21376 ];
+     [ c#1*0.33917 ];
+     [ c#2*0.20178 ];
 
      %C#1%
 
-     [ cds_24*0.00000 ] (m1);
-     [ n#1@1.77800 ];
-     [ n#2@-1.14200 ];
+     [ cds_24*0.00002 ] (m1);
+     [ n#1@0.80600 ];
+     [ n#2@-0.17300 ];
 
      cds_24*0.00000;
 
      %C#2%
 
-     [ cds_24*0.10562 ] (m2);
-     [ n#1@0.27800 ];
-     [ n#2@1.32600 ];
+     [ cds_24*0.87211 ] (m2);
+     [ n#1@-1.45500 ];
+     [ n#2@1.40600 ];
 
-     cds_24*2.28902;
+     cds_24*0.60471;
 
      %C#3%
 
-     [ cds_24*2.95315 ] (m3);
-     [ n#1@-1.82200 ];
-     [ n#2@-2.89800 ];
+     [ cds_24*4.72261 ] (m3);
+     [ n#1@-2.93800 ];
+     [ n#2@-1.57700 ];
 
-     cds_24*13.14790;
+     cds_24*9.92300;
 
      ! NEW statements in MODEL CONSTRAINT
-     NEW(diff12*-0.10562);
-     NEW(diff13*-2.95315);
-     NEW(diff23*-2.84753);
+     NEW(diff12*-0.87210);
+     NEW(diff13*-4.72259);
+     NEW(diff23*-3.85049);
 
 
 
 
-     Beginning Time:  11:21:25
-        Ending Time:  11:21:25
-       Elapsed Time:  00:00:00
+TECHNICAL 7 OUTPUT
+
+
+TECHNICAL 12 OUTPUT
+
+
+     Beginning Time:  17:17:43
+        Ending Time:  17:17:44
+       Elapsed Time:  00:00:01
 
 
 

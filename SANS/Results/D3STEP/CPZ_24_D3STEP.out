@@ -1,0 +1,1024 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+09/11/2023   5:17 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_CPZ_24 - GMM_CI_isq@0cub@0_C_332_331;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/CPZ_24_D3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N CPZ_24;
+   MISSING=.;
+   USEVAR = CPZ_24 N;
+  NOMINAL = N;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 1000 250;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  %C#1%
+  [N#1@0.806];
+  [N#2@-0.173];
+  [CPZ_24](M1); CPZ_24;
+  %C#2%
+  [N#1@-1.455];
+  [N#2@1.406];
+  [CPZ_24](M2); CPZ_24;
+  %C#3%
+  [N#1@-2.938];
+  [N#2@-1.577];
+  [CPZ_24](M3); CPZ_24;
+  MODEL CONSTRAINT:
+  New (diff12 diff13 diff23);
+  diff12 = M1 - M2;
+  diff13 = M1 - M3;
+  diff23 = M2 - M3;
+  MODEL TEST:
+  M1 = M2;
+  M2 = M3;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+  TECH7;
+  TECH12;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_CPZ_24 - GMM_CI_isq@0cub@0_C_332_331;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         679
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   CPZ_24
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                       1000
+  Number of final stage optimizations                          250
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/CPZ_24_D3STEP.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              CPZ_24
+              ________
+ CPZ_24         0.663
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.153          104.000
+      Category 2    0.408          277.000
+      Category 3    0.439          298.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              CPZ_24
+              ________
+              206.181
+
+
+           Covariances
+              CPZ_24
+              ________
+ CPZ_24     64184.942
+
+
+           Correlations
+              CPZ_24
+              ________
+ CPZ_24         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -3129.165
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     CPZ_24              206.181       2.679       0.000   20.44%       0.000    100.000    133.000
+             450.000   64184.941      10.002    1953.161    0.22%     178.580    332.500
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+
+30 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+           -3670.146  931874           141
+           -3670.146  551639           55
+           -3670.146  150531           154
+           -3670.146  120506           45
+           -3670.146  46502            714
+           -3670.146  263049           454
+           -3670.146  496762           870
+           -3670.146  109946           771
+           -3670.146  546943           865
+           -3670.146  529496           343
+           -3670.146  939870           655
+           -3670.146  178181           753
+           -3670.146  937885           426
+           -3670.146  278692           342
+           -3670.146  311214           64
+           -3670.146  838615           677
+           -3670.146  436460           89
+           -3670.146  86651            993
+           -3670.146  788796           145
+           -3670.146  383979           603
+           -3670.146  910224           580
+           -3670.146  575700           100
+           -3670.146  297518           166
+           -3670.146  42523            730
+           -3670.146  856536           144
+           -3670.146  576220           115
+           -3670.146  321390           133
+           -3670.146  350608           334
+           -3670.146  663090           906
+           -3670.146  484687           306
+           -3670.146  371737           532
+           -3670.146  836066           372
+           -3670.146  50887            389
+           -3670.146  641794           591
+           -3670.146  923437           398
+           -3670.146  881886           608
+           -3670.146  278661           674
+           -3670.146  112586           494
+           -3670.146  551340           766
+           -3670.146  77571            980
+           -3670.146  276102           599
+           -3670.146  679832           302
+           -3670.146  824126           287
+           -3670.146  96617            955
+           -3670.146  789985           67
+           -3670.146  396614           918
+           -3670.146  369602           146
+           -3670.146  217130           443
+           -3670.146  476498           179
+           -3670.146  802256           477
+           -3670.146  568859           49
+           -3670.146  349562           359
+           -3670.146  727176           861
+           -3670.146  527050           948
+           -3670.146  287107           864
+           -3670.146  455617           242
+           -3670.146  88437            761
+           -3670.146  534193           689
+           -3670.146  72344            897
+           -3670.146  588699           828
+           -3670.146  907810           795
+           -3670.146  954914           911
+           -3670.146  521770           945
+           -3670.146  67009            564
+           -3670.146  49293            707
+           -3670.146  97158            205
+           -3670.146  792993           859
+           -3670.146  78862            529
+           -3670.146  349360           464
+           -3670.146  875667           367
+           -3670.146  802644           874
+           -3670.146  915642           40
+           -3670.146  435506           988
+           -3670.146  621542           375
+           -3670.146  418686           338
+           -3670.146  587946           120
+           -3670.146  848331           137
+           -3670.146  937588           293
+           -3670.146  231281           542
+           -3670.146  153394           429
+           -3670.146  851945           18
+           -3670.146  314034           513
+           -3670.146  722748           346
+           -3670.146  224950           455
+           -3670.146  163110           584
+           -3670.146  193042           316
+           -3670.146  570681           777
+           -3670.146  354395           486
+           -3670.146  581196           921
+           -3670.146  268896           124
+           -3670.146  339073           841
+           -3670.146  475420           71
+           -3670.146  636396           168
+           -3670.146  700270           855
+           -3670.146  177175           851
+           -3670.146  92091            649
+           -3670.146  876943           650
+           -3670.146  121425           511
+           -3670.146  39136            226
+           -3670.146  484406           421
+           -3670.146  303634           169
+           -3670.146  520177           262
+           -3670.146  638611           524
+           -3670.146  769907           457
+           -3670.146  580405           286
+           -3670.146  301717           823
+           -3670.146  535063           329
+           -3670.146  507218           613
+           -3670.146  392418           28
+           -3670.146  879338           309
+           -3670.146  146900           391
+           -3670.146  436806           883
+           -3670.146  168762           200
+           -3670.146  314084           81
+           -3670.146  286735           175
+           -3670.146  545108           667
+           -3670.146  21132            351
+           -3670.146  933578           506
+           -3670.146  281558           184
+           -3670.146  914505           838
+           -3670.146  444228           860
+           -3670.146  383986           159
+           -3670.146  175199           247
+           -3670.146  72662            729
+           -3670.146  302046           863
+           -3670.146  343926           624
+           -3670.146  784664           75
+           -3670.146  348637           749
+           -3670.146  22362            365
+           -3670.146  358074           560
+           -3670.146  699834           723
+           -3670.146  220492           743
+           -3670.146  172913           557
+           -3670.146  502532           445
+           -3670.146  251680           794
+           -3670.146  427006           839
+           -3670.146  521575           313
+           -3670.146  783102           433
+           -3670.146  640833           434
+           -3670.146  131856           90
+           -3670.146  113138           585
+           -3670.146  508482           446
+           -3670.146  85114            385
+           -3670.146  843555           952
+           -3670.146  561664           392
+           -3670.146  178475           231
+           -3670.146  597614           284
+           -3670.146  592219           119
+           -3670.146  440395           917
+           -3670.146  215353           164
+           -3670.146  576783           866
+           -3670.146  848163           47
+           -3670.146  754100           56
+           -3670.146  170118           238
+           -3670.146  991329           182
+           -3670.146  282464           283
+           -3671.027  485256           371
+           -3671.027  674171           195
+           -3671.027  11397            944
+           -3671.027  372176           23
+           -3671.027  830529           279
+           -3671.027  192071           142
+           -3671.027  247912           537
+           -3671.027  391179           78
+           -3671.027  204959           695
+           -3671.027  106561           686
+           -3671.027  243346           930
+           -3671.027  147440           514
+           -3671.027  699810           571
+           -3671.027  391368           802
+           -3671.027  74518            927
+           -3671.027  79212            517
+           -3671.027  93468            3
+           -3671.027  685657           69
+           -3671.027  490123           995
+           -3671.027  736574           414
+           -3671.027  539389           544
+           -3671.027  57226            208
+           -3671.027  155749           960
+           -3671.027  903633           553
+           -3671.027  603842           61
+           -3671.027  68850            462
+           -3671.027  930872           277
+           -3671.027  878749           728
+           -3671.027  109357           765
+           -3671.027  29591            633
+           -3671.027  616917           261
+           -3671.027  710154           831
+           -3671.027  570782           193
+           -3671.027  137305           379
+           -3671.027  483369           270
+           -3671.027  165853           105
+           -3671.027  596257           405
+           -3671.027  484116           915
+           -3671.027  900268           327
+           -3671.027  132336           362
+           -3671.027  148918           682
+           -3671.027  331681           549
+           -3671.027  288738           940
+           -3671.027  775884           639
+           -3671.027  253358           2
+           -3671.027  265218           924
+           -3671.027  459221           652
+           -3671.027  781190           219
+           -3671.027  964570           701
+           -3671.027  967902           52
+           -3671.027  407168           44
+           -3671.027  831410           567
+           -3671.027  306768           978
+           -3671.027  549244           756
+           -3671.027  341519           653
+           -3671.027  730868           977
+           -3671.027  81951            907
+           -3671.027  830292           527
+           -3671.027  777492           972
+           -3671.027  462662           872
+           -3671.027  86698            893
+           -3671.027  499150           216
+           -3671.027  345070           114
+           -3671.027  40340            188
+           -3671.027  704798           530
+           -3671.027  319144           176
+           -3671.027  425149           878
+           -3671.027  17359            227
+           -3671.027  749453           33
+           -3671.027  917702           693
+           -3671.027  443442           380
+           -3671.027  574412           679
+           -3671.027  119513           821
+           -3671.027  622290           880
+           -3671.027  629720           926
+           -3671.027  335485           496
+           -3671.027  848590           694
+           -3671.027  507154           387
+           -3671.027  787985           482
+           -3671.027  308582           752
+           -3671.027  749635           420
+           -3671.027  1548             384
+           -3671.027  140849           515
+           -3671.027  82200            830
+
+10 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+
+THE BEST LOGLIKELIHOOD VALUE HAS BEEN REPLICATED.  RERUN WITH AT LEAST TWICE THE
+RANDOM STARTS TO CHECK THAT THE BEST LOGLIKELIHOOD IS STILL OBTAINED AND REPLICATED.
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        8
+
+Loglikelihood
+
+          H0 Value                       -3670.146
+          H0 Scaling Correction Factor      1.2298
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    7356.292
+          Bayesian (BIC)                  7392.457
+          Sample-Size Adjusted BIC        7367.056
+            (n* = (n + 2) / 24)
+
+Wald Test of Parameter Constraints
+
+          Value                             62.974
+          Degrees of Freedom                     2
+          P-Value                           0.0000
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        169.89577          0.25021
+       2        295.69428          0.43548
+       3        213.40995          0.31430
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        169.89577          0.25021
+       2        295.69428          0.43548
+       3        213.40995          0.31430
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              105          0.15464
+       2              343          0.50515
+       3              231          0.34021
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.398
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.792    0.134    0.074
+    2   0.137    0.738    0.125
+    3   0.172    0.123    0.705
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.490    0.276    0.234
+    2   0.048    0.856    0.096
+    3   0.036    0.201    0.763
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      0.738    0.167    0.000
+    2     -0.705    2.184    0.000
+    3     -3.044   -1.333    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    CPZ_24           169.344     23.922      7.079      0.000
+
+ Means
+    N#1                0.806      0.000    999.000    999.000
+    N#2               -0.173      0.000    999.000    999.000
+
+ Variances
+    CPZ_24         15061.245   3110.356      4.842      0.000
+
+Latent Class 2
+
+ Means
+    CPZ_24            80.839      9.081      8.902      0.000
+
+ Means
+    N#1               -1.455      0.000    999.000    999.000
+    N#2                1.406      0.000    999.000    999.000
+
+ Variances
+    CPZ_24          5034.487    719.570      6.997      0.000
+
+Latent Class 3
+
+ Means
+    CPZ_24           422.761     42.333      9.987      0.000
+
+ Means
+    N#1               -2.938      0.000    999.000    999.000
+    N#2               -1.577      0.000    999.000    999.000
+
+ Variances
+    CPZ_24         *********  27553.828      4.470      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.228      0.216     -1.056      0.291
+    C#2                0.326      0.176      1.855      0.064
+
+New/Additional Parameters
+    DIFF12            88.504     26.849      3.296      0.001
+    DIFF13          -253.417     41.118     -6.163      0.000
+    DIFF23          -341.921     43.112     -7.931      0.000
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.105E-01
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    CPZ_24             1.380      0.116     11.939      0.000
+
+ Variances
+    CPZ_24             1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    CPZ_24             1.139      0.075     15.290      0.000
+
+ Variances
+    CPZ_24             1.000      0.000    999.000    999.000
+
+Latent Class 3
+
+ Means
+    CPZ_24             1.205      0.071     17.066      0.000
+
+ Variances
+    CPZ_24             1.000      0.000    999.000    999.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    CPZ_24             1.380      0.116     11.939      0.000
+
+ Variances
+    CPZ_24             1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ Means
+    CPZ_24             1.139      0.075     15.290      0.000
+
+ Variances
+    CPZ_24             1.000      0.000    999.000    999.000
+
+Latent Class 3
+
+ Means
+    CPZ_24             1.205      0.071     17.066      0.000
+
+ Variances
+    CPZ_24             1.000      0.000    999.000    999.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    CPZ_24           169.344     23.922      7.079      0.000
+
+ Variances
+    CPZ_24         15061.245   3110.356      4.842      0.000
+
+Latent Class 2
+
+ Means
+    CPZ_24            80.839      9.081      8.902      0.000
+
+ Variances
+    CPZ_24          5034.487    719.570      6.997      0.000
+
+Latent Class 3
+
+ Means
+    CPZ_24           422.761     42.333      9.987      0.000
+
+ Variances
+    CPZ_24         *********  27553.828      4.470      0.000
+
+
+R-SQUARE
+
+Class 1
+
+Class 2
+
+Class 3
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    CPZ_24         107.726     122.457     129.993     169.344     208.694     216.230     230.961
+
+ Means
+    N#1              0.806       0.806       0.806       0.806       0.806       0.806       0.806
+    N#2             -0.173      -0.173      -0.173      -0.173      -0.173      -0.173      -0.173
+
+ Variances
+    CPZ_24        7049.589    8964.946    9944.709   15061.245   20177.781   21157.543   23072.900
+
+Latent Class 2
+
+ Means
+    CPZ_24          57.449      63.041      65.902      80.839      95.777      98.637     104.229
+
+ Means
+    N#1             -1.455      -1.455      -1.455      -1.455      -1.455      -1.455      -1.455
+    N#2              1.406       1.406       1.406       1.406       1.406       1.406       1.406
+
+ Variances
+    CPZ_24        3181.018    3624.129    3850.794    5034.487    6218.181    6444.845    6887.957
+
+Latent Class 3
+
+ Means
+    CPZ_24         313.719     339.788     353.123     422.761     492.399     505.734     531.802
+
+ Means
+    N#1             -2.938      -2.938      -2.938      -2.938      -2.938      -2.938      -2.938
+    N#2             -1.577      -1.577      -1.577      -1.577      -1.577      -1.577      -1.577
+
+ Variances
+    CPZ_24       52197.125   69164.766   77844.227  123170.273  168496.312  177175.781  194143.422
+
+Categorical Latent Variables
+
+ Means
+    C#1             -0.784      -0.651      -0.583      -0.228       0.127       0.195       0.328
+    C#2             -0.127      -0.018       0.037       0.326       0.615       0.671       0.779
+
+New/Additional Parameters
+    DIFF12          19.345      35.879      44.337      88.504     132.672     141.129     157.663
+    DIFF13        -359.330    -334.009    -321.057    -253.417    -185.778    -172.825    -147.505
+    DIFF23        -452.970    -426.422    -412.841    -341.921    -271.002    -257.421    -230.872
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    CPZ_24           1.082       1.153       1.190       1.380       1.570       1.606       1.678
+
+ Variances
+    CPZ_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    CPZ_24           0.947       0.993       1.017       1.139       1.262       1.285       1.331
+
+ Variances
+    CPZ_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 3
+
+ Means
+    CPZ_24           1.023       1.066       1.088       1.205       1.321       1.343       1.386
+
+ Variances
+    CPZ_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    CPZ_24           1.082       1.153       1.190       1.380       1.570       1.606       1.678
+
+ Variances
+    CPZ_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 2
+
+ Means
+    CPZ_24           0.947       0.993       1.017       1.139       1.262       1.285       1.331
+
+ Variances
+    CPZ_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+Latent Class 3
+
+ Means
+    CPZ_24           1.023       1.066       1.088       1.205       1.321       1.343       1.386
+
+ Variances
+    CPZ_24           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    CPZ_24         107.726     122.457     129.993     169.344     208.694     216.230     230.961
+
+ Variances
+    CPZ_24        7049.589    8964.946    9944.709   15061.245   20177.781   21157.543   23072.900
+
+Latent Class 2
+
+ Means
+    CPZ_24          57.449      63.041      65.902      80.839      95.777      98.637     104.229
+
+ Variances
+    CPZ_24        3181.018    3624.129    3850.794    5034.487    6218.181    6444.845    6887.957
+
+Latent Class 3
+
+ Means
+    CPZ_24         313.719     339.788     353.123     422.761     492.399     505.734     531.802
+
+ Variances
+    CPZ_24       52197.125   69164.766   77844.227  123170.273  168496.312  177175.781  194143.422
+
+
+TECHNICAL 7 OUTPUT
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 1
+
+
+           Means
+              CPZ_24
+              ________
+              169.371
+
+
+           Covariances
+              CPZ_24
+              ________
+ CPZ_24     15056.120
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
+
+
+           Means
+              CPZ_24
+              ________
+               80.853
+
+
+           Covariances
+              CPZ_24
+              ________
+ CPZ_24      5034.232
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 3
+
+
+           Means
+              CPZ_24
+              ________
+              422.787
+
+
+           Covariances
+              CPZ_24
+              ________
+ CPZ_24    123165.024
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
+
+     Variable
+     N
+       Category 1        0.466
+       Category 2        0.216
+       Category 3        0.318
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
+
+     Variable
+     N
+       Category 1        0.043
+       Category 2        0.683
+       Category 3        0.274
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 3
+
+     Variable
+     N
+       Category 1        0.057
+       Category 2        0.179
+       Category 3        0.764
+
+
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              CPZ_24
+              ________
+              206.181
+
+
+           Estimated Mixed Means
+              CPZ_24
+              ________
+              210.450
+
+
+           Residuals for Mixed Means
+              CPZ_24
+              ________
+               -4.269
+
+
+           Observed Covariances
+              CPZ_24
+              ________
+ CPZ_24     64184.942
+
+
+           Estimated Mixed Covariances
+              CPZ_24
+              ________
+ CPZ_24     66579.280
+
+
+           Residuals for Mixed Covariances
+              CPZ_24
+              ________
+ CPZ_24     -2394.339
+
+
+           Observed Skewness
+              CPZ_24
+              ________
+                2.679
+
+
+           Estimated Mixed Skewness
+              CPZ_24
+              ________
+                1.477
+
+
+           Residuals for Mixed Skewness
+              CPZ_24
+              ________
+                1.202
+
+
+           Observed Kurtosis
+              CPZ_24
+              ________
+               10.002
+
+
+           Estimated Mixed Kurtosis
+              CPZ_24
+              ________
+                2.865
+
+
+           Residuals for Mixed Kurtosis
+              CPZ_24
+              ________
+                7.137
+
+
+     Beginning Time:  17:17:50
+        Ending Time:  17:17:52
+       Elapsed Time:  00:00:02
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

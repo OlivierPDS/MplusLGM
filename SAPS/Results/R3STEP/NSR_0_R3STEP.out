@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:22 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_NSR_0;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/NSR_0_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/NSR_0_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N NSR_0;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N NSR_0;
    MISSING=.;
    USEVAR = N NSR_0;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON NSR_0;
   NSR_0;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_NSR_0;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         679
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -98,21 +103,21 @@ Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
 Integration Specifications
   Type                                                  MONTECARLO
-  Number of integration points                                   1
-  Dimensions of numerical integration                            0
+  Number of integration points                                 250
+  Dimensions of numerical integration                            1
   Adaptive quadrature                                           ON
   Monte Carlo integration seed                                   0
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/NSR_0_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/NSR_0_R3STEP.dat
 Input data format  FREE
 
 
 SUMMARY OF DATA
 
-     Number of missing data patterns             1
-     Number of y missing data patterns           1
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
      Number of u missing data patterns           0
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               NSR_0
               ________
- NSR_0          1.000
+ NSR_0          0.993
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               NSR_0
               ________
-                1.109
+                1.101
 
 
            Covariances
               NSR_0
               ________
- NSR_0          0.097
+ NSR_0          0.091
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  NSR_0          1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -102.079
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -147.540
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,15 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     NSR_0                 1.109       2.511       1.000   89.11%       1.000      1.000      1.000
-             404.000       0.097       4.304       2.000   10.89%       1.000      1.000
-
-     THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES MAY NOT BE
-     TRUSTWORTHY FOR SOME PARAMETERS DUE TO A NON-POSITIVE DEFINITE
-     FIRST-ORDER DERIVATIVE PRODUCT MATRIX.  THIS MAY BE DUE TO THE STARTING
-     VALUES BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE
-     CONDITION NUMBER IS       0.127D-15.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
-     Parameter 2, %C#1%: NSR_0 (equality/label)
+     NSR_0                 1.101       2.650       1.000   89.91%       1.000      1.000      1.000
+             674.000       0.091       5.024       2.000   10.09%       1.000      1.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -193,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                        -358.804
-          H0 Scaling Correction Factor      1.5380
+          H0 Value                        -571.429
+          H0 Scaling Correction Factor      1.6289
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                     725.608
-          Bayesian (BIC)                   741.613
-          Sample-Size Adjusted BIC         728.921
+          Akaike (AIC)                    1150.859
+          Bayesian (BIC)                  1168.941
+          Sample-Size Adjusted BIC        1156.241
             (n* = (n + 2) / 24)
 
 
@@ -212,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.02505          0.32927
-       2        270.97495          0.67073
+       1        461.08043          0.67906
+       2        217.91957          0.32094
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -222,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.02505          0.32927
-       2        270.97495          0.67073
+       1        461.06659          0.67904
+       2        217.93341          0.32096
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -234,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              460          0.67747
+       2              219          0.32253
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.838
+     Entropy                         0.696
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -248,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.959    0.041
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -257,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.957    0.043
+    2   0.086    0.914
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -266,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.700    0.000
-    2     -3.603    0.000
+    1      3.109    0.000
+    2     -2.370    0.000
 
 
 MODEL RESULTS
@@ -278,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    NSR_0              1.109      0.015     71.547      0.000
-    N#1                3.700      0.000    999.000    999.000
+    NSR_0              1.101      0.012     94.811      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    NSR_0              0.097      0.012      8.005      0.000
+    NSR_0              0.091      0.009      9.783      0.000
 
 Latent Class 2
 
  Means
-    NSR_0              1.109      0.015     71.547      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    NSR_0              1.101      0.012     94.811      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    NSR_0              0.097      0.012      8.005      0.000
+    NSR_0              0.091      0.009      9.783      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    NSR_0              0.692      0.340      2.034      0.042
+    NSR_0             -0.739      0.297     -2.492      0.013
 
  Intercepts
-    C#1               -1.486      0.400     -3.717      0.000
+    C#1                1.571      0.345      4.550      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.127E-15
+     Condition Number for the Information Matrix              0.901E-05
        (ratio of smallest to largest eigenvalue)
 
 
@@ -316,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    NSR_0              1.998      0.680      1.026      3.893
+    NSR_0              0.477      0.142      0.267      0.854
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -327,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    NSR_0             -0.692      0.340     -2.034      0.042
+    NSR_0              0.739      0.297      2.492      0.013
 
  Intercepts
-    C#2                1.486      0.400      3.717      0.000
+    C#2               -1.571      0.345     -4.550      0.000
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -341,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    NSR_0              0.500      0.170      0.257      0.975
+    NSR_0              2.095      0.622      1.171      3.747
 
 
 STANDARDIZED MODEL RESULTS
@@ -355,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    NSR_0              3.560      0.173     20.627      0.000
-    N#1                3.700      0.000    999.000    999.000
+    NSR_0              3.654      0.148     24.654      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     NSR_0              1.000      0.000    999.000    999.000
@@ -364,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    NSR_0              3.560      0.173     20.627      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    NSR_0              3.654      0.148     24.654      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     NSR_0              1.000      0.000    999.000    999.000
@@ -379,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    NSR_0              3.560      0.173     20.627      0.000
-    N#1                3.700      0.000    999.000    999.000
+    NSR_0              3.654      0.148     24.654      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     NSR_0              1.000      0.000    999.000    999.000
@@ -388,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    NSR_0              3.560      0.173     20.627      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    NSR_0              3.654      0.148     24.654      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     NSR_0              1.000      0.000    999.000    999.000
@@ -403,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    NSR_0              1.109      0.015     71.547      0.000
-    N#1                3.700      0.000    999.000    999.000
+    NSR_0              1.101      0.012     94.811      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    NSR_0              0.097      0.012      8.005      0.000
+    NSR_0              0.091      0.009      9.783      0.000
 
 Latent Class 2
 
  Means
-    NSR_0              1.109      0.015     71.547      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    NSR_0              1.101      0.012     94.811      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    NSR_0              0.097      0.012      8.005      0.000
+    NSR_0              0.091      0.009      9.783      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -426,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    NSR_0            1.069       1.079       1.083       1.109       1.134       1.139       1.149
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    NSR_0            1.071       1.078       1.082       1.101       1.120       1.124       1.131
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    NSR_0            0.066       0.073       0.077       0.097       0.117       0.121       0.128
+    NSR_0            0.067       0.073       0.076       0.091       0.106       0.109       0.115
 
 Latent Class 2
 
  Means
-    NSR_0            1.069       1.079       1.083       1.109       1.134       1.139       1.149
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    NSR_0            1.071       1.078       1.082       1.101       1.120       1.124       1.131
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    NSR_0            0.066       0.073       0.077       0.097       0.117       0.121       0.128
+    NSR_0            0.067       0.073       0.076       0.091       0.106       0.109       0.115
 
 Categorical Latent Variables
 
  C#1      ON
-    NSR_0           -0.184       0.025       0.133       0.692       1.252       1.359       1.569
+    NSR_0           -1.504      -1.321      -1.228      -0.739      -0.251      -0.158       0.025
 
  Intercepts
-    C#1             -2.515      -2.269      -2.143      -1.486      -0.828      -0.702      -0.456
+    C#1              0.681       0.894       1.003       1.571       2.138       2.247       2.460
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -455,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    NSR_0            0.832       1.026       1.142       1.998       3.498       3.893       4.801
+    NSR_0            0.222       0.267       0.293       0.477       0.778       0.854       1.025
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -463,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    NSR_0           -1.569      -1.359      -1.252      -0.692      -0.133      -0.025       0.184
+    NSR_0           -0.025       0.158       0.251       0.739       1.228       1.321       1.504
 
  Intercepts
-    C#2              0.456       0.702       0.828       1.486       2.143       2.269       2.515
+    C#2             -2.460      -2.247      -2.138      -1.571      -1.003      -0.894      -0.681
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -475,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    NSR_0            0.208       0.257       0.286       0.500       0.876       0.975       1.202
+    NSR_0            0.976       1.171       1.286       2.095       3.413       3.747       4.499
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -488,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    NSR_0            3.115       3.221       3.276       3.560       3.843       3.898       4.004
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    NSR_0            3.272       3.364       3.410       3.654       3.898       3.945       4.036
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     NSR_0            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -497,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    NSR_0            3.115       3.221       3.276       3.560       3.843       3.898       4.004
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    NSR_0            3.272       3.364       3.410       3.654       3.898       3.945       4.036
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     NSR_0            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -511,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    NSR_0            3.115       3.221       3.276       3.560       3.843       3.898       4.004
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    NSR_0            3.272       3.364       3.410       3.654       3.898       3.945       4.036
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     NSR_0            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -520,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    NSR_0            3.115       3.221       3.276       3.560       3.843       3.898       4.004
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    NSR_0            3.272       3.364       3.410       3.654       3.898       3.945       4.036
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     NSR_0            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -534,219 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    NSR_0            1.069       1.079       1.083       1.109       1.134       1.139       1.149
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    NSR_0            1.071       1.078       1.082       1.101       1.120       1.124       1.131
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    NSR_0            0.066       0.073       0.077       0.097       0.117       0.121       0.128
+    NSR_0            0.067       0.073       0.076       0.091       0.106       0.109       0.115
 
 Latent Class 2
 
  Means
-    NSR_0            1.069       1.079       1.083       1.109       1.134       1.139       1.149
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    NSR_0            1.071       1.078       1.082       1.101       1.120       1.124       1.131
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    NSR_0            0.066       0.073       0.077       0.097       0.117       0.121       0.128
-
-
-TECHNICAL 1 OUTPUT
-
-
-     PARAMETER SPECIFICATION FOR LATENT CLASS 1
-
-
-           NU
-              N#1           NSR_0
-              ________      ________
-                    0             0
-
-
-           LAMBDA
-              NSR_0
-              ________
- N#1                0
- NSR_0              0
-
-
-           THETA
-              N#1           NSR_0
-              ________      ________
- N#1                0
- NSR_0              0             0
-
-
-           ALPHA
-              NSR_0
-              ________
-                    1
-
-
-           BETA
-              NSR_0
-              ________
- NSR_0              0
-
-
-           PSI
-              NSR_0
-              ________
- NSR_0              2
-
-
-     PARAMETER SPECIFICATION FOR LATENT CLASS 2
-
-
-           NU
-              N#1           NSR_0
-              ________      ________
-                    0             0
-
-
-           LAMBDA
-              NSR_0
-              ________
- N#1                0
- NSR_0              0
-
-
-           THETA
-              N#1           NSR_0
-              ________      ________
- N#1                0
- NSR_0              0             0
-
-
-           ALPHA
-              NSR_0
-              ________
-                    1
-
-
-           BETA
-              NSR_0
-              ________
- NSR_0              0
-
-
-           PSI
-              NSR_0
-              ________
- NSR_0              2
-
-
-     PARAMETER SPECIFICATION FOR LATENT CLASS REGRESSION MODEL PART
-
-
-           ALPHA(C)
-              C#1           C#2
-              ________      ________
-                    3             0
-
-
-           GAMMA(C)
-              NSR_0
-              ________
- C#1                4
- C#2                0
-
-
-     STARTING VALUES FOR LATENT CLASS 1
-
-
-           NU
-              N#1           NSR_0
-              ________      ________
-                3.700         0.000
-
-
-           LAMBDA
-              NSR_0
-              ________
- N#1            0.000
- NSR_0          1.000
-
-
-           THETA
-              N#1           NSR_0
-              ________      ________
- N#1            0.000
- NSR_0          0.000         0.000
-
-
-           ALPHA
-              NSR_0
-              ________
-                1.109
-
-
-           BETA
-              NSR_0
-              ________
- NSR_0          0.000
-
-
-           PSI
-              NSR_0
-              ________
- NSR_0          0.049
-
-
-     STARTING VALUES FOR LATENT CLASS 2
-
-
-           NU
-              N#1           NSR_0
-              ________      ________
-               -3.603         0.000
-
-
-           LAMBDA
-              NSR_0
-              ________
- N#1            0.000
- NSR_0          1.000
-
-
-           THETA
-              N#1           NSR_0
-              ________      ________
- N#1            0.000
- NSR_0          0.000         0.000
-
-
-           ALPHA
-              NSR_0
-              ________
-                1.109
-
-
-           BETA
-              NSR_0
-              ________
- NSR_0          0.000
-
-
-           PSI
-              NSR_0
-              ________
- NSR_0          0.049
-
-
-     STARTING VALUES FOR LATENT CLASS REGRESSION MODEL PART
-
-
-           ALPHA(C)
-              C#1           C#2
-              ________      ________
-                0.000         0.000
-
-
-           GAMMA(C)
-              NSR_0
-              ________
- C#1            0.000
- C#2            0.000
+    NSR_0            0.067       0.073       0.076       0.091       0.106       0.109       0.115
 
 
 TECHNICAL 7 OUTPUT
@@ -758,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               NSR_0
               ________
-                1.157
+                1.078
 
 
            Covariances
               NSR_0
               ________
- NSR_0          0.132
+ NSR_0          0.072
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -773,33 +572,111 @@ TECHNICAL 7 OUTPUT
            Means
               NSR_0
               ________
-                1.085
+                1.150
 
 
            Covariances
               NSR_0
               ________
- NSR_0          0.078
+ NSR_0          0.128
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.086
+       Category 2        0.914
 
 
-     Beginning Time:  19:15:21
-        Ending Time:  19:15:21
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              NSR_0
+              ________
+                1.101
+
+
+           Estimated Mixed Means
+              NSR_0
+              ________
+                1.101
+
+
+           Residuals for Mixed Means
+              NSR_0
+              ________
+                0.000
+
+
+           Observed Covariances
+              NSR_0
+              ________
+ NSR_0          0.091
+
+
+           Estimated Mixed Covariances
+              NSR_0
+              ________
+ NSR_0          0.091
+
+
+           Residuals for Mixed Covariances
+              NSR_0
+              ________
+ NSR_0          0.000
+
+
+           Observed Skewness
+              NSR_0
+              ________
+                2.650
+
+
+           Estimated Mixed Skewness
+              NSR_0
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              NSR_0
+              ________
+                2.650
+
+
+           Observed Kurtosis
+              NSR_0
+              ________
+                5.024
+
+
+           Estimated Mixed Kurtosis
+              NSR_0
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              NSR_0
+              ________
+                5.024
+
+
+     Beginning Time:  18:22:00
+        Ending Time:  18:22:00
        Elapsed Time:  00:00:00
 
 

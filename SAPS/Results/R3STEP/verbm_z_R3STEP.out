@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_verbm_z;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/verbm_z_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/verbm_z_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N verbm_z;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N verbm_z;
    MISSING=.;
    USEVAR = N verbm_z;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON verbm_z;
   verbm_z;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  7
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_verbm_z;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         682
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +110,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/verbm_z_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/verbm_z_R3STEP.dat
 Input data format  FREE
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               VERBM_Z
               ________
- VERBM_Z        0.312
+ VERBM_Z        0.327
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               VERBM_Z
               ________
-               -0.829
+               -0.940
 
 
            Covariances
               VERBM_Z
               ________
- VERBM_Z        1.433
+ VERBM_Z        1.434
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  VERBM_Z        1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -201.453
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -356.586
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     VERBM_Z              -0.829      -0.332      -3.635    0.79%      -1.989     -1.007     -0.750
-             126.000       1.433      -0.553       1.621    0.79%      -0.400      0.350
+     VERBM_Z              -0.940      -0.381      -4.156    0.45%      -1.989     -1.180     -0.863
+             223.000       1.434      -0.406       1.621    0.45%      -0.574      0.200
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                        -459.901
-          H0 Scaling Correction Factor      0.9199
+          H0 Value                        -781.561
+          H0 Scaling Correction Factor      0.9366
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                     927.803
-          Bayesian (BIC)                   943.808
-          Sample-Size Adjusted BIC         931.116
+          Akaike (AIC)                    1571.123
+          Bayesian (BIC)                  1589.223
+          Sample-Size Adjusted BIC        1576.522
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.05909          0.32935
-       2        270.94091          0.67065
+       1        462.93199          0.67879
+       2        219.06801          0.32121
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.02737          0.32928
-       2        270.97263          0.67072
+       1        463.11514          0.67905
+       2        218.88486          0.32095
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              463          0.67889
+       2              219          0.32111
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.837
+     Entropy                         0.692
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.958    0.042
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.958    0.042
+    2   0.089    0.911
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.700    0.000
-    2     -3.603    0.000
+    1      3.116    0.000
+    2     -2.323    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    VERBM_Z           -0.822      0.108     -7.624      0.000
-    N#1                3.700      0.000    999.000    999.000
+    VERBM_Z           -0.936      0.080    -11.663      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    VERBM_Z            1.427      0.150      9.509      0.000
+    VERBM_Z            1.427      0.119     11.989      0.000
 
 Latent Class 2
 
  Means
-    VERBM_Z           -0.822      0.108     -7.624      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    VERBM_Z           -0.936      0.080    -11.663      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    VERBM_Z            1.427      0.150      9.509      0.000
+    VERBM_Z            1.427      0.119     11.989      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    VERBM_Z            0.124      0.160      0.771      0.441
+    VERBM_Z           -0.271      0.138     -1.960      0.050
 
  Intercepts
-    C#1               -0.614      0.169     -3.638      0.000
+    C#1                0.514      0.151      3.405      0.001
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.142E+00
+     Condition Number for the Information Matrix              0.121E+00
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    VERBM_Z            1.132      0.182      0.826      1.550
+    VERBM_Z            0.762      0.106      0.581      1.000
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    VERBM_Z           -0.124      0.160     -0.771      0.441
+    VERBM_Z            0.271      0.138      1.960      0.050
 
  Intercepts
-    C#2                0.614      0.169      3.638      0.000
+    C#2               -0.514      0.151     -3.405      0.001
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    VERBM_Z            0.884      0.142      0.645      1.210
+    VERBM_Z            1.312      0.182      1.000      1.721
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    VERBM_Z           -0.688      0.087     -7.892      0.000
-    N#1                3.700      0.000    999.000    999.000
+    VERBM_Z           -0.784      0.065    -12.042      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     VERBM_Z            1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    VERBM_Z           -0.688      0.087     -7.892      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    VERBM_Z           -0.784      0.065    -12.042      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     VERBM_Z            1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    VERBM_Z           -0.688      0.087     -7.892      0.000
-    N#1                3.700      0.000    999.000    999.000
+    VERBM_Z           -0.784      0.065    -12.042      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     VERBM_Z            1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    VERBM_Z           -0.688      0.087     -7.892      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    VERBM_Z           -0.784      0.065    -12.042      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     VERBM_Z            1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    VERBM_Z           -0.822      0.108     -7.624      0.000
-    N#1                3.700      0.000    999.000    999.000
+    VERBM_Z           -0.936      0.080    -11.663      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    VERBM_Z            1.427      0.150      9.509      0.000
+    VERBM_Z            1.427      0.119     11.989      0.000
 
 Latent Class 2
 
  Means
-    VERBM_Z           -0.822      0.108     -7.624      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    VERBM_Z           -0.936      0.080    -11.663      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    VERBM_Z            1.427      0.150      9.509      0.000
+    VERBM_Z            1.427      0.119     11.989      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    VERBM_Z         -1.099      -1.033      -0.999      -0.822      -0.644      -0.610      -0.544
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    VERBM_Z         -1.143      -1.094      -1.068      -0.936      -0.804      -0.779      -0.730
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    VERBM_Z          1.040       1.133       1.180       1.427       1.674       1.721       1.813
+    VERBM_Z          1.120       1.194       1.231       1.427       1.623       1.660       1.734
 
 Latent Class 2
 
  Means
-    VERBM_Z         -1.099      -1.033      -0.999      -0.822      -0.644      -0.610      -0.544
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    VERBM_Z         -1.143      -1.094      -1.068      -0.936      -0.804      -0.779      -0.730
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    VERBM_Z          1.040       1.133       1.180       1.427       1.674       1.721       1.813
+    VERBM_Z          1.120       1.194       1.231       1.427       1.623       1.660       1.734
 
 Categorical Latent Variables
 
  C#1      ON
-    VERBM_Z         -0.290      -0.191      -0.140       0.124       0.388       0.438       0.537
+    VERBM_Z         -0.628      -0.543      -0.499      -0.271      -0.044       0.000       0.085
 
  Intercepts
-    C#1             -1.048      -0.944      -0.891      -0.614      -0.336      -0.283      -0.179
+    C#1              0.125       0.218       0.266       0.514       0.762       0.810       0.903
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    VERBM_Z          0.749       0.826       0.869       1.132       1.473       1.550       1.711
+    VERBM_Z          0.534       0.581       0.607       0.762       0.957       1.000       1.089
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    VERBM_Z         -0.537      -0.438      -0.388      -0.124       0.140       0.191       0.290
+    VERBM_Z         -0.085       0.000       0.044       0.271       0.499       0.543       0.628
 
  Intercepts
-    C#2              0.179       0.283       0.336       0.614       0.891       0.944       1.048
+    C#2             -0.903      -0.810      -0.762      -0.514      -0.266      -0.218      -0.125
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    VERBM_Z          0.585       0.645       0.679       0.884       1.151       1.210       1.336
+    VERBM_Z          0.918       1.000       1.045       1.312       1.647       1.721       1.874
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    VERBM_Z         -0.912      -0.859      -0.831      -0.688      -0.544      -0.517      -0.463
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    VERBM_Z         -0.952      -0.911      -0.891      -0.784      -0.677      -0.656      -0.616
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     VERBM_Z          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    VERBM_Z         -0.912      -0.859      -0.831      -0.688      -0.544      -0.517      -0.463
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    VERBM_Z         -0.952      -0.911      -0.891      -0.784      -0.677      -0.656      -0.616
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     VERBM_Z          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    VERBM_Z         -0.912      -0.859      -0.831      -0.688      -0.544      -0.517      -0.463
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    VERBM_Z         -0.952      -0.911      -0.891      -0.784      -0.677      -0.656      -0.616
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     VERBM_Z          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    VERBM_Z         -0.912      -0.859      -0.831      -0.688      -0.544      -0.517      -0.463
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    VERBM_Z         -0.952      -0.911      -0.891      -0.784      -0.677      -0.656      -0.616
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     VERBM_Z          1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    VERBM_Z         -1.099      -1.033      -0.999      -0.822      -0.644      -0.610      -0.544
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    VERBM_Z         -1.143      -1.094      -1.068      -0.936      -0.804      -0.779      -0.730
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    VERBM_Z          1.040       1.133       1.180       1.427       1.674       1.721       1.813
+    VERBM_Z          1.120       1.194       1.231       1.427       1.623       1.660       1.734
 
 Latent Class 2
 
  Means
-    VERBM_Z         -1.099      -1.033      -0.999      -0.822      -0.644      -0.610      -0.544
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    VERBM_Z         -1.143      -1.094      -1.068      -0.936      -0.804      -0.779      -0.730
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    VERBM_Z          1.040       1.133       1.180       1.427       1.674       1.721       1.813
+    VERBM_Z          1.120       1.194       1.231       1.427       1.623       1.660       1.734
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               VERBM_Z
               ________
-               -0.721
+               -1.070
 
 
            Covariances
               VERBM_Z
               ________
- VERBM_Z        1.228
+ VERBM_Z        1.550
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,33 +572,111 @@ TECHNICAL 7 OUTPUT
            Means
               VERBM_Z
               ________
-               -0.896
+               -0.707
 
 
            Covariances
               VERBM_Z
               ________
- VERBM_Z        1.549
+ VERBM_Z        1.142
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.086
+       Category 2        0.914
 
 
-     Beginning Time:  19:15:12
-        Ending Time:  19:15:13
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              VERBM_Z
+              ________
+               -0.940
+
+
+           Estimated Mixed Means
+              VERBM_Z
+              ________
+               -0.936
+
+
+           Residuals for Mixed Means
+              VERBM_Z
+              ________
+               -0.003
+
+
+           Observed Covariances
+              VERBM_Z
+              ________
+ VERBM_Z        1.434
+
+
+           Estimated Mixed Covariances
+              VERBM_Z
+              ________
+ VERBM_Z        1.427
+
+
+           Residuals for Mixed Covariances
+              VERBM_Z
+              ________
+ VERBM_Z        0.007
+
+
+           Observed Skewness
+              VERBM_Z
+              ________
+               -0.381
+
+
+           Estimated Mixed Skewness
+              VERBM_Z
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              VERBM_Z
+              ________
+               -0.381
+
+
+           Observed Kurtosis
+              VERBM_Z
+              ________
+               -0.406
+
+
+           Estimated Mixed Kurtosis
+              VERBM_Z
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              VERBM_Z
+              ________
+               -0.406
+
+
+     Beginning Time:  18:21:46
+        Ending Time:  18:21:47
        Elapsed Time:  00:00:01
 
 

@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_ip_op;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/ip_op_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/ip_op_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N ip_op;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N ip_op;
    MISSING=.;
    USEVAR = N ip_op;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON ip_op;
   ip_op;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  5
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_ip_op;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         684
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -98,21 +103,21 @@ Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
 Integration Specifications
   Type                                                  MONTECARLO
-  Number of integration points                                   1
-  Dimensions of numerical integration                            0
+  Number of integration points                                 250
+  Dimensions of numerical integration                            1
   Adaptive quadrature                                           ON
   Monte Carlo integration seed                                   0
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/ip_op_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/ip_op_R3STEP.dat
 Input data format  FREE
 
 
 SUMMARY OF DATA
 
-     Number of missing data patterns             1
-     Number of y missing data patterns           1
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
      Number of u missing data patterns           0
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               IP_OP
               ________
- IP_OP          1.000
+ IP_OP          0.999
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               IP_OP
               ________
-                1.480
+                1.449
 
 
            Covariances
               IP_OP
               ________
- IP_OP          0.250
+ IP_OP          0.247
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  IP_OP          1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -292.903
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -492.212
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,15 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     IP_OP                 1.480       0.079       1.000   51.98%       1.000      1.000      1.000
-             404.000       0.250      -1.994       2.000   48.02%       2.000      2.000
-
-     THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES MAY NOT BE
-     TRUSTWORTHY FOR SOME PARAMETERS DUE TO A NON-POSITIVE DEFINITE
-     FIRST-ORDER DERIVATIVE PRODUCT MATRIX.  THIS MAY BE DUE TO THE STARTING
-     VALUES BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE
-     CONDITION NUMBER IS       0.242D-16.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
-     Parameter 2, %C#1%: IP_OP (equality/label)
+     IP_OP                 1.449       0.203       1.000   55.05%       1.000      1.000      1.000
+             683.000       0.247      -1.959       2.000   44.95%       2.000      2.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -193,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                        -549.332
-          H0 Scaling Correction Factor      0.7507
+          H0 Value                        -916.912
+          H0 Scaling Correction Factor      0.7549
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    1106.664
-          Bayesian (BIC)                  1122.669
-          Sample-Size Adjusted BIC        1109.977
+          Akaike (AIC)                    1841.824
+          Bayesian (BIC)                  1859.936
+          Sample-Size Adjusted BIC        1847.236
             (n* = (n + 2) / 24)
 
 
@@ -212,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.02535          0.32927
-       2        270.97465          0.67073
+       1        464.36617          0.67890
+       2        219.63383          0.32110
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -222,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.02535          0.32927
-       2        270.97465          0.67073
+       1        464.36902          0.67890
+       2        219.63098          0.32110
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -234,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              465          0.67982
+       2              219          0.32018
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.838
+     Entropy                         0.691
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -248,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.956    0.044
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -257,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.958    0.042
+    2   0.093    0.907
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -266,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.700    0.000
-    2     -3.603    0.000
+    1      3.117    0.000
+    2     -2.283    0.000
 
 
 MODEL RESULTS
@@ -278,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    IP_OP              1.480      0.025     59.550      0.000
-    N#1                3.700      0.000    999.000    999.000
+    IP_OP              1.449      0.019     76.130      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    IP_OP              0.250      0.001    253.560      0.000
+    IP_OP              0.248      0.002    128.651      0.000
 
 Latent Class 2
 
  Means
-    IP_OP              1.480      0.025     59.550      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    IP_OP              1.449      0.019     76.130      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    IP_OP              0.250      0.001    253.560      0.000
+    IP_OP              0.248      0.002    128.651      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    IP_OP              0.485      0.227      2.139      0.032
+    IP_OP             -0.400      0.190     -2.108      0.035
 
  Intercepts
-    C#1               -1.439      0.364     -3.954      0.000
+    C#1                1.336      0.298      4.483      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.242E-16
+     Condition Number for the Information Matrix              0.675E-04
        (ratio of smallest to largest eigenvalue)
 
 
@@ -316,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    IP_OP              1.624      0.368      1.041      2.531
+    IP_OP              0.670      0.127      0.462      0.972
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -327,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    IP_OP             -0.485      0.227     -2.139      0.032
+    IP_OP              0.400      0.190      2.108      0.035
 
  Intercepts
-    C#2                1.439      0.364      3.954      0.000
+    C#2               -1.336      0.298     -4.483      0.000
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -341,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    IP_OP              0.616      0.140      0.395      0.960
+    IP_OP              1.492      0.283      1.029      2.165
 
 
 STANDARDIZED MODEL RESULTS
@@ -355,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    IP_OP              2.963      0.044     67.473      0.000
-    N#1                3.700      0.000    999.000    999.000
+    IP_OP              2.913      0.027    108.065      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     IP_OP              1.000      0.000    999.000    999.000
@@ -364,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    IP_OP              2.963      0.044     67.473      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    IP_OP              2.913      0.027    108.065      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     IP_OP              1.000      0.000    999.000    999.000
@@ -379,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    IP_OP              2.963      0.044     67.473      0.000
-    N#1                3.700      0.000    999.000    999.000
+    IP_OP              2.913      0.027    108.065      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     IP_OP              1.000      0.000    999.000    999.000
@@ -388,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    IP_OP              2.963      0.044     67.473      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    IP_OP              2.913      0.027    108.065      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     IP_OP              1.000      0.000    999.000    999.000
@@ -403,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    IP_OP              1.480      0.025     59.550      0.000
-    N#1                3.700      0.000    999.000    999.000
+    IP_OP              1.449      0.019     76.130      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    IP_OP              0.250      0.001    253.560      0.000
+    IP_OP              0.248      0.002    128.651      0.000
 
 Latent Class 2
 
  Means
-    IP_OP              1.480      0.025     59.550      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    IP_OP              1.449      0.019     76.130      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    IP_OP              0.250      0.001    253.560      0.000
+    IP_OP              0.248      0.002    128.651      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -426,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    IP_OP            1.416       1.431       1.439       1.480       1.521       1.529       1.544
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    IP_OP            1.400       1.412       1.418       1.449       1.481       1.487       1.498
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    IP_OP            0.247       0.248       0.248       0.250       0.251       0.252       0.252
+    IP_OP            0.243       0.244       0.244       0.248       0.251       0.251       0.252
 
 Latent Class 2
 
  Means
-    IP_OP            1.416       1.431       1.439       1.480       1.521       1.529       1.544
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    IP_OP            1.400       1.412       1.418       1.449       1.481       1.487       1.498
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    IP_OP            0.247       0.248       0.248       0.250       0.251       0.252       0.252
+    IP_OP            0.243       0.244       0.244       0.248       0.251       0.251       0.252
 
 Categorical Latent Variables
 
  C#1      ON
-    IP_OP           -0.099       0.041       0.112       0.485       0.857       0.929       1.068
+    IP_OP           -0.889      -0.772      -0.713      -0.400      -0.088      -0.028       0.089
 
  Intercepts
-    C#1             -2.376      -2.152      -2.037      -1.439      -0.840      -0.726      -0.502
+    C#1              0.568       0.752       0.846       1.336       1.826       1.920       2.104
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -455,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    IP_OP            0.906       1.041       1.118       1.624       2.357       2.531       2.910
+    IP_OP            0.411       0.462       0.490       0.670       0.916       0.972       1.093
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -463,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    IP_OP           -1.068      -0.929      -0.857      -0.485      -0.112      -0.041       0.099
+    IP_OP           -0.089       0.028       0.088       0.400       0.713       0.772       0.889
 
  Intercepts
-    C#2              0.502       0.726       0.840       1.439       2.037       2.152       2.376
+    C#2             -2.104      -1.920      -1.826      -1.336      -0.846      -0.752      -0.568
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -475,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    IP_OP            0.344       0.395       0.424       0.616       0.894       0.960       1.104
+    IP_OP            0.915       1.029       1.092       1.492       2.039       2.165       2.434
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -488,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    IP_OP            2.850       2.877       2.890       2.963       3.035       3.049       3.076
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    IP_OP            2.844       2.860       2.869       2.913       2.958       2.966       2.983
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     IP_OP            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -497,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    IP_OP            2.850       2.877       2.890       2.963       3.035       3.049       3.076
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    IP_OP            2.844       2.860       2.869       2.913       2.958       2.966       2.983
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     IP_OP            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -511,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    IP_OP            2.850       2.877       2.890       2.963       3.035       3.049       3.076
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    IP_OP            2.844       2.860       2.869       2.913       2.958       2.966       2.983
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     IP_OP            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -520,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    IP_OP            2.850       2.877       2.890       2.963       3.035       3.049       3.076
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    IP_OP            2.844       2.860       2.869       2.913       2.958       2.966       2.983
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     IP_OP            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -534,219 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    IP_OP            1.416       1.431       1.439       1.480       1.521       1.529       1.544
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    IP_OP            1.400       1.412       1.418       1.449       1.481       1.487       1.498
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    IP_OP            0.247       0.248       0.248       0.250       0.251       0.252       0.252
+    IP_OP            0.243       0.244       0.244       0.248       0.251       0.251       0.252
 
 Latent Class 2
 
  Means
-    IP_OP            1.416       1.431       1.439       1.480       1.521       1.529       1.544
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    IP_OP            1.400       1.412       1.418       1.449       1.481       1.487       1.498
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    IP_OP            0.247       0.248       0.248       0.250       0.251       0.252       0.252
-
-
-TECHNICAL 1 OUTPUT
-
-
-     PARAMETER SPECIFICATION FOR LATENT CLASS 1
-
-
-           NU
-              N#1           IP_OP
-              ________      ________
-                    0             0
-
-
-           LAMBDA
-              IP_OP
-              ________
- N#1                0
- IP_OP              0
-
-
-           THETA
-              N#1           IP_OP
-              ________      ________
- N#1                0
- IP_OP              0             0
-
-
-           ALPHA
-              IP_OP
-              ________
-                    1
-
-
-           BETA
-              IP_OP
-              ________
- IP_OP              0
-
-
-           PSI
-              IP_OP
-              ________
- IP_OP              2
-
-
-     PARAMETER SPECIFICATION FOR LATENT CLASS 2
-
-
-           NU
-              N#1           IP_OP
-              ________      ________
-                    0             0
-
-
-           LAMBDA
-              IP_OP
-              ________
- N#1                0
- IP_OP              0
-
-
-           THETA
-              N#1           IP_OP
-              ________      ________
- N#1                0
- IP_OP              0             0
-
-
-           ALPHA
-              IP_OP
-              ________
-                    1
-
-
-           BETA
-              IP_OP
-              ________
- IP_OP              0
-
-
-           PSI
-              IP_OP
-              ________
- IP_OP              2
-
-
-     PARAMETER SPECIFICATION FOR LATENT CLASS REGRESSION MODEL PART
-
-
-           ALPHA(C)
-              C#1           C#2
-              ________      ________
-                    3             0
-
-
-           GAMMA(C)
-              IP_OP
-              ________
- C#1                4
- C#2                0
-
-
-     STARTING VALUES FOR LATENT CLASS 1
-
-
-           NU
-              N#1           IP_OP
-              ________      ________
-                3.700         0.000
-
-
-           LAMBDA
-              IP_OP
-              ________
- N#1            0.000
- IP_OP          1.000
-
-
-           THETA
-              N#1           IP_OP
-              ________      ________
- N#1            0.000
- IP_OP          0.000         0.000
-
-
-           ALPHA
-              IP_OP
-              ________
-                1.480
-
-
-           BETA
-              IP_OP
-              ________
- IP_OP          0.000
-
-
-           PSI
-              IP_OP
-              ________
- IP_OP          0.125
-
-
-     STARTING VALUES FOR LATENT CLASS 2
-
-
-           NU
-              N#1           IP_OP
-              ________      ________
-               -3.603         0.000
-
-
-           LAMBDA
-              IP_OP
-              ________
- N#1            0.000
- IP_OP          1.000
-
-
-           THETA
-              N#1           IP_OP
-              ________      ________
- N#1            0.000
- IP_OP          0.000         0.000
-
-
-           ALPHA
-              IP_OP
-              ________
-                1.480
-
-
-           BETA
-              IP_OP
-              ________
- IP_OP          0.000
-
-
-           PSI
-              IP_OP
-              ________
- IP_OP          0.125
-
-
-     STARTING VALUES FOR LATENT CLASS REGRESSION MODEL PART
-
-
-           ALPHA(C)
-              C#1           C#2
-              ________      ________
-                0.000         0.000
-
-
-           GAMMA(C)
-              IP_OP
-              ________
- C#1            0.000
- C#2            0.000
+    IP_OP            0.243       0.244       0.244       0.248       0.251       0.251       0.252
 
 
 TECHNICAL 7 OUTPUT
@@ -758,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               IP_OP
               ________
-                1.561
+                1.418
 
 
            Covariances
               IP_OP
               ________
- IP_OP          0.246
+ IP_OP          0.243
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -773,33 +572,111 @@ TECHNICAL 7 OUTPUT
            Means
               IP_OP
               ________
-                1.441
+                1.517
 
 
            Covariances
               IP_OP
               ________
- IP_OP          0.246
+ IP_OP          0.250
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.086
+       Category 2        0.914
 
 
-     Beginning Time:  19:15:10
-        Ending Time:  19:15:11
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              IP_OP
+              ________
+                1.449
+
+
+           Estimated Mixed Means
+              IP_OP
+              ________
+                1.449
+
+
+           Residuals for Mixed Means
+              IP_OP
+              ________
+                0.000
+
+
+           Observed Covariances
+              IP_OP
+              ________
+ IP_OP          0.247
+
+
+           Estimated Mixed Covariances
+              IP_OP
+              ________
+ IP_OP          0.248
+
+
+           Residuals for Mixed Covariances
+              IP_OP
+              ________
+ IP_OP          0.000
+
+
+           Observed Skewness
+              IP_OP
+              ________
+                0.203
+
+
+           Estimated Mixed Skewness
+              IP_OP
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              IP_OP
+              ________
+                0.203
+
+
+           Observed Kurtosis
+              IP_OP
+              ________
+               -1.959
+
+
+           Estimated Mixed Kurtosis
+              IP_OP
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              IP_OP
+              ________
+               -1.959
+
+
+     Beginning Time:  18:21:42
+        Ending Time:  18:21:43
        Elapsed Time:  00:00:01
 
 

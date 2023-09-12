@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_REL;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/REL_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/REL_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N REL;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N REL;
    MISSING=.;
    USEVAR = N REL;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON REL;
   REL;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  4
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_REL;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         685
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +110,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/REL_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/REL_R3STEP.dat
 Input data format  FREE
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               REL
               ________
- REL            0.993
+ REL            0.987
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               REL
               ________
-                1.908
+                1.107
 
 
            Covariances
               REL
               ________
- REL            0.084
+ REL            0.095
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  REL            1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -71.784
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -164.177
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     REL                   1.908      -2.818       1.000    9.23%       2.000      2.000      2.000
-             401.000       0.084       5.939       2.000   90.77%       2.000      2.000
+     REL                   1.107       2.551       1.000   89.35%       1.000      1.000      1.000
+             676.000       0.095       4.508       2.000   10.65%       1.000      1.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                        -326.961
-          H0 Scaling Correction Factor      1.7451
+          H0 Value                        -589.358
+          H0 Scaling Correction Factor      1.5636
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                     661.923
-          Bayesian (BIC)                   677.928
-          Sample-Size Adjusted BIC         665.236
+          Akaike (AIC)                    1186.717
+          Bayesian (BIC)                  1204.835
+          Sample-Size Adjusted BIC        1192.134
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.00782          0.32923
-       2        270.99218          0.67077
+       1        465.09559          0.67897
+       2        219.90441          0.32103
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.02486          0.32927
-       2        270.97514          0.67073
+       1        465.09431          0.67897
+       2        219.90569          0.32103
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              466          0.68029
+       2              219          0.31971
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.839
+     Entropy                         0.689
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.956    0.044
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.958    0.042
+    2   0.094    0.906
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.700    0.000
-    2     -3.603    0.000
+    1      3.118    0.000
+    2     -2.269    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    REL                1.907      0.015    131.383      0.000
-    N#1                3.700      0.000    999.000    999.000
+    REL                1.106      0.012     93.233      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    REL                0.084      0.012      7.090      0.000
+    REL                0.095      0.009     10.182      0.000
 
 Latent Class 2
 
  Means
-    REL                1.907      0.015    131.383      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    REL                1.106      0.012     93.233      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    REL                0.084      0.012      7.090      0.000
+    REL                0.095      0.009     10.182      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    REL               -0.989      0.369     -2.677      0.007
+    REL               -0.554      0.292     -1.898      0.058
 
  Intercepts
-    C#1                1.165      0.708      1.646      0.100
+    C#1                1.367      0.341      4.007      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.269E-05
+     Condition Number for the Information Matrix              0.763E-05
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    REL                0.372      0.137      0.180      0.767
+    REL                0.575      0.168      0.324      1.018
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    REL                0.989      0.369      2.677      0.007
+    REL                0.554      0.292      1.898      0.058
 
  Intercepts
-    C#2               -1.165      0.708     -1.646      0.100
+    C#2               -1.367      0.341     -4.007      0.000
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    REL                2.688      0.993      1.303      5.545
+    REL                1.740      0.508      0.982      3.085
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    REL                6.588      0.515     12.798      0.000
-    N#1                3.700      0.000    999.000    999.000
+    REL                3.585      0.138     26.055      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     REL                1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    REL                6.588      0.515     12.798      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    REL                3.585      0.138     26.055      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     REL                1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    REL                6.588      0.515     12.798      0.000
-    N#1                3.700      0.000    999.000    999.000
+    REL                3.585      0.138     26.055      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     REL                1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    REL                6.588      0.515     12.798      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    REL                3.585      0.138     26.055      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     REL                1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    REL                1.907      0.015    131.383      0.000
-    N#1                3.700      0.000    999.000    999.000
+    REL                1.106      0.012     93.233      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    REL                0.084      0.012      7.090      0.000
+    REL                0.095      0.009     10.182      0.000
 
 Latent Class 2
 
  Means
-    REL                1.907      0.015    131.383      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    REL                1.106      0.012     93.233      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    REL                0.084      0.012      7.090      0.000
+    REL                0.095      0.009     10.182      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    REL              1.870       1.879       1.884       1.907       1.931       1.936       1.945
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    REL              1.076       1.083       1.087       1.106       1.126       1.130       1.137
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    REL              0.053       0.061       0.064       0.084       0.103       0.107       0.114
+    REL              0.071       0.077       0.080       0.095       0.111       0.114       0.119
 
 Latent Class 2
 
  Means
-    REL              1.870       1.879       1.884       1.907       1.931       1.936       1.945
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    REL              1.076       1.083       1.087       1.106       1.126       1.130       1.137
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    REL              0.053       0.061       0.064       0.084       0.103       0.107       0.114
+    REL              0.071       0.077       0.080       0.095       0.111       0.114       0.119
 
 Categorical Latent Variables
 
  C#1      ON
-    REL             -1.940      -1.713      -1.597      -0.989      -0.381      -0.265      -0.037
+    REL             -1.306      -1.127      -1.035      -0.554      -0.074       0.018       0.198
 
  Intercepts
-    C#1             -0.659      -0.223       0.001       1.165       2.330       2.553       2.989
+    C#1              0.488       0.698       0.806       1.367       1.928       2.035       2.245
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    REL              0.144       0.180       0.203       0.372       0.683       0.767       0.963
+    REL              0.271       0.324       0.355       0.575       0.929       1.018       1.219
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    REL              0.037       0.265       0.381       0.989       1.597       1.713       1.940
+    REL             -0.198      -0.018       0.074       0.554       1.035       1.127       1.306
 
  Intercepts
-    C#2             -2.989      -2.553      -2.330      -1.165      -0.001       0.223       0.659
+    C#2             -2.245      -2.035      -1.928      -1.367      -0.806      -0.698      -0.488
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    REL              1.038       1.303       1.464       2.688       4.936       5.545       6.961
+    REL              0.820       0.982       1.077       1.740       2.814       3.085       3.693
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    REL              5.262       5.579       5.741       6.588       7.435       7.597       7.914
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    REL              3.231       3.315       3.359       3.585       3.811       3.855       3.940
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     REL              1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    REL              5.262       5.579       5.741       6.588       7.435       7.597       7.914
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    REL              3.231       3.315       3.359       3.585       3.811       3.855       3.940
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     REL              1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    REL              5.262       5.579       5.741       6.588       7.435       7.597       7.914
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    REL              3.231       3.315       3.359       3.585       3.811       3.855       3.940
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     REL              1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    REL              5.262       5.579       5.741       6.588       7.435       7.597       7.914
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    REL              3.231       3.315       3.359       3.585       3.811       3.855       3.940
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     REL              1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    REL              1.870       1.879       1.884       1.907       1.931       1.936       1.945
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    REL              1.076       1.083       1.087       1.106       1.126       1.130       1.137
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    REL              0.053       0.061       0.064       0.084       0.103       0.107       0.114
+    REL              0.071       0.077       0.080       0.095       0.111       0.114       0.119
 
 Latent Class 2
 
  Means
-    REL              1.870       1.879       1.884       1.907       1.931       1.936       1.945
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    REL              1.076       1.083       1.087       1.106       1.126       1.130       1.137
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    REL              0.053       0.061       0.064       0.084       0.103       0.107       0.114
+    REL              0.071       0.077       0.080       0.095       0.111       0.114       0.119
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               REL
               ________
-                1.847
+                1.089
 
 
            Covariances
               REL
               ________
- REL            0.129
+ REL            0.081
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,34 +572,112 @@ TECHNICAL 7 OUTPUT
            Means
               REL
               ________
-                1.937
+                1.145
 
 
            Covariances
               REL
               ________
- REL            0.059
+ REL            0.124
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.086
+       Category 2        0.914
 
 
-     Beginning Time:  19:15:07
-        Ending Time:  19:15:08
-       Elapsed Time:  00:00:01
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              REL
+              ________
+                1.107
+
+
+           Estimated Mixed Means
+              REL
+              ________
+                1.106
+
+
+           Residuals for Mixed Means
+              REL
+              ________
+                0.000
+
+
+           Observed Covariances
+              REL
+              ________
+ REL            0.095
+
+
+           Estimated Mixed Covariances
+              REL
+              ________
+ REL            0.095
+
+
+           Residuals for Mixed Covariances
+              REL
+              ________
+ REL            0.000
+
+
+           Observed Skewness
+              REL
+              ________
+                2.551
+
+
+           Estimated Mixed Skewness
+              REL
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              REL
+              ________
+                2.551
+
+
+           Observed Kurtosis
+              REL
+              ________
+                4.508
+
+
+           Estimated Mixed Kurtosis
+              REL
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              REL
+              ________
+                4.508
+
+
+     Beginning Time:  18:21:37
+        Ending Time:  18:21:37
+       Elapsed Time:  00:00:00
 
 
 

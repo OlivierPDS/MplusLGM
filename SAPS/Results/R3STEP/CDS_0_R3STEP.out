@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_CDS_0;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/CDS_0_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/CDS_0_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N CDS_0;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N CDS_0;
    MISSING=.;
    USEVAR = N CDS_0;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON CDS_0;
   CDS_0;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  9
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_CDS_0;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         680
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +110,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/CDS_0_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/CDS_0_R3STEP.dat
 Input data format  FREE
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               CDS_0
               ________
- CDS_0          0.955
+ CDS_0          0.960
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               CDS_0
               ________
-                4.974
+                5.077
 
 
            Covariances
               CDS_0
               ________
- CDS_0         21.994
+ CDS_0         23.694
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  CDS_0          1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1144.230
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1960.012
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     CDS_0                 4.974       0.988       0.000   19.95%       0.000      3.000      4.000
-             386.000      21.994       0.421      22.000    0.26%       5.000      9.000
+     CDS_0                 5.077       0.994       0.000   20.83%       0.000      3.000      4.000
+             653.000      23.694       0.417      23.000    0.15%       5.000      9.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                       -1402.968
-          H0 Scaling Correction Factor      1.0591
+          H0 Value                       -2386.875
+          H0 Scaling Correction Factor      1.0589
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    2813.936
-          Bayesian (BIC)                  2829.942
-          Sample-Size Adjusted BIC        2817.249
+          Akaike (AIC)                    4781.751
+          Bayesian (BIC)                  4799.839
+          Sample-Size Adjusted BIC        4787.139
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.02481          0.32927
-       2        270.97519          0.67073
+       1        461.71931          0.67900
+       2        218.28069          0.32100
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.02478          0.32927
-       2        270.97522          0.67073
+       1        461.71999          0.67900
+       2        218.28001          0.32100
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              461          0.67794
+       2              219          0.32206
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.837
+     Entropy                         0.693
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.959    0.041
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.957    0.043
+    2   0.087    0.913
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.700    0.000
-    2     -3.603    0.000
+    1      3.111    0.000
+    2     -2.352    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    CDS_0              4.973      0.239     20.806      0.000
-    N#1                3.700      0.000    999.000    999.000
+    CDS_0              5.077      0.191     26.631      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    CDS_0             22.047      1.750     12.600      0.000
+    CDS_0             23.724      1.444     16.430      0.000
 
 Latent Class 2
 
  Means
-    CDS_0              4.973      0.239     20.806      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    CDS_0              5.077      0.191     26.631      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    CDS_0             22.047      1.750     12.600      0.000
+    CDS_0             23.724      1.444     16.430      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    CDS_0             -0.001      0.025     -0.051      0.959
+    CDS_0              0.007      0.020      0.361      0.718
 
  Intercepts
-    C#1               -0.705      0.166     -4.241      0.000
+    C#1                0.712      0.138      5.150      0.000
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.290E-01
+     Condition Number for the Information Matrix              0.263E-01
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    CDS_0              0.999      0.025      0.952      1.048
+    CDS_0              1.007      0.020      0.968      1.048
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    CDS_0              0.001      0.025      0.051      0.959
+    CDS_0             -0.007      0.020     -0.361      0.718
 
  Intercepts
-    C#2                0.705      0.166      4.241      0.000
+    C#2               -0.712      0.138     -5.150      0.000
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    CDS_0              1.001      0.025      0.954      1.051
+    CDS_0              0.993      0.020      0.954      1.033
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    CDS_0              1.059      0.041     26.109      0.000
-    N#1                3.700      0.000    999.000    999.000
+    CDS_0              1.042      0.031     33.790      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     CDS_0              1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    CDS_0              1.059      0.041     26.109      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    CDS_0              1.042      0.031     33.790      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     CDS_0              1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    CDS_0              1.059      0.041     26.109      0.000
-    N#1                3.700      0.000    999.000    999.000
+    CDS_0              1.042      0.031     33.790      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     CDS_0              1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    CDS_0              1.059      0.041     26.109      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    CDS_0              1.042      0.031     33.790      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     CDS_0              1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    CDS_0              4.973      0.239     20.806      0.000
-    N#1                3.700      0.000    999.000    999.000
+    CDS_0              5.077      0.191     26.631      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    CDS_0             22.047      1.750     12.600      0.000
+    CDS_0             23.724      1.444     16.430      0.000
 
 Latent Class 2
 
  Means
-    CDS_0              4.973      0.239     20.806      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    CDS_0              5.077      0.191     26.631      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    CDS_0             22.047      1.750     12.600      0.000
+    CDS_0             23.724      1.444     16.430      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    CDS_0            4.358       4.505       4.580       4.973       5.367       5.442       5.589
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    CDS_0            4.586       4.704       4.764       5.077       5.391       5.451       5.568
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    CDS_0           17.540      18.617      19.169      22.047      24.925      25.476      26.554
+    CDS_0           20.005      20.894      21.349      23.724      26.100      26.555      27.444
 
 Latent Class 2
 
  Means
-    CDS_0            4.358       4.505       4.580       4.973       5.367       5.442       5.589
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    CDS_0            4.586       4.704       4.764       5.077       5.391       5.451       5.568
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    CDS_0           17.540      18.617      19.169      22.047      24.925      25.476      26.554
+    CDS_0           20.005      20.894      21.349      23.724      26.100      26.555      27.444
 
 Categorical Latent Variables
 
  C#1      ON
-    CDS_0           -0.065      -0.050      -0.042      -0.001       0.039       0.047       0.062
+    CDS_0           -0.045      -0.032      -0.026       0.007       0.041       0.047       0.059
 
  Intercepts
-    C#1             -1.133      -1.031      -0.979      -0.705      -0.432      -0.379      -0.277
+    C#1              0.356       0.441       0.485       0.712       0.940       0.984       1.069
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    CDS_0            0.937       0.952       0.959       0.999       1.040       1.048       1.064
+    CDS_0            0.956       0.968       0.974       1.007       1.041       1.048       1.061
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    CDS_0           -0.062      -0.047      -0.039       0.001       0.042       0.050       0.065
+    CDS_0           -0.059      -0.047      -0.041      -0.007       0.026       0.032       0.045
 
  Intercepts
-    C#2              0.277       0.379       0.432       0.705       0.979       1.031       1.133
+    C#2             -1.069      -0.984      -0.940      -0.712      -0.485      -0.441      -0.356
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    CDS_0            0.940       0.954       0.961       1.001       1.043       1.051       1.067
+    CDS_0            0.942       0.954       0.960       0.993       1.026       1.033       1.046
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    CDS_0            0.955       0.980       0.992       1.059       1.126       1.139       1.164
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    CDS_0            0.963       0.982       0.992       1.042       1.093       1.103       1.122
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     CDS_0            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    CDS_0            0.955       0.980       0.992       1.059       1.126       1.139       1.164
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    CDS_0            0.963       0.982       0.992       1.042       1.093       1.103       1.122
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     CDS_0            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    CDS_0            0.955       0.980       0.992       1.059       1.126       1.139       1.164
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    CDS_0            0.963       0.982       0.992       1.042       1.093       1.103       1.122
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     CDS_0            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    CDS_0            0.955       0.980       0.992       1.059       1.126       1.139       1.164
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    CDS_0            0.963       0.982       0.992       1.042       1.093       1.103       1.122
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     CDS_0            1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    CDS_0            4.358       4.505       4.580       4.973       5.367       5.442       5.589
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    CDS_0            4.586       4.704       4.764       5.077       5.391       5.451       5.568
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    CDS_0           17.540      18.617      19.169      22.047      24.925      25.476      26.554
+    CDS_0           20.005      20.894      21.349      23.724      26.100      26.555      27.444
 
 Latent Class 2
 
  Means
-    CDS_0            4.358       4.505       4.580       4.973       5.367       5.442       5.589
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    CDS_0            4.586       4.704       4.764       5.077       5.391       5.451       5.568
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    CDS_0           17.540      18.617      19.169      22.047      24.925      25.476      26.554
+    CDS_0           20.005      20.894      21.349      23.724      26.100      26.555      27.444
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               CDS_0
               ________
-                4.954
+                5.131
 
 
            Covariances
               CDS_0
               ________
- CDS_0         22.959
+ CDS_0         23.522
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,34 +572,112 @@ TECHNICAL 7 OUTPUT
            Means
               CDS_0
               ________
-                4.984
+                4.964
 
 
            Covariances
               CDS_0
               ________
- CDS_0         21.498
+ CDS_0         24.034
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.086
+       Category 2        0.914
 
 
-     Beginning Time:  19:15:19
-        Ending Time:  19:15:19
-       Elapsed Time:  00:00:00
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              CDS_0
+              ________
+                5.077
+
+
+           Estimated Mixed Means
+              CDS_0
+              ________
+                5.077
+
+
+           Residuals for Mixed Means
+              CDS_0
+              ________
+               -0.001
+
+
+           Observed Covariances
+              CDS_0
+              ________
+ CDS_0         23.694
+
+
+           Estimated Mixed Covariances
+              CDS_0
+              ________
+ CDS_0         23.724
+
+
+           Residuals for Mixed Covariances
+              CDS_0
+              ________
+ CDS_0         -0.030
+
+
+           Observed Skewness
+              CDS_0
+              ________
+                0.994
+
+
+           Estimated Mixed Skewness
+              CDS_0
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              CDS_0
+              ________
+                0.994
+
+
+           Observed Kurtosis
+              CDS_0
+              ________
+                0.417
+
+
+           Estimated Mixed Kurtosis
+              CDS_0
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              CDS_0
+              ________
+                0.417
+
+
+     Beginning Time:  18:21:56
+        Ending Time:  18:21:57
+       Elapsed Time:  00:00:01
 
 
 

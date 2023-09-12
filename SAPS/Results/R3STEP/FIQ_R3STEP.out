@@ -1,17 +1,17 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-07/21/2023   7:15 PM
+09/11/2023   6:21 PM
 
 INPUT INSTRUCTIONS
 
   TITLE:
   GMM_CV_isq@0cub@0_CT - R3STEP_FIQ;
   DATA:
-  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/FIQ_R3STEP.dat";
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/FIQ_R3STEP.dat";
 
   VARIABLE:
-  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 CPROB1
-       CPROB2 N FIQ;
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N FIQ;
    MISSING=.;
    USEVAR = N FIQ;
   NOMINAL = N;
@@ -20,25 +20,30 @@ INPUT INSTRUCTIONS
   TYPE = MIXTURE;
   ALGORITHM = INTEGRATION;
   INTEGRATION = MONTECARLO;
-  STARTS = 0;
+  STARTS = 0 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
   C ON FIQ;
   FIQ;
   %C#1%
-  [N#1@3.7];
+  [N#1@3.109];
   %C#2%
-  [N#1@-3.603];
+  [N#1@-2.37];
   OUTPUT:
   SAMPSTAT;
   STANDARDIZED;
   CINTERVAL;
   TECH7;
+  TECH12;
 
 
 
-INPUT READING TERMINATED NORMALLY
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  7
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
 
 
 
@@ -48,7 +53,7 @@ GMM_CV_isq@0cub@0_CT - R3STEP_FIQ;
 SUMMARY OF ANALYSIS
 
 Number of groups                                                 1
-Number of observations                                         404
+Number of observations                                         682
 
 Number of dependent variables                                    1
 Number of independent variables                                  1
@@ -105,7 +110,7 @@ Integration Specifications
 Cholesky                                                       OFF
 
 Input data file(s)
-  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/R3STEP/FIQ_R3STEP.dat
+  /Users/olivierpercie/Desktop/LGM/SAPS/Results/R3STEP/FIQ_R3STEP.dat
 Input data format  FREE
 
 
@@ -127,14 +132,14 @@ Minimum covariance coverage value   0.100
            Covariance Coverage
               FIQ
               ________
- FIQ            0.819
+ FIQ            0.720
 
 
 UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
 
     N
-      Category 1    0.339          137.000
-      Category 2    0.661          267.000
+      Category 1    0.677          460.000
+      Category 2    0.323          219.000
 
 
 SAMPLE STATISTICS
@@ -146,13 +151,13 @@ SAMPLE STATISTICS
            Means
               FIQ
               ________
-               97.879
+               97.122
 
 
            Covariances
               FIQ
               ________
- FIQ          226.970
+ FIQ          227.085
 
 
            Correlations
@@ -161,7 +166,7 @@ SAMPLE STATISTICS
  FIQ            1.000
 
 
-     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1367.476
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -2028.616
 
 
 UNIVARIATE SAMPLE STATISTICS
@@ -172,8 +177,8 @@ UNIVARIATE SAMPLE STATISTICS
          Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
         Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
 
-     FIQ                  97.879       0.167      70.000    1.81%      83.000     95.000     99.000
-             331.000     226.970      -0.372     143.000    0.30%     103.000    109.000
+     FIQ                  97.122       0.164      60.000    0.20%      83.000     94.000     98.000
+             491.000     227.085      -0.367     143.000    0.20%     102.000    109.000
 
 
 THE MODEL ESTIMATION TERMINATED NORMALLY
@@ -186,15 +191,15 @@ Number of Free Parameters                        4
 
 Loglikelihood
 
-          H0 Value                       -1625.976
-          H0 Scaling Correction Factor      0.9313
+          H0 Value                       -2453.982
+          H0 Scaling Correction Factor      0.9467
             for MLR
 
 Information Criteria
 
-          Akaike (AIC)                    3259.953
-          Bayesian (BIC)                  3275.958
-          Sample-Size Adjusted BIC        3263.266
+          Akaike (AIC)                    4915.964
+          Bayesian (BIC)                  4934.064
+          Sample-Size Adjusted BIC        4921.363
             (n* = (n + 2) / 24)
 
 
@@ -205,8 +210,8 @@ BASED ON THE ESTIMATED MODEL
     Latent
    Classes
 
-       1        133.02942          0.32928
-       2        270.97058          0.67072
+       1        463.01276          0.67890
+       2        218.98724          0.32110
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -215,8 +220,8 @@ BASED ON ESTIMATED POSTERIOR PROBABILITIES
     Latent
    Classes
 
-       1        133.02973          0.32928
-       2        270.97027          0.67072
+       1        463.07771          0.67900
+       2        218.92229          0.32100
 
 
 FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
@@ -227,13 +232,13 @@ Class Counts and Proportions
     Latent
    Classes
 
-       1              137          0.33911
-       2              267          0.66089
+       1              463          0.67889
+       2              219          0.32111
 
 
 CLASSIFICATION QUALITY
 
-     Entropy                         0.837
+     Entropy                         0.692
 
 
 Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
@@ -241,8 +246,8 @@ by Latent Class (Column)
 
            1        2
 
-    1   0.948    0.052
-    2   0.012    0.988
+    1   0.958    0.042
+    2   0.090    0.910
 
 
 Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -250,8 +255,8 @@ by Latent Class (Row)
 
            1        2
 
-    1   0.976    0.024
-    2   0.027    0.973
+    1   0.958    0.042
+    2   0.090    0.910
 
 
 Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
@@ -259,8 +264,8 @@ by Latent Class (Row)
 
               1        2
 
-    1      3.700    0.000
-    2     -3.604    0.000
+    1      3.115    0.000
+    2     -2.319    0.000
 
 
 MODEL RESULTS
@@ -271,33 +276,33 @@ MODEL RESULTS
 Latent Class 1
 
  Means
-    FIQ               97.898      0.828    118.176      0.000
-    N#1                3.700      0.000    999.000    999.000
+    FIQ               97.116      0.681    142.674      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    FIQ              227.051     15.878     14.300      0.000
+    FIQ              227.012     13.078     17.358      0.000
 
 Latent Class 2
 
  Means
-    FIQ               97.898      0.828    118.176      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    FIQ               97.116      0.681    142.674      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    FIQ              227.051     15.878     14.300      0.000
+    FIQ              227.012     13.078     17.358      0.000
 
 Categorical Latent Variables
 
  C#1        ON
-    FIQ                0.006      0.008      0.722      0.470
+    FIQ               -0.013      0.007     -1.777      0.076
 
  Intercepts
-    C#1               -1.266      0.777     -1.629      0.103
+    C#1                2.000      0.713      2.806      0.005
 
 
 QUALITY OF NUMERICAL RESULTS
 
-     Condition Number for the Information Matrix              0.370E-03
+     Condition Number for the Information Matrix              0.168E-05
        (ratio of smallest to largest eigenvalue)
 
 
@@ -309,7 +314,7 @@ LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    FIQ                1.006      0.008      0.990      1.021
+    FIQ                0.987      0.007      0.973      1.001
 
 
 ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -320,10 +325,10 @@ ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    FIQ               -0.006      0.008     -0.722      0.470
+    FIQ                0.013      0.007      1.777      0.076
 
  Intercepts
-    C#2                1.266      0.777      1.629      0.103
+    C#2               -2.000      0.713     -2.806      0.005
 
 
 ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -334,7 +339,7 @@ ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARI
 Parameterization using Reference Class 1
 
  C#2      ON
-    FIQ                0.994      0.008      0.979      1.010
+    FIQ                1.013      0.007      0.999      1.027
 
 
 STANDARDIZED MODEL RESULTS
@@ -348,8 +353,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    FIQ                6.497      0.227     28.673      0.000
-    N#1                3.700      0.000    999.000    999.000
+    FIQ                6.446      0.186     34.721      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     FIQ                1.000      0.000    999.000    999.000
@@ -357,8 +362,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    FIQ                6.497      0.227     28.673      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    FIQ                6.446      0.186     34.721      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     FIQ                1.000      0.000    999.000    999.000
@@ -372,8 +377,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    FIQ                6.497      0.227     28.673      0.000
-    N#1                3.700      0.000    999.000    999.000
+    FIQ                6.446      0.186     34.721      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
     FIQ                1.000      0.000    999.000    999.000
@@ -381,8 +386,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    FIQ                6.497      0.227     28.673      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    FIQ                6.446      0.186     34.721      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
     FIQ                1.000      0.000    999.000    999.000
@@ -396,20 +401,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    FIQ               97.898      0.828    118.176      0.000
-    N#1                3.700      0.000    999.000    999.000
+    FIQ               97.116      0.681    142.674      0.000
+    N#1                3.109      0.000    999.000    999.000
 
  Variances
-    FIQ              227.051     15.878     14.300      0.000
+    FIQ              227.012     13.078     17.358      0.000
 
 Latent Class 2
 
  Means
-    FIQ               97.898      0.828    118.176      0.000
-    N#1               -3.603      0.000    999.000    999.000
+    FIQ               97.116      0.681    142.674      0.000
+    N#1               -2.370      0.000    999.000    999.000
 
  Variances
-    FIQ              227.051     15.878     14.300      0.000
+    FIQ              227.012     13.078     17.358      0.000
 
 
 CONFIDENCE INTERVALS OF MODEL RESULTS
@@ -419,28 +424,28 @@ CONFIDENCE INTERVALS OF MODEL RESULTS
 Latent Class 1
 
  Means
-    FIQ             95.765      96.275      96.536      97.898      99.261      99.522     100.032
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    FIQ             95.363      95.782      95.996      97.116      98.236      98.450      98.869
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    FIQ            186.152     195.930     200.932     227.051     253.171     258.173     267.950
+    FIQ            193.325     201.378     205.498     227.012     248.526     252.646     260.700
 
 Latent Class 2
 
  Means
-    FIQ             95.765      96.275      96.536      97.898      99.261      99.522     100.032
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    FIQ             95.363      95.782      95.996      97.116      98.236      98.450      98.869
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    FIQ            186.152     195.930     200.932     227.051     253.171     258.173     267.950
+    FIQ            193.325     201.378     205.498     227.012     248.526     252.646     260.700
 
 Categorical Latent Variables
 
  C#1      ON
-    FIQ             -0.015      -0.010      -0.007       0.006       0.019       0.021       0.026
+    FIQ             -0.031      -0.027      -0.025      -0.013      -0.001       0.001       0.006
 
  Intercepts
-    C#1             -3.268      -2.790      -2.545      -1.266       0.012       0.257       0.736
+    C#1              0.164       0.603       0.828       2.000       3.172       3.397       3.836
 
 
 CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
@@ -448,7 +453,7 @@ CONFIDENCE INTERVALS FOR THE LOGISTIC REGRESSION ODDS RATIO RESULTS
 Categorical Latent Variables
 
  C#1      ON
-    FIQ              0.986       0.990       0.993       1.006       1.019       1.021       1.026
+    FIQ              0.969       0.973       0.976       0.987       0.999       1.001       1.006
 
 
 CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL LATENT VARIABLE REGRESSION
@@ -456,10 +461,10 @@ CONFIDENCE INTERVALS FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE CATEGORICAL L
 Parameterization using Reference Class 1
 
  C#2      ON
-    FIQ             -0.026      -0.021      -0.019      -0.006       0.007       0.010       0.015
+    FIQ             -0.006      -0.001       0.001       0.013       0.025       0.027       0.031
 
  Intercepts
-    C#2             -0.736      -0.257      -0.012       1.266       2.545       2.790       3.268
+    C#2             -3.836      -3.397      -3.172      -2.000      -0.828      -0.603      -0.164
 
 
 CONFIDENCE INTERVALS FOR THE ODDS RATIO FOR THE ALTERNATIVE PARAMETERIZATIONS FOR THE
@@ -468,7 +473,7 @@ CATEGORICAL LATENT VARIABLE REGRESSION
 Parameterization using Reference Class 1
 
  C#2      ON
-    FIQ              0.974       0.979       0.982       0.994       1.007       1.010       1.015
+    FIQ              0.994       0.999       1.001       1.013       1.025       1.027       1.032
 
 
 CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
@@ -481,8 +486,8 @@ STDYX Standardization
 Latent Class 1
 
  Means
-    FIQ              5.913       6.053       6.124       6.497       6.870       6.941       7.081
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    FIQ              5.967       6.082       6.140       6.446       6.751       6.810       6.924
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     FIQ              1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -490,8 +495,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    FIQ              5.913       6.053       6.124       6.497       6.870       6.941       7.081
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    FIQ              5.967       6.082       6.140       6.446       6.751       6.810       6.924
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     FIQ              1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -504,8 +509,8 @@ STDY Standardization
 Latent Class 1
 
  Means
-    FIQ              5.913       6.053       6.124       6.497       6.870       6.941       7.081
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    FIQ              5.967       6.082       6.140       6.446       6.751       6.810       6.924
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
     FIQ              1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -513,8 +518,8 @@ Latent Class 1
 Latent Class 2
 
  Means
-    FIQ              5.913       6.053       6.124       6.497       6.870       6.941       7.081
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    FIQ              5.967       6.082       6.140       6.446       6.751       6.810       6.924
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
     FIQ              1.000       1.000       1.000       1.000       1.000       1.000       1.000
@@ -527,20 +532,20 @@ STD Standardization
 Latent Class 1
 
  Means
-    FIQ             95.765      96.275      96.536      97.898      99.261      99.522     100.032
-    N#1              3.700       3.700       3.700       3.700       3.700       3.700       3.700
+    FIQ             95.363      95.782      95.996      97.116      98.236      98.450      98.869
+    N#1              3.109       3.109       3.109       3.109       3.109       3.109       3.109
 
  Variances
-    FIQ            186.152     195.930     200.932     227.051     253.171     258.173     267.950
+    FIQ            193.325     201.378     205.498     227.012     248.526     252.646     260.700
 
 Latent Class 2
 
  Means
-    FIQ             95.765      96.275      96.536      97.898      99.261      99.522     100.032
-    N#1             -3.603      -3.603      -3.603      -3.603      -3.603      -3.603      -3.603
+    FIQ             95.363      95.782      95.996      97.116      98.236      98.450      98.869
+    N#1             -2.370      -2.370      -2.370      -2.370      -2.370      -2.370      -2.370
 
  Variances
-    FIQ            186.152     195.930     200.932     227.051     253.171     258.173     267.950
+    FIQ            193.325     201.378     205.498     227.012     248.526     252.646     260.700
 
 
 TECHNICAL 7 OUTPUT
@@ -552,13 +557,13 @@ TECHNICAL 7 OUTPUT
            Means
               FIQ
               ________
-               98.771
+               96.152
 
 
            Covariances
               FIQ
               ________
- FIQ          189.767
+ FIQ          231.052
 
 
      SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
@@ -567,34 +572,112 @@ TECHNICAL 7 OUTPUT
            Means
               FIQ
               ________
-               97.442
+               99.023
 
 
            Covariances
               FIQ
               ________
- FIQ          244.597
+ FIQ          213.860
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
 
      Variable
      N
-       Category 1        0.976
-       Category 2        0.024
+       Category 1        0.957
+       Category 2        0.043
 
 
      UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
 
      Variable
      N
-       Category 1        0.027
-       Category 2        0.973
+       Category 1        0.086
+       Category 2        0.914
 
 
-     Beginning Time:  19:15:08
-        Ending Time:  19:15:08
-       Elapsed Time:  00:00:00
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              FIQ
+              ________
+               97.122
+
+
+           Estimated Mixed Means
+              FIQ
+              ________
+               97.116
+
+
+           Residuals for Mixed Means
+              FIQ
+              ________
+                0.006
+
+
+           Observed Covariances
+              FIQ
+              ________
+ FIQ          227.085
+
+
+           Estimated Mixed Covariances
+              FIQ
+              ________
+ FIQ          227.012
+
+
+           Residuals for Mixed Covariances
+              FIQ
+              ________
+ FIQ            0.073
+
+
+           Observed Skewness
+              FIQ
+              ________
+                0.164
+
+
+           Estimated Mixed Skewness
+              FIQ
+              ________
+                0.000
+
+
+           Residuals for Mixed Skewness
+              FIQ
+              ________
+                0.164
+
+
+           Observed Kurtosis
+              FIQ
+              ________
+               -0.367
+
+
+           Estimated Mixed Kurtosis
+              FIQ
+              ________
+                0.000
+
+
+           Residuals for Mixed Kurtosis
+              FIQ
+              ________
+               -0.367
+
+
+     Beginning Time:  18:21:37
+        Ending Time:  18:21:38
+       Elapsed Time:  00:00:01
 
 
 

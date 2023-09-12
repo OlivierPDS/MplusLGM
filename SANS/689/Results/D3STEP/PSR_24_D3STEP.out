@@ -1,0 +1,732 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+09/07/2023  11:49 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_PSR_24 - GMM_CI_isq@0cub@0_C_332_331;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/PSR_24_D3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N PSR_24;
+   MISSING=.;
+   USEVAR = PSR_24 N;
+  NOMINAL = N;
+  CATEGORICAL = PSR_24;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  ALGORITHM = INTEGRATION;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  %C#1%
+  [N#1@0.806];
+  [N#2@-0.173];
+  [PSR_24$1](M1);
+  %C#2%
+  [N#1@-1.455];
+  [N#2@1.406];
+  [PSR_24$1](M2);
+  %C#3%
+  [N#1@-2.938];
+  [N#2@-1.577];
+  [PSR_24$1](M3);
+  MODEL CONSTRAINT:
+  New (diff12 diff13 diff23);
+  diff12 = M1 - M2;
+  diff13 = M1 - M3;
+  diff23 = M2 - M3;
+  MODEL TEST:
+  M1 = M2;
+  M2 = M3;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+  TECH7;
+  TECH12;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+*** WARNING in OUTPUT command
+  SAMPSTAT option is not available when all outcomes are censored, ordered
+  categorical, unordered categorical (nominal), count or continuous-time
+  survival variables.  Request for SAMPSTAT is ignored.
+*** WARNING in OUTPUT command
+  TECH12 option is not available when there are no continuous dependent variables
+  in the analysis.  Request for TECH12 is ignored.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   4 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_PSR_24 - GMM_CI_isq@0cub@0_C_332_331;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         679
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   PSR_24
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            0
+  Adaptive quadrature                                           ON
+Link                                                         LOGIT
+Cholesky                                                       OFF
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/PSR_24_D3STEP.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           0
+     Number of u missing data patterns           2
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR U
+
+
+           Covariance Coverage
+              PSR_24
+              ________
+ PSR_24         0.595
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    PSR_24
+      Category 1    0.272          110.000
+      Category 2    0.728          294.000
+    N
+      Category 1    0.153          104.000
+      Category 2    0.408          277.000
+      Category 3    0.439          298.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        5
+
+Loglikelihood
+
+          H0 Value                        -921.648
+          H0 Scaling Correction Factor      1.0002
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    1853.295
+          Bayesian (BIC)                  1875.898
+          Sample-Size Adjusted BIC        1860.023
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit for the Binary and Ordered Categorical
+(Ordinal) Outcomes
+
+          Pearson Chi-Square
+
+          Value                              0.007
+          Degrees of freedom cannot be computed for this model part.
+
+          Likelihood Ratio Chi-Square
+
+          Value                              0.007
+          Degrees of freedom cannot be computed for this model part.
+
+Chi-Square Test for MCAR under the Unrestricted Latent Class Indicator Model
+
+          Pearson Chi-Square
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+          Likelihood Ratio Chi-Square
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+Wald Test of Parameter Constraints
+
+          Value                              7.166
+          Degrees of Freedom                     2
+          P-Value                           0.0278
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        148.16833          0.21822
+       2        263.98875          0.38879
+       3        266.84292          0.39299
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        148.16829          0.21822
+       2        263.98878          0.38879
+       3        266.84293          0.39299
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              104          0.15317
+       2              277          0.40795
+       3              298          0.43888
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.313
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.781    0.111    0.108
+    2   0.110    0.732    0.158
+    3   0.122    0.167    0.711
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.548    0.206    0.245
+    2   0.044    0.768    0.188
+    3   0.042    0.164    0.794
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      0.803   -0.174    0.000
+    2     -1.458    1.405    0.000
+    3     -2.940   -1.578    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                0.806      0.000    999.000    999.000
+    N#2               -0.173      0.000    999.000    999.000
+
+ Thresholds
+    PSR_24$1          -1.283      0.430     -2.982      0.003
+
+Latent Class 2
+
+ Means
+    N#1               -1.455      0.000    999.000    999.000
+    N#2                1.406      0.000    999.000    999.000
+
+ Thresholds
+    PSR_24$1          -1.557      0.334     -4.664      0.000
+
+Latent Class 3
+
+ Means
+    N#1               -2.938      0.000    999.000    999.000
+    N#2               -1.577      0.000    999.000    999.000
+
+ Thresholds
+    PSR_24$1          -0.386      0.236     -1.639      0.101
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.588      0.178     -3.310      0.001
+    C#2               -0.011      0.149     -0.072      0.943
+
+New/Additional Parameters
+    DIFF12             0.274      0.602      0.455      0.649
+    DIFF13            -0.896      0.539     -1.663      0.096
+    DIFF23            -1.170      0.469     -2.494      0.013
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.143E-01
+       (ratio of smallest to largest eigenvalue)
+
+
+RESULTS IN PROBABILITY SCALE
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ PSR_24
+    Category 1         0.217      0.073      2.970      0.003
+    Category 2         0.783      0.073     10.710      0.000
+
+Latent Class 2
+
+ PSR_24
+    Category 1         0.174      0.048      3.628      0.000
+    Category 2         0.826      0.048     17.208      0.000
+
+Latent Class 3
+
+ PSR_24
+    Category 1         0.405      0.057      7.124      0.000
+    Category 2         0.595      0.057     10.485      0.000
+
+
+LATENT CLASS INDICATOR ODDS RATIOS FOR THE LATENT CLASSES
+
+                                                95% C.I.
+                    Estimate       S.E.  Lower 2.5% Upper 2.5%
+
+Latent Class 1 Compared to Latent Class 2
+
+ PSR_24
+    Category > 1       0.760      0.457      0.234      2.473
+
+Latent Class 1 Compared to Latent Class 3
+
+ PSR_24
+    Category > 1       2.451      1.321      0.852      7.046
+
+Latent Class 2 Compared to Latent Class 3
+
+ PSR_24
+    Category > 1       3.223      1.512      1.285      8.084
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                0.806      0.000    999.000    999.000
+    N#2               -0.173      0.000    999.000    999.000
+
+ Thresholds
+    PSR_24$1          -0.707      0.237     -2.982      0.003
+
+Latent Class 2
+
+ Means
+    N#1               -1.455      0.000    999.000    999.000
+    N#2                1.406      0.000    999.000    999.000
+
+ Thresholds
+    PSR_24$1          -0.858      0.184     -4.664      0.000
+
+Latent Class 3
+
+ Means
+    N#1               -2.938      0.000    999.000    999.000
+    N#2               -1.577      0.000    999.000    999.000
+
+ Thresholds
+    PSR_24$1          -0.213      0.130     -1.639      0.101
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                0.806      0.000    999.000    999.000
+    N#2               -0.173      0.000    999.000    999.000
+
+ Thresholds
+    PSR_24$1          -0.707      0.237     -2.982      0.003
+
+Latent Class 2
+
+ Means
+    N#1               -1.455      0.000    999.000    999.000
+    N#2                1.406      0.000    999.000    999.000
+
+ Thresholds
+    PSR_24$1          -0.858      0.184     -4.664      0.000
+
+Latent Class 3
+
+ Means
+    N#1               -2.938      0.000    999.000    999.000
+    N#2               -1.577      0.000    999.000    999.000
+
+ Thresholds
+    PSR_24$1          -0.213      0.130     -1.639      0.101
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                0.806      0.000    999.000    999.000
+    N#2               -0.173      0.000    999.000    999.000
+
+ Thresholds
+    PSR_24$1          -1.283      0.430     -2.982      0.003
+
+Latent Class 2
+
+ Means
+    N#1               -1.455      0.000    999.000    999.000
+    N#2                1.406      0.000    999.000    999.000
+
+ Thresholds
+    PSR_24$1          -1.557      0.334     -4.664      0.000
+
+Latent Class 3
+
+ Means
+    N#1               -2.938      0.000    999.000    999.000
+    N#2               -1.577      0.000    999.000    999.000
+
+ Thresholds
+    PSR_24$1          -0.386      0.236     -1.639      0.101
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              0.806       0.806       0.806       0.806       0.806       0.806       0.806
+    N#2             -0.173      -0.173      -0.173      -0.173      -0.173      -0.173      -0.173
+
+ Thresholds
+    PSR_24$1        -2.391      -2.126      -1.990      -1.283      -0.575      -0.440      -0.175
+
+Latent Class 2
+
+ Means
+    N#1             -1.455      -1.455      -1.455      -1.455      -1.455      -1.455      -1.455
+    N#2              1.406       1.406       1.406       1.406       1.406       1.406       1.406
+
+ Thresholds
+    PSR_24$1        -2.416      -2.211      -2.106      -1.557      -1.008      -0.903      -0.697
+
+Latent Class 3
+
+ Means
+    N#1             -2.938      -2.938      -2.938      -2.938      -2.938      -2.938      -2.938
+    N#2             -1.577      -1.577      -1.577      -1.577      -1.577      -1.577      -1.577
+
+ Thresholds
+    PSR_24$1        -0.994      -0.848      -0.774      -0.386       0.001       0.076       0.221
+
+Categorical Latent Variables
+
+ Means
+    C#1             -1.046      -0.937      -0.881      -0.588      -0.296      -0.240      -0.130
+    C#2             -0.396      -0.304      -0.257      -0.011       0.235       0.282       0.374
+
+New/Additional Parameters
+    DIFF12          -1.276      -0.905      -0.716       0.274       1.264       1.453       1.824
+    DIFF13          -2.284      -1.952      -1.783      -0.896      -0.010       0.160       0.492
+    DIFF23          -2.379      -2.090      -1.942      -1.170      -0.398      -0.250       0.039
+
+
+CONFIDENCE INTERVALS IN PROBABILITY SCALE
+
+Latent Class 1
+
+ PSR_24
+    Category 1       0.029       0.074       0.097       0.217       0.337       0.360       0.405
+    Category 2       0.595       0.640       0.663       0.783       0.903       0.926       0.971
+
+Latent Class 2
+
+ PSR_24
+    Category 1       0.051       0.080       0.095       0.174       0.253       0.268       0.298
+    Category 2       0.702       0.732       0.747       0.826       0.905       0.920       0.949
+
+Latent Class 3
+
+ PSR_24
+    Category 1       0.258       0.293       0.311       0.405       0.498       0.516       0.551
+    Category 2       0.449       0.484       0.502       0.595       0.689       0.707       0.742
+
+
+CONFIDENCE INTERVALS FOR THE LATENT CLASS ODDS RATIO RESULTS
+
+Latent Class 1 Compared to Latent Class 2
+
+ PSR_24
+    Category > 1     0.161       0.234       0.283       0.760       2.046       2.473       3.581
+
+Latent Class 1 Compared to Latent Class 3
+
+ PSR_24
+    Category > 1     0.612       0.852       1.010       2.451       5.946       7.046       9.819
+
+Latent Class 2 Compared to Latent Class 3
+
+ PSR_24
+    Category > 1     0.962       1.285       1.489       3.223       6.974       8.084      10.793
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              0.806       0.806       0.806       0.806       0.806       0.806       0.806
+    N#2             -0.173      -0.173      -0.173      -0.173      -0.173      -0.173      -0.173
+
+ Thresholds
+    PSR_24$1        -1.318      -1.172      -1.097      -0.707      -0.317      -0.242      -0.096
+
+Latent Class 2
+
+ Means
+    N#1             -1.455      -1.455      -1.455      -1.455      -1.455      -1.455      -1.455
+    N#2              1.406       1.406       1.406       1.406       1.406       1.406       1.406
+
+ Thresholds
+    PSR_24$1        -1.332      -1.219      -1.161      -0.858      -0.556      -0.498      -0.384
+
+Latent Class 3
+
+ Means
+    N#1             -2.938      -2.938      -2.938      -2.938      -2.938      -2.938      -2.938
+    N#2             -1.577      -1.577      -1.577      -1.577      -1.577      -1.577      -1.577
+
+ Thresholds
+    PSR_24$1        -0.548      -0.468      -0.427      -0.213       0.001       0.042       0.122
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              0.806       0.806       0.806       0.806       0.806       0.806       0.806
+    N#2             -0.173      -0.173      -0.173      -0.173      -0.173      -0.173      -0.173
+
+ Thresholds
+    PSR_24$1        -1.318      -1.172      -1.097      -0.707      -0.317      -0.242      -0.096
+
+Latent Class 2
+
+ Means
+    N#1             -1.455      -1.455      -1.455      -1.455      -1.455      -1.455      -1.455
+    N#2              1.406       1.406       1.406       1.406       1.406       1.406       1.406
+
+ Thresholds
+    PSR_24$1        -1.332      -1.219      -1.161      -0.858      -0.556      -0.498      -0.384
+
+Latent Class 3
+
+ Means
+    N#1             -2.938      -2.938      -2.938      -2.938      -2.938      -2.938      -2.938
+    N#2             -1.577      -1.577      -1.577      -1.577      -1.577      -1.577      -1.577
+
+ Thresholds
+    PSR_24$1        -0.548      -0.468      -0.427      -0.213       0.001       0.042       0.122
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              0.806       0.806       0.806       0.806       0.806       0.806       0.806
+    N#2             -0.173      -0.173      -0.173      -0.173      -0.173      -0.173      -0.173
+
+ Thresholds
+    PSR_24$1        -2.391      -2.126      -1.990      -1.283      -0.575      -0.440      -0.175
+
+Latent Class 2
+
+ Means
+    N#1             -1.455      -1.455      -1.455      -1.455      -1.455      -1.455      -1.455
+    N#2              1.406       1.406       1.406       1.406       1.406       1.406       1.406
+
+ Thresholds
+    PSR_24$1        -2.416      -2.211      -2.106      -1.557      -1.008      -0.903      -0.697
+
+Latent Class 3
+
+ Means
+    N#1             -2.938      -2.938      -2.938      -2.938      -2.938      -2.938      -2.938
+    N#2             -1.577      -1.577      -1.577      -1.577      -1.577      -1.577      -1.577
+
+ Thresholds
+    PSR_24$1        -0.994      -0.848      -0.774      -0.386       0.001       0.076       0.221
+
+
+TECHNICAL 7 OUTPUT
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
+
+     Variable
+     N
+       Category 1        0.548
+       Category 2        0.206
+       Category 3        0.245
+     PSR_24
+       Category 1        0.217
+       Category 2        0.783
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
+
+     Variable
+     N
+       Category 1        0.044
+       Category 2        0.768
+       Category 3        0.188
+     PSR_24
+       Category 1        0.174
+       Category 2        0.826
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 3
+
+     Variable
+     N
+       Category 1        0.042
+       Category 2        0.164
+       Category 3        0.794
+     PSR_24
+       Category 1        0.404
+       Category 2        0.596
+
+
+     Beginning Time:  11:49:53
+        Ending Time:  11:49:53
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

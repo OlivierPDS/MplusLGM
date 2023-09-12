@@ -1,0 +1,542 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+06/29/2023   2:21 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_txm24co -  GMM4v_i s q cub@0;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/txm24co_D3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 N txm24co;
+   MISSING=.;
+   USEVAR = txm24co N;
+  NOMINAL = N;
+  CATEGORICAL = txm24co;
+  CLASSES = c(2);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  ALGORITHM = INTEGRATION;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  %C#1%
+  [N#1@3.513];
+  [txm24co$1](M1);
+  %C#2%
+  [N#1@-3.952];
+  [txm24co$1](M2);
+  MODEL CONSTRAINT:
+  New (diff12);
+  diff12 = M1 - M2;
+  MODEL TEST:
+  M1 = M2;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+*** WARNING in OUTPUT command
+  SAMPSTAT option is not available when all outcomes are censored, ordered
+  categorical, unordered categorical (nominal), count or continuous-time
+  survival variables.  Request for SAMPSTAT is ignored.
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_txm24co -  GMM4v_i s q cub@0;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         405
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   TXM24CO
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            0
+  Adaptive quadrature                                           ON
+Link                                                         LOGIT
+Cholesky                                                       OFF
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/MplusLGM/SAPS/Results/D3STEP/txm24co_D3STEP.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           0
+     Number of u missing data patterns           2
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR U
+
+
+           Covariance Coverage
+              TXM24CO
+              ________
+ TXM24CO        0.998
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    TXM24CO
+      Category 1    0.928          375.000
+      Category 2    0.072           29.000
+    N
+      Category 1    0.341          138.000
+      Category 2    0.659          267.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        3
+
+Loglikelihood
+
+          H0 Value                        -360.825
+          H0 Scaling Correction Factor      0.9999
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                     727.650
+          Bayesian (BIC)                   739.662
+          Sample-Size Adjusted BIC         730.143
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit for the Binary and Ordered Categorical
+(Ordinal) Outcomes
+
+          Pearson Chi-Square
+
+          Value                              0.000
+          Degrees of freedom cannot be computed for this model part.
+
+          Likelihood Ratio Chi-Square
+
+          Value                              0.000
+          Degrees of freedom cannot be computed for this model part.
+
+Chi-Square Test for MCAR under the Unrestricted Latent Class Indicator Model
+
+          Pearson Chi-Square
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+          Likelihood Ratio Chi-Square
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+Wald Test of Parameter Constraints
+
+          Value                              4.666
+          Degrees of Freedom                     1
+          P-Value                           0.0308
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        136.90851          0.33805
+       2        268.09149          0.66195
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        136.90851          0.33805
+       2        268.09149          0.66195
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              138          0.34074
+       2              267          0.65926
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.851
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.963    0.037
+    2   0.015    0.985
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.971    0.029
+    2   0.019    0.981
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      3.513    0.000
+    2     -3.952    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                3.513      0.000    999.000    999.000
+
+ Thresholds
+    TXM24CO$1          3.604      0.576      6.259      0.000
+
+Latent Class 2
+
+ Means
+    N#1               -3.952      0.000    999.000    999.000
+
+ Thresholds
+    TXM24CO$1          2.254      0.211     10.663      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.672      0.111     -6.080      0.000
+
+New/Additional Parameters
+    DIFF12             1.350      0.625      2.160      0.031
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.122E-01
+       (ratio of smallest to largest eigenvalue)
+
+
+RESULTS IN PROBABILITY SCALE
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ TXM24CO
+    Category 1         0.974      0.015     65.555      0.000
+    Category 2         0.026      0.015      1.784      0.074
+
+Latent Class 2
+
+ TXM24CO
+    Category 1         0.905      0.018     49.798      0.000
+    Category 2         0.095      0.018      5.227      0.000
+
+
+LATENT CLASS INDICATOR ODDS RATIOS FOR THE LATENT CLASSES
+
+                                                95% C.I.
+                    Estimate       S.E.  Lower 2.5% Upper 2.5%
+
+Latent Class 1 Compared to Latent Class 2
+
+ TXM24CO
+    Category > 1       0.259      0.162      0.076      0.882
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                3.513      0.000    999.000    999.000
+
+ Thresholds
+    TXM24CO$1          1.987      0.317      6.259      0.000
+
+Latent Class 2
+
+ Means
+    N#1               -3.952      0.000    999.000    999.000
+
+ Thresholds
+    TXM24CO$1          1.243      0.117     10.663      0.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                3.513      0.000    999.000    999.000
+
+ Thresholds
+    TXM24CO$1          1.987      0.317      6.259      0.000
+
+Latent Class 2
+
+ Means
+    N#1               -3.952      0.000    999.000    999.000
+
+ Thresholds
+    TXM24CO$1          1.243      0.117     10.663      0.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                3.513      0.000    999.000    999.000
+
+ Thresholds
+    TXM24CO$1          3.604      0.576      6.259      0.000
+
+Latent Class 2
+
+ Means
+    N#1               -3.952      0.000    999.000    999.000
+
+ Thresholds
+    TXM24CO$1          2.254      0.211     10.663      0.000
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              3.513       3.513       3.513       3.513       3.513       3.513       3.513
+
+ Thresholds
+    TXM24CO$1        2.121       2.475       2.657       3.604       4.552       4.733       5.088
+
+Latent Class 2
+
+ Means
+    N#1             -3.952      -3.952      -3.952      -3.952      -3.952      -3.952      -3.952
+
+ Thresholds
+    TXM24CO$1        1.710       1.840       1.906       2.254       2.602       2.668       2.799
+
+Categorical Latent Variables
+
+ Means
+    C#1             -0.957      -0.889      -0.854      -0.672      -0.490      -0.455      -0.387
+
+New/Additional Parameters
+    DIFF12          -0.260       0.125       0.322       1.350       2.378       2.575       2.960
+
+
+CONFIDENCE INTERVALS IN PROBABILITY SCALE
+
+Latent Class 1
+
+ TXM24CO
+    Category 1       0.935       0.944       0.949       0.974       0.998       1.003       1.012
+    Category 2      -0.012      -0.003       0.002       0.026       0.051       0.056       0.065
+
+Latent Class 2
+
+ TXM24CO
+    Category 1       0.858       0.869       0.875       0.905       0.935       0.941       0.952
+    Category 2       0.048       0.059       0.065       0.095       0.125       0.131       0.142
+
+
+CONFIDENCE INTERVALS FOR THE LATENT CLASS ODDS RATIO RESULTS
+
+Latent Class 1 Compared to Latent Class 2
+
+ TXM24CO
+    Category > 1     0.052       0.076       0.093       0.259       0.725       0.882       1.297
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              3.513       3.513       3.513       3.513       3.513       3.513       3.513
+
+ Thresholds
+    TXM24CO$1        1.169       1.365       1.465       1.987       2.509       2.609       2.805
+
+Latent Class 2
+
+ Means
+    N#1             -3.952      -3.952      -3.952      -3.952      -3.952      -3.952      -3.952
+
+ Thresholds
+    TXM24CO$1        0.943       1.014       1.051       1.243       1.434       1.471       1.543
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              3.513       3.513       3.513       3.513       3.513       3.513       3.513
+
+ Thresholds
+    TXM24CO$1        1.169       1.365       1.465       1.987       2.509       2.609       2.805
+
+Latent Class 2
+
+ Means
+    N#1             -3.952      -3.952      -3.952      -3.952      -3.952      -3.952      -3.952
+
+ Thresholds
+    TXM24CO$1        0.943       1.014       1.051       1.243       1.434       1.471       1.543
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              3.513       3.513       3.513       3.513       3.513       3.513       3.513
+
+ Thresholds
+    TXM24CO$1        2.121       2.475       2.657       3.604       4.552       4.733       5.088
+
+Latent Class 2
+
+ Means
+    N#1             -3.952      -3.952      -3.952      -3.952      -3.952      -3.952      -3.952
+
+ Thresholds
+    TXM24CO$1        1.710       1.840       1.906       2.254       2.602       2.668       2.799
+
+
+     Beginning Time:  14:21:57
+        Ending Time:  14:21:57
+       Elapsed Time:  00:00:00
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

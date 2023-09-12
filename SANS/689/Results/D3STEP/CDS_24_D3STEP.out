@@ -1,0 +1,315 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+09/07/2023  11:29 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_CDS_24 - GMM_CI_isq@0cub@0_C_332_331;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/CDS_24_D3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N CDS_24;
+   MISSING=.;
+   USEVAR = CDS_24 N;
+  NOMINAL = N;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 256000 64000;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  %C#1%
+  [N#1@0.806];
+  [N#2@-0.173];
+  [CDS_24](M1); CDS_24;
+  %C#2%
+  [N#1@-1.455];
+  [N#2@1.406];
+  [CDS_24](M2); CDS_24;
+  %C#3%
+  [N#1@-2.938];
+  [N#2@-1.577];
+  [CDS_24](M3); CDS_24;
+  MODEL CONSTRAINT:
+  New (diff12 diff13 diff23);
+  diff12 = M1 - M2;
+  diff13 = M1 - M3;
+  diff23 = M2 - M3;
+  MODEL TEST:
+  M1 = M2;
+  M2 = M3;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+  TECH7;
+  TECH12;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   2 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_CDS_24 - GMM_CI_isq@0cub@0_C_332_331;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         679
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   CDS_24
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                     256000
+  Number of final stage optimizations                        64000
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/CDS_24_D3STEP.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           2
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              CDS_24
+              ________
+ CDS_24         0.518
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.153          104.000
+      Category 2    0.408          277.000
+      Category 3    0.439          298.000
+
+
+SAMPLE STATISTICS
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     CDS_24                1.222       2.821       0.000   63.07%       0.000      0.000      0.000
+             352.000       5.786       9.522      17.000    0.28%       0.000      2.000
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+
+244030 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+
+64000 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+     THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 1 COULD NOT
+     BE INVERTED.  PROBLEM INVOLVING VARIABLE CDS_24.  COMPUTATION COULD
+     NOT BE COMPLETED IN ITERATION 5.  CHANGE YOUR MODEL AND/OR STARTING
+     VALUES.  THIS MAY BE DUE TO A ZERO ESTIMATED VARIANCE, THAT IS, NO WITHIN-CLASS
+     VARIATION FOR THE VARIABLE.
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY.  ESTIMATES CANNOT
+     BE TRUSTED.
+
+
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ERROR IN THE
+     COMPUTATION.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+
+
+
+
+
+
+MODEL RESULTS
+
+                    Estimate
+
+Latent Class 1
+
+ Means
+    CDS_24             0.000
+
+ Means
+    N#1                0.806
+    N#2               -0.173
+
+ Variances
+    CDS_24             0.000
+
+Latent Class 2
+
+ Means
+    CDS_24             0.872
+
+ Means
+    N#1               -1.455
+    N#2                1.406
+
+ Variances
+    CDS_24             0.605
+
+Latent Class 3
+
+ Means
+    CDS_24             4.723
+
+ Means
+    N#1               -2.938
+    N#2               -1.577
+
+ Variances
+    CDS_24             9.923
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.339
+    C#2                0.202
+
+New/Additional Parameters
+    DIFF12            -0.872
+    DIFF13            -4.723
+    DIFF23            -3.850
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     %OVERALL%
+
+     [ c#1*0.33917 ];
+     [ c#2*0.20178 ];
+
+     %C#1%
+
+     [ cds_24*0.00002 ] (m1);
+     [ n#1@0.80600 ];
+     [ n#2@-0.17300 ];
+
+     cds_24*0.00000;
+
+     %C#2%
+
+     [ cds_24*0.87211 ] (m2);
+     [ n#1@-1.45500 ];
+     [ n#2@1.40600 ];
+
+     cds_24*0.60471;
+
+     %C#3%
+
+     [ cds_24*4.72261 ] (m3);
+     [ n#1@-2.93800 ];
+     [ n#2@-1.57700 ];
+
+     cds_24*9.92300;
+
+     ! NEW statements in MODEL CONSTRAINT
+     NEW(diff12*-0.87210);
+     NEW(diff13*-4.72259);
+     NEW(diff23*-3.85049);
+
+
+
+
+TECHNICAL 7 OUTPUT
+
+
+TECHNICAL 12 OUTPUT
+
+
+     Beginning Time:  11:29:11
+        Ending Time:  11:33:49
+       Elapsed Time:  00:04:38
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen
