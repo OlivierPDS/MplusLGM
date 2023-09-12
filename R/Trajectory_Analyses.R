@@ -46,7 +46,7 @@ library(MplusLGM)
 library(rhdf5) #BiocManager::install('rhdf5')
 library(parallel)
 
-R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/LGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
 
 # Installation ------------------------------------------------------------
 install.packages('devtools') # Install devtools 
@@ -113,10 +113,11 @@ SR <- c(SR_cat, SR_t, SR_1st, 'JSR_24C')
 ## Medication
 adh <- paste('comp', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
 ord <- paste0('txm', c(0, 1, 2, 3, 6, 9, 12, 18, 24), 'co')
+CPZ <- paste('CPZ', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
 CPZw <- paste('CPZw', c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = '_')
 RX_0 <- c('comp_0', 'txm0co', 'CPZw_0')
 RX_24 <- c('comp_24', 'txm24co', 'CPZw_24')
-RX <-  c(ord, adh, CPZw)
+RX <-  c(ord, adh, CPZ)
 # AP_yn <- starts_with('anti')
 # AP_type <- starts_with('atype')
 
@@ -130,9 +131,9 @@ SX_24 <- paste(c('SAPS', 'SANS', 'HAS', 'CDS', 'cd8', 'YMRS','SUMD1'), '24', sep
 SX <- c(SAPS, SANS, HAS, CDS, SCD, YMRS, SUMD)
 
 ## covariates
-cov_R3STEP <- c(SD_cat, SD_num, 'ageonset', 'duponset', 'mode', 'ip_op', 'dx_b2', 'SUD', 'PAS_tot2', 'SOFAS_0', COGSTATE, SX_0, SR_0, SR_1st, 'JSR_by3', "comp_0", "CPZw_0") #CAYRconv, txm0co, SUMD2_0, SUMD3_0
+cov_R3STEP <- c(SD_cat, SD_num, 'ageonset', 'duponset', 'mode', 'ip_op', 'dx_b2', 'SUD', 'PAS_tot2', 'SOFAS_0', COGSTATE, SX_0, SR_0, SR_1st, 'JSR_by3', "comp_0", "CPZ_0") %>% setdiff(c('cd8_0')) #CAYRconv, txm0co, SUMD2_0, SUMD3_0
 cov_MixReg <- c(SOFAS, SX, PSR, NSR, JSR)
-cov_D3STEP <- c('SOFAS_24', SX_24, SR_24, 'JSR_24C','RECOV_24', "comp_24", "CPZw_24") #txm24co
+cov_D3STEP <- c('SOFAS_24', SX_24, SR_24, 'JSR_24C','RECOV_24', "comp_24", "CPZ_24", "txm24co") %>% setdiff(c('cd8_24')) #txm24co
 
 ## Miscellaneous
 # t <- paste0('t', c(0, 1, 2, 3, 6, 9, 12, 18, 24))
@@ -151,27 +152,29 @@ PEPP2_df <- list.files(
   rownames() %>% 
   read_sav()
 
-SD_df <- PEPP2_df %>%
+SD_df <- PEPP2_df %>% 
+  # filter(selected == 1) %>% 
   filter(pin <= 857) %>% 
-  filter(ageentry >= 14 & ageentry < 36) %>%
-  filter(FIQ >= 70 | is.na(FIQ)) %>% 
-  filter(dx_0 !=3 | is.na(dx_0)) %>% 
-  filter(prev_EP == 0 | is.na(prev_EP)) %>% 
-  filter(prevAP_dur < 30 | is.na(prevAP_dur)) %>% 
-  filter(case_when(prevTX_dur >= 30 & is.na(prevAP_dur) ~ FALSE, .default = TRUE)) %>% 
-  filter(is.na(Txsitn))
-
-SD_df <- SD_df %>% 
   select('pin', all_of(c(cov_R3STEP, cov_MixReg, cov_D3STEP)), starts_with('miss')) %>% 
   mutate(across(any_of(cat), ~ to_factor(.x, levels = 'labels'))) %>% #Recode labelled variables as factor 
   mutate(across(c(-any_of(cat), -where(is.Date)), ~ as.numeric(as.character(.)))) %>% #Recode labelled variables as numeric
-  mutate(dx_b2 = fct_drop(dx_b2)) %>% 
-  mutate(gender = fct_collapse(gender, male = 'Male', female = c('Female', 'other')))
+  mutate(gender = fct_collapse(gender, male = 'Male', female = c('Female', 'other'))) %>% 
+  mutate(dx_b2 = fct_recode(dx_b2, NULL = "substance-induced psychosis")) %>% 
+  mutate(dx_b2 = fct_drop(dx_b2))
 
+# ITT_df <- PEPP2_df %>% 
+#   filter(pin <= 857) %>% 
+#   select('pin', all_of(c(cov_R3STEP, cov_MixReg, cov_D3STEP)), starts_with('miss')) %>% 
+#   mutate(across(any_of(cat), ~ to_factor(.x, levels = 'labels'))) %>% #Recode labelled variables as factor 
+#   mutate(across(c(-any_of(cat), -where(is.Date)), ~ as.numeric(as.character(.)))) %>% #Recode labelled variables as numeric
+#   mutate(dx_b2 = fct_drop(dx_b2)) %>% 
+#   mutate(gender = fct_collapse(gender, male = 'Male', female = c('Female', 'other')))
+  
 # SOFAS -------------------------------------------------------------------
+rm(list = ls())
 ## Load workingspace 
 ws <- list.files(
-  str_c(getwd(), '/SOFAS'), full.names = TRUE) %>%
+  file.path(getwd(), 'SOFAS', '689'), full.names = TRUE) %>%
   file.info() %>%
   filter(isdir == FALSE) %>% 
   slice_max(mtime) %>% # get the most updated workspace
@@ -179,16 +182,20 @@ ws <- list.files(
   
 load(ws)
 
-R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly = FALSE, envir = globalenv())
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/LGM/R/LGMMs', modifiedOnly = FALSE, envir = globalenv())
 
-## Step 0: Prepare dataset  ------------------------------------------------
+## Step 0: Prepare dataset ------------------------------------------------
 ### Subset dataset
 SOFAS_df <- SD_df %>%
-  filter(miss_SOFAS <= 1)
+  filter(pin <= 857)
+  # filter(miss_SOFAS <= 1)
 
-## Step 1: Growth Curve Modeling  ------------------------------------------
+## Step 1: Growth Curve Modeling ------------------------------------------
 ### Run GCM model
-GCM_model <- fitGCM(SOFAS_df, SOFAS, c(0, 12, 24))
+GCM_model <- fitGCM(SOFAS_df, 
+                    SOFAS, 
+                    c(0, 12, 24),
+                    working_dir = file.path(getwd(), 'SOFAS', '689'))
 
 ### Get GCM model fit indices
 GCM_fit <- GCM_model %>% 
@@ -207,7 +214,7 @@ GBTM_models <- fitGBTM(
   usevar = SOFAS,
   timepoints = c(0, 12, 24),
   idvar = 'pin',
-  working_dir = paste(getwd(), 'SOFAS', sep = '/'),
+  working_dir = file.path(getwd(), 'SOFAS', '689'),
   overall_polynomial = 2, 
   max_k = 6)
 
@@ -215,7 +222,8 @@ GBTM_models <- fitGBTM(
 GBTM_fit <- getFitIndices(GBTM_models) 
 
 ### Select best GBTM model 
-GBTM_best <- BEST(GBTM_models, GBTM_fit)
+# GBTM_best <- BEST(GBTM_models, GBTM_fit)
+GBTM_best <- GBTM_models[[2]]
 
 ## Step 3: Latent Class Growth Analyses ------------------------------------
 ### Run LCGA models 
@@ -226,7 +234,7 @@ LCGA_models <- fitLCGA(
   idvar = 'pin',
   classes = 2,
   overall_polynomial = 2,
-  working_dir = paste(getwd(), 'SOFAS', sep = '/'),
+  working_dir = file.path(getwd(), 'SOFAS', '689'),
   ref_model = GBTM_best) 
 
 ### Get LCGA models fit indices 
@@ -238,7 +246,7 @@ LCGA_best <- BEST(LCGA_models, LCGA_fit)
 ## Step 4: Growth Mixture Models ------------------------------------------
 ### Add class-invariant random effect variances stepwise 
 GMMci_models <- map(
-  c(500, 1000),
+  c(2000, 4000),
   \(startval) GMM(
     df = SOFAS_df,
     idvar = "pin",
@@ -247,7 +255,8 @@ GMMci_models <- map(
     startval = startval,
     overall_polynomial = 2,
     random_effect = "CI",
-    output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL")
+    output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL"), 
+    working_dir = file.path(getwd(), 'SOFAS', '689')
   )
 )
 
@@ -259,7 +268,7 @@ GMMci_best <- BEST(GMMci_models[[2]], GMMci_fit[[2]])
 
 ### Add class-variant random effect variances stepwise 
 GMMcv_models <- map(
-  c(500, 1000, 2000, 4000),
+  c(2000, 4000),
   \(startval) GMM(
     df = SOFAS_df,
     idvar = "pin",
@@ -268,7 +277,8 @@ GMMcv_models <- map(
     startval = startval,
     overall_polynomial = 2,
     random_effect = "CV",
-    output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL")
+    output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL"), 
+    working_dir = file.path(getwd(), 'SOFAS', '689')
   )
 )
 
@@ -276,7 +286,7 @@ GMMcv_models <- map(
 GMMcv_fit <- map(GMMcv_models, ~ getFitIndices(.x))
 
 ### Select best GMMcv model 
-GMMcv_best <- BEST(GMMcv_models[[4]], GMMcv_fit[[4]]) 
+GMMcv_best <- BEST(GMMcv_models[[2]], GMMcv_fit[[2]]) 
 
 #### Alternative model 
 #GMM_CV_isq@0_CT has better BIC, support from BF10, but LL not replicated & traj //
@@ -311,69 +321,55 @@ FINAL_param <- FINAL_model %>%
 FINAL_sk <- SKTEST(FINAL_model, "SOFAS")
 
 ### Save final dataset
-  PEPP2_df <- FINAL_model %>% 
-    pluck("results", "savedata") %>% 
-  modify_at('C', as.factor) %>% 
-  select(., -starts_with('SOFAS')) %>% 
-  add_suffix(., everything(), suffix = 'SOFAS') %>% 
-  merge(PEPP2_df, ., all = TRUE, by.x ='pin', by.y ='PIN_SOFAS')
+SOFAS_df <- FINAL_model %>% 
+  pluck('results', 'savedata') %>% 
+  select(- any_of(c(as.vector(names(SOFAS_df)))), 'PIN') %>%
+  add_suffix(everything(), suffix = 'SOFAS') %>% 
+  merge(SOFAS_df, .,  all = TRUE, by.x ='pin', by.y ='PIN_SOFAS')
+
+PEPP2_df <- FINAL_model %>% 
+  pluck('results', 'savedata') %>% 
+  select(- any_of(c(as.vector(names(PEPP2_df)))), 'PIN') %>%
+  add_suffix(everything(), suffix = 'SOFAS') %>% 
+  merge(PEPP2_df, .,  all = TRUE, by.x ='pin', by.y ='PIN_SOFAS')
 
 ## Step 8: Plot trajectories -----------------------------------------------
 plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = c(0, 12, 24))
 
-## Step 9: Covariates  -------------------------------------------------
+## Step 9: Covariates -------------------------------------------------
 ## The 3-Step Procedure - multinomial logistic regressions with predictors of class membership
 ### Manual
 R3STEP_models <- R3STEP(
   df = SOFAS_df,
   idvar = 'pin',
   usevar = SOFAS,
-  cov = cov_R3STEP,
-  model = FINAL_model,
-  output = c("TECH7", "SAMPSTAT", "STANDARDIZED", "CINTERVAL")
+  cov = setdiff(cov_R3STEP, c('SOFAS_0')),
+  model = FINAL_model
 )
 
-R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 1) %>% 
-  filter(pval < (0.05 / length(R3STEP_models))) %>%
-  filter(str_detect(paramHeader, "C#\\d.ON")) %>%
-  filter(is.na(errors)) %>% 
-  select(-warnings, -errors)
+R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 1)
+  # filter(pval < (0.05 / length(R3STEP_models))) %>%
+  # filter(str_detect(paramHeader, "C#\\d.ON")) %>%
+  # filter(is.na(errors)) %>% 
+  # select(-warnings, -errors)
 
 ## The 3-Step Procedure - mixture regressions with predictors of growth factors 
 # CANNOT BE COMPUTED BECAUSE FINAL_MODEL IS GBTM (NO WITHIN CLASS VARIANCE)
-
-## The 3-Step Procedure - regressions with time-varying covariates
-# PSR, NSR: try with higher start values
-# TVCreg_models <- TVCreg(
-#   df = SOFAS_df,
-#   idvar = 'pin',
-#   usevar = SOFAS,
-#   cov = list(SAPS, SANS, CDS, HAS, YMRS, PSR, NSR),
-#   starts = 500,
-#   model = FINAL_model
-# )
-# 
-# TVCreg_unstd <- MixREGfit(TVCreg_models, std = 'unstd')
-# TVCreg_stdyx <- MixREGfit(TVCreg_models, std = 'stdyx')
 
 ## The 3-Step Procedure - Linear regressions with distal outcome
 D3STEP_models <- D3STEP(
   df = SOFAS_df,
   idvar = 'pin',
   usevar = SOFAS,
-  cov = cov_D3STEP,
-  startval = list(cd8_24 = 500, CDS_24 = 1000, comp_24 = 500, JSR_24C = 2000),
-  output = c("TECH7", "SAMPSTAT", "STANDARDIZED", "CINTERVAL"), 
+  cov = setdiff(cov_D3STEP, c('SOFAS_24')),
+  startval = list(CDS_24 = 128000, comp_24 = 500, JSR_24C = 128000),
   model = FINAL_model
 )
 
-D3STEP_unstd <- D3STEPfit(D3STEP_models, std = 'unstd') %>% 
-  filter(WaldChiSq_PValue < (0.05 / length(D3STEP_models))) %>%
-  filter(is.na(errors)) %>% 
-  select(-warnings, -errors)
+D3STEP_unstd <- D3STEPfit(D3STEP_models, std = 'unstd')
 
 ## Step 10: Sensitivity analyses ----------------------------------------------------
-### Individually varying timescores 
+### Individually varying timescores ----------------------------------------------------
 #### Exclude cases with complete SOFAS and missing date of observation 
 TSCORES_df <- TSCORES_df %>%
   filter(xor(!is.na(SOFAS_12), is.na(t12))) %>%
@@ -409,12 +405,13 @@ FitIndices_GBTM_tscores <- mplusModeler(
 )
 
 ## Save --------------------------------------------------------------------
-save.image(glue(getwd(), 'SOFAS', 'SOFAS_{today()}.RData', .sep = '/'))
+save.image(glue(getwd(), 'SOFAS','689', 'SOFAS_689_{today()}.RData', .sep = '/'))
 
 # SAPS --------------------------------------------------------------------
+rm(list = ls())
 ## Load workingspace 
 ws <- list.files(
-  str_c(getwd(), '/SAPS'), full.names = TRUE) %>%
+  file.path(getwd(), 'SAPS', '689'), full.names = TRUE) %>%
   file.info() %>%
   filter(isdir == FALSE) %>% 
   slice_max(mtime) %>% # get the most updated workspace
@@ -422,15 +419,18 @@ ws <- list.files(
 
   load(ws)
 
-R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/LGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
 
-## Step 0: Prepare dataset  ------------------------------------------------
-SAPS_df <- SD_df %>% 
-  subset(miss_SAPS <= 4)
+## Step 0: Prepare dataset ------------------------------------------------
+SAPS_df <- SD_df 
+  # subset(miss_SAPS <= 4)
 
-## Step 1: Growth Curve Modeling  ------------------------------------------
+## Step 1: Growth Curve Modeling ------------------------------------------
 ## Run GCM model
-GCM_model <- fitGCM(SAPS_df, SAPS, c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+GCM_model <- fitGCM(SAPS_df, 
+                    SAPS, 
+                    c(0, 1, 2, 3, 6, 9, 12, 18, 24),
+                    working_dir = file.path(getwd(), 'SAPS', '689'))
 
 ### Get GCM model fit indices
 GCM_fit <- GCM_model %>% 
@@ -449,14 +449,15 @@ GBTM_models <- fitGBTM(
   usevar = SAPS,
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   idvar = 'pin',
-  working_dir = paste(getwd(), 'SAPS', sep = '/'),
+  working_dir = file.path(getwd(), 'SAPS', '689'),
   max_k = 6)
 
 ## Get GBTM models fit indices 
 GBTM_fit <- getFitIndices(GBTM_models)
  
 ## Select best GBTM model 
-GBTM_best <- BEST(GBTM_models, GBTM_fit)
+# GBTM_best <- BEST(GBTM_models, GBTM_fit)
+GBTM_best <-  GBTM_models[[2]]
 
 ## Step 3: Latent Class Growth Analyses ------------------------------------
 ## Run LCGA models 
@@ -466,7 +467,7 @@ LCGA_models <- fitLCGA(
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   idvar = 'pin',
   classes = 2,
-  working_dir = paste(getwd(), 'SAPS', sep = '/'),
+  working_dir = file.path(getwd(), 'SAPS', '689'),
   ref_model = GBTM_best)
 
 ### Get LCGA models fit indices 
@@ -477,45 +478,51 @@ LCGA_best <- BEST(LCGA_models, LCGA_fit)
 
 ## Step 4: Growth Mixture Models ------------------------------------------
 ### Add class-invariant random effect variances stepwise 
-GMMci_models <- GMM(
+GMMci_models <- map(
+  c(500, 1000), #1000, 2000
+  \(startval) GMM(
     df = SAPS_df,
     idvar = "pin",
     usevar = SAPS,
     k = 2,
-    startval = 1000,
-    dist = "SKEWNORMAL",
+    startval = startval,
     overall_polynomial = 3,
     random_effect = "CI",
-    output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL")
+    output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL"), 
+    working_dir = file.path(getwd(), 'SAPS', '689')
   )
+)
 
 #### Get Fit indices 
-GMMci_fit <- getFitIndices(GMMci_models)
+GMMci_fit <- map(GMMci_models, ~ getFitIndices(.x))
 
 ### Select best GMMci model 
-GMMci_best <- BEST(GMMci_models, GMMci_fit)
+GMMci_best <- BEST(GMMci_models[[2]], GMMci_fit[[2]])
 
 ### Alternative model
 BF10 <- exp((GMMci_fit[14,'BIC'] - GMMci_fit[6,'BIC'])/2)
 
 ### Add class-variant random effect variances stepwise 
-GMMcv_models <- GMM(
+GMMcv_models <- map(
+  c(2000, 4000),
+  \(startval) GMM(
     df = SAPS_df,
     idvar = "pin",
     usevar = SAPS,
     k = 2,
-    startval = 4000,
-    dist = "SKEWNORMAL",
+    startval = startval,
     overall_polynomial = 3,
     random_effect = "CV",
-    output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL")
+    output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL"), 
+    working_dir = file.path(getwd(), 'SAPS', '689')
   )
+)
 
-#### Get Fit Indices 
-GMMcv_fit <- getFitIndices(GMMcv_models)
+#### Get Fit indices 
+GMMcv_fit <- map(GMMcv_models, ~ getFitIndices(.x))
 
-### Select best GMMcv model 
-GMMcv_best <- BEST(GMMcv_models, GMMcv_fit)
+### Select best GMMci model 
+GMMcv_best <- BEST(GMMcv_models[[2]], GMMcv_fit[[2]])
 
 ## Step 5: Select Best Model -------------------------------------------------------
 ### Get fit indices of all selected models
@@ -541,21 +548,72 @@ FINAL_param <- FINAL_model %>%
   pluck("results", "parameters", "unstandardized") %>%
   filter(str_detect(paramHeader, 'Means|^Variances'))
 
-FINAL_sk <- SKTEST(FINAL_model, "SAPS") #Skewed distribution > 2
+FINAL_sk <- SKTEST(OPTIMAL_model, "SAPS") #Skewed distribution > 2
 
 OPTIMAL_model <- DIST(FINAL_model, "SAPS", "SKEWNORMAL") #DISTRIBUTION = SKEWNORMAL {C}
 OPTIMAL_fit <-  getFitIndices(list(OPTIMAL_model))
 
 ### Save final dataset 
-PEPP2_df <- 
-  FINAL_model[['results']][['savedata']] %>% 
-  modify_at('C', as.factor) %>% 
-  select(., -starts_with('SAPS')) %>% 
-  add_suffix(., everything(), suffix = 'SAPS') %>% 
-  merge(PEPP2_df, ., all = TRUE, by.x ='pin', by.y ='PIN_SAPS')
+SAPS_df <- FINAL_model %>% 
+  pluck('results', 'savedata') %>% 
+  select(- any_of(c(as.vector(names(SAPS_df)))), 'PIN') %>%
+  add_suffix(everything(), suffix = 'SAPS') %>% 
+  merge(SAPS_df, .,  all = TRUE, by.x ='pin', by.y ='PIN_SAPS')
+
+PEPP2_df <- FINAL_model %>% 
+  pluck('results', 'savedata') %>% 
+  select(- any_of(c(as.vector(names(PEPP2_df)))), 'PIN') %>%
+  add_suffix(everything(), suffix = 'SAPS') %>% 
+  merge(PEPP2_df, .,  all = TRUE, by.x ='pin', by.y ='PIN_SAPS')
+
+## Rerun models with appropriate distribution ------------------------------------------
+### Add class-invariant random effect variances stepwise 
+GMMci_models_dist <- GMM(
+  df = SAPS_df,
+  idvar = "pin",
+  usevar = SAPS,
+  k = 2,
+  startval = 4000,
+  dist = "SKEWNORMAL",
+  overall_polynomial = 3,
+  random_effect = "CI",
+  output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL"),
+  working_dir = "~/Desktop/DIST"
+)
+
+GMMci_fit_dist <- getFitIndices(GMMci_models_dist)
+GMMci_best_dist <- BEST(GMMci_models_dist, GMMci_fit_dist)
+
+
+### Add class-variant random effect variances stepwise 
+GMMcv_models_dist <- GMM(
+  df = SAPS_df,
+  idvar = "pin",
+  usevar = SAPS,
+  k = 2,
+  startval = 4000,
+  dist = "SKEWNORMAL",
+  overall_polynomial = 3,
+  random_effect = "CV",
+  output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL"), 
+  working_dir = "~/Desktop/DIST"
+)
+
+GMMcv_fit_dist <- getFitIndices(GMMcv_models_dist)
+GMMcv_best_dist <- BEST(GMMcv_models_dist, GMMcv_fit_dist)
+
+### Select Best Model 
+BEST_fit_dist <- list(GBTM_best, LCGA_best, GMMci_best_dist, GMMcv_best_dist) %>% getFitIndices()
+BEST_model_dist <- list(GBTM_best, LCGA_best, GMMci_best_dist, GMMcv_best_dist) %>% 
+  BEST(BEST_fit_dist)
+
+BEST_param_dist <- BEST_model_dist %>% 
+  pluck("results", "parameters", "unstandardized") %>%
+  filter(str_detect(paramHeader, 'Means|^Variances'))
 
 ## Step 8: Plot trajectories -----------------------------------------------
-plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+plot <- plotGrowthMixtures(FINAL_model, bw = TRUE,  rawdata = TRUE, time_scale = c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+plotGrowthMixtures(OPTIMAL_model, bw = TRUE,  rawdata = TRUE, time_scale = c(0, 1, 2, 3, 6, 9, 12, 18, 24))
 
 ## Step 9: Covariates -------------------------------------------------
 ## The 3-Step Procedure - multinomial logistic regressions with predictors of class membership
@@ -564,14 +622,14 @@ plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = 
      df = SAPS_df,
      idvar = 'pin',
      usevar = SAPS,
-     cov = cov_R3STEP,
-     model = FINAL_model
+     cov = setdiff(cov_R3STEP, c('SAPS_0')),
+     model = OPTIMAL_model
    )
    
-   R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 1) %>% 
-     filter(str_detect(paramHeader, "C#\\d.ON")) %>%
+   R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 1)  %>% 
      filter(pval < (0.05 / length(R3STEP_models))) %>%
-     filter(is.na(errors)) %>% 
+     filter(str_detect(paramHeader, "C#\\d.ON")) %>%
+     filter(is.na(errors)) %>%
      select(-warnings, -errors)
 
 # The 3-Step Procedure - mixture regressions with predictors of growth factors
@@ -579,48 +637,35 @@ plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = 
      df = SAPS_df,
      idvar = 'pin',
      usevar = SAPS, 
-     cov = list(EDUC, SOFAS, SANS, HAS, CDS, SCD, SUMD1, SUMD2, SUMD3, NSR, JSR), #PSR, YMRS
-     startval = list(SOFAS = 1000, SCD = 1000, SUMD1 = 1000, SUMD2 = 1000, SUMD3 = 1000),
+     cov = list(SOFAS, SANS, YMRS, HAS, CDS, SCD, SUMD1, SUMD3, NSR, JSR),
+     # startval = list(SOFAS = 1000, SCD = 1000, YMRS = 1000),
      gf = "S",
      gfw = c("iw", "sw"),
      test = "S_sw",
      model = FINAL_model
    )
   
-   MixREG_stdyx <- MixREGfit(MixREG_models, std = 'stdyx') %>% 
-     filter(WaldChiSq_PValue < (0.05 / length(MixREG_models))) %>%
+   MixREG_stdyx_cov <- MixREGfit(MixREG_models, std = 'stdyx') %>% 
      filter(is.na(warnings) & is.na(errors)) %>% 
+     filter(WaldChiSq_PValue < (0.05 / length(MixREG_models))) %>%
      select(-warnings, -errors)
  
-# ## The 3-Step Procedure - regressions with time-varying covariates
-#    TVCreg_models <- TVCreg(
-#      df = SAPS_df,
-#      idvar = 'pin',
-#      usevar = SAPS,
-#      cov = list(SOFAS, SANS, HAS, CDS, YMRS, PSR, NSR),
-#      #startval = list(CDS = 4000, PSR = 4000, NSR = 4000)
-#      model = FINAL_model
-#    )
-#    
-#    TVCreg_stdyx <- MixREGfit(TVCreg_models, std = 'stdyx')
    
 ## The 3-Step Procedure - Linear regressions with distal outcome
    D3STEP_models <- D3STEP(
      df = SAPS_df,
      idvar = 'pin',
      usevar = SAPS,
-     cov = cov_D3STEP,
+     cov = setdiff(cov_D3STEP, c('SAPS_24')),
+     startval = list(comp_24 = 1000),
      model = FINAL_model
    )
    
-   D3STEP_unstd <- D3STEPfit(D3STEP_models, std = 'unstd') %>% 
-     filter(WaldChiSq_PValue < (0.05 / length(D3STEP_models))) %>%
-     filter(is.na(errors)) %>% 
-     select(-warnings, -errors)
+   D3STEP_unstd <- D3STEPfit(D3STEP_models, std = 'unstd')
    
 ## Step 10: Sensitivity analyses ----------------------------------------------------
-### Individually varying timescores 
-#### Exclude cases with complete SAPS and missing date of observation 
+### Individually varying timescores ----------------------------------------
+### Exclude cases with complete SAPS and missing date of observation 
 TSCORES_df <- TSCORES_df %>%
   filter(xor(!is.na(SAPS_1), is.na(t1))) %>%
   filter(xor(!is.na(SAPS_2), is.na(t2))) %>%
@@ -633,7 +678,7 @@ TSCORES_df <- TSCORES_df %>%
 
 #map <- map2(x, y, ~filter(xor(!is.na(x), is.na(y)))) # Does not work
 
-#### Create an Mplus object 
+### Create an Mplus object 
 .mpobj <- update(
       FINAL_model,
       VARIABLE = ~ . +'TSCORES = t0-t24;',
@@ -648,7 +693,7 @@ TSCORES_df <- TSCORES_df %>%
    .mpobj[['MODEL']] <- str_replace(.mpobj[['MODEL']], '((\\n)?[:alpha:]+_(\\d)+@(\\d)+(\\s)?)+', 'SAPS_0-SAPS_24 AT t0-t24') #use with str_view(0 or 1 new line(\n)); (one or more letters[:alpha:])_; (one or more digits(\d)); (0 or 1 new line(\s)); 1 or more times 
    .mpobj[['SAVEDATA']] <- str_replace(.mpobj[['SAVEDATA']], '_', '_TSCORES_') 
     
-## Create, run, and read Mplus models 
+# Create, run, and read Mplus models 
    FitIndices_GBTM_tscores <- mplusModeler(
      object = .mpobj,
      dataout = glue(getwd(),'/SAPS/Results/TSCORES.dat'),
@@ -661,12 +706,13 @@ TSCORES_df <- TSCORES_df %>%
    )
    
 ## Save --------------------------------------------------------------------
-save.image(glue(getwd(), 'SAPS', 'SAPS_{today()}.RData', .sep = '/'))
+save.image(glue(getwd(), 'SAPS', '689', 'SAPS_689_{today()}.RData', .sep = '/'))
     
 # SANS --------------------------------------------------------------------
+rm(list = ls())
 ## Load workingspace 
 ws <- list.files(
-  str_c(getwd(), '/SANS'), full.names = T) %>%
+  file.path(getwd(), 'SANS', '689'), full.names = T) %>%
   file.info() %>%
   filter(isdir==FALSE) %>% 
   slice_max(mtime) %>% # get the most updated workspace
@@ -674,15 +720,18 @@ ws <- list.files(
     
 load(ws)
 
-R.utils::sourceDirectory('/Users/olivierpercie/Desktop/MplusLGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
+R.utils::sourceDirectory('/Users/olivierpercie/Desktop/LGM/R/LGMMs', modifiedOnly= FALSE, envir=globalenv())
 
 ## Step 0: Prepare dataset ------------------------------------------------
-  SANS_df <- SD_df %>% 
-    subset(miss_SANS <= 4)
+  SANS_df <- SD_df
+    # subset(miss_SANS <= 4)
 
 ## Step 1: Growth Curve Modeling ------------------------------------------
 ## Run GCM model
-GCM_model <- fitGCM(SANS_df, SANS, c(0, 1, 2, 3, 6, 9, 12, 18, 24))
+GCM_model <- fitGCM(SANS_df, 
+                    SANS, 
+                    c(0, 1, 2, 3, 6, 9, 12, 18, 24), 
+                    working_dir = file.path(getwd(), 'SANS', '689'))
 
 ### Get GCM model fit indices
 GCM_fit <- GCM_model %>% 
@@ -701,7 +750,7 @@ GBTM_models <- fitGBTM(
   usevar = SANS,
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   idvar = 'pin',
-  working_dir = paste(getwd(), 'SANS', sep = '/'),
+  working_dir = file.path(getwd(), 'SANS', '689'),
   max_k = 6)
 
 ## Get GBTM models fit indices 
@@ -718,7 +767,7 @@ LCGA_models <- fitLCGA(
   timepoints = c(0, 1, 2, 3, 6, 9, 12, 18, 24),
   idvar = 'pin',
   classes = 3,
-  working_dir = paste(getwd(), 'SANS', sep = '/'),
+  working_dir = file.path(getwd(), 'SANS', '689'),
   ref_model = GBTM_best)
 
 ## Get LCGA models fit indices 
@@ -727,47 +776,52 @@ LCGA_fit <- getFitIndices(LCGA_models)
 ## Select best LCGA model 
 LCGA_best <- BEST(LCGA_models, LCGA_fit)
 
-
 ## Step 4: Growth Mixture Models ------------------------------------------
 ### Add class-invariant random effect variances stepwise 
-GMMci_models <- GMM(
+GMMci_models <- map(
+  c(500, 1000),
+  \(startval) GMM(
     df = SANS_df,
     idvar = "pin",
     usevar = SANS,
     k = 3,
-    startval = 1000,
+    startval = startval,
     overall_polynomial = 3,
     random_effect = "CI",
-    output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL")
-  )
-
-
-#### Get Fit indices 
-GMMci_fit <- getFitIndices(GMMci_models)
-
-### Select best GMMci model 
-GMMci_best <- BEST(GMMci_models, GMMci_fit)
-
-BF10 <- exp((GMMci_fit[9,'BIC'] - GMMci_fit[6,'BIC'])/2)
-
-### Add class-variant random effect variances stepwise 
-GMMcv_models <- GMM(
-    df = SANS_df,
-    idvar = "pin",
-    usevar = SANS,
-    k = 3,
-    startval = 4000,
-    overall_polynomial = 3,
-    random_effect = "CV",
-    output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL")
+    output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL"), 
+    working_dir = file.path(getwd(), 'SANS', '689')
   )
 )
 
 #### Get Fit Indices 
-GMMcv_fit <- getFitIndices(GMMcv_models)
+GMMci_fit <- map(GMMci_models, ~ getFitIndices(.x))
 
-### Select best GMMcv model 
-GMMcv_best <- BEST(GMMcv_models, GMMcv_fit)
+### Select best GMMci model 
+GMMci_best <- BEST(GMMci_models[[2]], GMMci_fit[[2]])
+
+# BF10 <- exp((GMMci_fit[9,'BIC'] - GMMci_fit[6,'BIC'])/2)
+
+### Add class-variant random effect variances stepwise 
+GMMcv_models <- map(
+  c(2000, 4000),
+  \(startval) GMM(
+    df = SANS_df,
+    idvar = "pin",
+    usevar = SANS,
+    k = 3,
+    startval = startval,
+    overall_polynomial = 3,
+    random_effect = "CV",
+    output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL"), 
+    working_dir = file.path(getwd(), 'SANS', '689')
+  )
+)
+
+#### Get Fit Indices 
+GMMcv_fit <- map(GMMcv_models, ~ getFitIndices(.x))
+
+### Select best GMMci model 
+GMMcv_best <- BEST(GMMcv_models[[2]], GMMcv_fit[[2]])
 
 ## Step 5: Select Best Model -------------------------------------------------------
 ### Get fit indices of all selected models
@@ -799,20 +853,23 @@ FINAL_param <- FINAL_model %>%
 FINAL_sk <- SKTEST(FINAL_model, "SANS")
 
 ### Save final dataset 
-PEPP2_df <- 
-  FINAL_model[['results']][['savedata']] %>% 
-  modify_at('C', as.factor) %>% 
-  select(., -starts_with('SANS')) %>% 
-  add_suffix(., everything(), suffix = 'SANS') %>% 
-  merge(PEPP2_df, ., all = TRUE, by.x ='pin', by.y ='PIN_SANS')
+SANS_df <- FINAL_model %>% 
+  pluck('results', 'savedata') %>% 
+  select(- any_of(c(as.vector(names(SANS_df)))), 'PIN') %>%
+  add_suffix(everything(), suffix = 'SANS') %>% 
+  merge(SANS_df, .,  all = TRUE, by.x ='pin', by.y ='PIN_SANS')
+
+PEPP2_df <- FINAL_model %>% 
+  pluck('results', 'savedata') %>% 
+  select(- any_of(c(as.vector(names(PEPP2_df)))), 'PIN') %>%
+  add_suffix(everything(), suffix = 'SANS') %>% 
+  merge(PEPP2_df, .,  all = TRUE, by.x ='pin', by.y ='PIN_SANS')
 
 ## Step 8: Plot trajectories -----------------------------------------------
 mplus.view.plots(file.choose())
 
-plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = c(0, 1, 2, 3, 6, 9, 12, 18, 24))
-
-# est_means <- FINAL_model[['results']][['gh5']][['means_and_variances_data']][['y_estimated_medians']][['values']] %>%
-#   as.data.frame()
+plot <- plotGrowthMixtures(FINAL_model, bw = TRUE, rawdata = TRUE, time_scale = c(0, 1, 2, 3, 6, 9, 12, 18, 24)) 
++ geom_hline(yintercept = 8,  linetype = "dashed", color = "red")
 
 ## Step 9: Add covariates -------------------------------------------------
 ## The 3-Step Procedure - multinomial logistic regressions with predictors of class membership
@@ -821,15 +878,15 @@ R3STEP_models <- R3STEP(
   df = SANS_df,
   idvar = 'pin',
   usevar = SANS,
-  cov = cov_R3STEP,
+  cov = setdiff(cov_R3STEP, c('SANS_0')),
   model = FINAL_model
 )
 
-R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 1) %>% 
-  filter(str_detect(paramHeader, "C#\\d.ON")) %>%
-  filter(pval < (0.05 / length(R3STEP_models))) %>%
-  filter(is.na(errors)) %>% 
-  select(-warnings, -errors)
+R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 3)
+  # filter(pval < (0.05 / length(R3STEP_models))) %>%
+  # filter(str_detect(paramHeader, "C#\\d.ON")) %>% 
+  # filter(is.na(errors)) %>%
+  # select(-warnings, -errors)
 
 # The 3-Step Procedure - mixture regressions with predictors of growth factors
 MixREG_models <- MixREG(
@@ -837,7 +894,7 @@ MixREG_models <- MixREG(
   idvar = 'pin',
   usevar = SANS,
   cov = list(SOFAS, SAPS, HAS, CDS, SCD, YMRS, SUMD1, SUMD2, PSR, JSR),
-  # startval = list(EDUC = 500, SOFAS = 500, SANS = 500, HAS = 500, CDS = 500, SCD = 500, SUMD1 = 500, SUMD2 = 500, SUMD3 = 500, NSR = 500),
+  startval = list(SOFAS = 500, HAS = 500, CDS = 500, SCD = 500, SUMD1 = 500, SUMD2 = 500, PSR = 500, JSR = 500),
   gf = "S",
   gfw = c("iw", "sw"),
   test = "S_sw",
@@ -849,33 +906,17 @@ MixREG_stdyx <- MixREGfit(MixREG_models, std = 'stdyx') %>%
   filter(is.na(warnings) & is.na(errors)) %>% 
   select(-warnings, -errors)
 
-## The 3-Step Procedure - regressions with time-varying covariates
-# TVCreg_models <- TVCreg(
-#   df = SANS_df,
-#   idvar = 'pin',
-#   usevar = SANS,
-#   cov = list(SOFAS, SAPS, HAS, CDS, NSR),
-#   startval = list(CDS = 4000, NSR = 4000), #CDS = 4000; YMRS = 4000 (LL not replicated); NSR = 4000; PSR = 4000 (fail to converge)
-#   model = FINAL_model
-# )
-# 
-# TVCreg_unstd <- MixREGfit(TVCreg_models, std = 'unstd')
-# TVCreg_stdyx <- MixREGfit(TVCreg_models, std = 'stdyx')
-
 ## The 3-Step Procedure - Linear regressions with distal outcome
 D3STEP_models <- D3STEP(
   df = SANS_df,
   idvar = 'pin',
   usevar = SANS,
-  cov = cov_D3STEP,
-  # startval = list(SAPS_24 = 8000, CDS_24 = 8000),
+  cov = setdiff(cov_D3STEP, c('SANS_24')),
+  startval = list(CDS_24 = 500, comp_24 = 500, CPZ_24 = 1000, SAPS_24 = 500, SUMD1_24 = 500, YMRS_24 = 500, JSR_24C = 500, HAS_24 = 1000),
   model = FINAL_model
 )
 
-D3STEP_unstd <- D3STEPfit(D3STEP_models, std = 'unstd') %>% 
-  filter(WaldChiSq_PValue < (0.05 / length(D3STEP_models))) %>%
-  filter(is.na(errors)) %>% 
-  select(-warnings, -errors)
+ D3STEP_unstd <- D3STEPfit(D3STEP_models, std = 'unstd')
 
 ## Step 10: Sensitivity analyses ----------------------------------------------------
 ### Individually varying timescores
@@ -920,15 +961,16 @@ FitIndices_GBTM_tscores <- mplusModeler(
 )
 
 # Save --------------------------------------------------------------------
-save.image(glue(getwd(), 'SANS', 'SANS_{today()}.RData', .sep = '/'))
-
+save.image(glue(getwd(), 'SANS', '689', 'SANS_689_{today()}.RData', .sep = '/'))
 
 # Work in Progress --------------------------------------------------------
 WIP <- runModels(
-  target = "~/Desktop/MplusLGM/SANS/Results/R3STEP/verbm_z_R3STEP.inp",
+  target = "~/Desktop/LGM/SAPS/Results/FINAL/DIST_SKEWNORMAL.inp",
   showOutput = TRUE,
   logFile = NULL,
 )
+
+WIP_model <- readModels(target = "~/Desktop/LGM/SAPS/Results/FINAL/DIST_SKEWNORMAL.out")
 
 assumptions <- function(models, cov){
 
