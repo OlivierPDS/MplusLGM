@@ -47,23 +47,51 @@ R3STEPfit <- function(list_mpobj,
     param <- purrr::map(sublist_mpobj, ~ purrr::pluck(.x, "results", "parameters", "unstandardized.alt", glue::glue("ref.cat.{ref}"), .default = NULL))
   }
   
-  class_mean <- sublist_mpobj %>% 
+  mean_est <- sublist_mpobj %>% 
     purrr::map(~ pluck(.x, "results", "tech7")) %>% 
     purrr::map_depth(2, ~ pluck(.x, "classSampMeans")) %>%
     purrr::map(~ as.data.frame(.x)) %>% 
-    purrr::map(~ rename_with(.x, ~ paste0(c('mean_c#'), seq_along(.x)))) %>% 
-    purrr::imap(\(x, idx) dplyr::mutate(x, name = stringr::str_to_upper(idx))) %>% 
-    purrr::reduce(merge, all = TRUE)
+    purrr::map(~ rename_with(.x, ~ paste0(c('mean_est'), seq_along(.x))))
   
-  param <- param %>%
-    purrr::imap(\(x, idx) dplyr::mutate(x, name = stringr::str_to_upper(idx))) %>%
-    purrr::reduce(merge, all = TRUE) %>% # Error with bind_rows and list_rbind: "Can't combine `est_se` <double> and `est_se` <character>."
+  mean_obs <- sublist_mpobj %>% 
+    purrr::map(~ pluck(.x, "rdata")) %>% 
+    purrr::map(~ filter(.x, !is.na(N))) %>% 
+    purrr::map(~ mutate(.x, across(everything(), as.numeric))) %>% 
+    purrr::map(~ group_by(.x, N)) %>% 
+    purrr::map(\(x) summarise(x, across(everything(), ~ mean(.x, na.rm = TRUE)))) %>% 
+    purrr::imap(\(x, idx) select(x, c(N, all_of(idx)))) %>% 
+    purrr::imap(\(x, idx) pivot_wider(x, 
+                      names_from = N,
+                      names_glue = 'mean_obs{N}',
+                      values_from = idx))
+  
+  # desc <- sublist_mpobj %>%
+  #   purrr::map(~ pluck(.x, "rdata")) %>%
+  #   purrr::reduce(merge, all = TRUE) %>%
+  #   tbl_summary(
+  #     by = N,
+  #     statistic = list(
+  #       all_continuous() ~ "{mean} ({sd})",
+  #       all_categorical() ~ "{n} ({p}%)"
+  #     ),
+  #     digits = list(
+  #       all_continuous() ~ 1,
+  #       all_categorical() ~ 0
+  #     ),
+  #     missing = "no"
+  #   ) %>%
+  #   as_tibble()
+  
+  results <- list(param, mean_obs, mean_est) %>%
+    purrr::map(~ purrr::imap(.x, \(x, idx) dplyr::mutate(x, name = stringr::str_to_upper(idx)))) %>% 
+    purrr::pmap(\(x, y, z) purrr::reduce(list(x, y, z), ~ merge(.x, .y,  all = TRUE))) %>% # plyr::rbind.fill()
+    purrr::reduce(merge, all = TRUE) %>% 
     dplyr::mutate(paramHeader = ifelse(paramHeader == "Intercepts", paste(paramHeader, param), paramHeader)) %>%
     dplyr::mutate(param = ifelse(stringr::str_detect(paramHeader, "^Intercepts"), name, param)) %>%
     dplyr::mutate(param = ifelse(stringr::str_detect(param, "N#\\d"), paste(name, param), param))
-
+  
   # Compute odd ratio and confidence intervals -----------------------------
-  or_ci <- param %>%
+  or_ci <- results %>%
     dplyr::mutate(low2.5 = est - 1.96 * se, up2.5 = est + 1.96 * se) %>%
     dplyr::mutate(dplyr::across(c("est", "low2.5", "up2.5"),
       ~ ifelse(str_detect(paramHeader, "C#\\d.ON"),
@@ -74,7 +102,7 @@ R3STEPfit <- function(list_mpobj,
     ))
 
   # Merge parameters, confidence intervals, warnings and errors  ------------
-  table <- list(or_ci,class_mean, warn_err) %>%
+  table <- list(or_ci, warn_err) %>%
     purrr::reduce(~ full_join(.x, .y, by = "name")) %>%
     dplyr::mutate(param = dplyr::coalesce(param, name)) %>%
     dplyr::filter(stringr::str_detect(paramHeader, "C#\\d") | !is.na(errors)) %>% # filter out irrelevant parameters
@@ -84,7 +112,7 @@ R3STEPfit <- function(list_mpobj,
       pval < 0.05 ~ "*"
     )) %>% # add significativity
     dplyr::mutate(dplyr::across(c(tidyselect::where(is.numeric), -pval), ~ round(.x, digits = 2))) %>%
-    dplyr::select(paramHeader, param, est, se, pval, sig, tidyselect::starts_with("mean_c#"), tidyselect::starts_with("OR"), warnings, errors) %>%
+    dplyr::select(paramHeader, param, est, se, pval, sig, tidyselect::starts_with("mean"), tidyselect::starts_with("OR"), warnings, errors) %>%
     dplyr::arrange(paramHeader, -est, param)
 
   return(table)
