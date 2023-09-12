@@ -3,7 +3,7 @@ D3STEP <- function(df,
                    usevar,
                    cov,
                    startval = NULL,
-                   output = c("SAMPSTAT", "STANDARDIZED", "CINTERVAL"),
+                   output = c("SAMPSTAT", "STANDARDIZED", "CINTERVAL", "TECH7", "TECH12"),
                    model) {
   # To do -------------------------------------------------------------------
   ## select cov-specific starts values
@@ -77,7 +77,7 @@ D3STEP <- function(df,
   names(starts) <- cov
 
   if (!is.null(startval)) {
-    SV <- purrr::map(startval, \(x) glue::glue("STARTS = {x}"))
+    SV <- purrr::map(startval, \(x) glue::glue("STARTS = {x} {x / 4}"))
     starts[names(SV)] <- SV
   }
 
