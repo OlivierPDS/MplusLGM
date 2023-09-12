@@ -61,7 +61,7 @@ getFitIndices <- function(list_models) {
   table <- full_join(results, warn_err, by = 'Title', multiple = "any") %>% 
     dplyr::mutate(dplyr::across(dplyr::starts_with("proportion"), ~ round(.x * 100, digits = 2))) %>% 
     dplyr::mutate(CAIC = -2 * LL + Parameters * (log(Observations) + 1)) %>%
-    dplyr::select("Title", "Observations", "Parameters", "NLatentClasses", "LL", "AIC", "AICC", "CAIC", "BIC", starts_with(c("T11_LMR", "count", "proportion", "APPA")), "Entropy", "Warnings", "Errors")
+    dplyr::select("Title", "Observations", "Parameters", "NLatentClasses", "LL", "AIC", "AICC", "CAIC", "BIC", starts_with(c("T11_LMR", "count", "proportion", "APPA")), any_of("BLRT_PValue"), "Entropy", "Warnings", "Errors")
   
   return(table)
   
