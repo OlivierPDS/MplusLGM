@@ -289,7 +289,7 @@ getMplusObject <- function(
 
 #' Creates the model section of an MplusObject
 .getOutout <- function() {
-  return(.createCommand(c('sampstat standardized', 'TECH1;', 'TECH11;')))
+  return(.createCommand(c('SAMPSTAT STANDARDIZED;', 'TECH1;', 'TECH11;'))) #TECH14
 }
 
 
@@ -317,7 +317,7 @@ getMplusObject <- function(
 #' Gets the save data section of an Mplus Object
 .getSaveData <- function(classes, starts) {
   
-  save_name <- glue::glue('file = K{classes}_S{starts}_res.dat;')
-  return(.createCommand(c(save_name, 'save = CPROBABILITIES;')))
+  save_name <- glue::glue('FILE = K{classes}_S{starts}_res.dat;')
+  return(.createCommand(c(save_name, 'SAVE = CPROBABILITIES FSCORES;')))
   
 }
