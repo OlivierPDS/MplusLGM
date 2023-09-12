@@ -3,7 +3,7 @@ R3STEP <- function(df,
                    usevar,
                    cov,
                    starts = 0,
-                   output = c("SAMPSTAT", "STANDARDIZED", "CINTERVAL", "TECH7"),
+                   output = c("SAMPSTAT", "STANDARDIZED", "CINTERVAL", "TECH7", "TECH12"),
                    model) {
   # To do -------------------------------------------------------------------
   ## select cov-specific starts values
@@ -76,7 +76,7 @@ R3STEP <- function(df,
   type <- "TYPE = MIXTURE"
   algorithm <- "ALGORITHM = INTEGRATION"
   integration <- "INTEGRATION = MONTECARLO"
-  start_val <- glue::glue("STARTS = {starts}")
+  start_val <- glue::glue("STARTS = {starts} {starts / 4}")
   processors <- glue::glue("PROCESSORS = {detectCores()}")
   analysis <- MplusAutomation::parseMplus(c(type, algorithm, integration, start_val, processors), add = TRUE)
 
