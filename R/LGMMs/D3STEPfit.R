@@ -38,10 +38,25 @@ D3STEPfit <- function(list_mpobj, std = "unstd") {
 
   wt <- sublist_mpobj %>%
     purrr::map(pluck, "results", "summaries", .default = NULL)
+
+  mean_obs <- sublist_mpobj %>% 
+    purrr::map(~ pluck(.x, "rdata")) %>% 
+    purrr::map(~ filter(.x, !is.na(N))) %>% 
+    purrr::map(~ mutate(.x, across(everything(), as.numeric))) %>% 
+    purrr::map(~ group_by(.x, N)) %>% 
+    purrr::map(\(x) summarise(x, across(everything(), ~ mean(.x, na.rm = TRUE)))) %>% 
+    purrr::imap(\(x, idx) select(x, c(N, all_of(idx)))) %>% 
+    purrr::imap(\(x, idx) rename(x, LatentClass = N, mean_obs = idx))
     
-  var <- sublist_mpobj %>%
-    purrr::map(pluck, "results", "sampstat", "univariate.sample.statistics", .default = NULL) %>%
-    purrr::map(as.data.frame)
+  tech12 <- sublist_mpobj %>%
+    purrr::discard(stringr::str_detect(purrr::map(sublist_mpobj, ~ purrr::pluck(.x, "VARIABLE")), "CATEGORICAL")) %>%
+    purrr::map(pluck, "results", "tech12", .default = NULL) %>%
+    purrr::map(as.data.frame) %>% 
+    purrr::map(\(x) rename_with(x, ~ c("Observed Means", "Estimated Mixed Means", "Residuals for Mixed Means", 
+                                    "Observed Covariances", "Estimated Mixed Covariances", "Residuals for Mixed Covariances", 
+                                    "Observed Skewness", "Estimated Mixed Skewness", "Residuals for Mixed Skewness", 
+                                    "Observed Kurtosis","Estimated Mixed Kurtosis", "Residuals for Mixed Kurtosis"), everything())) %>% 
+    purrr::imap(\(x, idx) dplyr::mutate(x, name = stringr::str_to_upper(idx)))
   
   # probs <- sublist_mpobj %>%
   #   purrr::map(pluck, "results", "parameters", "probability.scale", .default = NULL) %>%
@@ -54,7 +69,7 @@ D3STEPfit <- function(list_mpobj, std = "unstd") {
   #   dplyr::mutate(name = stringr::str_to_upper(name)) %>%
   #   dplyr::select(-se, -est_se)
 
-  results <- list(param, ci, wt, var) %>%
+  results <- list(param, ci, wt, mean_obs) %>%
     purrr::map(~ purrr::imap(.x, \(x, idx) dplyr::mutate(x, name = stringr::str_to_upper(idx)))) %>% 
     purrr::pmap(\(w, x, y, z) purrr::reduce(list(w, x, y, z), ~ merge(.x, .y,  all = TRUE))) # plyr::rbind.fill()
 
@@ -77,9 +92,10 @@ D3STEPfit <- function(list_mpobj, std = "unstd") {
   SMD <- results %>%
     purrr::discard(stringr::str_detect(purrr::map(sublist_mpobj, ~ purrr::pluck(.x, "VARIABLE")), "CATEGORICAL")) %>%
     purrr::map(~ dplyr::mutate(.x, dplyr::across(tidyselect::where(is.character), ~ dplyr::na_if(.x, "*********")))) %>%
+    purrr::map2(tech12, \(results, tech12) merge(results, tech12, all = TRUE)) %>% 
     purrr::map(~ dplyr::mutate(.x, dplyr::across(c(est, low2.5, up2.5),
       ~ ifelse(stringr::str_detect(param, "DIFF"),
-        as.numeric(.x) / sqrt(Variance),
+        as.numeric(.x) / sqrt(`Estimated Mixed Covariances`),
         NA
       ),
       .names = "SMD_{.col}"
@@ -100,7 +116,7 @@ D3STEPfit <- function(list_mpobj, std = "unstd") {
       WaldChiSq_PValue < 0.05 ~ "*"
     )) %>%
     dplyr::mutate(dplyr::across(c(tidyselect::where(is.numeric), -pval, -dplyr::ends_with("PValue")), ~ round(.x, digits = 2))) %>%
-    dplyr::select(LatentClass, param, paramHeader, est, se, pval, low2.5, up2.5, dplyr::starts_with("SMD"), dplyr::starts_with("OR"), dplyr::starts_with("Wald"), sig, warnings, errors) %>%
+    dplyr::select(LatentClass, param, paramHeader, mean_obs, est, se, pval, low2.5, up2.5, dplyr::starts_with("SMD"), dplyr::starts_with("OR"), dplyr::starts_with("Wald"), sig, warnings, errors) %>%
     dplyr::arrange(param, LatentClass, desc(est), paramHeader)
 
   return(table)
