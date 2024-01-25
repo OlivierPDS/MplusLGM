@@ -1,0 +1,741 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+12/14/2023   5:27 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_FR - GMM_CI_isq@0cub@0_C_332_331;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/FR_D3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N FR;
+   MISSING=.;
+   USEVAR = FR N;
+  NOMINAL = N;
+  CATEGORICAL = FR;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  ALGORITHM = INTEGRATION;
+  STARTS = 0;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  %C#1%
+  [N#1@0.806];
+  [N#2@-0.173];
+  [FR$1](M1);
+  %C#2%
+  [N#1@-1.455];
+  [N#2@1.406];
+  [FR$1](M2);
+  %C#3%
+  [N#1@-2.938];
+  [N#2@-1.577];
+  [FR$1](M3);
+  MODEL CONSTRAINT:
+  New (diff12 diff13 diff21 diff23 diff31 diff32);
+  diff12 = M1 - M2;
+  diff13 = M1 - M3;
+  diff21 = M2 - M1;
+  diff23 = M2 - M3;
+  diff31 = M3 - M1;
+  diff32 = M3 - M2;
+  MODEL TEST:
+  M1 = M2;
+  M2 = M3;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+  TECH7;
+  TECH12;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+*** WARNING in OUTPUT command
+  SAMPSTAT option is not available when all outcomes are censored, ordered
+  categorical, unordered categorical (nominal), count or continuous-time
+  survival variables.  Request for SAMPSTAT is ignored.
+*** WARNING in OUTPUT command
+  TECH12 option is not available when there are no continuous dependent variables
+  in the analysis.  Request for TECH12 is ignored.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  9
+   4 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_FR - GMM_CI_isq@0cub@0_C_332_331;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         680
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Binary and ordered categorical (ordinal)
+   FR
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-02
+    Relative loglikelihood change                        0.100D-05
+    Derivative                                           0.100D-02
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-02
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Integration Specifications
+  Type                                                    STANDARD
+  Number of integration points                                  15
+  Dimensions of numerical integration                            0
+  Adaptive quadrature                                           ON
+Link                                                         LOGIT
+Cholesky                                                       OFF
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/FR_D3STEP.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             2
+     Number of y missing data patterns           0
+     Number of u missing data patterns           2
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR U
+
+
+           Covariance Coverage
+              FR
+              ________
+ FR             0.518
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    FR
+      Category 1    0.730          257.000
+      Category 2    0.270           95.000
+    N
+      Category 1    0.153          104.000
+      Category 2    0.408          277.000
+      Category 3    0.439          298.000
+
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                        5
+
+Loglikelihood
+
+          H0 Value                        -877.367
+          H0 Scaling Correction Factor      0.9943
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                    1764.734
+          Bayesian (BIC)                  1787.345
+          Sample-Size Adjusted BIC        1771.469
+            (n* = (n + 2) / 24)
+
+Chi-Square Test of Model Fit for the Binary and Ordered Categorical
+(Ordinal) Outcomes
+
+          Pearson Chi-Square
+
+          Value                              0.173
+          Degrees of freedom cannot be computed for this model part.
+
+          Likelihood Ratio Chi-Square
+
+          Value                              0.174
+          Degrees of freedom cannot be computed for this model part.
+
+Chi-Square Test for MCAR under the Unrestricted Latent Class Indicator Model
+
+          Pearson Chi-Square
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+          Likelihood Ratio Chi-Square
+
+          Value                              0.000
+          Degrees of Freedom                     0
+          P-Value                           1.0000
+
+Wald Test of Parameter Constraints
+
+          Value                             18.811
+          Degrees of Freedom                     2
+          P-Value                           0.0001
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        148.28011          0.21806
+       2        264.11995          0.38841
+       3        267.59993          0.39353
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        148.28010          0.21806
+       2        264.11996          0.38841
+       3        267.59994          0.39353
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              104          0.15294
+       2              303          0.44559
+       3              273          0.40147
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.350
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.781    0.111    0.108
+    2   0.110    0.721    0.169
+    3   0.124    0.125    0.751
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.548    0.224    0.228
+    2   0.044    0.827    0.129
+    3   0.042    0.191    0.767
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      0.876   -0.016    0.000
+    2     -1.080    1.858    0.000
+    3     -2.905   -1.387    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                0.806      0.000    999.000    999.000
+    N#2               -0.173      0.000    999.000    999.000
+
+ Thresholds
+    FR$1               1.832      0.574      3.192      0.001
+
+Latent Class 2
+
+ Means
+    N#1               -1.455      0.000    999.000    999.000
+    N#2                1.406      0.000    999.000    999.000
+
+ Thresholds
+    FR$1              -0.315      0.271     -1.164      0.245
+
+Latent Class 3
+
+ Means
+    N#1               -2.938      0.000    999.000    999.000
+    N#2               -1.577      0.000    999.000    999.000
+
+ Thresholds
+    FR$1               2.682      0.777      3.452      0.001
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.590      0.178     -3.325      0.001
+    C#2               -0.013      0.149     -0.088      0.930
+
+New/Additional Parameters
+    DIFF12             2.147      0.681      3.150      0.002
+    DIFF13            -0.850      1.065     -0.798      0.425
+    DIFF21            -2.147      0.681     -3.150      0.002
+    DIFF23            -2.997      0.901     -3.325      0.001
+    DIFF31             0.850      1.065      0.798      0.425
+    DIFF32             2.997      0.901      3.325      0.001
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.120E-01
+       (ratio of smallest to largest eigenvalue)
+
+
+RESULTS IN PROBABILITY SCALE
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ FR
+    Category 1         0.862      0.068     12.627      0.000
+    Category 2         0.138      0.068      2.022      0.043
+
+Latent Class 2
+
+ FR
+    Category 1         0.422      0.066      6.392      0.000
+    Category 2         0.578      0.066      8.758      0.000
+
+Latent Class 3
+
+ FR
+    Category 1         0.936      0.047     20.094      0.000
+    Category 2         0.064      0.047      1.375      0.169
+
+
+LATENT CLASS INDICATOR ODDS RATIOS FOR THE LATENT CLASSES
+
+                                                95% C.I.
+                    Estimate       S.E.  Lower 2.5% Upper 2.5%
+
+Latent Class 1 Compared to Latent Class 2
+
+ FR
+    Category > 1       0.117      0.080      0.031      0.444
+
+Latent Class 1 Compared to Latent Class 3
+
+ FR
+    Category > 1       2.339      2.492      0.290     18.875
+
+Latent Class 2 Compared to Latent Class 3
+
+ FR
+    Category > 1      20.016     18.040      3.422    117.097
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                0.806      0.000    999.000    999.000
+    N#2               -0.173      0.000    999.000    999.000
+
+ Thresholds
+    FR$1               1.010      0.316      3.192      0.001
+
+Latent Class 2
+
+ Means
+    N#1               -1.455      0.000    999.000    999.000
+    N#2                1.406      0.000    999.000    999.000
+
+ Thresholds
+    FR$1              -0.174      0.149     -1.164      0.245
+
+Latent Class 3
+
+ Means
+    N#1               -2.938      0.000    999.000    999.000
+    N#2               -1.577      0.000    999.000    999.000
+
+ Thresholds
+    FR$1               1.478      0.428      3.452      0.001
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                0.806      0.000    999.000    999.000
+    N#2               -0.173      0.000    999.000    999.000
+
+ Thresholds
+    FR$1               1.010      0.316      3.192      0.001
+
+Latent Class 2
+
+ Means
+    N#1               -1.455      0.000    999.000    999.000
+    N#2                1.406      0.000    999.000    999.000
+
+ Thresholds
+    FR$1              -0.174      0.149     -1.164      0.245
+
+Latent Class 3
+
+ Means
+    N#1               -2.938      0.000    999.000    999.000
+    N#2               -1.577      0.000    999.000    999.000
+
+ Thresholds
+    FR$1               1.478      0.428      3.452      0.001
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ Means
+    N#1                0.806      0.000    999.000    999.000
+    N#2               -0.173      0.000    999.000    999.000
+
+ Thresholds
+    FR$1               1.832      0.574      3.192      0.001
+
+Latent Class 2
+
+ Means
+    N#1               -1.455      0.000    999.000    999.000
+    N#2                1.406      0.000    999.000    999.000
+
+ Thresholds
+    FR$1              -0.315      0.271     -1.164      0.245
+
+Latent Class 3
+
+ Means
+    N#1               -2.938      0.000    999.000    999.000
+    N#2               -1.577      0.000    999.000    999.000
+
+ Thresholds
+    FR$1               2.682      0.777      3.452      0.001
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              0.806       0.806       0.806       0.806       0.806       0.806       0.806
+    N#2             -0.173      -0.173      -0.173      -0.173      -0.173      -0.173      -0.173
+
+ Thresholds
+    FR$1             0.354       0.707       0.888       1.832       2.776       2.957       3.310
+
+Latent Class 2
+
+ Means
+    N#1             -1.455      -1.455      -1.455      -1.455      -1.455      -1.455      -1.455
+    N#2              1.406       1.406       1.406       1.406       1.406       1.406       1.406
+
+ Thresholds
+    FR$1            -1.012      -0.845      -0.760      -0.315       0.130       0.216       0.382
+
+Latent Class 3
+
+ Means
+    N#1             -2.938      -2.938      -2.938      -2.938      -2.938      -2.938      -2.938
+    N#2             -1.577      -1.577      -1.577      -1.577      -1.577      -1.577      -1.577
+
+ Thresholds
+    FR$1             0.681       1.159       1.404       2.682       3.959       4.204       4.682
+
+Categorical Latent Variables
+
+ Means
+    C#1             -1.048      -0.938      -0.883      -0.590      -0.298      -0.242      -0.133
+    C#2             -0.397      -0.305      -0.258      -0.013       0.232       0.279       0.371
+
+New/Additional Parameters
+    DIFF12           0.391       0.811       1.026       2.147       3.268       3.482       3.902
+    DIFF13          -3.594      -2.938      -2.602      -0.850       0.903       1.238       1.894
+    DIFF21          -3.902      -3.482      -3.268      -2.147      -1.026      -0.811      -0.391
+    DIFF23          -5.318      -4.763      -4.479      -2.997      -1.514      -1.230      -0.675
+    DIFF31          -1.894      -1.238      -0.903       0.850       2.602       2.938       3.594
+    DIFF32           0.675       1.230       1.514       2.997       4.479       4.763       5.318
+
+
+CONFIDENCE INTERVALS IN PROBABILITY SCALE
+
+Latent Class 1
+
+ FR
+    Category 1       0.686       0.728       0.750       0.862       0.974       0.996       1.038
+    Category 2      -0.038       0.004       0.026       0.138       0.250       0.272       0.314
+
+Latent Class 2
+
+ FR
+    Category 1       0.252       0.293       0.313       0.422       0.531       0.551       0.592
+    Category 2       0.408       0.449       0.469       0.578       0.687       0.707       0.748
+
+Latent Class 3
+
+ FR
+    Category 1       0.816       0.845       0.859       0.936       1.013       1.027       1.056
+    Category 2      -0.056      -0.027      -0.013       0.064       0.141       0.155       0.184
+
+
+CONFIDENCE INTERVALS FOR THE LATENT CLASS ODDS RATIO RESULTS
+
+Latent Class 1 Compared to Latent Class 2
+
+ FR
+    Category > 1     0.020       0.031       0.038       0.117       0.359       0.444       0.676
+
+Latent Class 1 Compared to Latent Class 3
+
+ FR
+    Category > 1     0.150       0.290       0.405       2.339      13.494      18.875      36.374
+
+Latent Class 2 Compared to Latent Class 3
+
+ FR
+    Category > 1     1.964       3.422       4.545      20.016      88.156     117.097     203.973
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              0.806       0.806       0.806       0.806       0.806       0.806       0.806
+    N#2             -0.173      -0.173      -0.173      -0.173      -0.173      -0.173      -0.173
+
+ Thresholds
+    FR$1             0.195       0.390       0.490       1.010       1.530       1.630       1.825
+
+Latent Class 2
+
+ Means
+    N#1             -1.455      -1.455      -1.455      -1.455      -1.455      -1.455      -1.455
+    N#2              1.406       1.406       1.406       1.406       1.406       1.406       1.406
+
+ Thresholds
+    FR$1            -0.558      -0.466      -0.419      -0.174       0.072       0.119       0.211
+
+Latent Class 3
+
+ Means
+    N#1             -2.938      -2.938      -2.938      -2.938      -2.938      -2.938      -2.938
+    N#2             -1.577      -1.577      -1.577      -1.577      -1.577      -1.577      -1.577
+
+ Thresholds
+    FR$1             0.375       0.639       0.774       1.478       2.183       2.318       2.582
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              0.806       0.806       0.806       0.806       0.806       0.806       0.806
+    N#2             -0.173      -0.173      -0.173      -0.173      -0.173      -0.173      -0.173
+
+ Thresholds
+    FR$1             0.195       0.390       0.490       1.010       1.530       1.630       1.825
+
+Latent Class 2
+
+ Means
+    N#1             -1.455      -1.455      -1.455      -1.455      -1.455      -1.455      -1.455
+    N#2              1.406       1.406       1.406       1.406       1.406       1.406       1.406
+
+ Thresholds
+    FR$1            -0.558      -0.466      -0.419      -0.174       0.072       0.119       0.211
+
+Latent Class 3
+
+ Means
+    N#1             -2.938      -2.938      -2.938      -2.938      -2.938      -2.938      -2.938
+    N#2             -1.577      -1.577      -1.577      -1.577      -1.577      -1.577      -1.577
+
+ Thresholds
+    FR$1             0.375       0.639       0.774       1.478       2.183       2.318       2.582
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ Means
+    N#1              0.806       0.806       0.806       0.806       0.806       0.806       0.806
+    N#2             -0.173      -0.173      -0.173      -0.173      -0.173      -0.173      -0.173
+
+ Thresholds
+    FR$1             0.354       0.707       0.888       1.832       2.776       2.957       3.310
+
+Latent Class 2
+
+ Means
+    N#1             -1.455      -1.455      -1.455      -1.455      -1.455      -1.455      -1.455
+    N#2              1.406       1.406       1.406       1.406       1.406       1.406       1.406
+
+ Thresholds
+    FR$1            -1.012      -0.845      -0.760      -0.315       0.130       0.216       0.382
+
+Latent Class 3
+
+ Means
+    N#1             -2.938      -2.938      -2.938      -2.938      -2.938      -2.938      -2.938
+    N#2             -1.577      -1.577      -1.577      -1.577      -1.577      -1.577      -1.577
+
+ Thresholds
+    FR$1             0.681       1.159       1.404       2.682       3.959       4.204       4.682
+
+
+TECHNICAL 7 OUTPUT
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
+
+     Variable
+     N
+       Category 1        0.549
+       Category 2        0.206
+       Category 3        0.245
+     FR
+       Category 1        0.862
+       Category 2        0.138
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
+
+     Variable
+     N
+       Category 1        0.044
+       Category 2        0.768
+       Category 3        0.188
+     FR
+       Category 1        0.421
+       Category 2        0.579
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 3
+
+     Variable
+     N
+       Category 1        0.042
+       Category 2        0.164
+       Category 3        0.794
+     FR
+       Category 1        0.936
+       Category 2        0.064
+
+
+     Beginning Time:  17:27:57
+        Ending Time:  17:27:58
+       Elapsed Time:  00:00:01
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

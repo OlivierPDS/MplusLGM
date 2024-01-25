@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-09/11/2023   5:17 PM
+10/03/2023   2:19 PM
 
 INPUT INSTRUCTIONS
 
@@ -18,7 +18,7 @@ INPUT INSTRUCTIONS
   CLASSES = c(3);
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 500 125;
+  STARTS = 16000 4000;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
@@ -35,10 +35,13 @@ INPUT INSTRUCTIONS
   [N#2@-1.577];
   [JSR_24C](M3); JSR_24C;
   MODEL CONSTRAINT:
-  New (diff12 diff13 diff23);
+  New (diff12 diff13 diff21 diff23 diff31 diff32);
   diff12 = M1 - M2;
   diff13 = M1 - M3;
+  diff21 = M2 - M1;
   diff23 = M2 - M3;
+  diff31 = M3 - M1;
+  diff32 = M3 - M2;
   MODEL TEST:
   M1 = M2;
   M2 = M3;
@@ -113,8 +116,8 @@ Maximum number of iterations for H1                           2000
 Convergence criterion for H1                             0.100D-03
 Optimization algorithm                                         EMA
 Random Starts Specifications
-  Number of initial stage random starts                        500
-  Number of final stage optimizations                          125
+  Number of initial stage random starts                      16000
+  Number of final stage optimizations                         4000
   Number of initial stage iterations                            10
   Initial stage convergence criterion                    0.100D+01
   Random starts scale                                    0.500D+01
@@ -171,11 +174,11 @@ UNIVARIATE SAMPLE STATISTICS
 RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
 
 
-369 perturbed starting value run(s) did not converge or were rejected in the third stage.
+11731 perturbed starting value run(s) did not converge or were rejected in the third stage.
 Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
 
 
-125 perturbed starting value run(s) did not converge or were rejected in the third stage.
+4000 perturbed starting value run(s) did not converge or were rejected in the third stage.
 
 
      THE ESTIMATED COVARIANCE MATRIX FOR THE Y VARIABLES IN CLASS 1 COULD NOT
@@ -245,7 +248,10 @@ Categorical Latent Variables
 New/Additional Parameters
     DIFF12            -2.800
     DIFF13            -5.074
+    DIFF21             2.800
     DIFF23            -2.273
+    DIFF31             5.074
+    DIFF32             2.273
 
 
 MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
@@ -282,7 +288,10 @@ MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
      ! NEW statements in MODEL CONSTRAINT
      NEW(diff12*-2.80047);
      NEW(diff13*-5.07388);
+     NEW(diff21*2.80047);
      NEW(diff23*-2.27341);
+     NEW(diff31*5.07388);
+     NEW(diff32*2.27341);
 
 
 
@@ -293,9 +302,9 @@ TECHNICAL 7 OUTPUT
 TECHNICAL 12 OUTPUT
 
 
-     Beginning Time:  17:17:47
-        Ending Time:  17:17:49
-       Elapsed Time:  00:00:02
+     Beginning Time:  14:19:29
+        Ending Time:  14:19:51
+       Elapsed Time:  00:00:22
 
 
 

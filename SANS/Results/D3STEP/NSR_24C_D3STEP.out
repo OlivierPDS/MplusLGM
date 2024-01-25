@@ -1,0 +1,553 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+10/03/2023   2:19 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  D3STEP_NSR_24C - GMM_CI_isq@0cub@0_C_332_331;
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/NSR_24C_D3STEP.dat";
+
+  VARIABLE:
+  NAMES = PIN SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 I S Q
+       CUB C_I C_S C_Q C_CUB CPROB1 CPROB2 CPROB3 N NSR_24C;
+   MISSING=.;
+   USEVAR = NSR_24C N;
+  NOMINAL = N;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 16000 4000;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  %C#1%
+  [N#1@0.806];
+  [N#2@-0.173];
+  [NSR_24C](M1); NSR_24C;
+  %C#2%
+  [N#1@-1.455];
+  [N#2@1.406];
+  [NSR_24C](M2); NSR_24C;
+  %C#3%
+  [N#1@-2.938];
+  [N#2@-1.577];
+  [NSR_24C](M3); NSR_24C;
+  MODEL CONSTRAINT:
+  New (diff12 diff13 diff21 diff23 diff31 diff32);
+  diff12 = M1 - M2;
+  diff13 = M1 - M3;
+  diff21 = M2 - M1;
+  diff23 = M2 - M3;
+  diff31 = M3 - M1;
+  diff32 = M3 - M2;
+  MODEL TEST:
+  M1 = M2;
+  M2 = M3;
+  OUTPUT:
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+  TECH7;
+  TECH12;
+
+
+
+*** WARNING in MODEL command
+  All variables are uncorrelated with all other variables within class.
+  Check that this is what is intended.
+   1 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+D3STEP_NSR_24C - GMM_CI_isq@0cub@0_C_332_331;
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         689
+
+Number of dependent variables                                    2
+Number of independent variables                                  0
+Number of continuous latent variables                            0
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   NSR_24C
+
+  Unordered categorical (nominal)
+   N
+
+Categorical latent variables
+   C
+
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                      16000
+  Number of final stage optimizations                         4000
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/LGM/SANS/Results/D3STEP/NSR_24C_D3STEP.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns             1
+     Number of y missing data patterns           1
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              NSR_24C
+              ________
+ NSR_24C        1.000
+
+
+UNIVARIATE PROPORTIONS AND COUNTS FOR CATEGORICAL VARIABLES
+
+    N
+      Category 1    0.153          104.000
+      Category 2    0.408          277.000
+      Category 3    0.439          298.000
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              NSR_24C
+              ________
+                1.958
+
+
+           Covariances
+              NSR_24C
+              ________
+ NSR_24C        4.511
+
+
+           Correlations
+              NSR_24C
+              ________
+ NSR_24C        1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -1496.611
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     NSR_24C               1.958       0.965       0.000   36.72%       0.000      1.000      1.000
+             689.000       4.511       0.024       9.000    0.15%       2.000      4.000
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+
+8090 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+
+Unperturbed starting value run did not converge or was rejected in the third stage.
+
+3999 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY.  ESTIMATES CANNOT
+     BE TRUSTED.
+
+
+
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        232.94183          0.33809
+       2        293.73405          0.42632
+       3        162.32412          0.23559
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        254.43851          0.36929
+       2        400.26411          0.58093
+       3         34.29738          0.04978
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              277          0.40203
+       2              298          0.43251
+       3              114          0.16546
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.530
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.803    0.065    0.132
+    2   0.016    0.836    0.148
+    3   0.050    0.236    0.714
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.955    0.021    0.024
+    2   0.061    0.847    0.091
+    3   0.226    0.272    0.502
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      3.667   -0.152    0.000
+    2     -0.401    2.227    0.000
+    3     -0.798   -0.613    0.000
+
+
+MODEL RESULTS
+
+                    Estimate
+
+Latent Class 1
+
+ Means
+    NSR_24C            0.155
+
+ Means
+    N#1                0.806
+    N#2               -0.173
+
+ Variances
+    NSR_24C            0.131
+
+Latent Class 2
+
+ Means
+    NSR_24C            3.438
+
+ Means
+    N#1               -1.455
+    N#2                1.406
+
+ Variances
+    NSR_24C            4.220
+
+Latent Class 3
+
+ Means
+    NSR_24C            1.981
+
+ Means
+    N#1               -2.938
+    N#2               -1.577
+
+ Variances
+    NSR_24C            2.708
+
+Categorical Latent Variables
+
+ Means
+    C#1                0.361
+    C#2                0.593
+
+New/Additional Parameters
+    DIFF12            -3.283
+    DIFF13            -1.826
+    DIFF21             3.283
+    DIFF23             1.457
+    DIFF31             1.826
+    DIFF32            -1.457
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     %OVERALL%
+
+     [ c#1*0.36119 ];
+     [ c#2*0.59308 ];
+
+     %C#1%
+
+     [ nsr_24c*0.15515 ] (m1);
+     [ n#1@0.80600 ];
+     [ n#2@-0.17300 ];
+
+     nsr_24c*0.13119;
+
+     %C#2%
+
+     [ nsr_24c*3.43799 ] (m2);
+     [ n#1@-1.45500 ];
+     [ n#2@1.40600 ];
+
+     nsr_24c*4.22034;
+
+     %C#3%
+
+     [ nsr_24c*1.98089 ] (m3);
+     [ n#1@-2.93800 ];
+     [ n#2@-1.57700 ];
+
+     nsr_24c*2.70779;
+
+     ! NEW statements in MODEL CONSTRAINT
+     NEW(diff12*-3.28284);
+     NEW(diff13*-1.82573);
+     NEW(diff21*3.28284);
+     NEW(diff23*1.45711);
+     NEW(diff31*1.82573);
+     NEW(diff32*-1.45711);
+
+
+
+
+TECHNICAL 7 OUTPUT
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 1
+
+
+           Means
+              NSR_24C
+              ________
+                0.127
+
+
+           Covariances
+              NSR_24C
+              ________
+ NSR_24C        0.111
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
+
+
+           Means
+              NSR_24C
+              ________
+                3.490
+
+
+           Covariances
+              NSR_24C
+              ________
+ NSR_24C        4.260
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 3
+
+
+           Means
+              NSR_24C
+              ________
+                1.811
+
+
+           Covariances
+              NSR_24C
+              ________
+ NSR_24C        2.191
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 1
+
+     Variable
+     N
+       Category 1        0.199
+       Category 2        0.218
+       Category 3        0.583
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 2
+
+     Variable
+     N
+       Category 1        0.134
+       Category 2        0.696
+       Category 3        0.169
+
+
+     UNIVARIATE SAMPLE DISTRIBUTIONS FOR CLASS 3
+
+     Variable
+     N
+       Category 1        0.124
+       Category 2        0.148
+       Category 3        0.729
+
+
+TECHNICAL 12 OUTPUT
+
+
+     ESTIMATED MIXED MODEL AND RESIDUALS (OBSERVED - EXPECTED)
+
+
+           Observed Means
+              NSR_24C
+              ________
+                1.958
+
+
+           Estimated Mixed Means
+              NSR_24C
+              ________
+                2.153
+
+
+           Residuals for Mixed Means
+              NSR_24C
+              ________
+               -0.195
+
+
+           Observed Covariances
+              NSR_24C
+              ________
+ NSR_24C        4.511
+
+
+           Estimated Mixed Covariances
+              NSR_24C
+              ________
+ NSR_24C        5.070
+
+
+           Residuals for Mixed Covariances
+              NSR_24C
+              ________
+ NSR_24C       -0.559
+
+
+           Observed Skewness
+              NSR_24C
+              ________
+                0.965
+
+
+           Estimated Mixed Skewness
+              NSR_24C
+              ________
+                0.646
+
+
+           Residuals for Mixed Skewness
+              NSR_24C
+              ________
+                0.319
+
+
+           Observed Kurtosis
+              NSR_24C
+              ________
+                0.024
+
+
+           Estimated Mixed Kurtosis
+              NSR_24C
+              ________
+               -0.467
+
+
+           Residuals for Mixed Kurtosis
+              NSR_24C
+              ________
+                0.492
+
+
+     Beginning Time:  14:19:05
+        Ending Time:  14:19:29
+       Elapsed Time:  00:00:24
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

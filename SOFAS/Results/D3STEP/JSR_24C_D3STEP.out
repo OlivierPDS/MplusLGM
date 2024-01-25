@@ -1,6 +1,6 @@
 Mplus VERSION 8.6 (Mac)
 MUTHEN & MUTHEN
-09/11/2023   5:20 PM
+10/03/2023   2:16 PM
 
 INPUT INSTRUCTIONS
 
@@ -18,7 +18,7 @@ INPUT INSTRUCTIONS
   CLASSES = c(2);
   ANALYSIS:
   TYPE = MIXTURE;
-  STARTS = 0 0;
+  STARTS = 0;
   PROCESSORS = 8;
   MODEL:
   %OVERALL%
@@ -29,8 +29,9 @@ INPUT INSTRUCTIONS
   [N#1@-1.788];
   [JSR_24C](M2); JSR_24C;
   MODEL CONSTRAINT:
-  New (diff12);
+  New (diff12 diff21);
   diff12 = M1 - M2;
+  diff21 = M2 - M1;
   MODEL TEST:
   M1 = M2;
   OUTPUT:
@@ -199,6 +200,7 @@ Categorical Latent Variables
 
 New/Additional Parameters
     DIFF12            -2.759
+    DIFF21             2.759
 
 
 MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
@@ -223,6 +225,7 @@ MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
 
      ! NEW statements in MODEL CONSTRAINT
      NEW(diff12*-2.75903);
+     NEW(diff21*2.75903);
 
 
 
@@ -233,8 +236,8 @@ TECHNICAL 7 OUTPUT
 TECHNICAL 12 OUTPUT
 
 
-     Beginning Time:  17:20:08
-        Ending Time:  17:20:08
+     Beginning Time:  14:16:45
+        Ending Time:  14:16:45
        Elapsed Time:  00:00:00
 
 
