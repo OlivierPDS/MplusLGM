@@ -118,14 +118,15 @@ D3STEP <- function(df,
 
   ## MODEL CONSTRAINTS =
   diff <- expand.grid(seq(k), seq(k)) %>%
-    filter(Var1 < Var2) %>%
+    filter(Var1 != Var2) %>%
+    arrange(Var1, Var2) %>% 
     mutate(newdiff = paste0("diff", Var1, Var2))
-  form0 <- glue::glue("{diff$newdiff} = M{diff$Var1} - M{diff$Var2}")
 
-
+  form <- glue::glue("{diff$newdiff} = M{diff$Var1} - M{diff$Var2}")
+  
   new <- glue::glue("New ({paste(diff$newdiff, collapse = ' ')})")
 
-  constraint <- c(new, form0) %>%
+  constraint <- c(new, form) %>%
     purrr::map_chr(~ paste(.x, collapse = " ")) %>%
     MplusAutomation::parseMplus(add = TRUE)
 
