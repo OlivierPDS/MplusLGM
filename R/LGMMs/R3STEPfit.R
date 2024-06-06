@@ -112,7 +112,7 @@ R3STEPfit <- function(list_mpobj,
       pval < 0.05 ~ "*"
     )) %>% # add significativity
     dplyr::mutate(dplyr::across(c(tidyselect::where(is.numeric), -pval), ~ round(.x, digits = 2))) %>%
-    dplyr::select(paramHeader, param, est, se, pval, sig, tidyselect::starts_with("mean"), tidyselect::starts_with("OR"), warnings, errors) %>%
+    dplyr::select(paramHeader, param, est, low2.5, up2.5, se, pval, sig, tidyselect::starts_with("mean"), tidyselect::starts_with("OR"), warnings, errors) %>%
     dplyr::arrange(paramHeader, -est, param)
 
   return(table)
