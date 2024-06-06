@@ -5,8 +5,9 @@ GMM <- function(df,
                 overall_polynomial,
                 random_effect,
                 startval = 500,
-                dist = c("NORMAL", "SKEWNORMAL", "TDISTRIBUTION", "SKEWT"),
+                # dist = c("NORMAL", "SKEWNORMAL", "TDISTRIBUTION", "SKEWT"),
                 output = c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL"),
+                plot = "plot3",
                 working_dir = getwd()) {
   
   # Test Arguments ----------------------------------------------------------
@@ -18,6 +19,7 @@ GMM <- function(df,
   # random_effect <- "CI"
   # overall_polynomial <- 3
   # output <-  c("TECH7", "TECH11", "SAMPSTAT", "STANDARDIZED", "CINTERVAL")
+  # plot <- "plot3"
   # working_dir <-  getwd()
 
   outcome <- stringr::str_remove_all(usevar[1], "[^[:alpha:]]")
@@ -59,9 +61,9 @@ GMM <- function(df,
   starts <- paste("STARTS =", startval, startval / 4)
   k1starts <- paste("K-1STARTS =", startval / 2, startval / 8)
   processors <- paste("PROCESSORS =", parallel::detectCores())
-  dist <- glue("DISTRIBUTION = {match.arg(dist)}")
+  # dist <- glue("DISTRIBUTION = {match.arg(dist)}")
 
-  analysis <- c(type, starts, k1starts, dist, processors) %>%
+  analysis <- c(type, starts, k1starts, processors) %>%
     MplusAutomation::parseMplus(add = TRUE)
 
   ## MODEL = --------------------------------------------------------------
@@ -148,6 +150,14 @@ GMM <- function(df,
 
   ## OUTPUT = ----------------------------------------------------------------
   output <- MplusAutomation::parseMplus(output, add = TRUE)
+  
+  
+  ## PLOT = ----------------------------------------------------------------
+  type <- glue("TYPE = {plot}")
+  series <- glue("SERIES = {head(usevar, 1)}-{tail(usevar, 1)} (s)") 
+  
+  plot <- c(type, series) %>% 
+    MplusAutomation::parseMplus(add = TRUE)
 
   ## SAVEDATA = --------------------------------------------------------------
   file <- purrr::map(title, \(title) glue::glue("FILE = {title}_est.dat"))
@@ -165,6 +175,7 @@ GMM <- function(df,
       MODEL = model,
       ANALYSIS = analysis,
       OUTPUT = output,
+      PLOT = plot,
       SAVEDATA = savedata,
       autov = FALSE,
       usevariables = names(select(df, tidyselect::all_of(c(idvar, usevar)))),
@@ -174,7 +185,7 @@ GMM <- function(df,
   # Create directory for results if does not already exist
   model_dir <- purrr::map_chr(
     gf_var,
-    \(gf_var) glue::glue("{working_dir}", "{outcome}", "Results", "GMM", "{random_effect}", "{str_remove_all(gf_var, '[[:blank:]]')}", .sep = "/")
+    \(gf_var) glue::glue("{working_dir}", "Results", "GMM", "{random_effect}", "{str_remove_all(gf_var, '[[:blank:]]')}", .sep = "/")
   ) %>%
     purrr::walk(~ ifelse(!dir.exists(.x), dir.create(.x, recursive = TRUE), .x)) %>%
     purrr::map(~ rep(.x, each = 4)) %>%
