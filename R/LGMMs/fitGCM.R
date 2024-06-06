@@ -45,7 +45,7 @@ fitGCM <- function(df,
   )
   
   # Create directory for results if does not already exist
-  model_dir <- glue::glue('{working_dir}', '{outcome}', 'Results', 'GCM', .sep = "/")
+  model_dir <- glue::glue('{working_dir}', 'Results', 'GCM', .sep = "/")
   if (!dir.exists(model_dir)) {
     dir.create(model_dir, recursive = TRUE)
   }
