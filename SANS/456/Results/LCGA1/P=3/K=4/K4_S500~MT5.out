@@ -1,0 +1,79 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+02/14/2024   6:42 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  LCGA1_P3_K4_S500
+
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SANS/456/Results/LCGA1/P=3/K=4/K4_S500.dat";
+
+  VARIABLE:
+  NAMES = pin SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24;
+   MISSING=.;
+   USEVAR = SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12
+  SANS_18 SANS_24;
+  IDVAR = pin;
+  CLASSES = c(4);
+
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 500 125;
+  K-1STARTS = 250 62.5;
+  PROCESSORS = 8;
+
+  MODEL:
+  %OVERALL%
+  i s q cub |
+  SANS_0@0 SANS_1@1 SANS_2@2 SANS_3@3 SANS_6@6
+  SANS_9@9 SANS_12@12 SANS_18@18 SANS_24@24;
+  i-cub@0;
+  %c#1%
+  [i s q cub];
+  SANS_0-SANS_24 (1);
+  %c#2%
+  [i s q cub];
+  SANS_0-SANS_24 (2);
+  %c#3%
+  [i s q cub];
+  SANS_0-SANS_24 (3);
+  %c#4%
+  [i s q cub];
+  SANS_0-SANS_24 (4);
+
+  OUTPUT:
+  SAMPSTAT STANDARDIZED;
+  TECH1;
+  TECH11;
+
+  SAVEDATA:
+  FILE = K4_S500_res.dat;
+  SAVE = CPROBABILITIES FSCORES;
+
+  PLOT:
+  TYPE = plot3;
+  SERIES = SANS_0 (s) SANS_1 (s) SANS_2 (s) SANS_3 (s)
+  SANS_6 (s) SANS_9 (s) SANS_12 (s) SANS_18 (s)
+  SANS_24 (s);
+
+
+
+
+*** WARNING in MODEL command
+  All continuous latent variable covariances involving I have been fixed to 0
+  because the variance of I is fixed at 0.
+*** WARNING in MODEL command
+  All continuous latent variable covariances involving S have been fixed to 0
+  because the variance of S is fixed at 0.
+*** WARNING in MODEL command
+  All continuous latent variable covariances involving Q have been fixed to 0
+  because the variance of Q is fixed at 0.
+   3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+LCGA1_P3_K4_S500
+

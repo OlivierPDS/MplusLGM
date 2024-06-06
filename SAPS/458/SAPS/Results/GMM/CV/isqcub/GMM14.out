@@ -1,0 +1,1381 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+02/17/2024   9:18 PM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  GMM_CV_isqcub_C
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/458/SAPS/Results/GMM/CV/isqcub/GMM14.dat";
+
+  VARIABLE:
+  NAMES = pin SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24;
+   MISSING=.;
+   USEVAR = SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24;
+  IDVAR = pin;
+  CLASSES = c(2);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 4000 1000;
+  K-1STARTS = 2000 500;
+  DISTRIBUTION = NORMAL;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  i s q cub | SAPS_0@0 SAPS_1@1 SAPS_2@2 SAPS_3@3 SAPS_6@6 SAPS_9@9 SAPS_12@12 SAPS_18@18
+  SAPS_24@24;
+  i s q cub;
+  i WITH s q cub;
+  s WITH q cub;
+  q WITH cub;
+  SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24;
+  %C#1%
+  i s q cub;
+  i WITH s q cub;
+  s WITH q cub;
+  q WITH cub;
+  SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 (1);
+  %C#2%
+  i s q cub;
+  i WITH s q cub;
+  s WITH q cub;
+  q WITH cub;
+  SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24 (2);
+  OUTPUT:
+  TECH7;
+  TECH11;
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+  SAVEDATA:
+  FILE = GMM_CV_isqcub_C_est.dat;
+  SAVE = CPROBABILITIES FSCORES;
+
+
+
+INPUT READING TERMINATED NORMALLY
+
+
+
+
+GMM_CV_isqcub_C
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         458
+
+Number of dependent variables                                    9
+Number of independent variables                                  0
+Number of continuous latent variables                            4
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   SAPS_0      SAPS_1      SAPS_2      SAPS_3      SAPS_6      SAPS_9
+   SAPS_12     SAPS_18     SAPS_24
+
+Continuous latent variables
+   I           S           Q           CUB
+
+Categorical latent variables
+   C
+
+Variables with special functions
+
+  ID variable           PIN
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                       4000
+  Number of final stage optimizations                         1000
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/LGM/SAPS/458/SAPS/Results/GMM/CV/isqcub/GMM14.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            53
+     Number of y missing data patterns          53
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0         0.998
+ SAPS_1         0.686         0.688
+ SAPS_2         0.884         0.614         0.886
+ SAPS_3         0.948         0.646         0.858         0.950
+ SAPS_6         0.924         0.627         0.825         0.886         0.926
+ SAPS_9         0.910         0.616         0.812         0.865         0.847
+ SAPS_12        0.889         0.607         0.779         0.841         0.825
+ SAPS_18        0.849         0.579         0.740         0.803         0.788
+ SAPS_24        0.834         0.557         0.740         0.795         0.773
+
+
+           Covariance Coverage
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9         0.913
+ SAPS_12        0.819         0.891
+ SAPS_18        0.777         0.771         0.852
+ SAPS_24        0.764         0.762         0.760         0.836
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+               11.660         5.496         3.986         3.350         3.484
+
+
+           Means
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                3.384         3.507         3.378         3.319
+
+
+           Covariances
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0        10.072
+ SAPS_1         3.526        15.084
+ SAPS_2         2.770        10.193        13.499
+ SAPS_3         2.234         7.353         9.111        12.229
+ SAPS_6         2.132         5.879         6.811         6.861        13.753
+ SAPS_9         1.403         4.103         5.221         5.561         7.631
+ SAPS_12        2.134         3.700         4.230         5.180         6.335
+ SAPS_18        0.928         3.192         4.019         5.107         5.212
+ SAPS_24        0.485         2.202         3.108         3.596         3.355
+
+
+           Covariances
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9        12.954
+ SAPS_12        6.532        14.742
+ SAPS_18        4.612         7.043        14.467
+ SAPS_24        4.745         5.056         5.975        15.220
+
+
+           Correlations
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0         1.000
+ SAPS_1         0.286         1.000
+ SAPS_2         0.238         0.714         1.000
+ SAPS_3         0.201         0.541         0.709         1.000
+ SAPS_6         0.181         0.408         0.500         0.529         1.000
+ SAPS_9         0.123         0.293         0.395         0.442         0.572
+ SAPS_12        0.175         0.248         0.300         0.386         0.445
+ SAPS_18        0.077         0.216         0.288         0.384         0.370
+ SAPS_24        0.039         0.145         0.217         0.264         0.232
+
+
+           Correlations
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9         1.000
+ SAPS_12        0.473         1.000
+ SAPS_18        0.337         0.482         1.000
+ SAPS_24        0.338         0.338         0.403         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -9264.023
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SAPS_0               11.663      -0.201       2.000    0.44%       9.000     11.000     12.000
+             457.000      10.070      -0.208      20.000    0.22%      13.000     14.000
+     SAPS_1                5.384       0.489       0.000   10.48%       2.000      4.000      5.000
+             315.000      14.694      -0.423      17.000    0.32%       6.000      9.000
+     SAPS_2                3.943       1.016       0.000   19.70%       1.000      2.000      3.000
+             406.000      13.482       0.592      18.000    0.25%       4.000      7.000
+     SAPS_3                3.329       1.110       0.000   29.43%       0.000      1.000      2.000
+             435.000      12.087       0.781      16.000    0.23%       3.000      6.000
+     SAPS_6                3.441       1.026       0.000   32.08%       0.000      1.000      2.000
+             424.000      13.657       0.266      16.000    0.24%       3.000      6.000
+     SAPS_9                3.354       1.188       0.000   30.14%       0.000      1.000      2.000
+             418.000      13.080       0.983      16.000    0.48%       3.000      6.000
+     SAPS_12               3.539       1.267       0.000   28.68%       0.000      2.000      2.000
+             408.000      14.793       1.090      18.000    0.25%       3.000      6.000
+     SAPS_18               3.338       1.333       0.000   30.77%       0.000      1.000      2.000
+             390.000      14.270       1.298      17.000    0.51%       3.000      6.000
+     SAPS_24               3.295       1.351       0.000   33.94%       0.000      1.000      2.000
+             383.000      15.289       1.164      17.000    0.26%       3.000      6.000
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+
+2432 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+           -9852.625  84672            2255
+           -9852.625  261601           1163
+           -9852.625  118438           601
+           -9852.625  999935           2882
+           -9852.625  342423           3409
+           -9852.625  188637           3518
+           -9852.625  472543           1917
+           -9852.625  629320           222
+           -9852.625  807926           2090
+           -9852.625  607284           2163
+           -9852.625  753644           2437
+           -9852.625  329626           2457
+           -9852.625  131251           2939
+           -9852.625  191267           1599
+           -9852.625  848969           173
+           -9852.625  728038           177
+           -9852.625  967237           48
+           -9852.625  371246           101
+           -9852.625  580405           286
+           -9852.625  972873           157
+           -9852.625  85114            385
+           -9852.625  802779           122
+           -9852.625  874698           1027
+           -9852.625  387016           1035
+           -9852.625  291149           536
+           -9852.625  247912           537
+           -9852.625  864006           1075
+           -9852.625  206646           2156
+           -9852.625  979988           2164
+           -9852.625  690631           2169
+           -9852.625  892896           2177
+           -9852.625  754267           2203
+           -9852.625  453260           1106
+           -9852.625  2850             1110
+           -9852.625  51011            1111
+           -9852.625  273669           1118
+           -9852.625  932458           1132
+           -9852.625  473942           574
+           -9852.625  566739           575
+           -9852.625  930654           1156
+           -9852.625  181598           2325
+           -9852.625  917570           1168
+           -9852.625  288620           1171
+           -9852.625  360597           1174
+           -9852.625  661264           1181
+           -9852.625  891036           2392
+           -9852.625  743895           1198
+           -9852.625  224410           1220
+           -9852.625  647690           1232
+           -9852.625  293428           2473
+           -9852.625  449171           1260
+           -9852.625  845617           1262
+           -9852.625  490008           2542
+           -9852.625  124829           1292
+           -9852.625  564685           2602
+           -9852.625  901334           2630
+           -9852.625  237332           661
+           -9852.625  163116           1329
+           -9852.625  452356           1341
+           -9852.625  666720           671
+           -9852.625  374819           2698
+           -9852.625  327185           2704
+           -9852.625  782200           84
+           -9852.625  536075           2726
+           -9852.625  439009           2771
+           -9852.625  540747           1394
+           -9852.625  182880           1396
+           -9852.625  558741           2815
+           -9852.625  612092           1409
+           -9852.625  158725           2825
+           -9852.625  228271           1422
+           -9852.625  667120           2859
+           -9852.625  840623           2872
+           -9852.625  364901           2873
+           -9852.625  422699           1439
+           -9852.625  891364           2892
+           -9852.625  586510           1446
+           -9852.625  464174           1461
+           -9852.625  731411           2940
+           -9852.625  745490           2960
+           -9852.625  553920           2961
+           -9852.625  317868           740
+           -9852.625  198593           2996
+           -9852.625  329944           1506
+           -9852.625  854613           3023
+           -9852.625  165375           1514
+           -9852.625  528696           3037
+           -9852.625  91413            3045
+           -9852.625  117631           3048
+           -9852.625  157736           1524
+           -9852.625  438792           1525
+           -9852.625  238262           1541
+           -9852.625  911681           3100
+           -9852.625  276071           1551
+           -9852.625  654248           3109
+           -9852.625  711657           1564
+           -9852.625  691615           1570
+           -9852.625  358688           1573
+           -9852.625  107066           3147
+           -9852.625  903246           3176
+           -9852.625  630121           3187
+           -9852.625  351165           3220
+           -9852.625  283715           1610
+           -9852.625  884737           3225
+           -9852.625  176439           3235
+           -9852.625  863643           1619
+           -9852.625  290210           1620
+           -9852.625  371072           3263
+           -9852.625  431630           3264
+           -9852.625  205875           1635
+           -9852.625  443241           1636
+           -9852.625  81233            825
+           -9852.625  382139           3305
+           -9852.625  85666            1654
+           -9852.625  301682           3315
+           -9852.625  192731           3351
+           -9852.625  171846           3365
+           -9852.625  473343           844
+           -9852.625  635223           3438
+           -9852.625  708128           1722
+           -9852.625  807225           3452
+           -9852.625  558535           3475
+           -9852.625  182256           3481
+           -9852.625  589391           3484
+           -9852.625  35562            3491
+           -9852.625  317640           437
+           -9852.625  966243           1751
+           -9852.625  771103           3504
+           -9852.625  661337           1754
+           -9852.625  774692           1764
+           -9852.625  530079           3551
+           -9852.625  681680           3557
+           -9852.625  845569           3567
+           -9852.625  845533           1789
+           -9852.625  494209           904
+           -9852.625  340820           3622
+           -9852.625  725009           3633
+           -9852.625  281245           3634
+           -9852.625  911142           3648
+           -9852.625  834526           3655
+           -9852.625  843278           3660
+           -9852.625  41447            3665
+           -9852.625  473869           3707
+           -9852.625  235435           3726
+           -9852.625  941205           3741
+           -9852.625  460304           3764
+           -9852.625  147165           3806
+           -9852.625  307652           3808
+           -9852.625  714455           476
+           -9852.625  242713           1911
+           -9852.625  270107           3831
+           -9852.625  842595           3834
+           -9852.625  456199           3845
+           -9852.625  288692           3880
+           -9852.625  518791           3884
+           -9852.625  425982           485
+           -9852.625  604729           3891
+           -9852.625  990442           3892
+           -9852.625  613342           3894
+           -9852.625  306768           978
+           -9852.625  739629           3954
+           -9852.625  943550           1981
+           -9852.625  588848           3965
+           -9852.625  21130            1988
+           -9852.625  329099           3992
+           -9852.625  994893           2002
+           -9852.625  262076           2015
+           -9852.625  932529           1013
+           -9852.625  155622           507
+           -9852.625  350608           334
+           -9852.625  227563           63
+           -9852.625  220454           288
+           -9852.625  92689            304
+           -9852.625  393232           152
+           -9852.625  1548             384
+           -9852.625  432148           30
+           -9852.625  851945           18
+           -9852.625  264081           186
+           -9852.625  392407           221
+           -9852.625  170118           238
+           -9852.625  535063           329
+           -9852.625  127215           9
+           -9852.625  801717           364
+           -9852.625  518828           432
+           -9852.625  349263           263
+           -9852.625  618760           489
+           -9852.625  224785           2053
+           -9852.625  720696           2058
+           -9852.625  621197           1029
+           -9852.625  460521           1032
+           -9852.625  314662           1036
+           -9852.625  3086             2112
+           -9852.625  371737           532
+           -9852.625  277475           2143
+           -9852.625  812494           2144
+           -9852.625  861335           2170
+           -9852.625  124661           2172
+           -9852.625  897245           2179
+           -9852.625  264951           1130
+           -9852.625  401483           2287
+           -9852.625  947714           573
+           -9852.625  650354           577
+           -9852.625  367213           2313
+           -9852.625  882083           2328
+           -9852.625  112482           2373
+           -9852.625  315131           2401
+           -9852.625  548493           1201
+           -9852.625  275864           2426
+           -9852.625  810560           1213
+           -9852.625  622873           1218
+           -9852.625  100054           1225
+           -9852.625  571757           1268
+           -9852.625  583657           2537
+           -9852.625  322790           636
+           -9852.625  242502           2615
+           -9852.625  862221           2694
+           -9852.625  273423           2711
+           -9852.625  394609           1366
+           -9852.625  700855           2761
+           -9852.625  903099           1399
+           -9852.625  818450           2894
+           -9852.625  892583           2900
+           -9852.625  135072           2915
+           -9852.625  220492           743
+           -9852.625  785068           3000
+           -9852.625  703235           3001
+           -9852.625  326091           759
+           -9852.625  182318           1536
+           -9852.625  948834           3090
+           -9852.625  124999           96
+           -9852.625  595190           1554
+           -9852.625  716642           3151
+           -9852.625  154044           1581
+           -9852.625  669320           3164
+           -9852.625  785277           1603
+           -9852.625  935274           3207
+           -9852.625  754057           3252
+           -9852.625  299730           1627
+           -9852.625  897739           3299
+           -9852.625  261364           3301
+           -9852.625  514098           3306
+           -9852.625  788197           3328
+           -9852.625  383791           3373
+           -9852.625  76451            211
+           -9852.625  807534           850
+           -9852.625  296924           1702
+           -9852.625  208230           1710
+           -9852.625  526244           3457
+           -9852.625  255016           1731
+           -9852.625  971444           3533
+           -9852.625  299774           1777
+           -9852.625  86698            893
+           -9852.625  315772           3575
+           -9852.625  966603           919
+           -9852.625  491690           3688
+           -9852.625  514266           3692
+           -9852.625  578623           1849
+           -9852.625  318596           3710
+           -9852.625  399671           13
+           -9852.625  420910           928
+           -9852.625  508123           3732
+           -9852.625  528938           1898
+           -9852.625  480649           1900
+           -9852.625  100756           3807
+           -9852.625  172531           1912
+           -9852.625  605784           3836
+           -9852.625  90504            3842
+           -9852.625  195981           3849
+           -9852.625  47719            962
+           -9852.625  978443           3856
+           -9852.625  886510           3906
+           -9852.625  275366           3912
+           -9852.625  804821           3936
+           -9852.625  900921           984
+           -9852.625  177414           1983
+           -9852.625  536847           3967
+           -9852.625  429802           3983
+           -9852.625  266425           2000
+           -9852.625  876056           1000
+           -9852.625  543202           2009
+           -9852.625  770182           1015
+           -9852.625  650371           14
+           -9852.625  405079           68
+           -9852.625  887676           22
+           -9852.625  55115            408
+           -9852.625  484406           421
+           -9852.625  221146           1046
+           -9852.625  602328           2117
+           -9852.625  396921           2282
+           -9852.625  908483           2331
+           -9852.625  493718           2394
+           -9852.625  530291           2488
+           -9852.625  167220           2608
+           -9852.625  939870           655
+           -9852.625  397522           1311
+           -9852.625  702334           2702
+           -9852.625  493775           1402
+           -9852.625  879349           1459
+           -9852.625  646573           741
+           -9852.625  74518            927
+
+700 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+
+THE BEST LOGLIKELIHOOD VALUE HAS BEEN REPLICATED.  RERUN WITH AT LEAST TWICE THE
+RANDOM STARTS TO CHECK THAT THE BEST LOGLIKELIHOOD IS STILL OBTAINED AND REPLICATED.
+
+     THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES MAY NOT BE
+     TRUSTWORTHY FOR SOME PARAMETERS DUE TO A NON-POSITIVE DEFINITE
+     FIRST-ORDER DERIVATIVE PRODUCT MATRIX.  THIS MAY BE DUE TO THE STARTING
+     VALUES BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE
+     CONDITION NUMBER IS       0.132D-14.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
+     Parameter 1, %C#1%: SAPS_0 (equality/label)
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO AN ILL-CONDITIONED
+     FISHER INFORMATION MATRIX.  CHANGE YOUR MODEL AND/OR STARTING VALUES.
+
+     THE MODEL ESTIMATION DID NOT TERMINATE NORMALLY DUE TO A NON-POSITIVE
+     DEFINITE FISHER INFORMATION MATRIX.  THIS MAY BE DUE TO THE STARTING VALUES
+     BUT MAY ALSO BE AN INDICATION OF MODEL NONIDENTIFICATION.  THE CONDITION
+     NUMBER IS       0.256D-14.
+
+     THE STANDARD ERRORS OF THE MODEL PARAMETER ESTIMATES COULD NOT BE
+     COMPUTED.  THIS IS OFTEN DUE TO THE STARTING VALUES BUT MAY ALSO BE
+     AN INDICATION OF MODEL NONIDENTIFICATION.  CHANGE YOUR MODEL AND/OR
+     STARTING VALUES.  PROBLEM INVOLVING THE FOLLOWING PARAMETER:
+     Parameter 1, %C#1%: SAPS_0 (equality/label)
+
+
+
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1          0.00000          0.00000
+       2        458.00000          1.00000
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1          0.00000          0.00000
+       2        458.00000          1.00000
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1                0          0.00000
+       2              458          1.00000
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         1.000
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2
+
+    1   0.000    0.000
+    2   0.000    1.000
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2
+
+    1   0.000    0.000
+    2   0.000    1.000
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2
+
+    1      0.000    0.000
+    2    -13.816    0.000
+
+
+MODEL RESULTS
+
+                    Estimate
+
+Latent Class 1
+
+ I        |
+    SAPS_0             1.000
+    SAPS_1             1.000
+    SAPS_2             1.000
+    SAPS_3             1.000
+    SAPS_6             1.000
+    SAPS_9             1.000
+    SAPS_12            1.000
+    SAPS_18            1.000
+    SAPS_24            1.000
+
+ S        |
+    SAPS_0             0.000
+    SAPS_1             1.000
+    SAPS_2             2.000
+    SAPS_3             3.000
+    SAPS_6             6.000
+    SAPS_9             9.000
+    SAPS_12           12.000
+    SAPS_18           18.000
+    SAPS_24           24.000
+
+ Q        |
+    SAPS_0             0.000
+    SAPS_1             1.000
+    SAPS_2             4.000
+    SAPS_3             9.000
+    SAPS_6            36.000
+    SAPS_9            81.000
+    SAPS_12          144.000
+    SAPS_18          324.000
+    SAPS_24          576.000
+
+ CUB      |
+    SAPS_0             0.000
+    SAPS_1             1.000
+    SAPS_2             8.000
+    SAPS_3            27.000
+    SAPS_6           216.000
+    SAPS_9           729.000
+    SAPS_12         1728.000
+    SAPS_18         5832.000
+    SAPS_24        13824.000
+
+ I        WITH
+    S                  0.000
+    Q                  0.000
+    CUB                0.000
+
+ S        WITH
+    Q                  0.000
+    CUB                0.000
+
+ Q        WITH
+    CUB                0.000
+
+ Means
+    I                 14.369
+    S                 -6.698
+    Q                  3.429
+    CUB               -1.385
+
+ Intercepts
+    SAPS_0             0.000
+    SAPS_1             0.000
+    SAPS_2             0.000
+    SAPS_3             0.000
+    SAPS_6             0.000
+    SAPS_9             0.000
+    SAPS_12            0.000
+    SAPS_18            0.000
+    SAPS_24            0.000
+
+ Variances
+    I                  9.815
+    S                 11.789
+    Q                  1.018
+    CUB                0.006
+
+ Residual Variances
+    SAPS_0             7.644
+    SAPS_1             7.644
+    SAPS_2             7.644
+    SAPS_3             7.644
+    SAPS_6             7.644
+    SAPS_9             7.644
+    SAPS_12            7.644
+    SAPS_18            7.644
+    SAPS_24            7.644
+
+Latent Class 2
+
+ I        |
+    SAPS_0             1.000
+    SAPS_1             1.000
+    SAPS_2             1.000
+    SAPS_3             1.000
+    SAPS_6             1.000
+    SAPS_9             1.000
+    SAPS_12            1.000
+    SAPS_18            1.000
+    SAPS_24            1.000
+
+ S        |
+    SAPS_0             0.000
+    SAPS_1             1.000
+    SAPS_2             2.000
+    SAPS_3             3.000
+    SAPS_6             6.000
+    SAPS_9             9.000
+    SAPS_12           12.000
+    SAPS_18           18.000
+    SAPS_24           24.000
+
+ Q        |
+    SAPS_0             0.000
+    SAPS_1             1.000
+    SAPS_2             4.000
+    SAPS_3             9.000
+    SAPS_6            36.000
+    SAPS_9            81.000
+    SAPS_12          144.000
+    SAPS_18          324.000
+    SAPS_24          576.000
+
+ CUB      |
+    SAPS_0             0.000
+    SAPS_1             1.000
+    SAPS_2             8.000
+    SAPS_3            27.000
+    SAPS_6           216.000
+    SAPS_9           729.000
+    SAPS_12         1728.000
+    SAPS_18         5832.000
+    SAPS_24        13824.000
+
+ I        WITH
+    S                  0.756
+    Q                 -0.090
+    CUB                0.002
+
+ S        WITH
+    Q                  0.013
+    CUB                0.000
+
+ Q        WITH
+    CUB                0.000
+
+ Means
+    I                  9.100
+    S                 -1.957
+    Q                  0.169
+    CUB               -0.004
+
+ Intercepts
+    SAPS_0             0.000
+    SAPS_1             0.000
+    SAPS_2             0.000
+    SAPS_3             0.000
+    SAPS_6             0.000
+    SAPS_9             0.000
+    SAPS_12            0.000
+    SAPS_18            0.000
+    SAPS_24            0.000
+
+ Variances
+    I                  2.477
+    S                 -0.080
+    Q                 -0.002
+    CUB                0.000
+
+ Residual Variances
+    SAPS_0            10.712
+    SAPS_1            10.712
+    SAPS_2            10.712
+    SAPS_3            10.712
+    SAPS_6            10.712
+    SAPS_9            10.712
+    SAPS_12           10.712
+    SAPS_18           10.712
+    SAPS_24           10.712
+
+Categorical Latent Variables
+
+ Means
+    C#1             -617.362
+
+
+MODEL COMMAND WITH FINAL ESTIMATES USED AS STARTING VALUES
+
+     %OVERALL%
+
+     i s q cub | saps_0@0 saps_1@1 saps_2@2 saps_3@3 saps_6@6 saps_9@9 saps_12@12 saps_18@18
+     saps_24@24;
+
+     [ c#1*-617.36237 ];
+
+     %C#1%
+
+     i WITH s*0.00000;
+     i WITH q*0.00000;
+     i WITH cub*0.00000;
+     s WITH q*0.00000;
+     s WITH cub*0.00000;
+     q WITH cub*0.00000;
+
+     [ saps_0@0 ];
+     [ saps_1@0 ];
+     [ saps_2@0 ];
+     [ saps_3@0 ];
+     [ saps_6@0 ];
+     [ saps_9@0 ];
+     [ saps_12@0 ];
+     [ saps_18@0 ];
+     [ saps_24@0 ];
+     [ i*14.36927 ];
+     [ s*-6.69783 ];
+     [ q*3.42942 ];
+     [ cub*-1.38550 ];
+
+     saps_0*7.64447 (1);
+     saps_1*7.64447 (1);
+     saps_2*7.64447 (1);
+     saps_3*7.64447 (1);
+     saps_6*7.64447 (1);
+     saps_9*7.64447 (1);
+     saps_12*7.64447 (1);
+     saps_18*7.64447 (1);
+     saps_24*7.64447 (1);
+     i*9.81492;
+     s*11.78904;
+     q*1.01758;
+     cub*0.00550;
+
+     %C#2%
+
+     i WITH s*0.75567;
+     i WITH q*-0.09033;
+     i WITH cub*0.00239;
+     s WITH q*0.01346;
+     s WITH cub*-0.00043;
+     q WITH cub*0.00005;
+
+     [ saps_0@0 ];
+     [ saps_1@0 ];
+     [ saps_2@0 ];
+     [ saps_3@0 ];
+     [ saps_6@0 ];
+     [ saps_9@0 ];
+     [ saps_12@0 ];
+     [ saps_18@0 ];
+     [ saps_24@0 ];
+     [ i*9.09991 ];
+     [ s*-1.95699 ];
+     [ q*0.16929 ];
+     [ cub*-0.00411 ];
+
+     saps_0*10.71196 (16);
+     saps_1*10.71196 (16);
+     saps_2*10.71196 (16);
+     saps_3*10.71196 (16);
+     saps_6*10.71196 (16);
+     saps_9*10.71196 (16);
+     saps_12*10.71196 (16);
+     saps_18*10.71196 (16);
+     saps_24*10.71196 (16);
+     i*2.47725;
+     s*-0.08044;
+     q*-0.00168;
+     cub*0.00000;
+
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 1
+
+
+           NU
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                    0             0             0             0
+
+
+           LAMBDA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ SAPS_0             0             0             0             0
+ SAPS_1             0             0             0             0
+ SAPS_2             0             0             0             0
+ SAPS_3             0             0             0             0
+ SAPS_6             0             0             0             0
+ SAPS_9             0             0             0             0
+ SAPS_12            0             0             0             0
+ SAPS_18            0             0             0             0
+ SAPS_24            0             0             0             0
+
+
+           THETA
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0             1
+ SAPS_1             0             1
+ SAPS_2             0             0             1
+ SAPS_3             0             0             0             1
+ SAPS_6             0             0             0             0             1
+ SAPS_9             0             0             0             0             0
+ SAPS_12            0             0             0             0             0
+ SAPS_18            0             0             0             0             0
+ SAPS_24            0             0             0             0             0
+
+
+           THETA
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9             1
+ SAPS_12            0             1
+ SAPS_18            0             0             1
+ SAPS_24            0             0             0             1
+
+
+           ALPHA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+                    2             3             4             5
+
+
+           BETA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I                  0             0             0             0
+ S                  0             0             0             0
+ Q                  0             0             0             0
+ CUB                0             0             0             0
+
+
+           PSI
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I                  6
+ S                  7             8
+ Q                  9            10            11
+ CUB               12            13            14            15
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 2
+
+
+           NU
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                    0             0             0             0
+
+
+           LAMBDA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ SAPS_0             0             0             0             0
+ SAPS_1             0             0             0             0
+ SAPS_2             0             0             0             0
+ SAPS_3             0             0             0             0
+ SAPS_6             0             0             0             0
+ SAPS_9             0             0             0             0
+ SAPS_12            0             0             0             0
+ SAPS_18            0             0             0             0
+ SAPS_24            0             0             0             0
+
+
+           THETA
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0            16
+ SAPS_1             0            16
+ SAPS_2             0             0            16
+ SAPS_3             0             0             0            16
+ SAPS_6             0             0             0             0            16
+ SAPS_9             0             0             0             0             0
+ SAPS_12            0             0             0             0             0
+ SAPS_18            0             0             0             0             0
+ SAPS_24            0             0             0             0             0
+
+
+           THETA
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9            16
+ SAPS_12            0            16
+ SAPS_18            0             0            16
+ SAPS_24            0             0             0            16
+
+
+           ALPHA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+                   17            18            19            20
+
+
+           BETA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I                  0             0             0             0
+ S                  0             0             0             0
+ Q                  0             0             0             0
+ CUB                0             0             0             0
+
+
+           PSI
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I                 21
+ S                 22            23
+ Q                 24            25            26
+ CUB               27            28            29            30
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS REGRESSION MODEL PART
+
+
+           ALPHA(C)
+              C#1           C#2
+              ________      ________
+                   31             0
+
+
+     STARTING VALUES FOR LATENT CLASS 1
+
+
+           NU
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ SAPS_0         1.000         0.000         0.000         0.000
+ SAPS_1         1.000         1.000         1.000         1.000
+ SAPS_2         1.000         2.000         4.000         8.000
+ SAPS_3         1.000         3.000         9.000        27.000
+ SAPS_6         1.000         6.000        36.000       216.000
+ SAPS_9         1.000         9.000        81.000       729.000
+ SAPS_12        1.000        12.000       144.000      1728.000
+ SAPS_18        1.000        18.000       324.000      5832.000
+ SAPS_24        1.000        24.000       576.000     13824.000
+
+
+           THETA
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0         5.035
+ SAPS_1         0.000         7.347
+ SAPS_2         0.000         0.000         6.741
+ SAPS_3         0.000         0.000         0.000         6.044
+ SAPS_6         0.000         0.000         0.000         0.000         6.828
+ SAPS_9         0.000         0.000         0.000         0.000         0.000
+ SAPS_12        0.000         0.000         0.000         0.000         0.000
+ SAPS_18        0.000         0.000         0.000         0.000         0.000
+ SAPS_24        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9         6.540
+ SAPS_12        0.000         7.396
+ SAPS_18        0.000         0.000         7.135
+ SAPS_24        0.000         0.000         0.000         7.644
+
+
+           ALPHA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+               10.726        -5.429         1.104        -0.066
+
+
+           BETA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I              0.000         0.000         0.000         0.000
+ S              0.000         0.000         0.000         0.000
+ Q              0.000         0.000         0.000         0.000
+ CUB            0.000         0.000         0.000         0.000
+
+
+           PSI
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I              9.815
+ S              0.000        11.789
+ Q              0.000         0.000         1.018
+ CUB            0.000         0.000         0.000         0.006
+
+
+     STARTING VALUES FOR LATENT CLASS 2
+
+
+           NU
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ SAPS_0         1.000         0.000         0.000         0.000
+ SAPS_1         1.000         1.000         1.000         1.000
+ SAPS_2         1.000         2.000         4.000         8.000
+ SAPS_3         1.000         3.000         9.000        27.000
+ SAPS_6         1.000         6.000        36.000       216.000
+ SAPS_9         1.000         9.000        81.000       729.000
+ SAPS_12        1.000        12.000       144.000      1728.000
+ SAPS_18        1.000        18.000       324.000      5832.000
+ SAPS_24        1.000        24.000       576.000     13824.000
+
+
+           THETA
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0         5.035
+ SAPS_1         0.000         7.347
+ SAPS_2         0.000         0.000         6.741
+ SAPS_3         0.000         0.000         0.000         6.044
+ SAPS_6         0.000         0.000         0.000         0.000         6.828
+ SAPS_9         0.000         0.000         0.000         0.000         0.000
+ SAPS_12        0.000         0.000         0.000         0.000         0.000
+ SAPS_18        0.000         0.000         0.000         0.000         0.000
+ SAPS_24        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9         6.540
+ SAPS_12        0.000         7.396
+ SAPS_18        0.000         0.000         7.135
+ SAPS_24        0.000         0.000         0.000         7.644
+
+
+           ALPHA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+               10.726        -5.429         1.104        -0.066
+
+
+           BETA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I              0.000         0.000         0.000         0.000
+ S              0.000         0.000         0.000         0.000
+ Q              0.000         0.000         0.000         0.000
+ CUB            0.000         0.000         0.000         0.000
+
+
+           PSI
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I              9.815
+ S              0.000        11.789
+ Q              0.000         0.000         1.018
+ CUB            0.000         0.000         0.000         0.006
+
+
+     STARTING VALUES FOR LATENT CLASS REGRESSION MODEL PART
+
+
+           ALPHA(C)
+              C#1           C#2
+              ________      ________
+                0.000         0.000
+
+
+TECHNICAL 7 OUTPUT
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 1
+
+
+           Means
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+               15.234         0.027         0.522         0.474         5.473
+
+
+           Means
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                9.140         8.310         0.934         2.314
+
+
+           Covariances
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0         6.169
+ SAPS_1        -0.023         0.203
+ SAPS_2         1.174         0.124         0.865
+ SAPS_3         1.203         0.111         0.401         0.448
+ SAPS_6       -12.193         0.012        -2.642        -2.435        24.696
+ SAPS_9       -15.838        -0.091        -3.093        -3.222        31.762
+ SAPS_12       17.099        -0.001         3.488         3.465       -34.121
+ SAPS_18        2.455         0.119         0.716         0.716        -4.938
+ SAPS_24       -5.036         0.125        -0.282        -0.932         9.370
+
+
+           Covariances
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9        41.634
+ SAPS_12      -44.486        48.186
+ SAPS_18       -6.425         6.924         1.464
+ SAPS_24       12.814       -13.781        -1.888         5.343
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
+
+
+           Means
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+               11.663         5.384         3.943         3.329         3.441
+
+
+           Means
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                3.354         3.539         3.338         3.295
+
+
+           Covariances
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0        10.070
+ SAPS_1         3.565        14.694
+ SAPS_2         2.984         8.327        13.482
+ SAPS_3         2.269         6.388         8.759        12.087
+ SAPS_6         2.439         6.720         7.039         6.314        13.657
+ SAPS_9         1.670         4.555         5.760         5.570         7.059
+ SAPS_12        2.299         5.412         5.007         5.842         6.033
+ SAPS_18        1.025         5.191         5.210         5.058         5.310
+ SAPS_24        1.125         3.369         3.411         4.444         3.399
+
+
+           Covariances
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9        13.080
+ SAPS_12        6.844        14.793
+ SAPS_18        4.589         5.879        14.270
+ SAPS_24        4.348         5.258         5.508        15.289
+
+
+TECHNICAL 11 OUTPUT
+
+     Random Starts Specifications for the k-1 Class Analysis Model
+        Number of initial stage random starts                2000
+        Number of final stage optimizations                   500
+
+
+
+SAVEDATA INFORMATION
+
+     Factor scores were not computed.
+     Class probabilities were not computed.
+     No data were saved.
+
+
+     Beginning Time:  21:18:45
+        Ending Time:  21:32:48
+       Elapsed Time:  00:14:03
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

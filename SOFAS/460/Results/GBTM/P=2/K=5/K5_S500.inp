@@ -1,0 +1,49 @@
+TITLE:
+GBTM_P2_K5_S500
+
+DATA:
+FILE = "/Users/olivierpercie/Desktop/LGM/SOFAS/460/Results/GBTM/P=2/K=5/K5_S500.dat";
+ 
+VARIABLE:
+NAMES = pin SOFAS_0 SOFAS_12 SOFAS_24; 
+ MISSING=.;
+ USEVAR = SOFAS_0 SOFAS_12 SOFAS_24;
+IDVAR = pin;
+CLASSES = c(5);
+
+ANALYSIS:
+TYPE = MIXTURE;
+STARTS = 500 125;
+K-1STARTS = 250 62.5;
+PROCESSORS = 8;
+
+MODEL:
+%OVERALL%
+i s q |
+SOFAS_0@0 SOFAS_12@12 SOFAS_24@24;
+i-q@0;
+SOFAS_0-SOFAS_24 (1);
+%c#1%
+[i s q];
+%c#2%
+[i s q];
+%c#3%
+[i s q];
+%c#4%
+[i s q];
+%c#5%
+[i s q];
+
+OUTPUT:
+SAMPSTAT STANDARDIZED;
+TECH1;
+TECH11;
+
+SAVEDATA:
+FILE = K5_S500_res.dat;
+SAVE = CPROBABILITIES FSCORES;
+
+PLOT:
+TYPE = plot3;
+SERIES = SOFAS_0 (s) SOFAS_12 (s) SOFAS_24 (s);
+

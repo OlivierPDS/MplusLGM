@@ -1,0 +1,2642 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+02/13/2024  11:08 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  LCGA1_P3_K4_S500
+
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SAPS/458/Results/LCGA1/P=3/K=4/K4_S500.dat";
+
+  VARIABLE:
+  NAMES = pin SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12 SAPS_18 SAPS_24;
+   MISSING=.;
+   USEVAR = SAPS_0 SAPS_1 SAPS_2 SAPS_3 SAPS_6 SAPS_9 SAPS_12
+  SAPS_18 SAPS_24;
+  IDVAR = pin;
+  CLASSES = c(4);
+
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 500 125;
+  K-1STARTS = 250 62.5;
+  PROCESSORS = 8;
+
+  MODEL:
+  %OVERALL%
+  i s q cub |
+  SAPS_0@0 SAPS_1@1 SAPS_2@2 SAPS_3@3 SAPS_6@6
+  SAPS_9@9 SAPS_12@12 SAPS_18@18 SAPS_24@24;
+  i-cub@0;
+  %c#1%
+  [i s q cub];
+  SAPS_0-SAPS_24 (1);
+  %c#2%
+  [i s q cub];
+  SAPS_0-SAPS_24 (2);
+  %c#3%
+  [i s q cub];
+  SAPS_0-SAPS_24 (3);
+  %c#4%
+  [i s q cub];
+  SAPS_0-SAPS_24 (4);
+
+  OUTPUT:
+  SAMPSTAT STANDARDIZED;
+  TECH1;
+  TECH11;
+
+  SAVEDATA:
+  FILE = K4_S500_res.dat;
+  SAVE = CPROBABILITIES FSCORES;
+
+  PLOT:
+  TYPE = plot3;
+  SERIES = SAPS_0 (s) SAPS_1 (s) SAPS_2 (s) SAPS_3 (s)
+  SAPS_6 (s) SAPS_9 (s) SAPS_12 (s) SAPS_18 (s)
+  SAPS_24 (s);
+
+
+
+
+*** WARNING in MODEL command
+  All continuous latent variable covariances involving I have been fixed to 0
+  because the variance of I is fixed at 0.
+*** WARNING in MODEL command
+  All continuous latent variable covariances involving S have been fixed to 0
+  because the variance of S is fixed at 0.
+*** WARNING in MODEL command
+  All continuous latent variable covariances involving Q have been fixed to 0
+  because the variance of Q is fixed at 0.
+   3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+LCGA1_P3_K4_S500
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         458
+
+Number of dependent variables                                    9
+Number of independent variables                                  0
+Number of continuous latent variables                            4
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   SAPS_0      SAPS_1      SAPS_2      SAPS_3      SAPS_6      SAPS_9
+   SAPS_12     SAPS_18     SAPS_24
+
+Continuous latent variables
+   I           S           Q           CUB
+
+Categorical latent variables
+   C
+
+Variables with special functions
+
+  ID variable           PIN
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                        500
+  Number of final stage optimizations                          125
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/LGM/SAPS/458/Results/LCGA1/P=3/K=4/K4_S500.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns            53
+     Number of y missing data patterns          53
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0         0.998
+ SAPS_1         0.686         0.688
+ SAPS_2         0.884         0.614         0.886
+ SAPS_3         0.948         0.646         0.858         0.950
+ SAPS_6         0.924         0.627         0.825         0.886         0.926
+ SAPS_9         0.910         0.616         0.812         0.865         0.847
+ SAPS_12        0.889         0.607         0.779         0.841         0.825
+ SAPS_18        0.849         0.579         0.740         0.803         0.788
+ SAPS_24        0.834         0.557         0.740         0.795         0.773
+
+
+           Covariance Coverage
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9         0.913
+ SAPS_12        0.819         0.891
+ SAPS_18        0.777         0.771         0.852
+ SAPS_24        0.764         0.762         0.760         0.836
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+               11.660         5.496         3.986         3.350         3.484
+
+
+           Means
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                3.384         3.507         3.378         3.319
+
+
+           Covariances
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0        10.072
+ SAPS_1         3.526        15.084
+ SAPS_2         2.770        10.193        13.499
+ SAPS_3         2.234         7.353         9.111        12.229
+ SAPS_6         2.132         5.879         6.811         6.861        13.753
+ SAPS_9         1.403         4.103         5.221         5.561         7.631
+ SAPS_12        2.134         3.700         4.230         5.180         6.335
+ SAPS_18        0.928         3.192         4.019         5.107         5.212
+ SAPS_24        0.485         2.202         3.108         3.596         3.355
+
+
+           Covariances
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9        12.954
+ SAPS_12        6.532        14.742
+ SAPS_18        4.612         7.043        14.467
+ SAPS_24        4.745         5.056         5.975        15.220
+
+
+           Correlations
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0         1.000
+ SAPS_1         0.286         1.000
+ SAPS_2         0.238         0.714         1.000
+ SAPS_3         0.201         0.541         0.709         1.000
+ SAPS_6         0.181         0.408         0.500         0.529         1.000
+ SAPS_9         0.123         0.293         0.395         0.442         0.572
+ SAPS_12        0.175         0.248         0.300         0.386         0.445
+ SAPS_18        0.077         0.216         0.288         0.384         0.370
+ SAPS_24        0.039         0.145         0.217         0.264         0.232
+
+
+           Correlations
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9         1.000
+ SAPS_12        0.473         1.000
+ SAPS_18        0.337         0.482         1.000
+ SAPS_24        0.338         0.338         0.403         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -9264.023
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SAPS_0               11.663      -0.201       2.000    0.44%       9.000     11.000     12.000
+             457.000      10.070      -0.208      20.000    0.22%      13.000     14.000
+     SAPS_1                5.384       0.489       0.000   10.48%       2.000      4.000      5.000
+             315.000      14.694      -0.423      17.000    0.32%       6.000      9.000
+     SAPS_2                3.943       1.016       0.000   19.70%       1.000      2.000      3.000
+             406.000      13.482       0.592      18.000    0.25%       4.000      7.000
+     SAPS_3                3.329       1.110       0.000   29.43%       0.000      1.000      2.000
+             435.000      12.087       0.781      16.000    0.23%       3.000      6.000
+     SAPS_6                3.441       1.026       0.000   32.08%       0.000      1.000      2.000
+             424.000      13.657       0.266      16.000    0.24%       3.000      6.000
+     SAPS_9                3.354       1.188       0.000   30.14%       0.000      1.000      2.000
+             418.000      13.080       0.983      16.000    0.48%       3.000      6.000
+     SAPS_12               3.539       1.267       0.000   28.68%       0.000      2.000      2.000
+             408.000      14.793       1.090      18.000    0.25%       3.000      6.000
+     SAPS_18               3.338       1.333       0.000   30.77%       0.000      1.000      2.000
+             390.000      14.270       1.298      17.000    0.51%       3.000      6.000
+     SAPS_24               3.295       1.351       0.000   33.94%       0.000      1.000      2.000
+             383.000      15.289       1.164      17.000    0.26%       3.000      6.000
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+           -9702.269  922042           492
+           -9702.269  7959             256
+           -9702.269  349562           359
+           -9702.269  247224           94
+           -9702.269  30098            209
+           -9702.269  749635           420
+           -9702.269  unperturbed      0
+           -9702.269  260601           36
+           -9702.269  669634           335
+           -9702.269  61587            400
+           -9702.269  224950           455
+           -9702.269  80438            246
+           -9702.269  992389           77
+           -9702.269  644297           340
+           -9702.269  544048           87
+           -9702.269  846194           93
+           -9702.269  801065           393
+           -9706.434  319144           176
+           -9706.434  871722           355
+           -9706.434  27071            15
+           -9706.434  164305           128
+           -9706.434  264935           281
+           -9706.434  297518           166
+           -9706.434  850545           357
+           -9706.434  131856           90
+           -9706.434  655497           376
+           -9706.434  416250           390
+           -9706.434  202790           198
+           -9706.434  375590           438
+           -9706.434  178475           231
+           -9706.434  443917           60
+           -9706.434  915107           54
+           -9706.434  227563           63
+           -9706.434  520177           262
+           -9706.434  939021           8
+           -9706.434  206099           363
+           -9706.434  579995           183
+           -9706.434  875667           367
+           -9706.434  570782           193
+           -9706.434  354208           196
+           -9706.434  190339           102
+           -9706.434  835767           210
+           -9706.434  631413           439
+           -9706.434  364676           27
+           -9706.434  226322           478
+           -9706.434  945065           255
+           -9706.434  146900           391
+          -10161.272  551639           55
+          -10161.272  207896           25
+          -10161.272  68985            17
+          -10161.272  603842           61
+          -10161.272  347515           24
+          -10161.272  107446           12
+          -10161.272  437181           135
+          -10161.272  840031           276
+          -10161.272  824126           287
+          -10161.272  783110           72
+          -10161.272  377504           294
+          -10161.272  462228           298
+          -10161.272  342019           301
+          -10161.272  996231           310
+          -10161.272  12477            155
+          -10161.272  478421           311
+          -10161.272  972873           157
+          -10161.272  696773           80
+          -10161.272  913639           162
+          -10161.272  263268           165
+          -10161.272  780698           337
+          -10161.272  717754           180
+          -10161.272  407108           366
+          -10161.272  813779           92
+          -10161.272  443442           380
+          -10161.272  765392           382
+          -10161.272  848890           95
+          -10161.272  496710           386
+          -10161.272  124999           96
+          -10161.272  891531           206
+          -10161.272  937885           426
+          -10161.272  648555           113
+          -10161.272  345726           461
+          -10161.272  232226           235
+          -10161.272  787985           482
+          -10161.272  618760           489
+          -10161.272  972430           491
+
+41 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+
+THE BEST LOGLIKELIHOOD VALUE HAS BEEN REPLICATED.  RERUN WITH AT LEAST TWICE THE
+RANDOM STARTS TO CHECK THAT THE BEST LOGLIKELIHOOD IS STILL OBTAINED AND REPLICATED.
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       23
+
+Loglikelihood
+
+          H0 Value                       -9702.269
+          H0 Scaling Correction Factor      1.2477
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   19450.537
+          Bayesian (BIC)                 19545.455
+          Sample-Size Adjusted BIC       19472.460
+            (n* = (n + 2) / 24)
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        212.55336          0.46409
+       2         85.91232          0.18758
+       3        111.43086          0.24330
+       4         48.10345          0.10503
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        212.55336          0.46409
+       2         85.91232          0.18758
+       3        111.43086          0.24330
+       4         48.10345          0.10503
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              219          0.47817
+       2               88          0.19214
+       3              103          0.22489
+       4               48          0.10480
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.741
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3        4
+
+    1   0.876    0.019    0.070    0.034
+    2   0.025    0.850    0.126    0.000
+    3   0.110    0.068    0.822    0.000
+    4   0.149    0.000    0.006    0.844
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3        4
+
+    1   0.903    0.010    0.053    0.034
+    2   0.049    0.870    0.081    0.000
+    3   0.138    0.099    0.760    0.003
+    4   0.157    0.000    0.001    0.842
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3        4
+
+    1      3.286   -1.189    0.459    0.000
+    2     10.797   13.676   11.301    0.000
+    3      3.918    3.587    5.622    0.000
+    4     -1.680  -13.644   -7.161    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I        |
+    SAPS_0             1.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             1.000      0.000    999.000    999.000
+    SAPS_3             1.000      0.000    999.000    999.000
+    SAPS_6             1.000      0.000    999.000    999.000
+    SAPS_9             1.000      0.000    999.000    999.000
+    SAPS_12            1.000      0.000    999.000    999.000
+    SAPS_18            1.000      0.000    999.000    999.000
+    SAPS_24            1.000      0.000    999.000    999.000
+
+ S        |
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             2.000      0.000    999.000    999.000
+    SAPS_3             3.000      0.000    999.000    999.000
+    SAPS_6             6.000      0.000    999.000    999.000
+    SAPS_9             9.000      0.000    999.000    999.000
+    SAPS_12           12.000      0.000    999.000    999.000
+    SAPS_18           18.000      0.000    999.000    999.000
+    SAPS_24           24.000      0.000    999.000    999.000
+
+ Q        |
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             4.000      0.000    999.000    999.000
+    SAPS_3             9.000      0.000    999.000    999.000
+    SAPS_6            36.000      0.000    999.000    999.000
+    SAPS_9            81.000      0.000    999.000    999.000
+    SAPS_12          144.000      0.000    999.000    999.000
+    SAPS_18          324.000      0.000    999.000    999.000
+    SAPS_24          576.000      0.000    999.000    999.000
+
+ CUB      |
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             8.000      0.000    999.000    999.000
+    SAPS_3            27.000      0.000    999.000    999.000
+    SAPS_6           216.000      0.000    999.000    999.000
+    SAPS_9           729.000      0.000    999.000    999.000
+    SAPS_12         1728.000      0.000    999.000    999.000
+    SAPS_18         5832.000      0.000    999.000    999.000
+    SAPS_24        13824.000      0.000    999.000    999.000
+
+ Means
+    I                  9.204      0.262     35.115      0.000
+    S                 -2.438      0.076    -32.176      0.000
+    Q                  0.207      0.007     28.178      0.000
+    CUB               -0.005      0.000    -25.111      0.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  0.000      0.000    999.000    999.000
+    S                  0.000      0.000    999.000    999.000
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0             8.397      0.613     13.708      0.000
+    SAPS_1             8.397      0.613     13.708      0.000
+    SAPS_2             8.397      0.613     13.708      0.000
+    SAPS_3             8.397      0.613     13.708      0.000
+    SAPS_6             8.397      0.613     13.708      0.000
+    SAPS_9             8.397      0.613     13.708      0.000
+    SAPS_12            8.397      0.613     13.708      0.000
+    SAPS_18            8.397      0.613     13.708      0.000
+    SAPS_24            8.397      0.613     13.708      0.000
+
+Latent Class 2
+
+ I        |
+    SAPS_0             1.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             1.000      0.000    999.000    999.000
+    SAPS_3             1.000      0.000    999.000    999.000
+    SAPS_6             1.000      0.000    999.000    999.000
+    SAPS_9             1.000      0.000    999.000    999.000
+    SAPS_12            1.000      0.000    999.000    999.000
+    SAPS_18            1.000      0.000    999.000    999.000
+    SAPS_24            1.000      0.000    999.000    999.000
+
+ S        |
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             2.000      0.000    999.000    999.000
+    SAPS_3             3.000      0.000    999.000    999.000
+    SAPS_6             6.000      0.000    999.000    999.000
+    SAPS_9             9.000      0.000    999.000    999.000
+    SAPS_12           12.000      0.000    999.000    999.000
+    SAPS_18           18.000      0.000    999.000    999.000
+    SAPS_24           24.000      0.000    999.000    999.000
+
+ Q        |
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             4.000      0.000    999.000    999.000
+    SAPS_3             9.000      0.000    999.000    999.000
+    SAPS_6            36.000      0.000    999.000    999.000
+    SAPS_9            81.000      0.000    999.000    999.000
+    SAPS_12          144.000      0.000    999.000    999.000
+    SAPS_18          324.000      0.000    999.000    999.000
+    SAPS_24          576.000      0.000    999.000    999.000
+
+ CUB      |
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             8.000      0.000    999.000    999.000
+    SAPS_3            27.000      0.000    999.000    999.000
+    SAPS_6           216.000      0.000    999.000    999.000
+    SAPS_9           729.000      0.000    999.000    999.000
+    SAPS_12         1728.000      0.000    999.000    999.000
+    SAPS_18         5832.000      0.000    999.000    999.000
+    SAPS_24        13824.000      0.000    999.000    999.000
+
+ Means
+    I                 11.861      0.437     27.165      0.000
+    S                 -1.267      0.138     -9.184      0.000
+    Q                  0.090      0.016      5.627      0.000
+    CUB               -0.002      0.000     -4.317      0.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  0.000      0.000    999.000    999.000
+    S                  0.000      0.000    999.000    999.000
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0            10.616      1.397      7.599      0.000
+    SAPS_1            10.616      1.397      7.599      0.000
+    SAPS_2            10.616      1.397      7.599      0.000
+    SAPS_3            10.616      1.397      7.599      0.000
+    SAPS_6            10.616      1.397      7.599      0.000
+    SAPS_9            10.616      1.397      7.599      0.000
+    SAPS_12           10.616      1.397      7.599      0.000
+    SAPS_18           10.616      1.397      7.599      0.000
+    SAPS_24           10.616      1.397      7.599      0.000
+
+Latent Class 3
+
+ I        |
+    SAPS_0             1.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             1.000      0.000    999.000    999.000
+    SAPS_3             1.000      0.000    999.000    999.000
+    SAPS_6             1.000      0.000    999.000    999.000
+    SAPS_9             1.000      0.000    999.000    999.000
+    SAPS_12            1.000      0.000    999.000    999.000
+    SAPS_18            1.000      0.000    999.000    999.000
+    SAPS_24            1.000      0.000    999.000    999.000
+
+ S        |
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             2.000      0.000    999.000    999.000
+    SAPS_3             3.000      0.000    999.000    999.000
+    SAPS_6             6.000      0.000    999.000    999.000
+    SAPS_9             9.000      0.000    999.000    999.000
+    SAPS_12           12.000      0.000    999.000    999.000
+    SAPS_18           18.000      0.000    999.000    999.000
+    SAPS_24           24.000      0.000    999.000    999.000
+
+ Q        |
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             4.000      0.000    999.000    999.000
+    SAPS_3             9.000      0.000    999.000    999.000
+    SAPS_6            36.000      0.000    999.000    999.000
+    SAPS_9            81.000      0.000    999.000    999.000
+    SAPS_12          144.000      0.000    999.000    999.000
+    SAPS_18          324.000      0.000    999.000    999.000
+    SAPS_24          576.000      0.000    999.000    999.000
+
+ CUB      |
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             8.000      0.000    999.000    999.000
+    SAPS_3            27.000      0.000    999.000    999.000
+    SAPS_6           216.000      0.000    999.000    999.000
+    SAPS_9           729.000      0.000    999.000    999.000
+    SAPS_12         1728.000      0.000    999.000    999.000
+    SAPS_18         5832.000      0.000    999.000    999.000
+    SAPS_24        13824.000      0.000    999.000    999.000
+
+ Means
+    I                  8.244      0.361     22.863      0.000
+    S                 -1.684      0.173     -9.739      0.000
+    Q                  0.170      0.018      9.275      0.000
+    CUB               -0.004      0.001     -8.428      0.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  0.000      0.000    999.000    999.000
+    S                  0.000      0.000    999.000    999.000
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0            19.959      1.936     10.308      0.000
+    SAPS_1            19.959      1.936     10.308      0.000
+    SAPS_2            19.959      1.936     10.308      0.000
+    SAPS_3            19.959      1.936     10.308      0.000
+    SAPS_6            19.959      1.936     10.308      0.000
+    SAPS_9            19.959      1.936     10.308      0.000
+    SAPS_12           19.959      1.936     10.308      0.000
+    SAPS_18           19.959      1.936     10.308      0.000
+    SAPS_24           19.959      1.936     10.308      0.000
+
+Latent Class 4
+
+ I        |
+    SAPS_0             1.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             1.000      0.000    999.000    999.000
+    SAPS_3             1.000      0.000    999.000    999.000
+    SAPS_6             1.000      0.000    999.000    999.000
+    SAPS_9             1.000      0.000    999.000    999.000
+    SAPS_12            1.000      0.000    999.000    999.000
+    SAPS_18            1.000      0.000    999.000    999.000
+    SAPS_24            1.000      0.000    999.000    999.000
+
+ S        |
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             2.000      0.000    999.000    999.000
+    SAPS_3             3.000      0.000    999.000    999.000
+    SAPS_6             6.000      0.000    999.000    999.000
+    SAPS_9             9.000      0.000    999.000    999.000
+    SAPS_12           12.000      0.000    999.000    999.000
+    SAPS_18           18.000      0.000    999.000    999.000
+    SAPS_24           24.000      0.000    999.000    999.000
+
+ Q        |
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             4.000      0.000    999.000    999.000
+    SAPS_3             9.000      0.000    999.000    999.000
+    SAPS_6            36.000      0.000    999.000    999.000
+    SAPS_9            81.000      0.000    999.000    999.000
+    SAPS_12          144.000      0.000    999.000    999.000
+    SAPS_18          324.000      0.000    999.000    999.000
+    SAPS_24          576.000      0.000    999.000    999.000
+
+ CUB      |
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             8.000      0.000    999.000    999.000
+    SAPS_3            27.000      0.000    999.000    999.000
+    SAPS_6           216.000      0.000    999.000    999.000
+    SAPS_9           729.000      0.000    999.000    999.000
+    SAPS_12         1728.000      0.000    999.000    999.000
+    SAPS_18         5832.000      0.000    999.000    999.000
+    SAPS_24        13824.000      0.000    999.000    999.000
+
+ Means
+    I                  5.447      0.503     10.825      0.000
+    S                 -1.660      0.141    -11.787      0.000
+    Q                  0.142      0.012     11.481      0.000
+    CUB               -0.003      0.000    -11.121      0.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  0.000      0.000    999.000    999.000
+    S                  0.000      0.000    999.000    999.000
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0             3.079      0.511      6.024      0.000
+    SAPS_1             3.079      0.511      6.024      0.000
+    SAPS_2             3.079      0.511      6.024      0.000
+    SAPS_3             3.079      0.511      6.024      0.000
+    SAPS_6             3.079      0.511      6.024      0.000
+    SAPS_9             3.079      0.511      6.024      0.000
+    SAPS_12            3.079      0.511      6.024      0.000
+    SAPS_18            3.079      0.511      6.024      0.000
+    SAPS_24            3.079      0.511      6.024      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1                1.486      0.332      4.480      0.000
+    C#2                0.580      0.354      1.636      0.102
+    C#3                0.840      0.350      2.399      0.016
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.285E-06
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ S        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Q        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Means
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0             1.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             1.000      0.000    999.000    999.000
+    SAPS_3             1.000      0.000    999.000    999.000
+    SAPS_6             1.000      0.000    999.000    999.000
+    SAPS_9             1.000      0.000    999.000    999.000
+    SAPS_12            1.000      0.000    999.000    999.000
+    SAPS_18            1.000      0.000    999.000    999.000
+    SAPS_24            1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ I        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ S        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Q        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Means
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0             1.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             1.000      0.000    999.000    999.000
+    SAPS_3             1.000      0.000    999.000    999.000
+    SAPS_6             1.000      0.000    999.000    999.000
+    SAPS_9             1.000      0.000    999.000    999.000
+    SAPS_12            1.000      0.000    999.000    999.000
+    SAPS_18            1.000      0.000    999.000    999.000
+    SAPS_24            1.000      0.000    999.000    999.000
+
+Latent Class 3
+
+ I        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ S        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Q        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Means
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0             1.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             1.000      0.000    999.000    999.000
+    SAPS_3             1.000      0.000    999.000    999.000
+    SAPS_6             1.000      0.000    999.000    999.000
+    SAPS_9             1.000      0.000    999.000    999.000
+    SAPS_12            1.000      0.000    999.000    999.000
+    SAPS_18            1.000      0.000    999.000    999.000
+    SAPS_24            1.000      0.000    999.000    999.000
+
+Latent Class 4
+
+ I        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ S        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Q        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Means
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0             1.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             1.000      0.000    999.000    999.000
+    SAPS_3             1.000      0.000    999.000    999.000
+    SAPS_6             1.000      0.000    999.000    999.000
+    SAPS_9             1.000      0.000    999.000    999.000
+    SAPS_12            1.000      0.000    999.000    999.000
+    SAPS_18            1.000      0.000    999.000    999.000
+    SAPS_24            1.000      0.000    999.000    999.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ S        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Q        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Means
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0             1.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             1.000      0.000    999.000    999.000
+    SAPS_3             1.000      0.000    999.000    999.000
+    SAPS_6             1.000      0.000    999.000    999.000
+    SAPS_9             1.000      0.000    999.000    999.000
+    SAPS_12            1.000      0.000    999.000    999.000
+    SAPS_18            1.000      0.000    999.000    999.000
+    SAPS_24            1.000      0.000    999.000    999.000
+
+Latent Class 2
+
+ I        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ S        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Q        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Means
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0             1.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             1.000      0.000    999.000    999.000
+    SAPS_3             1.000      0.000    999.000    999.000
+    SAPS_6             1.000      0.000    999.000    999.000
+    SAPS_9             1.000      0.000    999.000    999.000
+    SAPS_12            1.000      0.000    999.000    999.000
+    SAPS_18            1.000      0.000    999.000    999.000
+    SAPS_24            1.000      0.000    999.000    999.000
+
+Latent Class 3
+
+ I        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ S        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Q        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Means
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0             1.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             1.000      0.000    999.000    999.000
+    SAPS_3             1.000      0.000    999.000    999.000
+    SAPS_6             1.000      0.000    999.000    999.000
+    SAPS_9             1.000      0.000    999.000    999.000
+    SAPS_12            1.000      0.000    999.000    999.000
+    SAPS_18            1.000      0.000    999.000    999.000
+    SAPS_24            1.000      0.000    999.000    999.000
+
+Latent Class 4
+
+ I        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ S        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Q        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Means
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0             1.000      0.000    999.000    999.000
+    SAPS_1             1.000      0.000    999.000    999.000
+    SAPS_2             1.000      0.000    999.000    999.000
+    SAPS_3             1.000      0.000    999.000    999.000
+    SAPS_6             1.000      0.000    999.000    999.000
+    SAPS_9             1.000      0.000    999.000    999.000
+    SAPS_12            1.000      0.000    999.000    999.000
+    SAPS_18            1.000      0.000    999.000    999.000
+    SAPS_24            1.000      0.000    999.000    999.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ S        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Q        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Means
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0             8.397      0.613     13.708      0.000
+    SAPS_1             8.397      0.613     13.708      0.000
+    SAPS_2             8.397      0.613     13.708      0.000
+    SAPS_3             8.397      0.613     13.708      0.000
+    SAPS_6             8.397      0.613     13.708      0.000
+    SAPS_9             8.397      0.613     13.708      0.000
+    SAPS_12            8.397      0.613     13.708      0.000
+    SAPS_18            8.397      0.613     13.708      0.000
+    SAPS_24            8.397      0.613     13.708      0.000
+
+Latent Class 2
+
+ I        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ S        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Q        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Means
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0            10.616      1.397      7.599      0.000
+    SAPS_1            10.616      1.397      7.599      0.000
+    SAPS_2            10.616      1.397      7.599      0.000
+    SAPS_3            10.616      1.397      7.599      0.000
+    SAPS_6            10.616      1.397      7.599      0.000
+    SAPS_9            10.616      1.397      7.599      0.000
+    SAPS_12           10.616      1.397      7.599      0.000
+    SAPS_18           10.616      1.397      7.599      0.000
+    SAPS_24           10.616      1.397      7.599      0.000
+
+Latent Class 3
+
+ I        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ S        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Q        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Means
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0            19.959      1.936     10.308      0.000
+    SAPS_1            19.959      1.936     10.308      0.000
+    SAPS_2            19.959      1.936     10.308      0.000
+    SAPS_3            19.959      1.936     10.308      0.000
+    SAPS_6            19.959      1.936     10.308      0.000
+    SAPS_9            19.959      1.936     10.308      0.000
+    SAPS_12           19.959      1.936     10.308      0.000
+    SAPS_18           19.959      1.936     10.308      0.000
+    SAPS_24           19.959      1.936     10.308      0.000
+
+Latent Class 4
+
+ I        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ S        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Q        |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SAPS_0           999.000    999.000    999.000    999.000
+    SAPS_1           999.000    999.000    999.000    999.000
+    SAPS_2           999.000    999.000    999.000    999.000
+    SAPS_3           999.000    999.000    999.000    999.000
+    SAPS_6           999.000    999.000    999.000    999.000
+    SAPS_9           999.000    999.000    999.000    999.000
+    SAPS_12          999.000    999.000    999.000    999.000
+    SAPS_18          999.000    999.000    999.000    999.000
+    SAPS_24          999.000    999.000    999.000    999.000
+
+ Means
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                999.000    999.000    999.000    999.000
+    S                999.000    999.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SAPS_0             3.079      0.511      6.024      0.000
+    SAPS_1             3.079      0.511      6.024      0.000
+    SAPS_2             3.079      0.511      6.024      0.000
+    SAPS_3             3.079      0.511      6.024      0.000
+    SAPS_6             3.079      0.511      6.024      0.000
+    SAPS_9             3.079      0.511      6.024      0.000
+    SAPS_12            3.079      0.511      6.024      0.000
+    SAPS_18            3.079      0.511      6.024      0.000
+    SAPS_24            3.079      0.511      6.024      0.000
+
+
+R-SQUARE
+
+Class 1
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+Class 2
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+Class 3
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+Class 4
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SAPS_0             0.000      0.000    999.000    999.000
+    SAPS_1             0.000      0.000    999.000    999.000
+    SAPS_2             0.000      0.000    999.000    999.000
+    SAPS_3             0.000      0.000    999.000    999.000
+    SAPS_6             0.000      0.000    999.000    999.000
+    SAPS_9             0.000      0.000    999.000    999.000
+    SAPS_12            0.000      0.000    999.000    999.000
+    SAPS_18            0.000      0.000    999.000    999.000
+    SAPS_24            0.000      0.000    999.000    999.000
+
+
+TECHNICAL 1 OUTPUT
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 1
+
+
+           NU
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                    0             0             0             0
+
+
+           LAMBDA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ SAPS_0             0             0             0             0
+ SAPS_1             0             0             0             0
+ SAPS_2             0             0             0             0
+ SAPS_3             0             0             0             0
+ SAPS_6             0             0             0             0
+ SAPS_9             0             0             0             0
+ SAPS_12            0             0             0             0
+ SAPS_18            0             0             0             0
+ SAPS_24            0             0             0             0
+
+
+           THETA
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0             1
+ SAPS_1             0             1
+ SAPS_2             0             0             1
+ SAPS_3             0             0             0             1
+ SAPS_6             0             0             0             0             1
+ SAPS_9             0             0             0             0             0
+ SAPS_12            0             0             0             0             0
+ SAPS_18            0             0             0             0             0
+ SAPS_24            0             0             0             0             0
+
+
+           THETA
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9             1
+ SAPS_12            0             1
+ SAPS_18            0             0             1
+ SAPS_24            0             0             0             1
+
+
+           ALPHA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+                    2             3             4             5
+
+
+           BETA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I                  0             0             0             0
+ S                  0             0             0             0
+ Q                  0             0             0             0
+ CUB                0             0             0             0
+
+
+           PSI
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I                  0
+ S                  0             0
+ Q                  0             0             0
+ CUB                0             0             0             0
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 2
+
+
+           NU
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                    0             0             0             0
+
+
+           LAMBDA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ SAPS_0             0             0             0             0
+ SAPS_1             0             0             0             0
+ SAPS_2             0             0             0             0
+ SAPS_3             0             0             0             0
+ SAPS_6             0             0             0             0
+ SAPS_9             0             0             0             0
+ SAPS_12            0             0             0             0
+ SAPS_18            0             0             0             0
+ SAPS_24            0             0             0             0
+
+
+           THETA
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0             6
+ SAPS_1             0             6
+ SAPS_2             0             0             6
+ SAPS_3             0             0             0             6
+ SAPS_6             0             0             0             0             6
+ SAPS_9             0             0             0             0             0
+ SAPS_12            0             0             0             0             0
+ SAPS_18            0             0             0             0             0
+ SAPS_24            0             0             0             0             0
+
+
+           THETA
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9             6
+ SAPS_12            0             6
+ SAPS_18            0             0             6
+ SAPS_24            0             0             0             6
+
+
+           ALPHA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+                    7             8             9            10
+
+
+           BETA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I                  0             0             0             0
+ S                  0             0             0             0
+ Q                  0             0             0             0
+ CUB                0             0             0             0
+
+
+           PSI
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I                  0
+ S                  0             0
+ Q                  0             0             0
+ CUB                0             0             0             0
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 3
+
+
+           NU
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                    0             0             0             0
+
+
+           LAMBDA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ SAPS_0             0             0             0             0
+ SAPS_1             0             0             0             0
+ SAPS_2             0             0             0             0
+ SAPS_3             0             0             0             0
+ SAPS_6             0             0             0             0
+ SAPS_9             0             0             0             0
+ SAPS_12            0             0             0             0
+ SAPS_18            0             0             0             0
+ SAPS_24            0             0             0             0
+
+
+           THETA
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0            11
+ SAPS_1             0            11
+ SAPS_2             0             0            11
+ SAPS_3             0             0             0            11
+ SAPS_6             0             0             0             0            11
+ SAPS_9             0             0             0             0             0
+ SAPS_12            0             0             0             0             0
+ SAPS_18            0             0             0             0             0
+ SAPS_24            0             0             0             0             0
+
+
+           THETA
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9            11
+ SAPS_12            0            11
+ SAPS_18            0             0            11
+ SAPS_24            0             0             0            11
+
+
+           ALPHA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+                   12            13            14            15
+
+
+           BETA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I                  0             0             0             0
+ S                  0             0             0             0
+ Q                  0             0             0             0
+ CUB                0             0             0             0
+
+
+           PSI
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I                  0
+ S                  0             0
+ Q                  0             0             0
+ CUB                0             0             0             0
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS 4
+
+
+           NU
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+                    0             0             0             0             0
+
+
+           NU
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                    0             0             0             0
+
+
+           LAMBDA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ SAPS_0             0             0             0             0
+ SAPS_1             0             0             0             0
+ SAPS_2             0             0             0             0
+ SAPS_3             0             0             0             0
+ SAPS_6             0             0             0             0
+ SAPS_9             0             0             0             0
+ SAPS_12            0             0             0             0
+ SAPS_18            0             0             0             0
+ SAPS_24            0             0             0             0
+
+
+           THETA
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0            16
+ SAPS_1             0            16
+ SAPS_2             0             0            16
+ SAPS_3             0             0             0            16
+ SAPS_6             0             0             0             0            16
+ SAPS_9             0             0             0             0             0
+ SAPS_12            0             0             0             0             0
+ SAPS_18            0             0             0             0             0
+ SAPS_24            0             0             0             0             0
+
+
+           THETA
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9            16
+ SAPS_12            0            16
+ SAPS_18            0             0            16
+ SAPS_24            0             0             0            16
+
+
+           ALPHA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+                   17            18            19            20
+
+
+           BETA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I                  0             0             0             0
+ S                  0             0             0             0
+ Q                  0             0             0             0
+ CUB                0             0             0             0
+
+
+           PSI
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I                  0
+ S                  0             0
+ Q                  0             0             0
+ CUB                0             0             0             0
+
+
+     PARAMETER SPECIFICATION FOR LATENT CLASS REGRESSION MODEL PART
+
+
+           ALPHA(C)
+              C#1           C#2           C#3           C#4
+              ________      ________      ________      ________
+                   21            22            23             0
+
+
+     STARTING VALUES FOR LATENT CLASS 1
+
+
+           NU
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ SAPS_0         1.000         0.000         0.000         0.000
+ SAPS_1         1.000         1.000         1.000         1.000
+ SAPS_2         1.000         2.000         4.000         8.000
+ SAPS_3         1.000         3.000         9.000        27.000
+ SAPS_6         1.000         6.000        36.000       216.000
+ SAPS_9         1.000         9.000        81.000       729.000
+ SAPS_12        1.000        12.000       144.000      1728.000
+ SAPS_18        1.000        18.000       324.000      5832.000
+ SAPS_24        1.000        24.000       576.000     13824.000
+
+
+           THETA
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0         5.035
+ SAPS_1         0.000         7.347
+ SAPS_2         0.000         0.000         6.741
+ SAPS_3         0.000         0.000         0.000         6.044
+ SAPS_6         0.000         0.000         0.000         0.000         6.828
+ SAPS_9         0.000         0.000         0.000         0.000         0.000
+ SAPS_12        0.000         0.000         0.000         0.000         0.000
+ SAPS_18        0.000         0.000         0.000         0.000         0.000
+ SAPS_24        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9         6.540
+ SAPS_12        0.000         7.396
+ SAPS_18        0.000         0.000         7.135
+ SAPS_24        0.000         0.000         0.000         7.644
+
+
+           ALPHA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+               10.726        -5.429         1.104        -0.066
+
+
+           BETA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I              0.000         0.000         0.000         0.000
+ S              0.000         0.000         0.000         0.000
+ Q              0.000         0.000         0.000         0.000
+ CUB            0.000         0.000         0.000         0.000
+
+
+           PSI
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I              0.000
+ S              0.000         0.000
+ Q              0.000         0.000         0.000
+ CUB            0.000         0.000         0.000         0.000
+
+
+     STARTING VALUES FOR LATENT CLASS 2
+
+
+           NU
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ SAPS_0         1.000         0.000         0.000         0.000
+ SAPS_1         1.000         1.000         1.000         1.000
+ SAPS_2         1.000         2.000         4.000         8.000
+ SAPS_3         1.000         3.000         9.000        27.000
+ SAPS_6         1.000         6.000        36.000       216.000
+ SAPS_9         1.000         9.000        81.000       729.000
+ SAPS_12        1.000        12.000       144.000      1728.000
+ SAPS_18        1.000        18.000       324.000      5832.000
+ SAPS_24        1.000        24.000       576.000     13824.000
+
+
+           THETA
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0         5.035
+ SAPS_1         0.000         7.347
+ SAPS_2         0.000         0.000         6.741
+ SAPS_3         0.000         0.000         0.000         6.044
+ SAPS_6         0.000         0.000         0.000         0.000         6.828
+ SAPS_9         0.000         0.000         0.000         0.000         0.000
+ SAPS_12        0.000         0.000         0.000         0.000         0.000
+ SAPS_18        0.000         0.000         0.000         0.000         0.000
+ SAPS_24        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9         6.540
+ SAPS_12        0.000         7.396
+ SAPS_18        0.000         0.000         7.135
+ SAPS_24        0.000         0.000         0.000         7.644
+
+
+           ALPHA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+               10.726        -5.429         1.104        -0.066
+
+
+           BETA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I              0.000         0.000         0.000         0.000
+ S              0.000         0.000         0.000         0.000
+ Q              0.000         0.000         0.000         0.000
+ CUB            0.000         0.000         0.000         0.000
+
+
+           PSI
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I              0.000
+ S              0.000         0.000
+ Q              0.000         0.000         0.000
+ CUB            0.000         0.000         0.000         0.000
+
+
+     STARTING VALUES FOR LATENT CLASS 3
+
+
+           NU
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ SAPS_0         1.000         0.000         0.000         0.000
+ SAPS_1         1.000         1.000         1.000         1.000
+ SAPS_2         1.000         2.000         4.000         8.000
+ SAPS_3         1.000         3.000         9.000        27.000
+ SAPS_6         1.000         6.000        36.000       216.000
+ SAPS_9         1.000         9.000        81.000       729.000
+ SAPS_12        1.000        12.000       144.000      1728.000
+ SAPS_18        1.000        18.000       324.000      5832.000
+ SAPS_24        1.000        24.000       576.000     13824.000
+
+
+           THETA
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0         5.035
+ SAPS_1         0.000         7.347
+ SAPS_2         0.000         0.000         6.741
+ SAPS_3         0.000         0.000         0.000         6.044
+ SAPS_6         0.000         0.000         0.000         0.000         6.828
+ SAPS_9         0.000         0.000         0.000         0.000         0.000
+ SAPS_12        0.000         0.000         0.000         0.000         0.000
+ SAPS_18        0.000         0.000         0.000         0.000         0.000
+ SAPS_24        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9         6.540
+ SAPS_12        0.000         7.396
+ SAPS_18        0.000         0.000         7.135
+ SAPS_24        0.000         0.000         0.000         7.644
+
+
+           ALPHA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+               10.726        -5.429         1.104        -0.066
+
+
+           BETA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I              0.000         0.000         0.000         0.000
+ S              0.000         0.000         0.000         0.000
+ Q              0.000         0.000         0.000         0.000
+ CUB            0.000         0.000         0.000         0.000
+
+
+           PSI
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I              0.000
+ S              0.000         0.000
+ Q              0.000         0.000         0.000
+ CUB            0.000         0.000         0.000         0.000
+
+
+     STARTING VALUES FOR LATENT CLASS 4
+
+
+           NU
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+                0.000         0.000         0.000         0.000         0.000
+
+
+           NU
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+                0.000         0.000         0.000         0.000
+
+
+           LAMBDA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ SAPS_0         1.000         0.000         0.000         0.000
+ SAPS_1         1.000         1.000         1.000         1.000
+ SAPS_2         1.000         2.000         4.000         8.000
+ SAPS_3         1.000         3.000         9.000        27.000
+ SAPS_6         1.000         6.000        36.000       216.000
+ SAPS_9         1.000         9.000        81.000       729.000
+ SAPS_12        1.000        12.000       144.000      1728.000
+ SAPS_18        1.000        18.000       324.000      5832.000
+ SAPS_24        1.000        24.000       576.000     13824.000
+
+
+           THETA
+              SAPS_0        SAPS_1        SAPS_2        SAPS_3        SAPS_6
+              ________      ________      ________      ________      ________
+ SAPS_0         5.035
+ SAPS_1         0.000         7.347
+ SAPS_2         0.000         0.000         6.741
+ SAPS_3         0.000         0.000         0.000         6.044
+ SAPS_6         0.000         0.000         0.000         0.000         6.828
+ SAPS_9         0.000         0.000         0.000         0.000         0.000
+ SAPS_12        0.000         0.000         0.000         0.000         0.000
+ SAPS_18        0.000         0.000         0.000         0.000         0.000
+ SAPS_24        0.000         0.000         0.000         0.000         0.000
+
+
+           THETA
+              SAPS_9        SAPS_12       SAPS_18       SAPS_24
+              ________      ________      ________      ________
+ SAPS_9         6.540
+ SAPS_12        0.000         7.396
+ SAPS_18        0.000         0.000         7.135
+ SAPS_24        0.000         0.000         0.000         7.644
+
+
+           ALPHA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+               10.726        -5.429         1.104        -0.066
+
+
+           BETA
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I              0.000         0.000         0.000         0.000
+ S              0.000         0.000         0.000         0.000
+ Q              0.000         0.000         0.000         0.000
+ CUB            0.000         0.000         0.000         0.000
+
+
+           PSI
+              I             S             Q             CUB
+              ________      ________      ________      ________
+ I              0.000
+ S              0.000         0.000
+ Q              0.000         0.000         0.000
+ CUB            0.000         0.000         0.000         0.000
+
+
+     STARTING VALUES FOR LATENT CLASS REGRESSION MODEL PART
+
+
+           ALPHA(C)
+              C#1           C#2           C#3           C#4
+              ________      ________      ________      ________
+                0.000         0.000         0.000         0.000
+
+
+TECHNICAL 11 OUTPUT
+
+     Random Starts Specifications for the k-1 Class Analysis Model
+        Number of initial stage random starts                 250
+        Number of final stage optimizations                    62
+
+
+
+     VUONG-LO-MENDELL-RUBIN LIKELIHOOD RATIO TEST FOR 3 (H0) VERSUS 4 CLASSES
+
+          H0 Loglikelihood Value                        -9752.008
+          2 Times the Loglikelihood Difference             99.479
+          Difference in the Number of Parameters                6
+          Mean                                              6.323
+          Standard Deviation                               46.813
+          P-Value                                          0.0263
+
+     LO-MENDELL-RUBIN ADJUSTED LRT TEST
+
+          Value                                            96.844
+          P-Value                                          0.0284
+
+
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+                9.074        -1.953         0.169        -0.004         9.105
+
+
+           Means
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+               -1.962         0.169        -0.004
+
+
+           Covariances
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+ I              2.206
+ S              0.186         0.168
+ Q             -0.025        -0.015         0.001
+ CUB            0.001         0.000         0.000         0.000
+ C_I            2.461         0.193        -0.027         0.001         3.033
+ C_S            0.180         0.187        -0.016         0.000         0.176
+ C_Q           -0.026        -0.017         0.002         0.000        -0.030
+ C_CUB          0.001         0.000         0.000         0.000         0.001
+
+
+           Covariances
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+ C_S            0.228
+ C_Q           -0.020         0.002
+ C_CUB          0.000         0.000         0.000
+
+
+           Correlations
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+ I              1.000
+ S              0.305         1.000
+ Q             -0.435        -0.955         1.000
+ CUB            0.464         0.920        -0.995         1.000
+ C_I            0.951         0.271        -0.406         0.438         1.000
+ C_S            0.254         0.955        -0.906         0.871         0.212
+ C_Q           -0.397        -0.915         0.957        -0.952        -0.386
+ C_CUB          0.430         0.878        -0.950         0.956         0.430
+
+
+           Correlations
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+ C_S            1.000
+ C_Q           -0.946         1.000
+ C_CUB          0.904        -0.994         1.000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values, estimated factor scores, estimated values, residuals)
+  Scatterplots (sample values, estimated factor scores, estimated values, residuals)
+  Sample means
+  Estimated means, medians, modes, and percentiles
+  Sample and estimated means
+  Latent variable distribution plots
+  Observed individual values
+  Estimated individual values
+  Estimated means and observed individual values
+  Estimated means and estimated individual values
+  Estimated overall and class-specific distributions
+
+SAVEDATA INFORMATION
+
+
+  Save file
+    K4_S500_res.dat
+
+  Order and format of variables
+
+    SAPS_0         F10.3
+    SAPS_1         F10.3
+    SAPS_2         F10.3
+    SAPS_3         F10.3
+    SAPS_6         F10.3
+    SAPS_9         F10.3
+    SAPS_12        F10.3
+    SAPS_18        F10.3
+    SAPS_24        F10.3
+    I              F10.3
+    S              F10.3
+    Q              F10.3
+    CUB            F10.3
+    C_I            F10.3
+    C_S            F10.3
+    C_Q            F10.3
+    C_CUB          F10.3
+    CPROB1         F10.3
+    CPROB2         F10.3
+    CPROB3         F10.3
+    CPROB4         F10.3
+    C              F10.3
+    PIN            I4
+
+  Save file format
+    22F10.3 I4
+
+  Save file record length    10000
+
+  Save missing symbol        *
+
+
+     Beginning Time:  11:08:47
+        Ending Time:  11:10:59
+       Elapsed Time:  00:02:12
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen

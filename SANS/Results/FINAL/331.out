@@ -1,0 +1,3080 @@
+Mplus VERSION 8.6 (Mac)
+MUTHEN & MUTHEN
+05/03/2024   8:25 AM
+
+INPUT INSTRUCTIONS
+
+  TITLE:
+  GMM_CI_isq@0cub@0_C_332_331
+  DATA:
+  FILE = "/Users/olivierpercie/Desktop/LGM/SANS/Results/FINAL/331.dat";
+
+  VARIABLE:
+  NAMES = pin SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24;
+   MISSING=.;
+   USEVAR = SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24;
+  IDVAR = pin;
+  CLASSES = c(3);
+  ANALYSIS:
+  TYPE = MIXTURE;
+  STARTS = 1000 250;
+  K-1STARTS = 500 125;
+  PROCESSORS = 8;
+  MODEL:
+  %OVERALL%
+  i s q cub | SANS_0@0 SANS_1@1 SANS_2@2 SANS_3@3 SANS_6@6 SANS_9@9 SANS_12@12 SANS_18@18
+  SANS_24@24;
+  i s q@0 cub@0;
+  i WITH s q cub;
+  s WITH q cub;
+  q WITH cub;
+  SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24;
+  %C#1%
+  [i s q cub];
+  SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 (1);
+  %C#2%
+  [i s q cub];
+  SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 (2);
+  %C#3%
+  [i s q@0 cub@0];
+  SANS_0 SANS_1 SANS_2 SANS_3 SANS_6 SANS_9 SANS_12 SANS_18 SANS_24 (3);
+  OUTPUT:
+  TECH7;
+  TECH11;
+  SAMPSTAT;
+  STANDARDIZED;
+  CINTERVAL;
+  SAVEDATA:
+  FILE = GMM_CI_isq@0cub@0_C_est.dat;
+  SAVE = CPROBABILITIES FSCORES;
+  PLOT:
+  TYPE = plot3;
+  SERIES = SANS_0-SANS_24 (*);
+
+
+
+*** WARNING in MODEL command
+  All continuous latent variable covariances involving Q have been fixed to 0
+  because the variance of Q is fixed at 0.
+*** WARNING in MODEL command
+  All continuous latent variable covariances involving CUB have been fixed to 0
+  because the variance of CUB is fixed at 0.
+*** WARNING
+  Data set contains cases with missing on all variables.
+  These cases were not included in the analysis.
+  Number of cases with missing on all variables:  10
+   3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS
+
+
+
+
+GMM_CI_isq@0cub@0_C_332_331
+
+SUMMARY OF ANALYSIS
+
+Number of groups                                                 1
+Number of observations                                         679
+
+Number of dependent variables                                    9
+Number of independent variables                                  0
+Number of continuous latent variables                            4
+Number of categorical latent variables                           1
+
+Observed dependent variables
+
+  Continuous
+   SANS_0      SANS_1      SANS_2      SANS_3      SANS_6      SANS_9
+   SANS_12     SANS_18     SANS_24
+
+Continuous latent variables
+   I           S           Q           CUB
+
+Categorical latent variables
+   C
+
+Variables with special functions
+
+  ID variable           PIN
+
+Estimator                                                      MLR
+Information matrix                                        OBSERVED
+Optimization Specifications for the Quasi-Newton Algorithm for
+Continuous Outcomes
+  Maximum number of iterations                                 100
+  Convergence criterion                                  0.100D-05
+Optimization Specifications for the EM Algorithm
+  Maximum number of iterations                                 500
+  Convergence criteria
+    Loglikelihood change                                 0.100D-06
+    Relative loglikelihood change                        0.100D-06
+    Derivative                                           0.100D-05
+Optimization Specifications for the M step of the EM Algorithm for
+Categorical Latent variables
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+Optimization Specifications for the M step of the EM Algorithm for
+Censored, Binary or Ordered Categorical (Ordinal), Unordered
+Categorical (Nominal) and Count Outcomes
+  Number of M step iterations                                    1
+  M step convergence criterion                           0.100D-05
+  Basis for M step termination                           ITERATION
+  Maximum value for logit thresholds                            15
+  Minimum value for logit thresholds                           -15
+  Minimum expected cell size for chi-square              0.100D-01
+Maximum number of iterations for H1                           2000
+Convergence criterion for H1                             0.100D-03
+Optimization algorithm                                         EMA
+Random Starts Specifications
+  Number of initial stage random starts                       1000
+  Number of final stage optimizations                          250
+  Number of initial stage iterations                            10
+  Initial stage convergence criterion                    0.100D+01
+  Random starts scale                                    0.500D+01
+  Random seed for generating random starts                       0
+
+Input data file(s)
+  /Users/olivierpercie/Desktop/LGM/SANS/Results/FINAL/331.dat
+Input data format  FREE
+
+
+SUMMARY OF DATA
+
+     Number of missing data patterns           112
+     Number of y missing data patterns         112
+     Number of u missing data patterns           0
+
+
+COVARIANCE COVERAGE OF DATA
+
+Minimum covariance coverage value   0.100
+
+
+     PROPORTION OF DATA PRESENT FOR Y
+
+
+           Covariance Coverage
+              SANS_0        SANS_1        SANS_2        SANS_3        SANS_6
+              ________      ________      ________      ________      ________
+ SANS_0         0.993
+ SANS_1         0.533         0.535
+ SANS_2         0.676         0.457         0.676
+ SANS_3         0.826         0.468         0.630         0.826
+ SANS_6         0.760         0.442         0.588         0.719         0.763
+ SANS_9         0.644         0.421         0.555         0.594         0.583
+ SANS_12        0.676         0.415         0.539         0.617         0.611
+ SANS_18        0.627         0.396         0.511         0.568         0.560
+ SANS_24        0.589         0.381         0.505         0.539         0.532
+
+
+           Covariance Coverage
+              SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________
+ SANS_9         0.647
+ SANS_12        0.570         0.680
+ SANS_18        0.532         0.558         0.632
+ SANS_24        0.524         0.535         0.535         0.595
+
+
+SAMPLE STATISTICS
+
+
+     ESTIMATED SAMPLE STATISTICS
+
+
+           Means
+              SANS_0        SANS_1        SANS_2        SANS_3        SANS_6
+              ________      ________      ________      ________      ________
+                9.907         8.529         7.868         7.801         7.217
+
+
+           Means
+              SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________
+                6.772         6.613         6.216         5.821
+
+
+           Covariances
+              SANS_0        SANS_1        SANS_2        SANS_3        SANS_6
+              ________      ________      ________      ________      ________
+ SANS_0        14.667
+ SANS_1         8.890        14.563
+ SANS_2         8.057        11.889        16.003
+ SANS_3         7.146        10.167        12.709        16.363
+ SANS_6         6.686         9.075        10.222        10.575        17.562
+ SANS_9         6.778         7.979         9.156         9.507        11.697
+ SANS_12        6.069         7.184         8.249         8.001        11.240
+ SANS_18        5.275         6.900         7.011         7.001         9.439
+ SANS_24        4.827         6.153         6.341         7.087         8.842
+
+
+           Covariances
+              SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________
+ SANS_9        18.132
+ SANS_12       13.604        19.427
+ SANS_18       10.931        12.220        18.641
+ SANS_24       10.456        10.641        12.704        19.355
+
+
+           Correlations
+              SANS_0        SANS_1        SANS_2        SANS_3        SANS_6
+              ________      ________      ________      ________      ________
+ SANS_0         1.000
+ SANS_1         0.608         1.000
+ SANS_2         0.526         0.779         1.000
+ SANS_3         0.461         0.659         0.785         1.000
+ SANS_6         0.417         0.567         0.610         0.624         1.000
+ SANS_9         0.416         0.491         0.537         0.552         0.655
+ SANS_12        0.360         0.427         0.468         0.449         0.609
+ SANS_18        0.319         0.419         0.406         0.401         0.522
+ SANS_24        0.286         0.366         0.360         0.398         0.480
+
+
+           Correlations
+              SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________
+ SANS_9         1.000
+ SANS_12        0.725         1.000
+ SANS_18        0.595         0.642         1.000
+ SANS_24        0.558         0.549         0.669         1.000
+
+
+     MAXIMUM LOG-LIKELIHOOD VALUE FOR THE UNRESTRICTED (H1) MODEL IS -11017.177
+
+
+UNIVARIATE SAMPLE STATISTICS
+
+
+     UNIVARIATE HIGHER-ORDER MOMENT DESCRIPTIVE STATISTICS
+
+         Variable/         Mean/     Skewness/   Minimum/ % with                Percentiles
+        Sample Size      Variance    Kurtosis    Maximum  Min/Max      20%/60%    40%/80%    Median
+
+     SANS_0                9.908      -0.071       0.000    0.59%       6.000      9.000     10.000
+             674.000      14.677      -0.475      19.000    0.15%      11.000     13.000
+     SANS_1                8.774       0.099       0.000    0.83%       6.000      7.000      9.000
+             363.000      14.285      -0.459      19.000    0.28%      10.000     12.000
+     SANS_2                7.946       0.069       0.000    2.83%       4.000      7.000      8.000
+             459.000      15.559      -0.582      19.000    0.22%       9.000     12.000
+     SANS_3                7.888       0.125       0.000    3.21%       4.000      7.000      8.000
+             561.000      16.178      -0.410      19.000    0.53%       9.000     11.000
+     SANS_6                7.205       0.240       0.000    4.25%       3.000      6.000      7.000
+             518.000      16.823      -0.563      19.000    0.19%       8.000     11.000
+     SANS_9                6.825       0.343       0.000    6.15%       3.000      5.000      6.000
+             439.000      17.475      -0.617      17.000    0.91%       7.000     11.000
+     SANS_12               6.706       0.393       0.000    6.71%       3.000      5.000      6.000
+             462.000      18.762      -0.577      19.000    0.22%       7.000     11.000
+     SANS_18               6.312       0.461       0.000    8.16%       2.000      5.000      6.000
+             429.000      18.481      -0.524      19.000    0.23%       7.000     10.000
+     SANS_24               5.894       0.656       0.000   10.64%       2.000      4.000      5.000
+             404.000      18.669      -0.113      20.000    0.25%       6.000     10.000
+
+RANDOM STARTS RESULTS RANKED FROM THE BEST TO THE WORST LOGLIKELIHOOD VALUES
+
+
+184 perturbed starting value run(s) did not converge or were rejected in the third stage.
+Final stage loglikelihood values at local maxima, seeds, and initial stage start numbers:
+
+          -11082.703  760878           249
+          -11082.703  572637           989
+          -11082.703  unperturbed      0
+          -11144.773  377584           630
+          -11144.773  990504           827
+          -11146.263  231281           542
+          -11146.263  655497           376
+          -11146.263  642909           251
+          -11146.263  291149           536
+          -11150.147  580181           691
+          -11150.147  91231            727
+          -11150.147  590834           785
+          -11150.147  97158            205
+          -11151.532  434915           552
+          -11151.804  609089           241
+          -11152.083  314034           513
+          -11152.083  263268           165
+          -11152.083  86651            993
+          -11152.092  399671           13
+          -11152.965  49221            254
+          -11152.965  576596           99
+          -11152.965  574942           558
+          -11152.965  276696           676
+          -11154.058  57226            208
+          -11154.161  499347           881
+          -11155.908  749635           420
+          -11155.908  225995           847
+          -11294.653  85462            51
+          -11298.270  928624           981
+          -11299.970  264521           929
+          -11299.970  857122           889
+          -11299.970  278692           342
+          -11300.029  259507           53
+          -11300.533  172913           557
+          -11300.877  506886           576
+          -11300.877  679448           937
+          -11300.877  699554           427
+          -11301.135  237332           661
+          -11301.389  915107           54
+          -11301.496  119513           821
+          -11301.898  182524           373
+          -11302.489  804561           59
+          -11302.646  574412           679
+          -11302.897  848969           173
+          -11302.897  339073           841
+          -11302.909  407168           44
+          -11302.909  496881           192
+          -11302.909  263221           447
+          -11302.909  777045           377
+          -11302.909  49293            707
+          -11302.909  391949           295
+          -11302.909  544009           842
+          -11302.909  238906           430
+          -11302.909  12477            155
+          -11302.909  802779           122
+          -11302.909  779820           877
+          -11302.909  475420           71
+          -11302.909  461687           833
+          -11302.909  995913           787
+          -11302.909  341519           653
+          -11304.330  741484           441
+          -11304.834  131063           843
+          -11304.840  21345            199
+          -11304.840  335485           496
+          -11304.840  761633           50
+          -11304.840  723035           538
+          -11306.198  869564           869
+          -11306.649  227563           63
+          -11306.771  370957           554
+          -11306.794  137888           901
+          -11307.197  646573           741
+          -11307.209  566687           597
+          -11307.209  319144           176
+          -11307.209  631413           439
+          -11307.209  650371           14
+          -11307.209  608496           4
+          -11307.209  674171           195
+          -11307.494  232226           235
+          -11307.909  473343           844
+          -11307.961  801717           364
+          -11308.144  440395           917
+          -11308.548  677720           681
+          -11308.567  840031           276
+          -11308.567  264901           634
+          -11309.233  263049           454
+          -11309.517  728038           177
+          -11309.932  178181           753
+          -11310.033  850840           232
+          -11310.367  284716           713
+          -11310.953  490123           995
+          -11313.359  573367           986
+          -11313.359  14262            781
+          -11313.359  749453           33
+          -11313.359  443442           380
+          -11313.359  81951            907
+          -11313.359  65651            214
+          -11313.359  252949           487
+          -11313.359  62835            642
+          -11313.359  421731           886
+          -11313.359  775881           778
+          -11313.359  118958           994
+          -11313.359  484501           163
+          -11313.359  391368           802
+          -11313.359  665121           417
+          -11313.359  761302           744
+
+145 perturbed starting value run(s) did not converge or were rejected in the third stage.
+
+
+
+THE BEST LOGLIKELIHOOD VALUE HAS BEEN REPLICATED.  RERUN WITH AT LEAST TWICE THE
+RANDOM STARTS TO CHECK THAT THE BEST LOGLIKELIHOOD IS STILL OBTAINED AND REPLICATED.
+
+
+THE MODEL ESTIMATION TERMINATED NORMALLY
+
+
+
+MODEL FIT INFORMATION
+
+Number of Free Parameters                       18
+
+Loglikelihood
+
+          H0 Value                      -11082.703
+          H0 Scaling Correction Factor      1.1709
+            for MLR
+
+Information Criteria
+
+          Akaike (AIC)                   22201.407
+          Bayesian (BIC)                 22282.778
+          Sample-Size Adjusted BIC       22225.626
+            (n* = (n + 2) / 24)
+
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THE ESTIMATED MODEL
+
+    Latent
+   Classes
+
+       1        147.88895          0.21780
+       2        263.98707          0.38879
+       3        267.12398          0.39341
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON ESTIMATED POSTERIOR PROBABILITIES
+
+    Latent
+   Classes
+
+       1        147.88895          0.21780
+       2        263.98707          0.38879
+       3        267.12398          0.39341
+
+
+FINAL CLASS COUNTS AND PROPORTIONS FOR THE LATENT CLASSES
+BASED ON THEIR MOST LIKELY LATENT CLASS MEMBERSHIP
+
+Class Counts and Proportions
+
+    Latent
+   Classes
+
+       1              104          0.15317
+       2              277          0.40795
+       3              298          0.43888
+
+
+CLASSIFICATION QUALITY
+
+     Entropy                         0.433
+
+
+Average Latent Class Probabilities for Most Likely Latent Class Membership (Row)
+by Latent Class (Column)
+
+           1        2        3
+
+    1   0.781    0.111    0.108
+    2   0.110    0.732    0.158
+    3   0.122    0.167    0.712
+
+
+Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+           1        2        3
+
+    1   0.549    0.206    0.245
+    2   0.044    0.768    0.188
+    3   0.042    0.164    0.794
+
+
+Logits for the Classification Probabilities for the Most Likely Latent Class Membership (Column)
+by Latent Class (Row)
+
+              1        2        3
+
+    1      0.806   -0.173    0.000
+    2     -1.455    1.406    0.000
+    3     -2.938   -1.577    0.000
+
+
+MODEL RESULTS
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I        |
+    SANS_0             1.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             1.000      0.000    999.000    999.000
+    SANS_3             1.000      0.000    999.000    999.000
+    SANS_6             1.000      0.000    999.000    999.000
+    SANS_9             1.000      0.000    999.000    999.000
+    SANS_12            1.000      0.000    999.000    999.000
+    SANS_18            1.000      0.000    999.000    999.000
+    SANS_24            1.000      0.000    999.000    999.000
+
+ S        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             2.000      0.000    999.000    999.000
+    SANS_3             3.000      0.000    999.000    999.000
+    SANS_6             6.000      0.000    999.000    999.000
+    SANS_9             9.000      0.000    999.000    999.000
+    SANS_12           12.000      0.000    999.000    999.000
+    SANS_18           18.000      0.000    999.000    999.000
+    SANS_24           24.000      0.000    999.000    999.000
+
+ Q        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             4.000      0.000    999.000    999.000
+    SANS_3             9.000      0.000    999.000    999.000
+    SANS_6            36.000      0.000    999.000    999.000
+    SANS_9            81.000      0.000    999.000    999.000
+    SANS_12          144.000      0.000    999.000    999.000
+    SANS_18          324.000      0.000    999.000    999.000
+    SANS_24          576.000      0.000    999.000    999.000
+
+ CUB      |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             8.000      0.000    999.000    999.000
+    SANS_3            27.000      0.000    999.000    999.000
+    SANS_6           216.000      0.000    999.000    999.000
+    SANS_9           729.000      0.000    999.000    999.000
+    SANS_12         1728.000      0.000    999.000    999.000
+    SANS_18         5832.000      0.000    999.000    999.000
+    SANS_24        13824.000      0.000    999.000    999.000
+
+ I        WITH
+    S                 -0.180      0.033     -5.424      0.000
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ S        WITH
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ Q        WITH
+    CUB                0.000      0.000    999.000    999.000
+
+ Means
+    I                  9.219      0.433     21.293      0.000
+    S                 -0.662      0.238     -2.781      0.005
+    Q                  0.073      0.029      2.512      0.012
+    CUB               -0.002      0.001     -2.460      0.014
+
+ Intercepts
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  9.426      0.643     14.652      0.000
+    S                  0.024      0.003      8.861      0.000
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ Residual Variances
+    SANS_0            13.002      1.079     12.047      0.000
+    SANS_1            13.002      1.079     12.047      0.000
+    SANS_2            13.002      1.079     12.047      0.000
+    SANS_3            13.002      1.079     12.047      0.000
+    SANS_6            13.002      1.079     12.047      0.000
+    SANS_9            13.002      1.079     12.047      0.000
+    SANS_12           13.002      1.079     12.047      0.000
+    SANS_18           13.002      1.079     12.047      0.000
+    SANS_24           13.002      1.079     12.047      0.000
+
+Latent Class 2
+
+ I        |
+    SANS_0             1.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             1.000      0.000    999.000    999.000
+    SANS_3             1.000      0.000    999.000    999.000
+    SANS_6             1.000      0.000    999.000    999.000
+    SANS_9             1.000      0.000    999.000    999.000
+    SANS_12            1.000      0.000    999.000    999.000
+    SANS_18            1.000      0.000    999.000    999.000
+    SANS_24            1.000      0.000    999.000    999.000
+
+ S        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             2.000      0.000    999.000    999.000
+    SANS_3             3.000      0.000    999.000    999.000
+    SANS_6             6.000      0.000    999.000    999.000
+    SANS_9             9.000      0.000    999.000    999.000
+    SANS_12           12.000      0.000    999.000    999.000
+    SANS_18           18.000      0.000    999.000    999.000
+    SANS_24           24.000      0.000    999.000    999.000
+
+ Q        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             4.000      0.000    999.000    999.000
+    SANS_3             9.000      0.000    999.000    999.000
+    SANS_6            36.000      0.000    999.000    999.000
+    SANS_9            81.000      0.000    999.000    999.000
+    SANS_12          144.000      0.000    999.000    999.000
+    SANS_18          324.000      0.000    999.000    999.000
+    SANS_24          576.000      0.000    999.000    999.000
+
+ CUB      |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             8.000      0.000    999.000    999.000
+    SANS_3            27.000      0.000    999.000    999.000
+    SANS_6           216.000      0.000    999.000    999.000
+    SANS_9           729.000      0.000    999.000    999.000
+    SANS_12         1728.000      0.000    999.000    999.000
+    SANS_18         5832.000      0.000    999.000    999.000
+    SANS_24        13824.000      0.000    999.000    999.000
+
+ I        WITH
+    S                 -0.180      0.033     -5.424      0.000
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ S        WITH
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ Q        WITH
+    CUB                0.000      0.000    999.000    999.000
+
+ Means
+    I                  9.887      0.377     26.207      0.000
+    S                 -1.284      0.127    -10.097      0.000
+    Q                  0.087      0.013      6.539      0.000
+    CUB               -0.002      0.000     -4.895      0.000
+
+ Intercepts
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  9.426      0.643     14.652      0.000
+    S                  0.024      0.003      8.861      0.000
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ Residual Variances
+    SANS_0             4.861      0.613      7.929      0.000
+    SANS_1             4.861      0.613      7.929      0.000
+    SANS_2             4.861      0.613      7.929      0.000
+    SANS_3             4.861      0.613      7.929      0.000
+    SANS_6             4.861      0.613      7.929      0.000
+    SANS_9             4.861      0.613      7.929      0.000
+    SANS_12            4.861      0.613      7.929      0.000
+    SANS_18            4.861      0.613      7.929      0.000
+    SANS_24            4.861      0.613      7.929      0.000
+
+Latent Class 3
+
+ I        |
+    SANS_0             1.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             1.000      0.000    999.000    999.000
+    SANS_3             1.000      0.000    999.000    999.000
+    SANS_6             1.000      0.000    999.000    999.000
+    SANS_9             1.000      0.000    999.000    999.000
+    SANS_12            1.000      0.000    999.000    999.000
+    SANS_18            1.000      0.000    999.000    999.000
+    SANS_24            1.000      0.000    999.000    999.000
+
+ S        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             2.000      0.000    999.000    999.000
+    SANS_3             3.000      0.000    999.000    999.000
+    SANS_6             6.000      0.000    999.000    999.000
+    SANS_9             9.000      0.000    999.000    999.000
+    SANS_12           12.000      0.000    999.000    999.000
+    SANS_18           18.000      0.000    999.000    999.000
+    SANS_24           24.000      0.000    999.000    999.000
+
+ Q        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             4.000      0.000    999.000    999.000
+    SANS_3             9.000      0.000    999.000    999.000
+    SANS_6            36.000      0.000    999.000    999.000
+    SANS_9            81.000      0.000    999.000    999.000
+    SANS_12          144.000      0.000    999.000    999.000
+    SANS_18          324.000      0.000    999.000    999.000
+    SANS_24          576.000      0.000    999.000    999.000
+
+ CUB      |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             1.000      0.000    999.000    999.000
+    SANS_2             8.000      0.000    999.000    999.000
+    SANS_3            27.000      0.000    999.000    999.000
+    SANS_6           216.000      0.000    999.000    999.000
+    SANS_9           729.000      0.000    999.000    999.000
+    SANS_12         1728.000      0.000    999.000    999.000
+    SANS_18         5832.000      0.000    999.000    999.000
+    SANS_24        13824.000      0.000    999.000    999.000
+
+ I        WITH
+    S                 -0.180      0.033     -5.424      0.000
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ S        WITH
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ Q        WITH
+    CUB                0.000      0.000    999.000    999.000
+
+ Means
+    I                  9.447      0.388     24.355      0.000
+    S                 -0.112      0.017     -6.453      0.000
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ Intercepts
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  9.426      0.643     14.652      0.000
+    S                  0.024      0.003      8.861      0.000
+    Q                  0.000      0.000    999.000    999.000
+    CUB                0.000      0.000    999.000    999.000
+
+ Residual Variances
+    SANS_0             3.720      0.323     11.509      0.000
+    SANS_1             3.720      0.323     11.509      0.000
+    SANS_2             3.720      0.323     11.509      0.000
+    SANS_3             3.720      0.323     11.509      0.000
+    SANS_6             3.720      0.323     11.509      0.000
+    SANS_9             3.720      0.323     11.509      0.000
+    SANS_12            3.720      0.323     11.509      0.000
+    SANS_18            3.720      0.323     11.509      0.000
+    SANS_24            3.720      0.323     11.509      0.000
+
+Categorical Latent Variables
+
+ Means
+    C#1               -0.591      0.322     -1.837      0.066
+    C#2               -0.012      0.243     -0.049      0.961
+
+
+QUALITY OF NUMERICAL RESULTS
+
+     Condition Number for the Information Matrix              0.134E-05
+       (ratio of smallest to largest eigenvalue)
+
+
+STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I        |
+    SANS_0             0.648      0.020     32.237      0.000
+    SANS_1             0.653      0.021     31.650      0.000
+    SANS_2             0.658      0.021     31.053      0.000
+    SANS_3             0.661      0.022     30.456      0.000
+    SANS_6             0.668      0.023     28.767      0.000
+    SANS_9             0.668      0.024     27.331      0.000
+    SANS_12            0.662      0.025     26.168      0.000
+    SANS_18            0.632      0.026     24.412      0.000
+    SANS_24            0.586      0.026     22.957      0.000
+
+ S        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.033      0.002     15.911      0.000
+    SANS_2             0.066      0.004     15.729      0.000
+    SANS_3             0.099      0.006     15.575      0.000
+    SANS_6             0.201      0.013     15.283      0.000
+    SANS_9             0.301      0.020     15.249      0.000
+    SANS_12            0.398      0.026     15.471      0.000
+    SANS_18            0.570      0.034     16.660      0.000
+    SANS_24            0.705      0.038     18.765      0.000
+
+ Q        |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ I        WITH
+    S                 -0.382      0.055     -6.907      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ S        WITH
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Q        WITH
+    CUB              999.000    999.000    999.000    999.000
+
+ Means
+    I                  3.003      0.178     16.860      0.000
+    S                 -4.304      1.561     -2.757      0.006
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SANS_0             0.580      0.026     22.233      0.000
+    SANS_1             0.589      0.026     22.746      0.000
+    SANS_2             0.596      0.026     23.176      0.000
+    SANS_3             0.603      0.026     23.510      0.000
+    SANS_6             0.616      0.026     23.863      0.000
+    SANS_9             0.616      0.026     23.267      0.000
+    SANS_12            0.604      0.028     21.962      0.000
+    SANS_18            0.551      0.030     18.456      0.000
+    SANS_24            0.474      0.031     15.193      0.000
+
+Latent Class 2
+
+ I        |
+    SANS_0             0.812      0.019     43.834      0.000
+    SANS_1             0.822      0.020     42.150      0.000
+    SANS_2             0.831      0.021     40.413      0.000
+    SANS_3             0.838      0.022     38.703      0.000
+    SANS_6             0.852      0.025     34.184      0.000
+    SANS_9             0.853      0.028     30.834      0.000
+    SANS_12            0.840      0.030     28.446      0.000
+    SANS_18            0.781      0.031     25.180      0.000
+    SANS_24            0.700      0.031     22.687      0.000
+
+ S        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.041      0.003     14.446      0.000
+    SANS_2             0.083      0.006     14.209      0.000
+    SANS_3             0.126      0.009     14.009      0.000
+    SANS_6             0.256      0.019     13.637      0.000
+    SANS_9             0.385      0.028     13.615      0.000
+    SANS_12            0.505      0.036     13.944      0.000
+    SANS_18            0.704      0.045     15.592      0.000
+    SANS_24            0.841      0.046     18.378      0.000
+
+ Q        |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ I        WITH
+    S                 -0.382      0.055     -6.907      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ S        WITH
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Q        WITH
+    CUB              999.000    999.000    999.000    999.000
+
+ Means
+    I                  3.220      0.138     23.366      0.000
+    S                 -8.348      0.941     -8.875      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SANS_0             0.340      0.030     11.301      0.000
+    SANS_1             0.348      0.030     11.501      0.000
+    SANS_2             0.356      0.031     11.663      0.000
+    SANS_3             0.362      0.031     11.781      0.000
+    SANS_6             0.375      0.032     11.825      0.000
+    SANS_9             0.375      0.033     11.427      0.000
+    SANS_12            0.364      0.034     10.738      0.000
+    SANS_18            0.314      0.034      9.166      0.000
+    SANS_24            0.252      0.032      7.907      0.000
+
+Latent Class 3
+
+ I        |
+    SANS_0             0.847      0.013     64.400      0.000
+    SANS_1             0.858      0.014     62.224      0.000
+    SANS_2             0.868      0.015     59.045      0.000
+    SANS_3             0.876      0.016     55.344      0.000
+    SANS_6             0.892      0.020     44.488      0.000
+    SANS_9             0.893      0.025     36.453      0.000
+    SANS_12            0.878      0.028     31.037      0.000
+    SANS_18            0.811      0.033     24.725      0.000
+    SANS_24            0.721      0.034     21.359      0.000
+
+ S        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.043      0.003     16.293      0.000
+    SANS_2             0.087      0.005     16.011      0.000
+    SANS_3             0.132      0.008     15.770      0.000
+    SANS_6             0.268      0.018     15.294      0.000
+    SANS_9             0.403      0.026     15.205      0.000
+    SANS_12            0.528      0.034     15.502      0.000
+    SANS_18            0.732      0.043     17.168      0.000
+    SANS_24            0.867      0.043     20.006      0.000
+
+ Q        |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ I        WITH
+    S                 -0.382      0.055     -6.907      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ S        WITH
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Q        WITH
+    CUB              999.000    999.000    999.000    999.000
+
+ Means
+    I                  3.077      0.184     16.694      0.000
+    S                 -0.726      0.124     -5.874      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SANS_0             0.283      0.022     12.706      0.000
+    SANS_1             0.290      0.023     12.807      0.000
+    SANS_2             0.297      0.023     12.870      0.000
+    SANS_3             0.303      0.023     12.893      0.000
+    SANS_6             0.314      0.025     12.731      0.000
+    SANS_9             0.315      0.026     12.296      0.000
+    SANS_12            0.304      0.026     11.718      0.000
+    SANS_18            0.260      0.025     10.496      0.000
+    SANS_24            0.205      0.022      9.471      0.000
+
+
+STDY Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I        |
+    SANS_0             0.648      0.020     32.237      0.000
+    SANS_1             0.653      0.021     31.650      0.000
+    SANS_2             0.658      0.021     31.053      0.000
+    SANS_3             0.661      0.022     30.456      0.000
+    SANS_6             0.668      0.023     28.767      0.000
+    SANS_9             0.668      0.024     27.331      0.000
+    SANS_12            0.662      0.025     26.168      0.000
+    SANS_18            0.632      0.026     24.412      0.000
+    SANS_24            0.586      0.026     22.957      0.000
+
+ S        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.033      0.002     15.911      0.000
+    SANS_2             0.066      0.004     15.729      0.000
+    SANS_3             0.099      0.006     15.575      0.000
+    SANS_6             0.201      0.013     15.283      0.000
+    SANS_9             0.301      0.020     15.249      0.000
+    SANS_12            0.398      0.026     15.471      0.000
+    SANS_18            0.570      0.034     16.660      0.000
+    SANS_24            0.705      0.038     18.765      0.000
+
+ Q        |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ I        WITH
+    S                 -0.382      0.055     -6.907      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ S        WITH
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Q        WITH
+    CUB              999.000    999.000    999.000    999.000
+
+ Means
+    I                  3.003      0.178     16.860      0.000
+    S                 -4.304      1.561     -2.757      0.006
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SANS_0             0.580      0.026     22.233      0.000
+    SANS_1             0.589      0.026     22.746      0.000
+    SANS_2             0.596      0.026     23.176      0.000
+    SANS_3             0.603      0.026     23.510      0.000
+    SANS_6             0.616      0.026     23.863      0.000
+    SANS_9             0.616      0.026     23.267      0.000
+    SANS_12            0.604      0.028     21.962      0.000
+    SANS_18            0.551      0.030     18.456      0.000
+    SANS_24            0.474      0.031     15.193      0.000
+
+Latent Class 2
+
+ I        |
+    SANS_0             0.812      0.019     43.834      0.000
+    SANS_1             0.822      0.020     42.150      0.000
+    SANS_2             0.831      0.021     40.413      0.000
+    SANS_3             0.838      0.022     38.703      0.000
+    SANS_6             0.852      0.025     34.184      0.000
+    SANS_9             0.853      0.028     30.834      0.000
+    SANS_12            0.840      0.030     28.446      0.000
+    SANS_18            0.781      0.031     25.180      0.000
+    SANS_24            0.700      0.031     22.687      0.000
+
+ S        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.041      0.003     14.446      0.000
+    SANS_2             0.083      0.006     14.209      0.000
+    SANS_3             0.126      0.009     14.009      0.000
+    SANS_6             0.256      0.019     13.637      0.000
+    SANS_9             0.385      0.028     13.615      0.000
+    SANS_12            0.505      0.036     13.944      0.000
+    SANS_18            0.704      0.045     15.592      0.000
+    SANS_24            0.841      0.046     18.378      0.000
+
+ Q        |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ I        WITH
+    S                 -0.382      0.055     -6.907      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ S        WITH
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Q        WITH
+    CUB              999.000    999.000    999.000    999.000
+
+ Means
+    I                  3.220      0.138     23.366      0.000
+    S                 -8.348      0.941     -8.875      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SANS_0             0.340      0.030     11.301      0.000
+    SANS_1             0.348      0.030     11.501      0.000
+    SANS_2             0.356      0.031     11.663      0.000
+    SANS_3             0.362      0.031     11.781      0.000
+    SANS_6             0.375      0.032     11.825      0.000
+    SANS_9             0.375      0.033     11.427      0.000
+    SANS_12            0.364      0.034     10.738      0.000
+    SANS_18            0.314      0.034      9.166      0.000
+    SANS_24            0.252      0.032      7.907      0.000
+
+Latent Class 3
+
+ I        |
+    SANS_0             0.847      0.013     64.400      0.000
+    SANS_1             0.858      0.014     62.224      0.000
+    SANS_2             0.868      0.015     59.045      0.000
+    SANS_3             0.876      0.016     55.344      0.000
+    SANS_6             0.892      0.020     44.488      0.000
+    SANS_9             0.893      0.025     36.453      0.000
+    SANS_12            0.878      0.028     31.037      0.000
+    SANS_18            0.811      0.033     24.725      0.000
+    SANS_24            0.721      0.034     21.359      0.000
+
+ S        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.043      0.003     16.293      0.000
+    SANS_2             0.087      0.005     16.011      0.000
+    SANS_3             0.132      0.008     15.770      0.000
+    SANS_6             0.268      0.018     15.294      0.000
+    SANS_9             0.403      0.026     15.205      0.000
+    SANS_12            0.528      0.034     15.502      0.000
+    SANS_18            0.732      0.043     17.168      0.000
+    SANS_24            0.867      0.043     20.006      0.000
+
+ Q        |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ I        WITH
+    S                 -0.382      0.055     -6.907      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ S        WITH
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Q        WITH
+    CUB              999.000    999.000    999.000    999.000
+
+ Means
+    I                  3.077      0.184     16.694      0.000
+    S                 -0.726      0.124     -5.874      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SANS_0             0.283      0.022     12.706      0.000
+    SANS_1             0.290      0.023     12.807      0.000
+    SANS_2             0.297      0.023     12.870      0.000
+    SANS_3             0.303      0.023     12.893      0.000
+    SANS_6             0.314      0.025     12.731      0.000
+    SANS_9             0.315      0.026     12.296      0.000
+    SANS_12            0.304      0.026     11.718      0.000
+    SANS_18            0.260      0.025     10.496      0.000
+    SANS_24            0.205      0.022      9.471      0.000
+
+
+STD Standardization
+
+                                                    Two-Tailed
+                    Estimate       S.E.  Est./S.E.    P-Value
+
+Latent Class 1
+
+ I        |
+    SANS_0             3.070      0.105     29.305      0.000
+    SANS_1             3.070      0.105     29.305      0.000
+    SANS_2             3.070      0.105     29.305      0.000
+    SANS_3             3.070      0.105     29.305      0.000
+    SANS_6             3.070      0.105     29.305      0.000
+    SANS_9             3.070      0.105     29.305      0.000
+    SANS_12            3.070      0.105     29.305      0.000
+    SANS_18            3.070      0.105     29.305      0.000
+    SANS_24            3.070      0.105     29.305      0.000
+
+ S        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.154      0.009     17.722      0.000
+    SANS_2             0.308      0.017     17.722      0.000
+    SANS_3             0.461      0.026     17.722      0.000
+    SANS_6             0.923      0.052     17.722      0.000
+    SANS_9             1.384      0.078     17.722      0.000
+    SANS_12            1.846      0.104     17.722      0.000
+    SANS_18            2.769      0.156     17.722      0.000
+    SANS_24            3.692      0.208     17.722      0.000
+
+ Q        |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ I        WITH
+    S                 -0.382      0.055     -6.907      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ S        WITH
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Q        WITH
+    CUB              999.000    999.000    999.000    999.000
+
+ Means
+    I                  3.003      0.178     16.860      0.000
+    S                 -4.304      1.561     -2.757      0.006
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SANS_0            13.002      1.079     12.047      0.000
+    SANS_1            13.002      1.079     12.047      0.000
+    SANS_2            13.002      1.079     12.047      0.000
+    SANS_3            13.002      1.079     12.047      0.000
+    SANS_6            13.002      1.079     12.047      0.000
+    SANS_9            13.002      1.079     12.047      0.000
+    SANS_12           13.002      1.079     12.047      0.000
+    SANS_18           13.002      1.079     12.047      0.000
+    SANS_24           13.002      1.079     12.047      0.000
+
+Latent Class 2
+
+ I        |
+    SANS_0             3.070      0.105     29.305      0.000
+    SANS_1             3.070      0.105     29.305      0.000
+    SANS_2             3.070      0.105     29.305      0.000
+    SANS_3             3.070      0.105     29.305      0.000
+    SANS_6             3.070      0.105     29.305      0.000
+    SANS_9             3.070      0.105     29.305      0.000
+    SANS_12            3.070      0.105     29.305      0.000
+    SANS_18            3.070      0.105     29.305      0.000
+    SANS_24            3.070      0.105     29.305      0.000
+
+ S        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.154      0.009     17.722      0.000
+    SANS_2             0.308      0.017     17.722      0.000
+    SANS_3             0.461      0.026     17.722      0.000
+    SANS_6             0.923      0.052     17.722      0.000
+    SANS_9             1.384      0.078     17.722      0.000
+    SANS_12            1.846      0.104     17.722      0.000
+    SANS_18            2.769      0.156     17.722      0.000
+    SANS_24            3.692      0.208     17.722      0.000
+
+ Q        |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ I        WITH
+    S                 -0.382      0.055     -6.907      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ S        WITH
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Q        WITH
+    CUB              999.000    999.000    999.000    999.000
+
+ Means
+    I                  3.220      0.138     23.366      0.000
+    S                 -8.348      0.941     -8.875      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SANS_0             4.861      0.613      7.929      0.000
+    SANS_1             4.861      0.613      7.929      0.000
+    SANS_2             4.861      0.613      7.929      0.000
+    SANS_3             4.861      0.613      7.929      0.000
+    SANS_6             4.861      0.613      7.929      0.000
+    SANS_9             4.861      0.613      7.929      0.000
+    SANS_12            4.861      0.613      7.929      0.000
+    SANS_18            4.861      0.613      7.929      0.000
+    SANS_24            4.861      0.613      7.929      0.000
+
+Latent Class 3
+
+ I        |
+    SANS_0             3.070      0.105     29.305      0.000
+    SANS_1             3.070      0.105     29.305      0.000
+    SANS_2             3.070      0.105     29.305      0.000
+    SANS_3             3.070      0.105     29.305      0.000
+    SANS_6             3.070      0.105     29.305      0.000
+    SANS_9             3.070      0.105     29.305      0.000
+    SANS_12            3.070      0.105     29.305      0.000
+    SANS_18            3.070      0.105     29.305      0.000
+    SANS_24            3.070      0.105     29.305      0.000
+
+ S        |
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.154      0.009     17.722      0.000
+    SANS_2             0.308      0.017     17.722      0.000
+    SANS_3             0.461      0.026     17.722      0.000
+    SANS_6             0.923      0.052     17.722      0.000
+    SANS_9             1.384      0.078     17.722      0.000
+    SANS_12            1.846      0.104     17.722      0.000
+    SANS_18            2.769      0.156     17.722      0.000
+    SANS_24            3.692      0.208     17.722      0.000
+
+ Q        |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ CUB      |
+    SANS_0           999.000    999.000    999.000    999.000
+    SANS_1           999.000    999.000    999.000    999.000
+    SANS_2           999.000    999.000    999.000    999.000
+    SANS_3           999.000    999.000    999.000    999.000
+    SANS_6           999.000    999.000    999.000    999.000
+    SANS_9           999.000    999.000    999.000    999.000
+    SANS_12          999.000    999.000    999.000    999.000
+    SANS_18          999.000    999.000    999.000    999.000
+    SANS_24          999.000    999.000    999.000    999.000
+
+ I        WITH
+    S                 -0.382      0.055     -6.907      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ S        WITH
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Q        WITH
+    CUB              999.000    999.000    999.000    999.000
+
+ Means
+    I                  3.077      0.184     16.694      0.000
+    S                 -0.726      0.124     -5.874      0.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Intercepts
+    SANS_0             0.000      0.000    999.000    999.000
+    SANS_1             0.000      0.000    999.000    999.000
+    SANS_2             0.000      0.000    999.000    999.000
+    SANS_3             0.000      0.000    999.000    999.000
+    SANS_6             0.000      0.000    999.000    999.000
+    SANS_9             0.000      0.000    999.000    999.000
+    SANS_12            0.000      0.000    999.000    999.000
+    SANS_18            0.000      0.000    999.000    999.000
+    SANS_24            0.000      0.000    999.000    999.000
+
+ Variances
+    I                  1.000      0.000    999.000    999.000
+    S                  1.000      0.000    999.000    999.000
+    Q                999.000    999.000    999.000    999.000
+    CUB              999.000    999.000    999.000    999.000
+
+ Residual Variances
+    SANS_0             3.720      0.323     11.509      0.000
+    SANS_1             3.720      0.323     11.509      0.000
+    SANS_2             3.720      0.323     11.509      0.000
+    SANS_3             3.720      0.323     11.509      0.000
+    SANS_6             3.720      0.323     11.509      0.000
+    SANS_9             3.720      0.323     11.509      0.000
+    SANS_12            3.720      0.323     11.509      0.000
+    SANS_18            3.720      0.323     11.509      0.000
+    SANS_24            3.720      0.323     11.509      0.000
+
+
+R-SQUARE
+
+Class 1
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SANS_0             0.420      0.026     16.119      0.000
+    SANS_1             0.411      0.026     15.901      0.000
+    SANS_2             0.404      0.026     15.686      0.000
+    SANS_3             0.397      0.026     15.474      0.000
+    SANS_6             0.384      0.026     14.893      0.000
+    SANS_9             0.384      0.026     14.491      0.000
+    SANS_12            0.396      0.028     14.369      0.000
+    SANS_18            0.449      0.030     15.050      0.000
+    SANS_24            0.526      0.031     16.828      0.000
+
+Class 2
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SANS_0             0.660      0.030     21.917      0.000
+    SANS_1             0.652      0.030     21.508      0.000
+    SANS_2             0.644      0.031     21.116      0.000
+    SANS_3             0.638      0.031     20.741      0.000
+    SANS_6             0.625      0.032     19.742      0.000
+    SANS_9             0.625      0.033     19.038      0.000
+    SANS_12            0.636      0.034     18.794      0.000
+    SANS_18            0.686      0.034     19.993      0.000
+    SANS_24            0.748      0.032     23.428      0.000
+
+Class 3
+
+    Observed                                        Two-Tailed
+    Variable        Estimate       S.E.  Est./S.E.    P-Value
+
+    SANS_0             0.717      0.022     32.200      0.000
+    SANS_1             0.710      0.023     31.296      0.000
+    SANS_2             0.703      0.023     30.448      0.000
+    SANS_3             0.697      0.023     29.664      0.000
+    SANS_6             0.686      0.025     27.775      0.000
+    SANS_9             0.685      0.026     26.771      0.000
+    SANS_12            0.696      0.026     26.799      0.000
+    SANS_18            0.740      0.025     29.919      0.000
+    SANS_24            0.795      0.022     36.671      0.000
+
+
+CONFIDENCE INTERVALS OF MODEL RESULTS
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ I        |
+    SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ S        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           2.000       2.000       2.000       2.000       2.000       2.000       2.000
+    SANS_3           3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SANS_6           6.000       6.000       6.000       6.000       6.000       6.000       6.000
+    SANS_9           9.000       9.000       9.000       9.000       9.000       9.000       9.000
+    SANS_12         12.000      12.000      12.000      12.000      12.000      12.000      12.000
+    SANS_18         18.000      18.000      18.000      18.000      18.000      18.000      18.000
+    SANS_24         24.000      24.000      24.000      24.000      24.000      24.000      24.000
+
+ Q        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           4.000       4.000       4.000       4.000       4.000       4.000       4.000
+    SANS_3           9.000       9.000       9.000       9.000       9.000       9.000       9.000
+    SANS_6          36.000      36.000      36.000      36.000      36.000      36.000      36.000
+    SANS_9          81.000      81.000      81.000      81.000      81.000      81.000      81.000
+    SANS_12        144.000     144.000     144.000     144.000     144.000     144.000     144.000
+    SANS_18        324.000     324.000     324.000     324.000     324.000     324.000     324.000
+    SANS_24        576.000     576.000     576.000     576.000     576.000     576.000     576.000
+
+ CUB      |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           8.000       8.000       8.000       8.000       8.000       8.000       8.000
+    SANS_3          27.000      27.000      27.000      27.000      27.000      27.000      27.000
+    SANS_6         216.000     216.000     216.000     216.000     216.000     216.000     216.000
+    SANS_9         729.000     729.000     729.000     729.000     729.000     729.000     729.000
+    SANS_12       1728.000    1728.000    1728.000    1728.000    1728.000    1728.000    1728.000
+    SANS_18       5832.000    5832.000    5832.000    5832.000    5832.000    5832.000    5832.000
+    SANS_24      13824.000   13824.000   13824.000   13824.000   13824.000   13824.000   13824.000
+
+ I        WITH
+    S               -0.266      -0.245      -0.235      -0.180      -0.126      -0.115      -0.095
+    Q                0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ S        WITH
+    Q                0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Q        WITH
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Means
+    I                8.104       8.371       8.507       9.219       9.931      10.068      10.334
+    S               -1.275      -1.129      -1.054      -0.662      -0.270      -0.195      -0.049
+    Q               -0.002       0.016       0.025       0.073       0.121       0.131       0.149
+    CUB             -0.004      -0.004      -0.004      -0.002      -0.001       0.000       0.000
+
+ Intercepts
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                7.769       8.165       8.368       9.426      10.485      10.687      11.083
+    S                0.017       0.018       0.019       0.024       0.028       0.029       0.031
+    Q                0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Residual Variances
+    SANS_0          10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_1          10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_2          10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_3          10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_6          10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_9          10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_12         10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_18         10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_24         10.222      10.887      11.227      13.002      14.778      15.118      15.782
+
+Latent Class 2
+
+ I        |
+    SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ S        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           2.000       2.000       2.000       2.000       2.000       2.000       2.000
+    SANS_3           3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SANS_6           6.000       6.000       6.000       6.000       6.000       6.000       6.000
+    SANS_9           9.000       9.000       9.000       9.000       9.000       9.000       9.000
+    SANS_12         12.000      12.000      12.000      12.000      12.000      12.000      12.000
+    SANS_18         18.000      18.000      18.000      18.000      18.000      18.000      18.000
+    SANS_24         24.000      24.000      24.000      24.000      24.000      24.000      24.000
+
+ Q        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           4.000       4.000       4.000       4.000       4.000       4.000       4.000
+    SANS_3           9.000       9.000       9.000       9.000       9.000       9.000       9.000
+    SANS_6          36.000      36.000      36.000      36.000      36.000      36.000      36.000
+    SANS_9          81.000      81.000      81.000      81.000      81.000      81.000      81.000
+    SANS_12        144.000     144.000     144.000     144.000     144.000     144.000     144.000
+    SANS_18        324.000     324.000     324.000     324.000     324.000     324.000     324.000
+    SANS_24        576.000     576.000     576.000     576.000     576.000     576.000     576.000
+
+ CUB      |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           8.000       8.000       8.000       8.000       8.000       8.000       8.000
+    SANS_3          27.000      27.000      27.000      27.000      27.000      27.000      27.000
+    SANS_6         216.000     216.000     216.000     216.000     216.000     216.000     216.000
+    SANS_9         729.000     729.000     729.000     729.000     729.000     729.000     729.000
+    SANS_12       1728.000    1728.000    1728.000    1728.000    1728.000    1728.000    1728.000
+    SANS_18       5832.000    5832.000    5832.000    5832.000    5832.000    5832.000    5832.000
+    SANS_24      13824.000   13824.000   13824.000   13824.000   13824.000   13824.000   13824.000
+
+ I        WITH
+    S               -0.266      -0.245      -0.235      -0.180      -0.126      -0.115      -0.095
+    Q                0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ S        WITH
+    Q                0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Q        WITH
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Means
+    I                8.916       9.148       9.267       9.887      10.508      10.627      10.859
+    S               -1.612      -1.533      -1.493      -1.284      -1.075      -1.035      -0.957
+    Q                0.052       0.061       0.065       0.087       0.108       0.112       0.121
+    CUB             -0.003      -0.002      -0.002      -0.002      -0.001      -0.001      -0.001
+
+ Intercepts
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                7.769       8.165       8.368       9.426      10.485      10.687      11.083
+    S                0.017       0.018       0.019       0.024       0.028       0.029       0.031
+    Q                0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Residual Variances
+    SANS_0           3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_1           3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_2           3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_3           3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_6           3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_9           3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_12          3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_18          3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_24          3.282       3.659       3.852       4.861       5.869       6.062       6.440
+
+Latent Class 3
+
+ I        |
+    SANS_0           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_3           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_6           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_9           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_12          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_18          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_24          1.000       1.000       1.000       1.000       1.000       1.000       1.000
+
+ S        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           2.000       2.000       2.000       2.000       2.000       2.000       2.000
+    SANS_3           3.000       3.000       3.000       3.000       3.000       3.000       3.000
+    SANS_6           6.000       6.000       6.000       6.000       6.000       6.000       6.000
+    SANS_9           9.000       9.000       9.000       9.000       9.000       9.000       9.000
+    SANS_12         12.000      12.000      12.000      12.000      12.000      12.000      12.000
+    SANS_18         18.000      18.000      18.000      18.000      18.000      18.000      18.000
+    SANS_24         24.000      24.000      24.000      24.000      24.000      24.000      24.000
+
+ Q        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           4.000       4.000       4.000       4.000       4.000       4.000       4.000
+    SANS_3           9.000       9.000       9.000       9.000       9.000       9.000       9.000
+    SANS_6          36.000      36.000      36.000      36.000      36.000      36.000      36.000
+    SANS_9          81.000      81.000      81.000      81.000      81.000      81.000      81.000
+    SANS_12        144.000     144.000     144.000     144.000     144.000     144.000     144.000
+    SANS_18        324.000     324.000     324.000     324.000     324.000     324.000     324.000
+    SANS_24        576.000     576.000     576.000     576.000     576.000     576.000     576.000
+
+ CUB      |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    SANS_2           8.000       8.000       8.000       8.000       8.000       8.000       8.000
+    SANS_3          27.000      27.000      27.000      27.000      27.000      27.000      27.000
+    SANS_6         216.000     216.000     216.000     216.000     216.000     216.000     216.000
+    SANS_9         729.000     729.000     729.000     729.000     729.000     729.000     729.000
+    SANS_12       1728.000    1728.000    1728.000    1728.000    1728.000    1728.000    1728.000
+    SANS_18       5832.000    5832.000    5832.000    5832.000    5832.000    5832.000    5832.000
+    SANS_24      13824.000   13824.000   13824.000   13824.000   13824.000   13824.000   13824.000
+
+ I        WITH
+    S               -0.266      -0.245      -0.235      -0.180      -0.126      -0.115      -0.095
+    Q                0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ S        WITH
+    Q                0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Q        WITH
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Means
+    I                8.448       8.687       8.809       9.447      10.085      10.207      10.446
+    S               -0.156      -0.146      -0.140      -0.112      -0.083      -0.078      -0.067
+    Q                0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Intercepts
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                7.769       8.165       8.368       9.426      10.485      10.687      11.083
+    S                0.017       0.018       0.019       0.024       0.028       0.029       0.031
+    Q                0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    CUB              0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Residual Variances
+    SANS_0           2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_1           2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_2           2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_3           2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_6           2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_9           2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_12          2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_18          2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_24          2.887       3.086       3.188       3.720       4.251       4.353       4.552
+
+Categorical Latent Variables
+
+ Means
+    C#1             -1.420      -1.222      -1.121      -0.591      -0.062       0.040       0.238
+    C#2             -0.638      -0.489      -0.412      -0.012       0.388       0.465       0.615
+
+
+CONFIDENCE INTERVALS OF STANDARDIZED MODEL RESULTS
+
+
+STDYX Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ I        |
+    SANS_0           0.596       0.609       0.615       0.648       0.681       0.688       0.700
+    SANS_1           0.600       0.613       0.619       0.653       0.687       0.694       0.706
+    SANS_2           0.603       0.616       0.623       0.658       0.692       0.699       0.712
+    SANS_3           0.605       0.619       0.626       0.661       0.697       0.704       0.717
+    SANS_6           0.608       0.623       0.630       0.668       0.706       0.714       0.728
+    SANS_9           0.605       0.620       0.628       0.668       0.709       0.716       0.731
+    SANS_12          0.597       0.612       0.620       0.662       0.704       0.712       0.727
+    SANS_18          0.565       0.581       0.589       0.632       0.675       0.683       0.699
+    SANS_24          0.521       0.536       0.544       0.586       0.629       0.637       0.652
+
+ S        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.027       0.029       0.029       0.033       0.036       0.037       0.038
+    SANS_2           0.055       0.058       0.059       0.066       0.073       0.074       0.077
+    SANS_3           0.083       0.087       0.089       0.099       0.110       0.112       0.116
+    SANS_6           0.167       0.175       0.179       0.201       0.222       0.227       0.235
+    SANS_9           0.250       0.263       0.269       0.301       0.334       0.340       0.352
+    SANS_12          0.332       0.348       0.356       0.398       0.440       0.448       0.464
+    SANS_18          0.482       0.503       0.514       0.570       0.626       0.637       0.658
+    SANS_24          0.608       0.632       0.643       0.705       0.767       0.779       0.802
+
+ Q        |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ CUB      |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ I        WITH
+    S               -0.524      -0.490      -0.473      -0.382      -0.291      -0.273      -0.239
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ S        WITH
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Q        WITH
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Means
+    I                2.544       2.654       2.710       3.003       3.296       3.352       3.462
+    S               -8.325      -7.364      -6.872      -4.304      -1.736      -1.244      -0.283
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Intercepts
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    S                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Residual Variances
+    SANS_0           0.513       0.529       0.537       0.580       0.623       0.631       0.647
+    SANS_1           0.522       0.538       0.546       0.589       0.631       0.639       0.655
+    SANS_2           0.530       0.546       0.554       0.596       0.639       0.647       0.663
+    SANS_3           0.537       0.553       0.561       0.603       0.645       0.653       0.669
+    SANS_6           0.549       0.565       0.573       0.616       0.658       0.666       0.682
+    SANS_9           0.548       0.564       0.573       0.616       0.660       0.668       0.684
+    SANS_12          0.534       0.551       0.559       0.604       0.650       0.658       0.675
+    SANS_18          0.474       0.492       0.502       0.551       0.600       0.609       0.628
+    SANS_24          0.394       0.413       0.423       0.474       0.526       0.536       0.555
+
+Latent Class 2
+
+ I        |
+    SANS_0           0.765       0.776       0.782       0.812       0.843       0.849       0.860
+    SANS_1           0.772       0.784       0.790       0.822       0.854       0.860       0.872
+    SANS_2           0.778       0.790       0.797       0.831       0.864       0.871       0.884
+    SANS_3           0.782       0.796       0.803       0.838       0.874       0.881       0.894
+    SANS_6           0.788       0.803       0.811       0.852       0.893       0.901       0.917
+    SANS_9           0.782       0.799       0.807       0.853       0.898       0.907       0.924
+    SANS_12          0.764       0.782       0.791       0.840       0.888       0.898       0.916
+    SANS_18          0.701       0.720       0.730       0.781       0.832       0.842       0.861
+    SANS_24          0.620       0.639       0.649       0.700       0.750       0.760       0.779
+
+ S        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.034       0.036       0.036       0.041       0.046       0.047       0.049
+    SANS_2           0.068       0.072       0.074       0.083       0.093       0.095       0.098
+    SANS_3           0.103       0.108       0.111       0.126       0.141       0.144       0.149
+    SANS_6           0.208       0.219       0.225       0.256       0.287       0.293       0.305
+    SANS_9           0.312       0.329       0.338       0.385       0.431       0.440       0.457
+    SANS_12          0.412       0.434       0.445       0.505       0.564       0.576       0.598
+    SANS_18          0.588       0.616       0.630       0.704       0.778       0.793       0.820
+    SANS_24          0.723       0.751       0.766       0.841       0.916       0.931       0.959
+
+ Q        |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ CUB      |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ I        WITH
+    S               -0.524      -0.490      -0.473      -0.382      -0.291      -0.273      -0.239
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ S        WITH
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Q        WITH
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Means
+    I                2.865       2.950       2.994       3.220       3.447       3.491       3.575
+    S              -10.771     -10.192      -9.896      -8.348      -6.801      -6.505      -5.925
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Intercepts
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    S                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Residual Variances
+    SANS_0           0.263       0.281       0.291       0.340       0.390       0.399       0.418
+    SANS_1           0.270       0.289       0.299       0.348       0.398       0.408       0.426
+    SANS_2           0.277       0.296       0.306       0.356       0.406       0.416       0.434
+    SANS_3           0.283       0.302       0.312       0.362       0.413       0.423       0.441
+    SANS_6           0.293       0.313       0.322       0.375       0.427       0.437       0.456
+    SANS_9           0.291       0.311       0.321       0.375       0.429       0.439       0.460
+    SANS_12          0.276       0.297       0.308       0.364       0.419       0.430       0.451
+    SANS_18          0.226       0.247       0.258       0.314       0.371       0.382       0.403
+    SANS_24          0.170       0.190       0.200       0.252       0.305       0.315       0.335
+
+Latent Class 3
+
+ I        |
+    SANS_0           0.813       0.821       0.825       0.847       0.868       0.873       0.881
+    SANS_1           0.822       0.831       0.835       0.858       0.881       0.885       0.893
+    SANS_2           0.830       0.839       0.844       0.868       0.892       0.897       0.906
+    SANS_3           0.835       0.845       0.850       0.876       0.902       0.907       0.917
+    SANS_6           0.841       0.853       0.859       0.892       0.925       0.932       0.944
+    SANS_9           0.830       0.845       0.853       0.893       0.933       0.941       0.956
+    SANS_12          0.805       0.823       0.832       0.878       0.925       0.933       0.951
+    SANS_18          0.727       0.747       0.757       0.811       0.865       0.876       0.896
+    SANS_24          0.634       0.655       0.666       0.721       0.777       0.787       0.808
+
+ S        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.036       0.038       0.039       0.043       0.047       0.048       0.050
+    SANS_2           0.073       0.076       0.078       0.087       0.096       0.098       0.101
+    SANS_3           0.110       0.115       0.118       0.132       0.145       0.148       0.153
+    SANS_6           0.223       0.234       0.239       0.268       0.297       0.303       0.313
+    SANS_9           0.334       0.351       0.359       0.403       0.446       0.455       0.471
+    SANS_12          0.440       0.461       0.472       0.528       0.584       0.595       0.616
+    SANS_18          0.622       0.648       0.661       0.732       0.802       0.815       0.841
+    SANS_24          0.756       0.782       0.796       0.867       0.938       0.952       0.979
+
+ Q        |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ CUB      |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ I        WITH
+    S               -0.524      -0.490      -0.473      -0.382      -0.291      -0.273      -0.239
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ S        WITH
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Q        WITH
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Means
+    I                2.602       2.716       2.774       3.077       3.380       3.438       3.552
+    S               -1.044      -0.968      -0.929      -0.726      -0.523      -0.484      -0.408
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Intercepts
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    S                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Residual Variances
+    SANS_0           0.226       0.239       0.246       0.283       0.320       0.327       0.340
+    SANS_1           0.232       0.246       0.253       0.290       0.328       0.335       0.349
+    SANS_2           0.238       0.252       0.259       0.297       0.335       0.342       0.357
+    SANS_3           0.242       0.257       0.264       0.303       0.342       0.349       0.363
+    SANS_6           0.251       0.266       0.274       0.314       0.355       0.363       0.378
+    SANS_9           0.249       0.265       0.273       0.315       0.357       0.365       0.381
+    SANS_12          0.237       0.253       0.262       0.304       0.347       0.355       0.371
+    SANS_18          0.196       0.211       0.219       0.260       0.300       0.308       0.323
+    SANS_24          0.149       0.163       0.170       0.205       0.241       0.248       0.261
+
+
+STDY Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ I        |
+    SANS_0           0.596       0.609       0.615       0.648       0.681       0.688       0.700
+    SANS_1           0.600       0.613       0.619       0.653       0.687       0.694       0.706
+    SANS_2           0.603       0.616       0.623       0.658       0.692       0.699       0.712
+    SANS_3           0.605       0.619       0.626       0.661       0.697       0.704       0.717
+    SANS_6           0.608       0.623       0.630       0.668       0.706       0.714       0.728
+    SANS_9           0.605       0.620       0.628       0.668       0.709       0.716       0.731
+    SANS_12          0.597       0.612       0.620       0.662       0.704       0.712       0.727
+    SANS_18          0.565       0.581       0.589       0.632       0.675       0.683       0.699
+    SANS_24          0.521       0.536       0.544       0.586       0.629       0.637       0.652
+
+ S        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.027       0.029       0.029       0.033       0.036       0.037       0.038
+    SANS_2           0.055       0.058       0.059       0.066       0.073       0.074       0.077
+    SANS_3           0.083       0.087       0.089       0.099       0.110       0.112       0.116
+    SANS_6           0.167       0.175       0.179       0.201       0.222       0.227       0.235
+    SANS_9           0.250       0.263       0.269       0.301       0.334       0.340       0.352
+    SANS_12          0.332       0.348       0.356       0.398       0.440       0.448       0.464
+    SANS_18          0.482       0.503       0.514       0.570       0.626       0.637       0.658
+    SANS_24          0.608       0.632       0.643       0.705       0.767       0.779       0.802
+
+ Q        |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ CUB      |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ I        WITH
+    S               -0.524      -0.490      -0.473      -0.382      -0.291      -0.273      -0.239
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ S        WITH
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Q        WITH
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Means
+    I                2.544       2.654       2.710       3.003       3.296       3.352       3.462
+    S               -8.325      -7.364      -6.872      -4.304      -1.736      -1.244      -0.283
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Intercepts
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    S                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Residual Variances
+    SANS_0           0.513       0.529       0.537       0.580       0.623       0.631       0.647
+    SANS_1           0.522       0.538       0.546       0.589       0.631       0.639       0.655
+    SANS_2           0.530       0.546       0.554       0.596       0.639       0.647       0.663
+    SANS_3           0.537       0.553       0.561       0.603       0.645       0.653       0.669
+    SANS_6           0.549       0.565       0.573       0.616       0.658       0.666       0.682
+    SANS_9           0.548       0.564       0.573       0.616       0.660       0.668       0.684
+    SANS_12          0.534       0.551       0.559       0.604       0.650       0.658       0.675
+    SANS_18          0.474       0.492       0.502       0.551       0.600       0.609       0.628
+    SANS_24          0.394       0.413       0.423       0.474       0.526       0.536       0.555
+
+Latent Class 2
+
+ I        |
+    SANS_0           0.765       0.776       0.782       0.812       0.843       0.849       0.860
+    SANS_1           0.772       0.784       0.790       0.822       0.854       0.860       0.872
+    SANS_2           0.778       0.790       0.797       0.831       0.864       0.871       0.884
+    SANS_3           0.782       0.796       0.803       0.838       0.874       0.881       0.894
+    SANS_6           0.788       0.803       0.811       0.852       0.893       0.901       0.917
+    SANS_9           0.782       0.799       0.807       0.853       0.898       0.907       0.924
+    SANS_12          0.764       0.782       0.791       0.840       0.888       0.898       0.916
+    SANS_18          0.701       0.720       0.730       0.781       0.832       0.842       0.861
+    SANS_24          0.620       0.639       0.649       0.700       0.750       0.760       0.779
+
+ S        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.034       0.036       0.036       0.041       0.046       0.047       0.049
+    SANS_2           0.068       0.072       0.074       0.083       0.093       0.095       0.098
+    SANS_3           0.103       0.108       0.111       0.126       0.141       0.144       0.149
+    SANS_6           0.208       0.219       0.225       0.256       0.287       0.293       0.305
+    SANS_9           0.312       0.329       0.338       0.385       0.431       0.440       0.457
+    SANS_12          0.412       0.434       0.445       0.505       0.564       0.576       0.598
+    SANS_18          0.588       0.616       0.630       0.704       0.778       0.793       0.820
+    SANS_24          0.723       0.751       0.766       0.841       0.916       0.931       0.959
+
+ Q        |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ CUB      |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ I        WITH
+    S               -0.524      -0.490      -0.473      -0.382      -0.291      -0.273      -0.239
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ S        WITH
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Q        WITH
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Means
+    I                2.865       2.950       2.994       3.220       3.447       3.491       3.575
+    S              -10.771     -10.192      -9.896      -8.348      -6.801      -6.505      -5.925
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Intercepts
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    S                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Residual Variances
+    SANS_0           0.263       0.281       0.291       0.340       0.390       0.399       0.418
+    SANS_1           0.270       0.289       0.299       0.348       0.398       0.408       0.426
+    SANS_2           0.277       0.296       0.306       0.356       0.406       0.416       0.434
+    SANS_3           0.283       0.302       0.312       0.362       0.413       0.423       0.441
+    SANS_6           0.293       0.313       0.322       0.375       0.427       0.437       0.456
+    SANS_9           0.291       0.311       0.321       0.375       0.429       0.439       0.460
+    SANS_12          0.276       0.297       0.308       0.364       0.419       0.430       0.451
+    SANS_18          0.226       0.247       0.258       0.314       0.371       0.382       0.403
+    SANS_24          0.170       0.190       0.200       0.252       0.305       0.315       0.335
+
+Latent Class 3
+
+ I        |
+    SANS_0           0.813       0.821       0.825       0.847       0.868       0.873       0.881
+    SANS_1           0.822       0.831       0.835       0.858       0.881       0.885       0.893
+    SANS_2           0.830       0.839       0.844       0.868       0.892       0.897       0.906
+    SANS_3           0.835       0.845       0.850       0.876       0.902       0.907       0.917
+    SANS_6           0.841       0.853       0.859       0.892       0.925       0.932       0.944
+    SANS_9           0.830       0.845       0.853       0.893       0.933       0.941       0.956
+    SANS_12          0.805       0.823       0.832       0.878       0.925       0.933       0.951
+    SANS_18          0.727       0.747       0.757       0.811       0.865       0.876       0.896
+    SANS_24          0.634       0.655       0.666       0.721       0.777       0.787       0.808
+
+ S        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.036       0.038       0.039       0.043       0.047       0.048       0.050
+    SANS_2           0.073       0.076       0.078       0.087       0.096       0.098       0.101
+    SANS_3           0.110       0.115       0.118       0.132       0.145       0.148       0.153
+    SANS_6           0.223       0.234       0.239       0.268       0.297       0.303       0.313
+    SANS_9           0.334       0.351       0.359       0.403       0.446       0.455       0.471
+    SANS_12          0.440       0.461       0.472       0.528       0.584       0.595       0.616
+    SANS_18          0.622       0.648       0.661       0.732       0.802       0.815       0.841
+    SANS_24          0.756       0.782       0.796       0.867       0.938       0.952       0.979
+
+ Q        |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ CUB      |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ I        WITH
+    S               -0.524      -0.490      -0.473      -0.382      -0.291      -0.273      -0.239
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ S        WITH
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Q        WITH
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Means
+    I                2.602       2.716       2.774       3.077       3.380       3.438       3.552
+    S               -1.044      -0.968      -0.929      -0.726      -0.523      -0.484      -0.408
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Intercepts
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    S                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Residual Variances
+    SANS_0           0.226       0.239       0.246       0.283       0.320       0.327       0.340
+    SANS_1           0.232       0.246       0.253       0.290       0.328       0.335       0.349
+    SANS_2           0.238       0.252       0.259       0.297       0.335       0.342       0.357
+    SANS_3           0.242       0.257       0.264       0.303       0.342       0.349       0.363
+    SANS_6           0.251       0.266       0.274       0.314       0.355       0.363       0.378
+    SANS_9           0.249       0.265       0.273       0.315       0.357       0.365       0.381
+    SANS_12          0.237       0.253       0.262       0.304       0.347       0.355       0.371
+    SANS_18          0.196       0.211       0.219       0.260       0.300       0.308       0.323
+    SANS_24          0.149       0.163       0.170       0.205       0.241       0.248       0.261
+
+
+STD Standardization
+
+                  Lower .5%  Lower 2.5%    Lower 5%    Estimate    Upper 5%  Upper 2.5%   Upper .5%
+
+Latent Class 1
+
+ I        |
+    SANS_0           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_1           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_2           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_3           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_6           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_9           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_12          2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_18          2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_24          2.800       2.865       2.898       3.070       3.243       3.276       3.340
+
+ S        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.131       0.137       0.140       0.154       0.168       0.171       0.176
+    SANS_2           0.263       0.274       0.279       0.308       0.336       0.342       0.352
+    SANS_3           0.394       0.410       0.419       0.461       0.504       0.512       0.529
+    SANS_6           0.789       0.821       0.837       0.923       1.009       1.025       1.057
+    SANS_9           1.183       1.231       1.256       1.384       1.513       1.537       1.586
+    SANS_12          1.577       1.642       1.674       1.846       2.017       2.050       2.114
+    SANS_18          2.366       2.462       2.512       2.769       3.026       3.075       3.171
+    SANS_24          3.155       3.283       3.349       3.692       4.034       4.100       4.228
+
+ Q        |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ CUB      |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ I        WITH
+    S               -0.524      -0.490      -0.473      -0.382      -0.291      -0.273      -0.239
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ S        WITH
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Q        WITH
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Means
+    I                2.544       2.654       2.710       3.003       3.296       3.352       3.462
+    S               -8.325      -7.364      -6.872      -4.304      -1.736      -1.244      -0.283
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Intercepts
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    S                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Residual Variances
+    SANS_0          10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_1          10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_2          10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_3          10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_6          10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_9          10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_12         10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_18         10.222      10.887      11.227      13.002      14.778      15.118      15.782
+    SANS_24         10.222      10.887      11.227      13.002      14.778      15.118      15.782
+
+Latent Class 2
+
+ I        |
+    SANS_0           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_1           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_2           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_3           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_6           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_9           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_12          2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_18          2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_24          2.800       2.865       2.898       3.070       3.243       3.276       3.340
+
+ S        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.131       0.137       0.140       0.154       0.168       0.171       0.176
+    SANS_2           0.263       0.274       0.279       0.308       0.336       0.342       0.352
+    SANS_3           0.394       0.410       0.419       0.461       0.504       0.512       0.529
+    SANS_6           0.789       0.821       0.837       0.923       1.009       1.025       1.057
+    SANS_9           1.183       1.231       1.256       1.384       1.513       1.537       1.586
+    SANS_12          1.577       1.642       1.674       1.846       2.017       2.050       2.114
+    SANS_18          2.366       2.462       2.512       2.769       3.026       3.075       3.171
+    SANS_24          3.155       3.283       3.349       3.692       4.034       4.100       4.228
+
+ Q        |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ CUB      |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ I        WITH
+    S               -0.524      -0.490      -0.473      -0.382      -0.291      -0.273      -0.239
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ S        WITH
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Q        WITH
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Means
+    I                2.865       2.950       2.994       3.220       3.447       3.491       3.575
+    S              -10.771     -10.192      -9.896      -8.348      -6.801      -6.505      -5.925
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Intercepts
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    S                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Residual Variances
+    SANS_0           3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_1           3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_2           3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_3           3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_6           3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_9           3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_12          3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_18          3.282       3.659       3.852       4.861       5.869       6.062       6.440
+    SANS_24          3.282       3.659       3.852       4.861       5.869       6.062       6.440
+
+Latent Class 3
+
+ I        |
+    SANS_0           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_1           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_2           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_3           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_6           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_9           2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_12          2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_18          2.800       2.865       2.898       3.070       3.243       3.276       3.340
+    SANS_24          2.800       2.865       2.898       3.070       3.243       3.276       3.340
+
+ S        |
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.131       0.137       0.140       0.154       0.168       0.171       0.176
+    SANS_2           0.263       0.274       0.279       0.308       0.336       0.342       0.352
+    SANS_3           0.394       0.410       0.419       0.461       0.504       0.512       0.529
+    SANS_6           0.789       0.821       0.837       0.923       1.009       1.025       1.057
+    SANS_9           1.183       1.231       1.256       1.384       1.513       1.537       1.586
+    SANS_12          1.577       1.642       1.674       1.846       2.017       2.050       2.114
+    SANS_18          2.366       2.462       2.512       2.769       3.026       3.075       3.171
+    SANS_24          3.155       3.283       3.349       3.692       4.034       4.100       4.228
+
+ Q        |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ CUB      |
+    SANS_0         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_1         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_2         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_3         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_6         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_9         999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_12        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_18        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    SANS_24        999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ I        WITH
+    S               -0.524      -0.490      -0.473      -0.382      -0.291      -0.273      -0.239
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ S        WITH
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Q        WITH
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Means
+    I                2.602       2.716       2.774       3.077       3.380       3.438       3.552
+    S               -1.044      -0.968      -0.929      -0.726      -0.523      -0.484      -0.408
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Intercepts
+    SANS_0           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_1           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_2           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_3           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_6           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_9           0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_12          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_18          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+    SANS_24          0.000       0.000       0.000       0.000       0.000       0.000       0.000
+
+ Variances
+    I                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    S                1.000       1.000       1.000       1.000       1.000       1.000       1.000
+    Q              999.000     999.000     999.000     999.000     999.000     999.000     999.000
+    CUB            999.000     999.000     999.000     999.000     999.000     999.000     999.000
+
+ Residual Variances
+    SANS_0           2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_1           2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_2           2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_3           2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_6           2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_9           2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_12          2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_18          2.887       3.086       3.188       3.720       4.251       4.353       4.552
+    SANS_24          2.887       3.086       3.188       3.720       4.251       4.353       4.552
+
+
+TECHNICAL 7 OUTPUT
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 1
+
+
+           Means
+              SANS_0        SANS_1        SANS_2        SANS_3        SANS_6
+              ________      ________      ________      ________      ________
+               10.021         7.697         7.171         7.684         7.656
+
+
+           Means
+              SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________
+                8.124         8.599         7.820         5.961
+
+
+           Covariances
+              SANS_0        SANS_1        SANS_2        SANS_3        SANS_6
+              ________      ________      ________      ________      ________
+ SANS_0        17.357
+ SANS_1         8.758        16.957
+ SANS_2         8.149        11.900        16.376
+ SANS_3         5.546         7.910         8.844        19.531
+ SANS_6         4.779         4.316         3.681         7.083        20.516
+ SANS_9        11.562         5.645         4.303         2.199         1.120
+ SANS_12        8.849         2.781         3.575         0.634         3.228
+ SANS_18        7.153        14.617         4.840         1.814         3.311
+ SANS_24        8.505         6.073        -0.807         2.369         0.624
+
+
+           Covariances
+              SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________
+ SANS_9        21.679
+ SANS_12       14.431        21.123
+ SANS_18        9.234        10.047        22.763
+ SANS_24        8.844         5.871         6.492        18.394
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 2
+
+
+           Means
+              SANS_0        SANS_1        SANS_2        SANS_3        SANS_6
+              ________      ________      ________      ________      ________
+               10.208         8.650         7.315         6.779         5.249
+
+
+           Means
+              SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________
+                4.446         4.144         4.619         5.046
+
+
+           Covariances
+              SANS_0        SANS_1        SANS_2        SANS_3        SANS_6
+              ________      ________      ________      ________      ________
+ SANS_0        13.216
+ SANS_1         9.535        12.264
+ SANS_2         9.664        13.983        14.769
+ SANS_3         7.593        12.624        13.208        13.622
+ SANS_6         7.396         8.723         9.647         7.852        11.043
+ SANS_9         6.177         6.902         7.294         6.046         5.431
+ SANS_12        5.216         6.814         6.302         5.838         5.528
+ SANS_18        4.493         7.487         6.915         6.141         5.283
+ SANS_24        4.683         7.287         4.907         6.466         6.940
+
+
+           Covariances
+              SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________
+ SANS_9         9.178
+ SANS_12        5.046         9.568
+ SANS_18        5.546         5.572        11.991
+ SANS_24        6.403         6.614         9.793        15.152
+
+
+     SAMPLE STATISTICS WEIGHTED BY ESTIMATED CLASS PROBABILITIES FOR CLASS 3
+
+
+           Means
+              SANS_0        SANS_1        SANS_2        SANS_3        SANS_6
+              ________      ________      ________      ________      ________
+                9.550         9.394         8.976         9.129         8.989
+
+
+           Means
+              SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________
+                8.572         8.244         7.268         6.700
+
+
+           Covariances
+              SANS_0        SANS_1        SANS_2        SANS_3        SANS_6
+              ________      ________      ________      ________      ________
+ SANS_0        14.411
+ SANS_1        14.158        13.813
+ SANS_2        11.736        15.404        14.152
+ SANS_3        11.578        14.250        11.637        14.111
+ SANS_6         9.229        14.622         9.717         9.308        13.544
+ SANS_9        10.750        12.250         8.460         7.506         8.468
+ SANS_12       10.816        10.871         7.809         8.281         8.333
+ SANS_18        9.509        14.802        11.049        11.002         9.598
+ SANS_24        9.231        13.174         9.034         9.032         9.469
+
+
+           Covariances
+              SANS_9        SANS_12       SANS_18       SANS_24
+              ________      ________      ________      ________
+ SANS_9        14.093
+ SANS_12       10.779        15.839
+ SANS_18       10.922        12.094        18.053
+ SANS_24       10.415        13.500        16.472        20.913
+
+
+TECHNICAL 11 OUTPUT
+
+     Random Starts Specifications for the k-1 Class Analysis Model
+        Number of initial stage random starts                 500
+        Number of final stage optimizations                   125
+
+
+
+     VUONG-LO-MENDELL-RUBIN LIKELIHOOD RATIO TEST FOR 2 (H0) VERSUS 3 CLASSES
+
+          H0 Loglikelihood Value                       -11152.965
+          2 Times the Loglikelihood Difference            140.524
+          Difference in the Number of Parameters                6
+          Mean                                              0.828
+          Standard Deviation                               24.682
+          P-Value                                          0.0001
+
+     LO-MENDELL-RUBIN ADJUSTED LRT TEST
+
+          Value                                           137.022
+          P-Value                                          0.0001
+
+
+SAMPLE STATISTICS FOR ESTIMATED FACTOR SCORES
+
+
+     SAMPLE STATISTICS
+
+
+           Means
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+                9.569        -0.687         0.050        -0.001         9.593
+
+
+           Means
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+               -0.674         0.047        -0.001
+
+
+           Covariances
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+ I              7.459
+ S             -0.002         0.143
+ Q             -0.010        -0.009         0.001
+ CUB            0.000         0.000         0.000         0.000
+ C_I            7.599        -0.072        -0.005         0.000         7.954
+ C_S           -0.017         0.185        -0.012         0.000        -0.195
+ C_Q           -0.009        -0.012         0.001         0.000         0.003
+ C_CUB          0.000         0.000         0.000         0.000         0.000
+
+
+           Covariances
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+ C_S            0.307
+ C_Q           -0.022         0.002
+ C_CUB          0.000         0.000         0.000
+
+
+           Correlations
+              I             S             Q             CUB           C_I
+              ________      ________      ________      ________      ________
+ I              1.000
+ S             -0.002         1.000
+ Q             -0.132        -0.899         1.000
+ CUB            0.128         0.767        -0.960         1.000
+ C_I            0.987        -0.067        -0.066         0.072         1.000
+ C_S           -0.011         0.881        -0.818         0.703        -0.125
+ C_Q           -0.083        -0.784         0.871        -0.830         0.028
+ C_CUB          0.088         0.691        -0.852         0.875        -0.007
+
+
+           Correlations
+              C_S           C_Q           C_CUB
+              ________      ________      ________
+ C_S            1.000
+ C_Q           -0.937         1.000
+ C_CUB          0.835        -0.968         1.000
+
+
+PLOT INFORMATION
+
+The following plots are available:
+
+  Histograms (sample values, estimated factor scores, estimated values, residuals)
+  Scatterplots (sample values, estimated factor scores, estimated values, residuals)
+  Sample means
+  Estimated means, medians, modes, and percentiles
+  Sample and estimated means
+  Latent variable distribution plots
+  Observed individual values
+  Estimated individual values
+  Estimated means and observed individual values
+  Estimated means and estimated individual values
+  Estimated overall and class-specific distributions
+
+SAVEDATA INFORMATION
+
+
+  Save file
+    GMM_CI_isq@0cub@0_C_est.dat
+
+  Order and format of variables
+
+    SANS_0         F10.3
+    SANS_1         F10.3
+    SANS_2         F10.3
+    SANS_3         F10.3
+    SANS_6         F10.3
+    SANS_9         F10.3
+    SANS_12        F10.3
+    SANS_18        F10.3
+    SANS_24        F10.3
+    I              F10.3
+    S              F10.3
+    Q              F10.3
+    CUB            F10.3
+    C_I            F10.3
+    C_S            F10.3
+    C_Q            F10.3
+    C_CUB          F10.3
+    CPROB1         F10.3
+    CPROB2         F10.3
+    CPROB3         F10.3
+    C              F10.3
+    PIN            I4
+
+  Save file format
+    21F10.3 I4
+
+  Save file record length    10000
+
+  Save missing symbol        *
+
+
+     Beginning Time:  08:25:04
+        Ending Time:  08:27:56
+       Elapsed Time:  00:02:52
+
+
+
+MUTHEN & MUTHEN
+3463 Stoner Ave.
+Los Angeles, CA  90066
+
+Tel: (310) 391-9971
+Fax: (310) 391-8971
+Web: www.StatModel.com
+Support: Support@StatModel.com
+
+Copyright (c) 1998-2021 Muthen & Muthen
