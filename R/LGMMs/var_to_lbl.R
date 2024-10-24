@@ -14,6 +14,7 @@ var_to_lbl <- function(df, col) {
       str_detect({{col}}, regex("HOLLTOTP", ignore_case = TRUE)) ~ "Socioeconomic status",
       str_detect({{col}}, regex("PAS_tot2", ignore_case = TRUE)) ~ "Premorbid adjustment",
       str_detect({{col}}, regex("AGEONSET", ignore_case = TRUE)) ~ "Onset",
+      str_detect({{col}}, regex("DUP_log", ignore_case = TRUE)) ~ "Duration of untreated psychosis",
       str_detect({{col}}, regex("DUPONSET", ignore_case = TRUE)) ~ "Duration of untreated psychosis",
       str_detect({{col}}, regex("DUI", ignore_case = TRUE)) ~ "Duration of untreated illness",
       str_detect({{col}}, regex("MODE", ignore_case = TRUE)) ~ "Mode of onset",
