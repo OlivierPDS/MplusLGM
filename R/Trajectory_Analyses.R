@@ -141,7 +141,7 @@ RX <-  c(ord, adh, CPZ)
 
 
 ## covariates
-cov_R3STEP <- c("ageentry", "gender", "Vmin", "FIQ", "EDUC_num", "NEET", "INDPT", "REL", "holltotp", "PAS_tot2", "ageonset", "duponset", "mode", "ip_op", "dx_b2", "CPZ_0", "comp_0", "SOFAS_0", "SAPS_0", "SANS_0", "HAS_0", "CDS_0", "SUMD1_0", "SUD", COGSTATE, RESP50)
+cov_R3STEP <- c("ageentry", "gender", "Vmin", "FIQ", "EDUC_num", "NEET", "INDPT", "REL", "holltotp", "PAS_tot2", "ageonset","DUP_log", "mode", "ip_op", "dx_b2", "CPZ_0", "comp_0", "SOFAS_0", "SAPS_0", "SANS_0", "HAS_0", "CDS_0", "SUMD1_0", "SUD", COGSTATE, RESP50)
 #"CAYRconv", "txm0co", "SUMD2_0", "SUMD3_0", "cd8_0", YMRS)
 cov_MixReg <- c(SOFAS, SX, PSR, NSR, JSR)
 cov_D3STEP <- c("CPZ_24", "comp_24", "SOFAS_24", SX_24, RSWG) %>% setdiff(c('cd8_24', "JSR_by3", "JSR_at3", "JSR_at6", YMRS)) #txm24co
@@ -151,7 +151,7 @@ cov_D3STEP <- c("CPZ_24", "comp_24", "SOFAS_24", SX_24, RSWG) %>% setdiff(c('cd8
 # items <- sap1_0:umd_6b_24
 
 ## Categorical variables to recode as factors
-cat <- c(SD_cat, WRK1, HOUS1, HOUS2, CLIN_cat, FUNC_cat, DX, SR_cat, ord)
+cat <- c(SD_cat, WRK1, HOUS1, HOUS2, CLIN_cat, FUNC_cat, DX, SR_cat, ord, "DUP_cat")
 
 # Load dataset ------------------------------------------------------------
 PEPP2_df <- list.files(
@@ -166,7 +166,7 @@ PEPP2_df <- list.files(
 SD_df <- PEPP2_df %>% 
   # filter(selected == 1) %>% 
   filter(pin <= 857) %>% 
-  select('pin', all_of(c(cov_R3STEP, cov_MixReg, cov_D3STEP)), starts_with('miss'), ends_with("_SOFAS|_SAPS|_SANS")) %>% 
+  select('pin', all_of(c(cov_R3STEP, cov_MixReg, cov_D3STEP)), starts_with(c('miss')), ends_with("_SOFAS|_SAPS|_SANS")) %>% 
   mutate(across(any_of(cat), ~ to_factor(.x, levels = 'labels'))) %>% #Recode labelled variables as factor 
   mutate(across(c(-any_of(cat), -where(is.Date)), ~ as.numeric(as.character(.)))) %>% #Recode labelled variables as numeric
   mutate(gender = fct_collapse(gender, male = 'Male', female = c('Female', 'other'))) %>% 
@@ -366,12 +366,12 @@ R3STEP_models <- R3STEP(
   df = SOFAS_df,
   idvar = 'pin',
   usevar = SOFAS,
-  cov = setdiff(cov_R3STEP, c('SOFAS_0')),
+  cov = setdiff(cov_R3STEP, c('SOFAS_0', 'NEET')),
   model = FINAL_model
 )
 
 R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 1)
-  # filter(pval <= (0.05 / length(R3STEP_models))) %>%
+  # filter(pval <= (0.05 / length(R3STEP_models)))
   # filter(str_detect(paramHeader, "C#\\d.ON")) %>%
   # filter(is.na(errors)) %>%
   # select(-warnings, -errors)
@@ -788,12 +788,12 @@ mplus.plot.estimated_means("/Users/olivierpercie/Desktop/LGM/SAPS/689/Results/LC
      df = SAPS_df,
      idvar = 'pin',
      usevar = SAPS,
-     cov = setdiff(cov_R3STEP, c('SAPS_0', 'PSR_at3', 'RESP50_SAPS', 'RESP50_tot')),
+     cov = setdiff(cov_R3STEP, c('PSR_at3', 'RESP50_tot')),
      model = FINAL_model
    )
    
    R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 1)
-     # filter(pval < (0.05 / length(R3STEP_models))) %>%
+     # R3STEP_dup <-R3STEP_dup %>%  filter(pval < (0.05 / (length(R3STEP_models)-3))) %>%
      # filter(str_detect(paramHeader, "C#\\d.ON")) %>%
      # filter(is.na(errors)) %>%
      # select(-warnings, -errors)
@@ -1177,7 +1177,7 @@ R3STEP_models <- R3STEP(
 )
 
 R3STEP_unstd <- R3STEPfit(R3STEP_models, std = 'unstd', ref = 3)
-  # filter(pval <= (0.05 / length(R3STEP_models))) %>%
+  # filter(pval <= (0.05 / (length(R3STEP_models))))
   # filter(str_detect(paramHeader, "C#\\d.ON")) %>%
   # filter(is.na(errors)) %>%
   # select(-warnings, -errors)
