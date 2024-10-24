@@ -8,7 +8,7 @@ output: html_document
 ```{r setup, include = FALSE} 
 knitr::opts_chunk$set(warning = FALSE, message = FALSE, echo = FALSE)
 options(scipen = 999)
-options(digits = 3)
+options(digits = 5)
 ```
 
 ```{r packages} 
@@ -378,14 +378,14 @@ pluck(env, "SOFAS.env", "FINAL_fit") %>%
 ```
 
 ### Predictors of class membership 
-```{r}
+```{r} 
 SOFAS_R3SETP %>%
   knitr::kable(format = "html", align = "l", table.attr = "style='width:90%;'") %>%
   kableExtra::kable_styling()
 ```
 
 <!-- ### Time-varying predictors of primary outome -->
-```{r, eval = FALSE}
+```{r, eval = FALSE} 
 pluck(env, "SOFAS.env", "TVCreg_stdyx") %>%
   filter(str_detect(param, "^PSR", negate = TRUE)) %>%
   filter(pval < (0.05 / length(env$SOFAS.env$TVCreg_models))) %>%
@@ -506,7 +506,7 @@ desc_tbl %>%
   save_as_docx(path = file.path(dir, "Table1_SD.docx"))
 ```
 
-## Supplementary Table 1, 2. Descritpives stats by traj 
+## Supplementary Table 4, 6. Descritpives stats by traj 
 ```{r} 
   traj_df <- env %>%
   tail(-1) %>%
@@ -589,7 +589,7 @@ traj_desc <- map(traj_desc,
   # width(width = 1, j = c('n_1', 'n_2', 'n_3'), unit = "cm"))
   # width(width = 1.75, j = c('p.value_1', 'p.value_2', 'p.value_3'), unit = "cm") %>% 
   # width(width = 10, j = 1, unit = "cm") %>%
-  set_caption(caption = as_paragraph(as_b("Supplementary Table 12. "), "Baseline and Distal sociodemographic, functional and clinical characteristics across trajectories."), align_with_table = FALSE, fp_p = fp_par(text.align = "left")) %>%
+  set_caption(caption = as_paragraph(as_b("Supplementary Table 45. "), "Baseline and Distal sociodemographic, functional and clinical characteristics across trajectories."), align_with_table = FALSE, fp_p = fp_par(text.align = "left")) %>%
   add_footer_lines(values = "CDS: Calgary depression scale, CPZeq: Chlorpromazine equivalent, DUP: Duration of untreated psychosis, HAS: Hamilton anxiety scale, NEET: Not in employment, education or training, NS: Negative symptoms, PAS: Premorbid adjustment scale, PS: Positive symptoms, SANS: Scale for the assessment of negative symptoms, SAPS: Scale for the assessment of positive symptoms, SES: Socioeconomic status, SOFAS: Social occupational functioning scale, SUD: Substance use disorder, SSD: Schizophrenia spectrum disorder, SUMD: Scale to assess awareness in mental disorder, YMRS: Young mania rating scale."))
 
 iwalk(traj_desc, \(x, idx) save_as_docx(x, path = glue(dir, "SupplementaryTable{idx}_SD_traj.docx", .sep = "/"),
@@ -638,7 +638,7 @@ summary_tbl %>%
                                          page_margins = page_mar(1, 1, 0.5, 0.5)))
 ```
 
-## Supplementary Tables 3, 4, 5. Summary of all models 
+## Supplementary Tables 1, 2, 3. Summary of all models 
 ```{r}
 all_tbl <- map(env[2:4], \(x) map(c("GCM_fit", "GBTM_fit", "LCGA_fit", "GMMci_fit", "GMMcv_fit"), \(y) pluck(x, y))) %>% 
   map_depth(1, \(x) modify_if(x, \(x) is.data.frame(x) == FALSE, \(x) tail(x, -1))) %>% 
@@ -786,17 +786,36 @@ traj_plot <- (plots$SAPS.env / plots$SANS.env / plots$SOFAS.env) &
   theme(text = element_text(size = 13, family = "Times New Roman"), 
         legend.text = element_text(size = 13))
 
-traj_plot <- traj_plot + 
-  plot_annotation(
-    title = bquote(bold("Figure 1.") ~ "Estimated latent trajectories of outcome over 2-year early intervention services."),
-    caption = "Observed individuals trajectories are plotted in the background.",
-    theme = theme(text = element_text(size = 13, family = "Times New Roman"),
-                  plot.caption = element_text(hjust = 0, size = 13)
-                  )
-    )
+# traj_plot <- traj_plot + 
+#   plot_annotation(
+#     title = bquote(bold("Figure 1.") ~ "Estimated latent trajectories of outcome over 2-year early intervention services."),
+#     caption = "Observed individuals trajectories are plotted in the background.",
+#     theme = theme(text = element_text(size = 13, family = "Times New Roman"),
+#                   plot.caption = element_text(hjust = 0, size = 13)
+#                   )
+#     )
 
 # extrafont::loadfonts()
-ggsave(traj_plot, filename = file.path(dir, "Figure1_Trajectories2.jpeg"), height = 45, width = 40, units = "cm", dpi = 600)
+ggsave(traj_plot, filename = file.path(dir, "Figure1_Trajectories.tiff"), height = 45, width = 40, units = "cm", dpi = 300, compression = "lzw")
+```
+
+## Pie charts 
+```{r} 
+
+pie_data <- env$SAPS.env$SAPS_df %>%
+  filter(!is.na(C_SAPS) & !is.na(PSR)) %>% 
+  group_by(C_SAPS, PSR) %>%
+  summarise(count = n()) %>%
+  mutate(percentage = count / sum(count) * 100) %>% 
+  ungroup()
+  
+pies <- map(c(1, 2), \(n) pie_data %>% filter(C_SAPS == n)) %>% 
+  map(\(df) plot_ly(df, labels = ~PSR, values = ~percentage, type = 'pie'))
+
+  
+  
+# layout(title = "Interactive Pie Chart of Categories")
+# map(\(df) pie(df$percentage, labels = PSR))
 ```
 
 ## Figure 2. Circle plots 
@@ -811,7 +830,7 @@ circle_df <- env %>%
   mutate(across(all_of(C), ~ to_factor(., levels = "values"))) %>% 
   mutate(C_SOFAS = labelled(C_SOFAS, labels = c('Stable-moderate' = 1, 'Increasing' = 2), label = c('Functioning trajectories'))) %>% 
   mutate(C_SAPS = labelled(C_SAPS, labels = c('Fluctuating' = 1, 'Stable-low' = 2), label = c('Positive symptoms trajectories'))) %>% 
-  mutate(C_SANS = labelled(C_SANS, labels = c('Fluctuating' = 1, 'Decreasing' = 2, 'Stable-high' = 3), label = c('Positive symptoms trajectories'))) %>% 
+  mutate(C_SANS = labelled(C_SANS, labels = c('Fluctuating ' = 1, 'Decreasing' = 2, 'Stable-high' = 3), label = c('Positive symptoms trajectories'))) %>% 
   mutate(across(all_of(C), ~ to_factor(., levels = "labels")))
 ```
 
@@ -850,7 +869,7 @@ circle_df2 <- circle_df %>%
   mutate(across(c(SANS_n, SOFAS_n), ~ round(count/. * 100, 0), .names = '{.col}_pct'))
 
 circle_df3 <- circle_df %>%
-  mutate(C_SANS = fct_recode(C_SANS, "Fluctuating " = "Fluctuating")) %>% 
+  # mutate(C_SANS = fct_recode(C_SANS, "Fluctuating " = "Fluctuating")) %>% 
   na.omit() %>% 
   group_by(C_SANS) %>%
   mutate(SANS_n = n()) %>% 
@@ -933,32 +952,48 @@ RR_SANS_SOFAS <- wald_SANS_SOFAS %>%
   
   
 #### SAPS / SANS
-wald_SAPS_SANS <- map(
+wald_SANS_SAPS <- map(
   list("neither", "columns", "rows", "both"),
   ~ riskratio(
-    table(factor(circle_df$C_SANS, levels = c("Stable-high", "Fluctuating", "Decreasing")), circle_df$C_SAPS),
+    table(factor(circle_df$C_SANS, levels = c("Stable-high", "Fluctuating ", "Decreasing")), circle_df$C_SAPS),
     method = "wald", rev = .x, verbose = TRUE
   )
 )
 
-links_SAPS_SANS <- wald_SAPS_SANS %>% 
+# wald_SAPS_SANS <- map(
+#   list("neither", "columns", "rows", "both"),
+#   ~ riskratio(
+#     table(factor(circle_df$C_SAPS, levels = c("Stable-low", "Fluctuating")), factor(circle_df$C_SANS, levels = c( "Decreasing", "Fluctuating ", "Stable-high"))),
+#     method = "wald", rev = .x, verbose = TRUE
+#   )
+# )
+
+links_SANS_SAPS <- wald_SANS_SAPS %>% 
   map(~ pluck(.x, "data")) %>% 
   map(~ as.data.frame(.x)) %>%
   map(~ list(paste(rownames(.x)[2], colnames(.x)[2], sep = " - "),
              paste(rownames(.x)[3], colnames(.x)[2], sep = " - ")))
 
-RR_SAPS_SANS <- wald_SAPS_SANS %>% 
+# RR_SAPS_SANS <- wald_SAPS_SANS %>% 
+#   map(~ pluck(.x, "measure")) %>%
+#   map(~ as.data.frame(.x)) %>%
+#   map(~ slice(.x, -1)) %>%  
+#   map(~ pull(.x, "estimate")) %>% 
+#   {tibble(link = unlist(links_SAPS_SANS), RR = round(unlist(.), 2))}
+
+
+RR_SANS_SAPS <- wald_SANS_SAPS %>% 
   map(~ pluck(.x, "measure")) %>%
   map(~ as.data.frame(.x)) %>%
   map(~ list(slice(.x, 2), slice(.x, 3))) %>%
   map_depth(2, ~ pull(.x, "estimate")) %>% 
-  {tibble(link = unlist(links_SAPS_SANS), RR = round(unlist(.), 2))} %>% 
+  {tibble(link = unlist(links_SANS_SAPS), RR = round(unlist(.), 2))} %>% 
   distinct(link, .keep_all = TRUE)
 ```
 
 ### SOFAS/SAPS 
 ```{r} 
-jpeg(file.path(dir, "Figure2_CirclePlot.jpeg"), height = 16, width = 35, units = 'cm', res = 600)
+tiff(file.path(dir, "Figure2_CirclePlot.tiff"), height = 16, width = 35, units = 'cm', res = 300) # bg = 'transparent'
 
 par(family = "Times New Roman", ps = 12, adj = 0.5, mfrow = c(1, 3),
     mar = c(0, 0, 0, 0), 
@@ -1015,11 +1050,11 @@ pwalk(list(.circle1$cn, .circle1$x2, .circle1$value2, circle_df1$SOFAS_n_pct),
             facing = "clockwise", niceFacing = TRUE, ps = 10, cex = 1.2))
 
 ### Title
-mtext(text = expression(paste(bold('Figure 2. '), 'Cross-distribution of individuals between', bold(' A. '), 'positive symptoms and functioing trajectories,',  bold(' B. '), 'negative symptoms and functioning trajectories, and',  bold(' C. '), 'positive and negative symptoms trajectories.')),
-  side = 3,
-  line = -1.5,
-  adj = 0,
-)
+# mtext(text = expression(paste(bold('Figure 2. '), 'Cross-distribution of individuals between', bold(' A. '), 'positive symptoms and functioing trajectories,',  bold(' B. '), 'negative symptoms and functioning trajectories, and',  bold(' C. '), 'positive and negative symptoms trajectories.')),
+#   side = 3,
+#   line = -1.5,
+#   adj = 0,
+# )
 
 mtext(text = expression(bold('A.')),
   side = 1,
@@ -1027,13 +1062,13 @@ mtext(text = expression(bold('A.')),
   adj = 0,
 )
 
-mtext(
-  text = "Each link represents the number of intersecting individuals between the two trajectories it connects, along with the corresponding proportions it represents in each of these trajectories. 
-For example, 76% of individuals from the Stable-low trajectory of positive symptoms also belong to the Increasing trajectory of functioing, represanting 44% of it.",
-  side = 1,
-  line = -1.5,
-  adj = 0,
-)
+# mtext(
+#   text = "Each link represents the number of intersecting individuals between the two trajectories it connects, along with the corresponding proportions it represents in each of these trajectories. 
+# For example, 76% of individuals from the Stable-low trajectory of positive symptoms also belong to the Increasing trajectory of functioing, represanting 44% of it.",
+#   side = 1,
+#   line = -1.5,
+#   adj = 0,
+# )
 
 ```
 
@@ -1041,9 +1076,9 @@ For example, 76% of individuals from the Stable-low trajectory of positive sympt
 ```{r} 
 par(ps = 15)
 .circle2 <- chordDiagram(select(circle_df2, 1:3),
-             order = c('Stable-moderate', 'Increasing', 'Decreasing', 'Fluctuating',  'Stable-high'),
+             order = c('Stable-moderate', 'Increasing', 'Decreasing', 'Fluctuating ',  'Stable-high'),
               grid.col = c('Decreasing' = '#36AE7C', 
-                          'Fluctuating' = '#4D96FF', 
+                          'Fluctuating ' = '#4D96FF', 
                           'Stable-high' = '#EB5353',
                           'Stable-moderate' = 'grey',
                           'Increasing' = 'grey'),
@@ -1188,7 +1223,224 @@ i <- 3
 
 ```{r, include = FALSE} 
 #### Plot
-png(file.path(dir, "Figure3_ForestPlotR3STEP_OR.png"), pointsize = 11, height = 20, width = 30, units = "cm", bg = "transparent",res = 600)
+tiff(file.path(dir, "Figure3_ForestPlotR3STEP_OR.tiff"), pointsize = 11, height = 20, width = 30, units = "cm", res = 300, compression = "lzw") # bg = "transparent"
+
+par(mar = c(bottom = 5, left = 0, top = 0, right = 0))
+R3STEP_forest <- forest.default(
+  slab = R3STEP_df$paramHeader,
+  # ilab = cbind(R3STEP_df$`mean_est2`, R3STEP_df$`mean_est1`, R3STEP_df$`mean_est3`),
+  ilab.xpos = seq(from = -4, to = -1, length.out = 3),
+  # ilab.xpos = seq(from = -9.5, to = -6.5, length.out = 3),
+  x = R3STEP_df$OR_est,
+  ci.lb = R3STEP_df$OR_low2.5,
+  ci.ub = R3STEP_df$OR_up2.5,
+  rows = c(
+    seq(R3STEP_n$SOFAS),
+    c(12, 14), #SANS classes
+    seq(from = R3STEP_n$SOFAS + R3STEP_n$SANS + 2 * i + 1, length.out = R3STEP_n$SAPS)
+  ),
+  xlim = c(-7, 8),
+  # xlim = c(-13, 5),
+  # alim = c(0, 2),
+  at = c(0, 1, 3, 6),
+  # at = c(-6, -3, -2, -1, 0, 1, 2, 3),
+  ylim = c(0, R3STEP_n$SANS + R3STEP_n$SAPS + R3STEP_n$SOFAS + 3 * i + 2),
+  refline = 1,
+  efac = c(0, 0),
+  pch = 19, 
+  psize = 1, #R3STEP_df$OR_est
+  # lwd = 5,
+  digits = 2L,
+  cex = 1,
+  top = 4,
+  xlab = expression(italic('Favours "worse" trajectory'), bold("Trajectory membership"), italic('Favours "better" trajectory')),
+header = c("Baseline predictors", ""), 
+  fonts = "Times New Roman"
+)
+
+#### Means
+SAPS_y <- head(R3STEP_forest$rows, R3STEP_n$SAPS)
+SOFAS_y <- tail(R3STEP_forest$rows, R3STEP_n$SOFAS)
+SANS_y <- setdiff(R3STEP_forest$rows, c(SOFAS_y, SAPS_y)) %>% 
+  setdiff(seq(from = max(.) + 1, to = min(.)), .)
+
+text(
+  labels = c(means_R3STEP$mean_est2, means_R3STEP$mean_est1, means_R3STEP$mean_est3),
+  x = rep(R3STEP_forest[["ilab.xpos"]], each = length(means_R3STEP$mean_est1)),
+  y = rep(c(SAPS_y, SANS_y, SOFAS_y), times = 3),
+  cex = R3STEP_forest$cex, 
+)
+
+text(
+  labels = means_R3STEP$param,
+  x = R3STEP_forest$xlim[[1]],
+  y = c(SAPS_y, SANS_y, SOFAS_y),
+  cex = R3STEP_forest$cex,
+  pos = 4
+)
+
+# #### Title & Header
+# par(font = 2)
+# text(
+#   labels = expression(paste(bold("Figure 3. "), "Forest plot for baseline predictors of trajectory membership.")),
+#   x = R3STEP_forest$xlim[[1]],
+#   y = R3STEP_forest$ylim[[2]],
+#   pos = 4
+# )
+
+text(
+  labels = "Estimated mean",
+  x = median(R3STEP_forest$ilab.xpos),
+  y = R3STEP_forest$ylim[[2]] - 2,
+  cex = R3STEP_forest$cex
+)
+
+text(
+  labels = expression(bold("OR [95% CI]"^1)),
+  x = R3STEP_forest$textpos[[2]] + 0.05,
+  y = R3STEP_forest$ylim[[2]] - 2,
+  cex = R3STEP_forest$cex, 
+  pos = 2
+)
+
+#### Subtitle & subheader
+par(font = 4)
+text(
+  labels = c("SAPS", "SANS", "SOFAS"),
+  x = R3STEP_forest$xlim[[1]],
+  y = c(
+    max(SAPS_y) + 1,
+    max(SANS_y) + 1,
+    max(SOFAS_y) + 1
+  ),
+  pos = 4,
+  cex = R3STEP_forest$cex
+)
+
+par()
+text(
+  labels = expression(italic("Stable-low"), italic("Fluctuating"^2)),
+  x = head(R3STEP_forest$ilab.xpos, -1),
+  y = max(SAPS_y) + 1,
+  cex = R3STEP_forest$cex
+)
+
+text(
+  labels = expression(italic("Decreasing"), italic("Fluctuating"), italic("Stable-high"^2)),
+  x = R3STEP_forest$ilab.xpos,
+  y = max(SANS_y) + 1,
+  cex = R3STEP_forest$cex
+)
+
+par()
+text(
+  labels = expression(italic("Increasing"), italic("Stable-moderate"^2)),
+  x = head(R3STEP_forest$ilab.xpos, -1),
+  y = max(SOFAS_y) + 1,
+  cex = R3STEP_forest$cex
+)
+
+# #### Footnote
+# mtext(
+#   text = expression(""^1 ~ "Reference trajectory"),
+#   side = 1,
+#   line = 4,
+#   at = R3STEP_forest$xlim[[1]],
+#   adj = 0,
+#   cex = R3STEP_forest$cex
+# )
+# 
+# 
+# mtext(
+#   text = expression(""^2 ~ "All results are statistically significant using a Bonferroni-corrected threshold (p < 0.001)."),
+#   side = 1,
+#   line = 5,
+#   at = R3STEP_forest$xlim[[1]],
+#   adj = 0,
+#   cex = R3STEP_forest$cex
+# )
+# 
+# par(font = 1)
+# mtext(
+#   text = expression(""^3 ~ "Log transformed"),
+#   side = 1,
+#   line = 6,
+#   at = R3STEP_forest$xlim[[1]],
+#   adj = 0,
+#   cex = R3STEP_forest$cex
+# )
+# 
+# mtext(
+#   text = expression(""^4 ~ "Binary categorical variable [0 = no, 1 = yes], the mean represents the proportion of cases coded as yes."),
+#   side = 1,
+#   line = 7,
+#   at = R3STEP_forest$xlim[[1]],
+#   adj = 0,
+#   cex = R3STEP_forest$cex
+# )
+# 
+# mtext(
+#   text = paste(strwrap(
+#     "CI: Confidence interval, OR: Odd ratio, PS: Positive symptoms, SANS: Scale for the assessment of negative symptoms, SAPS: Scale for the assessment of positive symptoms, SOFAS: Social occupational functioning scale.",
+#     width = 170
+#   ), collapse = "\n"),
+#   side = 1,
+#   line = 9,
+#   at = R3STEP_forest$xlim[[1]],
+#   adj = 0,
+#   cex = R3STEP_forest$cex
+# )
+
+dev.off()
+```
+![](/Users/olivierpercie/Desktop/MplusLGM/Results/R3STEP_ForestPlot.pdf)
+
+### R3STEP - NS 
+```{r, include = FALSE} 
+#### Data
+R3STEP_df <- R3STEP %>%
+  map(\(df) filter(df, str_detect(paramHeader, "C#\\d.ON"))) %>%
+  map(\(df) filter(df, is.na(errors))) %>%
+  map(\(df) select(df, -warnings, -errors)) %>%
+  map2(tail(env, -1), \(df, env) filter(df, pval > (0.001))) %>%
+  imap(\(x, idx) mutate(x, outcome = str_remove(idx, ".env"))) %>%
+  reduce(~ merge(.x, .y, all = TRUE)) %>% 
+  # mutate(across(where(is.numeric), ~ round(.x, digits = 2))) %>%
+  group_by(outcome) %>%
+  arrange(OR_est, .by_group = TRUE) %>%
+  relocate(starts_with("mean"), .after = "param") %>% 
+  ungroup() %>% 
+  arrange(param) %>% 
+  mutate(outcome =  factor(outcome, levels = c("SOFAS", "SANS", "SAPS"))) %>% 
+  arrange(outcome) %>% 
+  mutate(paramHeader = case_when(
+    outcome == "SANS" & paramHeader == "C#1.ON" ~ "    Fluctuating",
+    outcome == "SANS" & paramHeader == "C#2.ON" ~ "    Decreasing",
+    .default = NA
+    )) %>% 
+  var_to_lbl(param) %>% 
+  mutate(paramHeader = case_when(outcome != 'SANS' ~ param, .default = paramHeader)) %>% 
+  write_xlsx(path = glue(getwd(), 'results', 'R3STEP_{today()}.xlsx', .sep = '/'))
+
+means_R3STEP <- R3STEP_df %>%
+  select(param, starts_with("mean_est")) %>% 
+  mutate(param = case_when(is.na(mean_est3) ~ NA, .default = param)) %>% 
+  distinct() %>% 
+  arrange(desc(row_number())) %>% 
+  mutate(across(starts_with('mean_est'), ~ case_when(.x >= 1 & .x <= 2 ~ .x - 1, .default = .x))) 
+
+R3STEP_n <- R3STEP_df %>%
+  count(outcome) %>%
+  pivot_wider(names_from = outcome, values_from = n)
+
+i <- 3
+
+# R3STEP_df <- R3STEP_df %>% data_edit(code = TRUE, viewer = "dialog")
+```
+
+```{r, include = FALSE} 
+#### Plot
+png(file.path(dir, "SupplemantaryTable4_ForestPlotR3STEP.png"), pointsize = 11, height = 20, width = 30, units = "cm", bg = "transparent",res = 600)
 
 par(mar = c(bottom = 10, left = 0, top = 3, right = 0))
 R3STEP_forest <- forest.default(
@@ -1201,7 +1453,7 @@ R3STEP_forest <- forest.default(
   ci.ub = R3STEP_df$OR_up2.5,
   rows = c(
     seq(R3STEP_n$SOFAS),
-    c(13, 15), #SANS classes
+    c(26, 27, 29, 30), #SANS classes
     seq(from = R3STEP_n$SOFAS + R3STEP_n$SANS + 2 * i + 2, length.out = R3STEP_n$SAPS)
   ),
   xlim = c(-7, 8),
@@ -1348,81 +1600,21 @@ mtext(
 
 dev.off()
 ```
-![](/Users/olivierpercie/Desktop/MplusLGM/Results/R3STEP_ForestPlot.pdf)
 
 ### Supplementary Table 6.  ns results - R3STEP 
 ```{r}
-R3STEP_ns <- R3STEP %>%
-  map(\(df) filter(df, str_detect(paramHeader, "C#\\d.ON"))) %>%
-  map(\(df) filter(df, is.na(errors))) %>%
-  map(\(df) select(df, -warnings, -errors)) %>%
-  imap(\(x, idx) mutate(x, outcome = str_remove(idx, ".env"))) %>%
-  reduce(~ merge(.x, .y, all = TRUE)) %>%
-  mutate(across(where(is.numeric), ~ round(.x, digits = 2))) %>%
-  group_by(outcome) %>%
-  arrange(desc(outcome), OR_est, .by_group = TRUE) %>%
-  relocate(starts_with("mean"), .after = "param") %>% 
-  ungroup() %>% 
-  var_to_lbl(param)
-```
-
-### Supplementary Table 7.  ns results - D3STEP 
-```{r}
-D3STEP_ns <- D3STEP %>%
-  modify_in("SOFAS.env", \(df) filter(df, !str_detect(param, "DIFF12"))) %>% 
-  modify_in("SAPS.env", \(df) filter(df, !str_detect(param, "DIFF12"))) %>% 
-  modify_in("SANS.env", \(df) filter(df, !str_detect(param, "DIFF12|DIFF32|DIFF31"))) %>% 
-  # map(\(df) filter(df, WaldChiSq_PValue < (0.05 / (length(cov_D3STEP) - 1)))) %>%
-  # map(\(df) filter(df, !(paramHeader == "New.Additional.Parameters" & pval > 0.05))) %>% # only for SANS
-  map(\(df) filter(df, is.na(errors))) %>%
-  map(\(df) select(df, -warnings, -errors)) %>%
-  map(\(df) separate_wider_delim(df, cols = param, delim = " ", names = c("param", "diff"), too_few = "align_start"))
-  # map(\(x) mutate(x, across(c("OR_est", "OR_low2.5", "OR_up2.5"), ~ transf.lnortod.logis(log(.x))))) %>%
-  # map(\(x) mutate(x, x = coalesce(SMD_est, OR_est))) %>%
-  # map(\(x) mutate(x, ci.lb = coalesce(SMD_low2.5, OR_low2.5))) %>%
-  # map(\(x) mutate(x, ci.ub = coalesce(SMD_up2.5, OR_up2.5)))
-
-D3STEP_cont_ns <- D3STEP_ns %>%
-  map(\(df) filter(df, !str_detect(paramHeader, "Thresholds") & is.na(OR_est))) %>% 
-  map(\(df) pivot_wider(df, names_from = LatentClass, names_glue = "mean_est{LatentClass}", values_from = est)) %>%
-  map(\(df) reframe(df, .by = param, across(c(diff, SMD_est, SMD_low2.5, SMD_up2.5, matches("mean_est\\d")), ~
-                                              na.omit(unique(.))))) %>%
-  imap(\(df, idx) mutate(df, outcome = str_remove(idx, ".env"))) %>% 
-  reduce(~ merge(.x, .y, all = TRUE)) %>% 
-  group_by(outcome) %>%
-  arrange(outcome, SMD_est, .by_group = TRUE) %>%
-  ungroup() %>% 
-  arrange(ifelse(outcome == "SANS", c(param, SMD_est), NA))
-  
-D3STEP_cat_ns <- D3STEP_ns %>%
-  map(\(df) filter(df, !str_detect(paramHeader, "Means") & is.na(SMD_est))) %>% 
-  map(\(df) pivot_wider(df, names_from = LatentClass, names_glue = "mean_est{LatentClass}", values_from = est)) %>%
-  map(\(df) mutate(df, param = str_remove(param, regex("\\$\\d")))) %>%
-  map(\(df) reframe(df, .by = param, across(c(diff, OR_est, OR_low2.5, OR_up2.5, matches("mean_est\\d")), ~ na.omit(unique(.))))) %>%
-  imap(\(df, idx) mutate(df, outcome = str_remove(idx, ".env"))) %>% 
-  reduce(~ merge(.x, .y, all = TRUE)) %>% 
-  group_by(outcome) %>%
-  arrange(outcome, OR_est, .by_group = TRUE) %>%
-  ungroup() %>% 
-  arrange(ifelse(outcome == "SANS", c(param, OR_est), NA))
-
-D3STEP_ns2 <- list(D3STEP_cont_ns, D3STEP_cat_ns) %>% 
-  map(\(df) mutate(df, across(starts_with("mean"), ~ as.numeric(.x)))) %>%
-  map(\(df) mutate(df, across(where(is.numeric), ~ round(.x, digits = 2)))) %>%
-  map(\(df) mutate(df, across(ends_with(c("est", "low2.5", "up2.5")), ~ case_when(. > 100 ~ 50, .default = .)))) %>%
-  # map(\(df) filter(df, if_any(ends_with("est"), ~ !is.infinite(.)))) %>% ######### REMOVE INFNITE ORs FROM FOREST PLOT 
-  map(\(df) select(df, outcome, everything())) %>%
-  map(\(df) mutate(df, diff_lbl = case_when(
-    outcome == "SOFAS" & diff == "DIFF12" ~ "    MS vs. SS",
-    outcome == "SAPS" & diff == "DIFF12" ~ "    LD vs. HD",
-    outcome == "SANS" & diff == "DIFF21" ~ "    D vs. F",
-    outcome == "SANS" & diff == "DIFF23" ~ "    D vs. P",
-    outcome == "SANS" & diff == "DIFF13" ~ "    F vs. P",
-    .default = NA
-    ))) %>% 
-  map(\(df) var_to_lbl(df, param)) %>% 
-  map(\(df) mutate(df, param_diff = case_when(outcome == 'SANS' ~ diff_lbl, .default = param)))
-
+# R3STEP_ns <- R3STEP %>%
+#   map(\(df) filter(df, str_detect(paramHeader, "C#\\d.ON"))) %>%
+#   map(\(df) filter(df, is.na(errors))) %>%
+#   map(\(df) select(df, -warnings, -errors)) %>%
+#   imap(\(x, idx) mutate(x, outcome = str_remove(idx, ".env"))) %>%
+#   reduce(~ merge(.x, .y, all = TRUE)) %>%
+#   mutate(across(where(is.numeric), ~ round(.x, digits = 2))) %>%
+#   group_by(outcome) %>%
+#   arrange(desc(outcome), OR_est, .by_group = TRUE) %>%
+#   relocate(starts_with("mean"), .after = "param") %>% 
+#   ungroup() %>% 
+#   var_to_lbl(param)
 ```
 
 
@@ -1433,7 +1625,7 @@ D3STEP_df1 <- D3STEP %>%
   modify_in("SOFAS.env", \(df) filter(df, !str_detect(param, "DIFF12"))) %>% 
   modify_in("SAPS.env", \(df) filter(df, !str_detect(param, "DIFF12"))) %>% 
   modify_in("SANS.env", \(df) filter(df, !str_detect(param, "DIFF12|DIFF32|DIFF31"))) %>% 
-  map(\(df) filter(df, WaldChiSq_PValue < (0.05 / (length(cov_D3STEP) - 1)))) %>%
+  map2(tail(env, -1), \(df, env) filter(df, WaldChiSq_PValue < (0.05 / length(env$D3STEP_models) ))) %>%
   map(\(df) filter(df, !(paramHeader == "New.Additional.Parameters" & pval > 0.05))) %>% # only for SANS
   map(\(df) filter(df, is.na(errors))) %>%
   map(\(df) select(df, -warnings, -errors)) %>%
@@ -1478,7 +1670,7 @@ D3STEP_df2 <- list(D3STEP_cont, D3STEP_cat) %>%
   map(\(df) select(df, outcome, everything())) %>%
   map(\(df) mutate(df, diff_lbl = case_when(
     outcome == "SOFAS" & diff == "DIFF12" ~ "    Stable-moderate vs. Increasing",
-    outcome == "SAPS" & diff == "DIFF12" ~ "    Low vs. High",
+    outcome == "SAPS" & diff == "DIFF12" ~ "    Stable-low vs. Fluctuating",
     outcome == "SANS" & diff == "DIFF21" ~ "    Decreasing vs. Fluctuating",
     outcome == "SANS" & diff == "DIFF23" ~ "    Decreasing vs. Stable-high",
     outcome == "SANS" & diff == "DIFF13" ~ "    Fluctuating vs. Stable-high",
@@ -1505,8 +1697,9 @@ i <- 3
 #### Continuous variables (SMD) 
 ```{r, include = FALSE} 
 #### Plot
-png(file.path(dir, "Figure4A_ForestPlot_D3STEP.png"), pointsize = 11, height = 20, width = 30, units = "cm", bg = "transparent", res = 600)
-par(mar = c(bottom = 8, left = 0, top = 0, right = 0))
+tiff(file.path(dir, "Figure4A_ForestPlot_D3STEP.tiff"), pointsize = 11, height = 20, width = 30, units = "cm", res = 300) # bg = "transparent",
+
+par(mar = c(bottom = 5, left = 0, top = 0, right = 0))
 
 D3STEP_forcont <- forest.default(
   slab = D3STEP_df2[[1]]$param_diff,
@@ -1528,7 +1721,7 @@ D3STEP_forcont <- forest.default(
   efac = c(0, 0),
   psize = 1,
   cex = 1,
-  xlab = expression(italic('Higher in "worse" trajectory'), bold("Difference at 24 mths"), italic('Higher in "better" trajectory')),
+  xlab = expression(italic('Higher in "worse" trajectory'), bold("Trajectory differences"), italic('Higher in "better" trajectory')),
   header = c("Distal outcomes", ""), 
   fonts = "Times New Roman"
 )
@@ -1555,15 +1748,15 @@ text(
 )
 
 
-#### Title & header
-par(font = 2)
-text(
-  labels = expression(paste(bold("Figure 4. "), "Forest plot for differences in distal outcomes at the end of the follow-up period (24 mths).")),
-  x = D3STEP_forcont$xlim[[1]],
-  y = D3STEP_forcont$ylim[[2]] + 0.5,
-  pos = 4,
-  cex = D3STEP_forcont$cex
-)
+# #### Title & header
+# par(font = 2)
+# text(
+#   labels = expression(paste(bold("Figure 4. "), "Forest plot for differences in distal outcomes at the end of the follow-up period (24 mths).")),
+#   x = D3STEP_forcont$xlim[[1]],
+#   y = D3STEP_forcont$ylim[[2]] + 0.5,
+#   pos = 4,
+#   cex = D3STEP_forcont$cex
+# )
 
 text(
   labels = "Estimated mean",
@@ -1573,7 +1766,7 @@ text(
 )
 
 text(
-  labels = expression(bold("SMD [95% CI]"^2)),
+  labels = expression(bold("SMD [95% CI]"^1)),
   x = D3STEP_forcont$textpos[[2]] + 0.05,
   y = D3STEP_forcont$ylim[[2]] - 1,
   cex = D3STEP_forcont$cex, 
@@ -1593,7 +1786,7 @@ text(
 )
 
 text(
-  labels = expression(italic("Stable-low"^"1"), italic("Fluctuating")),
+  labels = expression(italic("Stable-low"^"2"), italic("Fluctuating")),
   x = head(D3STEP_forcont$ilab.xpos, -1),
   y = max(SAPS_y) + 1,
   cex = D3STEP_forcont$cex
@@ -1607,44 +1800,44 @@ text(
 )
 
 text(
-  labels = expression(italic("Increasing"^"1"), italic("Stable-moderate")),
+  labels = expression(italic("Increasing"^"2"), italic("Stable-moderate")),
   x = head(D3STEP_forcont$ilab.xpos, -1),
   y = max(SOFAS_y) + 1,
   cex = D3STEP_forcont$cex
 )
 
-#### Footnote
-mtext(
-  text = expression(""^"1" ~ "Reference trajectory"),
-  side = 1,
-  line = 4,
-  at = D3STEP_forcont$xlim[[1]],
-  adj = 0,
-  cex = D3STEP_forcont$cex
-)
-
-par(font = 1)
-mtext(
-  text = expression(""^"2" ~ "All results are statistically significant using a Bonferroni-corrected threshold (p < 0.001)."),
-  side = 1,
-  line = 5,
-  at = D3STEP_forcont$xlim[[1]],
-  adj = 0,
-  cex = D3STEP_forcont$cex
-)
-
-par(font = 1)
-mtext(
-  text = paste(strwrap(
-    "CI: Confidence interval, EIS: Early intervention services, SANS: Scale for the assessment of negative symptoms, SAPS: Scale for the assessment of positive symptoms, SOFAS: Social occupational functioning scale, SMD: Standardized mean difference.",
-    width = 190
-  ), collapse = "\n"),
-  side = 1,
-  line = 7,
-  at = D3STEP_forcont$xlim[[1]],
-  adj = 0,
-  cex = D3STEP_forcont$cex
-)
+# #### Footnote
+# mtext(
+#   text = expression(""^"2" ~ "Reference trajectory"),
+#   side = 1,
+#   line = 4,
+#   at = D3STEP_forcont$xlim[[1]],
+#   adj = 0,
+#   cex = D3STEP_forcont$cex
+# )
+# 
+# par(font = 1)
+# mtext(
+#   text = expression(""^"1" ~ "All results are statistically significant using a Bonferroni-corrected threshold (p < 0.001)."),
+#   side = 1,
+#   line = 5,
+#   at = D3STEP_forcont$xlim[[1]],
+#   adj = 0,
+#   cex = D3STEP_forcont$cex
+# )
+# 
+# par(font = 1)
+# mtext(
+#   text = paste(strwrap(
+#     "CI: Confidence interval, EIS: Early intervention services, SANS: Scale for the assessment of negative symptoms, SAPS: Scale for the assessment of positive symptoms, SOFAS: Social occupational functioning scale, SMD: Standardized mean difference.",
+#     width = 190
+#   ), collapse = "\n"),
+#   side = 1,
+#   line = 7,
+#   at = D3STEP_forcont$xlim[[1]],
+#   adj = 0,
+#   cex = D3STEP_forcont$cex
+# )
 
 dev.off()
 ```
@@ -1797,7 +1990,67 @@ dev.off()
 ![](/Users/olivierpercie/Desktop/MplusLGM/Results/D3STEP_ForestPlot.pdf)
 
 
-## Supplementary Tables 6. Sensitivity analysis 
+### Supplementary Table 7.  ns results - D3STEP 
+```{r}
+D3STEP_ns <- D3STEP %>%
+  modify_in("SOFAS.env", \(df) filter(df, !str_detect(param, "DIFF12"))) %>% 
+  modify_in("SAPS.env", \(df) filter(df, !str_detect(param, "DIFF12"))) %>% 
+  modify_in("SANS.env", \(df) filter(df, !str_detect(param, "DIFF12|DIFF32|DIFF31"))) %>% 
+  map2(tail(env, -1), \(df, env) filter(df, WaldChiSq_PValue >= (0.05 / length(env$D3STEP_models)))) %>%
+  # map(\(df) filter(df, !(paramHeader == "New.Additional.Parameters" & pval > 0.05))) %>% # only for SANS
+  # map(\(df) filter(df, is.na(errors))) %>%
+  map(\(df) select(df, -warnings, -errors)) %>%
+  map(\(df) separate_wider_delim(df, cols = param, delim = " ", names = c("param", "diff"), too_few = "align_start"))
+  # map(\(x) mutate(x, across(c("OR_est", "OR_low2.5", "OR_up2.5"), ~ transf.lnortod.logis(log(.x))))) %>%
+  # map(\(x) mutate(x, x = coalesce(SMD_est, OR_est))) %>%
+  # map(\(x) mutate(x, ci.lb = coalesce(SMD_low2.5, OR_low2.5))) %>%
+  # map(\(x) mutate(x, ci.ub = coalesce(SMD_up2.5, OR_up2.5)))
+
+D3STEP_cont_ns <- D3STEP_ns %>%
+  map(\(df) filter(df, !str_detect(paramHeader, "Thresholds") & is.na(OR_est))) %>% 
+  map(\(df) pivot_wider(df, names_from = LatentClass, names_glue = "mean_est{LatentClass}", values_from = est)) %>%
+  map(\(df) reframe(df, .by = param, across(c(diff, SMD_est, SMD_low2.5, SMD_up2.5, WaldChiSq_PValue, matches("mean_est\\d")), ~ na.omit(unique(.))))) %>%
+  imap(\(df, idx) mutate(df, outcome = str_remove(idx, ".env"))) %>% 
+  reduce(~ merge(.x, .y, all = TRUE)) %>% 
+  group_by(outcome) %>%
+  arrange(outcome, SMD_est, .by_group = TRUE) %>%
+  ungroup() %>% 
+  arrange(ifelse(outcome == "SANS", c(param, SMD_est), NA))
+  write_xlsx(path = glue(getwd(), 'results', 'D3STEP_{today()}.xlsx', .sep = '/'))
+  
+D3STEP_cat_ns <- D3STEP_ns %>%
+  map(\(df) filter(df, !str_detect(paramHeader, "Means") & is.na(SMD_est))) %>% 
+  map(\(df) pivot_wider(df, names_from = LatentClass, names_glue = "mean_est{LatentClass}", values_from = est)) %>%
+  map(\(df) mutate(df, param = str_remove(param, regex("\\$\\d")))) %>%
+  map(\(df) reframe(df, .by = param, across(c(diff, OR_est, OR_low2.5, OR_up2.5, matches("mean_est\\d")), ~ na.omit(unique(.))))) %>%
+  imap(\(df, idx) mutate(df, outcome = str_remove(idx, ".env"))) %>% 
+  reduce(~ merge(.x, .y, all = TRUE)) %>% 
+  group_by(outcome) %>%
+  arrange(outcome, OR_est, .by_group = TRUE) %>%
+  ungroup() %>% 
+  arrange(ifelse(outcome == "SANS", c(param, OR_est), NA))
+
+D3STEP_ns2 <- list(D3STEP_cont_ns, D3STEP_cat_ns) %>% 
+  map(\(df) mutate(df, across(starts_with("mean"), ~ as.numeric(.x)))) %>%
+  map(\(df) mutate(df, across(where(is.numeric), ~ round(.x, digits = 2)))) %>%
+  map(\(df) mutate(df, across(ends_with(c("est", "low2.5", "up2.5")), ~ case_when(. > 100 ~ 50, .default = .)))) %>%
+  # map(\(df) filter(df, if_any(ends_with("est"), ~ !is.infinite(.)))) %>% ######### REMOVE INFNITE ORs FROM FOREST PLOT 
+  map(\(df) select(df, outcome, everything())) %>%
+  map(\(df) mutate(df, diff_lbl = case_when(
+    outcome == "SOFAS" & diff == "DIFF12" ~ "    MS vs. SS",
+    outcome == "SAPS" & diff == "DIFF12" ~ "    LD vs. HD",
+    outcome == "SANS" & diff == "DIFF21" ~ "    D vs. F",
+    outcome == "SANS" & diff == "DIFF23" ~ "    D vs. P",
+    outcome == "SANS" & diff == "DIFF13" ~ "    F vs. P",
+    .default = NA
+    ))) %>% 
+  map(\(df) var_to_lbl(df, param)) %>% 
+  map(\(df) mutate(df, param_diff = case_when(outcome == 'SANS' ~ diff_lbl, .default = param)))
+
+```
+
+
+## Supplementary Tables 8. Sensitivity analysis 
 ```{r} 
 summary_tbl_SA <- list(
                        pluck(env[[2]], "FINAL_fit_458"), 
