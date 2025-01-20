@@ -1,182 +1,357 @@
-## :warning: **MplusLGM is not maintained**
-
-This was a project that I created when learning to code as an undergraduate student. The code is of shoddy quality, over-commented, untested, lacking consistent style (although, that is to be expected in R I suppose!), and relies on far too many dependencies (which are unversioned, so this will almost certainly break in the future, if it is not already broken as of January 2023). I have no desire to change this, or ever write any code in R again, so this package is unmaintained. I will leave it up in case it is useful for anyone, although **I strongly recommend anyone considering using this package consider an open-source alternative to Mplus**.
+---
+title: "README.md"
+author: "Olivier Percie du Sert"
+date: "2025-01-20"
+---
 
 # MplusLGM
 
-An extension of the MplusAutomation package, MplusLGM is designed to facilitate the implementation of mixture models in Mplus. 
+This package provides a comprehensive suite of functions for conducting and automating Latent Growth Modeling (LGM) in Mplus using R, including Growth Curve Models (GCM), Growth-Based Trajectory Models (GBTM) and Latent Class Growth Analysis (LCGA).
+
+This package was build upon the capabilities from the [MplusAutomation](https://github.com/michaelhallquist/MplusAutomation) package. [Hallquist et al.(2018)](https://pmc.ncbi.nlm.nih.gov/articles/PMC6075832/). MplusAutomation: An R Package for Facilitating Large-Scale Latent Variable Analyses in Mplus. Structural equation modeling: a multidisciplinary journal.
+
+Key features include:
+
+  -   Generating model specifications (`LGMobject`)
+  -   Running model & Replicating log-likelihood values (`runLGM`)
+  -   Extracting model fit indices (`getFit`)
+  -   Selecting best-fitting model (`getBest`)
+
+This package was designed to implement and streamline the procedure for model selection outlined in: [Van Der Nest et al.(2020)](https://www.sciencedirect.com/science/article/pii/S1040260819301881?via%3Dihub). "An overview of mixture modelling for latent evolutions in longitudinal data: Modelling approaches, fit statistics and software." Advances in Life Course Research
+
+  1.  Plotting individual trajectories of outcome (`getSpaghetti`)
+  2.  Estimating 1-class GCM for reference (`fitGCM`)
+  3.  Performing class enumeration with GBTM (`fitGBTM`)
+  4.  Refining covariance structure in LCGA (`fitLCGA`)
+  5.  Refining polynomial order (`getPoly`)
+
+The following example illustrate the implementation of this workflow using the `mplusLGM` package. 
+The example use a simulated dataset including symptom measurements on an arbitrary scale assessed at months 0, 3, 6, 9, 12, 18, 21 and 24.
 
 ## Installation
 
-MplusLGM can be installed directly from GitHub using the devtools package. This will also install most dependencies, although the rhdf5 package from Bioconductor must be installed manually, as it is not available on the CRAN repository.
+`MplusLGM` can be installed from CRAN or sourced directly from GitHub.
 
 ```
-# Install devtools from CRAN if not already installed 
-install.packages("devtools")
+# From CRAN
+install.packages("MplusLGM")
 
-# Install the Bioconductor package manager if required, then the rhdf5 package
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-BiocManager::install("rhdf5")
-
-# Install the latest version of MplusLGM from this repository
-devtools::install_github("joshunrau/MplusLGM")
+# From Github
+devtools::install_github("olivierpds/MplusLGM")
 ```
 
-## Example:
-
-This example model selection procedure uses a sample dataset of 400 simulated patients with four discrete hypothetical diagnoses. The dataset contains symptoms on an arbitrary scale at months 0, 1, 2, 3, 6, 9, and 12. For testing purposes, 5% of data were deleted completely at random. Here, we will define classes based on symptoms at months 0, 1, 2, 3. These analyses were performed in R v4.1 using MplusLGM v0.1, MplusAutomation v1.0.0, Tidyverse v1.3.1, and Mplus v8.5.
-
-### Step 1: Load the Package and Dataset
-
-First, we will load this package and the hypothetical dataset into R. Then, we can examine the symptoms at each month by diagnostic group. Although each diagnosis follows a relatively distinct trend, diagnoses C and D do not diverge until month 6. Hence, we will expect a three-class structure to emerge in our model.
+Load the package and the simulated dataset into R.
 
 ```
-# Load required packages
+# Load package
 library(MplusLGM)
-library(tidyverse)
 
-# Load sample dataset from MplusLGM package
-data("Diagnoses")
+# Load simulated dataset 
+data(symptoms)
+```
 
-# Examine the structure of the dataset
-str(Diagnoses)
+<!-- 
 ```
-```
-# 'data.frame':	400 obs. of  11 variables:
-#  $ id   : Factor w/ 400 levels "1","2","3","4",..: 1 2 3 4 5 6 7 8 9 10 ...
-#  $ dx   : Factor w/ 4 levels "Diagnosis A",..: 1 1 1 1 1 1 1 1 1 1 ...
-#  $ sx_0 : int  46 58 38 50 62 NA 41 37 58 52 ...
-#  $ sx_1 : int  36 24 39 48 48 33 38 35 41 42 ...
-#  $ sx_2 : int  20 25 30 NA 27 33 24 24 31 29 ...
-#  $ sx_3 : int  27 30 21 23 17 36 NA 28 19 32 ...
-#  $ sx_6 : int  30 17 22 15 16 21 NA 17 15 17 ...
-#  $ sx_9 : int  18 18 13 9 11 14 8 10 13 15 ...
-#  $ sx_12: int  23 16 15 22 9 14 10 14 14 21 ...
-#  $ age  : num  65.2 42.5 52.5 55.8 44.3 ...
-#  $ sex  : Factor w/ 2 levels "Male","Female": 2 2 2 2 1 1 1 2 1 1 ...
-```
-```
-# Get means for each diagnostic group at variables of interest
-Diagnoses %>% group_by(dx) %>% 
-    summarise_at(vars(colnames(Diagnoses)[3:9]), mean, na.rm = TRUE)
-```
-```
-### A tibble: 4 × 8
-#   dx           sx_0  sx_1  sx_2  sx_3  sx_6  sx_9 sx_12
-#   <fct>       <dbl> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
-# 1 Diagnosis A  50.1  39.4  28.5  24.8  20.0  14.1  15.5
-# 2 Diagnosis B  40.4  39.6  39.0  39.9  39.6  39.1  38.8
-# 3 Diagnosis C  13.9  17.8  21.4  23    31.3  35.4  26.0
-# 4 Diagnosis D  13.9  17.6  21.1  22.7  30.8  40.8  50  
-```
+setwd("~/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/PEPP-Montreal/2.PEPP5/Analyses")
+
+PEPP2_df <- list.files(file.path('..', '..', 'GitHub', 'PEPP_private', 'PEPP2', 'Data', 'SAV'),
+  full.names = TRUE) %>%
+  file.info() %>%
+  filter(isdir == FALSE) %>% 
+  slice_max(mtime) %>% # get the most updated file
+  rownames() %>% 
+  read_sav()
+
+PEPP2_df <- PEPP2_df %>% 
+  filter(pin <= 857) %>% 
+  select(num_range(prefix = "SANS_", range = 0:24)) %>% 
+  rename_with(~ paste("sx", c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = "_"), starts_with('SANS')) 
     
-### Step 2: Group-Based Trajectory Modeling
-
-We will use group-based trajectory modeling (GBTM) to determine the optimal class structure for this dataset. The fitGBTM function can be used to fit GBTM models from a minimum to a maximum class. This function returns a list of MplusObjects, the fit indices of which can be examined using the getFitIndices function.
-
+missings <- PEPP2_df %>% 
+  map_dfc(\(x) sum(is.na(x)) / nrow(.) * 100) %>% 
+  pivot_longer(cols = everything(),
+               values_to = '%miss') %>% 
+  pull("%miss") %>%
+  round(0) 
+    
+missings[[2]] <- 15
+  
+PEPP2_df <- PEPP2_df %>% 
+  filter(if_all(everything(), ~ !is.na(.x))) 
+                  
+symptoms <- modgo(data = PEPP2_df, n_samples = 350, generalized_mode = TRUE) %>% 
+  pluck("simulated_data", 1) %>% 
+  mutate(id = seq(350)) %>% 
+  mutate(across(everything(), ~ round(., 0))) %>% 
+  select(id, starts_with("sx")) 
+  delete_MCAR(p = missings/100)
+  
+setwd("~/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/PEPP-Montreal/Github/MplusLGM")
 ```
-# Run GBTM models
-gbtm_models <- fitGBTM(
-  df = Diagnoses,
-  usevar = c('sx_0', 'sx_1', 'sx_2', 'sx_3'),
-  timepoints = c(0, 1, 2, 3),
+-->
+
+## Step 1: Visual inspection - Spaghetti plot
+
+Plot individual trajectories of symptoms to provide a visual representation of whether 
+enough heterogeneity is evident in the data to justify the use of mixture modelling.
+
+```         
+spagh_plot <- getSpaghetti(
+  data = symptoms, 
+  outvar = paste("sx", seq(from = 0, to = 24, by = 6), sep = "_")
+)
+
+print(spagh_plot)
+```
+
+<!-- ggsave(spagh_plot, 
+filename = file.path(getwd(), "Results", "Figures", "spahg_plot.png")) -->
+
+<img src="Results/Figures/spahg_plot.png" width="75%"/>
+
+## Step 2: Reference - Growth Curve Modelling (GCM)
+
+Fit a GCM to represent the best single-class depiction of change against which subsequent models will be compared.
+
+The maximum polynomial order should be selected based on the number of time points, the spaghetti plot and previous 
+theoretical or practical insights to guide the initial scoping of potential models.
+
+A linear model (i.e., polynomial order 1) will be estimated with the `fitGCM` function, as cubic and quadratic models failed to converge.
+
+```         
+# Fit GCM
+GCM_model <- fitGCM(
+  data = symptoms,
+  outvar = paste("sx", seq(from = 0, to = 24, by = 6), sep = "_"), 
   idvar = "id",
-  max_k = 4)
+  starting_val = 500,
+  polynomial = 1,
+  timescores = seq(from = 0, to = 24, by = 6),
+  output = c("TECH1", "SAMPSTAT", "STANDARDIZED"),
+  )
 
 # Examine fit indices
-getFitIndices(gbtm_models)
+GCM_fit <- getFit(GCM_model)
+
+print(GCM_fit)
 ```
 ```
-#                Title        LL      AIC      BIC     CAIC Entropy T11_LMR_Value T11_LMR_PValue
-# 1  GBTM_P3_K1_S1000  -5933.351 11876.70 11896.66 11901.66      NA            NA             NA
-# 2  GBTM_P3_K2_S1000  -5240.491 10500.98 10540.90 10550.90   0.995      1340.958         0.0000
-# 3  GBTM_P3_K3_S1000  -5045.978 10121.96 10181.83 10196.83   0.955       376.458         0.0000
-# 4  GBTM_P3_K4_S1000  -5031.109 10102.22 10182.05 10202.05   0.922        28.777         0.3919
+#              Title Observations Parameters        LL      BIC     aBIC      AIC     AICC     CAIC 
+# 1 GCM_P1_K1_S1000;          350         10 -4873.299 9805.177 9773.454 9766.598 9767.247 9815.177
 ```
 
-Examining the fit indices from the models run, we will conclude the three-class GBTM best fits the data. Alternatively, we can use the selectBestModel function to select the best model in the list based on a specified method. For example, we can specify to select the model with the best BIC where the LMR-LRT test p-value is significant.
+## Step 3: Class enumeration - Group-Based Trajectory Modeling (GBTM)
 
+Fit a series of GBTM with an increasing number of classes to determine the optimal latent structure.
+
+During class enumeration, the number of suspected classes should be selected based on the sample size, the spaghetti plot and
+prior theoretical or practical insights to guide the initial scoping of potential models.
+
+GBTM should converge the quickest to a solution given its lower number of free parameters when compared to other
+LGM. Models with 2 to 6 latent classes will be evaluated using the `fitGBTM` function.
+
+```         
+# Fit GBTM
+GBTM_models <- fitGBTM(
+  data = symptoms,
+  outvar = paste("sx", seq(from = 0, to = 24, by = 6), sep = "_"),
+  idvar = "id",
+  starting_val = 500,
+  min_k = 2L,
+  max_k = 6L,
+  timescores = seq(from = 0, to = 24, by = 6),
+  polynomial = 3,
+  output = c("TECH1", "TECH11", "SAMPSTAT", "STANDARDIZED")
+)
+
+# Examine fit indices
+GBTM_fit <- getFit(GBTM_models)
+
+print(GBTM_fit)
 ```
-best_gbtm_model <- selectBestModel(gbtm_models, selection_method = "BIC_LRT")
+<!--
+  GBTM_fit %>%
+  kbl() %>% 
+  kable_classic() %>% 
+  scroll_box(width = "100%", height = "200px") %>% 
+  save_kable(file = file.path("Results", "Figures", "GBTM_fit.html"), self_contained = TRUE)
+  -->
+
+The optimal number of latent classes (K) will be determined using the Bayesian Information Criterion (BIC).
+The difference in BIC between the K and K-1 models will be assessed using the Lo-Mendel-Rubin adjusted likelihood ratio test
+(LMR-aLRT), as the Bootstrapped LRT (BLRT) provided inconclusive results.
+
+Examining the fit indices, the GBTM with 4 latent classes had the best BIC value. However, the aLRT p-value 
+was not significant (p > 0.05), indicating that the number of latent classes could be reduced to K = 3.
+
+Alternatively, the `getBest` function can be used to select the best-fitting model according to the same
+criteria.
+
+```         
+# Select best-fitting GBTM
+GBTM_best <- getBest(
+  lgm_object = GBTM_models, 
+  ic = "BIC",
+  lrt = "aLRT", 
+  p = 0.05
+  )
+```
+```
+# The model with the best BIC value is: GBTM_P3_K4_S1000.
+# The T11_LMR_PValue p-value was not significant (p > 0.05), indicating that the number of classes (K) could be reduced to K = 3.
+# The suggested best-fitting model is: GBTM_P3_K3_S1000.
 ```
 
-### Step 3: Examine Alternative Variance Structures
+Inspect the trajectory plots at each step to ensure that the emergent patterns are sensible by considering 
+their empirical implications and whether the trajectories are distinct.
 
-Now, we will examine whether relaxing the assumptions of equal residual variance across classes and time provides a better fit for our data. To that end, we will fit three latent class growth analysis (LCGA) models: LCGA1, allowing for residual variance to vary across classes; LCGA2, allowing for residual variance to vary across time; and LCGA3, allowing for residual variance to vary across both time and class. This can be done using the fitLCGA function. We will set the class structure to three, and specify the three-class GBTM model previously fit as the reference model (i.e., it will be included in the list returned by the fitLCGA function, allowing for easier model comparison). 
+```         
+# Plot best-fitting GBTM
+GBTM_plot <- MplusAutomation::plotGrowthMixtures(
+  GBTM_best,
+  bw = FALSE,
+  rawdata = TRUE,
+  alpha_range =c(0, 0.05),
+  time_scale = seq(from = 0, to = 24, by = 6)
+)
 
+print(GBTM_plot)
 ```
+
+<!-- ggsave(GBTM_plot, 
+filename = file.path("Results", "Figures", "GBTM_plot.png")) -->
+
+<img src="Results/Figures/GBTM_plot.png" width="75%"/>
+
+## Step 4: Refine Covariance Structure - Latent Class Growth Analysis (LCGA)
+
+Fit a series of LCGA to determine the optimal covariance structure, progressively relaxing the assumptions of
+equal residual variance across time and/or class.
+
+LCGA models with 3 latent classes will be estimated using the `fitLCGA` function, allowing for residual variance to vary:
+
+  - across time
+  - across class
+  - across both time and class
+
+```         
 # Run LCGA models
-lcga_models <- fitLCGA(
-  df = Diagnoses,
-  usevar = c('sx_0', 'sx_1', 'sx_2', 'sx_3'),
-  timepoints = c(0, 1, 2, 3),
+LCGA_models <- fitLCGA(
+  data = symptoms,
+  outvar = paste("sx", seq(from = 0, to = 24, by = 6), sep = "_"),
   idvar = "id",
-  classes = 3,
-  ref_model = best_gbtm_model)
+  starting_val = 500,
+  k = 3L,
+  timescores = seq(from = 0, to = 24, by = 6),
+  polynomial = 3,
+  output = c('TECH1', 'TECH11', 'SAMPSTAT', 'STANDARDIZED'),
+  wd = 'Results'
+)
   
 # Examine fit indices
-getFitIndices(lcga_models)
-```
-```
-#                 Title        LL      AIC      BIC     CAIC Entropy T11_LMR_Value T11_LMR_PValue
-# 1   GBTM_P3_K3_S1000  -5045.978 10121.96 10181.83 10196.83   0.955       376.458              0
-# 2  LCGA1_P3_K3_S1000  -5010.647 10055.30 10123.15 10140.15   0.941       199.766              0
-# 3  LCGA2_P3_K3_S1000  -5045.855 10127.71 10199.56 10217.56   0.956       328.316              0
-# 4  LCGA3_P3_K3_S1000  -4995.793 10043.59 10147.36 10173.36   0.956       173.715              0
-```
-```
-# Here, we will select the best model based only on the BIC.
-best_bic_model <- selectBestModel(lcga_models, selection_method = "BIC")
+LCGA_fit <- getFit(c(GBTM_best, LCGA_models))
+
+print(LCGA_fit)
 ```
 
-### Step 4: Refine Polynomial Order
+<!--
+  LCGA_fit %>%
+  kbl() %>% 
+  kable_classic() %>% 
+  scroll_box(width = "100%", height = "200px") %>% 
+  save_kable(file = file.path("Results", "Figures", "LCGA_fit.html"), self_contained = TRUE)
+  -->
 
-Next, we can use the refinePolynomial function to remove insignificant growth factors from each class, based on Wald tests.
+<iframe src="https://olivierpds.github.io/MplusLGM/LCGA_fit.html" width="100%" height="300px" style="border:none;"></iframe>
 
-```
-final_model <- refinePolynomial(
-  model = best_bic_model, 
-  df = Diagnoses, 
-  usevar = c('sx_0', 'sx_1', 'sx_2', 'sx_3'),
-  timepoints = c(0, 1, 2, 3),
-  idvar = 'id')
-```
-   
-### Step 5: Follow-Up Analyses
-
-Now that we have the final model, we can add the most probable class to each individual in our dataset using the getDataset function. The plotModel function can also be used to easily plot our model using ggplot2. Here, we will plot the observed means against the final model by passing additional geoms to ggplot2.
+Examining the fit indices of the LCGA models in comparison to the best-fitting GBTM, the LCGA
+with relaxed residual variance across class had the best BIC value. The aLRT p-value 
+was significant (p <= 0.05), indicating that the number of classes couldn't be further reduced.
 
 ```
-# Get final dataset based on most probable class membership
-final_dataset <- getDataset(final_model, Diagnoses, 'id')
+# Select best-fitting GBTM
+LCGA_best <- getBest(
+  lgm_object = c(GBTM_best, LCGA_models),
+  ic = "BIC"
+  )
+```
 
-# Get means as long form
-class_means <- getLongMeans(
-  df = final_dataset,
-  usevar = c('sx_0', 'sx_1', 'sx_2', 'sx_3', 'sx_6', 'sx_9', 'sx_12'),
-  timepoints = c(0, 1, 2 , 3, 6, 9, 12),
-  group_var = 'Class')
+```
+# The model with the best BIC value is: LCGA_C_P3_K3_S1000;
+# Note: The T11_LMR_PValue p-value is significant (p <= 0.05), indicating that the number of classes cannot be reduced.
+```
 
-# Create line for observed symptoms
-line2 <- geom_line(
-  data = class_means, 
-  aes(x = Time, y = Variable, group = Class, color=Class), 
-  linetype = 'dashed')
+```         
+# Plot best-fitting GBTM
+LCGA_plot <- MplusAutomation::plotGrowthMixtures(
+  LCGA_best,
+  bw = FALSE,
+  rawdata = TRUE,
+  alpha_range =c(0, 0.05),
+  time_scale = seq(from = 0, to = 24, by = 6)
+)
 
-# Create points for observed symptoms
-point2 <- geom_point(
-  data = class_means, 
-  aes(x = Time, y = Variable, group = Class, color=Class, shape = Class))
+print(LCGA_plot)
+```
+<!-- LCGA_plot %>% 
+ggsave(filename = file.path("Results", "Figures", "LCGA_plot.png")) -->
+
+<img src="Results/Figures/LCGA_plot.png" width="75%"/>
+
+## Step 5: Refine Polynomial Order
+
+Remove the highest-order polynomial terms that are non-significant iteratively per class and re-running the updated models 
+using the `getPoly` function.
+
+```         
+# Refine polynomial order
+final_model <- getPoly(
+  lgm_object = LCGA_best, 
+  wd = 'Results')
+```
+
+```
+# Class 3: the highest-order polynomial term was not significant (p > 0.05) and was removed CUB@0
+# Class 2: the highest-order polynomial term was not significant (p > 0.05) and was removed CUB@0
+# Class 1: the highest-order polynomial term was not significant (p > 0.05) and was removed CUB@0
+# 
+# Class 3: the highest-order polynomial term was not significant (p > 0.05) and was removed Q@0
+# 
+# [1] "The highest-order polynomial term is significant (p < 0.05) across all classes."
+```
   
-# Plot final model with additional geoms for observed means
-plotModel(
-  model = final_model, 
-  x_axis_label = 'Month', 
-  y_axis_label = 'Symptoms', 
-  geom_line2 = line2,
-  geom_point2 = point2) + 
-  scale_x_continuous(breaks = seq(0, 12, by = 3)) # Specify scale for asthetics
+```
+# Examine fit indices 
+final_fit <- getFit(final_model)
+
+print(final_fit)
+```
+<!--
+  final_fit %>%
+  kbl() %>% 
+  kable_classic() %>% 
+  scroll_box(width = "100%", height = "200px") %>% 
+  save_kable(file = file.path("Results", "Figures", "final_fit.html"), self_contained = TRUE)
+  
+   as.character() %>% 
+  cat() -->
+  
+<iframe src="https://olivierpds.github.io/MplusLGM/final_fit.html" width="100%" height="300px" style="border:none;"></iframe>
+
+```
+# Plot final model
+final_plot <- MplusAutomation::plotGrowthMixtures(
+  final_model,
+  bw = FALSE,
+  rawdata = TRUE,
+  alpha_range =c(0, 0.05),
+  time_scale = seq(from = 0, to = 24, by = 6)
+)
+
+print(final_plot)
 ```
 
-![Alt Text](https://github.com/joshunrau/MplusLGM/blob/main/example/adv_plot.png?raw=true)
+<!-- ggsave(LCGA_plot, 
+filename = file.path(getwd(), "Results", "Figures", "final_plot.png")) -->
+
+<img src="Results/Figures/final_plot.png" width="75%"/>
