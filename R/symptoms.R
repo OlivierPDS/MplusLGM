@@ -1,0 +1,24 @@
+#' Symptoms Data
+#'
+#' A simulated, longitudinal dataset capturing symptom severity with an arbitrary scale (total score: 0-28), over a 2-year follow-up
+#' period for 350 individuals. The data is not normally distributed and exhibits heterogeneity, including latent (unobserved) trajectories
+#' of symptom severity that reflect diverse progression patterns across individuals. The dataset contains no missing data.
+#'
+#' @format
+#' A dataframe with 1 row per individual, 350 observations and 10 variables.
+#'
+#' \describe{
+#'   \item{id}{Individual identifier, numeric.}
+#'   \item{sx_0}{Symptoms severity at month 0, numeric.}
+#'   \item{sx_3}{Symptoms severity at month 3, numeric.}
+#'   \item{sx_6}{Symptoms severity at month 6, numeric.}
+#'   \item{sx_9}{Symptoms severity at month 9, numeric.}
+#'   \item{sx_12}{Symptoms severity at month 12, numeric.}
+#'   \item{sx_15}{Symptoms severity at month 15, numeric.}
+#'   \item{sx_18}{Symptoms severity at month 18, numeric.}
+#'   \item{sx_21}{Symptoms severity at month 21, numeric.}
+#'   \item{sx_24}{Symptoms severity at month 24, numeric.}
+#' }
+#'
+#' @source Data simulated using \code{\link[modgo]{modgo}}
+"symptoms"
