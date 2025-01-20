@@ -2,44 +2,121 @@
 % Please edit documentation in R/fitGBTM.R
 \name{fitGBTM}
 \alias{fitGBTM}
-\title{fitGBTM}
+\title{Fit Group-Based Trajectory Models (GBTM) for class enumeration.}
 \usage{
 fitGBTM(
-  df,
-  usevar,
-  timepoints,
+  data,
+  outvar,
+  catvar = FALSE,
   idvar,
-  working_dir = getwd(),
-  min_k = 1,
-  max_k = 6,
-  overall_polynomial = 3
+  min_k = 2L,
+  max_k = 6L,
+  starting_val = 500,
+  polynomial = 1,
+  timescores,
+  timescores_indiv = FALSE,
+  estimator = c("MLR", "ML", "WLSMV", "WLS"),
+  transformation = c("LOGIT", "PROBIT"),
+  output = c("TECH1", "TECH11", "SAMPSTAT", "STANDARDIZED"),
+  plot = "PLOT3",
+  save = "FSCORES",
+  wd = "Results"
 )
 }
 \arguments{
-\item{df}{A data frame containing all user variables and the ID variable}
+\item{data}{A data frame containing all variables for the trajectory analysis.}
 
-\item{usevar}{A character vector containing variables to be used in Mplus
-for analysis}
+\item{outvar}{A character vector specifying the outcome variables at different times.}
 
-\item{timepoints}{A vector containing the timepoints corresponding 
-to the elements in the usevar vector}
+\item{catvar}{A logical value indicating whether the outcome variable is categorical. Default is \code{FALSE}.}
 
-\item{idvar}{A character vector containing the ID variable in the data frame}
+\item{idvar}{A character string specifying the ID variable.}
 
-\item{working_dir}{The directory where the results folder will be created}
+\item{min_k}{An integer specifying the minimum number of latent classes to evaluate. Default is 2.}
 
-\item{min_k}{The minimum class structure of the model}
+\item{max_k}{An integer specifying the maximum number of latent classes to evaluate. Default is 6.}
 
-\item{max_k}{The maximum class structure of the model}
+\item{starting_val}{A numeric value specifying the number of random starting values to generate for the initial optimization stage.
+Note that the number of final stage optimizations will be set as equal to half of this value.}
 
-\item{overall_polynomial}{A numeric value representing the polynomial order for 
-the overall model (note that only linear, quadratic, and cubic models are 
-supported)}
+\item{polynomial}{An integer specifying the order of the polynomial used to model trajectories. Supported values are:
+1 (linear), 2 (quadratic), 3 (cubic). Default is 1.}
+
+\item{timescores}{A numeric vector specifying the time scores for the model. If \code{timescores_indiv = TRUE},
+a character vector should be used to specify variables with individually varying times of observation.}
+
+\item{timescores_indiv}{A logical value indicating whether to use individually varying times of observation for the outcome variable. Default is \code{FALSE}.}
+
+\item{estimator}{A character string to specify the estimator to use in the analysis. Default is 'MLR'.}
+
+\item{transformation}{A character string to specify the latent response variable transformation to use when the outcome variable is categorical. Default is \code{LOGIT}.}
+
+\item{output}{A character vector specifying the requested Mplus output options for the model.}
+
+\item{plot}{A character string specifying the requested Mplus plot options for the model. Default is PLOT3.}
+
+\item{save}{A character string specifying the type of results to be saved by Mplus. Default is FSCORES.}
+
+\item{wd}{A character string specifying the directory where the results folder will be created for saving Mplus input, output, and data files.
+Default is the current working directory.}
 }
 \value{
-An MplusObject
+A list of \code{mplusObject} including the fitted GBTM models for each class specification.
 }
 \description{
-Fits GBTM models from a specified minimum class to a maximum class
-    using the runModel function
+Perform class enumeration by fitting a series of GBTM in Mplus across a predetermined range of classes,
+and returning a list of fitted models for evaluation and comparison.
+}
+\details{
+The \code{fitGBTM} function automates the process of fitting GBTM, iterating through an increasing number of class.
+This function is designed for conducting class enumeration and help identifying the optimal number of latent classes.
+GBTM should converge the quickest to a solution given its lower number of free parameters when compared to other LGM.
+
+The function operates as follows:
+\itemize{
+\item 1. Iterate over an increasing number of classes, ranging from \code{min_k} to \code{max_k}.
+\item 2. Create GBTM \code{mplusObject} with appropriate class specification using the \code{LGMobject} function.
+\item 3. Fit models using the \code{runLGM} function, ensuring convergence by increasing the number of random starting values until the best log-likelihood is replicated.
+\item 4. Return a list of \code{mplusObject} including results for the fitted GBTM models with each class structures.
+}
+
+The function automates the procedure outlined for model selection in:
+Van Der Nest et al,. (2020). "An overview of mixture modelling for latent evolutions in longitudinal data: Modelling approaches, fit statistics and software."
+Advances in Life Course Research 43: 100323.
+
+This function builds upon the capabilities of the \code{\link[MplusAutomation]{mplusObject}} and \code{\link[MplusAutomation]{mplusModeler}} functions
+from the MplusAutomation package.
+}
+\examples{
+\dontrun{
+# Example usage:
+GBTM_models <- fitGBTM(
+  data = symptoms,
+  outvar = paste("sx", seq(from = 0, to = 24, by = 3), sep = "_"),
+  catvar = FALSE,
+  idvar = "ID",
+  starting_val = 500,
+  min_k = 2L,
+  max_k = 6L,
+  timescores = seq(from = 0, to = 24, by = 3),
+  timescores_indiv = FALSE,
+  polynomial = 1,
+  output = c("TECH1", 'TECH14', "SAMPSTAT", "STANDARDIZED"),
+  plot = "PLOT3",
+  save = "FSCORES",
+  wd = file.path("Results", "Trajectories")
+)
+
+# Accessing the model:
+GBTM2 <- GBTM_models[[1]] #with 2 latent classes
+GBTM3 <- GBTM_models[[2]] #with 3 latent classes
+GBTM4 <- GBTM_models[[3]] #with 4 latent classes
+.
+.
+.
+}
+}
+\seealso{
+\code{\link{LGMobject}} for creating the mplusObject of a latent growth model.
+\code{\link{runLGM}} for conducting latent growth modelling with an mplusObject.
 }
