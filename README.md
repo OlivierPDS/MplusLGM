@@ -1,8 +1,10 @@
+<!-- 
 ---
 title: "README.md"
 author: "Olivier Percie du Sert"
 date: "2025-01-20"
 ---
+--> 
 
 # MplusLGM
 
@@ -107,7 +109,11 @@ print(spagh_plot)
 <!-- ggsave(spagh_plot, 
 filename = file.path(getwd(), "Results", "Figures", "spahg_plot.png")) -->
 
+
+
 <img src="Results/Figures/spahg_plot.png" width="75%"/>
+
+
 
 ## Step 2: Reference - Growth Curve Modelling (GCM)
 
