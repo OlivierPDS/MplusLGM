@@ -141,9 +141,11 @@ GCM_fit <- getFit(GCM_model)
 
 print(GCM_fit)
 ```
+
 ```
-#              Title Observations Parameters        LL      BIC     aBIC      AIC     AICC     CAIC 
-# 1 GCM_P1_K1_S1000;          350         10 -4873.299 9805.177 9773.454 9766.598 9767.247 9815.177
+|Title            | Observations| Parameters|        LL|      BIC|     aBIC|      AIC|     AICC|     CAIC|Warnings |Errors |
+|:----------------|------------:|----------:|---------:|--------:|--------:|--------:|--------:|--------:|:--------|:------|
+|GCM_P1_K1_S1000; |          350|         10| -4873.299| 9805.177| 9773.454| 9766.598| 9767.247| 9815.177|NA       |NA     |
 ```
 
 ## Step 3: Class enumeration - Group-Based Trajectory Modeling (GBTM)
@@ -175,6 +177,7 @@ GBTM_fit <- getFit(GBTM_models)
 
 print(GBTM_fit)
 ```
+
 ```
 |Title             | Observations| Parameters| NLatentClasses|        LL|      BIC|     aBIC|      AIC|     AICC|     CAIC| T11_LMR_Value| T11_LMR_PValue| count_1| count_2| count_3| count_4| count_5| count_6| proportion_1| proportion_2| proportion_3| proportion_4| proportion_5| proportion_6|Proportion_criterion | APPA1| APPA2| APPA3| APPA4| APPA5| APPA6|APPA_criterion | Entropy|Entropy_criterion |Warnings                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |Errors |
 |:-----------------|------------:|----------:|--------------:|---------:|--------:|--------:|--------:|--------:|--------:|-------------:|--------------:|-------:|-------:|-------:|-------:|-------:|-------:|------------:|------------:|------------:|------------:|------------:|------------:|:--------------------|-----:|-----:|-----:|-----:|-----:|-----:|:--------------|-------:|:-----------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------|
@@ -184,6 +187,7 @@ print(GBTM_fit)
 |GBTM_P3_K3_S1000; |          350|         15|              3| -4810.933| 9709.736| 9662.151| 9651.867| 9653.304| 9724.735|        67.769|         0.0008|     145|     160|      45|      NA|      NA|      NA|        41.43|        45.71|        12.86|           NA|           NA|           NA|pass                 | 0.904| 0.841| 0.871|    NA|    NA|    NA|pass           |   0.720|pass              |All continuous latent variable covariances involving I have been fixed to 0 because the variance of I is fixed at 0. All continuous latent variable covariances involving S have been fixed to 0 because the variance of S is fixed at 0. All continuous latent variable covariances involving Q have been fixed to 0 because the variance of Q is fixed at 0. 3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS                                                                                                                                                             |NA     |
 |GBTM_P3_K2_S1000; |          350|         10|              2| -4845.975| 9750.529| 9718.806| 9711.950| 9712.599| 9760.529|       340.573|         0.0000|     138|     212|      NA|      NA|      NA|      NA|        39.43|        60.57|           NA|           NA|           NA|           NA|pass                 | 0.902| 0.929|    NA|    NA|    NA|    NA|pass           |   0.740|pass              |All continuous latent variable covariances involving I have been fixed to 0 because the variance of I is fixed at 0. All continuous latent variable covariances involving S have been fixed to 0 because the variance of S is fixed at 0. All continuous latent variable covariances involving Q have been fixed to 0 because the variance of Q is fixed at 0. 3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS                                                                                                                                                             |NA     |
 ```
+
 The optimal number of latent classes (K) will be determined using the Bayesian Information Criterion (BIC).
 The difference in BIC between the K and K-1 models will be assessed using the Lo-Mendel-Rubin adjusted likelihood ratio test
 (LMR-aLRT), as the Bootstrapped LRT (BLRT) provided inconclusive results.
@@ -203,6 +207,7 @@ GBTM_best <- getBest(
   p = 0.05
   )
 ```
+
 ```
 # The model with the best BIC value is: GBTM_P3_K4_S1000.
 # The T11_LMR_PValue p-value was not significant (p > 0.05), indicating that the number of classes (K) could be reduced to K = 3.
@@ -261,19 +266,14 @@ LCGA_fit <- getFit(c(GBTM_best, LCGA_models))
 print(LCGA_fit)
 ```
 
-<!--
-  LCGA_fit %>%
-  kbl() %>% 
-  kable_classic() %>% 
-  scroll_box(width = "100%", height = "200px") %>% 
-  save_kable(file = file.path("Results", "Figures", "LCGA_fit.html"), self_contained = TRUE)
-  -->
-
-
-
-<iframe src="https://olivierpds.github.io/MplusLGM/Results/Figures/LCGA_fit.html" width="100%" height="300px" style="border:none;"></iframe>
-
-
+```
+|Title                | Observations| Parameters| NLatentClasses|        LL|      BIC|     aBIC|      AIC|     AICC|     CAIC| T11_LMR_Value| T11_LMR_PValue| count_1| count_2| count_3| proportion_1| proportion_2| proportion_3|Proportion_criterion | APPA1| APPA2| APPA3|APPA_criterion | Entropy|Entropy_criterion |Warnings                                                                                                                                                                                                                                                                                                                                                                                                    |Errors |
+|:--------------------|------------:|----------:|--------------:|---------:|--------:|--------:|--------:|--------:|--------:|-------------:|--------------:|-------:|-------:|-------:|------------:|------------:|------------:|:--------------------|-----:|-----:|-----:|:--------------|-------:|:-----------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------|
+|LCGA_C_P3_K3_S1000;  |          350|         17|              3| -4779.307| 9658.198| 9604.268| 9592.613| 9594.456| 9675.199|        93.520|         0.0128|     203|      35|     112|        58.00|        10.00|        32.00|pass                 | 0.930| 0.913| 0.879|pass           |   0.805|pass              |All continuous latent variable covariances involving I have been fixed to 0 because the variance of I is fixed at 0. All continuous latent variable covariances involving S have been fixed to 0 because the variance of S is fixed at 0. All continuous latent variable covariances involving Q have been fixed to 0 because the variance of Q is fixed at 0. 3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS |NA     |
+|LCGA_TC_P3_K3_S1000; |          350|         29|              3| -4745.170| 9660.220| 9568.222| 9548.340| 9553.778| 9689.220|       126.858|         0.0022|      70|      67|     213|        20.00|        19.14|        60.86|pass                 | 0.898| 0.918| 0.935|pass           |   0.830|pass              |All continuous latent variable covariances involving I have been fixed to 0 because the variance of I is fixed at 0. All continuous latent variable covariances involving S have been fixed to 0 because the variance of S is fixed at 0. All continuous latent variable covariances involving Q have been fixed to 0 because the variance of Q is fixed at 0. 3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS |NA     |
+|GBTM_P3_K3_S1000;    |          350|         15|              3| -4810.933| 9709.736| 9662.151| 9651.867| 9653.304| 9724.735|        67.769|         0.0008|     145|     160|      45|        41.43|        45.71|        12.86|pass                 | 0.904| 0.841| 0.871|pass           |   0.720|pass              |All continuous latent variable covariances involving I have been fixed to 0 because the variance of I is fixed at 0. All continuous latent variable covariances involving S have been fixed to 0 because the variance of S is fixed at 0. All continuous latent variable covariances involving Q have been fixed to 0 because the variance of Q is fixed at 0. 3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS |NA     |
+|LCGA_T_P3_K3_S1000;  |          350|         19|              3| -4806.842| 9724.985| 9664.711| 9651.685| 9653.988| 9743.985|        69.050|         0.0048|     154|      52|     144|        44.00|        14.86|        41.14|pass                 | 0.842| 0.877| 0.903|pass           |   0.722|pass              |All continuous latent variable covariances involving I have been fixed to 0 because the variance of I is fixed at 0. All continuous latent variable covariances involving S have been fixed to 0 because the variance of S is fixed at 0. All continuous latent variable covariances involving Q have been fixed to 0 because the variance of Q is fixed at 0. 3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS |NA     |
+```
 
 Examining the fit indices of the LCGA models in comparison to the best-fitting GBTM, the LCGA
 with relaxed residual variance across class had the best BIC value. The aLRT p-value 
