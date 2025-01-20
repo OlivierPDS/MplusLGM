@@ -1,0 +1,48 @@
+TITLE:
+LCGA_C_P3_K3_S500;
+
+DATA:
+FILE = "Results/LCGA/C/P3/K3/S500.dat";
+ 
+VARIABLE:
+NAMES = id sx_0 sx_6 sx_12 sx_18 sx_24; 
+ MISSING=.;
+ USEVAR = sx_0 sx_6 sx_12 sx_18 sx_24;
+IDVAR = id;
+CLASSES = c(3);
+
+ANALYSIS:
+TYPE = MIXTURE;
+STARTS = 500 125;
+K-1STARTS = 500 125;
+PROCESSORS = 8;
+
+MODEL:
+%OVERALL%
+i s q cub | sx_0@0 sx_6@6 sx_12@12 sx_18@18 sx_24@24;
+[i s q cub];
+i-cub@0;
+%C#1%
+[i s q cub];
+i-cub@0;
+sx_0 - sx_24 (1);
+%C#2%
+[i s q cub];
+i-cub@0;
+sx_0 - sx_24 (2);
+%C#3%
+[i s q cub];
+i-cub@0;
+sx_0 - sx_24 (3);
+
+OUTPUT:
+TECH1 TECH11 SAMPSTAT STANDARDIZED;
+
+SAVEDATA:
+FILE = LCGA_C_P3_K3_S500_res.dat;
+SAVE = FSCORES;
+
+PLOT:
+TYPE = PLOT3;
+SERIES = sx_0-sx_24 (*);
+

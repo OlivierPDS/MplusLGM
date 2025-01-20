@@ -1,0 +1,33 @@
+TITLE:
+GCM_P1_K1_S500;
+
+DATA:
+FILE = "Results/GCM/P1/K1/S500.dat";
+ 
+VARIABLE:
+NAMES = id sx_0 sx_6 sx_12 sx_18 sx_24; 
+ MISSING=.;
+ USEVAR = sx_0 sx_6 sx_12 sx_18 sx_24;
+IDVAR = id;
+
+ANALYSIS:
+TYPE = GENERAL;
+STARTS = 500;
+PROCESSORS = 8;
+
+MODEL:
+i s | sx_0@0 sx_6@6 sx_12@12 sx_18@18 sx_24@24;
+[i s];
+i s;
+
+OUTPUT:
+TECH1 SAMPSTAT STANDARDIZED;
+
+SAVEDATA:
+FILE = GCM_P1_K1_S500_res.dat;
+SAVE = FSCORES;
+
+PLOT:
+TYPE = PLOT3;
+SERIES = sx_0-sx_24 (*);
+
