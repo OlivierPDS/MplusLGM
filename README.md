@@ -347,7 +347,12 @@ print(final_fit)
    as.character() %>% 
   cat() -->
   
-<iframe src="https://olivierpds.github.io/MplusLGM/final_fit.html" width="100%" height="300px" style="border:none;"></iframe>
+  
+  
+
+<iframe src="https://olivierpds.github.io/MplusLGM/Results/Figures/final_fit.html" width="100%" height="300px" style="border:none;"></iframe>
+
+
 
 ```
 # Plot final model
