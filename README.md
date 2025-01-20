@@ -337,22 +337,12 @@ final_fit <- getFit(final_model)
 
 print(final_fit)
 ```
-<!--
-  final_fit %>%
-  kbl() %>% 
-  kable_classic() %>% 
-  scroll_box(width = "100%", height = "200px") %>% 
-  save_kable(file = file.path("Results", "Figures", "final_fit.html"), self_contained = TRUE)
-  
-   as.character() %>% 
-  cat() -->
-  
-  
-  
 
-<iframe src="https://olivierpds.github.io/MplusLGM/Results/Figures/final_fit.html" width="100%" height="300px" style="border:none;"></iframe>
-
-
+```
+|Title                 | Observations| Parameters| NLatentClasses|        LL|      BIC|     aBIC|      AIC|     AICC|     CAIC| T11_LMR_Value| T11_LMR_PValue| count_1| count_2| count_3| proportion_1| proportion_2| proportion_3|Proportion_criterion | APPA1| APPA2| APPA3|APPA_criterion | Entropy|Entropy_criterion |Warnings                                                                                                                                                                                                                                                                                                                                                                                                    |Errors |
+|:---------------------|------------:|----------:|--------------:|---------:|--------:|--------:|--------:|--------:|--------:|-------------:|--------------:|-------:|-------:|-------:|------------:|------------:|------------:|:--------------------|-----:|-----:|-----:|:--------------|-------:|:-----------------|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:------|
+|LCGA_C_P221_K3_S8000; |          350|         13|              3| -4794.113| 9664.379| 9623.138| 9614.225| 9615.308| 9677.379|       104.851|         0.0293|     107|     207|      36|        30.57|        59.14|        10.29|pass                 | 0.884| 0.921| 0.907|pass           |   0.797|pass              |All continuous latent variable covariances involving I have been fixed to 0 because the variance of I is fixed at 0. All continuous latent variable covariances involving S have been fixed to 0 because the variance of S is fixed at 0. All continuous latent variable covariances involving Q have been fixed to 0 because the variance of Q is fixed at 0. 3 WARNING(S) FOUND IN THE INPUT INSTRUCTIONS |NA     |
+```
 
 ```
 # Plot final model
