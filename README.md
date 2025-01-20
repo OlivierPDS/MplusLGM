@@ -19,7 +19,7 @@ Key features include:
   -   Extracting model fit indices (`getFit`)
   -   Selecting best-fitting model (`getBest`)
 
-This package was designed to implement and streamline the procedure for model selection outlined in: [Van Der Nest et al.(2020)](https://www.sciencedirect.com/science/article/pii/S1040260819301881?via%3Dihub). "An overview of mixture modelling for latent evolutions in longitudinal data: Modelling approaches, fit statistics and software." Advances in Life Course Research
+This package was designed to implement and streamline the procedure for model selection outlined in: [Van Der Nest et al.(2020)](https://doi.org/10.1016/j.alcr.2019.100323). "An overview of mixture modelling for latent evolutions in longitudinal data: Modelling approaches, fit statistics and software." Advances in Life Course Research
 
   1.  Plotting individual trajectories of outcome (`getSpaghetti`)
   2.  Estimating 1-class GCM for reference (`fitGCM`)
