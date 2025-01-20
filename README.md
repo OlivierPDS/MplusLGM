@@ -143,9 +143,9 @@ print(GCM_fit)
 ```
 
 ```
-|Title            | Observations| Parameters|        LL|      BIC|     aBIC|      AIC|     AICC|     CAIC|Warnings |Errors |
-|:----------------|------------:|----------:|---------:|--------:|--------:|--------:|--------:|--------:|:--------|:------|
-|GCM_P1_K1_S1000; |          350|         10| -4873.299| 9805.177| 9773.454| 9766.598| 9767.247| 9815.177|NA       |NA     |
+# |Title            | Observations| Parameters|        LL|      BIC|     aBIC|      AIC|     AICC|     CAIC|Warnings |Errors |
+# |:----------------|------------:|----------:|---------:|--------:|--------:|--------:|--------:|--------:|:--------|:------|
+# |GCM_P1_K1_S1000; |          350|         10| -4873.299| 9805.177| 9773.454| 9766.598| 9767.247| 9815.177|NA       |NA     |
 ```
 
 ## Step 3: Class enumeration - Group-Based Trajectory Modeling (GBTM)
