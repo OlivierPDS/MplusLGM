@@ -167,6 +167,7 @@ runLGM <- function(lgm_object, wd) {
           {
             LL_m1 <- purrr::chuck(model_list, model_idx - 1, "results", "summaries", "LL")
             LL_m2 <- purrr::chuck(model_list, model_idx, "results", "summaries", "LL")
+            NULL
           },
           error = function(e) {
             print("Error: The Model did not provide a log-likelihood value. It likely did not converge. Check output file")

@@ -1,4 +1,5 @@
 # MplusLGM (development version)
+- bugfix: `runLGM` - fixed tryCatch to return NULL instead of LL_m2 when no error
 
 # MplusLGM 1.0.0
 - data: `symptoms` is a simulated dataset of longitudinal assessment of symptom severity
