@@ -350,6 +350,6 @@ print(final_plot)
 ```
 
 <!-- final_plot %>% 
-ggsave(filename = file.path(getwd(), "Results", "Figures", "final_plot.png")) -->
+ggsave(filename = file.path("Results", "Figures", "final_plot.png")) -->
 
 <img src="Results/Figures/final_plot.png" width="75%"/>
