@@ -167,17 +167,21 @@ getPoly <- function(
 # Helper functions -------------------------------------------------------------
 ## getParam --------------------------------------------------------------------
 .getParam <- function(model) {
+
   param_df <- model %>%
     purrr::pluck("results", "parameters", "unstandardized") %>%
     dplyr::filter(stringr::str_detect(string = paramHeader, pattern = "Means") &
              param %in% c("I", "S", "Q", "CUB")) %>%
     dplyr::select("LatentClass", "param", "pval")
 
+
   return(param_df)
 }
 
+
 ## getPval ---------------------------------------------------------------------
 .getPval <- function(df, k, gf) {
+
   pval_list <- gf %>%
     purrr::map2(1:k, \(gf, k)
     dplyr::filter(df, param == gf &
@@ -186,3 +190,18 @@ getPoly <- function(
 
   return(pval_list)
 }
+
+
+# Declare global variables -----------------------------------------------------
+utils::globalVariables(c(
+  ".data",
+  "Errors",
+  "Title",
+  "NLatentClasses",
+  "param",
+  "paramHeader",
+  "LatentClass",
+  "APPA_criterion",
+  "Entropy_criterion",
+  "Proportion_criterion"
+))

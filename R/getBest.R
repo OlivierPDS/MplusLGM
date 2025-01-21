@@ -43,7 +43,7 @@
 #' print(best_fit)
 #' }
 
-#' @importFrom dplyr filter mutate case_when if_any pull
+#' @importFrom dplyr filter mutate case_when if_any pull desc arrange
 #' @importFrom tidyselect starts_with
 #' @importFrom purrr keep pluck
 #' @importFrom stringr str_detect
@@ -75,7 +75,7 @@ getBest <- function(lgm_object,
   ## Extract fit indices from list of models
   table <- getFit(lgm_object) %>%
     dplyr::filter(is.na(Errors)) %>%
-    dplyr::arrange(desc(NLatentClasses), ic)
+    dplyr::arrange(dplyr::desc(NLatentClasses), ic)
 
   stopifnot(
     ic %in% names(table),
@@ -190,3 +190,9 @@ getBest <- function(lgm_object,
 
   return(best_model)
 }
+
+# Declare global variables  ----------------------------------------------------
+utils::globalVariables(c(
+  "Errors", "NLatentClasses", ".data", "Title",
+  "APPA_criterion", "Entropy_criterion", "Proportion_criterion"
+))

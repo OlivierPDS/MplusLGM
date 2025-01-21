@@ -60,3 +60,6 @@ getSpaghetti <- function(data, outvar) {
 
   return(spaghetti_plot)
 }
+
+# Declare global variables ------------------------------------
+utils::globalVariables(c("time", "value", "rowname"))

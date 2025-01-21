@@ -22,7 +22,7 @@
 #' This output facilitates side-by-side comparison of models to support model evaluation and selection.
 
 #' @importFrom purrr reduce pluck modify_tree list_flatten map
-#' @importFrom dplyr mutate across rename_with full_join select bind_rows tibble na_if
+#' @importFrom dplyr mutate across rename_with full_join select bind_rows tibble na_if arrange desc
 #' @importFrom tibble rowid_to_column
 #' @importFrom tidyr pivot_wider
 #' @importFrom stringr str_trim str_to_title
@@ -105,7 +105,7 @@ getFit <- function(lgm_object) {
       ),
       c("Warnings", "Errors")
     ) %>%
-      dplyr::arrange(desc(NLatentClasses), BIC)
+      dplyr::arrange(dplyr::desc(NLatentClasses), BIC)
 
   return(table)
 }
@@ -193,3 +193,13 @@ getFit <- function(lgm_object) {
     unlist() %>%
     all()
 }
+
+## Declare global variables ----------------------------------------------------
+utils::globalVariables(c(
+  ".",
+  "LL",
+  "Parameters",
+  "Observations",
+  "BIC",
+  "desc"
+))
