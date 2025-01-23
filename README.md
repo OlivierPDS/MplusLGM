@@ -52,42 +52,6 @@ library(MplusLGM)
 data(symptoms)
 ```
 
-<!-- 
-setwd("~/Library/CloudStorage/OneDrive-McGillUniversity/CRISP/PhD/PEPP-Montreal/2.PEPP5/Analyses")
-
-PEPP2_df <- list.files(file.path('..', '..', 'GitHub', 'PEPP_private', 'PEPP2', 'Data', 'SAV'),
-  full.names = TRUE) %>%
-  file.info() %>%
-  filter(isdir == FALSE) %>% 
-  slice_max(mtime) %>% # get the most updated file
-  rownames() %>% 
-  read_sav()
-
-PEPP2_df <- PEPP2_df %>% 
-  filter(pin <= 857) %>% 
-  select(num_range(prefix = "SANS_", range = 0:24)) %>% 
-  rename_with(~ paste("sx", c(0, 1, 2, 3, 6, 9, 12, 18, 24), sep = "_"), starts_with('SANS')) 
-    
-missings <- PEPP2_df %>% 
-  map_dfc(\(x) sum(is.na(x)) / nrow(.) * 100) %>% 
-  pivot_longer(cols = everything(),
-               values_to = '%miss') %>% 
-  pull("%miss") %>%
-  round(0) 
-    
-missings[[2]] <- 15
-  
-PEPP2_df <- PEPP2_df %>% 
-  filter(if_all(everything(), ~ !is.na(.x))) 
-                  
-symptoms <- modgo(data = PEPP2_df, n_samples = 350, generalized_mode = TRUE) %>% 
-  pluck("simulated_data", 1) %>% 
-  mutate(id = seq(350)) %>% 
-  mutate(across(everything(), ~ round(., 0))) %>% 
-  select(id, starts_with("sx")) 
-  delete_MCAR(p = missings/100)
--->
-
 ## Step 1: Visual inspection - Spaghetti plot
 
 Plot individual trajectories of symptoms to provide a visual representation of whether 
