@@ -10,7 +10,7 @@ date: "2025-01-20"
 
 This package provides a comprehensive suite of functions for conducting and automating Latent Growth Modeling (LGM) in Mplus using R, including Growth Curve Models (GCM), Growth-Based Trajectory Models (GBTM) and Latent Class Growth Analysis (LCGA).
 
-This package was build upon the capabilities from the [MplusAutomation](https://github.com/michaelhallquist/MplusAutomation) package. [Hallquist et al.(2018)](https://pmc.ncbi.nlm.nih.gov/articles/PMC6075832/). MplusAutomation: An R Package for Facilitating Large-Scale Latent Variable Analyses in Mplus. Structural equation modeling: a multidisciplinary journal.
+This package was build upon the capabilities from the [MplusAutomation](https://github.com/michaelhallquist/MplusAutomation) package. [Hallquist et al.(2018)](https://doi.org/10.1080/10705511.2017.1402334). MplusAutomation: An R Package for Facilitating Large-Scale Latent Variable Analyses in Mplus. Structural equation modeling: a multidisciplinary journal.
 
 Key features include:
 
