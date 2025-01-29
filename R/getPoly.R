@@ -91,7 +91,7 @@ getPoly <- function(
       purrr::map2(1:k,
                \(gf_highest, k) dplyr::filter(param_df, param == gf_highest &
                              LatentClass == k)) %>%
-      purrr::map(~ dplyr::mutate(.x, gf0 = dplyr::if_else(pval == 0, paste0(param, "@0"), param))) %>%
+      purrr::map(~ dplyr::mutate(.x, gf0 = dplyr::if_else(pval > 0.05, paste0(param, "@0"), param))) %>%
       purrr::map(~ purrr::pluck(.x, "gf0"))
 
     ## Update growth factor by classes -----------------------------------------
