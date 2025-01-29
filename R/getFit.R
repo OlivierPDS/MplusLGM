@@ -104,8 +104,7 @@ getFit <- function(lgm_object) {
         )
       ),
       c("Warnings", "Errors")
-    ) %>%
-      dplyr::arrange(dplyr::desc(NLatentClasses), BIC)
+    )
 
   return(table)
 }
