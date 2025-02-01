@@ -73,9 +73,6 @@
 #' GBTM2 <- GBTM_models[[1]] #with 2 latent classes
 #' GBTM3 <- GBTM_models[[2]] #with 3 latent classes
 #' GBTM4 <- GBTM_models[[3]] #with 4 latent classes
-#' .
-#' .
-#' .
 #' }
 
 #' @importFrom purrr compact
