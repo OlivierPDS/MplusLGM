@@ -54,16 +54,16 @@
 #' \code{\link{runLGM}} for conducting latent growth modelling with an mplusObject.
 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Example usage:
 #' LCGA_models <- fitLCGA(
 #'  data = symptoms,
-#'  outvar = paste('sx', seq(from = 0, to = 24, by = 3), sep = "_"),
+#'  outvar = paste('sx', seq(from = 0, to = 24, by = 6), sep = "_"),
 #'  catvar = FALSE,
 #'  idvar = "id",
 #'  starting_val = 500,
 #'  k = 3L,
-#'  timescores = seq(from = 0, to = 24, by = 3),
+#'  timescores = seq(from = 0, to = 24, by = 6),
 #'  timescores_indiv = FALSE,
 #'  polynomial = 3,
 #'  output = c('TECH1', 'TECH14', 'SAMPSTAT', 'STANDARDIZED'),

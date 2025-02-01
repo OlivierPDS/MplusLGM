@@ -47,7 +47,7 @@ The function select the best-fitting model based on the following criteria:
 }
 }
 \examples{
-\dontrun{
+\donttest{
 # Example usage:
 GBTM_best <- getBest(
   lgm_object = GBTM_models,

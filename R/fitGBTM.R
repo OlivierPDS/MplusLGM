@@ -50,17 +50,17 @@
 #' \code{\link{runLGM}} for conducting latent growth modelling with an mplusObject.
 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Example usage:
 #' GBTM_models <- fitGBTM(
 #'   data = symptoms,
-#'   outvar = paste("sx", seq(from = 0, to = 24, by = 3), sep = "_"),
+#'   outvar = paste("sx", seq(from = 0, to = 24, by = 6), sep = "_"),
 #'   catvar = FALSE,
-#'   idvar = "ID",
+#'   idvar = "id",
 #'   starting_val = 500,
 #'   min_k = 2L,
 #'   max_k = 6L,
-#'   timescores = seq(from = 0, to = 24, by = 3),
+#'   timescores = seq(from = 0, to = 24, by = 6),
 #'   timescores_indiv = FALSE,
 #'   polynomial = 1,
 #'   output = c("TECH1", 'TECH14', "SAMPSTAT", "STANDARDIZED"),

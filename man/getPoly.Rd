@@ -39,7 +39,7 @@ Van Der Nest et al,. (2020). "An overview of mixture modelling for latent evolut
 Advances in Life Course Research 43: 100323.
 }
 \examples{
-\dontrun{
+\donttest{
 # Example usage:
 final_model <- getPoly(
   lgm_object = LCGA_best,
@@ -49,7 +49,6 @@ final_model <- getPoly(
 final_fit <- getFit(final_model)
 
  print(final_fit)
-
 }
 }
 \seealso{

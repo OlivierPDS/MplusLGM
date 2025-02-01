@@ -30,7 +30,7 @@ model evaluation and comparison.
 This output facilitates side-by-side comparison of models to support model evaluation and selection.
 }
 \examples{
-\dontrun{
+\donttest{
 # Example usage:
 fit_indices <- getFit(lgm_object = GCM_model)
 fit_indices <- getFit(lgm_object = list(GCM_model, GBTM_models, LCGA_models))

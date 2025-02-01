@@ -33,16 +33,16 @@
 #' \code{\link{runLGM}} for conducting latent growth modelling with an mplusObject.
 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Example usage:
 #' GCM_model <- fitGCM(
 #'   data = symptoms,
-#'   outvar = paste("sx", seq(from = 0, to = 24, by = 3), sep = "_"),
+#'   outvar = paste("sx", seq(from = 0, to = 24, by = 6), sep = "_"),
 #'   catvar = FALSE,
 #'   idvar = "id",
 #'   starting_val = 500,
 #'   polynomial = 3,
-#'   timescores = seq(from = 0, to = 24, by = 3),
+#'   timescores = seq(from = 0, to = 24, by = 6),
 #'   timescores_indiv = FALSE,
 #'   output = c("TECH1", "SAMPSTAT", "STANDARDIZED"),
 #'   plot = "PLOT3",

@@ -18,11 +18,10 @@ A ggplot object displaying the spaghetti plot of individual trajectories.
 Generate a spaghetti plot to visualize the individual trajectories of a given outcome across time..
 }
 \examples{
-\dontrun{
 # Example usage:
 plot <- getSpaghetti(
-  data = df,
-  ouvar = paste("sx", seq(from = 0, to = 36, by = 12), sep = "_")
+  data = symptoms,
+  outvar = paste("sx", seq(from = 0, to = 24, by = 6), sep = "_"))
+
 print(plot)
-}
 }

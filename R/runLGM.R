@@ -41,11 +41,11 @@
 
 #' @export
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Example usage:
 #' GBTM_model <-  runLGM(
 #'   lgm_object = GBTM_object,
-#'   wd = file.path("Results", "Trajectories")
+#'   wd = file.path("Results", "Trajectories"))
 #' }
 
 # runLGM function ------------------------------------------------------------
@@ -119,7 +119,7 @@ runLGM <- function(lgm_object, wd) {
 
     path_dir <- .createModelDir(lgm_object, wd)
 
-    print(glue::glue("Begin running model: {lgm_object$TITLE}"))
+    message(glue::glue("Begin running model: {lgm_object$TITLE}"))
 
     ### Run model --------------------------------------------------------------
     # Run model from Mplus Object and store it in a list.
@@ -133,13 +133,13 @@ runLGM <- function(lgm_object, wd) {
         quiet = TRUE
       )
 
-    print(glue::glue("Finished running model: {lgm_object$TITLE}"))
+    message(glue::glue("Finished running model: {lgm_object$TITLE}"))
 
     errors <- purrr::pluck(model_list, model_idx, "results", "errors")
 
     if (!purrr::is_empty(errors)) {
 
-      print(
+      warning(
         paste(
           unlist(errors),
           collapse = " ")
@@ -170,8 +170,8 @@ runLGM <- function(lgm_object, wd) {
             NULL
           },
           error = function(e) {
-            print("Error: The Model did not provide a log-likelihood value. It likely did not converge. Check output file")
-            print(e$message)
+            warning("Error: The Model did not provide a log-likelihood value. It likely did not converge. Check output file")
+            warning(e$message)
           }
         )
 

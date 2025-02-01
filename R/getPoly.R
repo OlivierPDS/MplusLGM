@@ -28,7 +28,7 @@
 #' Advances in Life Course Research 43: 100323.
 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Example usage:
 #' final_model <- getPoly(
 #'   lgm_object = LCGA_best,
@@ -38,7 +38,6 @@
 #' final_fit <- getFit(final_model)
 #'
 #'  print(final_fit)
-#'
 #' }
 
 #' @seealso
@@ -104,7 +103,7 @@ getPoly <- function(
 
     gf <- gf_k
 
-    print(glue("Class {str_which(gf0, '@0')}: the highest-order polynomial term was not significant (p > 0.05) and was removed {str_subset(gf0, '@0')}"))
+    message(glue("Class {str_which(gf0, '@0')}: the highest-order polynomial term was not significant (p > 0.05) and was removed {str_subset(gf0, '@0')}"))
 
     ## Update growth factor mean by classes ------------------------------------
     gf_mean <- gf_k %>%
@@ -160,7 +159,7 @@ getPoly <- function(
 
   }
 
-  print("The highest-order polynomial term is significant (p < 0.05) across all classes.")
+  message("The highest-order polynomial term is significant (p < 0.05) across all classes.")
   return(lgm_object)
 }
 

@@ -79,24 +79,22 @@ This function builds upon the capabilities of the \code{\link[MplusAutomation]{m
 from the MplusAutomation package.
 }
 \examples{
-\dontrun{
 # Example usage:
 GBTM_object <- LGMobject(
   data = symptoms,
-  outvar = paste("sx", seq(from = 0, to = 24, by = 3), sep = "_"),
+  outvar = paste("sx", seq(from = 0, to = 24, by = 6), sep = "_"),
   idvar = "id",
   catvar = FALSE,
   k = 3L,
   starting_val = 500,
   lgm_type = "gbtm",
   polynomial = 3,
-  timescores = seq(from = 0, to = 24, by = 3),
+  timescores = seq(from = 0, to = 24, by = 6),
   timescores_indiv = FALSE,
   output = c("TECH1", "TECH14", "SAMPSTAT", "STANDARDIZED"),
   plot = "PLOT3",
   save = "FSCORES"
   )
-}
 }
 \seealso{
 \code{\link[MplusAutomation]{mplusObject}} for creating an mplusObject.

@@ -41,11 +41,11 @@ This function builds upon the capabilities of the \code{\link[MplusAutomation]{m
 from the MplusAutomation package.
 }
 \examples{
-\dontrun{
+\donttest{
 # Example usage:
 GBTM_model <-  runLGM(
   lgm_object = GBTM_object,
-  wd = file.path("Results", "Trajectories")
+  wd = file.path("Results", "Trajectories"))
 }
 }
 \seealso{

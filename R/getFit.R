@@ -31,7 +31,7 @@
 #' @export
 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Example usage:
 #' fit_indices <- getFit(lgm_object = GCM_model)
 #' fit_indices <- getFit(lgm_object = list(GCM_model, GBTM_models, LCGA_models))

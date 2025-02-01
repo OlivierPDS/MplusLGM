@@ -17,13 +17,12 @@
 #' @importFrom ggplot2 ggplot aes geom_point geom_line labs theme_minimal
 
 #' @examples
-#' \dontrun{
 #' # Example usage:
 #' plot <- getSpaghetti(
-#'   data = df,
-#'   ouvar = paste("sx", seq(from = 0, to = 36, by = 12), sep = "_")
+#'   data = symptoms,
+#'   outvar = paste("sx", seq(from = 0, to = 24, by = 6), sep = "_"))
+#'
 #' print(plot)
-#' }
 
 # getSpaghetti function --------------------------------------------------------
 getSpaghetti <- function(data, outvar) {

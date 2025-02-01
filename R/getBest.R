@@ -29,7 +29,7 @@
 #' @return The LGM `mplusObject` of the best-fitting model.
 
 #' @examples
-#' \dontrun{
+#' \donttest{
 #' # Example usage:
 #' GBTM_best <- getBest(
 #'   lgm_object = GBTM_models,
@@ -88,7 +88,7 @@ getBest <- function(lgm_object,
 
   title <- dplyr::pull(best_ic, Title)
 
-  print(glue::glue("The model with the best {ic} value is: {title}"))
+  message(glue::glue("The model with the best {ic} value is: {title}"))
 
   if (is.null(lrt)) {
     if (any(c("T11_LMR_PValue", "BLRT_PValue") %in% names(table))) {
@@ -96,21 +96,21 @@ getBest <- function(lgm_object,
         stringr::str_subset("PValue$")
 
       if (pull(best_ic, lrt) > p) {
-        print(
+        message(
           glue::glue(
             "Warnings: The {lrt} p-value is not significant (p > {p}), indicating that the number of classes (K) can be reduced to K-1."
           )
         )
       }
       if (pull(best_ic, lrt) <= p) {
-        print(
+        message(
           glue::glue(
             "Note: The {lrt} p-value is significant (p <= {p}), indicating that the number of classes cannot be reduced."
           )
         )
       }
     } else {
-      print(
+      message(
         glue::glue("Warning: Use LRT to assess whether the number of classes (K) can be reduced to K-1.")
       )
     }
@@ -123,7 +123,7 @@ getBest <- function(lgm_object,
     if (pull(best_ic, lrt) > p) {
       title <- pull(best_lrt, Title)
 
-      print(
+      message(
         glue::glue(
           "The {lrt} p-value was not significant (p > 0.05), indicating that the number of classes (K) could be reduced to K = {pull(best_lrt, NLatentClasses)}."
         ),
@@ -133,7 +133,7 @@ getBest <- function(lgm_object,
       )
     }
     if (pull(best_ic, lrt) <= p) {
-      print(
+      message(
         glue::glue(
           "The LRT p-value is significant (p <= {p}), indicating that the number of classes cannot be reduced."
         )
@@ -145,12 +145,12 @@ getBest <- function(lgm_object,
     table <- table %>%
       filter(Title == title)
   } else {
-    stop(print("Warning: No model meet the selection criteria"))
+    stop(message("Warning: No model meet the selection criteria"))
   }
 
 
   if (pull(table, APPA_criterion) == "fail") {
-    print(
+    message(
       glue(
         "Warning: Some classes have an APPA below 0.7, indicating lower certainty in classification.
         Some individuals have a weak probability of belonging to their assigned class."
@@ -158,14 +158,14 @@ getBest <- function(lgm_object,
     )
   }
   if (pull(table, Entropy_criterion) == "fail") {
-    print(
+    message(
       glue(
         "Warning: Entropy is below 0.5, indicating poor separation between classes and increased uncertainty in class assignments."
       )
     )
   }
   if (pull(table, Proportion_criterion) == "fail") {
-    print(
+    message(
       glue(
         "Warning: Some classes represent less than 5% of the sample, raising concerns about their practical
         significance, relevance, and interpretability."
