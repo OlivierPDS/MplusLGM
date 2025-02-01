@@ -1,4 +1,6 @@
 # MplusLGM (development version)
+- bugfix: `getPoly`- edit p-value threshold for statistical significance
+- bugfix: `getFit`- remove sorting on NLatentclass because of GCM
 - bugfix: `runLGM` - fixed tryCatch to return NULL instead of LL_m2 when no error
 
 # MplusLGM 1.0.0
