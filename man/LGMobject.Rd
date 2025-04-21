@@ -13,10 +13,13 @@ LGMobject(
   starting_val,
   estimator = c("MLR", "ML", "WLSMV", "WLS"),
   transformation = c("LOGIT", "PROBIT"),
-  lgm_type = c("gcm", "gbtm", "lcga_t", "lcga_c", "lcga_tc"),
+  lgm_type = c("gcm", "gbtm", "lcga", "gmm"),
+  residuals = c("fixed", "free_time", "free_class", "relaxed"),
+  random_effect = c("class_invariant", "class_variant"),
   polynomial = 1,
   timescores,
   timescores_indiv = FALSE,
+  mplus_model = NULL,
   output,
   plot,
   save
@@ -40,13 +43,22 @@ Note that the number of final stage optimizations will be set as equal to half o
 
 \item{transformation}{A character string to specify the latent response variable transformation to use when the outcome variable is categorical. Default is \code{LOGIT}.}
 
-\item{lgm_type}{A character string specifying the residual variance structure of the growth model. Options include:
+\item{lgm_type}{A character string specifying the type of latent growth model to build. Options include: gcm, gbtm, lcga and gmm.}
+
+\item{residuals}{A character string specifying the structure of the residual variance (variability of the errors at each time point).
+Options include:
 \itemize{
-\item - "gcm" (relaxed residual variance across time),
-\item - "gbtm" (fixed residual variance across time and class),
-\item - "lcga_t" (relaxed residual variance across time),
-\item - "lcga_c" (relaxed residual variance across class),
-\item - "lcga_tc" (relaxed residual variance across both time and class).
+\item "fixed" (fixed residual variance across time and class),
+\item "free_time" (free residual variance across time),
+\item "free_class" (free residual variance across class),
+\item "relaxed" (relaxed residual variance across both time and class).
+}}
+
+\item{random_effect}{A character string specifying the structure of the random effects.
+Options include:
+\itemize{
+\item "class_invariant" – Random effect variances are constrained to be equal across latent classes.
+\item "class_variant" – Random effect variances are freely estimated for each latent class.
 }}
 
 \item{polynomial}{An integer specifying the order of the polynomial used to model trajectories. Supported values are:
@@ -56,6 +68,8 @@ Note that the number of final stage optimizations will be set as equal to half o
 a character vector should be used to specify variables with individually varying times of observation.}
 
 \item{timescores_indiv}{A logical value indicating whether to use individually varying times of observation for the outcome variable. Default is \code{FALSE}.}
+
+\item{mplus_model}{A character string specifying a custom model using Mplus language. Default is \code{NULL}.}
 
 \item{output}{A character vector specifying the requested Mplus output options for the model.}
 
@@ -67,9 +81,9 @@ a character vector should be used to specify variables with individually varying
 A list of class \code{mplusObject} with elements specifying sections of an Mplus input file for conducting latent growth modeling.
 }
 \description{
-Provide flexibility for specifying Mplus LGM objects with various latent class and residual variance structures, and capturing individual differences in growth trajectories.
-Support Growth Curve Models (GCM), Growth-Based Trajectory Models (GBTM) and Latent Class Growth Analysis (LCGA).
-Once created, the model can be estimated using the \code{runLGM} function.
+Facilitates the specification of Mplus LGM objects, allowing control over the number of latent classes, polynomial growth terms, residual variance structures, and inclusion of random effects.
+Support Growth Curve Models (GCM), Growth-Based Trajectory Models (GBTM), Latent Class Growth Analysis (LCGA) and Growth Mixture Models (GMM).
+Once specified, the model object can be estimated using the \code{runLGM()} function.
 }
 \details{
 The \code{LGMobject} function facilitates and automates the appropriate model specification for conducting latent growth modeling in Mplus.
@@ -87,14 +101,16 @@ GBTM_object <- LGMobject(
   catvar = FALSE,
   k = 3L,
   starting_val = 500,
-  lgm_type = "gbtm",
+  lgm_type = "gmm",
+  residuals = "relaxed",
+  random_effect = "class_invariant",
   polynomial = 3,
   timescores = seq(from = 0, to = 24, by = 6),
   timescores_indiv = FALSE,
   output = c("TECH1", "TECH14", "SAMPSTAT", "STANDARDIZED"),
   plot = "PLOT3",
   save = "FSCORES"
-  )
+)
 }
 \seealso{
 \code{\link[MplusAutomation]{mplusObject}} for creating an mplusObject.

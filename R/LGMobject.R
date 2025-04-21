@@ -1,8 +1,8 @@
 #' @title Create Mplus model objects for Latent Growth Modelling (LGM)
 
-#' @description Provide flexibility for specifying Mplus LGM objects with various latent class and residual variance structures, and capturing individual differences in growth trajectories.
-#' Support Growth Curve Models (GCM), Growth-Based Trajectory Models (GBTM) and Latent Class Growth Analysis (LCGA).
-#' Once created, the model can be estimated using the `runLGM` function.
+#' @description Facilitates the specification of Mplus LGM objects, allowing control over the number of latent classes, polynomial growth terms, residual variance structures, and inclusion of random effects.
+#' Support Growth Curve Models (GCM), Growth-Based Trajectory Models (GBTM), Latent Class Growth Analysis (LCGA) and Growth Mixture Models (GMM).
+#' Once specified, the model object can be estimated using the `runLGM()` function.
 
 #' @param data A data frame containing all variables for the trajectory analysis.
 #' @param outvar A character vector specifying the outcome variables at different times.
@@ -13,19 +13,27 @@
 #' Note that the number of final stage optimizations will be set as equal to half of this value.
 #' @param estimator A character string to specify the estimator to use in the analysis. Default is 'MLR'.
 #' @param transformation A character string to specify the latent response variable transformation to use when the outcome variable is categorical. Default is `LOGIT`.
-#' @param lgm_type A character string specifying the residual variance structure of the growth model. Options include:
+#' @param lgm_type A character string specifying the type of latent growth model to build. Options include: gcm, gbtm, lcga and gmm.
+#' @param residuals A character string specifying the structure of the residual variance (variability of the errors at each time point).
+#' Options include:
 #' \itemize{
-#'    \item - "gcm" (relaxed residual variance across time),
-#'    \item - "gbtm" (fixed residual variance across time and class),
-#'    \item - "lcga_t" (relaxed residual variance across time),
-#'    \item - "lcga_c" (relaxed residual variance across class),
-#'    \item - "lcga_tc" (relaxed residual variance across both time and class).
+#'    \item "fixed" (fixed residual variance across time and class),
+#'    \item "free_time" (free residual variance across time),
+#'    \item "free_class" (free residual variance across class),
+#'    \item "relaxed" (relaxed residual variance across both time and class).
 #'    }
+#' @param random_effect A character string specifying the structure of the random effects.
+#' Options include:
+#' \itemize{
+#'   \item "class_invariant" – Random effect variances are constrained to be equal across latent classes.
+#'   \item "class_variant" – Random effect variances are freely estimated for each latent class.
+#' }
 #' @param polynomial An integer specifying the order of the polynomial used to model trajectories. Supported values are:
 #' 1 (linear), 2 (quadratic), 3 (cubic). Default is 1.
 #' @param timescores A numeric vector specifying the time scores for the model. If `timescores_indiv = TRUE`,
 #' a character vector should be used to specify variables with individually varying times of observation.
 #' @param timescores_indiv A logical value indicating whether to use individually varying times of observation for the outcome variable. Default is `FALSE`.
+#' @param mplus_model A character string specifying a custom model using Mplus language. Default is `NULL`.
 #' @param output A character vector specifying the requested Mplus output options for the model.
 #' @param plot A character string specifying the requested Mplus plot options for the model.
 #' @param save A character string specifying the type of results to be saved by Mplus.
@@ -60,18 +68,18 @@
 #'   catvar = FALSE,
 #'   k = 3L,
 #'   starting_val = 500,
-#'   lgm_type = "gbtm",
+#'   lgm_type = "gmm",
+#'   residuals = "relaxed",
+#'   random_effect = "class_invariant",
 #'   polynomial = 3,
 #'   timescores = seq(from = 0, to = 24, by = 6),
 #'   timescores_indiv = FALSE,
 #'   output = c("TECH1", "TECH14", "SAMPSTAT", "STANDARDIZED"),
 #'   plot = "PLOT3",
 #'   save = "FSCORES"
-#'   )
-
+#' )
 # LGMobject function ------------------------------------------------------
 # Create Mplus Object for LGM with helper functions for each section of the Mplus input file.
-
 LGMobject <- function(data,
                       outvar,
                       catvar = FALSE,
@@ -80,14 +88,16 @@ LGMobject <- function(data,
                       starting_val,
                       estimator = c("MLR", "ML", "WLSMV", "WLS"),
                       transformation = c("LOGIT", "PROBIT"),
-                      lgm_type = c("gcm", "gbtm", "lcga_t", "lcga_c", "lcga_tc"),
+                      lgm_type = c("gcm", "gbtm", "lcga", "gmm"),
+                      residuals = c("fixed", "free_time", "free_class", "relaxed"),
+                      random_effect = c("class_invariant", "class_variant"),
                       polynomial = 1,
                       timescores,
                       timescores_indiv = FALSE,
+                      mplus_model = NULL,
                       output,
                       plot,
                       save) {
-
   ## Validate arguments --------------------------------------------------------
   ### Argument class
   stopifnot(
@@ -98,6 +108,10 @@ LGMobject <- function(data,
     is.vector(outvar),
     is.character(c(outvar, idvar, output, plot, save))
   )
+
+  if (!is.null(mplus_model)) {
+    stopifnot(is.character(mplus_model))
+  }
 
   ### Argument value
   stopifnot(
@@ -114,7 +128,7 @@ LGMobject <- function(data,
   lgm_object <- MplusAutomation::mplusObject(
     TITLE = .getTitle(lgm_type, polynomial, k, starting_val),
     VARIABLE = .getVariable(timescores_indiv, outvar, catvar, idvar, lgm_type, k),
-    ANALYSIS = .getAnalysis( lgm_type, timescores_indiv, catvar, estimator, transformation, starting_val, output),
+    ANALYSIS = .getAnalysis(lgm_type, timescores_indiv, catvar, estimator, transformation, starting_val, output),
     MODEL = .getModel(polynomial, timescores_indiv, outvar, timescores, k, lgm_type),
     OUTPUT = .getOutput(output),
     PLOT = .getPlot(outvar, plot),
@@ -147,13 +161,15 @@ LGMobject <- function(data,
 # Creates the title section of an mplusObject.
 
 .getTitle <- function(lgm_type, polynomial, k, starting_val) {
-  title <- paste0(stringr::str_to_upper(lgm_type),
-                  "_P",
-                  polynomial,
-                  "_K",
-                  k,
-                  "_S",
-                  starting_val)
+  title <- paste0(
+    stringr::str_to_upper(lgm_type),
+    "_P",
+    polynomial,
+    "_K",
+    k,
+    "_S",
+    starting_val
+  )
 
   return(.format(title))
 }
@@ -169,16 +185,19 @@ LGMobject <- function(data,
                          k) {
   usevar <- glue::glue("USEVAR = {paste(c(outvar, if (timescores_indiv == TRUE) timescores), collapse = ' ')}")
 
-  categorical <- if (catvar == TRUE)
+  categorical <- if (catvar == TRUE) {
     glue::glue("CATEGORICAL = {paste(outvar, collapse = ' ')}")
+  }
 
   idvar <- glue::glue("IDVAR = {idvar}")
 
-  classes <- if (lgm_type != 'gcm')
+  classes <- if (lgm_type != "gcm") {
     glue::glue("CLASSES = c({k})")
+  }
 
-  tscores <- if (timescores_indiv == TRUE)
+  tscores <- if (timescores_indiv == TRUE) {
     glue::glue("TSCORES = {paste(timescores, collapse = ' ')}")
+  }
 
   variable <- c(usevar, categorical, idvar, classes, tscores)
 
@@ -195,7 +214,7 @@ LGMobject <- function(data,
                          transformation,
                          starting_val,
                          output) {
-  analysis_type <- if (lgm_type == 'gcm') {
+  analysis_type <- if (lgm_type == "gcm") {
     "TYPE = GENERAL"
   } else if (timescores_indiv == TRUE) {
     "TYPE = MIXTURE RANDOM"
@@ -223,7 +242,7 @@ LGMobject <- function(data,
 
   processors <- glue::glue("PROCESSORS = {parallel::detectCores()}")
 
-  analysis <- c(analysis_type, estimator, link, starts, k1starts, lrtstarts,  processors)
+  analysis <- c(analysis_type, estimator, link, starts, k1starts, lrtstarts, processors)
 
   return(.format(analysis))
 }
@@ -232,38 +251,43 @@ LGMobject <- function(data,
 # Creates the model section of an mplusObject.
 
 .getModel <- function(polynomial,
+                      residuals,
                       timescores_indiv,
                       outvar,
                       timescores,
                       k,
-                      lgm_type) {
-  ### %OVERALL%
-  #### Growth factors
-  gf_mean_var <- switch(
-    polynomial,
-    "1" = c("i s", "[i s]", "i-s@0"),
-    "2" = c("i s q", "[i s q]", "i-q@0"),
-    "3" = c("i s q cub", "[i s q cub]", "i-cub@0")
+                      lgm_type,
+                      random_effect,
+                      mplus_model) {
+  ### Growth factors
+  #### Mean / Fixed effects
+  gf <- switch(polynomial,
+    "1" = c("i", "s"),
+    "2" = c("i", "s", "q"),
+    "3" = c("i", "s", "q", "cub")
   )
-  #### Growth model
-  growth_model <- if (timescores_indiv == TRUE) {
-    glue::glue(
-      "{gf_mean_var[[1]]} | {first(outvar)} - {last(outvar)} AT {first(timescores)} - {last(timescores)}"
-    )
 
-  } else {
-    outvar_timescores <- stringr::str_c(outvar, timescores, sep = "@") %>% # Generate list of user variables @ timescores
-      paste(collapse = " ")
+  gf_mean <- glue::glue("[{paste(gf, collapse = ' ')}]")
 
-    glue::glue("{gf_mean_var[[1]]} | {outvar_timescores}")
+  #### Variance / Random effects
+  gf_var <- purrr::map_chr(seq(0, polynomial + 1), ~ stringr::str_c(ifelse(
+    seq_along(gf) <= .x, gf, str_c(gf, "@0")
+  ), collapse = " "))
 
-  }
+  gf_var <- switch(lgm_type,
+    "gcm" = utils::tail(gf_var, 1),
+    "gbtm" = utils::head(gf_var, 1),
+    "lcga" = utils::head(gf_var, 1),
+    "gmm" = utils::tail(gf_var, -1)
+  )
 
   ### Residual variance
-  resvar_fix <- glue("{first(outvar)} - {last(outvar)} (1)")
+  resvar_fix <- glue::glue("{first(outvar)} - {last(outvar)} (1)")
 
-  resvar_c <- purrr::map(seq(k),
-                         \(k) glue::glue("{first(outvar)} - {last(outvar)} ({k})"))
+  resvar_c <- purrr::map(
+    seq(k),
+    \(k) glue::glue("{first(outvar)} - {last(outvar)} ({k})")
+  )
 
   resvar_t <- purrr::imap_chr(outvar, \(x, idx) glue::glue("{x} ({idx})")) %>%
     rep(k) %>%
@@ -273,39 +297,103 @@ LGMobject <- function(data,
     purrr::imap_chr(\(x, idx) glue::glue_collapse(glue::glue("{x} ({idx})"))) %>%
     split(rep(1:k, each = length(outvar)))
 
-  residual_var <- switch(
-    lgm_type,
-    "gcm" = resvar_t,
-    "gbtm" = resvar_fix,
-    "lcga_t" = resvar_t,
-    "lcga_c" = resvar_c,
-    "lcga_tc" = resvar_tc
+  residual_var <- switch(residuals,
+    "fixed" = resvar_fix,
+    "free_time" = resvar_t,
+    "free_class" = resvar_c,
+    "relaxed" = resvar_tc,
   )
 
-  ### %CLASS%
-  class_gf_mean <- rep(gf_mean_var[[2]], k)
-  class_gf_var <- rep(gf_mean_var[[3]], k)
-
-  class_model <- list(glue::glue("%C#{1:k}%"),
-                      class_gf_mean,
-                      class_gf_var,
-                      residual_var) %>%
-    purrr::pmap(\(c, class_gf_mean, class_gf_var, residual_var)
-                list(c, class_gf_mean, class_gf_var, residual_var))
-
-  ### %OVERAL% & %CLASS%
-  model <- if (lgm_type == 'gcm') {
-    c(growth_model, gf_mean_var[[2]], gf_mean_var[[1]])
-
+  ### Growth model
+  growth_model <- if (timescores_indiv == TRUE) {
+    glue::glue(
+      "{paste(gf, collapse = ' ')} | {first(outvar)} - {last(outvar)} AT {first(timescores)} - {last(timescores)}"
+    )
   } else {
-    c("%OVERALL%",
-      growth_model,
-      gf_mean_var[[2]],
-      gf_mean_var[[3]],
-      class_model)
+    outvar_timescores <- stringr::str_c(outvar, timescores, sep = "@") %>% # Generate list of user variables @ timescores
+      paste(collapse = " ")
+
+    glue::glue("{paste(gf, collapse = ' ')} | {outvar_timescores}")
   }
 
-  return(.format(c(model)))
+  ### %OVERALL%
+  overall_model <- gf_var %>%
+    purrr::map(
+      \(gf_var) c(
+        if (lgm_type == "gcm") {
+          NULL
+        } else {
+          "%OVERALL%"
+        },
+        growth_model,
+        gf_mean,
+        gf_var
+      )
+    )
+
+  ### %CLASS%
+  class_model <- if (lgm_type == "gcm") {
+    NULL
+  } else if (lgm_type == "gbtm" | lgm_type == "lcga" | (lgm_type == "gmm" & random_effect == "class_invariant")) {
+    list(
+      glue::glue("%C#{1:k}%"),
+      rep(gf_mean, k),
+      # rep(head(gf_var, 1), k),
+      residual_var
+    ) %>%
+      purrr::pmap(
+        \(c,
+          gf_mean,
+          # gf_var,
+          residual_var)
+
+      list(
+        c,
+        gf_mean,
+        # gf_var,
+        residual_var
+      ))
+  } else if (lgm_type == "gmm" & random_effect == "class_variant") {
+    gf_var %>%
+      map(\(gf_var)
+      purrr::pmap(
+        list(
+          glue::glue("%C#{1:k}%"),
+          rep(gf_mean, k),
+          rep(gf_var, k),
+          residual_var
+        ),
+        \(c,
+          gf_mean,
+          gf_var,
+          residual_var)
+
+        list(c,
+             gf_mean,
+             gf_var,
+             residual_var)
+      ))
+  }
+
+  ### %OVERAL% & %CLASS%
+  model <- if (!is.null(mplus_model)) {
+    .format(mplus_model)
+  } else if (lgm_type == "gcm" | lgm_type == "gbtm" | lgm_type == "lcga") {
+    c(overall_model, class_model) %>%
+      .format()
+  } else if (lgm_type == "gmm" & random_effect == "class_invariant") {
+    overall_model %>%
+      purrr::map(\(overall_model)
+      c(overall_model, class_model)) %>%
+      purrr::map(~.format(.x))
+  } else if (lgm_type == "gmm" & random_effect == "class_variant") {
+    overall_model %>%
+      purrr::map2(class_model, \(overall_model, class_model)
+      c(overall_model, class_model)) %>%
+      purrr::map(~.format(.x))
+  }
+
+  return(model)
 }
 
 ## getOutput -------------------------------------------------------------------
