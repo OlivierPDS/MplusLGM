@@ -84,7 +84,7 @@ runLGM <- function(lgm_object, wd) {
       purrr::modify_in("ANALYSIS", \(analysis) {
         stringr::str_replace(
           analysis,
-          glue::glue("STARTS = [:digit:]+[:space:]?[:digit:]*"),
+          "STARTS = [:digit:]+[:space:]?[:digit:]*",
           glue::glue("STARTS = {paste(unlist(starting_val), collapse = ' ')}")
         )
       })
@@ -94,7 +94,7 @@ runLGM <- function(lgm_object, wd) {
       purrr::modify_in("ANALYSIS", \(analysis) {
         stringr::str_replace(
           analysis,
-          glue::glue("K-1STARTS = [:digit:]+[:space:]?[:digit:]*"),
+          "K-1STARTS = [:digit:]+[:space:]?[:digit:]*",
           glue::glue("K-1STARTS = {paste(unlist(starting_val), collapse = ' ')}")
         )
       })
@@ -104,7 +104,7 @@ runLGM <- function(lgm_object, wd) {
       purrr::modify_in("ANALYSIS", \(analysis) {
         stringr::str_replace(
           analysis,
-          glue::glue("LRTSTARTS = 0 0 [:digit:]+[:space:]?[:digit:]*"),
+          "LRTSTARTS = 0 0 [:digit:]+[:space:]?[:digit:]*",
           glue::glue("LRTSTARTS = 0 0 {paste(unlist(starting_val), collapse = ' ')}")
         )
       })
