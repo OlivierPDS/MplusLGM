@@ -120,7 +120,7 @@ fitLCGA <- function(data,
   LCGA_models <- list()
 
   # Fit LCGA models
-  for (m in c("lcga_t", "lcga_c", "lcga_tc")) {
+  for (m in c("time", "class", "time_class")) {
     LCGA_object <- LGMobject(
       data = data,
       outvar = outvar,
@@ -128,7 +128,8 @@ fitLCGA <- function(data,
       idvar = idvar,
       k = k,
       starting_val = starting_val,
-      lgm_type = m,
+      lgm_type = "lcga",
+      residuals = m,
       polynomial = polynomial,
       timescores = timescores,
       timescores_indiv = timescores_indiv,
@@ -140,7 +141,7 @@ fitLCGA <- function(data,
     )
 
     LCGA_models[[m]] <- runLGM(
-      LCGA_object,
+      LCGA_object[[1]],
       wd = wd)
   }
 
