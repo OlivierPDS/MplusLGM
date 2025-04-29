@@ -97,6 +97,7 @@ fitGCM <- function(data,
     k = 1L,
     starting_val = starting_val,
     lgm_type = "gcm",
+    residuals = "time",
     polynomial = polynomial,
     timescores = timescores,
     timescores_indiv = timescores_indiv,
@@ -109,7 +110,7 @@ fitGCM <- function(data,
 
   ## Run GCM Mplus object ------------------------------------------------------
   GCM_model <- runLGM(
-    lgm_object = GCM_object,
+    lgm_object = GCM_object[[1]],
     wd = wd
   )
 
