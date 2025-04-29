@@ -17,10 +17,10 @@
 #' @param residuals A character string specifying the structure of the residual variance (variability of the errors at each time point).
 #' Options include:
 #' \itemize{
-#'    \item "fixed" (fixed residual variance across time and class),
-#'    \item "free_time" (free residual variance across time),
-#'    \item "free_class" (free residual variance across class),
-#'    \item "relaxed" (relaxed residual variance across both time and class).
+#'    \item "fix" (fixed residual variance across time and class),
+#'    \item "time" (free residual variance across time),
+#'    \item "class" (free residual variance across class),
+#'    \item "time_class" (free residual variance across both time and class).
 #'    }
 #' @param random_effect A character string specifying the structure of the random effects.
 #' Options include:
@@ -69,7 +69,7 @@
 #'   k = 3L,
 #'   starting_val = 500,
 #'   lgm_type = "gmm",
-#'   residuals = "relaxed",
+#'   residuals = c("fix", "time", "class", "time_class"),
 #'   random_effect = "class_invariant",
 #'   polynomial = 3,
 #'   timescores = seq(from = 0, to = 24, by = 6),
@@ -89,7 +89,7 @@ LGMobject <- function(data,
                       estimator = c("MLR", "ML", "WLSMV", "WLS"),
                       transformation = c("LOGIT", "PROBIT"),
                       lgm_type = c("gcm", "gbtm", "lcga", "gmm"),
-                      residuals = c("fixed", "free_time", "free_class", "relaxed"),
+                      residuals = c("fix", "time", "class", "time_class"),
                       random_effect = c("class_invariant", "class_variant"),
                       polynomial = 1,
                       timescores,
@@ -125,19 +125,19 @@ LGMobject <- function(data,
   )
 
   ## Create Mplus model object -------------------------------------------------
-  lgm_object <- MplusAutomation::mplusObject(
-    TITLE = .getTitle(lgm_type, polynomial, k, starting_val),
-    VARIABLE = .getVariable(timescores_indiv, outvar, catvar, idvar, lgm_type, k),
-    ANALYSIS = .getAnalysis(lgm_type, timescores_indiv, catvar, estimator, transformation, starting_val, output),
-    MODEL = .getModel(polynomial, timescores_indiv, outvar, timescores, k, lgm_type),
-    OUTPUT = .getOutput(output),
-    PLOT = .getPlot(outvar, plot),
-    SAVEDATA = .getSaveData(lgm_type, polynomial, k, starting_val, save),
-    usevariables = colnames(dplyr::select(data, dplyr::any_of(c(idvar, outvar, timescores)))),
-    rdata = dplyr::select(data, tidyselect::all_of(c(idvar, outvar)), dplyr::any_of(timescores)),
-    autov = FALSE
-  )
-
+  lgm_object <- .getModel(polynomial, lgm_type, residuals, timescores_indiv, outvar, timescores, k, random_effect, mplus_model) %>%
+    imap(\(model, idx) MplusAutomation::mplusObject(
+      TITLE = .getTitle(lgm_type, random_effect, idx, residuals, polynomial, k, starting_val),
+      VARIABLE = .getVariable(timescores_indiv, outvar, catvar, idvar, lgm_type, k),
+      ANALYSIS = .getAnalysis(lgm_type, timescores_indiv, catvar, estimator, transformation, starting_val, output),
+      MODEL = model,
+      OUTPUT = .getOutput(output),
+      PLOT = .getPlot(outvar, plot),
+      SAVEDATA = .getSaveData(lgm_type, polynomial, k, starting_val, save),
+      usevariables = colnames(dplyr::select(data, dplyr::any_of(c(idvar, outvar, timescores)))),
+      rdata = dplyr::select(data, tidyselect::all_of(c(idvar, outvar)), dplyr::any_of(timescores)),
+      autov = FALSE
+    ))
   return(lgm_object)
 }
 
@@ -160,19 +160,32 @@ LGMobject <- function(data,
 ## getTitle --------------------------------------------------------------------
 # Creates the title section of an mplusObject.
 
-.getTitle <- function(lgm_type, polynomial, k, starting_val) {
-  title <- paste0(
-    stringr::str_to_upper(lgm_type),
-    "_P",
-    polynomial,
-    "_K",
-    k,
-    "_S",
-    starting_val
-  )
+.getTitle <- function(lgm_type, random_effect, idx, residuals, polynomial, k, starting_val) {
 
-  return(.format(title))
-}
+    model <- lgm_type %>%
+      stringr::str_to_upper()
+
+    res_initials <- residuals %>%
+      stringr::str_to_upper() %>%
+      stringr::str_split("_", simplify = TRUE) %>%
+      stringr::str_sub(1, 1) %>%
+      stringr::str_c(collapse = "")
+
+    rand_initials <- if (lgm_type == "gmm") {
+      random_effect %>%
+        stringr::str_to_upper() %>%
+        stringr::str_split("_", simplify = TRUE) %>%
+        stringr::str_sub(1, 1) %>%
+        stringr::str_c(collapse = "") %>%
+        stringr::str_c("_", ., idx)
+    } else {
+      ""
+    }
+
+    title <- str_c(model, "_K", k, "_P", polynomial, "_", res_initials, rand_initials, "_S", starting_val)
+
+    return(.format(title))
+  }
 
 ## getVariable -----------------------------------------------------------------
 # Creates the variable section of an mplusObject.
@@ -251,12 +264,12 @@ LGMobject <- function(data,
 # Creates the model section of an mplusObject.
 
 .getModel <- function(polynomial,
+                      lgm_type,
                       residuals,
                       timescores_indiv,
                       outvar,
                       timescores,
                       k,
-                      lgm_type,
                       random_effect,
                       mplus_model) {
   ### Growth factors
@@ -298,10 +311,10 @@ LGMobject <- function(data,
     split(rep(1:k, each = length(outvar)))
 
   residual_var <- switch(residuals,
-    "fixed" = resvar_fix,
-    "free_time" = resvar_t,
-    "free_class" = resvar_c,
-    "relaxed" = resvar_tc,
+    "fix" = resvar_fix,
+    "time" = resvar_t,
+    "class" = resvar_c,
+    "time_class" = resvar_tc,
   )
 
   ### Growth model
@@ -334,7 +347,7 @@ LGMobject <- function(data,
   ### %CLASS%
   class_model <- if (lgm_type == "gcm") {
     NULL
-  } else if (lgm_type == "gbtm" | lgm_type == "lcga" | (lgm_type == "gmm" & random_effect == "class_invariant")) {
+  } else if (lgm_type %in% c("gbtm", "lcga") || (lgm_type == "gmm" && random_effect == "class_invariant")) {
     list(
       glue::glue("%C#{1:k}%"),
       rep(gf_mean, k),
@@ -353,7 +366,7 @@ LGMobject <- function(data,
         # gf_var,
         residual_var
       ))
-  } else if (lgm_type == "gmm" & random_effect == "class_variant") {
+  } else if (lgm_type == "gmm" && random_effect == "class_variant") {
     gf_var %>%
       map(\(gf_var)
       purrr::pmap(
@@ -378,15 +391,15 @@ LGMobject <- function(data,
   ### %OVERAL% & %CLASS%
   model <- if (!is.null(mplus_model)) {
     .format(mplus_model)
-  } else if (lgm_type == "gcm" | lgm_type == "gbtm" | lgm_type == "lcga") {
+  } else if (lgm_type %in% c("gcm", "gbtm", "lcga")) {
     c(overall_model, class_model) %>%
       .format()
-  } else if (lgm_type == "gmm" & random_effect == "class_invariant") {
+  } else if (lgm_type == "gmm" && random_effect == "class_invariant") {
     overall_model %>%
       purrr::map(\(overall_model)
       c(overall_model, class_model)) %>%
       purrr::map(~.format(.x))
-  } else if (lgm_type == "gmm" & random_effect == "class_variant") {
+  } else if (lgm_type == "gmm" && random_effect == "class_variant") {
     overall_model %>%
       purrr::map2(class_model, \(overall_model, class_model)
       c(overall_model, class_model)) %>%
@@ -434,3 +447,4 @@ LGMobject <- function(data,
 
   return(.format(savedata))
 }
+
