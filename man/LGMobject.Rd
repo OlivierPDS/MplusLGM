@@ -14,7 +14,7 @@ LGMobject(
   estimator = c("MLR", "ML", "WLSMV", "WLS"),
   transformation = c("LOGIT", "PROBIT"),
   lgm_type = c("gcm", "gbtm", "lcga", "gmm"),
-  residuals = c("fixed", "free_time", "free_class", "relaxed"),
+  residuals = c("fix", "time", "class", "time_class"),
   random_effect = c("class_invariant", "class_variant"),
   polynomial = 1,
   timescores,
@@ -48,10 +48,10 @@ Note that the number of final stage optimizations will be set as equal to half o
 \item{residuals}{A character string specifying the structure of the residual variance (variability of the errors at each time point).
 Options include:
 \itemize{
-\item "fixed" (fixed residual variance across time and class),
-\item "free_time" (free residual variance across time),
-\item "free_class" (free residual variance across class),
-\item "relaxed" (relaxed residual variance across both time and class).
+\item "fix" (fixed residual variance across time and class),
+\item "time" (free residual variance across time),
+\item "class" (free residual variance across class),
+\item "time_class" (free residual variance across both time and class).
 }}
 
 \item{random_effect}{A character string specifying the structure of the random effects.
@@ -102,7 +102,7 @@ GBTM_object <- LGMobject(
   k = 3L,
   starting_val = 500,
   lgm_type = "gmm",
-  residuals = "relaxed",
+  residuals = c("fix", "time", "class", "time_class"),
   random_effect = "class_invariant",
   polynomial = 3,
   timescores = seq(from = 0, to = 24, by = 6),
