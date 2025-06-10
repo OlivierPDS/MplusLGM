@@ -1,6 +1,6 @@
 #' @title Fit Growth Mixture Models (GMM) for estimating random effects.
 #'
-#' @description Add class-variant and class-invariant random eﬀect variances stepwise,
+#' @description Add class-variant or class-invariant random-eﬀect variances stepwise,
 #' by fitting a series of GMM models and returning a list of fitted models for evaluation and comparison.
 
 #' @param data A data frame containing all variables for the trajectory analysis.
@@ -18,8 +18,10 @@
 #'    \item "fix" (fixed residual variance across time and class),
 #'    \item "time" (free residual variance across time),
 #'    \item "class" (free residual variance across class),
-#'    \item "both" (free residual variance across both time and class).
+#'    \item "time_class" (free residual variance across both time and class).
 #'    }
+#'
+#' By default, the function iterates over all four residual variance configurations, or only over the ones specified.
 #' @param random_effect A character string specifying the structure of the random effects.
 #' Options include:
 #' \itemize{
@@ -39,18 +41,15 @@
 
 #' @return A list of `mplusObject` including results for the fitted GMM models.
 
-#' @details The `fitGMM` function automates the process of fitting GMM models, iterating through 3 varying residual variance specifications:
-#' \itemize{
-#'   \item - Relaxed residual variance across time
-#'   \item - Relaxed residual variance across class
-#'   \item - Relaxed residual variance across both time and class
-#' }
-#' This function is designed to help identify the optimal residual variance structure while examining convergence issues as model complexity increases.
+#' @details The `fitGMM` function automates the process of fitting GMM models using a stepwise approach.
+#' It progressively relaxes variance constraints of the model growth factors, iterating through each factor as defined by the specified polynomial order.
+#' The function supports both class-invariant and class-variant specifications of growth factor variances.
 #'
+#' This function is designed to identify the optimal variance structure while monitoring convergence issues as model complexity increases.
 #' The function operates as follows:
 #' \itemize{
-#'   \item 1. Iterate over the 3 residual variance specifications
-#'   \item 2. Create LCGA `mplusObject` with appropriate residual variance specification using the `LGMobject` function.
+#'   \item 1. Iterate over each growth factor, and each listed residual variance structure
+#'   \item 2. Create GMM `mplusObject` with appropriate variance specification using the `LGMobject` function.
 #'   \item 3. Fit models using the `runLGM` function, ensuring convergence by increasing the number of random starting values until the best log-likelihood is replicated.
 #'   \item 4. Return a list of `mplusObject` including results for the fitted LCGA models with each residual variance structures
 #' }
@@ -75,20 +74,15 @@
 #'  catvar = FALSE,
 #'  idvar = "id",
 #'  starting_val = 500,
-#'  polynomial = 3,
+#'  polynomial = 2,
 #'  k = 3L,
 #'  timescores = seq(from = 0, to = 24, by = 6),
 #'  timescores_indiv = FALSE,
-#'  residuals = c("fix", "time", "class", "both"),
+#'  residuals = "fix",
 #'  random_effect = "class_invariant",
 #'  output = c('TECH1', 'TECH14', 'SAMPSTAT', 'STANDARDIZED'),
 #'  wd = file.path('Results', 'Trajectories')
 #')
-#'
-#' # Accessing the models:
-#' LCGA_t <- LCGA_models[[1]] #with relaxed residual variance across time
-#' LCGA_c <- LCGA_models[[2]] #with relaxed residual variance across class
-#' LCGA_tc <- LCGA_models[[3]] #with relaxed residual variance across time and class
 #' }
 
 #' @export
@@ -154,6 +148,7 @@ fitGMM <- function(data,
       timescores_indiv = timescores_indiv,
       estimator = estimator,
       transformation = transformation,
+      mplus_model = NULL,
       output = output,
       plot = plot,
       save = save
