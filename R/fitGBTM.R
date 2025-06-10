@@ -18,7 +18,6 @@
 #' @param timescores A numeric vector specifying the time scores for the model. If `timescores_indiv = TRUE`,
 #' a character vector should be used to specify variables with individually varying times of observation.
 #' @param timescores_indiv A logical value indicating whether to use individually varying times of observation for the outcome variable. Default is `FALSE`.
-#' @param mplus_model A character string specifying a custom model using Mplus language. Default is `NULL`.
 #' @param output A character vector specifying the requested Mplus output options for the model.
 #' @param plot A character string specifying the requested Mplus plot options for the model. Default is PLOT3.
 #' @param save A character string specifying the type of results to be saved by Mplus. Default is FSCORES.
@@ -91,7 +90,6 @@ fitGBTM <- function(data,
                     polynomial = 1,
                     timescores,
                     timescores_indiv = FALSE,
-                    mplus_model = NULL,
                     estimator = c("MLR", "ML", "WLSMV", "WLS"),
                     transformation = c("LOGIT", "PROBIT"),
                     output = c("TECH1", "TECH11", "SAMPSTAT", "STANDARDIZED"),
@@ -140,7 +138,7 @@ fitGBTM <- function(data,
       timescores_indiv = timescores_indiv,
       estimator = estimator,
       transformation = transformation,
-      mplus_model = mplus_model,
+      mplus_model = NULL,
       output = output,
       plot = plot,
       save = save
