@@ -75,6 +75,7 @@ getBest <- function(lgm_object,
   ## Extract fit indices from list of models
   table <- getFit(lgm_object) %>%
     dplyr::filter(is.na(Errors)) %>%
+    dplyr::filter(!str_detect(Warnings, "NOT POSITIVE DEFINITE")) %>%
     dplyr::arrange(dplyr::desc(NLatentClasses), ic)
 
   stopifnot(
